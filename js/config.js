@@ -40,15 +40,17 @@ export const ORG_NAMES = {
   'UFGD': 'Universidade Federal da Grande Dourados',
 };
 
-// Sector colours: each suggested "Setor" of the spreadsheet keeps the same colour, whatever
-// else is in the sheet. The numbers point to --role-series-1 … 8 in css/theme.css; sectors
-// not listed here get a free series colour (see js/colors.js).
+// Sector colours: each suggested "Setor" of the spreadsheet (the eight groups of the
+// organizations survey) keeps the same colour, whatever else is in the sheet. The numbers point
+// to --role-series-1 … 8 in css/theme.css; a sector not listed here borrows the series of a
+// listed sector absent from the sheet (see js/colors.js).
 export const SECTOR_SERIES = {
   'Sindicatos': 1,
-  'Indígena, rural e terra': 2,
-  'Movimentos sociais': 3,
-  'Estudantil e acadêmico': 4,
-  'Conselhos e associações': 5,
+  'Rural, indígena, luta pela terra': 2,
+  'Movimentos Sociais': 3,
+  'Academia e Movimento Estudantil': 4,
+  'Órgãos do Estado': 5,
   'Partidos': 6,
   'Outros': 7,
+  'Terceiro Setor': 8,
 };
