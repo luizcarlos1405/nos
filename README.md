@@ -77,10 +77,10 @@ e acesse <http://localhost:8000>.
 
 Qualquer hospedagem estática serve (GitHub Pages, Netlify, Cloudflare Pages…): é só publicar a pasta inteira. No GitHub Pages: em *Settings → Pages*, escolha *Deploy from a branch*, o ramo `main` e a pasta `/ (root)`; o site fica em `https://<usuário>.github.io/<repositório>/` (ele funciona dentro de uma subpasta como essa).
 
-Ainda não há domínio. Quando houver:
+O site está em https://nos.dourados.social (GitHub Pages, domínio no arquivo `CNAME`). Se o endereço mudar:
 
-- preencha `SITE_URL` em `js/config.js` (ele entra no fim de cada mensagem de WhatsApp);
-- no `<head>` do `index.html`, tire do comentário o bloco da prévia do link (`canonical`, `og:url`, `og:image`…) e troque `https://DOMAIN/` pelo endereço. Os endereços precisam ser completos: sem eles, o WhatsApp e as redes mostram a prévia só com título e descrição, sem a imagem `assets/og-image.png`.
+- troque `SITE_URL` em `js/config.js` (ele entra no fim de cada mensagem de WhatsApp);
+- no `<head>` do `index.html`, troque o endereço nas tags da prévia do link (`canonical`, `og:url`, `og:image`…). Os endereços precisam ser completos: sem eles, o WhatsApp e as redes mostram a prévia só com título e descrição, sem a imagem `assets/og-image.png`.
 
 ## Funcionando sem internet e instalando como app
 

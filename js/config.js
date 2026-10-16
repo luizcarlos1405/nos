@@ -13,8 +13,9 @@ export const APP_FULL_NAME = 'Núcleo de Organização Social';
 export const CITY = 'Dourados/MS';
 export const HOME_CITY = 'Dourados';
 
-// Public address of the site, added to the end of every WhatsApp message. Empty until there is a domain.
-export const SITE_URL = '';
+// Public address of the site, added to the end of every WhatsApp message. The og:url/og:image/canonical
+// tags in index.html use the same address.
+export const SITE_URL = 'https://nos.dourados.social';
 
 // Local holidays printed in red besides the national ones (js/holidays.js),
 // e.g. { month: 6, day: 24, name: 'São João', short: 'São João' }.
