@@ -1,0 +1,29 @@
+# Claude Code
+.claude/worktrees
+# Personal settings (MCP approvals etc.)
+.claude/settings.local.json
+CLAUDE.local.md
+# The Impeccable engine binary: scripts/impeccable downloads it on first use (as upstream does)
+**/skills/impeccable/scripts/bin/
+
+# Impeccable runtime state
+.impeccable/review/
+.impeccable/live/
+.impeccable/history/
+.impeccable/questions/
+.impeccable/mocks/
+.impeccable/decision-payload.json
+.impeccable/config.local.json
+.impeccable/critique/*
+!.impeccable/critique/ignore.md
+**/.impeccable/hook.cache.json
+**/.impeccable/hook.pending.json
+
+# Tooling and OS
+node_modules/
+*.log
+.env*
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

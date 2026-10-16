@@ -1,0 +1,76 @@
+<!doctype html>
+<!-- Source of assets/og-image.png (1200 × 630), the link preview of WhatsApp, Telegram and the
+     social networks (rendered by assets/render.cjs). The NOS pad at poster size on the red header
+     card: today's sheet prints the name where a folhinha prints the day (NOS in the numeral's place,
+     the city as the weekday, the full name as the month), over the edges of the sheets under it.
+     Everything sits in the centred 630 × 630 square, which WhatsApp's small previews crop to, and
+     nothing in it dates. Colours are the roles of css/theme.css; the texts come from js/config.js. -->
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Prévia do link</title>
+<!-- The site's colour theme: data-theme on <html>, or ?tema=<name> as in index.html. -->
+<script>
+  var theme = new URLSearchParams(location.search).get('tema');
+  if (theme) document.documentElement.dataset.theme = theme;
+</script>
+<link rel="stylesheet" href="../css/theme.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body { position: relative; background: var(--role-header); color: var(--role-ink); -webkit-font-smoothing: antialiased; }
+
+  /* The pad: 500px sheets, today's 500px tall, two edges of 15px under it (530px in all). */
+  .pad { position: absolute; left: 350px; top: 50px; width: 500px; height: 530px; }
+  .pad svg { position: absolute; inset: 0; overflow: visible; }
+  .pad-paper { fill: var(--role-paper); }
+  .pad-seam { fill: var(--role-ink-faded); }
+  .pad-binding { fill: var(--role-mark-binding); }
+  .pad-perf { fill: var(--role-ink-faded); }
+
+  /* Today's sheet, under its binding (20px) and perforation (40px): the head of a day sheet. */
+  .head { position: absolute; left: 0; right: 0; top: 60px; height: 440px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-bottom: 36px; text-align: center; }
+  .numeral { font: 800 var(--numeral, 296px)/0.8 var(--font-display); letter-spacing: -0.01em; }
+  .weekday { margin-top: 40px; font: 700 64px/1 var(--font-display); letter-spacing: 0.06em; text-transform: uppercase; }
+  .month { margin-top: 14px; font: 500 32px/1.25 var(--font-ui); color: var(--role-ink-soft); }
+</style>
+</head>
+<body>
+  <div class="pad">
+    <svg id="sheets" xmlns="http://www.w3.org/2000/svg" width="500" height="530" viewBox="0 0 500 530" aria-hidden="true"></svg>
+    <div class="head">
+      <p class="numeral" id="name"></p>
+      <p class="weekday" id="city"></p>
+      <p class="month" id="full"></p>
+    </div>
+  </div>
+<script type="module">
+  import { APP_FULL_NAME, APP_NAME, CITY } from '../js/config.js';
+  import { PAD, drawPad, padLayout, wordMetrics } from './pad.js';
+
+  // The pad's sheets at poster size, in hundredths of the sheet's width: the binding, perforation
+  // and corners of the Cartaz's sheet (css/flyers.css) scaled to 500px.
+  const POSTER = {
+    ...PAD,
+    height: 100, topRadius: 1.2, bottomRadius: 3.2,
+    binding: 4, perf: 8, dot: 1.8, dots: 14, perfMargin: 8.4,
+    under: 2, edge: 3, inset: 1.4, seam: 0.8,
+  };
+
+  drawPad(document.getElementById('sheets'), padLayout(0, 0, 500, POSTER), '');
+  document.getElementById('name').textContent = APP_NAME;
+  document.getElementById('city').textContent = CITY;
+  document.getElementById('full').textContent = APP_FULL_NAME;
+
+  // A longer name than NOS shrinks to keep 40px of paper on each side.
+  document.fonts.load("800 100px 'Barlow Condensed'", APP_NAME).then(() => {
+    const m = wordMetrics(APP_NAME);
+    const size = Math.min(296, Math.floor(420 / (m.right - m.left)));
+    document.body.style.setProperty('--numeral', `${size}px`);
+    return document.fonts.ready;
+  }).then(() => {
+    document.documentElement.dataset.ready = '';
+  });
+</script>
+</body>
+</html>

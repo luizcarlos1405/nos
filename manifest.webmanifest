@@ -1,0 +1,50 @@
+{
+  "id": "/nos-dourados",
+  "name": "NOS Dourados",
+  "short_name": "NOS Dourados",
+  "description": "A agenda das organizações e movimentos de Dourados/MS em um só lugar, com mensagem e panfleto de cada atividade prontos para o WhatsApp.",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#EFEFEC",
+  "theme_color": "#E4002B",
+  "categories": ["social", "news"],
+  "icons": [
+    { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "assets/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "screenshots": [
+    {
+      "src": "assets/screenshots/phone-agenda.png",
+      "sizes": "780x1688",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Agenda no celular: uma folha por dia, com as atividades das organizações de Dourados"
+    },
+    {
+      "src": "assets/screenshots/phone-message.png",
+      "sizes": "780x1688",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Mensagem da atividade pronta para enviar no WhatsApp"
+    },
+    {
+      "src": "assets/screenshots/phone-flyer.png",
+      "sizes": "780x1688",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Panfleto da atividade em imagem, pronto para compartilhar"
+    },
+    {
+      "src": "assets/screenshots/desktop.png",
+      "sizes": "1440x900",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "No computador, a agenda e, ao lado, a atividade escolhida com a mensagem para o WhatsApp"
+    }
+  ]
+}

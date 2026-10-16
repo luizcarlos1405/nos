@@ -1,0 +1,1187 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-15T21:08:42Z",
+  "title": "Design System: NOS Dourados",
+  "extensions": {
+    "colorMeta": {
+      "brand": {
+        "role": "primary",
+        "displayName": "Folhinha Red",
+        "canonical": "#E4002B",
+        "variable": "--color-brand",
+        "roles": [
+          "--role-header",
+          "--role-binding",
+          "--role-red-letter",
+          "--role-accent",
+          "--role-alert"
+        ],
+        "tonalRamp": [
+          "oklch(15% 0.105 24)",
+          "oklch(25% 0.176 24)",
+          "oklch(35% 0.234 24)",
+          "oklch(48% 0.234 24)",
+          "oklch(60% 0.234 24)",
+          "oklch(72% 0.234 24)",
+          "oklch(84% 0.176 24)",
+          "oklch(95% 0.105 24)"
+        ]
+      },
+      "brand-hover": {
+        "role": "primary",
+        "displayName": "Deep Red",
+        "canonical": "#C70026",
+        "variable": "--color-brand-hover",
+        "roles": [
+          "--role-accent-hover",
+          "--role-alert-text"
+        ],
+        "tonalRamp": [
+          "oklch(15% 0.095 23)",
+          "oklch(25% 0.159 23)",
+          "oklch(35% 0.211 23)",
+          "oklch(48% 0.211 23)",
+          "oklch(60% 0.211 23)",
+          "oklch(72% 0.211 23)",
+          "oklch(84% 0.159 23)",
+          "oklch(95% 0.095 23)"
+        ]
+      },
+      "brand-tint": {
+        "role": "primary",
+        "displayName": "Blush Tint",
+        "canonical": "#FDEBEE",
+        "variable": "--color-brand-tint",
+        "roles": [
+          "--role-selected",
+          "--role-alert-soft"
+        ],
+        "tonalRamp": [
+          "oklch(15% 0.009 6)",
+          "oklch(25% 0.015 6)",
+          "oklch(35% 0.020 6)",
+          "oklch(48% 0.020 6)",
+          "oklch(60% 0.020 6)",
+          "oklch(72% 0.020 6)",
+          "oklch(84% 0.015 6)",
+          "oklch(95% 0.009 6)"
+        ]
+      },
+      "brand-ring": {
+        "role": "primary",
+        "displayName": "Rose Ring",
+        "canonical": "#F2B8C3",
+        "variable": "--color-brand-ring",
+        "roles": [
+          "--role-alert-ring"
+        ],
+        "tonalRamp": [
+          "oklch(15% 0.031 6)",
+          "oklch(25% 0.051 6)",
+          "oklch(35% 0.068 6)",
+          "oklch(48% 0.068 6)",
+          "oklch(60% 0.068 6)",
+          "oklch(72% 0.068 6)",
+          "oklch(84% 0.051 6)",
+          "oklch(95% 0.031 6)"
+        ]
+      },
+      "next": {
+        "role": "secondary",
+        "displayName": "Próxima Yellow",
+        "canonical": "#FFC20E",
+        "variable": "--color-next",
+        "roles": [
+          "--role-next"
+        ],
+        "tonalRamp": [
+          "oklch(15% 0.077 85)",
+          "oklch(25% 0.129 85)",
+          "oklch(35% 0.172 85)",
+          "oklch(48% 0.172 85)",
+          "oklch(60% 0.172 85)",
+          "oklch(72% 0.172 85)",
+          "oklch(84% 0.129 85)",
+          "oklch(95% 0.077 85)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Graphite Ink",
+        "canonical": "#1C1C1E",
+        "variable": "--color-ink",
+        "roles": [
+          "--role-ink",
+          "--role-mark-binding",
+          "--role-on-next",
+          "--role-strong",
+          "--role-focus"
+        ],
+        "tonalRamp": [
+          "oklch(15% 0.002 286)",
+          "oklch(25% 0.003 286)",
+          "oklch(35% 0.004 286)",
+          "oklch(48% 0.004 286)",
+          "oklch(60% 0.004 286)",
+          "oklch(72% 0.004 286)",
+          "oklch(84% 0.003 286)",
+          "oklch(95% 0.002 286)"
+        ]
+      },
+      "ground": {
+        "role": "neutral",
+        "displayName": "Pale Wall",
+        "canonical": "#EFEFEC",
+        "variable": "--color-ground",
+        "roles": [
+          "--role-wall",
+          "--role-chat"
+        ],
+        "tonalRamp": [
+          "oklch(15% 0.002 106)",
+          "oklch(25% 0.003 106)",
+          "oklch(35% 0.004 106)",
+          "oklch(48% 0.004 106)",
+          "oklch(60% 0.004 106)",
+          "oklch(72% 0.004 106)",
+          "oklch(84% 0.003 106)",
+          "oklch(95% 0.002 106)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Sheet White",
+        "canonical": "#FFFFFF",
+        "variable": "--color-surface",
+        "roles": [
+          "--role-paper",
+          "--role-bubble"
+        ],
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(25% 0 0)",
+          "oklch(35% 0 0)",
+          "oklch(48% 0 0)",
+          "oklch(60% 0 0)",
+          "oklch(72% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "surface-hover": {
+        "role": "neutral",
+        "displayName": "Paper Hover",
+        "canonical": "#F7F7F5",
+        "variable": "--color-surface-hover",
+        "roles": [
+          "--role-paper-hover"
+        ],
+        "tonalRamp": [
+          "oklch(15% 0.001 106)",
+          "oklch(25% 0.002 106)",
+          "oklch(35% 0.003 106)",
+          "oklch(48% 0.003 106)",
+          "oklch(60% 0.003 106)",
+          "oklch(72% 0.003 106)",
+          "oklch(84% 0.002 106)",
+          "oklch(95% 0.001 106)"
+        ]
+      },
+      "seam": {
+        "role": "neutral",
+        "displayName": "Seam Grey",
+        "canonical": "#D9D9D4",
+        "variable": "--color-seam",
+        "roles": [
+          "--role-line"
+        ],
+        "tonalRamp": [
+          "oklch(15% 0.003 107)",
+          "oklch(25% 0.005 107)",
+          "oklch(35% 0.007 107)",
+          "oklch(48% 0.007 107)",
+          "oklch(60% 0.007 107)",
+          "oklch(72% 0.007 107)",
+          "oklch(84% 0.005 107)",
+          "oklch(95% 0.003 107)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Pencil Grey",
+        "canonical": "#5C5C61",
+        "variable": "--color-muted",
+        "roles": [
+          "--role-ink-soft",
+          "--role-no-sector"
+        ],
+        "tonalRamp": [
+          "oklch(15% 0.004 286)",
+          "oklch(25% 0.006 286)",
+          "oklch(35% 0.008 286)",
+          "oklch(48% 0.008 286)",
+          "oklch(60% 0.008 286)",
+          "oklch(72% 0.008 286)",
+          "oklch(84% 0.006 286)",
+          "oklch(95% 0.004 286)"
+        ]
+      },
+      "faded": {
+        "role": "neutral",
+        "displayName": "Faded Grey",
+        "canonical": "#BDBDB8",
+        "variable": "--color-faded",
+        "roles": [
+          "--role-ink-faded",
+          "--role-scrollbar"
+        ],
+        "tonalRamp": [
+          "oklch(15% 0.003 107)",
+          "oklch(25% 0.005 107)",
+          "oklch(35% 0.007 107)",
+          "oklch(48% 0.007 107)",
+          "oklch(60% 0.007 107)",
+          "oklch(72% 0.007 107)",
+          "oklch(84% 0.005 107)",
+          "oklch(95% 0.003 107)"
+        ]
+      },
+      "on-ink": {
+        "role": "neutral",
+        "displayName": "Reverse White",
+        "canonical": "#FFFFFF",
+        "variable": "--color-on-ink",
+        "roles": [
+          "--role-on-header",
+          "--role-on-accent",
+          "--role-on-strong",
+          "--role-on-series",
+          "--role-focus-on-color"
+        ],
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(25% 0 0)",
+          "oklch(35% 0 0)",
+          "oklch(48% 0 0)",
+          "oklch(60% 0 0)",
+          "oklch(72% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "series-1": {
+        "role": "tertiary",
+        "displayName": "Sector Blue",
+        "canonical": "#0455A1",
+        "variable": "--color-series-1",
+        "roles": [
+          "--role-series-1"
+        ],
+        "tonalRamp": [
+          "oklch(15% 0.063 254)",
+          "oklch(25% 0.106 254)",
+          "oklch(35% 0.141 254)",
+          "oklch(48% 0.141 254)",
+          "oklch(60% 0.141 254)",
+          "oklch(72% 0.141 254)",
+          "oklch(84% 0.106 254)",
+          "oklch(95% 0.063 254)"
+        ]
+      },
+      "series-2": {
+        "role": "tertiary",
+        "displayName": "Sector Green",
+        "canonical": "#00875A",
+        "variable": "--color-series-2",
+        "roles": [
+          "--role-series-2"
+        ],
+        "tonalRamp": [
+          "oklch(15% 0.055 161)",
+          "oklch(25% 0.092 161)",
+          "oklch(35% 0.122 161)",
+          "oklch(48% 0.122 161)",
+          "oklch(60% 0.122 161)",
+          "oklch(72% 0.122 161)",
+          "oklch(84% 0.092 161)",
+          "oklch(95% 0.055 161)"
+        ]
+      },
+      "series-3": {
+        "role": "tertiary",
+        "displayName": "Sector Lilac",
+        "canonical": "#9B3894",
+        "variable": "--color-series-3",
+        "roles": [
+          "--role-series-3"
+        ],
+        "tonalRamp": [
+          "oklch(15% 0.077 331)",
+          "oklch(25% 0.128 331)",
+          "oklch(35% 0.171 331)",
+          "oklch(48% 0.171 331)",
+          "oklch(60% 0.171 331)",
+          "oklch(72% 0.171 331)",
+          "oklch(84% 0.128 331)",
+          "oklch(95% 0.077 331)"
+        ]
+      },
+      "series-4": {
+        "role": "tertiary",
+        "displayName": "Sector Teal",
+        "canonical": "#00808A",
+        "variable": "--color-series-4",
+        "roles": [
+          "--role-series-4"
+        ],
+        "tonalRamp": [
+          "oklch(15% 0.042 204)",
+          "oklch(25% 0.070 204)",
+          "oklch(35% 0.093 204)",
+          "oklch(48% 0.093 204)",
+          "oklch(60% 0.093 204)",
+          "oklch(72% 0.093 204)",
+          "oklch(84% 0.070 204)",
+          "oklch(95% 0.042 204)"
+        ]
+      },
+      "series-5": {
+        "role": "tertiary",
+        "displayName": "Sector Orange",
+        "canonical": "#C25700",
+        "variable": "--color-series-5",
+        "roles": [
+          "--role-series-5"
+        ],
+        "tonalRamp": [
+          "oklch(15% 0.071 48)",
+          "oklch(25% 0.118 48)",
+          "oklch(35% 0.157 48)",
+          "oklch(48% 0.157 48)",
+          "oklch(60% 0.157 48)",
+          "oklch(72% 0.157 48)",
+          "oklch(84% 0.118 48)",
+          "oklch(95% 0.071 48)"
+        ]
+      },
+      "series-6": {
+        "role": "tertiary",
+        "displayName": "Sector Silver",
+        "canonical": "#5E6A71",
+        "variable": "--color-series-6",
+        "roles": [
+          "--role-series-6"
+        ],
+        "tonalRamp": [
+          "oklch(15% 0.008 233)",
+          "oklch(25% 0.014 233)",
+          "oklch(35% 0.018 233)",
+          "oklch(48% 0.018 233)",
+          "oklch(60% 0.018 233)",
+          "oklch(72% 0.018 233)",
+          "oklch(84% 0.014 233)",
+          "oklch(95% 0.008 233)"
+        ]
+      },
+      "series-7": {
+        "role": "tertiary",
+        "displayName": "Sector Brown",
+        "canonical": "#7A4E2D",
+        "variable": "--color-series-7",
+        "roles": [
+          "--role-series-7"
+        ],
+        "tonalRamp": [
+          "oklch(15% 0.034 56)",
+          "oklch(25% 0.057 56)",
+          "oklch(35% 0.076 56)",
+          "oklch(48% 0.076 56)",
+          "oklch(60% 0.076 56)",
+          "oklch(72% 0.076 56)",
+          "oklch(84% 0.057 56)",
+          "oklch(95% 0.034 56)"
+        ]
+      },
+      "series-8": {
+        "role": "tertiary",
+        "displayName": "Sector Magenta",
+        "canonical": "#C2185B",
+        "variable": "--color-series-8",
+        "roles": [
+          "--role-series-8"
+        ],
+        "tonalRamp": [
+          "oklch(15% 0.091 6)",
+          "oklch(25% 0.151 6)",
+          "oklch(35% 0.202 6)",
+          "oklch(48% 0.202 6)",
+          "oklch(60% 0.202 6)",
+          "oklch(72% 0.202 6)",
+          "oklch(84% 0.151 6)",
+          "oklch(95% 0.091 6)"
+        ]
+      },
+      "ink-past": {
+        "role": "neutral",
+        "displayName": "Torn-off Grey",
+        "canonical": "color-mix(in srgb, #5C5C61 55%, #BDBDB8)",
+        "variable": "--role-ink-past",
+        "roles": [
+          "--role-ink-past"
+        ],
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(25% 0 0)",
+          "oklch(35% 0 0)",
+          "oklch(48% 0 0)",
+          "oklch(60% 0 0)",
+          "oklch(72% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "red-letter-past": {
+        "role": "neutral",
+        "displayName": "Faded Red-Letter",
+        "canonical": "color-mix(in srgb, #E4002B 75%, #FFFFFF)",
+        "variable": "--role-red-letter-past",
+        "roles": [
+          "--role-red-letter-past"
+        ],
+        "tonalRamp": [
+          "oklch(15% 0.093 15)",
+          "oklch(25% 0.155 15)",
+          "oklch(35% 0.206 15)",
+          "oklch(48% 0.206 15)",
+          "oklch(60% 0.206 15)",
+          "oklch(72% 0.206 15)",
+          "oklch(84% 0.155 15)",
+          "oklch(95% 0.093 15)"
+        ]
+      },
+      "scrim": {
+        "role": "neutral",
+        "displayName": "Graphite Scrim",
+        "canonical": "color-mix(in srgb, #1C1C1E 55%, transparent)",
+        "variable": "--role-scrim",
+        "roles": [
+          "--role-scrim"
+        ],
+        "tonalRamp": [
+          "oklch(15% 0.002 286 / 0.55)",
+          "oklch(25% 0.003 286 / 0.55)",
+          "oklch(35% 0.004 286 / 0.55)",
+          "oklch(48% 0.004 286 / 0.55)",
+          "oklch(60% 0.004 286 / 0.55)",
+          "oklch(72% 0.004 286 / 0.55)",
+          "oklch(84% 0.003 286 / 0.55)",
+          "oklch(95% 0.002 286 / 0.55)"
+        ]
+      },
+      "shadow": {
+        "role": "neutral",
+        "displayName": "Graphite Shadow",
+        "canonical": "color-mix(in srgb, #1C1C1E 14%, transparent)",
+        "variable": "--role-shadow",
+        "roles": [
+          "--role-shadow"
+        ],
+        "tonalRamp": [
+          "oklch(15% 0.002 286 / 0.14)",
+          "oklch(25% 0.003 286 / 0.14)",
+          "oklch(35% 0.004 286 / 0.14)",
+          "oklch(48% 0.004 286 / 0.14)",
+          "oklch(60% 0.004 286 / 0.14)",
+          "oklch(72% 0.004 286 / 0.14)",
+          "oklch(84% 0.003 286 / 0.14)",
+          "oklch(95% 0.002 286 / 0.14)"
+        ]
+      },
+      "wash": {
+        "role": "neutral",
+        "displayName": "Graphite Wash",
+        "canonical": "color-mix(in srgb, #1C1C1E 6%, transparent)",
+        "variable": "--role-wash",
+        "roles": [
+          "--role-wash"
+        ],
+        "tonalRamp": [
+          "oklch(15% 0.002 286 / 0.06)",
+          "oklch(25% 0.003 286 / 0.06)",
+          "oklch(35% 0.004 286 / 0.06)",
+          "oklch(48% 0.004 286 / 0.06)",
+          "oklch(60% 0.004 286 / 0.06)",
+          "oklch(72% 0.004 286 / 0.06)",
+          "oklch(84% 0.003 286 / 0.06)",
+          "oklch(95% 0.002 286 / 0.06)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "numeral": {
+        "displayName": "Numeral",
+        "purpose": "The day on every sheet, always two digits, in the 4rem folio column."
+      },
+      "numeral-desk": {
+        "displayName": "Numeral Desk",
+        "purpose": "The sheet numeral from 1100px (in a 4.5rem column)."
+      },
+      "numeral-panel": {
+        "displayName": "Panel Numeral",
+        "purpose": "The small sheet head at the top of the activity panel."
+      },
+      "month-title": {
+        "displayName": "Month Title",
+        "purpose": "\"Outubro 2026\" over the month page (1.375rem under 22.4375em)."
+      },
+      "month-title-wall": {
+        "displayName": "Month Title Wall",
+        "purpose": "The month title from 1280px, when the page becomes a wall calendar."
+      },
+      "masthead": {
+        "displayName": "Masthead",
+        "purpose": "\"Dourados/MS\" on the red header card."
+      },
+      "masthead-desk": {
+        "displayName": "Masthead Desk",
+        "purpose": "\"Dourados/MS\" from 1100px."
+      },
+      "weekday": {
+        "displayName": "Weekday",
+        "purpose": "Weekday beside the numeral, in capitals (text-transform: uppercase); 1rem in the panel head."
+      },
+      "time": {
+        "displayName": "Time",
+        "purpose": "An activity's start time on its plate, tabular figures; 1.0625rem for \"até 12h\"."
+      },
+      "day-numeral": {
+        "displayName": "Day Numeral",
+        "purpose": "Month page numerals, plain digits."
+      },
+      "badge": {
+        "displayName": "Badge",
+        "purpose": "\"Hoje\" and \"Próxima\"."
+      },
+      "stamp": {
+        "displayName": "Stamp",
+        "purpose": "\"CANCELADA\" rubber stamp, capitals, tilted -3deg."
+      },
+      "type-label": {
+        "displayName": "Type Label",
+        "purpose": "The activity type under its time (\"Festa\", \"Plenária\", \"Prazo\")."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "The activity title in the panel; text-wrap: balance."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "The activity title on its sheet; text-wrap: pretty."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Base text."
+      },
+      "meta": {
+        "displayName": "Meta",
+        "purpose": "Organization (600), place, period, facts, chips, notices, the month under the weekday."
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "Masthead full name, holiday names (600, red), organizations' full names, the flyer hint."
+      },
+      "button": {
+        "displayName": "Button",
+        "purpose": "Every button label."
+      },
+      "cell": {
+        "displayName": "Cell",
+        "purpose": "Entries written into the wall-sized month page (time at 700; bar titles at 600); column letters use Barlow Condensed 700 at this size."
+      },
+      "cell-holiday": {
+        "displayName": "Cell Holiday",
+        "purpose": "A holiday's short name under its numeral on the wall-sized month page, in red; the \"+N\" count."
+      },
+      "flyer-numeral": {
+        "displayName": "Flyer Numeral",
+        "purpose": "Folha do dia day number (Cartaz 204px, Aviso 290px); base size, js/flyer.js plans the rest inline."
+      },
+      "flyer-display": {
+        "displayName": "Flyer Display",
+        "purpose": "Cartaz title in capitals; base size, shrinks with the title's length."
+      },
+      "flyer-title": {
+        "displayName": "Flyer Title",
+        "purpose": "Activity title on the Folha do dia (76px on the month flyer, 64px struck on the Aviso)."
+      },
+      "flyer-stamp": {
+        "displayName": "Flyer Stamp",
+        "purpose": "\"CANCELADA\" on the Aviso de cancelamento, tilted -8deg."
+      }
+    },
+    "shadows": [
+      {
+        "name": "mark-lift",
+        "value": "0 0.05em 0.1em var(--role-shadow)",
+        "purpose": "The NOS mark's mini sheet on the red header card; flyers drop it."
+      },
+      {
+        "name": "sheet-lift",
+        "value": "0 -8px 24px var(--role-shadow)",
+        "purpose": "The phone's bottom sheet, over the 55% graphite scrim. The desktop panel has none."
+      },
+      {
+        "name": "bubble",
+        "value": "0 1px 3px var(--role-shadow)",
+        "purpose": "The message bubble of the WhatsApp preview."
+      },
+      {
+        "name": "selected-frame",
+        "value": "inset 0 0 0 2px var(--role-strong)",
+        "purpose": "Stroke, not depth: the activity open in the panel, the today ring and (from 1280px) the chosen month cell."
+      },
+      {
+        "name": "tab-underline",
+        "value": "inset 0 -4px 0 var(--role-strong)",
+        "purpose": "Stroke, not depth: the chosen view tab, on the wall above the list or the month page."
+      },
+      {
+        "name": "hollow-mark",
+        "value": "inset 0 0 0 1.5px var(--sector)",
+        "purpose": "Stroke, not depth: a cancelled activity's mark or bar on the month page."
+      },
+      {
+        "name": "pressed-square-ring",
+        "value": "0 0 0 1.5px var(--role-on-strong)",
+        "purpose": "Stroke, not depth: the white ring round a pressed chip's sector square."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "The one curve (--ease): bottom sheet slide and view tab underline."
+      },
+      {
+        "name": "state",
+        "value": "0.15s",
+        "purpose": "Background, colour and border changes on chips, lines and buttons (default ease)."
+      },
+      {
+        "name": "tab",
+        "value": "box-shadow 0.2s var(--ease)",
+        "purpose": "The view tab underline."
+      },
+      {
+        "name": "sheet",
+        "value": "transform 0.3s var(--ease)",
+        "purpose": "The phone's bottom sheet sliding in and out; it follows the finger (--drag) with no transition while dragged."
+      },
+      {
+        "name": "flash",
+        "value": "2000ms",
+        "purpose": "How long a done button keeps its confirmation (\"Copiado\", \"Imagem baixada\", \"Compartilhado\")."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "transition-duration: 0s",
+        "purpose": "prefers-reduced-motion: every transition is instant."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "wide-phone",
+        "value": "600px",
+        "purpose": "24px gutters, the bottom sheet centred at 560px, 64px month cells."
+      },
+      {
+        "name": "desk",
+        "value": "1100px",
+        "purpose": "Two columns: pad + sticky panel (380px); must match `desktop` in js/app.js."
+      },
+      {
+        "name": "wall",
+        "value": "1280px",
+        "purpose": "Panel 420px; the month page with titles written in."
+      },
+      {
+        "name": "narrow",
+        "value": "max-width: 22.4375em",
+        "purpose": "359px at 16px: sheet heads and lines reflow."
+      },
+      {
+        "name": "tiny",
+        "value": "max-width: 16.1875em",
+        "purpose": "259px at 16px: the panel's date stacks."
+      },
+      {
+        "name": "short-phone",
+        "value": "(max-width: 1099px) and (max-height: 699px)",
+        "purpose": "Panfleto opens at the format bar; smaller preview."
+      },
+      {
+        "name": "short-desk",
+        "value": "(min-width: 1100px) and (max-height: 865px)",
+        "purpose": "Flyer mode folds the organization and the hint."
+      },
+      {
+        "name": "shell",
+        "value": "1344px",
+        "purpose": "Desk shell with 32px padding: 1280px of content."
+      }
+    ],
+    "roles": [
+      {
+        "name": "--role-wall",
+        "value": "var(--color-ground)",
+        "purpose": "Page background; flyers' ground; flyer preview frame."
+      },
+      {
+        "name": "--role-paper",
+        "value": "var(--color-surface)",
+        "purpose": "Sheets, the panel, chips, pills, icon buttons, segments."
+      },
+      {
+        "name": "--role-paper-hover",
+        "value": "var(--color-surface-hover)",
+        "purpose": "An activity line under the pointer."
+      },
+      {
+        "name": "--role-ink",
+        "value": "var(--color-ink)",
+        "purpose": "Text."
+      },
+      {
+        "name": "--role-ink-soft",
+        "value": "var(--color-muted)",
+        "purpose": "Secondary text and icons."
+      },
+      {
+        "name": "--role-ink-faded",
+        "value": "var(--color-faded)",
+        "purpose": "Perforation of the mark and of the Cartaz and Aviso flyers."
+      },
+      {
+        "name": "--role-ink-past",
+        "value": "color-mix(in srgb, var(--color-muted) 55%, var(--color-faded))",
+        "purpose": "Numerals of past sheets and of days outside the month (3:1 on paper)."
+      },
+      {
+        "name": "--role-line",
+        "value": "var(--color-seam)",
+        "purpose": "1px seams, sheet edges, perforation dots, the grabber."
+      },
+      {
+        "name": "--role-header",
+        "value": "var(--color-brand)",
+        "purpose": "The printed header card; the Cartaz ground."
+      },
+      {
+        "name": "--role-on-header",
+        "value": "var(--color-on-ink)",
+        "purpose": "Text and focus on the header card."
+      },
+      {
+        "name": "--role-binding",
+        "value": "var(--color-brand)",
+        "purpose": "The strip on top of each sheet."
+      },
+      {
+        "name": "--role-mark-binding",
+        "value": "var(--color-ink)",
+        "purpose": "The strip on top of the NOS mark."
+      },
+      {
+        "name": "--role-red-letter",
+        "value": "var(--color-brand)",
+        "purpose": "Sundays and national holidays."
+      },
+      {
+        "name": "--role-red-letter-past",
+        "value": "color-mix(in srgb, var(--color-brand) 75%, var(--color-surface))",
+        "purpose": "Red-letter numerals of past sheets and outside the month."
+      },
+      {
+        "name": "--role-accent",
+        "value": "var(--color-brand)",
+        "purpose": "The panel's primary action; text selection; the caret."
+      },
+      {
+        "name": "--role-accent-hover",
+        "value": "var(--color-brand-hover)",
+        "purpose": "Hover of the primary action."
+      },
+      {
+        "name": "--role-on-accent",
+        "value": "var(--color-on-ink)",
+        "purpose": "Label on the primary action; selected text."
+      },
+      {
+        "name": "--role-selected",
+        "value": "var(--color-brand-tint)",
+        "purpose": "The activity open in the panel."
+      },
+      {
+        "name": "--role-alert",
+        "value": "var(--color-brand)",
+        "purpose": "Error icons; on flyers the Cancelada stamp, the strike through a cancelled date, the circled day."
+      },
+      {
+        "name": "--role-alert-text",
+        "value": "var(--color-brand-hover)",
+        "purpose": "Small red text: the on-screen stamp, cancellation reasons."
+      },
+      {
+        "name": "--role-alert-soft",
+        "value": "var(--color-brand-tint)",
+        "purpose": "Error notice ground."
+      },
+      {
+        "name": "--role-alert-ring",
+        "value": "var(--color-brand-ring)",
+        "purpose": "Error notice border."
+      },
+      {
+        "name": "--role-next",
+        "value": "var(--color-next)",
+        "purpose": "The next activity, nothing else."
+      },
+      {
+        "name": "--role-on-next",
+        "value": "var(--color-ink)",
+        "purpose": "Text on the next activity's badge and plate."
+      },
+      {
+        "name": "--role-strong",
+        "value": "var(--color-ink)",
+        "purpose": "On states (pressed chip, active pill, chosen segment, Hoje, chosen day, done button, the chosen view tab's underline), city and type tags, line-button borders."
+      },
+      {
+        "name": "--role-on-strong",
+        "value": "var(--color-on-ink)",
+        "purpose": "Text on graphite fills."
+      },
+      {
+        "name": "--role-on-series",
+        "value": "var(--color-on-ink)",
+        "purpose": "Titles on sector-coloured month bars."
+      },
+      {
+        "name": "--role-focus",
+        "value": "var(--color-ink)",
+        "purpose": "Focus ring."
+      },
+      {
+        "name": "--role-focus-on-color",
+        "value": "var(--color-on-ink)",
+        "purpose": "Focus ring on the red header and the chosen segment."
+      },
+      {
+        "name": "--role-scrim",
+        "value": "color-mix(in srgb, var(--color-ink) 55%, transparent)",
+        "purpose": "Backdrop behind the phone's bottom sheet."
+      },
+      {
+        "name": "--role-shadow",
+        "value": "color-mix(in srgb, var(--color-ink) 14%, transparent)",
+        "purpose": "The three soft shadows."
+      },
+      {
+        "name": "--role-wash",
+        "value": "color-mix(in srgb, var(--color-ink) 6%, transparent)",
+        "purpose": "Hover wash on quiet controls; inline code ground."
+      },
+      {
+        "name": "--role-scrollbar",
+        "value": "var(--color-faded)",
+        "purpose": "Scrollbar."
+      },
+      {
+        "name": "--role-chat",
+        "value": "var(--color-ground)",
+        "purpose": "WhatsApp preview background."
+      },
+      {
+        "name": "--role-bubble",
+        "value": "var(--color-surface)",
+        "purpose": "WhatsApp preview bubble."
+      },
+      {
+        "name": "--role-series-1",
+        "value": "var(--color-series-1)",
+        "purpose": "Sector ink 1; js/colors.js sets it as --sector."
+      },
+      {
+        "name": "--role-series-2",
+        "value": "var(--color-series-2)",
+        "purpose": "Sector ink 2; js/colors.js sets it as --sector."
+      },
+      {
+        "name": "--role-series-3",
+        "value": "var(--color-series-3)",
+        "purpose": "Sector ink 3; js/colors.js sets it as --sector."
+      },
+      {
+        "name": "--role-series-4",
+        "value": "var(--color-series-4)",
+        "purpose": "Sector ink 4; js/colors.js sets it as --sector."
+      },
+      {
+        "name": "--role-series-5",
+        "value": "var(--color-series-5)",
+        "purpose": "Sector ink 5; js/colors.js sets it as --sector."
+      },
+      {
+        "name": "--role-series-6",
+        "value": "var(--color-series-6)",
+        "purpose": "Sector ink 6; js/colors.js sets it as --sector."
+      },
+      {
+        "name": "--role-series-7",
+        "value": "var(--color-series-7)",
+        "purpose": "Sector ink 7; js/colors.js sets it as --sector."
+      },
+      {
+        "name": "--role-series-8",
+        "value": "var(--color-series-8)",
+        "purpose": "Sector ink 8; js/colors.js sets it as --sector."
+      },
+      {
+        "name": "--role-no-sector",
+        "value": "var(--color-muted)",
+        "purpose": "Square of an activity without a sector."
+      }
+    ],
+    "themes": {
+      "selector": ":root[data-theme='<name>'] in css/theme.css, overriding palette entries or roles",
+      "pick": "data-theme on <html> in index.html ('' = default)",
+      "try": "?tema=<name> in the address",
+      "byHand": [
+        "<meta name=\"theme-color\"> in index.html (the header colour)",
+        "manifest.webmanifest colours"
+      ],
+      "themes": [
+        {
+          "name": "exemplo",
+          "overrides": {
+            "--role-header": "var(--color-ink)",
+            "--role-binding": "var(--color-ink)",
+            "--role-mark-binding": "var(--color-brand)"
+          },
+          "purpose": "Template: a graphite header card and binding, a red binding on the mark."
+        }
+      ]
+    },
+    "flyers": {
+      "canvas": "1080 x 1350 px PNG",
+      "styles": [
+        {
+          "id": "day",
+          "slug": "folha",
+          "name": "Folha do dia",
+          "purpose": "One giant sheet: 460px numeral, weekday, month and year, time; title, organization, type tag."
+        },
+        {
+          "id": "month",
+          "slug": "mes",
+          "name": "Calendário do mês",
+          "purpose": "The month page with the day circled by hand in red; title, date and time, place, organization."
+        },
+        {
+          "id": "poster",
+          "slug": "cartaz",
+          "name": "Cartaz",
+          "purpose": "The header card at poster size: red ground, white capital title, a white day sheet with a graphite binding, NOS signature."
+        },
+        {
+          "id": "notice",
+          "slug": "cancelada",
+          "name": "Aviso de cancelamento",
+          "purpose": "Forced for cancelled activities: the sheet's numeral struck in red under the CANCELADA stamp, the reason, the struck title."
+        }
+      ],
+      "margins": "60px (Folha do dia, Calendário do mês), 80px (Cartaz, Aviso)",
+      "planning": "js/flyer.js plans sizes and line breaks from embedded Barlow glyph widths (no DOM measurement) and sets them inline in whole pixels; css/flyers.css holds the base sizes, every rule scoped under .fl.",
+      "export": "html-to-image (js/vendor/) after document.fonts.ready."
+    }
+  },
+  "components": [
+    {
+      "name": "Accent Button",
+      "kind": "button",
+      "refersTo": "button-accent",
+      "description": "The panel's one primary action: Enviar no WhatsApp, Compartilhar imagem, or Baixar PNG when files can't be shared.",
+      "html": "<button type=\"button\" class=\"ds-btn-accent\"><svg class=\"ds-btn-accent-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7.9 20A9 9 0 1 0 4 16.1L2 22Z\"/></svg><span>Enviar no WhatsApp</span></button>",
+      "css": ".ds-btn-accent, .ds-btn-accent *, .ds-btn-accent *::before, .ds-btn-accent *::after { box-sizing: border-box; } .ds-btn-accent { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 18px; border: 2px solid transparent; border-radius: var(--radius, 6px); background: var(--role-accent, #E4002B); color: var(--role-on-accent, #FFFFFF); font: 700 1rem/1.15 var(--font-ui, 'Barlow', system-ui, sans-serif); text-align: center; text-decoration: none; cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s; } .ds-btn-accent-icon { width: 20px; height: 20px; flex: none; } .ds-btn-accent:hover { background: var(--role-accent-hover, #C70026); } .ds-btn-accent:focus-visible { outline: 3px solid var(--role-focus, #1C1C1E); outline-offset: 2px; } .ds-btn-accent:disabled { cursor: progress; opacity: 0.7; }"
+    },
+    {
+      "name": "Line Button",
+      "kind": "button",
+      "refersTo": "button-line",
+      "description": "The secondary action (Copiar texto, Baixar PNG beside Compartilhar imagem); fills graphite on hover and for 2s once done (Copiado).",
+      "html": "<button type=\"button\" class=\"ds-btn-line\"><svg class=\"ds-btn-line-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\"/><path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\"/></svg><span>Copiar texto</span></button>",
+      "css": ".ds-btn-line, .ds-btn-line *, .ds-btn-line *::before, .ds-btn-line *::after { box-sizing: border-box; } .ds-btn-line { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 18px; border: 2px solid var(--role-strong, #1C1C1E); border-radius: var(--radius, 6px); background: transparent; color: var(--role-ink, #1C1C1E); font: 700 1rem/1.15 var(--font-ui, 'Barlow', system-ui, sans-serif); text-align: center; cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s; } .ds-btn-line-icon { width: 20px; height: 20px; flex: none; } .ds-btn-line:hover, .ds-btn-line.is-done { background: var(--role-strong, #1C1C1E); color: var(--role-on-strong, #FFFFFF); } .ds-btn-line:focus-visible { outline: 3px solid var(--role-focus, #1C1C1E); outline-offset: 2px; }"
+    },
+    {
+      "name": "Sector Chips",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Sector filter: \"Todos\" first, then one pill per sector with its printed square; pressed fills graphite.",
+      "html": "<div class=\"ds-chips\" role=\"group\" aria-label=\"Filtrar por setor\"><button type=\"button\" class=\"ds-chip\" aria-pressed=\"true\">Todos</button><button type=\"button\" class=\"ds-chip\" aria-pressed=\"false\" style=\"--sector: var(--role-series-1, #0455A1)\"><span class=\"ds-chip-square\"></span>Sindicatos</button><button type=\"button\" class=\"ds-chip\" aria-pressed=\"false\" style=\"--sector: var(--role-series-3, #9B3894)\"><span class=\"ds-chip-square\"></span>Movimentos sociais</button></div>",
+      "css": ".ds-chips, .ds-chips *, .ds-chips *::before, .ds-chips *::after { box-sizing: border-box; } .ds-chips { display: flex; flex-wrap: wrap; gap: 8px; } .ds-chip { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border: 1px solid var(--role-line, #D9D9D4); border-radius: var(--radius-pill, 999px); background: var(--role-paper, #FFFFFF); color: var(--role-ink, #1C1C1E); font-family: var(--font-ui, 'Barlow', system-ui, sans-serif); font-size: 0.9375rem; font-weight: 500; white-space: nowrap; cursor: pointer; transition: background 0.15s, border-color 0.15s, color 0.15s; } .ds-chip:hover { border-color: var(--role-strong, #1C1C1E); } .ds-chip[aria-pressed=\"true\"] { background: var(--role-strong, #1C1C1E); border-color: var(--role-strong, #1C1C1E); color: var(--role-on-strong, #FFFFFF); font-weight: 600; } .ds-chip:focus-visible { outline: 3px solid var(--role-focus, #1C1C1E); outline-offset: 2px; } .ds-chip-square { flex: none; width: 10px; height: 10px; border-radius: 2px; background: var(--sector, var(--role-no-sector, #5C5C61)); } .ds-chip[aria-pressed=\"true\"] .ds-chip-square { box-shadow: 0 0 0 1.5px var(--role-on-strong, #FFFFFF); }"
+    },
+    {
+      "name": "Organization Pill",
+      "kind": "input",
+      "refersTo": "org-pill",
+      "description": "Organization filter: a native select laid over a pill face; options carry full names grouped by sector; fills graphite while active.",
+      "html": "<div class=\"ds-org-pill\"><span class=\"ds-org-face\" aria-hidden=\"true\"><svg class=\"ds-org-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/><path d=\"M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75\"/></svg><span class=\"ds-org-label\">Organização</span><svg class=\"ds-org-chevron\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m6 9 6 6 6-6\"/></svg></span><select class=\"ds-org-select\" aria-label=\"Filtrar por organização\"><option value=\"\">Todas as organizações</option><optgroup label=\"Sindicatos\"><option value=\"simted\">SIMTED – Sindicato Municipal dos Trabalhadores e Trabalhadoras em Educação de Dourados</option></optgroup></select></div>",
+      "css": ".ds-org-pill, .ds-org-pill *, .ds-org-pill *::before, .ds-org-pill *::after { box-sizing: border-box; } .ds-org-pill { position: relative; display: inline-flex; align-items: center; } .ds-org-face { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; max-width: 15rem; padding: 8px 12px; border: 1.5px solid var(--role-strong, #1C1C1E); border-radius: var(--radius-pill, 999px); background: var(--role-paper, #FFFFFF); color: var(--role-ink, #1C1C1E); font-family: var(--font-ui, 'Barlow', system-ui, sans-serif); font-size: 0.9375rem; font-weight: 600; pointer-events: none; } .ds-org-icon { width: 18px; height: 18px; flex: none; } .ds-org-chevron { width: 16px; height: 16px; flex: none; } .ds-org-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .ds-org-select { position: absolute; inset: 0; width: 100%; opacity: 0; cursor: pointer; font-size: 1rem; } .ds-org-pill:has(.ds-org-select:focus-visible) .ds-org-face { outline: 3px solid var(--role-focus, #1C1C1E); outline-offset: 2px; } .ds-org-pill.is-active .ds-org-face { background: var(--role-strong, #1C1C1E); color: var(--role-on-strong, #FFFFFF); }"
+    },
+    {
+      "name": "View Tabs",
+      "kind": "nav",
+      "refersTo": "view-tab",
+      "description": "Agenda | Mês on the wall, directly on top of the list or the month page they switch (under the filters): grey labels on a seam, the chosen one graphite and bold over a 4px graphite underline.",
+      "html": "<div class=\"ds-tabs\" role=\"tablist\" aria-label=\"Visualização\"><button type=\"button\" role=\"tab\" class=\"ds-tab\" aria-selected=\"true\"><svg class=\"ds-tab-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 6h.01M3 12h.01M3 18h.01M8 6h13M8 12h13M8 18h13\"/></svg><span>Agenda</span></button><button type=\"button\" role=\"tab\" class=\"ds-tab\" aria-selected=\"false\"><svg class=\"ds-tab-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect width=\"18\" height=\"18\" x=\"3\" y=\"4\" rx=\"2\"/><path d=\"M8 2v4M16 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01\"/></svg><span>Mês</span></button></div>",
+      "css": ".ds-tabs, .ds-tabs *, .ds-tabs *::before, .ds-tabs *::after { box-sizing: border-box; } .ds-tabs { display: flex; max-width: 390px; border-bottom: 1px solid var(--role-line, #D9D9D4); } .ds-tab { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 49px; padding: 0 12px 4px; border: 0; background: none; color: var(--role-ink-soft, #5C5C61); font-family: var(--font-ui, 'Barlow', system-ui, sans-serif); font-size: 1rem; font-weight: 500; cursor: pointer; box-shadow: inset 0 -4px 0 transparent; transition: box-shadow 0.2s var(--ease, cubic-bezier(0.16, 1, 0.3, 1)), color 0.15s; } .ds-tab-icon { width: 18px; height: 18px; flex: none; } .ds-tab:hover { color: var(--role-ink, #1C1C1E); } .ds-tab[aria-selected=\"true\"] { color: var(--role-ink, #1C1C1E); font-weight: 700; box-shadow: inset 0 -4px 0 var(--role-strong, #1C1C1E); } .ds-tab:focus-visible { outline: 3px solid var(--role-focus, #1C1C1E); outline-offset: -4px; }"
+    },
+    {
+      "name": "Segmented Control",
+      "kind": "nav",
+      "refersTo": "segment",
+      "description": "Mensagem | Panfleto in the panel: a graphite frame split in two; the chosen half fills graphite.",
+      "html": "<div class=\"ds-seg\" role=\"tablist\" aria-label=\"Formato\"><button type=\"button\" role=\"tab\" class=\"ds-seg-tab\" aria-selected=\"true\"><svg class=\"ds-seg-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z\"/><path d=\"M13 8H7M17 12H7\"/></svg><span>Mensagem</span></button><button type=\"button\" role=\"tab\" class=\"ds-seg-tab\" aria-selected=\"false\"><svg class=\"ds-seg-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\"/><circle cx=\"9\" cy=\"9\" r=\"2\"/><path d=\"m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21\"/></svg><span>Panfleto</span></button></div>",
+      "css": ".ds-seg, .ds-seg *, .ds-seg *::before, .ds-seg *::after { box-sizing: border-box; } .ds-seg { display: grid; grid-template-columns: 1fr 1fr; max-width: 380px; border: 1px solid var(--role-strong, #1C1C1E); border-radius: var(--radius-sm, 4px); overflow: hidden; } .ds-seg-tab { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; border: 0; background: var(--role-paper, #FFFFFF); color: var(--role-ink, #1C1C1E); font-family: var(--font-ui, 'Barlow', system-ui, sans-serif); font-size: 1rem; font-weight: 600; cursor: pointer; } .ds-seg-tab + .ds-seg-tab { border-left: 1px solid var(--role-strong, #1C1C1E); } .ds-seg-icon { width: 20px; height: 20px; flex: none; } .ds-seg-tab[aria-selected=\"true\"] { background: var(--role-strong, #1C1C1E); color: var(--role-on-strong, #FFFFFF); } .ds-seg-tab:focus-visible { outline: 3px solid var(--role-focus, #1C1C1E); outline-offset: -4px; } .ds-seg-tab[aria-selected=\"true\"]:focus-visible { outline-color: var(--role-focus-on-color, #FFFFFF); }"
+    },
+    {
+      "name": "Day Sheet",
+      "kind": "card",
+      "refersTo": "day-sheet",
+      "description": "Signature: a sheet of the folhinha with its binding strip, perforation, two-digit numeral (red on Sundays and holidays), status badge and the day's activities; the next one's time sits on the yellow plate.",
+      "html": "<section class=\"ds-sheet is-red\"><header class=\"ds-sheet-head\"><span class=\"ds-sheet-num\">18</span><span class=\"ds-sheet-names\"><span class=\"ds-sheet-weekday\">domingo</span><span class=\"ds-sheet-month\">Outubro</span></span><span class=\"ds-badge ds-badge-next\">Próxima</span></header><ul class=\"ds-lines\"><li><button type=\"button\" class=\"ds-line is-next\" style=\"--sector: var(--role-series-1, #0455A1)\"><span class=\"ds-line-time\"><span class=\"ds-line-clock\">11h</span><span class=\"ds-line-type\">Festa</span></span><span class=\"ds-line-body\"><span class=\"ds-line-title\">Almoço dos Educadores</span><span class=\"ds-line-org\"><span class=\"ds-square\"></span><span>SIMTED</span></span><span class=\"ds-line-place\"><svg class=\"ds-line-place-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0\"/><circle cx=\"12\" cy=\"10\" r=\"3\"/></svg><span>Chácara do SIMTED</span></span></span><span class=\"ds-line-go\"><svg class=\"ds-line-go-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"18\" cy=\"5\" r=\"3\"/><circle cx=\"6\" cy=\"12\" r=\"3\"/><circle cx=\"18\" cy=\"19\" r=\"3\"/><path d=\"m8.59 13.51 6.83 3.98M15.41 6.51l-6.82 3.98\"/></svg></span></button></li></ul></section>",
+      "css": ".ds-sheet, .ds-sheet *, .ds-sheet *::before, .ds-sheet *::after { box-sizing: border-box; } .ds-sheet { max-width: 560px; background: var(--role-paper, #FFFFFF); color: var(--role-ink, #1C1C1E); border: 1px solid var(--role-line, #D9D9D4); border-top: 0; border-radius: 2px 2px var(--radius, 6px) var(--radius, 6px); overflow: hidden; font: 500 1rem/1.45 var(--font-ui, 'Barlow', system-ui, sans-serif); } .ds-sheet::before { content: ''; display: block; height: 13px; background: linear-gradient(var(--role-binding, #E4002B), var(--role-binding, #E4002B)) top / 100% 4px no-repeat, radial-gradient(circle, var(--role-line, #D9D9D4) 1.5px, transparent 1.75px) 12px 8px / 10px 3px repeat-x; } .ds-sheet-head { display: flex; align-items: center; gap: 12px; padding: 4px 12px 12px 16px; } .ds-sheet-num { flex: none; width: 4rem; font: 800 3.625rem/0.9 var(--font-display, 'Barlow Condensed', 'Barlow', system-ui, sans-serif); letter-spacing: -0.01em; } .ds-sheet-names { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; } .ds-sheet-weekday { font: 700 1.1875rem/1.1 var(--font-display, 'Barlow Condensed', 'Barlow', system-ui, sans-serif); letter-spacing: 0.06em; text-transform: uppercase; } .ds-sheet-month { font-size: 0.9375rem; line-height: 1.2; color: var(--role-ink-soft, #5C5C61); } .ds-sheet.is-red .ds-sheet-num, .ds-sheet.is-red .ds-sheet-weekday { color: var(--role-red-letter, #E4002B); } .ds-badge { flex: none; display: inline-flex; align-items: center; height: 1.625em; padding: 0 9px; border-radius: var(--radius-sm, 4px); font: 700 1rem/1 var(--font-display, 'Barlow Condensed', 'Barlow', system-ui, sans-serif); letter-spacing: 0.02em; } .ds-badge-next { background: var(--role-next, #FFC20E); color: var(--role-on-next, #1C1C1E); } .ds-lines { list-style: none; margin: 0; padding: 0; } .ds-line { display: flex; align-items: flex-start; gap: 12px; width: 100%; padding: 14px 6px 14px 16px; border: 0; border-top: 1px solid var(--role-line, #D9D9D4); background: var(--role-paper, #FFFFFF); color: inherit; font: inherit; text-align: left; cursor: pointer; transition: background 0.15s; } .ds-line:hover { background: var(--role-paper-hover, #F7F7F5); } .ds-line:hover .ds-line-title { text-decoration: underline; text-decoration-thickness: 1px; } .ds-line:focus-visible { outline: 3px solid var(--role-focus, #1C1C1E); outline-offset: -3px; } .ds-line-time { flex: none; width: 4rem; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; } .ds-line-clock { padding: 1px 5px; margin-left: -5px; border-radius: 3px; font: 700 1.375rem/1.1 var(--font-display, 'Barlow Condensed', 'Barlow', system-ui, sans-serif); font-variant-numeric: tabular-nums; } .ds-line.is-next .ds-line-clock { background: var(--role-next, #FFC20E); color: var(--role-on-next, #1C1C1E); } .ds-line-type { font: 600 0.9375rem/1.15 var(--font-display, 'Barlow Condensed', 'Barlow', system-ui, sans-serif); color: var(--role-ink-soft, #5C5C61); } .ds-line-body { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; } .ds-line-title { font-size: 1.0625rem; font-weight: 600; line-height: 1.3; } .ds-line-org, .ds-line-place { display: flex; gap: 8px; font-size: 0.9375rem; line-height: 1.35; } .ds-line-org { align-items: center; font-weight: 600; } .ds-line-place { gap: 6px; color: var(--role-ink-soft, #5C5C61); } .ds-line-place-icon { width: 16px; height: 16px; margin-top: 1px; flex: none; } .ds-square { flex: none; width: 10px; height: 10px; border-radius: 2px; background: var(--sector, var(--role-no-sector, #5C5C61)); } .ds-line-go { flex: none; display: grid; place-items: center; width: 44px; height: 44px; margin: -10px 0; } .ds-line-go-icon { width: 20px; height: 20px; }"
+    },
+    {
+      "name": "Cancellation Stamp",
+      "kind": "custom",
+      "refersTo": "stamp",
+      "description": "A cancelled activity stays on its sheet: the tilted CANCELADA rubber stamp above the struck title and time, the reason in Deep Red.",
+      "html": "<div class=\"ds-cancel\" style=\"--sector: var(--role-series-4, #00808A)\"><span class=\"ds-cancel-time\"><span class=\"ds-cancel-clock\">15h</span><span class=\"ds-cancel-type\">Plenária</span></span><span class=\"ds-cancel-body\"><span class=\"ds-stamp\">Cancelada</span><span class=\"ds-cancel-title\">Conselho de Entidades de Base extraordinário</span><span class=\"ds-cancel-reason\">Motivo: O DCE cancelou todas as suas atividades de 09/10.</span><span class=\"ds-cancel-org\"><span class=\"ds-cancel-square\"></span><span>DCE UFGD</span></span></span></div>",
+      "css": ".ds-cancel, .ds-cancel *, .ds-cancel *::before, .ds-cancel *::after { box-sizing: border-box; } .ds-cancel { display: flex; align-items: flex-start; gap: 12px; max-width: 560px; padding: 14px 16px; background: var(--role-paper, #FFFFFF); color: var(--role-ink, #1C1C1E); border: 1px solid var(--role-line, #D9D9D4); border-radius: var(--radius, 6px); font: 500 1rem/1.45 var(--font-ui, 'Barlow', system-ui, sans-serif); } .ds-cancel-time { flex: none; width: 4rem; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; } .ds-cancel-clock { font: 700 1.375rem/1.1 var(--font-display, 'Barlow Condensed', 'Barlow', system-ui, sans-serif); font-variant-numeric: tabular-nums; color: var(--role-ink-soft, #5C5C61); text-decoration: line-through; } .ds-cancel-type { font: 600 0.9375rem/1.15 var(--font-display, 'Barlow Condensed', 'Barlow', system-ui, sans-serif); color: var(--role-ink-soft, #5C5C61); } .ds-cancel-body { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; } .ds-stamp { display: inline-block; padding: 2px 7px; border: 2px solid var(--role-alert-text, #C70026); border-radius: 3px; color: var(--role-alert-text, #C70026); font: 800 0.875rem/1.2 var(--font-display, 'Barlow Condensed', 'Barlow', system-ui, sans-serif); letter-spacing: 0.11em; text-transform: uppercase; rotate: -3deg; } .ds-cancel-title { font-size: 1.0625rem; font-weight: 600; line-height: 1.3; color: var(--role-ink-soft, #5C5C61); text-decoration: line-through; } .ds-cancel-reason { font-size: 0.9375rem; line-height: 1.35; font-weight: 500; color: var(--role-alert-text, #C70026); } .ds-cancel-org { display: flex; align-items: center; gap: 8px; font-size: 0.9375rem; line-height: 1.35; font-weight: 600; } .ds-cancel-square { flex: none; width: 10px; height: 10px; border-radius: 2px; background: var(--sector, var(--role-no-sector, #5C5C61)); }"
+    },
+    {
+      "name": "Masthead and NOS Mark",
+      "kind": "custom",
+      "refersTo": "masthead",
+      "description": "The red printed header card: the provisional NOS mark (a mini folhinha sheet sized by font-size), the city and the full name.",
+      "html": "<div class=\"ds-masthead\"><a class=\"ds-brand\" href=\"#\"><span class=\"ds-mark\" aria-hidden=\"true\"><span class=\"ds-mark-binding\"></span><span class=\"ds-mark-perf\"></span><span class=\"ds-mark-word\">NOS</span></span><span class=\"ds-brand-text\"><span class=\"ds-brand-city\">Dourados/MS</span><span class=\"ds-brand-name\">Núcleo de Organização Social</span></span></a></div>",
+      "css": ".ds-masthead, .ds-masthead *, .ds-masthead *::before, .ds-masthead *::after { box-sizing: border-box; } .ds-masthead { padding: 6px 16px 0; background: var(--role-header, #E4002B); color: var(--role-on-header, #FFFFFF); } .ds-brand { display: flex; align-items: center; gap: 12px; width: fit-content; padding: 6px 0 12px; border-radius: var(--radius-sm, 4px); color: inherit; text-decoration: none; } .ds-brand:focus-visible { outline: 3px solid var(--role-focus-on-color, #FFFFFF); outline-offset: 2px; } .ds-mark { display: inline-flex; flex-direction: column; width: 2.2em; height: 2.5em; border-radius: 0.15em 0.15em 0.2em 0.2em; overflow: hidden; background: var(--role-paper, #FFFFFF); box-shadow: 0 0.05em 0.1em var(--role-shadow, color-mix(in srgb, #1C1C1E 14%, transparent)); font-size: 1.25rem; } .ds-mark-binding { flex: none; height: 0.35em; background: var(--role-mark-binding, #1C1C1E); } .ds-mark-perf { flex: none; height: 0.3em; margin: 0 0.2em; background: radial-gradient(circle, var(--role-ink-faded, #BDBDB8) 0.05em, transparent 0.06em) center / 0.25em 0.3em repeat-x; } .ds-mark-word { flex: 1; display: grid; place-items: center; padding-bottom: 0.15em; font: 800 1.15em/1 var(--font-display, 'Barlow Condensed', 'Barlow', system-ui, sans-serif); letter-spacing: 0.015em; color: var(--role-ink, #1C1C1E); } .ds-brand-text { display: flex; flex-direction: column; gap: 2px; } .ds-brand-city { font: 800 1.5rem/1.05 var(--font-display, 'Barlow Condensed', 'Barlow', system-ui, sans-serif); } .ds-brand-name { font: 500 0.875rem/1.2 var(--font-ui, 'Barlow', system-ui, sans-serif); }"
+    },
+    {
+      "name": "Month Page Weeks",
+      "kind": "custom",
+      "refersTo": "month-day",
+      "description": "Two weeks of the month page on a phone: Sunday first and red, past days grey, today ringed, the chosen day in graphite, sector squares for one-day activities (hollow when cancelled), bars for activities of several days.",
+      "html": "<div class=\"ds-month\"><div class=\"ds-weekdays\" aria-hidden=\"true\"><span class=\"is-red\">Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span></div><div class=\"ds-week\"><div class=\"ds-days\"><button type=\"button\" class=\"ds-day is-past is-red\"><span class=\"ds-day-num\">4</span></button><button type=\"button\" class=\"ds-day is-past\"><span class=\"ds-day-num\">5</span></button><button type=\"button\" class=\"ds-day is-past\"><span class=\"ds-day-num\">6</span></button><button type=\"button\" class=\"ds-day is-past\"><span class=\"ds-day-num\">7</span><span class=\"ds-day-items\"><span class=\"ds-cell-mark\" style=\"--sector: var(--role-series-5, #C25700)\"></span></span></button><button type=\"button\" class=\"ds-day is-past\"><span class=\"ds-day-num\">8</span></button><button type=\"button\" class=\"ds-day is-past\"><span class=\"ds-day-num\">9</span><span class=\"ds-day-items\"><span class=\"ds-cell-mark\" style=\"--sector: var(--role-series-1, #0455A1)\"></span><span class=\"ds-cell-mark\" style=\"--sector: var(--role-series-1, #0455A1)\"></span><span class=\"ds-cell-mark is-cancelled\" style=\"--sector: var(--role-series-4, #00808A)\"></span></span></button><button type=\"button\" class=\"ds-day is-past\"><span class=\"ds-day-num\">10</span><span class=\"ds-day-items\"><span class=\"ds-cell-mark\" style=\"--sector: var(--role-series-4, #00808A)\"></span></span></button></div><div class=\"ds-bars\" aria-hidden=\"true\"><span class=\"ds-bar is-start is-end\" style=\"grid-column: 5 / 7; --sector: var(--role-series-1, #0455A1)\"></span></div></div><div class=\"ds-week\"><div class=\"ds-days\"><button type=\"button\" class=\"ds-day is-past is-red\"><span class=\"ds-day-num\">11</span></button><button type=\"button\" class=\"ds-day is-past is-red\"><span class=\"ds-day-num\">12</span></button><button type=\"button\" class=\"ds-day is-past\"><span class=\"ds-day-num\">13</span></button><button type=\"button\" class=\"ds-day is-past\"><span class=\"ds-day-num\">14</span></button><button type=\"button\" class=\"ds-day is-today\"><span class=\"ds-day-num\">15</span></button><button type=\"button\" class=\"ds-day is-selected\"><span class=\"ds-day-num\">16</span></button><button type=\"button\" class=\"ds-day \"><span class=\"ds-day-num\">17</span></button></div><div class=\"ds-bars\" aria-hidden=\"true\"><span class=\"ds-bar is-start\" style=\"grid-column: 6 / 8; --sector: var(--role-series-1, #0455A1)\"></span></div></div></div>",
+      "css": ".ds-month, .ds-month *, .ds-month *::before, .ds-month *::after { box-sizing: border-box; } .ds-month { max-width: 390px; background: var(--role-paper, #FFFFFF); color: var(--role-ink, #1C1C1E); border: 1px solid var(--role-line, #D9D9D4); border-top: 0; border-radius: 2px 2px var(--radius, 6px) var(--radius, 6px); overflow: hidden; font-family: var(--font-ui, 'Barlow', system-ui, sans-serif); } .ds-month::before { content: ''; display: block; height: 13px; background: linear-gradient(var(--role-binding, #E4002B), var(--role-binding, #E4002B)) top / 100% 4px no-repeat, radial-gradient(circle, var(--role-line, #D9D9D4) 1.5px, transparent 1.75px) 12px 8px / 10px 3px repeat-x; } .ds-weekdays { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); padding: 2px 0 8px; } .ds-weekdays span { text-align: center; font: 700 0.8125rem/1 var(--font-display, 'Barlow Condensed', 'Barlow', system-ui, sans-serif); letter-spacing: 0.05em; text-transform: uppercase; color: var(--role-ink-soft, #5C5C61); } .ds-weekdays .is-red { color: var(--role-red-letter, #E4002B); } .ds-week { position: relative; border-top: 1px solid var(--role-line, #D9D9D4); } .ds-days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); } .ds-day { display: flex; flex-direction: column; align-items: center; gap: 3px; min-width: 0; min-height: 56px; padding: 6px 0 14px; border: 0; background: none; color: var(--role-ink, #1C1C1E); cursor: pointer; } .ds-day:hover { background: var(--role-wash, color-mix(in srgb, #1C1C1E 6%, transparent)); } .ds-day:focus-visible { outline: 3px solid var(--role-focus, #1C1C1E); outline-offset: -3px; } .ds-day-num { display: grid; place-items: center; min-width: 1.75rem; height: 1.75rem; padding: 0 3px; border-radius: var(--radius-sm, 4px); font: 700 1.25rem/1 var(--font-display, 'Barlow Condensed', 'Barlow', system-ui, sans-serif); } .ds-day.is-red .ds-day-num { color: var(--role-red-letter, #E4002B); } .ds-day.is-past .ds-day-num { color: var(--role-ink-soft, #5C5C61); } .ds-day.is-past.is-red .ds-day-num { color: var(--role-red-letter, #E4002B); } .ds-day.is-today .ds-day-num { box-shadow: inset 0 0 0 2px var(--role-strong, #1C1C1E); } .ds-day.is-selected .ds-day-num { background: var(--role-strong, #1C1C1E); color: var(--role-on-strong, #FFFFFF); box-shadow: none; } .ds-day-items { display: flex; flex-wrap: wrap; justify-content: center; gap: 3px; width: 100%; padding: 0 2px; } .ds-cell-mark { flex: none; width: 6px; height: 6px; border-radius: 1px; background: var(--sector); } .ds-cell-mark.is-cancelled { background: none; box-shadow: inset 0 0 0 1.5px var(--sector); } .ds-bars { position: absolute; inset: auto 0 6px; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); pointer-events: none; } .ds-bar { grid-row: 1; height: 4px; background: var(--sector); align-self: end; } .ds-bar.is-start { margin-left: 4px; border-top-left-radius: 2px; border-bottom-left-radius: 2px; } .ds-bar.is-end { margin-right: 4px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Folhinha",
+    "overview": "NOS Dourados is drawn as a folhinha, the tear-off wall calendar of Brazilian homes and shops. A red printed header card hangs at the top; under it, on a pale wall, hangs a pad of white day sheets, each bound by a red strip and a row of perforation holes, each with a giant two-digit numeral and its weekday in condensed capitals, and every organization's activities are printed on the sheet of their day. Today's sheet is on top, past sheets are torn off until someone asks for them, the next activity carries the calendar's only yellow, Sundays and national holidays print in red, and a cancelled activity keeps its place under a red rubber stamp. The month view is the calendar's month page, Sunday first; the flyers are the same header card and sheets at poster size.\n\nThe system is printed, not decorated. One type family, Barlow and Barlow Condensed, with hierarchy carried by scale and width; flat paper on a wall, separated by 1px seams; corners that stay nearly square where a sheet is bound and soften where it hangs free; colour used the way a calendar printer uses it: red for the header, the binding and the red-letter days, graphite for everything printed, one yellow for \"Próxima\", eight sector inks as small printed squares. Density is set for mid-range phones used outdoors: big numerals, strong contrast, tap targets of 44px and more. Motion is minimal: state changes fade in 0.15s, the view tab underline moves in 0.2s and the phone's bottom sheet slides in 0.3s, all on one curve (`--ease`, `cubic-bezier(0.16, 1, 0.3, 1)`); with reduced motion every transition is instant.\n\nIt refuses the category default of event apps (a grey list with thin date dividers and coloured event pills) and the protest-poster costume. Only the palette comes from the Calendário de Luta this repository was copied from; its metro line, stations, countdown and slogan are retired.",
+    "keyCharacteristics": [
+      "Every day is a sheet: red binding strip, perforation row, two-digit numeral, weekday in condensed capitals.",
+      "Sundays and national holidays print red on every calendar surface.",
+      "Yellow means the next activity and nothing else.",
+      "A sector is a small printed square beside the organization, never a fill behind content.",
+      "One family, hierarchy by scale: Barlow Condensed prints the calendar, Barlow carries what people read.",
+      "Flat sheets on a pale wall with 1px seams; shadows only on what floats.",
+      "Every colour is a variable in two layers, palette then roles, so a theme is one block of variables."
+    ],
+    "rules": [
+      {
+        "name": "The Roles-Only Rule",
+        "body": "`css/style.css` and `css/flyers.css` name roles, never palette variables or colour literals; `transparent`, `currentColor` and, inside `@media (forced-colors: active)`, system colours are the only exceptions. A new colour enters `css/theme.css` as a palette entry plus a role, and a sector's colour arrives only as `var(--sector)`.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Yellow Rule",
+        "body": "Próxima Yellow marks the next activity and nothing else: the \"Próxima\" badge on its start day's sheet and the plate behind its time (or its dash, when that day has several activities or is today). It never marks focus, warnings, the month grid or a flyer.",
+        "section": "colors"
+      },
+      {
+        "name": "The Red-Letter Rule",
+        "body": "Sundays and national holidays print in Folhinha Red wherever the calendar prints a date: the sheet's numeral and weekday, the holiday's name, the month page's Sunday column and numerals, the Folha do dia and the Calendário do mês. Red on a date means a Sunday or a holiday, never decoration. A torn-off sheet keeps its red numeral, faded to Faded Red-Letter; the month page fades it only outside the month.",
+        "section": "colors"
+      },
+      {
+        "name": "The Printed Square Rule",
+        "body": "A sector shows as a small square of its ink beside the organization: 10px with 2px corners on screen, 6px with 1px corners in month cells, 0.7em on flyers. The only larger sector fills are the multi-day bars of the month page. Sector colour never fills a card, a chip or a line, and never colours text.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two-Digit Numeral Rule",
+        "body": "A sheet prints its day with two digits (\"09\"), as printed folhinhas do: the agenda's sheets, the panel head, the Folha do dia, the Cartaz and the Aviso de cancelamento. The month page keeps plain numerals (\"9\"), as month pages do.",
+        "section": "typography"
+      },
+      {
+        "name": "The Printer and Reader Rule",
+        "body": "Barlow Condensed prints the calendar: numerals, weekdays, times, types, month names, badges, the stamp, the masthead. Barlow carries what people read: titles, organizations, places, descriptions, buttons. No third family, and no weight beyond the six that are self-hosted.",
+        "section": "typography"
+      },
+      {
+        "name": "The Folio Column Rule",
+        "body": "The numeral and the activity times share one fixed column (4rem; 4.5rem from 1100px), and the weekday, the month and the activity titles share the next, so every sheet head sits at the same scale and baseline and the times read down the pad like a split-flap board, in tabular figures. An empty day's line (\"Nenhuma atividade hoje\") starts in the text column too.",
+        "section": "layout"
+      },
+      {
+        "name": "The Flat Wall Rule",
+        "body": "Nothing printed casts a shadow. Sheets, the month page and the desktop panel are paper on the wall, edged by 1px seams; only the phone's bottom sheet, the chat bubble and the mark on the header float.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Bound Top Rule",
+        "body": "Anything shown as a sheet is bound at the top and free at the bottom: a binding strip, a perforation row, nearly square top corners (2px) and softer bottom corners (6px; 8px on the desktop panel). The agenda's day sheets, the month page, the desktop panel, the flyer sheets and the NOS mark share this silhouette.",
+        "section": "shapes"
+      },
+      {
+        "name": "The Hand-Applied Tilt Rule",
+        "body": "Only what a hand would add is tilted: the \"Cancelada\" stamp (-3° on screen, -8° on the Aviso), and on the month flyer the circled day (-7°) and the stroke under the other days of a long activity (-2°). Everything printed stays square to its sheet.",
+        "section": "shapes"
+      },
+      {
+        "name": "The Ink State Rule",
+        "body": "\"On\" is graphite: a graphite fill with white text for the pressed sector chip, the active organization pill, the chosen segment, the \"Hoje\" badge, the chosen day on the phone's month page and a line button once its action is done; graphite text over a 4px graphite underline for the chosen view tab. Only the activity open in the panel is tinted, Blush Tint inside a 2px graphite frame.",
+        "section": "components"
+      },
+      {
+        "name": "The Stamp, Don't Erase Rule",
+        "body": "A cancelled activity is never removed, never hidden and never the next one: it stays on its sheet under the \"Cancelada\" stamp, struck through, with its reason in Deep Red; on the month page its mark or bar turns hollow, and its flyer becomes the Aviso de cancelamento.",
+        "section": "components"
+      }
+    ],
+    "dos": [
+      "Do style every new surface with roles (`var(--role-*)`) from `css/theme.css`; when a colour is missing, add a palette entry and a role there.",
+      "Do give anything presented as a sheet the folhinha's top: a 4px binding strip and a perforation row (13px together), 2px top corners, 6px bottom corners and a 1px Seam Grey edge.",
+      "Do print a sheet's day with two digits in Barlow Condensed 800, in the folio column the times share (4rem; 4.5rem from 1100px), with tabular figures for times.",
+      "Do print Sundays and national holidays in red on every calendar surface, and start month pages on Sunday.",
+      "Do show \"on\" states with a graphite fill and white text, and keep every tap target at 44px or more (48px for the panel's actions).",
+      "Do keep a cancelled activity on its sheet with the \"Cancelada\" stamp, the struck title and time, and \"Motivo: …\" in Deep Red.",
+      "Do size interface text, and the boxes that hold text, in rem; keep flyers in px on the 1080 × 1350 canvas, with sizes planned by `js/flyer.js`.",
+      "Do add a theme as a `:root[data-theme='name']` block that overrides palette entries or roles, try it with `?tema=<name>`, and update the `theme-color` meta by hand."
+    ],
+    "donts": [
+      "Don't write a hex, rgb or named colour, or a `--color-*` palette variable, in `css/style.css` or `css/flyers.css`; `transparent`, `currentColor` and system colours inside `forced-colors` are the only exceptions.",
+      "Don't use Próxima Yellow (#FFC20E) for anything but the next activity: not for focus rings, highlights or warnings, not on the month grid, not on flyers.",
+      "Don't reduce the days to thin date dividers in one grey list, or print activities as coloured event pills: each day is a sheet, and a sector is a small square beside the organization.",
+      "Don't fill cards, chips, lines or text with a sector colour; the only sector fills are the squares and the month page's multi-day bars.",
+      "Don't put on the protest-poster costume: no raised fists, megaphones, stencil or distressed type, halftone or grunge textures. The Cartaz is the red header card at poster size with a day sheet on it.",
+      "Don't bring back the retired Calendário de Luta devices: the metro line to election day, stations, countdowns, campaign slogans.",
+      "Don't add a typeface outside the Barlow superfamily, or a weight that isn't self-hosted (Barlow 500, 600, 700; Barlow Condensed 600, 700, 800).",
+      "Don't lift sheets, the month page or the desktop panel with shadows; shadows belong to what floats (the phone's bottom sheet, the chat bubble, the mark on the header).",
+      "Don't tilt printed content; rotation belongs to hand-applied marks (the stamp, the circled day and its underline).",
+      "Don't invent logos, photos or slogans for the organizations; they are named in text, with their full names where they are known."
+    ]
+  }
+}

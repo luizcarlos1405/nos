@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:,">
+  <title>Flyer lab</title>
+  <!-- Dev only, not linked from the site. Renders every flyer style at full size for real
+       activities and for stress cases built from them, and checks each one.
+       Query string: ?ids=ev-23,ev-26 (real rows by id; ?ids=all for every row), ?cases=holiday,online
+       (stress cases by name), ?styles=day,poster, ?scale=0.5 (default 1), ?only=real|stress. -->
+  <link rel="stylesheet" href="../css/theme.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/flyers.css">
+  <script defer src="../js/vendor/html-to-image.js"></script>
+  <style>
+    /* Whole-pixel line heights, so every flyer sits on whole pixels and a screenshot of it is
+       exactly 1080 × 1350. */
+    body { padding: 24px; }
+    .lab-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; min-height: 36px; margin-bottom: 24px; line-height: 20px; }
+    .lab-bar .lab-name { margin: 0; font: 800 28px/36px var(--font-display); }
+    .lab-bar label { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; }
+    .lab-bar select { height: 36px; padding: 0 8px; border: 1px solid var(--role-line); border-radius: var(--radius-sm); background: var(--role-paper); }
+    .lab-summary { font-size: 15px; color: var(--role-ink-soft); }
+    .lab-summary.is-bad { color: var(--role-alert-text); font-weight: 700; }
+    .lab-case { margin: 0 0 40px; }
+    .lab-case > .lab-case-name { margin: 0 0 4px; font: 700 22px/28px var(--font-ui); }
+    .lab-case > p { margin: 0 0 12px; font-size: 15px; line-height: 20px; color: var(--role-ink-soft); }
+    .lab-row { display: flex; gap: 24px; overflow-x: auto; padding-bottom: 8px; }
+    .lab-flyer { flex: none; margin: 0; }
+    .lab-flyer figcaption { display: flex; align-items: center; gap: 10px; height: 32px; margin-bottom: 8px; font-size: 14px; line-height: 20px; font-weight: 600; white-space: nowrap; }
+    .lab-flyer figcaption button { min-height: 30px; padding: 0 10px; border: 1px solid var(--role-line); border-radius: var(--radius-sm); background: var(--role-paper); font-size: 13px; }
+    .lab-warn { color: var(--role-alert-text); font-weight: 700; }
+    .lab-frame { position: relative; overflow: hidden; box-shadow: 0 0 0 1px var(--role-line); }
+    .lab-scaler { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+  </style>
+</head>
+<body>
+  <div class="lab-bar">
+    <h1 class="lab-name">Flyer lab</h1>
+    <label>Scale
+      <select id="scale">
+        <option value="1">100%</option>
+        <option value="0.5">50%</option>
+        <option value="0.33">33%</option>
+        <option value="0.25">25%</option>
+      </select>
+    </label>
+    <span class="lab-summary" id="summary">Loading…</span>
+  </div>
+  <main id="lab"></main>
+
+  <script type="module">
+    import { decodeCSV, parseCSV } from '../js/csv.js';
+    import { buildEvents, dateKey, normalizeKey } from '../js/events.js';
+    import { assignSectorColors } from '../js/colors.js';
+    import { SECTOR_SERIES } from '../js/config.js';
+    import { FLYER_HEIGHT, FLYER_STYLES, FLYER_WIDTH, NOTICE_STYLE, downloadFlyer, flyerFilename, renderFlyer } from '../js/flyer.js';
+
+    const params = new URLSearchParams(location.search);
+    const list = (name) => (params.get(name) || '').split(',').map((s) => s.trim()).filter(Boolean);
+    const scale = Number(params.get('scale') || 1);
+    document.getElementById('scale').value = String(scale);
+    document.getElementById('scale').addEventListener('change', (e) => {
+      params.set('scale', e.target.value);
+      location.search = params.toString();
+    });
+
+    // Real rows shown by default: the four designs' own activities, then rows that push a layout
+    // (long places, four organizations, titles that break badly, no time, another city, online).
+    const REAL_TITLES = [
+      'Almoço dos Educadores',
+      '7ª Feira Afro Zumbi Vive',
+      'Baile dos Educadores – Festa Tropical',
+      'Conselho de Entidades de Base extraordinário',
+      'Coleta de brinquedos e material escolar para a Aldeia Bororó',
+      '32º Grito dos Excluídos e Excluídas',
+      'Mobilização da Classe Trabalhadora',
+      'Caminhada Ecológica de Dourados',
+      'Desfile de 7 de Setembro com o COMAFRO',
+      'Inscrições do curso Meio Ambiente, Sustentabilidade e Saúde',
+      'Oficina de cartazes do Grito dos Excluídos e Excluídas',
+      'Festival Joga.GD 2026',
+      'Encontro de Educadoras e Educadores da Reforma Agrária',
+      'Fim das inscrições de expositores da Feira Afro Zumbi Vive',
+      'Assembleia e eleição da nova gestão do Fórum de Cultura',
+      'Dourados vem pra rua: ato pela democracia',
+    ];
+
+    const day = (key) => {
+      const [y, m, d] = key.split('-').map(Number);
+      return new Date(y, m - 1, d);
+    };
+
+    // A copy of a real row with some fields replaced. Dates are given as YYYY-MM-DD.
+    function variant(base, changes) {
+      const ev = { ...base, ...changes, id: changes.id };
+      if (changes.date) {
+        ev.date = day(changes.date);
+        ev.dateKey = dateKey(ev.date);
+      }
+      if ('endDate' in changes) {
+        ev.endDate = changes.endDate ? day(changes.endDate) : null;
+        ev.endDateKey = ev.endDate ? dateKey(ev.endDate) : null;
+      }
+      if ('org' in changes) ev.orgs = changes.org ? changes.org.split(/\s*,\s*/) : [];
+      return ev;
+    }
+
+    const LONG_TITLE = 'Assembleia geral extraordinária dos trabalhadores em educação da rede municipal de Dourados';
+    const FOUR_ORGS = 'Comitê de Defesa Popular, Sindicato dos Trabalhadores em Educação, ADUF Dourados, SINTEF';
+    const THREE_LONG_ORGS = 'Sindicato dos Trabalhadores em Educação, Comitê de Defesa Popular de Dourados, Fórum de Cultura de Dourados';
+    const LONG_PLACE = 'UFGD – Quadra do CEUD, Unidade 1 (R. João Rosa Góes, 1761, Vila Progresso)';
+    const HUGE_REASON = 'O ato foi suspenso pela organização depois da reunião de ontem à noite com a prefeitura, que negou o uso da praça e não ofereceu outro espaço; as entidades vão recorrer ao Ministério Público, organizar uma nova plenária aberta na semana que vem e divulgar a nova data, o novo local e o trajeto da caminhada assim que tudo estiver confirmado com as escolas e os bairros.';
+    const LONG_REASON = 'A direção do sindicato adiou a assembleia por causa da chuva forte prevista para a noite e da falta de transporte nos bairros; uma nova data será marcada na próxima reunião.';
+    const RAW_TIME = { time: null, timeRaw: 'manhã, tarde e noite (programação no Instagram)', endTime: null, endTimeRaw: '' };
+    const LONG_TYPE = 'Assembleia geral extraordinária e eleição da diretoria';
+
+    // [name, description, base title, changes]
+    const STRESS = [
+      ['long-title', `Title of ${LONG_TITLE.length} characters`, 'Almoço dos Educadores', { title: LONG_TITLE }],
+      ['four-orgs', '4 organizations, one with a long name', 'Almoço dos Educadores', { org: FOUR_ORGS }],
+      ['three-long-orgs', '3 organizations with long names', 'Almoço dos Educadores', { org: THREE_LONG_ORGS }],
+      ['no-time', 'No time', 'Baile dos Educadores – Festa Tropical', { time: null, timeRaw: '', endTime: null, endTimeRaw: '' }],
+      ['raw-time', 'Time as long free text', 'Almoço dos Educadores', RAW_TIME],
+      ['long-type', 'Long type', 'Almoço dos Educadores', { type: LONG_TYPE }],
+      ['no-place', 'No place and no city', 'Almoço dos Educadores', { local: '', city: '', online: false }],
+      ['online', 'Online activity', 'Almoço dos Educadores', { local: 'Online', city: '', online: true }],
+      ['other-city', 'In another city', 'Almoço dos Educadores', { local: 'Praça Ary Coelho', city: 'Campo Grande' }],
+      ['multi-day', 'From 16/10 to 24/10, with a time', 'Almoço dos Educadores', { date: '2026-10-16', endDate: '2026-10-24', time: 19 * 60, timeRaw: '19h' }],
+      ['sunday', 'On a Sunday', 'Baile dos Educadores – Festa Tropical', { date: '2026-10-25' }],
+      ['holiday', 'National holiday (20/11), with a time', '7ª Feira Afro Zumbi Vive', { time: 14 * 60, timeRaw: '14h', endTime: 22 * 60, endTimeRaw: '22h' }],
+      ['sunday-holiday-range', 'Sunday and holiday (15/11), three days, time with minutes', 'Almoço dos Educadores', { date: '2026-11-15', endDate: '2026-11-17', time: 13 * 60 + 30, timeRaw: '13h30', endTime: 17 * 60 + 30, endTimeRaw: '17h30' }],
+      ['six-weeks', 'Six-week month (August 2026)', 'Almoço dos Educadores', { date: '2026-08-29' }],
+      ['one-digit', 'One-digit day, time with minutes', 'Almoço dos Educadores', { date: '2026-11-05', time: 19 * 60 + 30, timeRaw: '19h30', endTime: 22 * 60 + 30, endTimeRaw: '22h30' }],
+      ['emoji', 'Emoji in the title', 'Almoço dos Educadores', { title: 'Festa da Primavera 🌸🎉 com música ao vivo e comida' }],
+      ['emoji-row', 'A row of emoji', 'Almoço dos Educadores', { title: 'Ato ✊✊✊✊✊✊✊✊✊✊' }],
+      ['long-word', 'A word wider than the line', 'Almoço dos Educadores', { title: 'Pneumoultramicroscopicossilicovulcanoconiótico' }],
+      ['link-in-title', 'A link in the title', 'Almoço dos Educadores', { title: 'Inscrições em https://www.instagram.com/estudantesfederaldds/p/Dc1FwwJuvvy' }],
+      ['worst-case', 'Everything long: title, 4 organizations, place, several days from a holiday, time with minutes', 'Almoço dos Educadores', {
+        title: LONG_TITLE, org: FOUR_ORGS, local: LONG_PLACE, city: '',
+        date: '2026-11-02', endDate: '2026-11-04', time: 19 * 60 + 30, timeRaw: '19h30', endTime: 22 * 60 + 30, endTimeRaw: '22h30', type: 'Assembleia',
+      }],
+      ['cancelled-long-reason', `Cancelled, reason of ${LONG_REASON.length} characters`, 'Almoço dos Educadores', { cancelled: true, cancelReason: LONG_REASON }],
+      ['cancelled-huge-reason', `Cancelled, reason of ${HUGE_REASON.length} characters`, 'Almoço dos Educadores', { cancelled: true, cancelReason: HUGE_REASON, title: LONG_TITLE }],
+      ['cancelled-no-reason', 'Cancelled with no reason', 'Baile dos Educadores – Festa Tropical', { cancelled: true, cancelReason: '' }],
+      ['cancelled-day-04', 'Cancelled on day 04 (the 4 is wide: the stamp must stay inside the sheet)', 'Almoço dos Educadores', { cancelled: true, cancelReason: 'Chuva forte prevista para a tarde.', date: '2026-11-04' }],
+      ['cancelled-day-24', 'Cancelled on day 24', 'Almoço dos Educadores', { cancelled: true, cancelReason: 'Chuva forte prevista para a tarde.', date: '2026-10-24' }],
+      ['cancelled-long-type', 'Cancelled, long type with a time', 'Almoço dos Educadores', { cancelled: true, cancelReason: 'Chuva.', type: LONG_TYPE }],
+      ['cancelled-raw-time', 'Cancelled, time as long free text', 'Almoço dos Educadores', { cancelled: true, cancelReason: 'Chuva.', ...RAW_TIME }],
+      ['cancelled-emoji', 'Cancelled, emoji in the title and the reason', 'Almoço dos Educadores', { cancelled: true, title: 'Festa junina 🌽🌽🌽🌽🌽🌽🌽🌽 do SIMTED', cancelReason: 'Chuva 🌧️🌧️🌧️ forte prevista para a noite toda.' }],
+      ['cancelled-worst-case', 'Cancelled with everything long', 'Almoço dos Educadores', {
+        title: LONG_TITLE, org: FOUR_ORGS, local: LONG_PLACE, city: 'Ponta Porã',
+        date: '2026-10-16', endDate: '2026-10-24', cancelled: true, cancelReason: LONG_REASON,
+      }],
+    ];
+
+    // Same colour order as js/app.js: the suggested sectors first, then the others.
+    function sectorsOf(events) {
+      const order = Object.keys(SECTOR_SERIES).map(normalizeKey);
+      const rank = (s) => (order.includes(normalizeKey(s)) ? order.indexOf(normalizeKey(s)) : order.length);
+      const seen = new Map();
+      for (const ev of events) if (ev.sector && !seen.has(normalizeKey(ev.sector))) seen.set(normalizeKey(ev.sector), ev.sector);
+      return [...seen.values()].sort((a, b) => rank(a) - rank(b) || a.localeCompare(b, 'pt-BR'));
+    }
+
+    // Dev check (DOM measurement is fine here, never in js/flyer.js). Line boxes stand in for the
+    // text: anything outside the flyer or outside the sheet that clips it, text blocks running into
+    // each other, a planned line wider than its box, the ring leaving the sheet, the stamp on the
+    // weekday row or past the sheet's edge.
+    const BLOCKS = {
+      day: ['.fl-mast', '.dy-num', '.dy-date', '.dy-when', '.dy-title', '.dy-rows', '.fl-tag', '.fl-foot'],
+      month: ['.fl-mast', '.mo-month', '.mo-weekdays', '.mo-weeks', '.mo-title', '.mo-when', '.mo-rows', '.fl-foot'],
+      poster: ['.po-title', '.po-sheet', '.po-info', '.po-sign'],
+      notice: ['.fl-mast', '.nt-num', '.nt-row', '.nt-reason', '.nt-title', '.nt-record .fl-row', '.nt-foot'],
+    };
+    const DECOR = '.mo-ring, .mo-underline, .nt-stamp, .nt-strike';
+    const TITLES = '.dy-title, .mo-title, .po-title, .nt-title';
+    const NARROW = `${TITLES}, .fl-row-text, .mo-month, .mo-when, .dy-weekday, .dy-month, .dy-holiday, .dy-until, .dy-time, .po-time, .po-until, .po-type, .nt-reason-text, .nt-weekday, .nt-month, .nt-type, .fl-tag, .fl-foot, .po-sign-text`;
+
+    function audit(node, styleId) {
+      const problems = [];
+      const rect = (el) => el.getBoundingClientRect();
+      const inside = (r, box, slack = 1) => r.left >= box.left - slack && r.top >= box.top - slack && r.right <= box.right + slack && r.bottom <= box.bottom + slack;
+      const name = (el) => (typeof el.className === 'string' && el.className) || el.tagName.toLowerCase();
+      const frame = rect(node);
+      const s = frame.width / FLYER_WIDTH;
+      for (const el of node.querySelectorAll('*')) {
+        if (el.closest(DECOR)) continue;
+        const r = rect(el);
+        if (!r.width && !r.height) continue;
+        if (!inside(r, frame)) problems.push(`${name(el)} outside the flyer`);
+        const sheet = el.parentElement.closest('.fl-sheet, .po-sheet, .nt-sheet');
+        if (sheet && !inside(r, rect(sheet))) problems.push(`${name(el)} clipped by the sheet`);
+      }
+      const blocks = BLOCKS[styleId].flatMap((sel) => [...node.querySelectorAll(sel)]);
+      for (let i = 0; i < blocks.length; i++) {
+        for (let j = i + 1; j < blocks.length; j++) {
+          const a = rect(blocks[i]);
+          const b = rect(blocks[j]);
+          const overlap = Math.min(a.right, b.right) - Math.max(a.left, b.left) > 1 && Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top) > 1;
+          if (overlap && !blocks[i].contains(blocks[j]) && !blocks[j].contains(blocks[i])) problems.push(`${name(blocks[i])} runs into ${name(blocks[j])}`);
+        }
+      }
+      for (const el of node.querySelectorAll(NARROW)) {
+        if (el.scrollWidth > el.clientWidth + 1) problems.push(`${name(el)} wider than its box`);
+      }
+      // Every planned line must fit its box: the lines never wrap, so a short estimate would
+      // show here as text running past the box.
+      for (const el of node.querySelectorAll('.fl-line')) {
+        const range = document.createRange();
+        range.selectNodeContents(el);
+        const text = range.getBoundingClientRect();
+        const parent = el.parentElement;
+        const style = getComputedStyle(parent);
+        const box = rect(parent);
+        const content = { left: box.left + parseFloat(style.paddingLeft) * s, right: box.right - parseFloat(style.paddingRight) * s, top: -Infinity, bottom: Infinity };
+        if (!inside(text, content)) problems.push(`line runs past its box: "${el.textContent.slice(0, 30)}"`);
+      }
+      const col = node.querySelector('.dy-col');
+      const when = node.querySelector('.dy-when');
+      if (col && when && rect(when).bottom > rect(col).bottom + 2) problems.push('time runs past the column');
+      const ring = node.querySelector('.mo-ring');
+      if (ring && !inside(rect(ring), rect(node.querySelector('.fl-sheet')))) problems.push('ring leaves the sheet');
+      const stamp = node.querySelector('.nt-stamp');
+      const row = node.querySelector('.nt-row');
+      if (stamp && row) {
+        const lowest = stamp.offsetTop + stamp.offsetHeight * Math.cos((8 * Math.PI) / 180);
+        if (lowest > row.offsetTop) problems.push('stamp reaches the date row');
+        // The rotated stamp, border and all, inside the sheet's borders.
+        const sheet = rect(node.querySelector('.nt-sheet'));
+        const innerBox = { left: sheet.left + s, top: sheet.top + s, right: sheet.right - s, bottom: sheet.bottom - s };
+        if (!inside(rect(stamp), innerBox, 0)) problems.push('stamp crosses the edge of the sheet');
+      }
+      const titleLines = [...node.querySelectorAll(TITLES)].map((el) => el.querySelectorAll('.fl-line').length);
+      return { problems: [...new Set(problems)], titleLines };
+    }
+
+    function figure(ev, style, caseName) {
+      const node = renderFlyer(ev, style.id);
+      const frame = document.createElement('div');
+      frame.className = 'lab-frame';
+      frame.lang = 'pt-BR'; // the flyer's own language, as on the site
+      frame.style.width = `${FLYER_WIDTH * scale}px`;
+      frame.style.height = `${FLYER_HEIGHT * scale}px`;
+      const scaler = document.createElement('div');
+      scaler.className = 'lab-scaler';
+      scaler.style.transform = `scale(${scale})`;
+      scaler.append(node);
+      frame.append(scaler);
+
+      const fig = document.createElement('figure');
+      fig.className = 'lab-flyer';
+      fig.dataset.case = caseName;
+      fig.dataset.style = style.id;
+      const cap = document.createElement('figcaption');
+      const label = document.createElement('span');
+      label.textContent = style.name;
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = 'Download PNG';
+      button.addEventListener('click', () => downloadFlyer(node, flyerFilename(ev, style.id)));
+      cap.append(label, button);
+      fig.append(cap, frame);
+      return fig;
+    }
+
+    async function main() {
+      const res = await fetch('../data/agenda.csv', { cache: 'no-store' });
+      const { headers, records } = parseCSV(decodeCSV(await res.arrayBuffer()));
+      const { events } = buildEvents(headers, records);
+      assignSectorColors(sectorsOf(events));
+
+      const byTitle = (title) => events.find((ev) => ev.title === title);
+      const ids = list('ids');
+      const only = params.get('only');
+      const wantedCases = list('cases');
+      const wantedStyles = list('styles');
+      const styles = FLYER_STYLES.filter((s) => !wantedStyles.length || wantedStyles.includes(s.id));
+
+      const cases = [];
+      if (only !== 'stress' && !(wantedCases.length && !ids.length)) {
+        const real = ids.includes('all') ? events : ids.length ? ids.map((id) => events.find((ev) => ev.id === id)).filter(Boolean) : REAL_TITLES.map(byTitle).filter(Boolean);
+        for (const ev of real) cases.push({ name: ev.id, title: ev.title, note: 'Spreadsheet activity', ev });
+      }
+      if (only !== 'real' && !ids.length) {
+        for (const [name, note, baseTitle, changes] of STRESS) {
+          if (wantedCases.length && !wantedCases.includes(name)) continue;
+          const base = byTitle(baseTitle);
+          if (!base) continue;
+          const ev = variant(base, { ...changes, id: `lab-${name}` });
+          cases.push({ name, title: ev.title, note, ev });
+        }
+      }
+
+      const lab = document.getElementById('lab');
+      const report = [];
+      for (const c of cases) {
+        const section = document.createElement('section');
+        section.className = 'lab-case';
+        const heading = document.createElement('h2');
+        heading.className = 'lab-case-name';
+        heading.textContent = `${c.name} · ${c.title}`;
+        const p = document.createElement('p');
+        p.textContent = c.note;
+        const row = document.createElement('div');
+        row.className = 'lab-row';
+        // A cancelled activity always gets the notice: one flyer is enough.
+        for (const style of c.ev.cancelled ? [NOTICE_STYLE] : styles) row.append(figure(c.ev, style, c.name));
+        section.append(heading, p, row);
+        lab.append(section);
+      }
+
+      await document.fonts.ready;
+      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+      let bad = 0;
+      for (const fig of document.querySelectorAll('.lab-flyer')) {
+        const result = audit(fig.querySelector('.fl'), fig.dataset.style);
+        report.push({ case: fig.dataset.case, style: fig.dataset.style, ...result });
+        if (result.problems.length) {
+          bad++;
+          const warn = document.createElement('span');
+          warn.className = 'lab-warn';
+          warn.textContent = result.problems.join(' · ');
+          fig.querySelector('figcaption').append(warn);
+        }
+      }
+      const summary = document.getElementById('summary');
+      summary.textContent = `${report.length} flyers, ${bad ? `${bad} with problems` : 'no problems found'}`;
+      summary.classList.toggle('is-bad', bad > 0);
+      window.labReport = report;
+      window.labReady = true;
+    }
+
+    main().catch((err) => {
+      console.error(err);
+      document.getElementById('summary').textContent = `Error: ${err.message}`;
+      window.labReady = true;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!doctype html>
+<!-- Source of the app icons and favicons in assets/icons/ (rendered by assets/render.cjs).
+     The NOS mark as the folhinha's pad (assets/pad.js: today's sheet over the edges of the sheets
+     under it) hung on the red header card. It renders at the viewport size; the hash picks the variant:
+       #any       manifest icon, purpose "any" (192, 512): a rounded card on a transparent ground.
+       #maskable  manifest icon, purpose "maskable" (192, 512): full bleed, the pad inside the
+                  centred circle of 80% diameter that every launcher mask keeps.
+       #apple     apple-touch-icon (180): an opaque full-bleed square; iOS rounds the corners.
+       #favicon   browser tab (16, 32, 48): fitted to whole pixels; the red card reads on light
+                  and dark tab strips.
+     Colours are the roles of css/theme.css; the word is APP_NAME from js/config.js. -->
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ícone do app</title>
+<!-- The site's colour theme: data-theme on <html>, or ?tema=<name> as in index.html. -->
+<script>
+  var theme = new URLSearchParams(location.search).get('tema');
+  if (theme) document.documentElement.dataset.theme = theme;
+</script>
+<link rel="stylesheet" href="../css/theme.css">
+<style>
+  * { margin: 0; padding: 0; }
+  html, body { width: 100vw; height: 100vh; overflow: hidden; background: transparent; }
+  svg { display: block; width: 100vw; height: 100vh; }
+  .card { fill: var(--role-header); }
+  .pad-paper { fill: var(--role-paper); }
+  .pad-seam { fill: var(--role-ink-faded); }
+  .pad-binding { fill: var(--role-mark-binding); }
+  .pad-perf { fill: var(--role-ink-faded); }
+  .pad-word { fill: var(--role-ink); font-family: var(--font-display); font-weight: 800; }
+</style>
+</head>
+<body>
+<svg id="icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
+<script type="module">
+  import { APP_NAME } from '../js/config.js';
+  import { NOS_METRICS, drawPad, padHeight, padLayout, wordMetrics } from './pad.js';
+
+  const variant = location.hash.slice(1) || 'any';
+  const S = Math.min(innerWidth, innerHeight);
+  const svg = document.getElementById('icon');
+  svg.setAttribute('viewBox', `0 0 ${S} ${S}`);
+
+  // In hundredths of the icon: the card's corners, the width of today's sheet (narrower on the
+  // maskable icon, to fit the 80% circle) and how far the pad sits above the middle.
+  const CARD_RADIUS = 22;
+  const WIDTH = { any: 56, favicon: 56, apple: 56, maskable: 46 };
+  const LIFT = 0.5;
+
+  // At 16 and 32px the font's outlines blur into grey, so those favicons draw the word as pixels:
+  // Barlow Condensed 800's N, O and S hinted by hand to a 5px and an 8px cap height ('#' ink,
+  // '+' half ink). Another word falls back to the font.
+  const GLYPHS_5 = {
+    N: ['#..#', '##.#', '#+##', '#.##', '#..#'],
+    O: ['+#+', '#.#', '#.#', '#.#', '+#+'],
+    S: ['+##', '#..', '+#+', '..#', '##+'],
+  };
+  const GLYPHS_8 = {
+    N: ['##+..##', '###..##', '####.##', '##+#+##', '##+#+##', '##.####', '##..###', '##..+##'],
+    O: ['+####+', '##..##', '##..##', '##..##', '##..##', '##..##', '##..##', '+####+'],
+    S: ['+###+', '##.+#', '##...', '+##+.', '.+##+', '...##', '#+.##', '+###+'],
+  };
+
+  // The favicons, fitted by hand to whole pixels (px). under: [inset, edge] of each sheet under today's.
+  const FIT = {
+    16: { card: 3, x: 1, y: 2, w: 14, h: 10, rt: 0, rb: 1, binding: 2, perf: 0, cap: 5, capTop: 1, glyphs: GLYPHS_5, under: [[1, 2]], seam: 1 },
+    32: { card: 7, x: 4, y: 5, w: 24, h: 18, rt: 1, rb: 2, binding: 3, perf: 3, dot: 1, dots: 6, dotStep: 3, cap: 8, capTop: 1, glyphs: GLYPHS_8, under: [[1, 2], [2, 4]], seam: 1 },
+    48: { card: 10, x: 10, y: 8, w: 28, h: 27, rt: 1, rb: 3, binding: 4, perf: 4, dot: 2, dots: 6, dotStep: 4, cap: 12, capTop: 3, under: [[1, 2], [2, 4]], seam: 1 },
+  };
+
+  function layout() {
+    const fit = variant === 'favicon' && FIT[S];
+    if (fit) {
+      return {
+        card: fit.card,
+        pad: {
+          ...fit,
+          squareDots: true,
+          firstDot: fit.perf ? (fit.w - (fit.dots - 1) * fit.dotStep) / 2 : 0,
+          under: fit.under.map(([inset, edge]) => ({ inset, edge })),
+        },
+      };
+    }
+    const w = ((WIDTH[variant] ?? WIDTH.any) * S) / 100;
+    const h = padHeight(w);
+    const card = variant === 'any' || variant === 'favicon' ? (CARD_RADIUS * S) / 100 : 0;
+    return { card, pad: padLayout((S - w) / 2, (S - h) / 2 - (LIFT * S) / 100, w) };
+  }
+
+  function draw(metrics) {
+    svg.replaceChildren();
+    const { card, pad } = layout();
+    const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    for (const [k, v] of Object.entries({ width: S, height: S, rx: card })) rect.setAttribute(k, v);
+    rect.setAttribute('class', 'card');
+    svg.append(rect);
+    drawPad(svg, pad, APP_NAME, metrics);
+  }
+
+  // Drawn at once with the metrics of NOS, again once the font is in (ready for the renderer).
+  draw(NOS_METRICS);
+  document.fonts.load("800 100px 'Barlow Condensed'", APP_NAME).then(() => {
+    draw(wordMetrics(APP_NAME));
+    document.documentElement.dataset.ready = '';
+  });
+</script>
+</body>
+</html>

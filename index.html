@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>NOS Dourados · Núcleo de Organização Social</title>
+  <meta name="description" content="A agenda das organizações e movimentos de Dourados/MS em um só lugar, com mensagem e panfleto de cada atividade prontos para o WhatsApp.">
+  <!-- Browser UI colour (Chrome on Android, Safari up to 18; Safari 26 samples the page instead): the red
+       header card, --color-brand in css/theme.css. Meta tags can't read CSS variables: keep it equal to
+       theme_color in manifest.webmanifest. -->
+  <meta name="theme-color" content="#E4002B">
+  <!-- Colour theme: data-theme on <html> picks a [data-theme] block of css/theme.css ('' = default).
+       To try one without editing files, add ?tema=<name> to the address. -->
+  <script>
+    var theme = new URLSearchParams(location.search).get('tema');
+    if (theme) document.documentElement.dataset.theme = theme;
+  </script>
+
+  <!-- Icons, rendered from assets/icon.html by assets/render.cjs. PNG favicons work in every browser and
+       crawler; Google Search reads these and the apple-touch-icon (it asks for more than 48x48 px). -->
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="assets/icons/favicon-48.png">
+  <!-- iPhone/iPad home screen (it overrides the manifest icons there): 180x180, opaque, square corners. -->
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+
+  <!-- Installable app (PWA): manifest.webmanifest + sw.js. -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <!-- Home-screen app on iPhone/iPad. apple-mobile-web-app-capable is what the status-bar style (and any
+       future startup image) depends on; mobile-web-app-capable stops Chrome from flagging the Apple one as
+       deprecated. The title is the label under the icon: keep it short ("NOS Dourados" fits).
+       Status bar: "black" is an opaque black bar with the page starting below it, the safe choice.
+       "black-translucent" would put the clock over the red header card, but only together with a fixed
+       strip of env(safe-area-inset-top) in --role-header in style.css (the header scrolls away, and the
+       white clock would sit on the pale wall) and after a test on a real iPhone (WebKit bug 301994:
+       standalone status bar regressions on iOS 26.x/27). -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="NOS Dourados">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <!-- Link preview (WhatsApp, Telegram, Facebook, X, LinkedIn). Crawlers don't run JS: these stay static. -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="NOS Dourados">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:title" content="NOS Dourados · agenda das organizações de Dourados/MS">
+  <meta property="og:description" content="Assembleias, atos, feiras e encontros das organizações de Dourados, com mensagem e panfleto prontos para o WhatsApp.">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- When the site has its public address (the same one as SITE_URL in js/config.js), uncomment the block
+       below and replace https://DOMAIN/ with it. The URLs must be absolute and https: crawlers don't resolve
+       relative ones, and without og:image every app shows a text-only preview. Keep og:image:width/height in
+       step with assets/og-image.png (Facebook needs them to show the image on the first share).
+       After publishing, refresh cached previews: Facebook Sharing Debugger (developers.facebook.com/tools/debug)
+       and, for Telegram, @WebpageBot; WhatsApp caches each URL, so a link with ?v=2 gets a fresh preview.
+  <link rel="canonical" href="https://DOMAIN/">
+  <meta property="og:url" content="https://DOMAIN/">
+  <meta property="og:image" content="https://DOMAIN/assets/og-image.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="NOS Dourados: a agenda das organizações e movimentos de Dourados/MS">
+  <meta name="twitter:image:alt" content="NOS Dourados: a agenda das organizações e movimentos de Dourados/MS">
+  -->
+
+  <link rel="preload" href="fonts/barlow-condensed-800.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/barlow-600.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/flyers.css">
+  <script defer src="js/vendor/html-to-image.js"></script>
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#view">Pular para a agenda</a>
+  <h1 class="sr-only">NOS Dourados: agenda das organizações e movimentos de Dourados/MS</h1>
+  <p class="sr-only" id="live" role="status" aria-live="polite"></p>
+
+  <header class="masthead">
+    <div class="masthead-inner">
+      <a class="brand" href="./">
+        <span class="brand-mark" id="brand-mark"><span class="mark" aria-hidden="true"><span class="mark-binding"></span><span class="mark-perf"></span><span class="mark-word">NOS</span></span></span>
+        <span class="sr-only" id="brand-name-sr">NOS </span>
+        <span class="brand-text">
+          <span class="brand-city" id="app-city">Dourados/MS</span>
+          <span class="brand-name" id="app-full-name">Núcleo de Organização Social</span>
+        </span>
+      </a>
+    </div>
+  </header>
+
+  <div class="shell">
+    <main class="pad-col" id="main">
+      <div id="notice" class="notice" role="status" hidden></div>
+
+      <div class="filters" id="filters" hidden>
+        <div class="org-pill" id="org-pill">
+          <span class="org-pill-face" aria-hidden="true"><span data-icon="users"></span><span class="org-label" id="org-label">Organização</span><span data-icon="down"></span></span>
+          <select id="org-select" aria-label="Filtrar por organização"></select>
+        </div>
+        <span class="filters-divider" aria-hidden="true"></span>
+        <div class="chips" id="sector-chips" role="group" aria-label="Filtrar por setor"></div>
+      </div>
+
+      <div class="view-tabs" role="tablist" aria-label="Visualização">
+        <button type="button" role="tab" id="tab-agenda" data-view="agenda" aria-controls="view" data-icon="list"><span>Agenda</span></button>
+        <button type="button" role="tab" id="tab-month" data-view="month" aria-controls="view" data-icon="calendar-days"><span>Mês</span></button>
+      </div>
+
+      <div id="view" class="view" role="tabpanel" tabindex="-1">
+        <p class="placeholder">Carregando agenda…</p>
+      </div>
+    </main>
+
+    <div class="sheet-backdrop" id="sheet-backdrop" hidden></div>
+
+    <aside class="bench" id="bench" aria-labelledby="bench-title" tabindex="-1">
+      <div class="bench-empty" id="bench-empty">
+        <p>Escolha uma atividade para ver os detalhes e montar a mensagem e o panfleto.</p>
+      </div>
+
+      <div class="bench-body" id="bench-body" hidden>
+        <span class="grabber" aria-hidden="true"></span>
+        <div class="bench-head">
+          <div class="bench-date" id="bench-date"></div>
+          <button type="button" class="icon-btn bench-close" id="bench-close" aria-label="Fechar"></button>
+        </div>
+
+        <div class="bench-scroll" id="bench-scroll">
+          <div class="cancel-note" id="bench-cancel" hidden></div>
+          <h2 class="bench-title" id="bench-title"></h2>
+          <dl class="facts" id="bench-facts"></dl>
+          <p class="bench-desc" id="bench-desc"></p>
+
+          <div class="seg-bar" id="seg-bar">
+            <div class="seg" role="tablist" aria-label="Formato">
+              <button type="button" role="tab" id="seg-message" data-panel="message" aria-controls="panel-message" data-icon="message-text"><span>Mensagem</span></button>
+              <button type="button" role="tab" id="seg-flyer" data-panel="flyer" aria-controls="panel-flyer" data-icon="image"><span>Panfleto</span></button>
+            </div>
+          </div>
+
+          <section class="panel" id="panel-message" role="tabpanel" aria-labelledby="seg-message">
+            <div class="chat">
+              <div class="bubble" id="bubble"></div>
+            </div>
+          </section>
+
+          <section class="panel" id="panel-flyer" role="tabpanel" aria-labelledby="seg-flyer" hidden>
+            <div class="style-picker" id="style-picker">
+              <button type="button" class="icon-btn" id="style-prev" aria-label="Estilo anterior"></button>
+              <div class="style-select">
+                <label class="sr-only" for="style-select">Estilo do panfleto</label>
+                <select id="style-select"></select>
+                <span class="style-count" id="style-count" aria-hidden="true"></span>
+              </div>
+              <button type="button" class="icon-btn" id="style-next" aria-label="Próximo estilo"></button>
+            </div>
+            <div class="flyer-frame" id="flyer-frame">
+              <div class="flyer-scaler" id="flyer-scaler"></div>
+            </div>
+            <p class="hint" id="flyer-hint"></p>
+          </section>
+        </div>
+
+        <div class="bench-actions">
+          <div class="actions" id="actions-message">
+            <a class="btn btn-accent" id="wa-link" target="_blank" rel="noopener"></a>
+            <button type="button" class="btn btn-line" id="copy-btn"></button>
+          </div>
+          <div class="actions" id="actions-flyer" hidden>
+            <button type="button" class="btn btn-accent" id="share-btn"></button>
+            <button type="button" class="btn btn-line" id="download-btn"></button>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    // Browsers block JS modules and the CSV when the page is opened straight from disk.
+    if (location.protocol === 'file:') {
+      var notice = document.getElementById('notice');
+      notice.dataset.kind = 'error';
+      notice.innerHTML = '<strong>O site precisa ser aberto por um servidor, não direto do arquivo.</strong> ' +
+        'Na pasta do projeto, rode <code>python3 -m http.server 8000</code> e acesse <code>http://localhost:8000</code>.';
+      notice.hidden = false;
+      document.getElementById('view').replaceChildren();
+    }
+  </script>
+</body>
+</html>
