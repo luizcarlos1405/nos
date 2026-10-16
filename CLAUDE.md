@@ -68,3 +68,12 @@ Data flow: `app.js` fetches CSV → `csv.js` `parseCSV` → `events.js` `buildEv
 ## Review tooling
 
 `.impeccable/capture.cjs` (`node .impeccable/capture.cjs` with the site on :8765; same `PLAYWRIGHT_CORE`/`CHROMIUM` env vars as `assets/render.cjs`) writes desktop/mobile screenshots into `.impeccable/review/` (git-ignored) for the impeccable finish review. `.impeccable/flyer-lab.html` (served at `/.impeccable/flyer-lab.html`) is the flyer stress test.
+
+## Git workflow
+
+One developer and little parallel work, so keep git light:
+
+- No pull requests. Work lands on `main` directly.
+- Worktrees (`.claude/worktrees/`, git-ignored) are fine for isolating a task, but when it is done, fast-forward `main` to the worktree branch (`git merge --ff-only <branch>` in the main checkout; rebase the branch on `main` first if `main` moved), push `main`, then delete the branch (local and remote) and remove the worktree. Nothing stays parked on a side branch.
+- Commit once per significant chunk of work (one feature, fix or doc change per commit) rather than one big commit, so each commit is easy to review on its own.
+- Pushing `main` publishes the site (GitHub Pages builds from `main` / root), so check the change works before pushing.
