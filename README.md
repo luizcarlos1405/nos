@@ -36,7 +36,7 @@ O arquivo segue o formato brasileiro: colunas separadas por ponto e vírgula (`;
 | `Motivo Cancelamento` | não | Chuva, Remarcado, ou uma frase curta |
 | `Notas internas` | não | anotações da equipe; o site ignora esta coluna |
 
-**Setores.** O filtro do site usa a coluna `Setor`. Os setores sugeridos têm cor fixa: `Sindicatos`, `Indígena, rural e terra`, `Movimentos sociais`, `Estudantil e acadêmico`, `Conselhos e associações`, `Partidos` e `Outros`. Dá para usar outro nome: ele ganha uma cor livre. Na planilha do Google, vale criar uma lista suspensa (Dados → Validação de dados) com esses nomes.
+**Setores.** O filtro do site usa a coluna `Setor`. Os setores sugeridos têm cor fixa: `Partidos`, `Academia e Movimento Estudantil`, `Rural, indígena, luta pela terra`, `Sindicatos`, `Terceiro Setor`, `Órgãos do Estado`, `Movimentos Sociais` e `Outros` (os mesmos oito grupos do levantamento das organizações). Maiúsculas, acentos e pontuação não contam. Dá para usar outro nome: ele pega emprestada a cor de um setor sugerido que não está na planilha. Na planilha do Google, vale criar uma lista suspensa (Dados → Validação de dados) com esses nomes.
 
 **Organizações.** O filtro "Organização" lista todos os nomes da coluna `Organização`, agrupados pelo setor. Escreva sempre do mesmo jeito (`SINTEF`, não às vezes `Sintef`) para não aparecerem duas vezes. Use a coluna para quem organiza (movimentos, sindicatos, coletivos); parceiros institucionais (universidade, órgãos públicos) cabem melhor na `Descrição`. Para quem não conhece as siglas, o site mostra o nome por extenso das organizações listadas em `ORG_NAMES` (`js/config.js`): acrescente as novas lá, com o nome que a própria organização usa.
 

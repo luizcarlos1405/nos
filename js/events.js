@@ -39,7 +39,7 @@ export function normalizeKey(key) {
 }
 
 // Looser key for names typed by people (sectors, organizations): punctuation doesn't count,
-// so "Indigena rural e terra" and "Indígena, rural e terra" are the same sector.
+// so "Rural indigena luta pela terra" and "Rural, indígena, luta pela terra" are the same sector.
 export function matchKey(text) {
   return normalizeKey(text || '').replace(/[^a-z0-9]+/g, ' ').trim();
 }

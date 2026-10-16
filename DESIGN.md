@@ -365,15 +365,15 @@ A calendar printer's palette: one red, graphite ink, white paper on a pale wall,
 - **Próxima Yellow** (#FFC20E, `--color-next`): the next activity, nothing else (`--role-next`, with Graphite Ink on it as `--role-on-next`, 10.5:1): the "Próxima" badge on its start day's sheet and the plate behind its time.
 
 ### Tertiary
-Sector inks. `js/colors.js` gives each sector a series and sets `--sector: var(--role-series-N)` on the node; the suggested sectors keep a fixed series (`SECTOR_SERIES` in `js/config.js`), other sectors take the free series (Sector Magenta first) and then a name hash. All eight carry white text at 4.5:1 or more.
+Sector inks. `js/colors.js` gives each sector a series and sets `--sector: var(--role-series-N)` on the node; the suggested sectors keep a fixed series (`SECTOR_SERIES` in `js/config.js`), the eight suggested sectors use all eight series, so another sector borrows the series of a suggested sector absent from the sheet and then falls back to a name hash. All eight carry white text at 4.5:1 or more.
 - **Sector Blue** (#0455A1, `series-1`, azul): Sindicatos.
-- **Sector Green** (#00875A, `series-2`, verde): Indígena, rural e terra.
-- **Sector Lilac** (#9B3894, `series-3`, lilás): Movimentos sociais.
-- **Sector Teal** (#00808A, `series-4`, turquesa): Estudantil e acadêmico.
-- **Sector Orange** (#C25700, `series-5`, laranja): Conselhos e associações.
+- **Sector Green** (#00875A, `series-2`, verde): Rural, indígena, luta pela terra.
+- **Sector Lilac** (#9B3894, `series-3`, lilás): Movimentos Sociais.
+- **Sector Teal** (#00808A, `series-4`, turquesa): Academia e Movimento Estudantil.
+- **Sector Orange** (#C25700, `series-5`, laranja): Órgãos do Estado.
 - **Sector Silver** (#5E6A71, `series-6`, prata): Partidos.
 - **Sector Brown** (#7A4E2D, `series-7`, marrom): Outros.
-- **Sector Magenta** (#C2185B, `series-8`, magenta): the first free series, for sectors outside the suggested list.
+- **Sector Magenta** (#C2185B, `series-8`, magenta): Terceiro Setor.
 
 An activity without a sector gets Pencil Grey (`--role-no-sector`).
 
