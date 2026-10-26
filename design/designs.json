@@ -1,0 +1,46 @@
+{
+  "sections": [
+    {
+      "title": "Marca e componentes",
+      "designs": [
+        { "file": "marca-nos.html", "title": "Marca NOS (provisória)", "width": 860, "height": 441 },
+        { "file": "componentes.html", "title": "Componentes", "width": 860, "height": 574 }
+      ]
+    },
+    {
+      "title": "Celular",
+      "designs": [
+        { "file": "celular-agenda.html", "title": "Celular · Agenda", "width": 390, "height": 844 },
+        { "file": "celular-mes.html", "title": "Celular · Mês", "width": 390, "height": 844 },
+        { "file": "celular-atividade-mensagem.html", "title": "Celular · Atividade · Mensagem", "width": 390, "height": 844 },
+        { "file": "celular-atividade-panfleto.html", "title": "Celular · Atividade · Panfleto", "width": 390, "height": 844 },
+        { "file": "celular-dias-anteriores.html", "title": "Celular · Dias anteriores", "width": 390, "height": 844 },
+        { "file": "celular-filtro-sem-resultado.html", "title": "Celular · Filtro sem resultado", "width": 390, "height": 844 }
+      ]
+    },
+    {
+      "title": "Desktop",
+      "designs": [
+        { "file": "desktop-agenda.html", "title": "Desktop · Agenda", "width": 1440, "height": 900 },
+        { "file": "desktop-mes.html", "title": "Desktop · Mês", "width": 1440, "height": 900 }
+      ]
+    },
+    {
+      "title": "Panfletos",
+      "designs": [
+        { "file": "panfleto-folha-do-dia.html", "title": "Panfleto · Folha do dia", "width": 1080, "height": 1350 },
+        { "file": "panfleto-calendario-do-mes.html", "title": "Panfleto · Calendário do mês", "width": 1080, "height": 1350 },
+        { "file": "panfleto-cartaz.html", "title": "Panfleto · Cartaz", "width": 1080, "height": 1350 },
+        { "file": "panfleto-aviso-de-cancelamento.html", "title": "Panfleto · Aviso de cancelamento", "width": 1080, "height": 1350 }
+      ]
+    },
+    {
+      "title": "Direções visuais (exploração inicial)",
+      "designs": [
+        { "file": "direcao-a-faixa.html", "title": "A · Faixa", "width": 390, "height": 844 },
+        { "file": "direcao-b-folhinha.html", "title": "B · Folhinha", "width": 390, "height": 844 },
+        { "file": "direcao-c-destaque.html", "title": "C · Destaque", "width": 390, "height": 844 }
+      ]
+    }
+  ]
+}
