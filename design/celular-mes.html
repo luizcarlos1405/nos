@@ -16,7 +16,7 @@
 .wifi { width: 18px; height: 18px; flex-shrink: 0; color: var(--color-on-ink); }
 .battery-full { width: 18px; height: 18px; flex-shrink: 0; color: var(--color-on-ink); }
 .header { display: flex; flex-direction: column; align-items: flex-start; align-self: stretch; flex-shrink: 0; background: var(--color-brand); }
-.brand-row { display: flex; align-items: center; gap: 12px; padding: 6px 16px 12px; align-self: stretch; flex-shrink: 0; }
+.brand-row { display: flex; align-items: center; gap: 12px; padding: 6px 16px 10px; align-self: stretch; flex-shrink: 0; }
 .lockup-text { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; flex-shrink: 0; }
 .city { flex-shrink: 0; font-family: var(--font-display); font-size: 24px; font-weight: 800; line-height: 1.05; white-space: nowrap; color: var(--color-on-ink); }
 .full-name { flex-shrink: 0; font-family: var(--font-ui); font-size: 14px; font-weight: 500; line-height: 1.2; white-space: nowrap; color: var(--color-on-ink); }
@@ -76,6 +76,7 @@
 .bar-4 { width: 98.29px; height: 4px; flex-shrink: 0; background: var(--color-series-1); border-radius: 2px 0 0 2px; }
 .mark-4 { width: 6px; height: 6px; flex-shrink: 0; background: var(--color-series-3); border-radius: 1px; }
 .bar-5 { width: 354px; height: 4px; flex-shrink: 0; background: var(--color-series-1); border-radius: 0 2px 2px 0; }
+.site-tabs { padding: 0 12px; }
 </style>
 </head>
 <body>
@@ -102,6 +103,17 @@
       <div class="lockup-text">
         <span class="city">Dourados/MS</span>
         <span class="full-name">Núcleo de Organização Social</span>
+      </div>
+    </div>
+    <div class="site-tabs">
+      <!-- aria-current="page" -->
+      <div class="site-tab site-tab--current">
+        <svg class="site-tab__icon"><use href="assets/icons.svg#calendar-days"/></svg>
+        <span class="site-tab__label">Calendário</span>
+      </div>
+      <div class="site-tab">
+        <svg class="site-tab__icon"><use href="assets/icons.svg#store"/></svg>
+        <span class="site-tab__label">Comércio</span>
       </div>
     </div>
   </div>

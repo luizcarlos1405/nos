@@ -5,26 +5,22 @@ primary_target: "index.html"
 related_targets: []
 ---
 
-# Surface: Agenda (index.html)
+# Surface: Início (index.html)
 
-Scope: the whole app — upcoming agenda, month page, activity panel (WhatsApp message + flyer), and the 1080×1350 flyer PNGs. Visitor mode: **Operate**. Phone-first (the main way it is checked); desktop is the production bench. Responsive at every width in between.
+Scope: the home of NOS Dourados: one sentence on what NOS holds and two doors, Calendário (calendario.html) and Comércio (comercio.html), each with a live glimpse (today's sheet and the next activities; how many businesses and a few of them). Visitor mode: **Operate** (a hub: pick where to go). Phone-first.
 
-Audience/job: two audiences. Militants of Dourados' movements find what the other organizations are doing and forward it to their WhatsApp groups in two taps; people from the city find an activity, understand who organizes it, what it is and where, and show up.
+Audience/job: someone opening nos.dourados.social (a shared link, the installed app) understands in one look that NOS holds the organizations' agenda and the network's businesses, and reaches either in one tap; a returning visitor sees what comes next without opening the calendar.
 
 ## Direction contract
 
-THESIS: Every day is a sheet of the folhinha, the tear-off wall calendar of Brazilian homes and shops; each organization's activities are printed on the day's sheet. Refuses the category default (grey list with thin date dividers, coloured event pills) and the protest-poster costume.
+THESIS: The capa of the folhinha: under the red header card hang two sheets, today's calendar sheet and the first sheet of the network's phone book, and each sheet is the door to its page. Refuses the category default (a hero banner over two icon tiles) and the marketing landing page.
 
-OWN-WORLD: White sheets on a pale wall (#EFEFEC) under a red printed calendar header; ink numerals in Barlow Condensed 800, Sundays and national holidays in route red (#E4002B) as wall calendars print them, the month page starting on Sunday; a dotted perforation across the top of every sheet; platform yellow (#FFC20E) only for the next activity; sector colours as small printed squares; Barlow superfamily only; 1px seams; 6px corners; a red rubber-stamp "Cancelada".
+OWN-WORLD: The folhinha's world: the red header card with the brand only (no tabs: the doors are the navigation), white sheets bound by the red strip and the perforation on the pale wall; the Calendário door is a real day sheet (today's two-digit numeral, weekday, month, "Hoje"), the Comércio door a real letter sheet (the giant A); titles in Barlow Condensed 800; yellow only on the next activity's "Próxima"; one red button per door naming its destination.
 
-STORY: The visitor sees today's sheet and the next activity, reads who organizes it, where and when, and sends it to WhatsApp (message or flyer) in two taps; filters by sector or organization; flips to the month page to plan; past sheets are torn off and come back on request.
+STORY: The visitor reads one sentence about NOS, sees today's date and the next activity on one door and a few businesses on the other, and taps a sheet (anywhere on it) to go there.
 
-FIRST VIEWPORT: Phone 390: red header card with the mini-folhinha NOS mark, "Dourados/MS" and "Núcleo de Organização Social" (the brand only); organization select + sector chips; tabs Agenda | Mês directly on top of the list/calendar they switch; then today's sheet (giant 15, QUINTA-FEIRA, Hoje) and the next sheets, the next activity marked yellow with its share button. Desktop 1440: same header, its right side left free; filters, the Agenda | Mês tabs and the pad of sheets on the left; a persistent share panel for the selected activity on the right. Signature move: the day-sheet head (perforation + giant numeral, red on Sundays/holidays, weekday and month beside it).
+FIRST VIEWPORT: Phone 390: the red header card (brand only); one sentence; the Calendário sheet (26, SEGUNDA-FEIRA, Outubro, Hoje / "Calendário" / what it holds / Próxima: date and title / "Abrir o calendário"); the top of the Comércio sheet (A, NEGÓCIOS DA REDE, 17 cadastrados / "Comércio" …). Desktop 1440: the header, the sentence, and the two sheets side by side at equal width, each with a short list (the next three activities; four businesses drawn at random on each visit (three on phones), so every business gets its turn). Signature move: the doors are the two pages' own sheets, numeral and letter, printed at door size.
 
-FORM: Folhinha (tear-off wall calendar), position 1 on the ordered list, chosen by the user as Impeccable's pick over the assigned Faixa (position 3); seed key 0f68a41e. Raises: fixed tabular time column (split-flap board), one family with hierarchy by scale (design annual), every sheet head at the same scale and baseline (botanical folio), states stamp themselves: "Cancelada" (ticket wallet).
+FORM: Shaped directly from the user's request ("a big panel where the person chooses where to go"); a narrow, specified surface, so no roll and no seed key.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
-
-## Unresolved
-- Name and logo are provisional (NOS = Núcleo de Organização Social).
-- Domain: still none. The link preview image exists (assets/og-image.png), but og:url, og:image and canonical wait for the domain in a commented block of index.html's <head>. The PWA/offline pass is done (2026-10-15).

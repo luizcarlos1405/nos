@@ -4,11 +4,19 @@
       "title": "Marca e componentes",
       "designs": [
         { "file": "marca-nos.html", "title": "Marca NOS (provisória)", "width": 860, "height": 441 },
-        { "file": "componentes.html", "title": "Componentes", "width": 860, "height": 574 }
+        { "file": "componentes.html", "title": "Componentes", "width": 860, "height": 1342 },
+        { "file": "navegacao.html", "title": "Navegação", "width": 1520, "height": 746 }
       ]
     },
     {
-      "title": "Celular",
+      "title": "Início",
+      "designs": [
+        { "file": "celular-inicio.html", "title": "Celular · Início", "width": 390, "height": 844 },
+        { "file": "desktop-inicio.html", "title": "Desktop · Início", "width": 1440, "height": 900 }
+      ]
+    },
+    {
+      "title": "Calendário · celular",
       "designs": [
         { "file": "celular-agenda.html", "title": "Celular · Agenda", "width": 390, "height": 844 },
         { "file": "celular-mes.html", "title": "Celular · Mês", "width": 390, "height": 844 },
@@ -19,10 +27,25 @@
       ]
     },
     {
-      "title": "Desktop",
+      "title": "Calendário · desktop",
       "designs": [
         { "file": "desktop-agenda.html", "title": "Desktop · Agenda", "width": 1440, "height": 900 },
         { "file": "desktop-mes.html", "title": "Desktop · Mês", "width": 1440, "height": 900 }
+      ]
+    },
+    {
+      "title": "Comércio · celular",
+      "designs": [
+        { "file": "celular-comercio.html", "title": "Celular · Comércio", "width": 390, "height": 844 },
+        { "file": "celular-comercio-busca.html", "title": "Celular · Comércio · Busca", "width": 390, "height": 844 },
+        { "file": "celular-comercio-sem-resultado.html", "title": "Celular · Comércio · Busca sem resultado", "width": 390, "height": 844 },
+        { "file": "celular-comercio-fim.html", "title": "Celular · Comércio · Fim da lista", "width": 390, "height": 844 }
+      ]
+    },
+    {
+      "title": "Comércio · desktop",
+      "designs": [
+        { "file": "desktop-comercio.html", "title": "Desktop · Comércio", "width": 1440, "height": 900 }
       ]
     },
     {

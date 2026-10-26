@@ -104,6 +104,7 @@
 .msg-footer { align-self: stretch; flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 500; line-height: 1.4; color: var(--color-ink); }
 .scroll-fade { position: absolute; width: 372px; height: 64px; background: linear-gradient(180deg, transparent 0%, var(--color-ground) 85%); }
 .bench-actions { display: flex; align-items: flex-start; gap: 8px; padding: 16px 24px 24px; align-self: stretch; flex-shrink: 0; }
+.site-tab { height: 48px; padding: 0 20px; }
 </style>
 </head>
 <body>
@@ -122,6 +123,17 @@
       <div class="lockup-text">
         <span class="city">Dourados/MS</span>
         <span class="full-name">Núcleo de Organização Social</span>
+      </div>
+    </div>
+    <div class="site-tabs">
+      <!-- aria-current="page" -->
+      <div class="site-tab site-tab--current">
+        <svg class="site-tab__icon"><use href="assets/icons.svg#calendar-days"/></svg>
+        <span class="site-tab__label">Calendário</span>
+      </div>
+      <div class="site-tab">
+        <svg class="site-tab__icon"><use href="assets/icons.svg#store"/></svg>
+        <span class="site-tab__label">Comércio</span>
       </div>
     </div>
   </div>
