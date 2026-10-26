@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Desktop · Comércio</title>
+<link rel="stylesheet" href="../css/theme.css">
+<link rel="stylesheet" href="assets/design.css">
+<link rel="stylesheet" href="assets/components.css">
+<style>
+.desktop-comercio { display: flex; flex-direction: column; align-items: flex-start; width: 1440px; height: 900px; background: var(--color-ground); overflow: hidden; }
+.header { display: flex; align-items: flex-end; justify-content: space-between; padding: 0 80px; align-self: stretch; height: 76px; flex-shrink: 0; background: var(--color-brand); }
+.brand-row { display: flex; align-items: center; gap: 12px; padding: 6px 0 14px; flex-shrink: 0; }
+.lockup-text { display: flex; flex-direction: column; gap: 2px; }
+.city { font-family: var(--font-display); font-size: 26px; font-weight: 800; line-height: 1.05; white-space: nowrap; color: var(--color-on-ink); }
+.full-name { font-family: var(--font-ui); font-size: 15px; font-weight: 500; line-height: 1.2; white-space: nowrap; color: var(--color-on-ink); }
+.site-tab { height: 48px; padding: 0 20px; }
+.body { display: flex; align-items: flex-start; gap: 32px; padding: 28px 80px 0; align-self: stretch; flex-shrink: 0; }
+.main-column { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; min-width: 0; flex: 1 1 0; }
+.tool-row { display: flex; align-items: center; gap: 16px; align-self: stretch; }
+.tool-row .search-pill { width: 400px; }
+.tool-row .count { font-family: var(--font-ui); font-size: 15px; font-weight: 500; color: var(--color-muted); }
+.chip-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; align-self: stretch; margin-top: -4px; }
+.chip-row .chip { height: 44px; border-radius: 22px; }
+.pad { display: flex; flex-direction: column; gap: 12px; align-self: stretch; }
+/* Desk rows: the contacts get their own column, so the numbers read straight down the sheet. */
+.letter-sheet__head { padding: 6px 16px 14px 20px; gap: 16px; }
+.letter-sheet__letter { font-size: 64px; }
+.biz { grid-template-columns: 72px minmax(0, 1fr) 300px; column-gap: 16px; padding: 16px 12px 12px 20px; }
+.biz__contacts { grid-column: 3; grid-row: 1; margin-top: -8px; }
+.contact-row { grid-template-columns: 76px minmax(0, 1fr) 44px; column-gap: 8px; min-height: 40px; }
+.contact-row__handle, .contact-row__text { grid-column: 2 / -1; }
+.contact-row__text { padding: 8px 0; }
+/* On the desk "Indicar" is written out, at the end of what the business offers. */
+.share-text { display: flex; align-items: center; gap: 8px; height: 40px; margin: 2px 0 -6px -2px; padding: 0 2px; font-family: var(--font-ui); font-size: 15px; font-weight: 600; color: var(--color-ink); }
+.share-text__icon { width: 18px; height: 18px; flex-shrink: 0; }
+.biz__name { font-size: 22px; }
+/* The information sheet: sticky beside the pad, where the calendar keeps its activity panel. */
+.side { display: flex; flex-direction: column; width: 420px; flex-shrink: 0; background: var(--color-surface); border: 1px solid var(--color-seam); border-top: 0; border-radius: 2px 2px 8px 8px; overflow: hidden; }
+.side > .sheet-top { margin: 0 -1px; }
+.side__body { display: flex; flex-direction: column; gap: 14px; padding: 16px 24px 24px; }
+.side__title { font-family: var(--font-ui); font-size: 24px; font-weight: 700; line-height: 1.2; color: var(--color-ink); }
+.side__text { font-family: var(--font-ui); font-size: 15px; font-weight: 500; line-height: 1.45; color: var(--color-ink); }
+.how { display: flex; flex-direction: column; gap: 10px; padding: 2px 0 4px; }
+.how__row { display: flex; align-items: flex-start; gap: 12px; }
+.how__icon { width: 20px; height: 20px; flex-shrink: 0; margin-top: 1px; color: var(--color-muted); }
+.how__text { font-family: var(--font-ui); font-size: 15px; font-weight: 500; line-height: 1.4; color: var(--color-ink); }
+.side__seam { height: 1px; margin: 4px -24px; background: var(--color-seam); }
+.side__join-title { font-family: var(--font-ui); font-size: 17px; font-weight: 600; line-height: 1.3; color: var(--color-ink); }
+.side__join-text { margin-top: -8px; font-family: var(--font-ui); font-size: 15px; font-weight: 500; line-height: 1.4; color: var(--color-muted); }
+</style>
+</head>
+<body>
+<!-- Comércio, desktop 1440: the folder tabs at the right of the header card; search and category
+     chips over one pad of letter sheets, each business a row with its contacts in their own column;
+     the information sheet sticks beside the pad (position: sticky; top: 24px). -->
+<div class="desktop-comercio">
+  <div class="header">
+    <div class="brand-row">
+      <div class="nos-mark">
+        <div class="nos-mark__binding"></div>
+        <div class="nos-mark__perforation">
+          <div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div>
+        </div>
+        <div class="nos-mark__word-wrap"><span class="nos-mark__word">NOS</span></div>
+      </div>
+      <div class="lockup-text">
+        <span class="city">Dourados/MS</span>
+        <span class="full-name">Núcleo de Organização Social</span>
+      </div>
+    </div>
+    <div class="site-tabs">
+      <div class="site-tab">
+        <svg class="site-tab__icon"><use href="assets/icons.svg#calendar-days"/></svg>
+        <span class="site-tab__label">Calendário</span>
+      </div>
+      <div class="site-tab site-tab--current">
+        <svg class="site-tab__icon"><use href="assets/icons.svg#store"/></svg>
+        <span class="site-tab__label">Comércio</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="body">
+    <div class="main-column">
+      <div class="tool-row">
+        <div class="search-pill">
+          <svg class="search-pill__icon"><use href="assets/icons.svg#search"/></svg>
+          <span class="search-pill__text">Buscar: bolo, eletricista, celular…</span>
+        </div>
+        <span class="count">17 negócios cadastrados na rede</span>
+      </div>
+      <div class="chip-row">
+        <div class="chip" style="background: var(--color-ink); outline: 1px solid var(--color-ink)">
+          <span class="chip__label" style="font-weight: 600; color: var(--color-on-ink)">Todos</span>
+        </div>
+        <div class="chip"><span class="chip__label">Comida</span></div>
+        <div class="chip"><span class="chip__label">Serviços</span></div>
+        <div class="chip"><span class="chip__label">Celular e informática</span></div>
+        <div class="chip"><span class="chip__label">Beleza</span></div>
+        <div class="chip"><span class="chip__label">Arte e presentes</span></div>
+        <div class="chip"><span class="chip__label">Embalagens</span></div>
+      </div>
+
+      <div class="pad">
+        <div class="letter-sheet">
+          <div class="sheet-top"></div>
+          <div class="letter-sheet__head">
+            <span class="letter-sheet__letter">A</span>
+            <span class="letter-sheet__count">4 negócios</span>
+          </div>
+
+          <div class="biz">
+            <span class="biz__category">Serviços</span>
+            <div class="biz__main">
+              <span class="biz__name">Adriana Piloneto</span>
+              <span class="biz__subtitle">Correções de trabalhos acadêmicos</span>
+              <span class="biz__offer">Correção de trabalhos acadêmicos: artigos, teses, dissertações.</span>
+              <!-- a: wa.me/?text= · aria-label "Indicar … no WhatsApp" -->
+              <div class="share-text"><svg class="share-text__icon"><use href="assets/icons.svg#share-2"/></svg>Indicar no WhatsApp</div>
+            </div>
+            <div class="biz__contacts">
+              <div class="contact-row">
+                <span class="contact-row__label">WhatsApp</span>
+                <span class="contact-row__number">(66) 99654-4029</span>
+                <div class="contact-row__call"><svg class="contact-row__call-icon"><use href="assets/icons.svg#phone"/></svg></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="biz">
+            <span class="biz__category">Serviços</span>
+            <div class="biz__main">
+              <span class="biz__name">Advocacia previdenciária INSS</span>
+              <span class="biz__offer">Atuação jurídica previdenciária/civel/assessoria</span>
+              <!-- a: wa.me/?text= · aria-label "Indicar … no WhatsApp" -->
+              <div class="share-text"><svg class="share-text__icon"><use href="assets/icons.svg#share-2"/></svg>Indicar no WhatsApp</div>
+            </div>
+            <div class="biz__contacts">
+              <div class="contact-row">
+                <span class="contact-row__label">WhatsApp</span>
+                <span class="contact-row__number">(67) 99837-1248</span>
+                <div class="contact-row__call"><svg class="contact-row__call-icon"><use href="assets/icons.svg#phone"/></svg></div>
+              </div>
+              <div class="contact-row">
+                <span class="contact-row__label">Instagram</span>
+                <span class="contact-row__handle">@renatadeol</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="biz">
+            <span class="biz__category">Comida</span>
+            <div class="biz__main">
+              <span class="biz__name">Apiário Boa Vista</span>
+              <span class="biz__offer">Produção e venda de mel puro registrado com SIE, disponível em bisnagas de 1 kg, 500g e 350g, além de favos de mel em potes e opções personalizadas para festas, aniversários e casamentos. Também fornecemos materiais para apicultura, incluindo cera alveolada, caixas para criação de abelha, melgueiras e caixilhos.</span>
+              <!-- a: wa.me/?text= · aria-label "Indicar … no WhatsApp" -->
+              <div class="share-text"><svg class="share-text__icon"><use href="assets/icons.svg#share-2"/></svg>Indicar no WhatsApp</div>
+            </div>
+            <div class="biz__contacts">
+              <div class="contact-row">
+                <span class="contact-row__label">WhatsApp</span>
+                <span class="contact-row__number">(67) 99241-0467</span>
+                <div class="contact-row__call"><svg class="contact-row__call-icon"><use href="assets/icons.svg#phone"/></svg></div>
+              </div>
+              <div class="contact-row">
+                <span class="contact-row__label">Instagram</span>
+                <span class="contact-row__handle">@apiarioboavistadouradosms</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="biz">
+            <span class="biz__category">Comida</span>
+            <div class="biz__main">
+              <span class="biz__name">ARECO's Burger</span>
+              <span class="biz__offer">Lanches e bebidas</span>
+              <!-- a: wa.me/?text= · aria-label "Indicar … no WhatsApp" -->
+              <div class="share-text"><svg class="share-text__icon"><use href="assets/icons.svg#share-2"/></svg>Indicar no WhatsApp</div>
+            </div>
+            <div class="biz__contacts">
+              <div class="contact-row">
+                <span class="contact-row__label">Instagram</span>
+                <span class="contact-row__handle">@arecosburger</span>
+              </div>
+              <div class="contact-row">
+                <span class="contact-row__label">Contato</span>
+                <span class="contact-row__text">Instagram dm</span>
+              </div>
+              <div class="contact-row">
+                <span class="contact-row__label">Outras redes</span>
+                <span class="contact-row__text">Instagram e Ifood apenas</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="side">
+      <div class="sheet-top"></div>
+      <div class="side__body">
+        <span class="side__title">Comércio da rede</span>
+        <span class="side__text">Negócios de Dourados e região que se cadastraram para divulgar na rede. O que aparece aqui é o que cada um mandou pelo formulário.</span>
+        <div class="how">
+          <div class="how__row">
+            <svg class="how__icon"><use href="assets/icons.svg#message-circle"/></svg>
+            <span class="how__text">Toque no número para abrir a conversa no WhatsApp, ou no telefone para ligar.</span>
+          </div>
+          <div class="how__row">
+            <svg class="how__icon"><use href="assets/icons.svg#share-2"/></svg>
+            <span class="how__text">Indique um negócio nos seus grupos: o botão monta a mensagem com os contatos.</span>
+          </div>
+          <div class="how__row">
+            <svg class="how__icon"><use href="assets/icons.svg#tag"/></svg>
+            <span class="how__text">Combine preço, entrega e pagamento direto com quem oferece.</span>
+          </div>
+        </div>
+        <div class="side__seam"></div>
+        <span class="side__join-title">Tem um negócio em Dourados?</span>
+        <span class="side__join-text">Cadastre pelo formulário da rede para aparecer nesta lista.</span>
+        <div class="button-secondary">
+          <span class="button-secondary__label">Cadastrar meu negócio</span>
+          <svg class="button-secondary__icon"><use href="assets/icons.svg#external-link"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

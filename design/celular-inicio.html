@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Celular · Início</title>
+<link rel="stylesheet" href="../css/theme.css">
+<link rel="stylesheet" href="assets/design.css">
+<link rel="stylesheet" href="assets/components.css">
+<style>
+.celular-inicio { display: flex; flex-direction: column; align-items: flex-start; width: 390px; height: 844px; background: var(--color-ground); overflow: hidden; }
+.status-bar { display: flex; align-items: center; justify-content: space-between; padding: 4px 28px 0 32px; align-self: stretch; height: 47px; flex-shrink: 0; background: var(--color-brand); }
+.clock { font-family: Inter, system-ui, sans-serif; font-size: 16px; font-weight: 600; color: var(--color-on-ink); }
+.system-icons { display: flex; align-items: center; gap: 6px; }
+.system-icons svg { width: 18px; height: 18px; color: var(--color-on-ink); }
+.header { display: flex; flex-direction: column; align-items: flex-start; align-self: stretch; flex-shrink: 0; background: var(--color-brand); }
+.brand-row { display: flex; align-items: center; gap: 12px; padding: 6px 16px 12px; align-self: stretch; }
+.lockup-text { display: flex; flex-direction: column; gap: 2px; }
+.city { font-family: var(--font-display); font-size: 24px; font-weight: 800; line-height: 1.05; white-space: nowrap; color: var(--color-on-ink); }
+.full-name { font-family: var(--font-ui); font-size: 14px; font-weight: 500; line-height: 1.2; white-space: nowrap; color: var(--color-on-ink); }
+.intro { margin: 0; padding: 18px 20px 14px; align-self: stretch; font-family: var(--font-ui); font-size: 17px; font-weight: 600; line-height: 1.35; color: var(--color-ink); text-wrap: pretty; }
+.doors { display: flex; flex-direction: column; gap: 12px; padding: 0 16px 24px; align-self: stretch; }
+/* A door: a sheet of the page it opens, linked whole (the button's link stretches over it). */
+.door { display: flex; flex-direction: column; align-self: stretch; background: var(--color-surface); border: 1px solid var(--color-seam); border-top: 0; border-radius: 2px 2px 6px 6px; overflow: hidden; }
+.door > .sheet-top { margin: 0 -1px; }
+.door__head { display: flex; align-items: center; gap: 12px; padding: 4px 12px 12px 16px; }
+.door__glyph { width: 64px; flex-shrink: 0; font-family: var(--font-display); font-size: 58px; font-weight: 800; line-height: 0.9; letter-spacing: -0.5px; color: var(--color-ink); }
+.door__names { display: flex; flex-direction: column; gap: 3px; min-width: 0; flex: 1 1 0; }
+.door__caps { font-family: var(--font-display); font-size: 19px; font-weight: 700; line-height: 1.1; letter-spacing: 1.1px; white-space: nowrap; color: var(--color-ink); }
+.door__sub { font-family: var(--font-ui); font-size: 15px; font-weight: 500; line-height: 1.2; color: var(--color-muted); }
+.door__body { display: flex; flex-direction: column; gap: 8px; padding: 14px 16px 16px; border-top: 1px solid var(--color-seam); }
+.door__title { font-family: var(--font-display); font-size: 32px; font-weight: 800; line-height: 1; color: var(--color-ink); }
+.door__text { font-family: var(--font-ui); font-size: 15px; font-weight: 500; line-height: 1.4; color: var(--color-muted); }
+.door .button-primary { margin-top: 8px; }
+/* The glimpse: the next activity, as the calendar prints it (yellow only here). */
+.next { display: flex; flex-direction: column; gap: 6px; margin: 6px 0 2px; padding: 12px 0 2px; border-top: 1px dashed var(--color-seam); }
+.next__when { display: flex; align-items: center; gap: 10px; }
+.next__date { font-family: var(--font-display); font-size: 17px; font-weight: 700; letter-spacing: 0.5px; color: var(--color-ink); }
+.next__title { font-family: var(--font-ui); font-size: 17px; font-weight: 600; line-height: 1.3; color: var(--color-ink); }
+.next__org { display: flex; align-items: center; gap: 8px; font-family: var(--font-ui); font-size: 15px; font-weight: 600; color: var(--color-ink); }
+.next__org .sector-mark { width: 10px; height: 10px; border-radius: 2px; background: var(--color-series-1); }
+/* The glimpse of the phone book: a few businesses, name and category joined by dot leaders. */
+.peek { display: flex; flex-direction: column; margin: 6px 0 2px; padding-top: 6px; border-top: 1px dashed var(--color-seam); }
+.peek__row { display: flex; align-items: baseline; gap: 8px; padding: 6px 0; }
+.peek__name { font-family: var(--font-display); font-size: 17px; font-weight: 800; letter-spacing: 0.2px; text-transform: uppercase; white-space: nowrap; color: var(--color-ink); }
+.peek__dots { flex: 1 1 0; min-width: 16px; height: 4px; background: radial-gradient(circle, var(--color-faded) 1.25px, transparent 1.5px) 0 0 / 6px 4px repeat-x; }
+.peek__cat { font-family: var(--font-display); font-size: 15px; font-weight: 600; white-space: nowrap; color: var(--color-muted); }
+</style>
+</head>
+<body>
+<!-- Início (index.html), phone. No tabs on the header card: the two doors are the navigation.
+     The Calendário door prints today's sheet (live) and the next activity (from the agenda);
+     the Comércio door prints the letter A, the count and three businesses drawn at random on
+     each visit (from the commerce sheet). Without data, the doors keep their text and button. -->
+<div class="celular-inicio">
+  <div class="status-bar">
+    <span class="clock">9:41</span>
+    <div class="system-icons">
+      <svg><use href="assets/icons.svg#signal"/></svg>
+      <svg><use href="assets/icons.svg#wifi"/></svg>
+      <svg><use href="assets/icons.svg#battery-full"/></svg>
+    </div>
+  </div>
+  <div class="header">
+    <div class="brand-row">
+      <div class="nos-mark">
+        <div class="nos-mark__binding"></div>
+        <div class="nos-mark__perforation">
+          <div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div>
+        </div>
+        <div class="nos-mark__word-wrap"><span class="nos-mark__word">NOS</span></div>
+      </div>
+      <div class="lockup-text">
+        <span class="city">Dourados/MS</span>
+        <span class="full-name">Núcleo de Organização Social</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- h1 -->
+  <p class="intro">A agenda das organizações e movimentos de Dourados e o comércio da rede, em um só lugar.</p>
+
+  <div class="doors">
+    <!-- article; h2 "Calendário"; the button is the link (calendario.html), stretched over the sheet -->
+    <div class="door">
+      <div class="sheet-top"></div>
+      <div class="door__head">
+        <span class="door__glyph">26</span>
+        <div class="door__names">
+          <span class="door__caps">SEGUNDA-FEIRA</span>
+          <span class="door__sub">Outubro</span>
+        </div>
+        <div class="badge"><span class="badge__label">Hoje</span></div>
+      </div>
+      <div class="door__body">
+        <span class="door__title">Calendário</span>
+        <span class="door__text">Assembleias, atos, feiras e encontros das organizações, com mensagem e panfleto prontos para o WhatsApp.</span>
+        <div class="next">
+          <div class="next__when">
+            <div class="badge" style="background: var(--color-next)"><span class="badge__label" style="color: var(--color-ink)">Próxima</span></div>
+            <span class="next__date">SÁB, 31/10</span>
+          </div>
+          <span class="next__title">Caminhada Ecológica de Dourados</span>
+          <span class="next__org"><span class="sector-mark"></span>SINTEF</span>
+        </div>
+        <div class="button-primary">
+          <span class="button-primary__label">Abrir o calendário</span>
+          <svg class="button-primary__icon"><use href="assets/icons.svg#arrow-right"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="door">
+      <div class="sheet-top"></div>
+      <div class="door__head">
+        <span class="door__glyph">A</span>
+        <div class="door__names">
+          <span class="door__caps">NEGÓCIOS DA REDE</span>
+          <span class="door__sub">17 cadastrados</span>
+        </div>
+      </div>
+      <div class="door__body">
+        <span class="door__title">Comércio</span>
+        <span class="door__text">Comida, serviços, consertos e mais, de Dourados e região. Fale direto com cada negócio.</span>
+        <div class="peek">
+          <div class="peek__row"><span class="peek__name">Formiga Doceira</span><span class="peek__dots"></span><span class="peek__cat">Comida</span></div>
+          <div class="peek__row"><span class="peek__name">Marcelo Eletricista</span><span class="peek__dots"></span><span class="peek__cat">Serviços</span></div>
+          <div class="peek__row"><span class="peek__name">Gab Poke Arts</span><span class="peek__dots"></span><span class="peek__cat">Arte e presentes</span></div>
+        </div>
+        <div class="button-primary">
+          <span class="button-primary__label">Ver o comércio</span>
+          <svg class="button-primary__icon"><use href="assets/icons.svg#arrow-right"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

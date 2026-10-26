@@ -14,6 +14,12 @@
 .row-badges { display: flex; align-items: center; gap: 16px; padding: 16px; flex-shrink: 0; background: var(--color-ground); border-radius: 6px; }
 .row-buttons { display: flex; align-items: center; gap: 12px; padding: 16px; flex-shrink: 0; background: var(--color-ground); border-radius: 6px; }
 .row-sheet { display: flex; align-items: flex-start; gap: 24px; padding: 16px; flex-shrink: 0; background: var(--color-ground); border-radius: 6px; }
+.row-nav { display: flex; align-items: flex-end; gap: 24px; padding: 16px 16px 0; flex-shrink: 0; background: var(--color-brand); border-radius: 6px 6px 0 0; }
+.row-nav-wall { align-self: stretch; height: 16px; margin-top: -28px; background: var(--color-ground); border-radius: 0 0 6px 6px; }
+.row-search { display: flex; align-items: center; gap: 12px; padding: 16px; flex-shrink: 0; background: var(--color-ground); border-radius: 6px; }
+.row-search .search-pill { width: 358px; }
+.row-commerce { display: flex; align-items: flex-start; gap: 24px; padding: 16px; flex-shrink: 0; background: var(--color-ground); border-radius: 6px; }
+.row-commerce .letter-sheet { width: 358px; }
 </style>
 </head>
 <body>
@@ -108,6 +114,77 @@
       </div>
       <div class="icon-button activity-line__share">
         <svg class="icon-button__icon"><use href="assets/icons.svg#share-2"/></svg>
+      </div>
+    </div>
+  </div>
+  <!-- Navigation and Comércio (2026-10-26) -->
+  <div class="row-nav">
+    <div class="site-tabs">
+      <div class="site-tab site-tab--current"><svg class="site-tab__icon"><use href="assets/icons.svg#calendar-days"/></svg><span class="site-tab__label">Calendário</span></div>
+      <div class="site-tab"><svg class="site-tab__icon"><use href="assets/icons.svg#store"/></svg><span class="site-tab__label">Comércio</span></div>
+    </div>
+  </div>
+  <div class="row-nav-wall"></div>
+  <div class="row-search">
+    <div class="search-pill">
+      <svg class="search-pill__icon"><use href="assets/icons.svg#search"/></svg>
+      <span class="search-pill__text">Buscar: bolo, eletricista, celular…</span>
+    </div>
+    <div class="search-pill">
+      <svg class="search-pill__icon"><use href="assets/icons.svg#search"/></svg>
+      <span class="search-pill__text search-pill__text--typed">bolo</span>
+      <div class="search-pill__clear"><svg class="search-pill__clear-icon"><use href="assets/icons.svg#x"/></svg></div>
+    </div>
+  </div>
+  <div class="row-commerce">
+    <div class="letter-sheet">
+      <div class="sheet-top"></div>
+      <div class="letter-sheet__head">
+        <span class="letter-sheet__letter">M</span>
+        <span class="letter-sheet__count">2 negócios</span>
+      </div>
+      <div class="biz">
+        <span class="biz__category">Serviços</span>
+        <div class="biz__main">
+          <span class="biz__name">Marcelo Eletricista</span>
+          <span class="biz__offer">Manutenção elétrica residencial e Predial</span>
+        </div>
+        <div class="biz__share"><svg class="biz__share-icon"><use href="assets/icons.svg#share-2"/></svg></div>
+        <div class="biz__contacts">
+          <div class="contact-row">
+            <span class="contact-row__label">WhatsApp</span>
+            <span class="contact-row__number">(67) 99198-5997</span>
+            <div class="contact-row__call"><svg class="contact-row__call-icon"><use href="assets/icons.svg#phone"/></svg></div>
+          </div>
+          <div class="contact-row">
+            <span class="contact-row__label">Instagram</span>
+            <span class="contact-row__handle">@marceloprado848</span>
+          </div>
+        </div>
+      </div>
+      <div class="biz">
+        <span class="biz__category">Embalagens</span>
+        <div class="biz__main">
+          <span class="biz__name">Masterplast</span>
+          <span class="biz__offer">Sacos de lixo e sacolas plásticas</span>
+        </div>
+        <div class="biz__share"><svg class="biz__share-icon"><use href="assets/icons.svg#share-2"/></svg></div>
+        <div class="biz__contacts">
+          <div class="contact-row">
+            <span class="contact-row__label">WhatsApp</span>
+            <span class="contact-row__number">(67) 99989-1064</span>
+            <div class="contact-row__call"><svg class="contact-row__call-icon"><use href="assets/icons.svg#phone"/></svg></div>
+          </div>
+          <div class="contact-row">
+            <span class="contact-row__label">WhatsApp</span>
+            <span class="contact-row__number">(67) 99876-7722</span>
+            <div class="contact-row__call"><svg class="contact-row__call-icon"><use href="assets/icons.svg#phone"/></svg></div>
+          </div>
+          <div class="contact-row">
+            <span class="contact-row__label">Instagram</span>
+            <span class="contact-row__handle">@masterplast.67</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>

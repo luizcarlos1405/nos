@@ -16,7 +16,7 @@
 .wifi { width: 18px; height: 18px; flex-shrink: 0; color: var(--color-on-ink); }
 .battery-full { width: 18px; height: 18px; flex-shrink: 0; color: var(--color-on-ink); }
 .header { position: relative; display: flex; flex-direction: column; align-items: flex-start; align-self: stretch; flex-shrink: 0; background: var(--color-brand); }
-.brand-row { display: flex; align-items: center; gap: 12px; padding: 6px 16px 12px; align-self: stretch; flex-shrink: 0; }
+.brand-row { display: flex; align-items: center; gap: 12px; padding: 6px 16px 10px; align-self: stretch; flex-shrink: 0; }
 .lockup-text { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; flex-shrink: 0; }
 .city { flex-shrink: 0; font-family: var(--font-display); font-size: 24px; font-weight: 800; line-height: 1.05; white-space: nowrap; color: var(--color-on-ink); }
 .full-name { flex-shrink: 0; font-family: var(--font-ui); font-size: 14px; font-weight: 500; line-height: 1.2; white-space: nowrap; color: var(--color-on-ink); }
@@ -109,6 +109,7 @@
 .line-footer { align-self: stretch; flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 500; line-height: 1.4; color: var(--color-ink); }
 .action-bar { position: relative; display: flex; align-items: center; gap: 8px; padding: 12px 16px; align-self: stretch; flex-shrink: 0; background: var(--color-surface); }
 .action-bar::after { content: ''; position: absolute; inset: -0.5px 0 0 0; border-style: solid; border-width: 1px 0 0 0; border-color: var(--color-seam); pointer-events: none; }
+.site-tabs { padding: 0 12px; }
 </style>
 </head>
 <body>
@@ -135,6 +136,17 @@
       <div class="lockup-text">
         <span class="city">Dourados/MS</span>
         <span class="full-name">Núcleo de Organização Social</span>
+      </div>
+    </div>
+    <div class="site-tabs">
+      <!-- aria-current="page" -->
+      <div class="site-tab site-tab--current">
+        <svg class="site-tab__icon"><use href="assets/icons.svg#calendar-days"/></svg>
+        <span class="site-tab__label">Calendário</span>
+      </div>
+      <div class="site-tab">
+        <svg class="site-tab__icon"><use href="assets/icons.svg#store"/></svg>
+        <span class="site-tab__label">Comércio</span>
       </div>
     </div>
   </div>

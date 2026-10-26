@@ -81,3 +81,58 @@
 .activity-line__range-row { display: flex; align-items: center; gap: 6px; align-self: stretch; flex-shrink: 0; }
 .activity-line__range-icon { width: 16px; height: 16px; flex-shrink: 0; color: var(--color-muted); }
 .activity-line__range { flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 500; white-space: nowrap; color: var(--color-muted); }
+
+/* Sheet Top: a sheet's binding strip and perforation row, drawn the way the site draws them
+   (.sheet::before in css/style.css). The designs made after the Pencil conversion use it instead
+   of the dot-by-dot rows of .day-sheet. */
+.sheet-top { align-self: stretch; height: 13px; flex-shrink: 0; background: linear-gradient(var(--color-brand), var(--color-brand)) top / 100% 4px no-repeat, radial-gradient(circle, var(--color-seam) 1.5px, transparent 1.75px) 12px 8px / 10px 3px repeat-x; }
+
+/* Site Tabs: the folder tabs at the foot of the red header card, one per page (Calendário,
+   Comércio). The page you are on is cut into the wall: its tab takes the wall's colour and runs
+   into the page below. The home (Início) has no tabs: its two doors are the navigation. */
+.site-tabs { display: flex; align-items: flex-end; gap: 4px; flex-shrink: 0; }
+.site-tab { display: flex; align-items: center; gap: 8px; padding: 0 16px; height: 44px; flex-shrink: 0; border-radius: 6px 6px 0 0; color: var(--color-on-ink); }
+.site-tab__icon { width: 18px; height: 18px; flex-shrink: 0; }
+.site-tab__label { flex-shrink: 0; font-family: var(--font-ui); font-size: 16px; font-weight: 600; white-space: nowrap; }
+.site-tab--current { background: var(--color-ground); color: var(--color-ink); }
+.site-tab--current .site-tab__label { font-weight: 700; }
+
+/* Search Pill: the search field of Comércio, a filter control like the organization select. */
+.search-pill { display: flex; align-items: center; gap: 10px; padding: 0 6px 0 16px; height: 48px; flex-shrink: 0; background: var(--color-surface); border-radius: 24px; outline: 1.5px solid var(--color-ink); outline-offset: -0.75px; }
+.search-pill__icon { width: 20px; height: 20px; flex-shrink: 0; color: var(--color-ink); }
+.search-pill__text { min-width: 0; flex: 1 1 0; overflow: hidden; font-family: var(--font-ui); font-size: 16px; font-weight: 500; white-space: nowrap; text-overflow: ellipsis; color: var(--color-muted); }
+.search-pill__text--typed { font-weight: 600; color: var(--color-ink); }
+.search-pill__clear { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; flex-shrink: 0; color: var(--color-ink); }
+.search-pill__clear-icon { width: 18px; height: 18px; }
+
+/* Letter Sheet: a sheet of the network's phone book (Comércio). The head prints its letter in the
+   folio column, where a day sheet prints its day; the businesses are printed under it. */
+.letter-sheet { display: flex; flex-direction: column; align-self: stretch; flex-shrink: 0; background: var(--color-surface); border: 1px solid var(--color-seam); border-top: 0; border-radius: 2px 2px 6px 6px; overflow: hidden; }
+.letter-sheet > .sheet-top { margin: 0 -1px; }
+.letter-sheet__head { display: flex; align-items: center; gap: 12px; padding: 4px 12px 12px 16px; }
+.letter-sheet__letter { width: 72px; flex-shrink: 0; font-family: var(--font-display); font-size: 58px; font-weight: 800; line-height: 0.9; letter-spacing: -0.5px; color: var(--color-ink); }
+.letter-sheet__count { font-family: var(--font-ui); font-size: 15px; font-weight: 500; line-height: 1.2; color: var(--color-muted); }
+
+/* Business: one business on its letter sheet. Folio column: its category, then the label of each
+   way to reach it; text column: name (printed like a shop's card), what it offers, the values. */
+.biz { position: relative; display: grid; grid-template-columns: 72px minmax(0, 1fr) 44px; column-gap: 12px; align-items: start; padding: 14px 6px 6px 16px; background: var(--color-surface); }
+.biz::after { content: ''; position: absolute; inset: -0.5px 0 0 0; border-style: solid; border-width: 1px 0 0 0; border-color: var(--color-seam); pointer-events: none; }
+.biz__category { grid-column: 1; grid-row: 1; padding-top: 3px; font-family: var(--font-display); font-size: 15px; font-weight: 600; line-height: 1.15; color: var(--color-muted); }
+.biz__main { grid-column: 2; grid-row: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; min-width: 0; }
+.biz__name { align-self: stretch; font-family: var(--font-display); font-size: 22px; font-weight: 800; line-height: 1.05; letter-spacing: 0.2px; text-transform: uppercase; color: var(--color-ink); }
+.biz__subtitle { align-self: stretch; font-family: var(--font-ui); font-size: 15px; font-weight: 600; line-height: 1.3; color: var(--color-muted); }
+.biz__offer { align-self: stretch; margin-top: 2px; font-family: var(--font-ui); font-size: 15px; font-weight: 500; line-height: 1.4; color: var(--color-ink); }
+.biz__share { grid-column: 3; grid-row: 1; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; margin-top: -10px; color: var(--color-ink); }
+.biz__share-icon { width: 20px; height: 20px; flex-shrink: 0; }
+.biz__contacts { grid-column: 1 / -1; display: flex; flex-direction: column; align-self: stretch; margin-top: 6px; }
+
+/* Contact Row: one way to reach a business. The label sits in the folio column (the calendar's
+   type-label voice), the value in the text column: a number in tabular figures (WhatsApp, with the
+   phone glyph to call), a handle (Instagram), a link, or the business's own words. */
+.contact-row { display: grid; grid-template-columns: 72px minmax(0, 1fr) 44px; column-gap: 12px; align-items: center; min-height: 44px; }
+.contact-row__label { font-family: var(--font-display); font-size: 15px; font-weight: 600; line-height: 1.15; color: var(--color-muted); }
+.contact-row__number { justify-self: start; font-family: var(--font-display); font-size: 21px; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--color-ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.contact-row__handle { justify-self: start; min-width: 0; overflow-wrap: anywhere; font-family: var(--font-ui); font-size: 15px; font-weight: 600; line-height: 1.3; color: var(--color-ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.contact-row__text { min-width: 0; padding: 10px 0; font-family: var(--font-ui); font-size: 15px; font-weight: 500; line-height: 1.35; color: var(--color-ink); }
+.contact-row__call { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; color: var(--color-ink); }
+.contact-row__call-icon { width: 20px; height: 20px; flex-shrink: 0; }
