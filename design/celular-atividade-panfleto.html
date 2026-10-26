@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Celular · Atividade · Panfleto</title>
+<link rel="stylesheet" href="../css/theme.css">
+<link rel="stylesheet" href="assets/design.css">
+<link rel="stylesheet" href="assets/components.css">
+<style>
+.celular-atividade-panfleto { position: relative; display: flex; flex-direction: column; align-items: flex-start; width: 390px; height: 844px; background: var(--color-ground); overflow: hidden; }
+.status-bar { position: relative; display: flex; align-items: center; justify-content: space-between; padding: 4px 28px 0 32px; align-self: stretch; height: 47px; flex-shrink: 0; background: var(--color-brand); }
+.clock { flex-shrink: 0; font-family: Inter, system-ui, sans-serif; font-size: 16px; font-weight: 600; white-space: nowrap; color: var(--color-on-ink); }
+.system-icons { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.signal { width: 18px; height: 18px; flex-shrink: 0; color: var(--color-on-ink); }
+.wifi { width: 18px; height: 18px; flex-shrink: 0; color: var(--color-on-ink); }
+.battery-full { width: 18px; height: 18px; flex-shrink: 0; color: var(--color-on-ink); }
+.header { position: relative; display: flex; flex-direction: column; align-items: flex-start; align-self: stretch; flex-shrink: 0; background: var(--color-brand); }
+.brand-row { display: flex; align-items: center; gap: 12px; padding: 6px 16px 12px; align-self: stretch; flex-shrink: 0; }
+.lockup-text { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; flex-shrink: 0; }
+.city { flex-shrink: 0; font-family: var(--font-display); font-size: 24px; font-weight: 800; line-height: 1.05; white-space: nowrap; color: var(--color-on-ink); }
+.full-name { flex-shrink: 0; font-family: var(--font-ui); font-size: 14px; font-weight: 500; line-height: 1.2; white-space: nowrap; color: var(--color-on-ink); }
+.filter-bar { position: relative; display: flex; align-items: center; gap: 8px; padding: 12px 16px; align-self: stretch; flex-shrink: 0; }
+.filter-divider { width: 1px; height: 24px; flex-shrink: 0; background: var(--color-seam); }
+.view-tabs { position: relative; display: flex; flex-direction: column; align-items: flex-start; padding: 0 16px 12px; align-self: stretch; flex-shrink: 0; }
+.tab-row { display: flex; align-items: flex-start; align-self: stretch; flex-shrink: 0; }
+.tab-agenda { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; flex: 1 1 0; }
+.tab-label { display: flex; align-items: center; justify-content: center; gap: 8px; align-self: stretch; height: 45px; flex-shrink: 0; }
+.tab-icon { width: 18px; height: 18px; flex-shrink: 0; color: var(--color-ink); }
+.tab-text { flex-shrink: 0; font-family: var(--font-ui); font-size: 16px; font-weight: 700; white-space: nowrap; color: var(--color-ink); }
+.tab-indicator { align-self: stretch; height: 4px; flex-shrink: 0; background: var(--color-ink); border-radius: 2px 2px 0 0; }
+.tab-mes { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; flex: 1 1 0; }
+.tab-icon-2 { width: 18px; height: 18px; flex-shrink: 0; color: var(--color-muted); }
+.tab-text-2 { flex-shrink: 0; font-family: var(--font-ui); font-size: 16px; font-weight: 500; white-space: nowrap; color: var(--color-muted); }
+.tab-indicator-2 { align-self: stretch; height: 4px; flex-shrink: 0; background: transparent; border-radius: 2px 2px 0 0; }
+.tab-seam { align-self: stretch; height: 1px; flex-shrink: 0; background: var(--color-seam); }
+.pad { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 0 16px 24px; align-self: stretch; flex-shrink: 0; }
+.past-toggle { display: flex; align-items: center; gap: 8px; padding: 0 4px; align-self: stretch; height: 40px; flex-shrink: 0; }
+.past-icon { width: 18px; height: 18px; flex-shrink: 0; color: var(--color-muted); }
+.past-label { flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 600; white-space: nowrap; color: var(--color-muted); }
+.empty-day { position: relative; display: flex; align-items: flex-start; padding: 12px 16px 16px 92px; align-self: stretch; flex-shrink: 0; }
+.empty-day::after { content: ''; position: absolute; inset: -0.5px 0 0 0; border-style: solid; border-width: 1px 0 0 0; border-color: var(--color-seam); pointer-events: none; }
+.empty-label { flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 500; white-space: nowrap; color: var(--color-muted); }
+.scrim { position: absolute; width: 390px; height: 797px; background: #1C1C1E8C; }
+.activity-sheet { position: absolute; display: flex; flex-direction: column; align-items: flex-start; width: 390px; height: 740px; background: var(--color-surface); border-radius: 14px 14px 0 0; box-shadow: 0 -2px 16px #1C1C1E29; overflow: hidden; }
+.sheet-header { display: flex; flex-direction: column; align-items: flex-start; align-self: stretch; flex-shrink: 0; }
+.grabber-zone { display: flex; align-items: flex-start; justify-content: center; padding: 6px 0 0; align-self: stretch; height: 16px; flex-shrink: 0; }
+.grabber { width: 36px; height: 4px; flex-shrink: 0; background: var(--color-seam); border-radius: 2px; }
+.head-row { display: flex; align-items: center; gap: 12px; padding: 0 4px 8px 16px; align-self: stretch; flex-shrink: 0; }
+.day-numeral { flex-shrink: 0; font-family: var(--font-display); font-size: 44px; font-weight: 800; line-height: 0.9; letter-spacing: -0.5px; white-space: nowrap; color: var(--color-brand); }
+.day-text { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; min-width: 0; flex: 1 1 0; }
+.weekday { flex-shrink: 0; font-family: var(--font-display); font-size: 16px; font-weight: 700; line-height: 1.1; letter-spacing: 1.2px; white-space: nowrap; color: var(--color-brand); }
+.month-time { flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 600; line-height: 1.2; white-space: nowrap; color: var(--color-ink); }
+.head-seam { align-self: stretch; height: 1px; flex-shrink: 0; background: var(--color-seam); }
+.title-block { display: flex; align-items: flex-start; padding: 12px 16px 8px; align-self: stretch; flex-shrink: 0; }
+.title { min-width: 0; flex: 1 1 0; font-family: var(--font-ui); font-size: 24px; font-weight: 700; line-height: 1.2; color: var(--color-ink); }
+.body { display: flex; flex-direction: column; align-items: flex-start; padding: 0 16px 8px; align-self: stretch; min-height: 0; flex: 1 1 0; overflow: hidden; }
+.share-section { display: flex; flex-direction: column; align-items: flex-start; align-self: stretch; flex-shrink: 0; }
+.segmented-zone { display: flex; flex-direction: column; align-items: flex-start; padding: 4px 0 8px; align-self: stretch; flex-shrink: 0; background: var(--color-surface); }
+.segmented-control { display: flex; align-items: flex-start; align-self: stretch; height: 44px; flex-shrink: 0; border-radius: 4px; outline: 1px solid var(--color-ink); outline-offset: -0.5px; overflow: hidden; }
+.segment-mensagem { display: flex; align-items: center; justify-content: center; gap: 8px; min-width: 0; align-self: stretch; flex: 1 1 0; }
+.segment-icon { width: 18px; height: 18px; flex-shrink: 0; color: var(--color-ink); }
+.segment-label { flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 500; white-space: nowrap; color: var(--color-ink); }
+.segment-panfleto { display: flex; align-items: center; justify-content: center; gap: 8px; min-width: 0; align-self: stretch; flex: 1 1 0; background: var(--color-ink); }
+.segment-icon-2 { width: 18px; height: 18px; flex-shrink: 0; color: var(--color-on-ink); }
+.segment-label-2 { flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 600; white-space: nowrap; color: var(--color-on-ink); }
+.style-picker { display: flex; align-items: center; gap: 8px; align-self: stretch; flex-shrink: 0; }
+.style-select { display: flex; align-items: center; gap: 8px; padding: 0 14px 0 18px; min-width: 0; height: 44px; flex: 1 1 0; background: var(--color-surface); border-radius: 22px; outline: 1px solid var(--color-ink); outline-offset: -0.5px; }
+.style-name { min-width: 0; flex: 1 1 0; font-family: var(--font-ui); font-size: 15px; font-weight: 600; color: var(--color-ink); }
+.style-count { flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 500; white-space: nowrap; color: var(--color-muted); }
+.style-chevron { width: 16px; height: 16px; flex-shrink: 0; color: var(--color-ink); }
+.preview-wrap { display: flex; align-items: flex-start; justify-content: center; padding: 8px 0 0; align-self: stretch; flex-shrink: 0; }
+.flyer-preview { display: flex; flex-direction: column; align-items: flex-start; width: 312px; height: 390px; flex-shrink: 0; background: var(--color-ground); border-radius: 6px; outline: 1px solid var(--color-seam); outline-offset: -0.5px; overflow: hidden; }
+.header-card { display: flex; align-items: center; gap: 8.09px; padding: 12.71px 17.33px; align-self: stretch; flex-shrink: 0; background: var(--color-brand); }
+.nos-mark-large { display: flex; flex-direction: column; align-items: flex-start; width: 26.58px; height: 30.62px; flex-shrink: 0; background: var(--color-surface); border-radius: 1.44px 1.44px 2.02px 2.02px; box-shadow: 0 0.58px 1.73px #1C1C1E40; overflow: hidden; }
+.mark-binding { align-self: stretch; height: 3.47px; flex-shrink: 0; background: var(--color-ink); }
+.mark-perforation { display: flex; align-items: flex-start; justify-content: center; gap: 1.73px; padding: 1.16px 2.31px 0; align-self: stretch; height: 3.47px; flex-shrink: 0; }
+.perf-dot { width: 1.16px; height: 1.16px; flex-shrink: 0; background: var(--color-faded); border-radius: 50%; }
+.mark-word-wrap { display: flex; align-items: center; justify-content: center; padding: 0 0 1.73px; align-self: stretch; min-height: 0; flex: 1 1 0; }
+.mark-word { flex-shrink: 0; font-family: var(--font-display); font-size: 13.87px; font-weight: 800; line-height: 1; letter-spacing: 0.17px; white-space: nowrap; color: var(--color-ink); }
+.lockup-text-2 { display: flex; flex-direction: column; align-items: flex-start; gap: 1.73px; flex-shrink: 0; }
+.name { flex-shrink: 0; font-family: var(--font-display); font-size: 17.91px; font-weight: 800; line-height: 1; white-space: nowrap; color: var(--color-on-ink); }
+.full-name-2 { flex-shrink: 0; font-family: var(--font-ui); font-size: 8.09px; font-weight: 500; line-height: 1.2; white-space: nowrap; color: var(--color-on-ink); }
+.wall { display: flex; flex-direction: column; align-items: flex-start; padding: 11.56px 17.33px 0; align-self: stretch; min-height: 0; flex: 1 1 0; }
+.day-sheet-2 { display: flex; flex-direction: column; align-items: flex-start; align-self: stretch; min-height: 0; flex: 1 1 0; background: var(--color-surface); border-radius: 1.16px 1.16px 3.47px 3.47px; outline: 0.58px solid var(--color-seam); outline-offset: -0.29px; overflow: hidden; }
+.sheet-binding { align-self: stretch; height: 3.47px; flex-shrink: 0; background: var(--color-brand); }
+.sheet-perforation { display: flex; align-items: flex-start; justify-content: space-between; padding: 3.47px 9.24px 0; align-self: stretch; height: 9.24px; flex-shrink: 0; }
+.perf-dot-2 { width: 2.31px; height: 2.31px; flex-shrink: 0; background: var(--color-seam); border-radius: 50%; }
+.sheet-head { display: flex; align-items: center; gap: 11.56px; padding: 0 13.87px 16.76px; align-self: stretch; min-height: 0; flex: 1 1 0; }
+.day-numeral-2 { flex-shrink: 0; font-family: var(--font-display); font-size: 132.89px; font-weight: 800; line-height: 0.8; letter-spacing: -1.73px; white-space: nowrap; color: var(--color-brand); }
+.day-text-2 { display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; padding: 9.24px 0 0; min-width: 0; height: 106.31px; flex: 1 1 0; }
+.date-group { display: flex; flex-direction: column; align-items: flex-start; gap: 2.31px; flex-shrink: 0; }
+.weekday-2 { flex-shrink: 0; font-family: var(--font-display); font-size: 20.22px; font-weight: 800; line-height: 1; letter-spacing: 0.58px; white-space: nowrap; color: var(--color-brand); }
+.month-year { flex-shrink: 0; font-family: var(--font-display); font-size: 11.56px; font-weight: 700; line-height: 1.1; letter-spacing: 0.87px; white-space: nowrap; color: var(--color-ink); }
+.time { flex-shrink: 0; font-family: var(--font-display); font-size: 34.67px; font-weight: 800; line-height: 0.8; letter-spacing: -0.29px; white-space: nowrap; color: var(--color-ink); }
+.head-seam-2 { align-self: stretch; height: 0.58px; flex-shrink: 0; background: var(--color-seam); }
+.sheet-body { display: flex; flex-direction: column; align-items: flex-start; gap: 10.4px; padding: 12.71px 13.87px 13.87px; align-self: stretch; flex-shrink: 0; }
+.title-2 { align-self: stretch; flex-shrink: 0; font-family: var(--font-ui); font-size: 22.53px; font-weight: 700; line-height: 1.08; letter-spacing: -0.29px; color: var(--color-ink); }
+.meta { display: flex; flex-direction: column; align-items: flex-start; gap: 6.93px; align-self: stretch; flex-shrink: 0; }
+.who-where { display: flex; flex-direction: column; align-items: flex-start; gap: 4.04px; align-self: stretch; flex-shrink: 0; }
+.org-row { display: flex; align-items: flex-start; gap: 4.62px; align-self: stretch; flex-shrink: 0; }
+.sector-mark-box { display: flex; align-items: center; justify-content: center; width: 10.4px; height: 13.87px; flex-shrink: 0; }
+.sector-mark { width: 8.09px; height: 8.09px; flex-shrink: 0; background: var(--color-series-1); border-radius: 1.16px; }
+.org { min-width: 0; flex: 1 1 0; font-family: var(--font-ui); font-size: 11.56px; font-weight: 600; line-height: 1.2; color: var(--color-ink); }
+.place-row { display: flex; align-items: flex-start; gap: 4.62px; align-self: stretch; flex-shrink: 0; }
+.place-icon-box { display: flex; align-items: center; justify-content: center; width: 10.4px; height: 13.29px; flex-shrink: 0; }
+.place-icon { width: 10.4px; height: 10.4px; flex-shrink: 0; color: var(--color-muted); }
+.place { min-width: 0; flex: 1 1 0; font-family: var(--font-ui); font-size: 10.98px; font-weight: 500; line-height: 1.2; color: var(--color-muted); }
+.type-tag { display: flex; align-items: center; padding: 1.73px 4.62px; flex-shrink: 0; background: var(--color-ink); border-radius: 1.73px; }
+.type { flex-shrink: 0; font-family: var(--font-display); font-size: 9.82px; font-weight: 700; line-height: 1.2; letter-spacing: 0.14px; white-space: nowrap; color: var(--color-on-ink); }
+.footer { display: flex; align-items: flex-start; padding: 8.09px 17.33px 12.71px; align-self: stretch; flex-shrink: 0; }
+.footer-line { flex-shrink: 0; font-family: var(--font-ui); font-size: 7.51px; font-weight: 500; line-height: 1.2; white-space: nowrap; color: var(--color-muted); }
+.hint-wrap { display: flex; align-items: flex-start; justify-content: center; padding: 8px 0 0; align-self: stretch; flex-shrink: 0; }
+.hint { width: 250px; flex-shrink: 0; font-family: var(--font-ui); font-size: 14px; font-weight: 500; line-height: 1.25; text-align: center; color: var(--color-muted); }
+.action-bar { position: relative; display: flex; align-items: center; gap: 8px; padding: 12px 16px; align-self: stretch; flex-shrink: 0; background: var(--color-surface); }
+.action-bar::after { content: ''; position: absolute; inset: -0.5px 0 0 0; border-style: solid; border-width: 1px 0 0 0; border-color: var(--color-seam); pointer-events: none; }
+</style>
+</head>
+<body>
+<div class="celular-atividade-panfleto">
+  <div class="status-bar">
+    <span class="clock">9:41</span>
+    <div class="system-icons">
+      <svg class="signal"><use href="assets/icons.svg#signal"/></svg>
+      <svg class="wifi"><use href="assets/icons.svg#wifi"/></svg>
+      <svg class="battery-full"><use href="assets/icons.svg#battery-full"/></svg>
+    </div>
+  </div>
+  <div class="header">
+    <div class="brand-row">
+      <div class="nos-mark">
+        <div class="nos-mark__binding"></div>
+        <div class="nos-mark__perforation">
+          <div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div>
+        </div>
+        <div class="nos-mark__word-wrap">
+          <span class="nos-mark__word">NOS</span>
+        </div>
+      </div>
+      <div class="lockup-text">
+        <span class="city">Dourados/MS</span>
+        <span class="full-name">Núcleo de Organização Social</span>
+      </div>
+    </div>
+  </div>
+  <div class="filter-bar">
+    <div class="org-select">
+      <svg class="org-select__icon"><use href="assets/icons.svg#users"/></svg>
+      <span class="org-select__label">Organização</span>
+      <svg class="org-select__chevron"><use href="assets/icons.svg#chevron-down"/></svg>
+    </div>
+    <div class="filter-divider"></div>
+    <div class="chip" style="background: var(--color-ink); outline: 1px solid var(--color-ink)">
+      <span class="chip__label" style="font-weight: 600; color: var(--color-on-ink)">Todos</span>
+    </div>
+    <div class="chip">
+      <div class="chip__mark"></div>
+      <span class="chip__label">Sindicatos</span>
+    </div>
+    <div class="chip">
+      <div class="chip__mark" style="background: var(--color-series-3)"></div>
+      <span class="chip__label">Movimentos sociais</span>
+    </div>
+    <div class="chip">
+      <div class="chip__mark" style="background: var(--color-series-4)"></div>
+      <span class="chip__label">Estudantil e acadêmico</span>
+    </div>
+    <div class="chip">
+      <div class="chip__mark" style="background: var(--color-series-2)"></div>
+      <span class="chip__label">Indígena, rural e terra</span>
+    </div>
+    <div class="chip">
+      <div class="chip__mark" style="background: var(--color-series-5)"></div>
+      <span class="chip__label">Conselhos e associações</span>
+    </div>
+  </div>
+  <div class="view-tabs">
+    <div class="tab-row">
+      <div class="tab-agenda">
+        <div class="tab-label">
+          <svg class="tab-icon"><use href="assets/icons.svg#list"/></svg>
+          <span class="tab-text">Agenda</span>
+        </div>
+        <div class="tab-indicator"></div>
+      </div>
+      <div class="tab-mes">
+        <div class="tab-label">
+          <svg class="tab-icon-2"><use href="assets/icons.svg#calendar-days"/></svg>
+          <span class="tab-text-2">Mês</span>
+        </div>
+        <div class="tab-indicator-2"></div>
+      </div>
+    </div>
+    <div class="tab-seam"></div>
+  </div>
+  <div class="pad">
+    <div class="past-toggle">
+      <svg class="past-icon"><use href="assets/icons.svg#chevron-up"/></svg>
+      <span class="past-label">Ver 20 atividades anteriores</span>
+    </div>
+    <div class="day-sheet" style="align-self: stretch; width: auto">
+      <div class="day-sheet__binding"></div>
+      <div class="day-sheet__perforation">
+        <div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div>
+      </div>
+      <div class="day-sheet__head">
+        <span class="day-sheet__numeral">15</span>
+        <div class="day-sheet__text">
+          <span class="day-sheet__weekday">QUINTA-FEIRA</span>
+          <span class="day-sheet__month">Outubro</span>
+        </div>
+        <div class="badge day-sheet__status-badge">
+          <span class="badge__label">Hoje</span>
+        </div>
+      </div>
+      <div class="day-sheet__lines" style="height: auto">
+        <div class="empty-day">
+          <span class="empty-label">Nenhuma atividade hoje</span>
+        </div>
+      </div>
+    </div>
+    <div class="day-sheet" style="align-self: stretch; width: auto">
+      <div class="day-sheet__binding"></div>
+      <div class="day-sheet__perforation">
+        <div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div>
+      </div>
+      <div class="day-sheet__head">
+        <span class="day-sheet__numeral">16</span>
+        <div class="day-sheet__text">
+          <span class="day-sheet__weekday">SEXTA-FEIRA</span>
+          <span class="day-sheet__month">Outubro</span>
+        </div>
+        <div class="badge day-sheet__status-badge" style="background: var(--color-next)">
+          <span class="badge__label" style="color: var(--color-ink)">Próxima</span>
+        </div>
+      </div>
+      <div class="day-sheet__lines" style="height: auto">
+        <div class="activity-line" style="align-self: stretch; width: auto">
+          <div class="activity-line__time-col">
+            <div class="activity-line__time-plate">
+              <span class="activity-line__time">—</span>
+            </div>
+            <span class="activity-line__type">Prazo</span>
+          </div>
+          <div class="activity-line__body">
+            <span class="activity-line__title">Inscrições para a Caminhada Ecológica e o Desafio Ecológico</span>
+            <div class="activity-line__org-row">
+              <div class="activity-line__sector-mark"></div>
+              <span class="activity-line__org">SINTEF, UFGD</span>
+            </div>
+            <div class="activity-line__range-row">
+              <svg class="activity-line__range-icon"><use href="assets/icons.svg#calendar-range"/></svg>
+              <span class="activity-line__range">até sáb, 24/10</span>
+            </div>
+          </div>
+          <div class="icon-button activity-line__share">
+            <svg class="icon-button__icon"><use href="assets/icons.svg#share-2"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="day-sheet" style="align-self: stretch; width: auto">
+      <div class="day-sheet__binding"></div>
+      <div class="day-sheet__perforation">
+        <div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div>
+      </div>
+      <div class="day-sheet__head">
+        <span class="day-sheet__numeral" style="color: var(--color-brand)">18</span>
+        <div class="day-sheet__text">
+          <span class="day-sheet__weekday" style="color: var(--color-brand)">DOMINGO</span>
+          <span class="day-sheet__month">Outubro</span>
+        </div>
+        <span class="day-sheet__countdown">em 3 dias</span>
+      </div>
+      <div class="day-sheet__lines" style="height: auto">
+        <div class="activity-line" style="align-self: stretch; width: auto">
+          <div class="activity-line__time-col">
+            <div class="activity-line__time-plate">
+              <span class="activity-line__time">11h</span>
+            </div>
+            <span class="activity-line__type">Festa</span>
+          </div>
+          <div class="activity-line__body">
+            <span class="activity-line__title">Almoço dos Educadores</span>
+            <div class="activity-line__org-row">
+              <div class="activity-line__sector-mark"></div>
+              <span class="activity-line__org">SIMTED</span>
+            </div>
+            <div class="activity-line__place-row">
+              <svg class="activity-line__place-icon"><use href="assets/icons.svg#map-pin"/></svg>
+              <span class="activity-line__place">Chácara do SIMTED</span>
+            </div>
+          </div>
+          <div class="icon-button activity-line__share">
+            <svg class="icon-button__icon"><use href="assets/icons.svg#share-2"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="day-sheet" style="align-self: stretch; width: auto">
+      <div class="day-sheet__binding"></div>
+      <div class="day-sheet__perforation">
+        <div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div>
+      </div>
+      <div class="day-sheet__head">
+        <span class="day-sheet__numeral">20</span>
+        <div class="day-sheet__text">
+          <span class="day-sheet__weekday">TERÇA-FEIRA</span>
+          <span class="day-sheet__month">Outubro</span>
+        </div>
+        <span class="day-sheet__countdown">em 5 dias</span>
+      </div>
+      <div class="day-sheet__lines" style="height: auto">
+        <div class="activity-line" style="align-self: stretch; width: auto">
+          <div class="activity-line__time-col">
+            <div class="activity-line__time-plate">
+              <span class="activity-line__time">—</span>
+            </div>
+            <span class="activity-line__type">Prazo</span>
+          </div>
+          <div class="activity-line__body">
+            <span class="activity-line__title">Fim das inscrições de expositores da Feira Afro Zumbi Vive</span>
+            <div class="activity-line__org-row">
+              <div class="activity-line__sector-mark" style="background: var(--color-series-3)"></div>
+              <span class="activity-line__org">Quintal de Palmares</span>
+            </div>
+            <div class="activity-line__place-row">
+              <svg class="activity-line__place-icon"><use href="assets/icons.svg#globe"/></svg>
+              <span class="activity-line__place">Online</span>
+            </div>
+          </div>
+          <div class="icon-button activity-line__share">
+            <svg class="icon-button__icon"><use href="assets/icons.svg#share-2"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="day-sheet" style="align-self: stretch; width: auto">
+      <div class="day-sheet__binding"></div>
+      <div class="day-sheet__perforation">
+        <div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div><div class="day-sheet__perf-dot"></div>
+      </div>
+      <div class="day-sheet__head">
+        <span class="day-sheet__numeral">31</span>
+        <div class="day-sheet__text">
+          <span class="day-sheet__weekday">SÁBADO</span>
+          <span class="day-sheet__month">Outubro</span>
+        </div>
+        <span class="day-sheet__countdown">em 16 dias</span>
+      </div>
+      <div class="day-sheet__lines" style="height: auto">
+        <div class="activity-line" style="align-self: stretch; width: auto">
+          <div class="activity-line__time-col">
+            <div class="activity-line__time-plate">
+              <span class="activity-line__time">—</span>
+            </div>
+            <span class="activity-line__type">Caminhada</span>
+          </div>
+          <div class="activity-line__body">
+            <span class="activity-line__title">Caminhada Ecológica de Dourados</span>
+            <div class="activity-line__org-row">
+              <div class="activity-line__sector-mark"></div>
+              <span class="activity-line__org">SINTEF, UFGD</span>
+            </div>
+            <div class="activity-line__place-row">
+              <svg class="activity-line__place-icon"><use href="assets/icons.svg#map-pin"/></svg>
+              <span class="activity-line__place">AGECOLD (largada e exposição) e Parque Arnulpho Fioravante</span>
+            </div>
+          </div>
+          <div class="icon-button activity-line__share">
+            <svg class="icon-button__icon"><use href="assets/icons.svg#share-2"/></svg>
+          </div>
+        </div>
+        <div class="activity-line" style="align-self: stretch; width: auto">
+          <div class="activity-line__time-col">
+            <div class="activity-line__time-plate">
+              <span class="activity-line__time">21h</span>
+            </div>
+            <span class="activity-line__type">Festa</span>
+          </div>
+          <div class="activity-line__body">
+            <span class="activity-line__title">Baile dos Educadores – Festa Tropical</span>
+            <div class="activity-line__org-row">
+              <div class="activity-line__sector-mark"></div>
+              <span class="activity-line__org">SIMTED</span>
+            </div>
+            <div class="activity-line__place-row">
+              <svg class="activity-line__place-icon"><use href="assets/icons.svg#map-pin"/></svg>
+              <span class="activity-line__place">Chácara do SIMTED</span>
+            </div>
+          </div>
+          <div class="icon-button activity-line__share">
+            <svg class="icon-button__icon"><use href="assets/icons.svg#share-2"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="scrim" style="left: 0; top: 47px"></div>
+  <!-- Activity Sheet: Bottom sheet (role=dialog, aria-modal) opened from an activity line. top:104px on 390x844 (just under the header brand row), bottom:0, radius 14 on top. Fixed header (grabber, day head, title) + body overflow-y:auto + sticky action bar. Dismiss: close button, tap scrim, drag down, Esc. Scrim #1C1C1E8C covers everything below the status bar. -->
+  <div class="activity-sheet" style="left: 0; top: 104px">
+    <!-- Sheet Header (fixed) -->
+    <div class="sheet-header">
+      <div class="grabber-zone">
+        <div class="grabber"></div>
+      </div>
+      <div class="head-row">
+        <span class="day-numeral">18</span>
+        <div class="day-text">
+          <span class="weekday">DOMINGO</span>
+          <span class="month-time">Outubro · 11h</span>
+        </div>
+        <!-- Close (aria-label Fechar) -->
+        <div class="icon-button">
+          <svg class="icon-button__icon"><use href="assets/icons.svg#x"/></svg>
+        </div>
+      </div>
+      <div class="head-seam"></div>
+      <div class="title-block">
+        <span class="title">Almoço dos Educadores</span>
+      </div>
+    </div>
+    <!-- Body (scrolls; facts + description scrolled up out of view) -->
+    <div class="body">
+      <div class="share-section">
+        <!-- Segmented Zone (sticky, stuck): role=tablist with 2 tabs (Mensagem | Panfleto). position:sticky; top:0 inside the scrolling body, background surface. Switching tab swaps the preview and the action bar; choosing Panfleto scrolls the body so this bar sticks right under the title. -->
+        <div class="segmented-zone">
+          <div class="segmented-control">
+            <div class="segment-mensagem">
+              <svg class="segment-icon"><use href="assets/icons.svg#message-square-text"/></svg>
+              <span class="segment-label">Mensagem</span>
+            </div>
+            <!-- Segment Panfleto (active) -->
+            <div class="segment-panfleto">
+              <svg class="segment-icon-2"><use href="assets/icons.svg#image"/></svg>
+              <span class="segment-label-2">Panfleto</span>
+            </div>
+          </div>
+        </div>
+        <!-- Style Picker: Style picker: cycles the flyer styles (1/4 here). Arrows wrap around; the pill select opens the full list; the count shows the position. -->
+        <div class="style-picker">
+          <!-- Estilo anterior (aria-label Estilo anterior) -->
+          <div class="icon-button">
+            <svg class="icon-button__icon"><use href="assets/icons.svg#chevron-left"/></svg>
+          </div>
+          <!-- Style Select (pill select, opens list of 4 styles) -->
+          <div class="style-select">
+            <span class="style-name">Folha do dia</span>
+            <span class="style-count">1/3</span>
+            <svg class="style-chevron"><use href="assets/icons.svg#chevron-down"/></svg>
+          </div>
+          <!-- Próximo estilo (aria-label Próximo estilo) -->
+          <div class="icon-button">
+            <svg class="icon-button__icon"><use href="assets/icons.svg#chevron-right"/></svg>
+          </div>
+        </div>
+        <div class="preview-wrap">
+          <!-- Flyer Preview · Folha do dia (4:5, scales to fit): img of the generated 1080x1350 PNG for the selected style. aspect-ratio 4/5; width = min(100%, remaining body height x 0.8), centered: 312x390 on 390x844, full 358x448 on taller phones. Miniature here is a 0.289 scale copy of 'Panfleto · Folha do dia'. -->
+          <div class="flyer-preview">
+            <div class="header-card">
+              <div class="nos-mark-large">
+                <div class="mark-binding"></div>
+                <div class="mark-perforation">
+                  <div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div>
+                </div>
+                <div class="mark-word-wrap">
+                  <span class="mark-word">NOS</span>
+                </div>
+              </div>
+              <div class="lockup-text-2">
+                <span class="name">NOS Dourados</span>
+                <span class="full-name-2">Núcleo de Organização Social</span>
+              </div>
+            </div>
+            <div class="wall">
+              <div class="day-sheet-2">
+                <div class="sheet-binding"></div>
+                <div class="sheet-perforation">
+                  <div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div>
+                </div>
+                <div class="sheet-head">
+                  <span class="day-numeral-2">18</span>
+                  <div class="day-text-2">
+                    <div class="date-group">
+                      <span class="weekday-2">DOMINGO</span>
+                      <span class="month-year">OUTUBRO 2026</span>
+                    </div>
+                    <span class="time">11h</span>
+                  </div>
+                </div>
+                <div class="head-seam-2"></div>
+                <div class="sheet-body">
+                  <span class="title-2">Almoço dos Educadores</span>
+                  <div class="meta">
+                    <div class="who-where">
+                      <div class="org-row">
+                        <div class="sector-mark-box">
+                          <div class="sector-mark"></div>
+                        </div>
+                        <span class="org">SIMTED</span>
+                      </div>
+                      <div class="place-row">
+                        <div class="place-icon-box">
+                          <svg class="place-icon"><use href="assets/icons.svg#map-pin"/></svg>
+                        </div>
+                        <span class="place">Chácara do SIMTED</span>
+                      </div>
+                    </div>
+                    <div class="type-tag">
+                      <span class="type">Festa</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="footer">
+              <span class="footer-line">Agenda das organizações de Dourados</span>
+            </div>
+          </div>
+        </div>
+        <div class="hint-wrap">
+          <span class="hint">Imagem 1080 × 1350, no formato do WhatsApp e do Instagram.</span>
+        </div>
+      </div>
+    </div>
+    <!-- Action Bar (sticky): Sticky action bar: padding 12px 16px + env(safe-area-inset-bottom). Compartilhar imagem uses navigator.share({files:[png]}) when canShare, else downloads. Icon button downloads the PNG (aria-label Baixar PNG). -->
+    <div class="action-bar">
+      <div class="button-primary" style="flex: 1 1 0; min-width: 0">
+        <svg class="button-primary__icon"><use href="assets/icons.svg#share-2"/></svg>
+        <span class="button-primary__label">Compartilhar imagem</span>
+      </div>
+      <!-- Baixar PNG (icon only, aria-label Baixar PNG) -->
+      <div class="button-secondary" style="width: 48px; padding: 0">
+        <svg class="button-secondary__icon"><use href="assets/icons.svg#download"/></svg>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
