@@ -1,8 +1,8 @@
 /* NOS Dourados — theme. Every colour of the site and of the flyers lives here.
 
    Two layers:
-   1. The palette: the raw colours (kept from the Calendário de Luta; same names as the
-      variables of design.pen).
+   1. The palette: the raw colours (kept from the Calendário de Luta; the designs in design/
+      use them directly).
    2. The roles: what each colour is for. css/style.css and css/flyers.css only use roles,
       never palette values or colour literals (`transparent` and `currentColor` aside).
 
@@ -34,7 +34,7 @@
   --color-muted: #5C5C61;
   --color-faded: #BDBDB8;
   --color-on-ink: #FFFFFF;
-  --color-on-ink-muted: #B4B4B9;   /* not used by the site yet; mirrors the design.pen palette */
+  --color-on-ink-muted: #B4B4B9;   /* used by the designs (design/), not by the site yet */
   --color-series-1: #0455A1;       /* azul */
   --color-series-2: #00875A;       /* verde */
   --color-series-3: #9B3894;       /* lilás */

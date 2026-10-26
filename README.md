@@ -113,7 +113,9 @@ Outros textos:
 
 ## Design
 
-O design da interface e dos panfletos está em `design.pen` (aberto no Pencil): marca provisória, componentes, telas de celular e desktop e os quatro panfletos. As cores do arquivo são variáveis com os mesmos nomes da paleta do `css/theme.css`.
+O design da interface e dos panfletos está na pasta `design/`, em HTML, um arquivo por tela: marca provisória, componentes, telas de celular e desktop, os quatro panfletos e as primeiras direções visuais. Para ver todos lado a lado, como numa página do Figma, sirva a pasta do projeto (`python3 -m http.server 8000`) e abra `http://localhost:8000/design/`: arraste ou role para andar, Ctrl + rolagem ou pinça para dar zoom, clique duas vezes num design para enquadrá-lo; `?` mostra os atalhos. Rodando no próprio computador, a página acompanha os arquivos: salvou, atualizou.
+
+As cores, fontes e cantos vêm das variáveis do `css/theme.css`, e os componentes repetidos (filtros, selos, botões, folha do dia, linha de atividade) ficam em `design/assets/components.css`. Para acrescentar um design, copie o arquivo mais parecido, edite e inclua uma linha em `design/designs.json`. Uma proposta nova fica num arquivo próprio, ao lado do design atual, até ser aprovada.
 
 ## Estrutura
 
@@ -144,14 +146,14 @@ js/csv.js           leitor de CSV
 js/events.js        normaliza linhas, datas e horários
 js/vendor/          html-to-image, que gera o PNG (licença ao lado)
 data/agenda.csv     a agenda provisória
-design.pen          o design (Pencil)
+design/             o design: uma página HTML por tela, e design/index.html, que mostra todas
 ```
 
 ## Desenvolvimento
 
 - `CLAUDE.md`: arquitetura, regras do código e decisões (em inglês, como todo o código).
 - `PRODUCT.md`: para quem é o site e o que ele precisa fazer.
-- `DESIGN.md` e `.impeccable/design.json`: o sistema visual ("Folhinha"); a origem do design é o `design.pen` (Pencil).
+- `DESIGN.md` e `.impeccable/design.json`: o sistema visual ("Folhinha"); os desenhos estão em `design/`.
 - `.impeccable/`: o resumo da direção visual, o laboratório de panfletos (`flyer-lab.html`) e o script de capturas para revisão (`capture.cjs`).
 - `.claude/`: a skill [Impeccable](https://github.com/pbakaus/impeccable) para o Claude Code (Apache-2.0; licença e origem em `.claude/skills/impeccable/`), e `.mcp.json`, o MCP da Namecheap para quando o site tiver domínio.
 

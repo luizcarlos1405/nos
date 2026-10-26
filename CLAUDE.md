@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Language rule: development (code, identifiers, CSS classes, comments, commit messages) in English; all content and UI strings in Brazilian Portuguese (pt-BR). Content-like slugs (flyer PNG filenames: `folha`, `mes`, `cartaz`, `cancelada`) stay in pt-BR.
 
-Product truth lives in `PRODUCT.md`; the visual direction ("Folhinha", the tear-off wall calendar) and its contract live in `.impeccable/surfaces/index-html.md`; `DESIGN.md` (+ `.impeccable/design.json`) documents the built design system. The design source is `design.pen` (Pencil): components, phone and desktop screens, the four flyers. Pencil variables use the palette names of `css/theme.css` (`brand`, `ink`, `ground`, `series-1`…). Use the project's impeccable skill for UI work.
+Product truth lives in `PRODUCT.md`; the visual direction ("Folhinha", the tear-off wall calendar) and its contract live in `.impeccable/surfaces/index-html.md`; `DESIGN.md` (+ `.impeccable/design.json`) documents the built design system. The design source is `design/`: one HTML file per artboard (brand mark, components, phone and desktop screens, the four flyers, the first visual directions), all shown on one zoomable canvas by `design/index.html` (see "Designs"). Use the project's impeccable skill for UI work.
 
 ## Running
 
@@ -60,11 +60,20 @@ Data flow: `app.js` fetches CSV → `csv.js` `parseCSV` → `events.js` `buildEv
 - Colours and themes: `css/theme.css` (+ `data-theme` in `index.html`).
 - The provisional NOS mark: `brandMark` in `js/icons.js` (HTML + the `.mark` rules in `style.css`, sized by font-size); a static copy sits in `index.html` so the name shows without JS.
 
+## Designs
+
+`design/` holds the designs as plain HTML, one artboard per file, and `design/index.html`, a canvas that shows them all side by side like a Figma page. With the project served (`python3 -m http.server 8000`), open http://localhost:8000/design/: drag or scroll to move, Ctrl/⌘ + scroll or pinch to zoom, double-click a design to fit it, `?` for the shortcuts, `#<file name>` (e.g. `#celular-mes`) opens on one design. From localhost the explorer polls the files (HEAD requests every second) and reloads what changed: a design file reloads its frame, a shared file (`../css/theme.css`, `assets/*`) reloads them all, `designs.json` rebuilds the canvas. The folder is deployed with the site (harmless: `noindex`, not linked, not in `sw.js`'s SHELL).
+
+- A design file: `../css/theme.css`, `assets/design.css` and `assets/components.css` in the head, then a `<style>` with its own rules; the body's first element is the artboard, with its real size (phones 390 × 844, desktop 1440 × 900, flyers 1080 × 1350; boards like `componentes.html` grow with their content). The explorer measures that element to size the frame. Content in pt-BR, class names in English.
+- Colours, fonts and radii only through `css/theme.css` (the palette `--color-*`, `--font-ui`, `--font-display`, `--radius*`), so a palette change reaches the designs too. Weights: Barlow 500/600/700, Barlow Condensed 600/700/800 (the site has no 400 face).
+- `assets/components.css` is the component library (`.chip`, `.org-select`, `.badge`, `.stamp-cancelada`, `.city-tag`, `.button-primary`, `.button-secondary`, `.icon-button`, `.day-sheet`, `.activity-line`, `.nos-mark`; elements as `.day-sheet__head`). Designs use these classes and put per-use differences inline. A change there reaches every design that uses the component: check them on the canvas. `componentes.html` and `marca-nos.html` show the components on their own.
+- Icons: `<svg class="…"><use href="assets/icons.svg#map-pin"/></svg>`, sized by the class's width/height and coloured by `color`. The sprite holds the Lucide icons in use (the drawings of `js/icons.js` where the site has them); add a `<symbol>` for a new one.
+- `designs.json` lists the canvas: sections (rows, top to bottom) and their designs (left to right), each `{ "file", "title", "width", "height" }` with the artboard's size (the explorer corrects it from the rendered page, but a right size keeps the canvas from jumping while loading). A new design = a new HTML file (start from a copy of a similar one) + its line here. Put a proposal in its own file next to the design it would replace, so the current one stays as the reference until the change is approved and built.
+- The files were converted on 2026-10-26 from `design.pen`, the Pencil file the project used before (still in git history: `git show d58c566:design.pen`). That is why they keep Pencil's layout model (flex everywhere, `flex-shrink: 0` items, `align-self: stretch` for full-width children) and its layer notes as HTML comments (ARIA roles, sticky behaviour, sizes). Text that Pencil set in Barlow 400 is 500 here, as on the site.
+
 ## MCP servers
 
 - `.mcp.json` (project scope) declares the Namecheap MCP (`https://mcp.namecheap.com/mcp`, HTTP, OAuth sign-in to the Namecheap account; run `/mcp` in Claude Code to connect). It is there for the site's future domain: availability checks, registration, nameservers and DNS records. `domain_register` charges the account's payment method and is irreversible (two-step confirmation with a token): never call it, nor change nameservers/DNS/contacts, without the user's explicit go-ahead in the conversation; `domain_purchase_link` lets the user pay on namecheap.com instead.
-- The Pencil MCP (`design.pen`) is configured at user level, not in this repo.
-
 ## Review tooling
 
 `.impeccable/capture.cjs` (`node .impeccable/capture.cjs` with the site on :8765; same `PLAYWRIGHT_CORE`/`CHROMIUM` env vars as `assets/render.cjs`) writes desktop/mobile screenshots into `.impeccable/review/` (git-ignored) for the impeccable finish review. `.impeccable/flyer-lab.html` (served at `/.impeccable/flyer-lab.html`) is the flyer stress test.
