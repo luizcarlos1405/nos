@@ -7,7 +7,8 @@ import { capitalize, dateKey, dayKeys, formatLongDate, formatTimeRange, monthNam
 import { holidayOn, isRedLetter } from './holidays.js';
 import { paintSector } from './colors.js';
 import { icon } from './icons.js';
-import { el, renderSheet } from './agenda.js';
+import { renderSheet } from './agenda.js';
+import { el } from './page.js';
 
 const WEEKDAYS = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 const MAX_ITEMS = 3;

@@ -1,6 +1,14 @@
 # NOS Dourados
 
-Agenda das organizações e movimentos de Dourados/MS em um só lugar. NOS = Núcleo de Organização Social (nome provisório).
+A agenda das organizações e movimentos de Dourados/MS e o comércio da rede, em um só lugar. NOS = Núcleo de Organização Social (nome provisório).
+
+O site tem três páginas, cada uma um arquivo HTML:
+
+- **Início** (`index.html`): uma frase e duas portas, a folha de hoje com as próximas atividades e a primeira folha da lista de negócios.
+- **Calendário** (`calendario.html`): a agenda. Até 26/10/2026 era o `index.html`.
+- **Comércio** (`comercio.html`): os negócios que se cadastraram pelo formulário da rede, como uma caderneta de telefones de A a Z.
+
+As abas no pé do cartão vermelho levam de uma página à outra; a marca NOS leva ao Início. São links comuns, então funcionam em qualquer hospedagem estática.
 
 Cada dia da agenda é uma folha de folhinha. Cada atividade mostra quem organiza, onde e quando, e de onde veio a informação. Para cada atividade o site gera:
 
@@ -63,15 +71,39 @@ O `data/agenda.csv` atual foi montado a partir de um levantamento dos perfis pú
 
 Assim, quem edita a planilha atualiza o site sem precisar publicar nada de novo (o Google pode levar alguns minutos para refletir as mudanças).
 
+## Editando o comércio
+
+A página Comércio lê `data/comercio.csv` (link em `COMMERCE_CSV_URL`, no `js/config.js`): as respostas do formulário de cadastro, do jeito que o Google Formulários grava, mais uma coluna `Categoria` preenchida pela equipe. Para ler direto da planilha de respostas, publique a aba como CSV (Arquivo → Compartilhar → Publicar na Web) e troque o link em `COMMERCE_CSV_URL`.
+
+| coluna (pergunta do formulário) | o que o site faz |
+|---|---|
+| `Carimbo de data/hora` | nada |
+| `Nome da empresa ou negócio` | obrigatória. O nome vai em maiúsculas; o que vier depois de " - " ou entre parênteses no fim vira subtítulo ("Sal da Terra - Mini Padaria Artesanal") |
+| `Cidade e estado` | Dourados (com ou sem o estado) não aparece; outra cidade ganha uma etiqueta ("Fátima do Sul") |
+| `Qual o Instagram da empresa?` | link, "@nome" ou só o nome viram link para o perfil. O que não for um nome de perfil aparece escrito como veio |
+| `O que sua empresa oferece?` | o texto do negócio (só maiúsculas vira texto normal) |
+| `Como podemos entrar em contato?` | celulares com DDD viram link de WhatsApp, com um botão para ligar; fixos viram link de ligação. Sem número, a resposta aparece escrita como veio ("99 food"). "Sim" e "Não" somem |
+| `Sua empresa tem site ou outra rede social?` | links viram botões (Google, Facebook, TikTok, site). O resto aparece como veio, menos "não" e respostas que só repetem Instagram e WhatsApp |
+| `Podemos incluir sua empresa na nossa planilha e compartilhar suas informações com a rede?` | só aparece quem respondeu **Sim** |
+| `Categoria` | coluna da equipe, à direita das respostas: vira os filtros da página. Sugeridas, nesta ordem: Comida, Serviços, Celular e informática, Beleza, Arte e presentes, Embalagens (lista `COMMERCE_CATEGORIES`); outro nome também funciona |
+| `Visível` | coluna da equipe, opcional: desmarcada esconde o negócio |
+| `Notas internas` | coluna da equipe, opcional: o site ignora (mas ela fica pública no CSV publicado) |
+
+Os nomes das colunas não precisam ser exatos: o site procura uma palavra-chave em cada uma ("nome", "instagram", "contato", "oferece", "site", "incluir", "categoria"…). O Google Formulários continua gravando as respostas novas nas colunas dele quando há colunas extras à direita; quem chega sem categoria aparece em "Todos" até a equipe preencher.
+
+Corrija na planilha o que veio errado no formulário: o site mostra o que estiver lá. Na leva de 26/10/2026, por exemplo: o Instagram "Katiaboticário67" (o site lê katiaboticario67, sem acento; confirme o perfil), "Luciana Gonçalves (bolos)" no campo do Instagram (é o nome, não o perfil), o telefone "6699654-4029" (DDD 66) e "Fecebok".
+
+Para mostrar o botão "Cadastrar meu negócio", coloque o link público do formulário em `COMMERCE_FORM_URL` (`js/config.js`).
+
 ## Rodando localmente
 
-O navegador não deixa ler o CSV abrindo o `index.html` direto (`file://`), então suba um servidor simples:
+O navegador não deixa ler os CSVs abrindo as páginas direto do arquivo (`file://`), então suba um servidor simples:
 
 ```sh
 python3 -m http.server 8000
 ```
 
-e acesse <http://localhost:8000>.
+e acesse <http://localhost:8000> (o Início; o calendário está em `/calendario.html` e o comércio em `/comercio.html`).
 
 ## Publicando
 
@@ -79,14 +111,14 @@ Qualquer hospedagem estática serve (GitHub Pages, Netlify, Cloudflare Pages…)
 
 O site está em https://nos.dourados.social (GitHub Pages, domínio no arquivo `CNAME`). Se o endereço mudar:
 
-- troque `SITE_URL` em `js/config.js` (ele entra no fim de cada mensagem de WhatsApp);
-- no `<head>` do `index.html`, troque o endereço nas tags da prévia do link (`canonical`, `og:url`, `og:image`…). Os endereços precisam ser completos: sem eles, o WhatsApp e as redes mostram a prévia só com título e descrição, sem a imagem `assets/og-image.png`.
+- troque `SITE_URL` em `js/config.js` (ele entra no fim de cada mensagem de WhatsApp, com o nome da página: `calendario.html`, `comercio.html`);
+- no `<head>` das três páginas (`index.html`, `calendario.html`, `comercio.html`), troque o endereço nas tags da prévia do link (`canonical`, `og:url`, `og:image`…). Os endereços precisam ser completos: sem eles, o WhatsApp e as redes mostram a prévia só com título e descrição, sem a imagem `assets/og-image.png`.
 
 ## Funcionando sem internet e instalando como app
 
 O site funciona sem internet e pode ser instalado como app no celular e no computador (PWA).
 
-- **Sem internet.** O service worker (`sw.js`) busca tudo primeiro na rede e só usa a cópia guardada quando a rede falha: quem está online vê a planilha atual e a versão publicada do site (com o cache normal do navegador, de alguns minutos). Já na primeira visita ele guarda o site inteiro (a lista `SHELL`, no `sw.js`) e a agenda. Sem conexão, o site abre com a última agenda salva e avisa: "Sem conexão. Mostrando a agenda salva em…". O panfleto também é gerado sem internet.
+- **Sem internet.** O service worker (`sw.js`) busca tudo primeiro na rede e só usa a cópia guardada quando a rede falha: quem está online vê as planilhas atuais e a versão publicada do site (com o cache normal do navegador, de alguns minutos). Já na primeira visita ele guarda o site inteiro (as três páginas e o que elas carregam, a lista `SHELL`, no `sw.js`), a agenda e a lista do comércio. Sem conexão, o site abre com a última cópia salva e avisa: "Sem conexão. Mostrando a agenda salva em…" (ou "a lista salva"). O panfleto também é gerado sem internet.
 - **Arquivos novos.** Se a página passar a carregar um arquivo novo (um módulo em `js/`, uma folha de estilo, uma fonte, um ícone), acrescente-o à lista `SHELL` do `sw.js`; senão ele só fica disponível sem internet a partir da segunda visita. Não é preciso mudar versão a cada publicação: cada resposta da rede atualiza a cópia.
 - **App instalável.** O `manifest.webmanifest` tem o nome, as cores, os ícones e as capturas de tela que aparecem na hora de instalar. O app abre com o celular em pé ou deitado.
 - **Ícones, prévia do link e capturas de tela** são gerados a partir de HTML: `assets/icon.html` (ícones do app e do navegador), `assets/og-image.html` (prévia do link, 1200 × 630) e o próprio site, num dia fixo (capturas). Depois de mudar o nome, a marca ou as cores, refaça tudo com `node assets/render.cjs` (ou só `icons`, `og` ou `shots`). Ele precisa do Playwright com um Chromium: na pasta do projeto, `npm i --no-save playwright-core` e `npx playwright-core install chromium` (ou aponte `PLAYWRIGHT_CORE` e `CHROMIUM` para os que você já tem).
@@ -96,6 +128,9 @@ O site funciona sem internet e pode ser instalado como app no celular e no compu
 Tudo que costuma mudar fica em `js/config.js`:
 
 - `CSV_URL`: de onde vem a agenda (arquivo local ou planilha publicada).
+- `COMMERCE_CSV_URL`: de onde vem o comércio (as respostas do formulário).
+- `COMMERCE_FORM_URL`: o link do formulário de cadastro, para o botão "Cadastrar meu negócio" (vazio esconde o convite).
+- `COMMERCE_CATEGORIES`: as categorias sugeridas, na ordem dos filtros.
 - `APP_NAME` / `APP_FULL_NAME`: o nome (NOS) e o nome por extenso.
 - `CITY` / `HOME_CITY`: a cidade da agenda; atividades com `Cidade` vazia ou igual a ela são "daqui".
 - `SITE_URL`: endereço do site, colocado no fim das mensagens.
@@ -103,24 +138,26 @@ Tudo que costuma mudar fica em `js/config.js`:
 - `EXTRA_HOLIDAYS`: feriados locais, impressos em vermelho como os nacionais (`js/holidays.js`).
 - `ORG_NAMES`: nomes por extenso das organizações.
 
-**Cores e temas.** Todas as cores do site e dos panfletos ficam em `css/theme.css`, em duas camadas: a paleta (as cores) e os papéis (para que serve cada cor: cabeçalho, papel, tinta, destaque, próxima atividade, setores…). O resto do CSS só usa os papéis. Para experimentar outro tema, copie o bloco de exemplo no fim do `theme.css`, dê um nome e mude as cores. Para ver sem editar nada, abra o site com `?tema=<nome>` no fim do endereço (por exemplo `http://localhost:8000/?tema=exemplo`). Para adotar o tema, coloque `data-theme="<nome>"` na tag `<html>` do `index.html`; troque à mão a cor do `<meta name="theme-color">` (a barra do navegador no celular) e `theme_color`/`background_color` no `manifest.webmanifest`, que não leem variáveis; e refaça ícones, prévia do link e capturas com `node assets/render.cjs`, que usa o tema do `index.html`.
+**Cores e temas.** Todas as cores do site e dos panfletos ficam em `css/theme.css`, em duas camadas: a paleta (as cores) e os papéis (para que serve cada cor: cabeçalho, papel, tinta, destaque, próxima atividade, setores…). O resto do CSS só usa os papéis. Para experimentar outro tema, copie o bloco de exemplo no fim do `theme.css`, dê um nome e mude as cores. Para ver sem editar nada, abra o site com `?tema=<nome>` no fim do endereço (por exemplo `http://localhost:8000/?tema=exemplo`). Para adotar o tema, coloque `data-theme="<nome>"` na tag `<html>` das três páginas (`index.html`, `calendario.html`, `comercio.html`); troque à mão a cor do `<meta name="theme-color">` das três (a barra do navegador no celular) e `theme_color`/`background_color` no `manifest.webmanifest`, que não leem variáveis; e refaça ícones, prévia do link e capturas com `node assets/render.cjs`, que usa o tema do `index.html`.
 
 Outros textos:
 
-- Frase final da mensagem de WhatsApp: `CLOSING_LINE` em `js/whatsapp.js` (usa `APP_NAME` e `HOME_CITY`).
-- Para trocar o nome do site, além de `APP_NAME`/`APP_FULL_NAME`, mude o `<title>`, a descrição e as tags `og:` no `<head>` do `index.html` e o `<h1>` escondido logo abaixo do `<body>`; o nome do app instalável fica no `manifest.webmanifest` e no `apple-mobile-web-app-title` do `index.html`. Depois refaça os ícones e a prévia com `node assets/render.cjs`.
+- Frase final das mensagens de WhatsApp: `CLOSING_LINE` (atividades) e `COMMERCE_CLOSING_LINE` (negócios indicados) em `js/whatsapp.js` (usam `APP_NAME`, `HOME_CITY` e `SITE_URL`).
+- Para trocar o nome do site, além de `APP_NAME`/`APP_FULL_NAME`, mude o `<title>`, a descrição e as tags `og:` no `<head>` das três páginas e o `<h1>` escondido logo abaixo do `<body>`; o nome do app instalável fica no `manifest.webmanifest` e no `apple-mobile-web-app-title` das páginas. Depois refaça os ícones e a prévia com `node assets/render.cjs`.
 - Estilos de panfleto: lista `FLYER_STYLES` em `js/flyer.js`, com o visual em `css/flyers.css`.
 
 ## Design
 
-O design da interface e dos panfletos está na pasta `design/`, em HTML, um arquivo por tela: marca provisória, componentes, telas de celular e desktop, os quatro panfletos e as primeiras direções visuais. Para ver todos lado a lado, como numa página do Figma, sirva a pasta do projeto (`python3 -m http.server 8000`) e abra `http://localhost:8000/design/`: arraste ou role para andar, Ctrl + rolagem ou pinça para dar zoom, clique duas vezes num design para enquadrá-lo; `?` mostra os atalhos. Rodando no próprio computador, a página acompanha os arquivos: salvou, atualizou.
+O design da interface e dos panfletos está na pasta `design/`, em HTML, um arquivo por tela: marca provisória, componentes, navegação, Início, as telas do calendário e do comércio no celular e no desktop, os quatro panfletos e as primeiras direções visuais. Para ver todos lado a lado, como numa página do Figma, sirva a pasta do projeto (`python3 -m http.server 8000`) e abra `http://localhost:8000/design/`: arraste ou role para andar, Ctrl + rolagem ou pinça para dar zoom, clique duas vezes num design para enquadrá-lo; `?` mostra os atalhos. Rodando no próprio computador, a página acompanha os arquivos: salvou, atualizou.
 
 As cores, fontes e cantos vêm das variáveis do `css/theme.css`, e os componentes repetidos (filtros, selos, botões, folha do dia, linha de atividade) ficam em `design/assets/components.css`. Para acrescentar um design, copie o arquivo mais parecido, edite e inclua uma linha em `design/designs.json`. Uma proposta nova fica num arquivo próprio, ao lado do design atual, até ser aprovada.
 
 ## Estrutura
 
 ```
-index.html
+index.html          o Início
+calendario.html     o calendário
+comercio.html       o comércio
 css/theme.css       cores (paleta e papéis), fontes e cantos
 css/style.css       estilos do site
 css/flyers.css      os estilos de panfleto
@@ -129,16 +166,20 @@ sw.js               o funcionamento sem internet
 assets/icon.html    origem dos ícones do app e do navegador
 assets/og-image.html  origem da prévia do link
 assets/pad.js       o desenho da marca usado pelos dois acima
-assets/render.cjs   gera ícones, prévia do link e capturas de tela
+assets/render.cjs   gera ícones, prévia do link e capturas de tela (e anota em cada PNG de onde ele vem)
 assets/icons/       ícones e favicons
 assets/screenshots/ capturas de tela do app instalável
 fonts/              fontes Barlow, hospedadas no próprio site (licença em fonts/OFL.txt)
-js/config.js        configurações (planilha, nome, cidade, endereço do site, setores, feriados locais, nomes das organizações)
-js/app.js           carrega a agenda e liga a interface
+js/config.js        configurações (planilhas, nome, cidade, endereço do site, setores, feriados locais, nomes das organizações, categorias do comércio)
+js/page.js          o que as três páginas compartilham (cabeçalho, avisos, leitura das planilhas, modo sem internet)
+js/home.js          o Início
+js/app.js           carrega a agenda e liga a interface do calendário
+js/comercio.js      a página do comércio
+js/businesses.js    lê as respostas do formulário (números, Instagram, links)
 js/agenda.js        a agenda: uma folha por dia
 js/month.js         a página do mês
 js/flyer.js         estilos de panfleto e exportação PNG
-js/whatsapp.js      montador da mensagem de WhatsApp
+js/whatsapp.js      montador das mensagens de WhatsApp (atividade e negócio)
 js/colors.js        cores dos setores
 js/holidays.js      feriados nacionais
 js/icons.js         ícones e a marca NOS
@@ -146,6 +187,7 @@ js/csv.js           leitor de CSV
 js/events.js        normaliza linhas, datas e horários
 js/vendor/          html-to-image, que gera o PNG (licença ao lado)
 data/agenda.csv     a agenda provisória
+data/comercio.csv   as respostas do formulário de cadastro (26/10/2026), com a categoria
 design/             o design: uma página HTML por tela, e design/index.html, que mostra todas
 ```
 

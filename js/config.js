@@ -4,6 +4,19 @@
 // (Google Sheets: Arquivo → Compartilhar → Publicar na Web → formato CSV, then paste the link here).
 export const CSV_URL = 'data/agenda.csv';
 
+// Where Comércio (comercio.html) reads the businesses from: the answers of the registration form,
+// as they are, plus an optional "Categoria" column kept by the NOS team. Same formats as CSV_URL
+// (the Google Form's answer sheet can be published as CSV the same way).
+export const COMMERCE_CSV_URL = 'data/comercio.csv';
+
+// The registration form's public link, for "Cadastrar meu negócio" on Comércio. Empty hides the
+// invitation.
+export const COMMERCE_FORM_URL = '';
+
+// Suggested categories of the "Categoria" column, in the order of the chips; others follow in
+// alphabetical order. Free text: any name the sheet uses becomes a chip.
+export const COMMERCE_CATEGORIES = ['Comida', 'Serviços', 'Celular e informática', 'Beleza', 'Arte e presentes', 'Embalagens'];
+
 // Provisional name: NOS = Núcleo de Organização Social.
 export const APP_NAME = 'NOS';
 export const APP_FULL_NAME = 'Núcleo de Organização Social';
@@ -13,8 +26,9 @@ export const APP_FULL_NAME = 'Núcleo de Organização Social';
 export const CITY = 'Dourados/MS';
 export const HOME_CITY = 'Dourados';
 
-// Public address of the site, added to the end of every WhatsApp message. The og:url/og:image/canonical
-// tags in index.html use the same address.
+// Public address of the site, added to the end of every WhatsApp message (with the page's file:
+// calendario.html, comercio.html). The og:url/og:image/canonical tags of the three pages use the
+// same address.
 export const SITE_URL = 'https://nos.dourados.social';
 
 // Local holidays printed in red besides the national ones (js/holidays.js),

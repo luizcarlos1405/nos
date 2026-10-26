@@ -26,6 +26,11 @@ const PATHS = {
   down: '<path d="m6 9 6 6 6-6"/>',
   check: '<path d="M20 6 9 17l-5-5"/>',
   alert: '<circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/>',
+  store: '<path d="M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5"/><path d="M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244"/><path d="M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05"/>',
+  search: '<path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/>',
+  'search-x': '<path d="m13.5 8.5-5 5"/><path d="m8.5 8.5 5 5"/><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+  'arrow-right': '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+  external: '<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>',
 };
 
 export function icon(name, className = 'icon') {

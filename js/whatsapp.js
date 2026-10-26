@@ -1,11 +1,13 @@
-// Builds a WhatsApp-ready message for an event.
-// WhatsApp formatting: *bold*, _italic_. Lines for empty fields are left out.
+// Builds WhatsApp-ready messages: an activity's (Calendário) and a business's (Comércio, "Indicar
+// no WhatsApp"). WhatsApp formatting: *bold*, _italic_. Lines for empty fields are left out.
 
 import { APP_NAME, CITY, HOME_CITY, SITE_URL } from './config.js';
 import { formatDateRange, formatTimeRange, matchKey } from './events.js';
 
-// Closing line added to every message — change it freely (or set to '' to remove).
-export const CLOSING_LINE = `📅 Mais atividades na agenda do ${APP_NAME} ${HOME_CITY}${SITE_URL ? `: ${SITE_URL}` : ''}`;
+// Closing lines added to every message, with the address of the page they come from — change them
+// freely (or set to '' to remove).
+export const CLOSING_LINE = `📅 Mais atividades na agenda do ${APP_NAME} ${HOME_CITY}${SITE_URL ? `: ${SITE_URL}/calendario.html` : ''}`;
+export const COMMERCE_CLOSING_LINE = `🛍️ Mais negócios da rede no ${APP_NAME} ${HOME_CITY}${SITE_URL ? `: ${SITE_URL}/comercio.html` : ''}`;
 
 // Where the activity happens, as the message header names it.
 export function placeLabel(event) {
@@ -60,6 +62,25 @@ export function buildWhatsAppMessage(event) {
 
   if (CLOSING_LINE) blocks.push([CLOSING_LINE]);
 
+  return blocks.map((lines) => lines.join('\n')).join('\n\n');
+}
+
+// A business passed on to a group: who it is, what it offers, how to reach it, where it is.
+export function buildBusinessMessage(biz) {
+  const blocks = [[`*${literal(biz.name)}*`, biz.subtitle].filter(Boolean)];
+  if (biz.offer) blocks.push([biz.offer]);
+
+  const reach = [];
+  for (const phone of biz.phones) reach.push(`${phone.mobile ? '💬 WhatsApp' : '📞 Telefone'}: ${phone.label}`);
+  if (biz.instagram) reach.push(`📷 Instagram: ${biz.instagramHref}`);
+  else if (biz.instagramNote) reach.push(`📷 Instagram: ${biz.instagramNote}`);
+  for (const link of biz.links) reach.push(`🔗 ${link.label}: ${link.href}`);
+  if (biz.contactNote) reach.push(`📞 Contato: ${biz.contactNote}`);
+  if (biz.otherNote) reach.push(`🔗 Outras redes: ${biz.otherNote}`);
+  reach.push(`📍 ${biz.city || CITY}`);
+  blocks.push(reach);
+
+  if (COMMERCE_CLOSING_LINE) blocks.push([COMMERCE_CLOSING_LINE]);
   return blocks.map((lines) => lines.join('\n')).join('\n\n');
 }
 

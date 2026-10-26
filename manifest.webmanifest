@@ -2,7 +2,7 @@
   "id": "/nos-dourados",
   "name": "NOS Dourados",
   "short_name": "NOS Dourados",
-  "description": "A agenda das organizações e movimentos de Dourados/MS em um só lugar, com mensagem e panfleto de cada atividade prontos para o WhatsApp.",
+  "description": "A agenda das organizações e movimentos de Dourados/MS e o comércio da rede, em um só lugar, com mensagem e panfleto de cada atividade prontos para o WhatsApp.",
   "lang": "pt-BR",
   "dir": "ltr",
   "start_url": "./",
@@ -10,12 +10,26 @@
   "display": "standalone",
   "background_color": "#EFEFEC",
   "theme_color": "#E4002B",
-  "categories": ["social", "news"],
+  "categories": ["social", "news", "shopping"],
   "icons": [
     { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
     { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
     { "src": "assets/icons/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
     { "src": "assets/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Calendário",
+      "description": "A agenda das organizações e movimentos de Dourados",
+      "url": "calendario.html",
+      "icons": [{ "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Comércio",
+      "description": "Os negócios da rede em Dourados e região",
+      "url": "comercio.html",
+      "icons": [{ "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
   ],
   "screenshots": [
     {
@@ -38,6 +52,13 @@
       "type": "image/png",
       "form_factor": "narrow",
       "label": "Panfleto da atividade em imagem, pronto para compartilhar"
+    },
+    {
+      "src": "assets/screenshots/phone-comercio.png",
+      "sizes": "780x1688",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Comércio no celular: os negócios da rede, de A a Z, com WhatsApp e Instagram de cada um"
     },
     {
       "src": "assets/screenshots/desktop.png",

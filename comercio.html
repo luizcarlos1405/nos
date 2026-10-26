@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Comércio · NOS Dourados</title>
+  <meta name="description" content="Os negócios da rede em Dourados/MS: comida, serviços, consertos e mais, com WhatsApp e Instagram de cada um.">
+  <!-- The head repeats index.html's (browser colour, theme, icons, manifest, home-screen app, link
+       preview); the notes on those tags are there. Only the title, the descriptions and the addresses
+       change from page to page. -->
+  <meta name="theme-color" content="#E4002B">
+  <script>
+    var theme = new URLSearchParams(location.search).get('tema');
+    if (theme) document.documentElement.dataset.theme = theme;
+  </script>
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="assets/icons/favicon-48.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="NOS Dourados">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="NOS Dourados">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:title" content="Comércio · NOS Dourados: os negócios da rede em Dourados/MS">
+  <meta property="og:description" content="Comida, serviços, consertos e mais: negócios de Dourados e região cadastrados na rede, com WhatsApp e Instagram de cada um.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://nos.dourados.social/comercio.html">
+  <meta property="og:url" content="https://nos.dourados.social/comercio.html">
+  <meta property="og:image" content="https://nos.dourados.social/assets/og-image.png">
+  <meta property="og:image:secure_url" content="https://nos.dourados.social/assets/og-image.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="NOS Dourados/MS, Núcleo de Organização Social">
+  <meta name="twitter:image:alt" content="NOS Dourados/MS, Núcleo de Organização Social">
+
+  <link rel="preload" href="fonts/barlow-condensed-800.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/barlow-600.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script type="module" src="js/comercio.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#lista">Pular para a lista</a>
+  <h1 class="sr-only">NOS Dourados: o comércio da rede em Dourados/MS</h1>
+  <p class="sr-only" id="live" role="status" aria-live="polite"></p>
+
+  <header class="masthead has-tabs">
+    <div class="masthead-inner">
+      <a class="brand" href="./">
+        <span class="brand-mark" id="brand-mark"><span class="mark" aria-hidden="true"><span class="mark-binding"></span><span class="mark-perf"></span><span class="mark-word">NOS</span></span></span>
+        <span class="sr-only" id="brand-name-sr">NOS </span>
+        <span class="brand-text">
+          <span class="brand-city" id="app-city">Dourados/MS</span>
+          <span class="brand-name" id="app-full-name">Núcleo de Organização Social</span>
+        </span>
+        <span class="sr-only">(página inicial)</span>
+      </a>
+      <!-- One HTML file per page: plain links, so they work on any static host. -->
+      <nav class="site-tabs" aria-label="Páginas">
+        <a class="site-tab" href="calendario.html" data-icon="calendar-days"><span>Calendário</span></a>
+        <a class="site-tab" href="comercio.html" aria-current="page" data-icon="store"><span>Comércio</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="shell">
+    <main class="pad-col" id="main">
+      <div id="notice" class="notice" role="status" hidden></div>
+
+      <div class="biz-tools" id="biz-tools" hidden>
+        <div class="search" role="search">
+          <span class="search-icon" data-icon="search" aria-hidden="true"></span>
+          <label class="sr-only" for="search">Buscar no comércio por nome, produto ou serviço</label>
+          <input id="search" type="search" placeholder="Buscar: bolo, eletricista, celular…" autocomplete="off" enterkeyhint="search" spellcheck="false">
+          <button type="button" class="search-clear" id="search-clear" aria-label="Limpar busca" hidden></button>
+        </div>
+        <p class="biz-count" id="biz-count"></p>
+        <div class="filters" id="category-filters" hidden>
+          <div class="chips" id="category-chips" role="group" aria-label="Filtrar por categoria"></div>
+        </div>
+      </div>
+
+      <div id="lista" class="view letters" tabindex="-1">
+        <p class="placeholder">Carregando o comércio…</p>
+      </div>
+    </main>
+
+    <aside class="side" aria-labelledby="side-title">
+      <div class="sheet side-sheet">
+        <div class="side-body">
+          <h2 class="side-title" id="side-title">Comércio da rede</h2>
+          <p class="side-text">Negócios de Dourados e região que se cadastraram para divulgar na rede. O que aparece aqui é o que cada negócio mandou ao se cadastrar.</p>
+          <ul class="how">
+            <li data-icon="message">Toque no número para abrir a conversa no WhatsApp, ou no telefone para ligar.</li>
+            <li data-icon="share">Indique um negócio nos seus grupos: o botão monta a mensagem com os contatos.</li>
+            <li data-icon="tag">Combine preço, entrega e pagamento direto com quem oferece.</li>
+          </ul>
+          <div class="join" id="join" hidden>
+            <h3 class="join-title">Tem um negócio em Dourados?</h3>
+            <p class="join-text">Cadastre pelo formulário da rede para aparecer nesta lista.</p>
+            <a class="btn btn-line" id="join-link" target="_blank" rel="noopener"><span>Cadastrar meu negócio</span><span data-icon="external" aria-hidden="true"></span></a>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    // Browsers block JS modules and the CSV when the page is opened straight from disk.
+    if (location.protocol === 'file:') {
+      var notice = document.getElementById('notice');
+      notice.dataset.kind = 'error';
+      notice.innerHTML = '<strong>O site precisa ser aberto por um servidor, não direto do arquivo.</strong> ' +
+        'Na pasta do projeto, rode <code>python3 -m http.server 8000</code> e acesse <code>http://localhost:8000</code>.';
+      notice.hidden = false;
+      document.getElementById('lista').replaceChildren();
+    }
+  </script>
+</body>
+</html>

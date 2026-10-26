@@ -9,7 +9,7 @@ const CACHE_PREFIX = 'nos-dourados-';
 const CACHE = `${CACHE_PREFIX}v1`;
 
 // Absolute address without the #fragment (never sent to the server), or null if it can't be parsed.
-// Relative addresses resolve against this script, which sits next to index.html, like the page's.
+// Relative addresses resolve against this script, which sits next to the pages, like theirs.
 function absolute(url) {
   try {
     const parsed = new URL(url, location.href);
@@ -20,25 +20,28 @@ function absolute(url) {
   }
 }
 
-// The spreadsheet CSV can live on another origin; app.js passes CSV_URL (from js/config.js, maybe
-// relative, like 'data/agenda.csv') in the query string. Request URLs are absolute, so this is too.
-const csvParam = new URL(location.href).searchParams.get('csv');
-const CSV_URL = csvParam ? absolute(csvParam) : null;
+// The spreadsheets' CSVs can live on another origin. Every page passes them in the query string
+// (registerWorker in js/page.js: CSV_URL, the agenda, and COMMERCE_CSV_URL, the businesses, both
+// from js/config.js, maybe relative like 'data/agenda.csv'). Request URLs are absolute, so these are too.
+const CSV_URLS = new URL(location.href).searchParams.getAll('csv').map(absolute).filter(Boolean);
 
 // Set on saved CSV copies so the page can tell it's showing saved (possibly stale) data.
 const CACHED_AT_HEADER = 'X-Cached-At';
 
-// The saved home page: what any page address falls back to offline.
+// The saved home page: what an address of the app's folder that was never saved falls back to offline.
 const HOME = absolute('./');
 
 // App shell, cached on install so the first visit already works offline: on that visit the page
-// isn't controlled by this worker yet, so only what is listed here gets saved. That is index.html
-// and everything it loads: the manifest and its icons, the favicons, the three stylesheets and the
-// fonts they declare, every module reached from js/app.js, and the vendored image library (which also
+// isn't controlled by this worker yet, so only what is listed here gets saved. That is the three
+// pages (index.html as './', calendario.html, comercio.html) and everything they load: the manifest
+// and its icons, the favicons, the three stylesheets and the fonts they declare, every module
+// reached from js/home.js, js/app.js and js/comercio.js, and the vendored image library (which also
 // fetches the fonts again to embed them in the flyer PNG). Later visits also save at runtime anything
 // missing here, but keep this list in step with those files.
 const SHELL = [
   './',
+  'calendario.html',
+  'comercio.html',
   'manifest.webmanifest',
   'assets/icons/icon-192.png',
   'assets/icons/icon-512.png',
@@ -53,14 +56,18 @@ const SHELL = [
   'css/flyers.css',
   'js/app.js',
   'js/agenda.js',
+  'js/businesses.js',
   'js/colors.js',
+  'js/comercio.js',
   'js/config.js',
   'js/csv.js',
   'js/events.js',
   'js/flyer.js',
   'js/holidays.js',
+  'js/home.js',
   'js/icons.js',
   'js/month.js',
+  'js/page.js',
   'js/whatsapp.js',
   'js/vendor/html-to-image.js',
   'fonts/barlow-500.woff2',
@@ -71,7 +78,7 @@ const SHELL = [
   'fonts/barlow-condensed-800.woff2',
 ];
 
-const isCSV = (url) => CSV_URL !== null && absolute(url) === CSV_URL;
+const isCSV = (url) => CSV_URLS.includes(absolute(url));
 
 // Cacheable = a complete, successful, readable response.
 const cacheable = (res) => res.ok && res.status !== 206 && (res.type === 'basic' || res.type === 'cors');
@@ -111,7 +118,7 @@ self.addEventListener('install', (event) => {
     const cache = await caches.open(CACHE);
     // Best effort: one missing file must not keep the worker from installing. What can't be fetched
     // now keeps the copy an earlier worker saved under the same cache name, if any.
-    const urls = [...SHELL.map(absolute), ...(CSV_URL ? [CSV_URL] : [])];
+    const urls = [...SHELL.map(absolute), ...CSV_URLS];
     await Promise.all(urls.map(async (url) => {
       try {
         const res = await fetch(url, { cache: 'no-cache', mode: isCSV(url) ? 'cors' : 'same-origin' });
@@ -132,7 +139,7 @@ self.addEventListener('activate', (event) => {
     // The cache keeps only what this worker lists: copies of files a deploy removed, or of a
     // spreadsheet the site no longer reads, go.
     const cache = await caches.open(CACHE);
-    const keep = new Set([...SHELL.map(absolute), CSV_URL].filter(Boolean));
+    const keep = new Set([...SHELL.map(absolute), ...CSV_URLS]);
     await Promise.all((await cache.keys()).filter((req) => !keep.has(req.url)).map((req) => cache.delete(req)));
     await self.clients.claim();
   })());
