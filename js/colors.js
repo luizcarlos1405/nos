@@ -5,6 +5,21 @@ import { SECTOR_SERIES } from './config.js';
 import { matchKey } from './events.js';
 
 const SERIES_COUNT = 8;
+const collator = new Intl.Collator('pt-BR', { sensitivity: 'base', numeric: true });
+
+// Suggested sectors first, in the order of SECTOR_SERIES, then any other sector of the sheet.
+const SECTOR_ORDER = Object.keys(SECTOR_SERIES).map(matchKey);
+export function sectorRank(sector) {
+  const i = SECTOR_ORDER.indexOf(matchKey(sector));
+  return i === -1 ? SECTOR_ORDER.length : i;
+}
+
+// The sheet's sectors, once each, in that order: the chips' order, and the order colours are given in.
+export function sectorsOf(events) {
+  const seen = new Map();
+  for (const ev of events) if (ev.sector && !seen.has(matchKey(ev.sector))) seen.set(matchKey(ev.sector), ev.sector);
+  return [...seen.values()].sort((a, b) => sectorRank(a) - sectorRank(b) || collator.compare(a, b));
+}
 
 // The suggested sectors keep their series whatever else the sheet contains.
 const fixed = new Map(Object.entries(SECTOR_SERIES).map(([name, n]) => [matchKey(name), n]));

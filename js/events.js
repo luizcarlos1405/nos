@@ -180,6 +180,18 @@ export function dateFromKey(key) {
   return new Date(y, m - 1, d);
 }
 
+// The activities still to come from `now`, cancelled ones left out: today's count until an hour
+// after they start, and a period that already started is running, not to come. `events` are in
+// date order, as buildEvents returns them.
+export function upcomingEvents(events, now = new Date()) {
+  const key = dateKey(now);
+  const minutes = now.getHours() * 60 + now.getMinutes();
+  return events.filter((ev) => !ev.cancelled && (ev.dateKey > key || (ev.dateKey === key && (ev.time == null || ev.time + 60 >= minutes))));
+}
+
+// The next activity: the first still to come (the yellow "Próxima").
+export const findNextEvent = (events, now = new Date()) => upcomingEvents(events, now)[0] || null;
+
 // Last day the activity runs (the start day for one-day activities).
 export const lastDayKey = (event) => event.endDateKey || event.dateKey;
 

@@ -1,8 +1,9 @@
 // Review captures for the impeccable finish review: serve the site on :8765, then
 //   node .impeccable/capture.cjs
-// Writes desktop/mobile screenshots (and the states around them) into .impeccable/review/.
-// Needs Playwright and a Chromium, found as in assets/render.cjs (PLAYWRIGHT_CORE and CHROMIUM, a local
-// playwright-core install, or the maintainer's machine). URL overrides the site address.
+// Writes desktop/mobile screenshots of the calendar (and the states around it), the home and Comércio
+// into .impeccable/review/. Needs Playwright and a Chromium, found as in assets/render.cjs
+// (PLAYWRIGHT_CORE and CHROMIUM, a local playwright-core install, or the maintainer's machine). URL
+// overrides the site's address (its folder, ending in /).
 const fs = require('fs');
 const local = (name) => {
   try {
@@ -14,7 +15,8 @@ const local = (name) => {
 const HOME_CHROMIUM = '/home/luizcarlos1405/.nix-profile/bin/chromium';
 const { chromium } = require(process.env.PLAYWRIGHT_CORE || local('playwright-core') || '/home/luizcarlos1405/.local/lib/node_modules/@playwright/cli/node_modules/playwright-core');
 const out = '.impeccable/review';
-const url = process.env.URL || 'http://localhost:8765/';
+const base = process.env.URL || 'http://localhost:8765/';
+const url = `${base}calendario.html`;
 (async () => {
   const browser = await chromium.launch({ executablePath: process.env.CHROMIUM || (fs.existsSync(HOME_CHROMIUM) ? HOME_CHROMIUM : undefined) });
   const log = (p, tag) => {
@@ -76,5 +78,18 @@ const url = process.env.URL || 'http://localhost:8765/';
   await m.click('#past-toggle'); await m.waitForTimeout(150);
   await m.selectOption('#org-select', { value: 'comafro' }); await m.waitForTimeout(250);
   await m.screenshot({ path: `${out}/mobile-empty.png` });
+
+  // The home (index.html) and Comércio, full page and first viewport.
+  for (const [page, name, selector] of [['', 'home', '.door'], ['comercio.html', 'comercio', '.biz']]) {
+    for (const [ctx, size] of [[dctx, 'desktop'], [mctx, 'mobile']]) {
+      const p = await ctx.newPage(); log(p, `${size} ${name}`);
+      await p.goto(base + page);
+      await p.waitForSelector(selector);
+      await p.evaluate(() => document.fonts.ready);
+      await p.waitForTimeout(200);
+      await p.screenshot({ path: `${out}/${size}-${name}.png`, fullPage: true });
+      await p.screenshot({ path: `${out}/${size}-${name}-viewport.png` });
+    }
+  }
   await browser.close();
 })();

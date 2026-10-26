@@ -1,13 +1,13 @@
-import { APP_FULL_NAME, APP_NAME, CITY, CSV_URL, ORG_NAMES, SECTOR_SERIES } from './config.js';
-import { decodeCSV, parseCSV } from './csv.js';
-import { buildEvents, capitalize, dateKey, formatLongDateRange, formatShortDate, formatTime, formatTimeRange, formatTinyDate, matchKey, monthName, weekdayName } from './events.js';
-import { assignSectorColors, paintSector } from './colors.js';
+import { CSV_URL, ORG_NAMES } from './config.js';
+import { buildEvents, capitalize, dateKey, findNextEvent, formatLongDateRange, formatTimeRange, formatTinyDate, matchKey, monthName, weekdayName } from './events.js';
+import { assignSectorColors, paintSector, sectorRank, sectorsOf } from './colors.js';
 import { isRedLetter } from './holidays.js';
 import { buildWhatsAppMessage, previewHtml, whatsAppShareUrl } from './whatsapp.js';
 import { FLYER_STYLES, FLYER_WIDTH, canShareFiles, downloadFlyer, flyerFilename, renderFlyer, shareFlyer } from './flyer.js';
-import { el, renderAgenda, sheetNumber, upcomingLabel } from './agenda.js';
+import { renderAgenda, sheetNumber, upcomingLabel } from './agenda.js';
 import { renderMonth } from './month.js';
-import { brandMark, icon } from './icons.js';
+import { icon } from './icons.js';
+import { $, announce, el, escapeHtml, initPage, readSheet, registerWorker, safeUrl, showNotice, showOffline } from './page.js';
 
 // From this width the agenda and the activity panel sit side by side; below it the panel is a
 // bottom sheet. Keep in sync with the 1100px media queries in css/style.css.
@@ -31,25 +31,10 @@ const state = {
   focusDay: null, // the month grid's keyboard position
 };
 
-const $ = (id) => document.getElementById(id);
-const escapeHtml = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 const collator = new Intl.Collator('pt-BR', { sensitivity: 'base', numeric: true });
 const scrollBehavior = () => (reducedMotion.matches ? 'auto' : 'smooth');
 
 // ---------- Data ----------
-
-// Suggested sectors first, in the order of SECTOR_SERIES, then any other sector of the sheet.
-const SECTOR_ORDER = Object.keys(SECTOR_SERIES).map(matchKey);
-function sectorRank(sector) {
-  const i = SECTOR_ORDER.indexOf(matchKey(sector));
-  return i === -1 ? SECTOR_ORDER.length : i;
-}
-
-function sectorsOf(events) {
-  const seen = new Map();
-  for (const ev of events) if (ev.sector && !seen.has(matchKey(ev.sector))) seen.set(matchKey(ev.sector), ev.sector);
-  return [...seen.values()].sort((a, b) => sectorRank(a) - sectorRank(b) || collator.compare(a, b));
-}
 
 const FULL_NAMES = new Map(Object.entries(ORG_NAMES).map(([org, name]) => [matchKey(org), name]));
 const fullName = (org) => FULL_NAMES.get(matchKey(org)) || '';
@@ -88,34 +73,14 @@ function matches(ev) {
 const visibleEvents = () => state.events.filter(matches);
 const findEvent = (id) => state.events.find((ev) => ev.id === id) || null;
 
-// The next activity that has not started yet (today's count until an hour after they start).
-// Cancelled ones are never next, and a period that already started is running, not next.
-function findNext(events) {
-  const nowMinutes = today.getHours() * 60 + today.getMinutes();
-  return events.find((ev) => !ev.cancelled && (ev.dateKey > todayKey || (ev.dateKey === todayKey && (ev.time == null || ev.time + 60 >= nowMinutes)))) || null;
-}
-
-// The spreadsheet, fresh. Offline, sw.js answers with the copy it saved; where the browser doesn't
-// ask the worker (Firefox's offline mode, as emulated in tests, skips it for no-store requests) and
-// the fetch fails, that copy is read from the worker's cache directly. Either way it carries
-// X-Cached-At.
-async function fetchCSV() {
-  try {
-    return await fetch(CSV_URL, { cache: 'no-store' });
-  } catch (err) {
-    const saved = 'caches' in window ? await caches.match(new URL(CSV_URL, location.href).href, { ignoreVary: true }).catch(() => null) : null;
-    if (saved) return saved;
-    throw err;
-  }
-}
+// The next activity from "now" (see findNextEvent in js/events.js).
+const findNext = (events) => findNextEvent(events, today);
 
 // Fetches and reads the spreadsheet. Returns false when nothing could be read. With keepOnError
 // (a tab coming back after a long while) a failure leaves the agenda on screen as it was, quietly.
 async function fetchAgenda({ keepOnError = false } = {}) {
   try {
-    const res = await fetchCSV();
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const { headers, records, lines } = parseCSV(decodeCSV(await res.arrayBuffer()));
+    const { headers, records, lines, savedAt } = await readSheet(CSV_URL);
     const { events, invalid, warnings, missing } = buildEvents(headers, records, lines);
     if (missing.length) {
       if (keepOnError) return false;
@@ -126,9 +91,8 @@ async function fetchAgenda({ keepOnError = false } = {}) {
     state.events = events;
     assignSectorColors(sectorsOf(events));
     showProblems(invalid, warnings);
-    // Set by sw.js only on its saved copy, i.e. the live spreadsheet couldn't be reached.
-    const cachedAt = res.headers.get('X-Cached-At');
-    if (cachedAt) showOffline(new Date(cachedAt));
+    // Set only on sw.js's saved copy, i.e. the live spreadsheet couldn't be reached.
+    if (savedAt) showOffline(savedAt, 'a agenda salva');
     return true;
   } catch (err) {
     console.error(err);
@@ -176,13 +140,6 @@ async function reload() {
 
 // ---------- Notices ----------
 
-function showNotice(html, kind = 'warning') {
-  const notice = $('notice');
-  notice.innerHTML = `${icon('alert')}<div>${html}</div>`;
-  notice.dataset.kind = kind;
-  notice.hidden = false;
-}
-
 // Spreadsheet problems: one summary line for visitors, the row list folded for whoever edits the sheet.
 function showProblems(invalid, warnings) {
   if (!invalid.length && !warnings.length) return;
@@ -194,24 +151,6 @@ function showProblems(invalid, warnings) {
     ...warnings.map((r) => `<li>Linha ${r.line}: “${escapeHtml(r.title)}”, dia final “${escapeHtml(r.value)}”: não é uma data depois do dia.</li>`),
   ].join('');
   showNotice(`<p><strong>${summary.join(' e ')}.</strong></p><details><summary>Ver as linhas para corrigir</summary><ul>${items}</ul></details>`);
-}
-
-function showOffline(savedAt) {
-  const when = isNaN(savedAt) ? '' : ` em ${formatShortDate(savedAt).toLowerCase()}, às ${formatTime(savedAt.getHours() * 60 + savedAt.getMinutes())}`;
-  const html = `<strong>Sem conexão.</strong> Mostrando a agenda salva${when}; mudanças feitas depois disso não aparecem aqui.`;
-  const notice = $('notice');
-  // Keep the spreadsheet warning if it's already up.
-  if (notice.hidden) showNotice(html);
-  else notice.lastElementChild.insertAdjacentHTML('afterbegin', `<p class="notice-offline">${html}</p>`);
-}
-
-// Screen readers hear filter results and month changes through one region that is never replaced.
-function announce(text) {
-  const live = $('live');
-  live.textContent = '';
-  requestAnimationFrame(() => {
-    live.textContent = text;
-  });
 }
 
 // ---------- Focus across re-renders ----------
@@ -467,15 +406,6 @@ function fact(marker, content, label, className = '') {
   else dd.append(content);
   row.append(dt, dd);
   return row;
-}
-
-// Only web links leave the page: a bare domain ("forms.gle/abc") gets https://, and anything
-// else typed in the sheet (javascript:, data:, relative paths) is shown as text, not linked.
-function safeUrl(value) {
-  const v = (value || '').trim();
-  if (/^https?:\/\/[^\s"<>]+$/i.test(v)) return v;
-  if (/^(?:www\.)?[\p{L}\p{N}-]+(?:\.[\p{L}\p{N}-]+)+(?:[/?#][^\s"<>]*)?$/u.test(v)) return `https://${v}`;
-  return null;
 }
 
 function link(href, text, { wide = false } = {}) {
@@ -827,12 +757,7 @@ function wireTabs(selector, onPick) {
   });
 }
 
-$('brand-mark').innerHTML = brandMark(APP_NAME);
-$('brand-name-sr').textContent = `${APP_NAME} `;
-$('app-city').textContent = CITY;
-$('app-full-name').textContent = APP_FULL_NAME;
-document.title = `${APP_NAME} ${CITY.split('/')[0]} · ${APP_FULL_NAME}`;
-document.querySelectorAll('[data-icon]').forEach((node) => node.insertAdjacentHTML('afterbegin', icon(node.dataset.icon)));
+initPage('Calendário');
 
 wireTabs('.view-tabs [role=tab]', (tab) => {
   state.view = tab.dataset.view;
@@ -957,7 +882,4 @@ window.addEventListener('pageshow', (e) => {
 
 if (location.protocol !== 'file:') start();
 
-// Offline support (sw.js). The CSV URL goes in the query string so the worker can cache it too.
-if ('serviceWorker' in navigator && location.protocol !== 'file:') {
-  navigator.serviceWorker.register(`sw.js?csv=${encodeURIComponent(CSV_URL)}`).catch((err) => console.warn('Service worker:', err));
-}
+registerWorker();

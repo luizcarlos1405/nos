@@ -576,3 +576,11 @@ Lucide outlines (ISC license) at one stroke weight (2) on a 24px grid with round
 - **Don't** lift sheets, the month page or the desktop panel with shadows; shadows belong to what floats (the phone's bottom sheet, the chat bubble, the mark on the header).
 - **Don't** tilt printed content; rotation belongs to hand-applied marks (the stamp, the circled day and its underline).
 - **Don't** invent logos, photos or slogans for the organizations; they are named in text, with their full names where they are known.
+
+## Pages (2026-10-26)
+
+The site is three pages in the same world: Início (`index.html`), Calendário (`calendario.html`) and Comércio (`comercio.html`).
+
+- **Page tabs:** folder tabs at the foot of the red header card, a plain link each (Barlow 600, 18px icon, 6px top corners, 44px tall, 48px from 1100px). The open page's tab takes the wall colour and runs into the page (graphite text at 700, graphite focus ring); the others are white on red and deepen to Deep Red under the pointer (`--role-header-hover`). Início has no tabs: its doors are the navigation.
+- **Comércio, the phone book:** one sheet per letter, the letter at Numeral size in the folio column (4.5rem here), its count beside it. Each business: its category in Type Label in the folio column; its name in Barlow Condensed 800 capitals at 1.375rem; subtitle (Meta 600, Pencil Grey) and offer (Meta, 1.4 line height). Contacts as label/value rows: labels in Type Label in the folio column, phone numbers in the Time voice (Barlow Condensed 700, 1.375rem, tabular figures, underlined), handles and links in Meta 600 underlined, the phone glyph to call. "Indicar no WhatsApp" is a share glyph on phones and written out from 760px, where contacts get their own column. Search is a pill like the organization select (1.5px graphite, 48px). No sector colours, no yellow.
+- **Início, the doors:** two sheets, each a whole link with a red button: today's day sheet (with "Hoje", the next activities, the first with the yellow "Próxima") and the phone book's "A–Z" sheet with businesses drawn at random, joined to their category by dot leaders in Faded Grey. Door titles are Barlow Condensed 800 at 2rem, 2.5rem from 1100px.

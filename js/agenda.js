@@ -5,13 +5,7 @@ import { capitalize, dateFromKey, dateKey, formatLongDate, formatTimeRange, form
 import { holidayOn, isRedLetter } from './holidays.js';
 import { paintSector } from './colors.js';
 import { icon } from './icons.js';
-
-export function el(tag, className, text) {
-  const node = document.createElement(tag);
-  if (className) node.className = className;
-  if (text != null) node.textContent = text;
-  return node;
-}
+import { el } from './page.js';
 
 // Day numbers on sheets always take two digits, like a printed folhinha: "09".
 export const sheetNumber = (date) => String(date.getDate()).padStart(2, '0');
