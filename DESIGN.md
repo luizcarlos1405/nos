@@ -353,7 +353,7 @@ It refuses the category default of event apps (a grey list with thin date divide
 
 ## Colors
 
-A calendar printer's palette: one red, graphite ink, white paper on a pale wall, a single reserved yellow and eight sector inks. Every value lives in `css/theme.css` as a palette variable (`--color-*`, the same names as the variables of `design.pen`) and reaches the interface and the flyers only through a role (`--role-*`).
+A calendar printer's palette: one red, graphite ink, white paper on a pale wall, a single reserved yellow and eight sector inks. Every value lives in `css/theme.css` as a palette variable (`--color-*`, which the design files in `design/` use directly) and reaches the interface and the flyers only through a role (`--role-*`).
 
 ### Primary
 - **Folhinha Red** (#E4002B, `--color-brand`): the printed header card (`--role-header`), the binding strip on every sheet (`--role-binding`), Sundays and holidays (`--role-red-letter`), the panel's one primary action (`--role-accent`: "Enviar no WhatsApp", "Compartilhar imagem", or "Baixar PNG" when the device can't share files), the alarm on flyers (`--role-alert`: the "Cancelada" stamp, the strike through a cancelled date, also the day circled by hand on the month flyer), error icons, text selection and the caret. White on it, and it on paper, both reach 4.85:1.
