@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panfleto · Aviso de cancelamento</title>
+<link rel="stylesheet" href="../css/theme.css">
+<link rel="stylesheet" href="assets/design.css">
+<link rel="stylesheet" href="assets/components.css">
+<style>
+.panfleto-aviso-de-cancelamento { position: relative; display: flex; flex-direction: column; align-items: flex-start; width: 1080px; height: 1350px; background: var(--color-ground); overflow: hidden; }
+.header { position: relative; display: flex; align-items: center; gap: 26px; padding: 32px 80px; align-self: stretch; flex-shrink: 0; background: var(--color-brand); }
+.nos-mark-2 { display: flex; flex-direction: column; align-items: flex-start; width: 88px; height: 100px; flex-shrink: 0; background: var(--color-surface); border-radius: 6px 6px 8px 8px; overflow: hidden; }
+.mark-binding { align-self: stretch; height: 14px; flex-shrink: 0; background: var(--color-ink); }
+.mark-perforation { display: flex; align-items: flex-start; justify-content: center; gap: 6px; padding: 4px 8px; align-self: stretch; height: 12px; flex-shrink: 0; }
+.perf-dot { width: 4px; height: 4px; flex-shrink: 0; background: var(--color-faded); border-radius: 50%; }
+.mark-word-wrap { display: flex; align-items: center; justify-content: center; padding: 0 0 6px; align-self: stretch; min-height: 0; flex: 1 1 0; }
+.mark-word { flex-shrink: 0; font-family: var(--font-display); font-size: 46px; font-weight: 800; line-height: 1; letter-spacing: 0.6px; white-space: nowrap; color: var(--color-ink); }
+.lockup-text { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; flex-shrink: 0; }
+.brand { flex-shrink: 0; font-family: var(--font-display); font-size: 56px; font-weight: 800; line-height: 1; white-space: nowrap; color: var(--color-on-ink); }
+.full-name { flex-shrink: 0; font-family: var(--font-ui); font-size: 28px; font-weight: 500; line-height: 1.2; white-space: nowrap; color: var(--color-on-ink); }
+.body { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 36px; padding: 44px 80px 0; align-self: stretch; min-height: 0; flex: 1 1 0; }
+.day-sheet-2 { display: flex; flex-direction: column; align-items: flex-start; align-self: stretch; flex-shrink: 0; background: var(--color-surface); border-radius: 4px 4px 6px 6px; outline: 1px solid var(--color-seam); outline-offset: -0.5px; overflow: hidden; }
+.sheet-binding { align-self: stretch; height: 10px; flex-shrink: 0; background: var(--color-brand); }
+.sheet-perforation { display: flex; align-items: flex-start; justify-content: space-between; padding: 12px 28px 0; align-self: stretch; height: 28px; flex-shrink: 0; }
+.perf-dot-2 { width: 6px; height: 6px; flex-shrink: 0; background: var(--color-faded); border-radius: 50%; }
+.sheet-head { display: flex; flex-direction: column; align-items: flex-start; gap: 52px; padding: 0 40px 30px; align-self: stretch; flex-shrink: 0; }
+.numeral-wrap { position: relative; display: flex; flex-direction: column; align-items: flex-start; flex-shrink: 0; }
+.day-numeral { position: relative; flex-shrink: 0; font-family: var(--font-display); font-size: 290px; font-weight: 800; line-height: 0.84; letter-spacing: -3px; white-space: nowrap; color: var(--color-ink); }
+.strike { position: absolute; width: 256px; height: 12px; background: var(--color-brand); }
+.day-text { display: flex; align-items: center; gap: 32px; flex-shrink: 0; }
+.date-col { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; flex-shrink: 0; }
+.weekday { flex-shrink: 0; font-family: var(--font-display); font-size: 56px; font-weight: 700; line-height: 1.05; letter-spacing: 3px; white-space: nowrap; color: var(--color-ink); }
+.month { flex-shrink: 0; font-family: var(--font-display); font-size: 36px; font-weight: 700; line-height: 1.1; letter-spacing: 2px; white-space: nowrap; color: var(--color-muted); }
+.foot-seam { width: 1px; height: 88px; flex-shrink: 0; background: var(--color-seam); }
+.time-row { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; flex-shrink: 0; }
+.time-wrap { position: relative; display: flex; flex-direction: column; align-items: flex-start; flex-shrink: 0; }
+.time { position: relative; flex-shrink: 0; font-family: var(--font-display); font-size: 64px; font-weight: 800; line-height: 0.95; white-space: nowrap; color: var(--color-ink); }
+.strike-2 { position: absolute; width: 77px; height: 5px; background: var(--color-brand); }
+.type { flex-shrink: 0; font-family: var(--font-display); font-size: 32px; font-weight: 600; line-height: 1.2; white-space: nowrap; color: var(--color-muted); }
+.reason-block { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; align-self: stretch; flex-shrink: 0; }
+.reason-label { flex-shrink: 0; font-family: var(--font-ui); font-size: 40px; font-weight: 700; line-height: 1.3; white-space: nowrap; color: var(--color-ink); }
+.reason { align-self: stretch; flex-shrink: 0; font-family: var(--font-ui); font-size: 40px; font-weight: 500; line-height: 1.3; color: var(--color-ink); }
+.record { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; align-self: stretch; flex-shrink: 0; }
+.title-wrap { position: relative; display: flex; flex-direction: column; align-items: flex-start; align-self: stretch; flex-shrink: 0; }
+.title { position: relative; align-self: stretch; flex-shrink: 0; font-family: var(--font-ui); font-size: 64px; font-weight: 700; line-height: 1.08; color: var(--color-muted); }
+.strike-line { position: absolute; width: 883px; height: 5px; background: var(--color-muted); }
+.strike-line-2 { position: absolute; width: 408px; height: 5px; background: var(--color-muted); }
+.place-row { display: flex; align-items: flex-start; gap: 14px; align-self: stretch; flex-shrink: 0; }
+.place-icon-box { display: flex; align-items: center; justify-content: center; width: 36px; height: 46px; flex-shrink: 0; }
+.place-icon { width: 34px; height: 34px; flex-shrink: 0; color: var(--color-muted); }
+.place { min-width: 0; flex: 1 1 0; font-family: var(--font-ui); font-size: 36px; font-weight: 500; line-height: 1.28; color: var(--color-muted); }
+.org-row { display: flex; align-items: flex-start; gap: 14px; align-self: stretch; flex-shrink: 0; }
+.sector-mark-box { display: flex; align-items: center; justify-content: center; width: 36px; height: 46px; flex-shrink: 0; }
+.sector-mark { width: 22px; height: 22px; flex-shrink: 0; background: var(--color-series-4); border-radius: 3px; }
+.org { min-width: 0; flex: 1 1 0; font-family: var(--font-ui); font-size: 36px; font-weight: 600; line-height: 1.28; color: var(--color-muted); }
+.footer { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 18px; padding: 0 80px 48px; align-self: stretch; flex-shrink: 0; }
+.footer-seam { align-self: stretch; height: 1px; flex-shrink: 0; background: var(--color-seam); }
+.footer-line { flex-shrink: 0; font-family: var(--font-ui); font-size: 28px; font-weight: 500; line-height: 1.25; white-space: nowrap; color: var(--color-muted); }
+</style>
+</head>
+<body>
+<div class="panfleto-aviso-de-cancelamento">
+  <div class="header">
+    <div class="nos-mark-2">
+      <div class="mark-binding"></div>
+      <div class="mark-perforation">
+        <div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div>
+      </div>
+      <div class="mark-word-wrap">
+        <span class="mark-word">NOS</span>
+      </div>
+    </div>
+    <div class="lockup-text">
+      <span class="brand">NOS Dourados</span>
+      <span class="full-name">Núcleo de Organização Social</span>
+    </div>
+  </div>
+  <div class="body">
+    <div class="day-sheet-2">
+      <div class="sheet-binding"></div>
+      <div class="sheet-perforation">
+        <div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div>
+      </div>
+      <div class="sheet-head">
+        <div class="numeral-wrap">
+          <span class="day-numeral">09</span>
+          <div class="strike" style="left: 0; top: 130px"></div>
+        </div>
+        <div class="day-text">
+          <div class="date-col">
+            <span class="weekday">SEXTA-FEIRA</span>
+            <span class="month">OUTUBRO 2026</span>
+          </div>
+          <div class="foot-seam"></div>
+          <div class="time-row">
+            <div class="time-wrap">
+              <span class="time">15h</span>
+              <div class="strike-2" style="left: 0; top: 31px"></div>
+            </div>
+            <span class="type">Plenária</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="reason-block">
+      <span class="reason-label">Motivo:</span>
+      <span class="reason">O DCE cancelou todas as suas atividades de 09/10 em luto pelo falecimento de uma estudante de Medicina da UFGD.</span>
+    </div>
+    <div class="record">
+      <div class="title-wrap">
+        <span class="title">Conselho de Entidades de Base extraordinário</span>
+        <div class="strike-line" style="left: 0; top: 40px"></div>
+        <div class="strike-line-2" style="left: 0; top: 109px"></div>
+      </div>
+      <div class="place-row">
+        <div class="place-icon-box">
+          <svg class="place-icon"><use href="assets/icons.svg#map-pin"/></svg>
+        </div>
+        <span class="place">UFGD – CineLab da FALE</span>
+      </div>
+      <div class="org-row">
+        <div class="sector-mark-box">
+          <div class="sector-mark"></div>
+        </div>
+        <span class="org">DCE UFGD</span>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="footer-seam"></div>
+    <span class="footer-line">Agenda das organizações de Dourados</span>
+  </div>
+  <div class="stamp-cancelada" style="position: absolute; padding: 0 28px 26px 36px; transform-origin: 0 0; transform: rotate(-8deg); border-radius: 10px; outline: 10px solid var(--color-brand); outline-offset: -5px; margin: 0; left: 232px; top: 362px">
+    <span class="stamp-cancelada__label" style="font-size: 140px; line-height: 1; letter-spacing: 8px">CANCELADA</span>
+  </div>
+</div>
+</body>
+</html>

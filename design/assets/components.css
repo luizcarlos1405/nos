@@ -1,0 +1,83 @@
+/* The reusable components of the designs (each design file links this sheet). Edit a
+   component here and every design that uses it follows; per-use differences sit inline
+   in each design. componentes.html and marca-nos.html show them on their own.
+   Block__element names: .day-sheet__head is the head of a .day-sheet. */
+
+/* NOS Mark */
+.nos-mark { display: flex; flex-direction: column; align-items: flex-start; width: 44px; height: 50px; flex-shrink: 0; background: var(--color-surface); border-radius: 3px 3px 4px 4px; box-shadow: 0 1px 2px #1C1C1E33; overflow: hidden; }
+.nos-mark__binding { align-self: stretch; height: 7px; flex-shrink: 0; background: var(--color-ink); }
+.nos-mark__perforation { display: flex; align-items: flex-start; justify-content: center; gap: 3px; padding: 2px 4px; align-self: stretch; height: 6px; flex-shrink: 0; }
+.nos-mark__perf-dot { width: 2px; height: 2px; flex-shrink: 0; background: var(--color-faded); border-radius: 50%; }
+.nos-mark__word-wrap { display: flex; align-items: center; justify-content: center; padding: 0 0 3px; align-self: stretch; min-height: 0; flex: 1 1 0; }
+.nos-mark__word { flex-shrink: 0; font-family: var(--font-display); font-size: 23px; font-weight: 800; line-height: 1; letter-spacing: 0.3px; white-space: nowrap; color: var(--color-ink); }
+
+/* Chip */
+.chip { display: flex; align-items: center; gap: 8px; padding: 0 14px; height: 40px; flex-shrink: 0; background: var(--color-surface); border-radius: 20px; outline: 1px solid var(--color-seam); outline-offset: -0.5px; }
+.chip__mark { width: 10px; height: 10px; flex-shrink: 0; background: var(--color-series-1); border-radius: 2px; }
+.chip__label { flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 500; white-space: nowrap; color: var(--color-ink); }
+
+/* Org Select */
+.org-select { display: flex; align-items: center; gap: 8px; padding: 0 12px; height: 40px; flex-shrink: 0; background: var(--color-surface); border-radius: 20px; outline: 1.5px solid var(--color-ink); outline-offset: -0.75px; }
+.org-select__icon { width: 18px; height: 18px; flex-shrink: 0; color: var(--color-ink); }
+.org-select__label { flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 600; white-space: nowrap; color: var(--color-ink); }
+.org-select__chevron { width: 16px; height: 16px; flex-shrink: 0; color: var(--color-ink); }
+
+/* Badge */
+.badge { display: flex; align-items: center; padding: 0 9px; height: 26px; flex-shrink: 0; background: var(--color-ink); border-radius: 4px; }
+.badge__label { flex-shrink: 0; font-family: var(--font-display); font-size: 16px; font-weight: 700; letter-spacing: 0.3px; white-space: nowrap; color: var(--color-on-ink); }
+
+/* Stamp Cancelada */
+.stamp-cancelada { display: flex; align-items: center; padding: 3px 7px; flex-shrink: 0; margin: 2.313px 0.541px; transform: rotate(-3deg); border-radius: 3px; outline: 2px solid var(--color-brand); outline-offset: -1px; }
+.stamp-cancelada__label { flex-shrink: 0; font-family: var(--font-display); font-size: 14px; font-weight: 800; letter-spacing: 1.6px; white-space: nowrap; color: var(--color-brand); }
+
+/* City Tag */
+.city-tag { display: flex; align-items: center; padding: 0 7px; height: 22px; flex-shrink: 0; background: var(--color-ink); border-radius: 3px; }
+.city-tag__label { flex-shrink: 0; font-family: var(--font-display); font-size: 14px; font-weight: 700; letter-spacing: 0.3px; white-space: nowrap; color: var(--color-on-ink); }
+
+/* Button Primary */
+.button-primary { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 0 18px; height: 48px; flex-shrink: 0; background: var(--color-brand); border-radius: 6px; }
+.button-primary__icon { width: 20px; height: 20px; flex-shrink: 0; color: var(--color-on-ink); }
+.button-primary__label { flex-shrink: 0; font-family: var(--font-ui); font-size: 16px; font-weight: 700; white-space: nowrap; color: var(--color-on-ink); }
+
+/* Button Secondary */
+.button-secondary { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 0 18px; height: 48px; flex-shrink: 0; border-radius: 6px; outline: 2px solid var(--color-ink); outline-offset: -1px; }
+.button-secondary__icon { width: 20px; height: 20px; flex-shrink: 0; color: var(--color-ink); }
+.button-secondary__label { flex-shrink: 0; font-family: var(--font-ui); font-size: 16px; font-weight: 700; white-space: nowrap; color: var(--color-ink); }
+
+/* Icon Button */
+.icon-button { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; flex-shrink: 0; border-radius: 6px; }
+.icon-button__icon { width: 20px; height: 20px; flex-shrink: 0; color: var(--color-ink); }
+
+/* Day Sheet */
+.day-sheet { display: flex; flex-direction: column; align-items: flex-start; width: 358px; flex-shrink: 0; background: var(--color-surface); border-radius: 2px 2px 6px 6px; outline: 1px solid var(--color-seam); outline-offset: -0.5px; overflow: hidden; }
+.day-sheet__binding { align-self: stretch; height: 4px; flex-shrink: 0; background: var(--color-brand); }
+.day-sheet__perforation { display: flex; align-items: flex-start; justify-content: space-between; padding: 4px 12px 0; align-self: stretch; height: 9px; flex-shrink: 0; }
+.day-sheet__perf-dot { width: 3px; height: 3px; flex-shrink: 0; background: var(--color-seam); border-radius: 50%; }
+.day-sheet__head { display: flex; align-items: center; gap: 12px; padding: 4px 12px 12px 16px; align-self: stretch; flex-shrink: 0; }
+.day-sheet__numeral { width: 64px; flex-shrink: 0; font-family: var(--font-display); font-size: 58px; font-weight: 800; line-height: 0.9; letter-spacing: -0.5px; color: var(--color-ink); }
+.day-sheet__text { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; min-width: 0; flex: 1 1 0; }
+.day-sheet__weekday { flex-shrink: 0; font-family: var(--font-display); font-size: 19px; font-weight: 700; line-height: 1.1; letter-spacing: 1.2px; white-space: nowrap; color: var(--color-ink); }
+.day-sheet__month { flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 500; line-height: 1.2; white-space: nowrap; color: var(--color-muted); }
+.day-sheet__holiday { flex-shrink: 0; font-family: var(--font-ui); font-size: 14px; font-weight: 600; line-height: 1.2; white-space: nowrap; color: var(--color-brand); }
+.day-sheet__countdown { flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 500; white-space: nowrap; color: var(--color-muted); }
+.day-sheet__lines { display: flex; flex-direction: column; align-items: flex-start; align-self: stretch; height: 0; flex-shrink: 0; }
+
+/* Activity Line */
+.activity-line { position: relative; display: flex; align-items: flex-start; gap: 12px; padding: 14px 6px 14px 16px; width: 358px; flex-shrink: 0; background: var(--color-surface); }
+.activity-line::after { content: ''; position: absolute; inset: -0.5px 0 0 0; border-style: solid; border-width: 1px 0 0 0; border-color: var(--color-seam); pointer-events: none; }
+.activity-line__time-col { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; width: 64px; flex-shrink: 0; }
+.activity-line__time-plate { display: flex; align-items: flex-start; padding: 1px 5px; flex-shrink: 0; border-radius: 3px; }
+.activity-line__time { flex-shrink: 0; font-family: var(--font-display); font-size: 22px; font-weight: 700; line-height: 1.1; white-space: nowrap; color: var(--color-ink); }
+.activity-line__type { align-self: stretch; flex-shrink: 0; font-family: var(--font-display); font-size: 15px; font-weight: 600; line-height: 1.15; color: var(--color-muted); }
+.activity-line__body { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; min-width: 0; flex: 1 1 0; }
+.activity-line__title { align-self: stretch; flex-shrink: 0; font-family: var(--font-ui); font-size: 17px; font-weight: 600; line-height: 1.25; color: var(--color-ink); }
+.activity-line__reason { align-self: stretch; flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 500; line-height: 1.3; color: var(--color-brand-hover); }
+.activity-line__org-row { display: flex; align-items: center; gap: 8px; align-self: stretch; flex-shrink: 0; }
+.activity-line__sector-mark { width: 10px; height: 10px; flex-shrink: 0; background: var(--color-series-1); border-radius: 2px; }
+.activity-line__org { min-width: 0; flex: 1 1 0; font-family: var(--font-ui); font-size: 15px; font-weight: 600; line-height: 1.25; color: var(--color-ink); }
+.activity-line__place-row { display: flex; align-items: flex-start; gap: 6px; align-self: stretch; flex-shrink: 0; }
+.activity-line__place-icon { width: 16px; height: 16px; flex-shrink: 0; color: var(--color-muted); }
+.activity-line__place { min-width: 0; flex: 1 1 0; font-family: var(--font-ui); font-size: 15px; font-weight: 500; line-height: 1.3; color: var(--color-muted); }
+.activity-line__range-row { display: flex; align-items: center; gap: 6px; align-self: stretch; flex-shrink: 0; }
+.activity-line__range-icon { width: 16px; height: 16px; flex-shrink: 0; color: var(--color-muted); }
+.activity-line__range { flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 500; white-space: nowrap; color: var(--color-muted); }

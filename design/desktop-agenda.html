@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Desktop · Agenda</title>
+<link rel="stylesheet" href="../css/theme.css">
+<link rel="stylesheet" href="assets/design.css">
+<link rel="stylesheet" href="assets/components.css">
+<style>
+.desktop-agenda { display: flex; flex-direction: column; align-items: flex-start; width: 1440px; height: 900px; background: var(--color-ground); overflow: hidden; }
+.header { display: flex; align-items: flex-end; justify-content: space-between; padding: 0 80px; align-self: stretch; height: 76px; flex-shrink: 0; background: var(--color-brand); }
+.brand-row { display: flex; align-items: center; gap: 12px; align-self: stretch; flex-shrink: 0; }
+.lockup-text { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; flex-shrink: 0; }
+.city { flex-shrink: 0; font-family: var(--font-display); font-size: 26px; font-weight: 800; line-height: 1.05; white-space: nowrap; color: var(--color-on-ink); }
+.full-name { flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 500; line-height: 1.2; white-space: nowrap; color: var(--color-on-ink); }
+.body { display: flex; align-items: flex-start; gap: 32px; padding: 28px 80px 0; align-self: stretch; flex-shrink: 0; }
+.main-column { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; min-width: 0; flex: 1 1 0; }
+.filter-bar { display: flex; align-items: flex-start; gap: 8px; align-self: stretch; flex-shrink: 0; }
+.filter-divider-wrap { display: flex; align-items: center; height: 40px; flex-shrink: 0; }
+.filter-divider { width: 1px; height: 24px; flex-shrink: 0; background: var(--color-seam); }
+.chip-rows { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; min-width: 0; flex: 1 1 0; }
+.chip-row { display: flex; align-items: flex-start; gap: 8px; flex-shrink: 0; }
+.view-tabs { display: flex; flex-direction: column; align-items: flex-start; align-self: stretch; flex-shrink: 0; }
+.tab-row { display: flex; align-items: flex-start; flex-shrink: 0; }
+.tab-agenda { display: flex; flex-direction: column; align-items: flex-start; width: 132px; flex-shrink: 0; }
+.tab-label { display: flex; align-items: center; justify-content: center; gap: 8px; align-self: stretch; height: 45px; flex-shrink: 0; }
+.tab-icon { width: 18px; height: 18px; flex-shrink: 0; color: var(--color-ink); }
+.tab-text { flex-shrink: 0; font-family: var(--font-ui); font-size: 16px; font-weight: 700; white-space: nowrap; color: var(--color-ink); }
+.tab-indicator { align-self: stretch; height: 4px; flex-shrink: 0; background: var(--color-ink); border-radius: 2px 2px 0 0; }
+.tab-mes { display: flex; flex-direction: column; align-items: flex-start; width: 132px; flex-shrink: 0; }
+.tab-icon-2 { width: 18px; height: 18px; flex-shrink: 0; color: var(--color-muted); }
+.tab-text-2 { flex-shrink: 0; font-family: var(--font-ui); font-size: 16px; font-weight: 500; white-space: nowrap; color: var(--color-muted); }
+.tab-indicator-2 { align-self: stretch; height: 4px; flex-shrink: 0; background: transparent; border-radius: 2px 2px 0 0; }
+.tab-seam { align-self: stretch; height: 1px; flex-shrink: 0; background: var(--color-seam); }
+.agenda-list { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; align-self: stretch; flex-shrink: 0; }
+.past-toggle { display: flex; align-items: center; gap: 8px; padding: 0 4px; align-self: stretch; height: 40px; flex-shrink: 0; }
+.past-icon { width: 18px; height: 18px; flex-shrink: 0; color: var(--color-muted); }
+.past-label { flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 600; white-space: nowrap; color: var(--color-muted); }
+.perf-dot { width: 3px; height: 3px; flex-shrink: 0; background: var(--color-seam); border-radius: 50%; }
+.empty-day { position: relative; display: flex; align-items: flex-start; padding: 12px 16px 16px 100px; align-self: stretch; flex-shrink: 0; }
+.empty-day::after { content: ''; position: absolute; inset: -0.5px 0 0 0; border-style: solid; border-width: 1px 0 0 0; border-color: var(--color-seam); pointer-events: none; }
+.empty-label { flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 500; white-space: nowrap; color: var(--color-muted); }
+.bench { display: flex; flex-direction: column; align-items: flex-start; width: 420px; height: 772px; flex-shrink: 0; background: var(--color-surface); border-radius: 8px; outline: 1px solid var(--color-seam); outline-offset: -0.5px; overflow: hidden; }
+.bench-binding { align-self: stretch; height: 4px; flex-shrink: 0; background: var(--color-brand); }
+.bench-perforation { display: flex; align-items: flex-start; justify-content: space-between; padding: 4px 12px 0; align-self: stretch; height: 9px; flex-shrink: 0; }
+.bench-body { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 12px 24px 0; align-self: stretch; min-height: 0; flex: 1 1 0; }
+.summary { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 0 0 8px; align-self: stretch; flex-shrink: 0; }
+.bench-head { display: flex; align-items: center; gap: 12px; align-self: stretch; flex-shrink: 0; }
+.bench-numeral { flex-shrink: 0; font-family: var(--font-display); font-size: 44px; font-weight: 800; line-height: 0.9; letter-spacing: -0.5px; white-space: nowrap; color: var(--color-brand); }
+.bench-day-text { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; flex-shrink: 0; }
+.bench-weekday { flex-shrink: 0; font-family: var(--font-display); font-size: 16px; font-weight: 700; line-height: 1.1; letter-spacing: 1.2px; white-space: nowrap; color: var(--color-brand); }
+.bench-meta { flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 600; line-height: 1.2; white-space: nowrap; color: var(--color-ink); }
+.bench-title { align-self: stretch; flex-shrink: 0; font-family: var(--font-ui); font-size: 24px; font-weight: 700; line-height: 1.2; color: var(--color-ink); }
+.facts { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; align-self: stretch; flex-shrink: 0; }
+.fact-org { display: flex; align-items: center; gap: 10px; align-self: stretch; flex-shrink: 0; }
+.sector-slot { display: flex; align-items: center; justify-content: center; width: 20px; height: 20px; flex-shrink: 0; }
+.sector-mark { width: 10px; height: 10px; flex-shrink: 0; background: var(--color-series-1); border-radius: 2px; }
+.org-group { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.org-name { flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 600; line-height: 1.3; white-space: nowrap; color: var(--color-ink); }
+.sector-name { flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 500; line-height: 1.3; white-space: nowrap; color: var(--color-muted); }
+.fact-place { display: flex; align-items: center; gap: 10px; align-self: stretch; flex-shrink: 0; }
+.fact-place-icon { width: 20px; height: 20px; flex-shrink: 0; color: var(--color-muted); }
+.fact-text { flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 500; line-height: 1.3; white-space: nowrap; color: var(--color-ink); }
+.fact-type { display: flex; align-items: center; gap: 10px; align-self: stretch; flex-shrink: 0; }
+.fact-type-icon { width: 20px; height: 20px; flex-shrink: 0; color: var(--color-muted); }
+.fact-contact { display: flex; align-items: center; gap: 10px; align-self: stretch; flex-shrink: 0; }
+.fact-contact-icon { width: 20px; height: 20px; flex-shrink: 0; color: var(--color-muted); }
+.contact-text { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.link { position: relative; display: flex; flex-direction: column; align-items: flex-start; flex-shrink: 0; }
+.link::after { content: ''; position: absolute; inset: 0 0 -0.5px 0; border-style: solid; border-width: 0 0 1px 0; border-color: var(--color-ink); pointer-events: none; }
+.contact-number { flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 500; line-height: 1.2; white-space: nowrap; color: var(--color-ink); }
+.fact-source { display: flex; align-items: center; gap: 10px; align-self: stretch; flex-shrink: 0; }
+.fact-source-icon { width: 20px; height: 20px; flex-shrink: 0; color: var(--color-muted); }
+.fact-link { flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 500; line-height: 1.2; white-space: nowrap; color: var(--color-ink); }
+.share-mode { display: flex; align-items: flex-start; gap: 3px; padding: 3px; align-self: stretch; height: 44px; flex-shrink: 0; border-radius: 6px; outline: 1px solid var(--color-seam); outline-offset: -0.5px; }
+.mode-mensagem { display: flex; align-items: center; justify-content: center; gap: 8px; min-width: 0; align-self: stretch; flex: 1 1 0; background: var(--color-ink); border-radius: 4px; }
+.mode-mensagem-icon { width: 18px; height: 18px; flex-shrink: 0; color: var(--color-on-ink); }
+.mode-mensagem-label { flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 600; white-space: nowrap; color: var(--color-on-ink); }
+.mode-panfleto { display: flex; align-items: center; justify-content: center; gap: 8px; min-width: 0; align-self: stretch; flex: 1 1 0; border-radius: 4px; }
+.mode-panfleto-icon { width: 18px; height: 18px; flex-shrink: 0; color: var(--color-ink); }
+.mode-panfleto-label { flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 500; white-space: nowrap; color: var(--color-ink); }
+.message-preview { position: relative; display: flex; flex-direction: column; align-items: flex-start; padding: 14px 28px 14px 14px; align-self: stretch; min-height: 0; flex: 1 1 0; background: var(--color-ground); border-radius: 6px; overflow: hidden; }
+.whatsapp-bubble { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 21px; padding: 10px 12px; align-self: stretch; flex-shrink: 0; background: var(--color-surface); border-radius: 8px 8px 8px 2px; }
+.msg-type { display: flex; align-items: flex-start; gap: 4px; align-self: stretch; flex-shrink: 0; }
+.msg-type-2 { flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 500; line-height: 1.4; white-space: nowrap; color: var(--color-ink); }
+.msg-type-3 { flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 700; line-height: 1.4; white-space: nowrap; color: var(--color-ink); }
+.msg-head { display: flex; flex-direction: column; align-items: flex-start; align-self: stretch; flex-shrink: 0; }
+.msg-title { align-self: stretch; flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 700; line-height: 1.4; color: var(--color-ink); }
+.msg-org { display: flex; align-items: flex-start; gap: 4px; align-self: stretch; flex-shrink: 0; }
+.msg-org-2 { flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 500; line-height: 1.4; white-space: nowrap; color: var(--color-ink); }
+.msg-when { display: flex; flex-direction: column; align-items: flex-start; align-self: stretch; flex-shrink: 0; }
+.msg-date { display: flex; align-items: flex-start; gap: 4px; align-self: stretch; flex-shrink: 0; }
+.msg-date-2 { flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 500; line-height: 1.4; white-space: nowrap; color: var(--color-ink); }
+.msg-date-3 { flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 700; line-height: 1.4; white-space: nowrap; color: var(--color-ink); }
+.msg-time { display: flex; align-items: flex-start; gap: 4px; align-self: stretch; flex-shrink: 0; }
+.msg-time-2 { flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 500; line-height: 1.4; white-space: nowrap; color: var(--color-ink); }
+.msg-place { display: flex; align-items: flex-start; gap: 4px; align-self: stretch; flex-shrink: 0; }
+.msg-place-2 { flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 500; line-height: 1.4; white-space: nowrap; color: var(--color-ink); }
+.msg-description { align-self: stretch; flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 500; line-height: 1.4; color: var(--color-ink); }
+.msg-extra { display: flex; flex-direction: column; align-items: flex-start; align-self: stretch; flex-shrink: 0; }
+.msg-contact { align-self: stretch; flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 500; line-height: 1.4; color: var(--color-ink); }
+.msg-source { align-self: stretch; flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 500; line-height: 1.4; color: var(--color-ink); }
+.msg-footer { align-self: stretch; flex-shrink: 0; font-family: var(--font-ui); font-size: 15px; font-weight: 500; line-height: 1.4; color: var(--color-ink); }
+.scroll-fade { position: absolute; width: 372px; height: 64px; background: linear-gradient(180deg, transparent 0%, var(--color-ground) 85%); }
+.bench-actions { display: flex; align-items: flex-start; gap: 8px; padding: 16px 24px 24px; align-self: stretch; flex-shrink: 0; }
+</style>
+</head>
+<body>
+<div class="desktop-agenda">
+  <div class="header">
+    <div class="brand-row">
+      <div class="nos-mark">
+        <div class="nos-mark__binding"></div>
+        <div class="nos-mark__perforation">
+          <div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div>
+        </div>
+        <div class="nos-mark__word-wrap">
+          <span class="nos-mark__word">NOS</span>
+        </div>
+      </div>
+      <div class="lockup-text">
+        <span class="city">Dourados/MS</span>
+        <span class="full-name">Núcleo de Organização Social</span>
+      </div>
+    </div>
+  </div>
+  <div class="body">
+    <div class="main-column">
+      <div class="filter-bar">
+        <div class="org-select">
+          <svg class="org-select__icon"><use href="assets/icons.svg#users"/></svg>
+          <span class="org-select__label">Organização</span>
+          <svg class="org-select__chevron"><use href="assets/icons.svg#chevron-down"/></svg>
+        </div>
+        <div class="filter-divider-wrap">
+          <div class="filter-divider"></div>
+        </div>
+        <div class="chip-rows">
+          <div class="chip-row">
+            <div class="chip" style="background: var(--color-ink); outline: 1px solid var(--color-ink)">
+              <span class="chip__label" style="font-weight: 600; color: var(--color-on-ink)">Todos</span>
+            </div>
+            <div class="chip">
+              <div class="chip__mark"></div>
+              <span class="chip__label">Sindicatos</span>
+            </div>
+            <div class="chip">
+              <div class="chip__mark" style="background: var(--color-series-3)"></div>
+              <span class="chip__label">Movimentos sociais</span>
+            </div>
+            <div class="chip">
+              <div class="chip__mark" style="background: var(--color-series-4)"></div>
+              <span class="chip__label">Estudantil e acadêmico</span>
+            </div>
+          </div>
+          <div class="chip-row">
+            <div class="chip">
+              <div class="chip__mark" style="background: var(--color-series-2)"></div>
+              <span class="chip__label">Indígena, rural e terra</span>
+            </div>
+            <div class="chip">
+              <div class="chip__mark" style="background: var(--color-series-5)"></div>
+              <span class="chip__label">Conselhos e associações</span>
+            </div>
+            <div class="chip">
+              <div class="chip__mark" style="background: var(--color-series-6)"></div>
+              <span class="chip__label">Partidos</span>
+            </div>
+            <div class="chip">
+              <div class="chip__mark" style="background: var(--color-series-7)"></div>
+              <span class="chip__label">Outros</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="view-tabs">
+        <div class="tab-row">
+          <div class="tab-agenda">
+            <div class="tab-label">
+              <svg class="tab-icon"><use href="assets/icons.svg#list"/></svg>
+              <span class="tab-text">Agenda</span>
+            </div>
+            <div class="tab-indicator"></div>
+          </div>
+          <div class="tab-mes">
+            <div class="tab-label">
+              <svg class="tab-icon-2"><use href="assets/icons.svg#calendar-days"/></svg>
+              <span class="tab-text-2">Mês</span>
+            </div>
+            <div class="tab-indicator-2"></div>
+          </div>
+        </div>
+        <div class="tab-seam"></div>
+      </div>
+      <div class="agenda-list">
+        <div class="past-toggle">
+          <svg class="past-icon"><use href="assets/icons.svg#chevron-up"/></svg>
+          <span class="past-label">Ver 21 atividades anteriores</span>
+        </div>
+        <div class="day-sheet" style="align-self: stretch; width: auto">
+          <div class="day-sheet__binding"></div>
+          <div class="day-sheet__perforation">
+            <div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div>
+          </div>
+          <div class="day-sheet__head">
+            <span class="day-sheet__numeral" style="width: 72px; font-size: 64px">15</span>
+            <div class="day-sheet__text">
+              <span class="day-sheet__weekday">QUINTA-FEIRA</span>
+              <span class="day-sheet__month">Outubro</span>
+            </div>
+            <div class="badge day-sheet__status-badge">
+              <span class="badge__label">Hoje</span>
+            </div>
+          </div>
+          <div class="day-sheet__lines" style="height: auto">
+            <div class="empty-day">
+              <span class="empty-label">Nenhuma atividade hoje</span>
+            </div>
+          </div>
+        </div>
+        <div class="day-sheet" style="align-self: stretch; width: auto">
+          <div class="day-sheet__binding"></div>
+          <div class="day-sheet__perforation">
+            <div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div>
+          </div>
+          <div class="day-sheet__head">
+            <span class="day-sheet__numeral" style="width: 72px; font-size: 64px">16</span>
+            <div class="day-sheet__text">
+              <span class="day-sheet__weekday">SEXTA-FEIRA</span>
+              <span class="day-sheet__month">Outubro</span>
+            </div>
+            <div class="badge day-sheet__status-badge" style="background: var(--color-next)">
+              <span class="badge__label" style="color: var(--color-ink)">Próxima</span>
+            </div>
+          </div>
+          <div class="day-sheet__lines" style="height: auto">
+            <div class="activity-line" style="align-self: stretch; width: auto">
+              <div class="activity-line__time-col" style="width: 72px">
+                <div class="activity-line__time-plate">
+                  <span class="activity-line__time">—</span>
+                </div>
+                <span class="activity-line__type">Prazo</span>
+              </div>
+              <div class="activity-line__body">
+                <span class="activity-line__title">Inscrições para a Caminhada Ecológica e o Desafio Ecológico</span>
+                <div class="activity-line__org-row">
+                  <div class="activity-line__sector-mark"></div>
+                  <span class="activity-line__org">SINTEF, UFGD</span>
+                </div>
+                <div class="activity-line__range-row">
+                  <svg class="activity-line__range-icon"><use href="assets/icons.svg#calendar-range"/></svg>
+                  <span class="activity-line__range">até sáb, 24/10</span>
+                </div>
+              </div>
+              <div class="icon-button activity-line__share">
+                <svg class="icon-button__icon"><use href="assets/icons.svg#share-2"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="day-sheet" style="align-self: stretch; width: auto">
+          <div class="day-sheet__binding"></div>
+          <div class="day-sheet__perforation">
+            <div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div>
+          </div>
+          <div class="day-sheet__head">
+            <span class="day-sheet__numeral" style="width: 72px; font-size: 64px; color: var(--color-brand)">18</span>
+            <div class="day-sheet__text">
+              <span class="day-sheet__weekday" style="color: var(--color-brand)">DOMINGO</span>
+              <span class="day-sheet__month">Outubro</span>
+            </div>
+            <span class="day-sheet__countdown">em 3 dias</span>
+          </div>
+          <div class="day-sheet__lines" style="height: auto">
+            <!-- Line · Almoço dos Educadores (selecionada) -->
+            <div class="activity-line" style="align-self: stretch; background: var(--color-brand-tint); width: auto">
+              <div class="activity-line__time-col" style="width: 72px">
+                <div class="activity-line__time-plate">
+                  <span class="activity-line__time">11h</span>
+                </div>
+                <span class="activity-line__type">Festa</span>
+              </div>
+              <div class="activity-line__body">
+                <span class="activity-line__title">Almoço dos Educadores</span>
+                <div class="activity-line__org-row">
+                  <div class="activity-line__sector-mark"></div>
+                  <span class="activity-line__org">SIMTED</span>
+                </div>
+                <div class="activity-line__place-row">
+                  <svg class="activity-line__place-icon"><use href="assets/icons.svg#map-pin"/></svg>
+                  <span class="activity-line__place">Chácara do SIMTED</span>
+                </div>
+              </div>
+              <div class="icon-button activity-line__share">
+                <svg class="icon-button__icon"><use href="assets/icons.svg#share-2"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="day-sheet" style="align-self: stretch; width: auto">
+          <div class="day-sheet__binding"></div>
+          <div class="day-sheet__perforation">
+            <div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div>
+          </div>
+          <div class="day-sheet__head">
+            <span class="day-sheet__numeral" style="width: 72px; font-size: 64px">20</span>
+            <div class="day-sheet__text">
+              <span class="day-sheet__weekday">TERÇA-FEIRA</span>
+              <span class="day-sheet__month">Outubro</span>
+            </div>
+            <span class="day-sheet__countdown">em 5 dias</span>
+          </div>
+          <div class="day-sheet__lines" style="height: auto">
+            <div class="activity-line" style="align-self: stretch; width: auto">
+              <div class="activity-line__time-col" style="width: 72px">
+                <div class="activity-line__time-plate">
+                  <span class="activity-line__time">—</span>
+                </div>
+                <span class="activity-line__type">Prazo</span>
+              </div>
+              <div class="activity-line__body">
+                <span class="activity-line__title">Fim das inscrições de expositores da Feira Afro Zumbi Vive</span>
+                <div class="activity-line__org-row">
+                  <div class="activity-line__sector-mark" style="background: var(--color-series-3)"></div>
+                  <span class="activity-line__org">Quintal de Palmares</span>
+                </div>
+                <div class="activity-line__place-row">
+                  <svg class="activity-line__place-icon"><use href="assets/icons.svg#globe"/></svg>
+                  <span class="activity-line__place">Online</span>
+                </div>
+              </div>
+              <div class="icon-button activity-line__share">
+                <svg class="icon-button__icon"><use href="assets/icons.svg#share-2"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bench">
+      <div class="bench-binding"></div>
+      <div class="bench-perforation">
+        <div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div>
+      </div>
+      <div class="bench-body">
+        <div class="summary">
+          <div class="bench-head">
+            <span class="bench-numeral">18</span>
+            <div class="bench-day-text">
+              <span class="bench-weekday">DOMINGO</span>
+              <span class="bench-meta">Outubro · 11h</span>
+            </div>
+          </div>
+          <span class="bench-title">Almoço dos Educadores</span>
+          <div class="facts">
+            <div class="fact-org">
+              <div class="sector-slot">
+                <div class="sector-mark"></div>
+              </div>
+              <div class="org-group">
+                <span class="org-name">SIMTED</span>
+                <span class="sector-name">· Sindicatos</span>
+              </div>
+            </div>
+            <div class="fact-place">
+              <svg class="fact-place-icon"><use href="assets/icons.svg#map-pin"/></svg>
+              <span class="fact-text">Chácara do SIMTED</span>
+            </div>
+            <div class="fact-type">
+              <svg class="fact-type-icon"><use href="assets/icons.svg#tag"/></svg>
+              <span class="fact-text">Festa</span>
+            </div>
+            <div class="fact-contact">
+              <svg class="fact-contact-icon"><use href="assets/icons.svg#phone"/></svg>
+              <div class="contact-text">
+                <span class="fact-text">WhatsApp do SIMTED:</span>
+                <!-- Link · (67) 98457-5974 -->
+                <div class="link">
+                  <span class="contact-number">(67) 98457-5974</span>
+                </div>
+              </div>
+            </div>
+            <div class="fact-source">
+              <svg class="fact-source-icon"><use href="assets/icons.svg#instagram"/></svg>
+              <div class="link">
+                <span class="fact-link">Ver o post de origem</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="share-mode">
+          <div class="mode-mensagem">
+            <svg class="mode-mensagem-icon"><use href="assets/icons.svg#message-square-text"/></svg>
+            <span class="mode-mensagem-label">Mensagem</span>
+          </div>
+          <div class="mode-panfleto">
+            <svg class="mode-panfleto-icon"><use href="assets/icons.svg#image"/></svg>
+            <span class="mode-panfleto-label">Panfleto</span>
+          </div>
+        </div>
+        <div class="message-preview">
+          <div class="whatsapp-bubble">
+            <div class="msg-type">
+              <span class="msg-type-2">🚩</span>
+              <span class="msg-type-3">FESTA</span>
+              <span class="msg-type-2">· Dourados/MS</span>
+            </div>
+            <div class="msg-head">
+              <span class="msg-title">Almoço dos Educadores</span>
+              <div class="msg-org">
+                <span class="msg-org-2">👥</span>
+                <span class="msg-org-2">SIMTED</span>
+              </div>
+            </div>
+            <div class="msg-when">
+              <div class="msg-date">
+                <span class="msg-date-2">📅</span>
+                <span class="msg-date-3">Domingo, 18/10</span>
+              </div>
+              <div class="msg-time">
+                <span class="msg-time-2">⏰</span>
+                <span class="msg-time-2">11h</span>
+              </div>
+              <div class="msg-place">
+                <span class="msg-place-2">📍</span>
+                <span class="msg-place-2">Chácara do SIMTED</span>
+              </div>
+            </div>
+            <span class="msg-description">Almoço de confraternização do mês dos educadores e educadoras para filiados do SIMTED, que podem levar um acompanhante e filhos de até 15 anos. Os convites saem até 16/10, na secretaria ou pelo WhatsApp do SIMTED, sem venda no local; demais dependentes pagam R$ 50.</span>
+            <div class="msg-extra">
+              <span class="msg-contact">📞 Fala com: WhatsApp do SIMTED: (67) 98457-5974</span>
+              <span class="msg-source">📣 Fonte: https://www.instagram.com/simteddourados/p/DePAESEl7qP/</span>
+            </div>
+            <span class="msg-footer">📅 Mais atividades na agenda do NOS Dourados</span>
+          </div>
+          <div class="scroll-fade" style="left: 0; top: 294px"></div>
+        </div>
+      </div>
+      <div class="bench-actions">
+        <div class="button-primary" style="flex: 1 1 0; min-width: 0">
+          <svg class="button-primary__icon"><use href="assets/icons.svg#message-circle"/></svg>
+          <span class="button-primary__label">Enviar no WhatsApp</span>
+        </div>
+        <div class="button-secondary" style="padding: 0 16px">
+          <svg class="button-secondary__icon"><use href="assets/icons.svg#copy"/></svg>
+          <span class="button-secondary__label">Copiar texto</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
