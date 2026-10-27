@@ -20,7 +20,6 @@ export const FLYER_WIDTH = 1080;
 export const FLYER_HEIGHT = 1350;
 
 const HOME = CITY.split('/')[0];
-const BRAND = `${APP_NAME} ${HOME}`;
 const FOOTER_LINE = `Agenda das organizações de ${HOME}`;
 const NBSP = '\u00a0';
 
@@ -447,7 +446,7 @@ function lined(tag, className, lines, size) {
 
 // The red header card: the mark beside "NOS Dourados" and the full name.
 const masthead = () =>
-  h('div', 'fl-mast', fromHtml(brandMark(APP_NAME)), h('div', 'fl-mast-text', h('div', 'fl-mast-name', BRAND), h('div', 'fl-mast-full', APP_FULL_NAME)));
+  h('div', 'fl-mast', fromHtml(brandMark(APP_NAME)), h('div', 'fl-mast-text', h('div', 'fl-mast-name', CITY), h('div', 'fl-mast-full', APP_FULL_NAME)));
 
 const footer = () => h('div', 'fl-foot', FOOTER_LINE);
 
@@ -759,7 +758,7 @@ function posterFlyer(ev) {
 
   const detailsCol = h('div', 'po-details',
     h('div', 'po-info', where && placeRow(ev, where), org && orgRow(org)),
-    h('div', 'po-sign', fromHtml(brandMark(APP_NAME)), h('div', 'po-sign-text', h('div', 'po-sign-name', BRAND), h('div', 'po-sign-line', FOOTER_LINE))));
+    h('div', 'po-sign', fromHtml(brandMark(APP_NAME)), h('div', 'po-sign-text', h('div', 'po-sign-name', CITY), h('div', 'po-sign-line', FOOTER_LINE))));
 
   return [lined('div', 'po-title', title.lines, title.size), h('div', 'po-band', dateSheet, detailsCol)];
 }

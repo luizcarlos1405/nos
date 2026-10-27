@@ -143,12 +143,12 @@ Tudo que costuma mudar fica em `js/config.js`:
 Outros textos:
 
 - Frase final das mensagens de WhatsApp: `CLOSING_LINE` (atividades) e `COMMERCE_CLOSING_LINE` (negócios indicados) em `js/whatsapp.js` (usam `APP_NAME`, `HOME_CITY` e `SITE_URL`).
-- Para trocar o nome do site, além de `APP_NAME`/`APP_FULL_NAME`, mude o `<title>`, a descrição e as tags `og:` no `<head>` das três páginas e o `<h1>` escondido logo abaixo do `<body>`; o nome do app instalável fica no `manifest.webmanifest` e no `apple-mobile-web-app-title` das páginas. Depois refaça os ícones e a prévia com `node assets/render.cjs`.
+- Para trocar o nome do site, além de `APP_NAME`/`APP_FULL_NAME`, mude o `<title>`, a descrição e as tags `og:` no `<head>` das três páginas e o `<h1>` escondido logo abaixo do `<body>`; o nome do app instalável fica no `manifest.webmanifest` e no `apple-mobile-web-app-title` das páginas. A marca é um desenho de NOS (`MARK` em `js/icons.js`): com outro nome, o site escreve a palavra no lugar dela até que se desenhe uma marca nova. Depois refaça os ícones e a prévia com `node assets/render.cjs`.
 - Estilos de panfleto: lista `FLYER_STYLES` em `js/flyer.js`, com o visual em `css/flyers.css`.
 
 ## Design
 
-O design da interface e dos panfletos está na pasta `design/`, em HTML, um arquivo por tela: marca provisória, componentes, navegação, Início, as telas do calendário e do comércio no celular e no desktop, os quatro panfletos e as primeiras direções visuais. Para ver todos lado a lado, como numa página do Figma, sirva a pasta do projeto (`python3 -m http.server 8000`) e abra `http://localhost:8000/design/`: arraste ou role para andar, Ctrl + rolagem ou pinça para dar zoom, clique duas vezes num design para enquadrá-lo; `?` mostra os atalhos. Rodando no próprio computador, a página acompanha os arquivos: salvou, atualizou.
+O design da interface e dos panfletos está na pasta `design/`, em HTML, um arquivo por tela: a marca (e as cinco propostas de onde ela saiu), componentes, navegação, Início, as telas do calendário e do comércio no celular e no desktop, os quatro panfletos e as primeiras direções visuais. Para ver todos lado a lado, como numa página do Figma, sirva a pasta do projeto (`python3 -m http.server 8000`) e abra `http://localhost:8000/design/`: arraste ou role para andar, Ctrl + rolagem ou pinça para dar zoom, clique duas vezes num design para enquadrá-lo; `?` mostra os atalhos. Rodando no próprio computador, a página acompanha os arquivos: salvou, atualizou.
 
 As cores, fontes e cantos vêm das variáveis do `css/theme.css`, e os componentes repetidos (filtros, selos, botões, folha do dia, linha de atividade) ficam em `design/assets/components.css`. Para acrescentar um design, copie o arquivo mais parecido, edite e inclua uma linha em `design/designs.json`. Uma proposta nova fica num arquivo próprio, ao lado do design atual, até ser aprovada.
 
@@ -165,7 +165,6 @@ manifest.webmanifest  o app instalável: nome, cores, ícones e capturas de tela
 sw.js               o funcionamento sem internet
 assets/icon.html    origem dos ícones do app e do navegador
 assets/og-image.html  origem da prévia do link
-assets/pad.js       o desenho da marca usado pelos dois acima
 assets/render.cjs   gera ícones, prévia do link e capturas de tela (e anota em cada PNG de onde ele vem)
 assets/icons/       ícones e favicons
 assets/screenshots/ capturas de tela do app instalável
@@ -182,7 +181,7 @@ js/flyer.js         estilos de panfleto e exportação PNG
 js/whatsapp.js      montador das mensagens de WhatsApp (atividade e negócio)
 js/colors.js        cores dos setores
 js/holidays.js      feriados nacionais
-js/icons.js         ícones e a marca NOS
+js/icons.js         ícones e o desenho da marca NOS
 js/csv.js           leitor de CSV
 js/events.js        normaliza linhas, datas e horários
 js/vendor/          html-to-image, que gera o PNG (licença ao lado)

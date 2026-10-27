@@ -26,7 +26,7 @@
    browser can't break it any other way (the plan keeps every line inside its box). */
 .fl .fl-line { display: block; white-space: nowrap; }
 
-/* The red header card: the mark beside "NOS Dourados" and the full name. */
+/* The red header card: the mark beside the city and the full name, as on the site's header. */
 .fl .fl-mast {
   flex: none;
   display: flex;
@@ -37,7 +37,7 @@
   background: var(--role-header);
   color: var(--role-on-header);
 }
-.fl .fl-mast .mark { flex: none; font-size: 42px; box-shadow: none; }
+.fl .fl-mast .mark { font-size: 42px; }
 .fl .fl-mast-text { display: flex; flex-direction: column; gap: 6px; }
 .fl .fl-mast-name { font: 800 62px/1 var(--font-display); }
 .fl .fl-mast-full { font: 500 28px/1.2 var(--font-ui); }
@@ -248,7 +248,7 @@
 .fl--poster .po-info .fl-square { width: 26px; height: 26px; border-radius: 3px; box-shadow: 0 0 0 3px var(--role-on-header); }
 
 .fl--poster .po-sign { display: flex; align-items: center; justify-content: flex-end; gap: 18px; }
-.fl--poster .po-sign .mark { flex: none; font-size: 30px; box-shadow: none; }
+.fl--poster .po-sign .mark { font-size: 30px; }
 .fl--poster .po-sign-text { display: flex; flex-direction: column; gap: 4px; }
 .fl--poster .po-sign-name { font: 800 36px/1.05 var(--font-display); }
 .fl--poster .po-sign-line { font: 500 24px/1.25 var(--font-ui); }

@@ -10,12 +10,7 @@
 <style>
 .panfleto-folha-do-dia { display: flex; flex-direction: column; align-items: flex-start; width: 1080px; height: 1350px; background: var(--color-ground); overflow: hidden; }
 .header-card { display: flex; align-items: center; gap: 28px; padding: 44px 60px; align-self: stretch; flex-shrink: 0; background: var(--color-brand); }
-.nos-mark-large { display: flex; flex-direction: column; align-items: flex-start; width: 92px; height: 106px; flex-shrink: 0; background: var(--color-surface); border-radius: 5px 5px 7px 7px; box-shadow: 0 2px 6px #1C1C1E40; overflow: hidden; }
-.mark-binding { align-self: stretch; height: 12px; flex-shrink: 0; background: var(--color-ink); }
-.mark-perforation { display: flex; align-items: flex-start; justify-content: center; gap: 6px; padding: 4px 8px 0; align-self: stretch; height: 12px; flex-shrink: 0; }
-.perf-dot { width: 4px; height: 4px; flex-shrink: 0; background: var(--color-faded); border-radius: 50%; }
-.mark-word-wrap { display: flex; align-items: center; justify-content: center; padding: 0 0 6px; align-self: stretch; min-height: 0; flex: 1 1 0; }
-.mark-word { flex-shrink: 0; font-family: var(--font-display); font-size: 48px; font-weight: 800; line-height: 1; letter-spacing: 0.6px; white-space: nowrap; color: var(--color-ink); }
+.nos-mark-large { display: block; width: 159.9px; height: 96.6px; flex-shrink: 0; overflow: visible; color: var(--color-on-ink); }
 .lockup-text { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; flex-shrink: 0; }
 .name { flex-shrink: 0; font-family: var(--font-display); font-size: 62px; font-weight: 800; line-height: 1; white-space: nowrap; color: var(--color-on-ink); }
 .full-name { flex-shrink: 0; font-family: var(--font-ui); font-size: 28px; font-weight: 500; line-height: 1.2; white-space: nowrap; color: var(--color-on-ink); }
@@ -53,17 +48,9 @@
 <body>
 <div class="panfleto-folha-do-dia">
   <div class="header-card">
-    <div class="nos-mark-large">
-      <div class="mark-binding"></div>
-      <div class="mark-perforation">
-        <div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div>
-      </div>
-      <div class="mark-word-wrap">
-        <span class="mark-word">NOS</span>
-      </div>
-    </div>
+    <svg class="nos-mark-large" aria-hidden="true"><use href="assets/icons.svg#marca-nos"/></svg>
     <div class="lockup-text">
-      <span class="name">NOS Dourados</span>
+      <span class="name">Dourados/MS</span>
       <span class="full-name">Núcleo de Organização Social</span>
     </div>
   </div>

@@ -124,10 +124,7 @@
 .flyer-preview { display: flex; align-items: center; justify-content: center; padding: 8px; align-self: stretch; min-height: 0; flex: 1 1 0; background: var(--color-ground); border-radius: 6px; overflow: hidden; }
 .flyer { display: flex; flex-direction: column; align-items: flex-start; width: 212px; height: 265px; flex-shrink: 0; background: var(--color-ground); outline: 1px solid var(--color-seam); outline-offset: -0.5px; box-shadow: 0 2px 10px #1C1C1E1F; overflow: hidden; }
 .header-card { display: flex; align-items: center; gap: 5.5px; padding: 0 11.8px; align-self: stretch; height: 38px; flex-shrink: 0; background: var(--color-brand); }
-.nos-mark-2 { display: flex; flex-direction: column; align-items: flex-start; width: 18.1px; height: 20.8px; flex-shrink: 0; background: var(--color-surface); border-radius: 1px; overflow: hidden; }
-.mark-binding { align-self: stretch; height: 2.4px; flex-shrink: 0; background: var(--color-ink); }
-.mark-word-wrap { display: flex; align-items: center; justify-content: center; padding: 2.4px 0 0; align-self: stretch; min-height: 0; flex: 1 1 0; }
-.mark-word { flex-shrink: 0; font-family: var(--font-display); font-size: 9.4px; font-weight: 800; line-height: 1; white-space: nowrap; color: var(--color-ink); }
+.nos-mark-2 { display: block; width: 31.4px; height: 19.0px; flex-shrink: 0; overflow: visible; color: var(--color-on-ink); }
 .lockup-text-2 { display: flex; flex-direction: column; align-items: flex-start; gap: 1.2px; flex-shrink: 0; }
 .name { flex-shrink: 0; font-family: var(--font-display); font-size: 12.2px; font-weight: 800; line-height: 1; white-space: nowrap; color: var(--color-on-ink); }
 .full-name-2 { flex-shrink: 0; font-family: var(--font-ui); font-size: 5.5px; font-weight: 500; line-height: 1.2; white-space: nowrap; color: var(--color-on-ink); }
@@ -163,15 +160,7 @@
 <div class="desktop-mes">
   <div class="header">
     <div class="brand-row">
-      <div class="nos-mark">
-        <div class="nos-mark__binding"></div>
-        <div class="nos-mark__perforation">
-          <div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div>
-        </div>
-        <div class="nos-mark__word-wrap">
-          <span class="nos-mark__word">NOS</span>
-        </div>
-      </div>
+      <svg class="nos-mark" aria-hidden="true"><use href="assets/icons.svg#marca-nos"/></svg>
       <div class="lockup-text">
         <span class="city">Dourados/MS</span>
         <span class="full-name">Núcleo de Organização Social</span>
@@ -550,14 +539,9 @@
           <!-- Flyer · Folha do dia (miniatura 1080×1350) -->
           <div class="flyer">
             <div class="header-card">
-              <div class="nos-mark-2">
-                <div class="mark-binding"></div>
-                <div class="mark-word-wrap">
-                  <span class="mark-word">NOS</span>
-                </div>
-              </div>
+              <svg class="nos-mark-2" aria-hidden="true"><use href="assets/icons.svg#marca-nos"/></svg>
               <div class="lockup-text-2">
-                <span class="name">NOS Dourados</span>
+                <span class="name">Dourados/MS</span>
                 <span class="full-name-2">Núcleo de Organização Social</span>
               </div>
             </div>

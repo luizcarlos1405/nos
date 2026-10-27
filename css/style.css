@@ -47,35 +47,22 @@ code { font-size: 0.9em; background: var(--role-wash); padding: 1px 5px; border-
 
 .icon { width: 20px; height: 20px; flex: none; }
 
-/* ---------- The mark: a mini folhinha sheet (sizes with font-size) ---------- */
+/* ---------- The mark: NOS with the O circled by hand (sizes with font-size) ---------- */
+/* An inline SVG (brandMark in js/icons.js): its box runs from the top of the loop to its foot, so the
+   letters sit in the middle of it. Width = height x 1493/902, the drawing's proportions. */
 
 .mark {
-  display: inline-flex;
-  flex-direction: column;
-  width: 2.2em;
-  height: 2.5em;
-  border-radius: 0.15em 0.15em 0.2em 0.2em;
-  overflow: hidden;
-  background: var(--role-paper);
-  box-shadow: 0 0.05em 0.1em var(--role-shadow);
-  font-size: 1.25rem;
-}
-.mark-binding { flex: none; height: 0.35em; background: var(--role-mark-binding); }
-.mark-perf {
+  display: block;
   flex: none;
-  height: 0.3em;
-  margin: 0 0.2em;
-  background: radial-gradient(circle, var(--role-ink-faded) 0.05em, transparent 0.06em) center / 0.25em 0.3em repeat-x;
+  width: 3.807em;
+  height: 2.3em;
+  font-size: 1.25rem;
+  overflow: visible;
 }
-.mark-word {
-  flex: 1;
-  display: grid;
-  place-items: center;
-  padding-bottom: 0.15em;
-  font: 800 1.15em/1 var(--font-display);
-  letter-spacing: 0.015em;
-  color: var(--role-ink);
-}
+.mark-letters { fill: currentColor; }
+.mark-loop { fill: var(--mark-loop, currentColor); }
+/* Another APP_NAME than NOS: the word in the masthead's type, until a mark is drawn for it. */
+.mark-text { width: auto; height: auto; font: 800 1.9em/1 var(--font-display); }
 
 /* ---------- Header card ---------- */
 

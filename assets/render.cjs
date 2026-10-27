@@ -102,7 +102,7 @@ function stampOrigin(file, origin) {
 }
 
 // A fresh page per render: icon.html reads its variant from the hash only when it loads. The
-// templates set html[data-ready] once the word is drawn with the font loaded.
+// templates set html[data-ready] once they are drawn (the link preview waits for its fonts).
 async function renderPage(browser, url, { width, height, out, transparent = false, origin }) {
   const page = await browser.newPage({ viewport: { width, height }, deviceScaleFactor: 1 });
   await page.goto(url);
@@ -124,13 +124,13 @@ async function renderIcons(browser, base) {
   for (const [file, variant, size] of ICON_FILES) {
     // 'any' and the favicons keep their transparent corners; the others are full-bleed squares.
     const transparent = variant === 'any' || variant === 'favicon';
-    const origin = `Drawn in HTML, not generated: assets/icon.html#${variant} (the pad of assets/pad.js), rendered at ${size}x${size}px by node assets/render.cjs icons.`;
+    const origin = `Drawn in HTML, not generated: assets/icon.html#${variant} (the NOS mark of js/icons.js), rendered at ${size}x${size}px by node assets/render.cjs icons.`;
     await renderPage(browser, `${base}${themed('assets/icon.html')}#${variant}`, { width: size, height: size, out: path.join(ICONS, file), transparent, origin });
   }
 }
 
 async function renderOg(browser, base) {
-  const origin = 'Drawn in HTML, not generated: assets/og-image.html (the pad of assets/pad.js), rendered at 1200x630px by node assets/render.cjs og.';
+  const origin = 'Drawn in HTML, not generated: assets/og-image.html (the NOS mark of js/icons.js on the pad), rendered at 1200x630px by node assets/render.cjs og.';
   await renderPage(browser, `${base}${themed('assets/og-image.html')}`, { width: 1200, height: 630, out: path.join(ROOT, 'assets/og-image.png'), origin });
 }
 

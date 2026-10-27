@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Marca NOS (provisória)</title>
+<title>Marca NOS</title>
 <link rel="stylesheet" href="../css/theme.css">
 <link rel="stylesheet" href="assets/design.css">
 <link rel="stylesheet" href="assets/components.css">
@@ -11,6 +11,13 @@
 .marca-nos { display: flex; flex-direction: column; align-items: flex-start; gap: 32px; padding: 40px; width: 860px; background: var(--color-surface); }
 .board-title { flex-shrink: 0; font-family: var(--font-display); font-size: 32px; font-weight: 800; white-space: nowrap; color: var(--color-ink); }
 .board-note { align-self: stretch; flex-shrink: 0; font-family: var(--font-ui); font-size: 16px; font-weight: 500; line-height: 1.4; color: var(--color-muted); }
+.hero { display: flex; align-items: center; gap: 24px; align-self: stretch; flex-shrink: 0; }
+.hero-paper, .hero-red { display: grid; place-items: center; flex: 1 1 0; height: 240px; border-radius: 6px; }
+.hero-paper { background: var(--color-surface); outline: 1px solid var(--color-seam); outline-offset: -1px; }
+.hero-red { background: var(--color-brand); }
+/* On paper the letters print in ink and the O is circled in red; on the red card all of it is white. */
+.on-paper { color: var(--color-ink); --mark-loop: var(--color-brand); }
+.hero .nos-mark { width: 228px; height: 138px; }
 .lockups { display: flex; align-items: center; gap: 24px; flex-shrink: 0; }
 .lockup-cabecalho-vermelho { display: flex; align-items: center; gap: 12px; padding: 14px 20px; flex-shrink: 0; background: var(--color-brand); border-radius: 6px; }
 .lockup-text { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; flex-shrink: 0; }
@@ -19,70 +26,57 @@
 .lockup-fundo-claro { display: flex; align-items: center; gap: 12px; padding: 14px 20px; flex-shrink: 0; background: var(--color-ground); border-radius: 6px; }
 .city-2 { flex-shrink: 0; font-family: var(--font-display); font-size: 24px; font-weight: 800; line-height: 1.05; white-space: nowrap; color: var(--color-ink); }
 .full-name-2 { flex-shrink: 0; font-family: var(--font-ui); font-size: 14px; font-weight: 500; line-height: 1.2; white-space: nowrap; color: var(--color-muted); }
-.app-icon { display: flex; align-items: center; justify-content: center; width: 132px; height: 132px; flex-shrink: 0; background: var(--color-brand); border-radius: 28px; }
-.icon-sheet { display: flex; flex-direction: column; align-items: flex-start; width: 74px; height: 84px; flex-shrink: 0; background: var(--color-surface); border-radius: 4px 4px 6px 6px; box-shadow: 0 2px 4px #1C1C1E40; overflow: hidden; }
-.icon-binding { align-self: stretch; height: 12px; flex-shrink: 0; background: var(--color-ink); }
-.icon-perforation { display: flex; align-items: flex-start; justify-content: center; gap: 5px; padding: 3px 6px; align-self: stretch; height: 9px; flex-shrink: 0; }
-.perf-dot { width: 3px; height: 3px; flex-shrink: 0; background: var(--color-faded); border-radius: 50%; }
-.icon-word-wrap { display: flex; align-items: center; justify-content: center; padding: 0 0 5px; align-self: stretch; min-height: 0; flex: 1 1 0; }
-.icon-word { flex-shrink: 0; font-family: var(--font-display); font-size: 40px; font-weight: 800; line-height: 1; letter-spacing: 0.5px; white-space: nowrap; color: var(--color-ink); }
+.assets { display: flex; align-items: flex-end; gap: 28px; flex-shrink: 0; }
+.asset { display: flex; flex-direction: column; align-items: center; gap: 8px; flex-shrink: 0; }
+.asset-label { flex-shrink: 0; font-family: var(--font-ui); font-size: 13px; font-weight: 500; white-space: nowrap; color: var(--color-muted); }
+.app-icon { display: block; width: 132px; height: 132px; flex-shrink: 0; filter: drop-shadow(0 1px 2px #1C1C1E33); }
+.favicons { display: flex; align-items: flex-end; gap: 14px; padding: 12px 14px; flex-shrink: 0; background: #DEE1E6; border-radius: 8px; }
+.preview { display: block; width: 440px; height: 231px; flex-shrink: 0; border-radius: 6px; }
 </style>
 </head>
 <body>
-<!-- Marca NOS (provisória) -->
+<!-- Marca NOS: the mark chosen on 2026-10-27 (proposal 01 of marca-propostas.html). The drawing is
+     assets/icons.svg#marca-nos, the same paths as MARK in js/icons.js; the icon, favicons and link
+     preview are the PNGs the site ships (rendered by assets/render.cjs). -->
 <div class="marca-nos">
-  <span class="board-title">Marca NOS — provisória</span>
-  <span class="board-note">Uma folhinha em miniatura: tira de encadernação, picote e NOS impresso. Funciona sobre o cabeçalho vermelho, sobre o fundo claro e como ícone.</span>
-  <div class="nos-mark">
-    <div class="nos-mark__binding"></div>
-    <div class="nos-mark__perforation">
-      <div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div>
-    </div>
-    <div class="nos-mark__word-wrap">
-      <span class="nos-mark__word">NOS</span>
-    </div>
+  <span class="board-title">Marca NOS</span>
+  <span class="board-note">NOS com o O circulado à mão, como se marca uma data na folhinha: as letras impressas em Barlow Condensed e o círculo de caneta. No papel, letras em grafite e círculo vermelho; no cartão vermelho, tudo branco.</span>
+  <div class="hero">
+    <div class="hero-paper"><svg class="nos-mark on-paper" aria-hidden="true"><use href="assets/icons.svg#marca-nos"/></svg></div>
+    <div class="hero-red"><svg class="nos-mark" aria-hidden="true"><use href="assets/icons.svg#marca-nos"/></svg></div>
   </div>
   <div class="lockups">
     <div class="lockup-cabecalho-vermelho">
-      <div class="nos-mark">
-        <div class="nos-mark__binding"></div>
-        <div class="nos-mark__perforation">
-          <div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div>
-        </div>
-        <div class="nos-mark__word-wrap">
-          <span class="nos-mark__word">NOS</span>
-        </div>
-      </div>
+      <svg class="nos-mark" aria-hidden="true"><use href="assets/icons.svg#marca-nos"/></svg>
       <div class="lockup-text">
         <span class="city">Dourados/MS</span>
         <span class="full-name">Núcleo de Organização Social</span>
       </div>
     </div>
     <div class="lockup-fundo-claro">
-      <div class="nos-mark">
-        <div class="nos-mark__binding"></div>
-        <div class="nos-mark__perforation">
-          <div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div><div class="nos-mark__perf-dot"></div>
-        </div>
-        <div class="nos-mark__word-wrap">
-          <span class="nos-mark__word">NOS</span>
-        </div>
-      </div>
+      <svg class="nos-mark on-paper" aria-hidden="true"><use href="assets/icons.svg#marca-nos"/></svg>
       <div class="lockup-text">
         <span class="city-2">Dourados/MS</span>
         <span class="full-name-2">Núcleo de Organização Social</span>
       </div>
     </div>
-    <div class="app-icon">
-      <div class="icon-sheet">
-        <div class="icon-binding"></div>
-        <div class="icon-perforation">
-          <div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div><div class="perf-dot"></div>
-        </div>
-        <div class="icon-word-wrap">
-          <span class="icon-word">NOS</span>
-        </div>
+  </div>
+  <div class="assets">
+    <div class="asset">
+      <img class="app-icon" src="../assets/icons/icon-512.png" alt="">
+      <span class="asset-label">Ícone do app</span>
+    </div>
+    <div class="asset">
+      <div class="favicons">
+        <img src="../assets/icons/favicon-48.png" width="48" height="48" alt="">
+        <img src="../assets/icons/favicon-32.png" width="32" height="32" alt="">
+        <img src="../assets/icons/favicon-16.png" width="16" height="16" alt="">
       </div>
+      <span class="asset-label">Favicons (48, 32, 16)</span>
+    </div>
+    <div class="asset">
+      <img class="preview" src="../assets/og-image.png" alt="">
+      <span class="asset-label">Prévia do link (WhatsApp)</span>
     </div>
   </div>
 </div>
