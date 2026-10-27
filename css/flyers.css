@@ -56,7 +56,7 @@
 
 /* NOS's voice on the sky (line heights inline, from the plan). */
 .fl :is(.dy-num, .dy-weekday, .dy-time, .mo-name, .mo-num, .nt-word) { font-family: var(--font-display); font-weight: 800; letter-spacing: -0.02em; color: var(--role-sky-ink); white-space: nowrap; }
-.fl :is(.dy-month, .dy-holiday, .dy-until, .dy-end, .dy-tbc, .mo-year, .nt-when) { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.01em; color: var(--role-sky-ink-soft); white-space: nowrap; }
+.fl :is(.dy-month, .dy-until, .dy-end, .dy-tbc, .mo-year, .nt-when) { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.01em; color: var(--role-sky-ink-soft); white-space: nowrap; }
 
 /* The land: the activity's blocks in a column under the band. */
 .fl .fl-land { left: 72px; right: 72px; display: flex; flex-direction: column; padding-top: 50px; }
@@ -87,6 +87,8 @@
 /* ---------- 1. Folha do dia ---------- */
 
 .fl--day .fl-rows { margin-top: 30px; }
+/* A holiday is named on the land, under the title. */
+.fl--day .dy-holiday { margin-top: 8px; font: 700 16px/1.2 var(--font-display); letter-spacing: -0.01em; color: var(--role-ink-soft); white-space: nowrap; }
 
 /* ---------- 2. Agenda do mês ---------- */
 
@@ -115,14 +117,16 @@
 
 /* ---------- Aviso de cancelamento ---------- */
 
-/* The date and time, struck by the hand. */
-.fl--notice .nt-when .fl-line { position: relative; }
-.fl--notice .nt-strike { left: -0.12em; top: 0.44em; width: calc(100% + 0.24em); height: 0.18em; }
-.fl--notice .nt-reason { font: 500 16px/1.3 var(--font-ui); }
+/* The date and time on the sky, and the title on the land, struck by the hand: a stroke across the
+   middle of the lowercase, as wide as the line (in the sky's hand, and in urucum on the land). */
+.fl--notice :is(.nt-when, .nt-title) .fl-line { position: relative; width: fit-content; }
+.fl--notice .nt-strike { left: -0.1em; width: calc(100% + 0.2em); }
+.fl--notice .nt-when .nt-strike { top: 0.48em; height: 0.18em; }
+.fl--notice .nt-title { letter-spacing: 0; }
+.fl--notice .nt-title .nt-strike { top: 0.55em; height: 0.14em; stroke: var(--role-hand); }
+.fl--notice .nt-reason { margin-top: 24px; font: 500 16px/1.3 var(--font-ui); }
 .fl--notice .fl-label { font-weight: 700; }
-.fl--notice .nt-record { margin-top: 36px; color: var(--role-ink-soft); }
-.fl--notice .nt-record .fl-rows { margin-top: 14px; }
-.fl--notice .nt-title { letter-spacing: 0; text-decoration: line-through; text-decoration-thickness: 0.08em; }
+.fl--notice .fl-rows { margin-top: 22px; color: var(--role-ink-soft); }
 .fl--notice .fl-row.is-org .fl-name { font-weight: 600; }
 /* A cancelled activity keeps its group's colour as an outline, as on the site. */
 .fl--notice .fl-dot { background: none; box-shadow: inset 0 0 0 0.12em var(--sector, var(--role-no-sector)); }

@@ -67,11 +67,12 @@ const FLAG_HALF = /\p{Regional_Indicator}/u;
 const EMOJI = 1300;
 const UNKNOWN = 1000;
 
-// Where the glyphs sit in a line box, in em, measured with the advances: a line box `lh` em tall has
-// its baseline lh / 2 + `base` below its top (the font's ascent and descent, centred in the box);
-// figures and capitals rise `cap` above the baseline, accented letters up to `accent`, and
-// descenders fall `descent` below it.
-const DISPLAY = { base: 0.33, cap: 0.688, accent: 0.75, descent: 0.2 };
+// Where the glyphs sit in a line box, in em, measured in Chromium with the optical size pinned as
+// above: a line box `lh` em tall has its baseline lh / 2 + `base` below its top (the font's ascent
+// and descent, centred in the box); flat capitals and figures rise `cap` above the baseline, the
+// lowercase `x`, accented letters up to `accent`, and descenders fall `descent` below it.
+const DISPLAY = { base: 0.33, cap: 0.66, x: 0.528, accent: 0.75, descent: 0.2 };
+const TEXT = { base: 0.3635, cap: 0.728, x: 0.546, accent: 0.78, descent: 0.22 };
 
 // Lines are filled up to this share of their box, a margin for rounding in the browser.
 const FIT = 0.97;
@@ -222,7 +223,7 @@ const isFiller = (word) => isWeak(word) || EMOJI_ONLY.test(word);
 // between letters); a break between clauses ("Baile dos Educadores –" over "Festa Tropical",
 // "Dourados vem pra rua:" over "ato pela democracia", an address before its parenthesis) earns a
 // little back.
-const COST = { weakEnd: 60, weakLine: 200, inWord: 60, clause: -10 };
+const COST = { weakEnd: 90, weakLine: 200, inWord: 60, clause: -10, spareLine: 30 };
 const CLAUSE_END = /[,;:.!?–—-]$/;
 
 // Greedy fill, as a browser breaks: the fewest lines. Returns [start, end) unit ranges.
@@ -284,25 +285,33 @@ function evenLines(units, space, limit, count, ragged) {
       }
     }
   }
-  if (best[count][n] === Infinity) return fill(units, space, limit);
+  if (best[count][n] === Infinity) return Object.assign(fill(units, space, limit), { cost: Infinity });
   const ranges = [];
   for (let k = count, j = n; k > 0; k--) {
     ranges.unshift([from[k][j], j]);
     j = from[k][j];
   }
-  return ranges;
+  return Object.assign(ranges, { cost: best[count][n] });
 }
 
 // The text in the fewest lines no wider than `width` (less the FIT margin): evened out (titles,
 // rows), `ragged` (the first lines kept full) or `greedy` (a paragraph, filled as a browser would).
-// Lines of a string are strings; lines of runs are segments.
-function planLines(text, font, width, { ragged = false, greedy = false, force = false } = {}) {
+// With `spare` (titles), one line more when it breaks better ("Eleição da Direção / e do Conselho
+// Fiscal / do SIMTED" over "Eleição da Direção e do / Conselho Fiscal do SIMTED"), within `spare`
+// lines. Lines of a string are strings; lines of runs are segments.
+function planLines(text, font, width, { ragged = false, greedy = false, force = false, spare = 0 } = {}) {
   const limit = width * FIT;
   const units = unitsOf(text, font, limit, force);
   if (!units.length) return [];
   const space = spaceOf(text, font);
   const filled = fill(units, space, limit);
-  const ranges = greedy ? filled : evenLines(units, space, limit, filled.length, ragged);
+  let ranges = greedy ? filled : evenLines(units, space, limit, filled.length, ragged);
+  if (!greedy && spare > filled.length && units.length > filled.length) {
+    // A line more when it reads better, and always when it spares a line ending in a short word.
+    const weakEnd = (list) => list.slice(0, -1).some(([, j]) => !units[j].glued && isWeak(units[j - 1].text));
+    const more = evenLines(units, space, limit, filled.length + 1, ragged);
+    if (more.cost < Infinity && (more.cost + COST.spareLine < ranges.cost || (weakEnd(ranges) && !weakEnd(more)))) ranges = more;
+  }
   return ranges.map(([i, j]) => (typeof text === 'string' ? joinUnits(units.slice(i, j)) : segmentsOf(units.slice(i, j))));
 }
 
@@ -319,18 +328,19 @@ function wordsFit(text, font, width) {
 }
 
 // The planned lines at this size, or null when a word doesn't fit or they are more than maxLines.
-function fitLines(text, font, width, maxLines, layout) {
+function fitLines(text, font, width, maxLines, layout = {}) {
   if (!wordsFit(text, font, width) || lineCount(text, font, width) > maxLines) return null;
-  return planLines(text, font, width, layout);
+  return planLines(text, font, width, { ...layout, spare: layout.spare ? maxLines : 0 });
 }
 
 // How badly planned lines read: lines ending in a short word (summing their weakness), lines of
-// nothing but short words or emoji.
+// nothing but short words or emoji, a first line of one word over a longer title.
 function badBreaks(lines) {
-  const split = lines.map((line) => line.split(' '));
+  const split = lines.map((line) => line.split(/[ \u00a0]/));
   return {
     weakEnds: sum(split.slice(0, -1).map((list) => weakness(list[list.length - 1]))),
     weakLines: lines.length > 1 ? split.filter((list) => list.every(isFiller)).length : 0,
+    loneFirst: lines.length > 2 && split[0].length === 1 && sum(split.map((list) => list.length)) > 3 ? 1 : 0,
   };
 }
 
@@ -366,18 +376,25 @@ function cut(text, font, width, maxLines, { tail = '', force = false, wrap = (t)
 
 // The first of `steps` ([size, maxLines], largest first) at which the text fits its lines with no
 // word broken. Past the steps the size goes on down, 2px at a time to `floor`, while the longest
-// word is wider than the line; then the text is cut to the last step's lines, and at the floor a
-// word still too wide breaks between letters. `tail` stays whole after a cut (the city of a
-// place); `ragged` keeps the first lines full. Returns { text, size, font, lines }.
-function pickSize(text, font, width, steps, { floor, tail = '', ragged = false } = {}) {
+// word is wider than the line (and, for a title, `shrink`, while the text takes more lines than
+// the last step allows); then the text is cut to the last step's lines, and at the floor a word
+// still too wide breaks between letters. `tail` stays whole after a cut (the city of a place);
+// `ragged` keeps the first lines full; `spare` lets a title take a line more where it breaks
+// better. Returns { text, size, font, lines }.
+function pickSize(text, font, width, steps, { floor, tail = '', ragged = false, shrink = false, spare = false } = {}) {
   for (const [size, maxLines] of steps) {
     const sized = { ...font, size };
-    const lines = fitLines(text + tail, sized, width, maxLines, { ragged });
+    const lines = fitLines(text + tail, sized, width, maxLines, { ragged, spare });
     if (lines) return { text: text + tail, size, font: sized, lines };
   }
   const [last, maxLines] = steps[steps.length - 1];
   let size = last;
-  while (size > (floor ?? last) && !wordsFit(text + tail, { ...font, size }, width)) size -= 2;
+  const over = (sized) => !wordsFit(text + tail, sized, width) || (shrink && lineCount(text + tail, sized, width) > maxLines);
+  while (size > (floor ?? last) && over({ ...font, size })) size -= 2;
+  if (shrink && !over({ ...font, size })) {
+    const sized = { ...font, size };
+    return { text: text + tail, size, font: sized, lines: planLines(text + tail, sized, width, { ragged }) };
+  }
   const sized = { ...font, size };
   const force = !wordsFit(text + tail, sized, width);
   const shown = cut(text, sized, width, maxLines, { tail, force });
@@ -582,6 +599,31 @@ function skyNode(horizon, edges = [...BAND_TOPS].reverse().map((share) => Math.r
   return sky;
 }
 
+// The sky's band edges kept clear of its type: an edge near a line's baseline, x-height or cap line
+// reads as the text standing on it or hanging from it, so it moves to the nearest place clear of all
+// of them (the bands kept in order, at least MIN_BAND tall). `lines`: [{ baseline, size, metrics,
+// digits }] (figures have no x-height line).
+const MIN_BAND = 18;
+function clearEdges(horizon, lines, edges = [...BAND_TOPS].reverse().map((share) => Math.round(horizon * (1 - share)))) {
+  const near = lines.flatMap(({ baseline, size, metrics = DISPLAY, digits = false }) => {
+    const pad = Math.max(8, Math.min(22, 0.15 * size));
+    const ys = digits ? [baseline, baseline - metrics.cap * size] : [baseline, baseline - metrics.x * size, baseline - metrics.cap * size];
+    return ys.map((y) => [y - pad, y + pad]);
+  });
+  const clear = (y) => near.every(([a, b]) => y <= a || y >= b);
+  const out = [...edges];
+  out.forEach((edge, i) => {
+    if (clear(edge)) return;
+    const low = (i ? out[i - 1] : 0) + MIN_BAND;
+    const high = (i < out.length - 1 ? out[i + 1] : horizon) - MIN_BAND;
+    for (let d = 1; d <= 120; d++) {
+      if (edge - d >= low && clear(edge - d)) return void (out[i] = edge - d);
+      if (edge + d <= high && clear(edge + d)) return void (out[i] = edge + d);
+    }
+  });
+  return out;
+}
+
 // The sun or the moon (HAND.astro): the hand's loop around a disc of radius `r` centred at (x, y),
 // a little off register; the pen grows with it. css/flyers.css paints it from the sky's roles.
 function astroNode(x, y, r) {
@@ -661,11 +703,13 @@ const DAY = {
   minNumeral: 280,
   colGap: 40, // the column ↔ the numeral
   colMin: 320, // the column's least width
-  colTop: 60, // the column may climb this high when the numeral is too short for it
   titleGap: 30, // the title → the rows (.fl--day .fl-rows)
+  holiday: 40, // a holiday's name under the title (.fl--day .dy-holiday)
+  holidayGap: 8, // the title → the holiday (.fl--day .dy-holiday)
 };
 
-// Tighter and tighter land, until the sky holds a numeral of DAY.minNumeral.
+// Tighter and tighter land, until the sky holds a numeral of DAY.minNumeral; a title that doesn't
+// fit a step's sizes (or the size its length allows) goes on to the next, and only the last cuts.
 const DAY_STEPS = [
   { title: [[84, 2], [76, 3], [68, 3]], rows: [[40, 2], [36, 3]] },
   { title: [[72, 2], [64, 3], [56, 3]], rows: [[36, 2], [34, 3]] },
@@ -673,20 +717,32 @@ const DAY_STEPS = [
   { title: [[48, 3], [42, 3]], rows: [[32, 2], [30, 2]] },
 ];
 
-// The column beside the numeral, scaled by k from the 560px numeral: the weekday and the month
-// (and a holiday) from the numeral's top, the time (or "Horário a confirmar") on its baseline.
-// Returns its nodes and the boxes it takes, or null when it can't fit.
+// A title at the first of `steps` it fits with no word broken, unless a later step spares it a
+// line ending in a short word; or null. The last step shrinks it further and, past its floor, cuts
+// it.
+function fitTitle(text, steps, last) {
+  let first = null;
+  for (const [size, maxLines] of steps) {
+    const font = { ...TITLE, size };
+    const lines = fitLines(text, font, WIDTH, maxLines, { spare: true });
+    if (!lines) continue;
+    if (!badBreaks(lines).weakEnds) return { text, size, font, lines };
+    first ??= { text, size, font, lines };
+  }
+  if (first || !last) return first;
+  return pickSize(text, TITLE, WIDTH, steps, { floor: 34, shrink: true, spare: true });
+}
+
+// The column beside the numeral, scaled by k from the 560px numeral: the weekday and the month from
+// the numeral's top (their capitals on its line), the time (or "Horário a confirmar") on its
+// baseline. Returns its lines, or null when the two groups would meet.
 function dayColumn(ev, k, width, capTop, baseline, timeScale) {
   const date = ev.date;
   const fit = (text, font, max, min) => sizeToWidth(text, font, width, Math.round(max * k), Math.round(min * k));
   const weekday = capitalize(weekdayShort(date));
   const month = monthName(date.getMonth());
-  const sw = fit(weekday, VOICE, 100, 40);
-  const sm = fit(month, VOICE_SOFT, 58, 28);
-  const holiday = holidayOn(date);
-  const sh = Math.round(40 * k);
-  const holidayFont = { ...VOICE_SOFT, size: sh };
-  const holidayLines = holiday ? setLines(lineCount(holiday.name, holidayFont, width) > 2 ? holiday.short : holiday.name, holidayFont, width, 2) : [];
+  const sw = fit(weekday, VOICE, 100 * timeScale ** 0.5, 40);
+  const sm = fit(month, VOICE_SOFT, 58 * timeScale ** 0.5, 28);
 
   // The bottom group, up from the baseline: the time (its end apart), or the words for no time;
   // over them "até 24/10" for a period.
@@ -703,9 +759,12 @@ function dayColumn(ev, k, width, capTop, baseline, timeScale) {
     let st = fit(start, VOICE, maxStart, 1);
     let startLines = [start];
     if (st < Math.round(56 * k)) {
-      // A text from the sheet ("manhã, tarde e noite"): in lines at a readable size.
-      st = Math.round(52 * k);
-      startLines = setLines(start, { ...VOICE, size: st }, width, 3);
+      // A text from the sheet ("manhã, tarde e noite"): in lines at a readable size, smaller
+      // before it is cut.
+      const sizes = [52, 44, 38].map((n) => Math.round(n * k * timeScale ** 0.5));
+      const found = sizes.map((size) => ({ size, lines: fitLines(start, { ...VOICE, size }, width, 4) })).find((f) => f.lines);
+      st = found ? found.size : sizes[sizes.length - 1];
+      startLines = found ? found.lines : setLines(start, { ...VOICE, size: st }, width, 4);
     }
     startLines.slice().reverse().forEach((line, i) => {
       bottom.unshift({ cls: 'dy-time', lines: [line], size: st, baseline: y - i * 1.04 * st });
@@ -725,19 +784,15 @@ function dayColumn(ev, k, width, capTop, baseline, timeScale) {
   }
   const bottomTop = y;
 
-  // The top group, down from the numeral's top; it climbs when it would run into the bottom one.
-  const top = [{ cls: 'dy-weekday', lines: [weekday], size: sw, rise: DISPLAY.cap * sw }];
-  top.push({ cls: 'dy-month', lines: [month], size: sm, rise: 0.22 * sw + 0.92 * sm });
-  holidayLines.forEach((line, i) => top.push({ cls: 'dy-holiday', lines: [line], size: sh, rise: (i ? 1.18 : 0.28 * sm / sh + 0.92) * sh }));
-  let b = 0;
-  for (const item of top) item.offset = b += item.rise;
-  const last = top[top.length - 1];
-  const height = last.offset + DISPLAY.descent * last.size;
-  const climb = Math.max(0, capTop + height + 28 - bottomTop);
-  const start0 = capTop - climb;
-  if (start0 < DAY.colTop) return null;
-  for (const item of top) item.baseline = start0 + item.offset;
-  return { items: [...top, ...bottom], top: start0, bottom: baseline + DISPLAY.descent * sw };
+  // The top group, down from the numeral's top: the weekday's capitals on the numeral's top line.
+  const weekdayBaseline = capTop + DISPLAY.cap * sw;
+  const monthBaseline = weekdayBaseline + 0.22 * sw + 0.92 * sm;
+  if (monthBaseline + DISPLAY.descent * sm + 24 * k > bottomTop) return null;
+  const top = [
+    { cls: 'dy-weekday', lines: [weekday], size: sw, baseline: weekdayBaseline },
+    { cls: 'dy-month', lines: [month], size: sm, baseline: monthBaseline },
+  ];
+  return { items: [...top, ...bottom], top: weekdayBaseline - DISPLAY.accent * sw };
 }
 
 function dayFlyer(ev, sky) {
@@ -747,18 +802,24 @@ function dayFlyer(ev, sky) {
   const tier = ev.title.length <= 28 ? 84 : ev.title.length <= 56 ? 76 : 64;
   const topAir = night ? DAY.moonAir : DAY.topAir;
 
+  // A holiday is named on the land, under the title.
+  const holiday = holidayOn(date);
+  const holidayFont = { ...VOICE_SOFT, size: DAY.holiday };
+  const holidayName = holiday ? setLines(textWidth(holiday.name, holidayFont) <= WIDTH * FIT ? holiday.name : holiday.short, holidayFont, WIDTH, 1)[0] : '';
+
   let plan;
-  for (const step of DAY_STEPS) {
+  DAY_STEPS.forEach((step, i) => {
+    if (plan && (plan.horizon - DAY.air - topAir) / DISPLAY.cap >= DAY.minNumeral) return;
+    const last = i === DAY_STEPS.length - 1;
     const steps = step.title.filter(([s]) => s <= tier);
-    const title = pickSize(tidy(ev.title), TITLE, WIDTH, steps.length ? steps : step.title.slice(-1), { floor: 32 });
+    const title = steps.length ? fitTitle(tidy(ev.title), steps, last) : null;
+    if (!title) return;
     const org = names.length ? fitOrgs(names, ROW_WIDTH, step.rows, 26) : null;
     const where = hasPlace(ev) ? fitPlace(ev, PLACE, ROW_WIDTH, step.rows, 26) : null;
     const rows = rowsHeight(org, where);
-    const land = LAND_TOP + linesHeight(title, LH.title) + (rows ? DAY.titleGap + rows : 0) + SIGN_SPACE;
-    const horizon = Math.round(FLYER_HEIGHT - BAND - land);
-    plan = { title, org, where, horizon };
-    if ((horizon - DAY.air - topAir) / DISPLAY.cap >= DAY.minNumeral) break;
-  }
+    const land = LAND_TOP + linesHeight(title, LH.title) + (holidayName ? DAY.holidayGap + DAY.holiday * LH.when : 0) + (rows ? DAY.titleGap + rows : 0) + SIGN_SPACE;
+    plan = { title, org, where, horizon: Math.round(FLYER_HEIGHT - BAND - land) };
+  });
   const { title, org, where, horizon } = plan;
 
   // The numeral: as tall as the sky allows, leaving the column its width; then smaller while the
@@ -768,21 +829,17 @@ function dayFlyer(ev, sky) {
   const numeralWidth = (size) => textWidth(day, { ...NUMERAL, size });
   let size = Math.max(DAY.minNumeral, Math.min(DAY.maxNumeral, Math.floor((baseline - topAir) / DISPLAY.cap)));
   while (size > DAY.minNumeral && numeralWidth(size) > WIDTH - DAY.colGap - DAY.colMin) size -= 4;
-  let column = null;
-  for (; !column; size -= 8) {
-    const width = WIDTH - numeralWidth(size) - DAY.colGap;
-    for (const scale of [1, 0.85, 0.72, 0.6]) {
-      column = dayColumn(ev, size / 560, width, baseline - DISPLAY.cap * size, baseline, scale);
-      if (column) break;
-    }
-    if (size - 8 < DAY.minNumeral) break;
-  }
-  if (!column) size += 8;
   const width = WIDTH - numeralWidth(size) - DAY.colGap;
-  column ??= dayColumn(ev, size / 560, width, baseline - DISPLAY.cap * size, baseline, 0.6) || { items: [], top: baseline };
   const capTop = baseline - DISPLAY.cap * size;
+  let column = null;
+  for (const scale of [1, 0.85, 0.72, 0.6, 0.5]) {
+    column = dayColumn(ev, size / 560, width, capTop, baseline, scale);
+    if (column) break;
+  }
+  column ??= { items: [], top: capTop };
 
-  const skyEl = skyNode(horizon);
+  const lines = [{ baseline, size, digits: true }, ...column.items.map((item) => item.lines.map((line, i) => ({ baseline: item.baseline + i * item.size, size: item.size })))].flat();
+  const skyEl = skyNode(horizon, clearEdges(horizon, lines));
   const nw = numeralWidth(size);
   if (night) {
     const r = Math.round(size * 0.11);
@@ -805,7 +862,7 @@ function dayFlyer(ev, sky) {
     numeral,
     ...items,
     bandNode(horizon),
-    landNode(horizon, titleNode(title), rowsNode(orgRow(org), placeRow(ev, where))),
+    landNode(horizon, titleNode(title), holidayName && sized(h('div', 'dy-holiday', holidayName), DAY.holiday), rowsNode(orgRow(org), placeRow(ev, where))),
     signature(),
   ];
 }
@@ -876,9 +933,10 @@ function monthFlyer(ev, sky) {
   const weeksTop = MONTH.top + MONTH.name + MONTH.headsGap + MONTH.heads * 1.2 + MONTH.weeksGap;
 
   let plan;
-  for (const step of MONTH_STEPS) {
+  for (const [i, step] of MONTH_STEPS.entries()) {
     const steps = step.title.filter(([s]) => s <= tier);
-    const title = pickSize(tidy(ev.title), TITLE, WIDTH, steps.length ? steps : step.title.slice(-1), { floor: 32 });
+    const title = steps.length ? fitTitle(tidy(ev.title), steps, i === MONTH_STEPS.length - 1) : null;
+    if (!title) continue;
     const when = whenLines(ev, holiday, { ...VOICE, size: step.line }, WIDTH);
     const org = names.length ? fitOrgs(names, ROW_WIDTH, step.rows, 26) : null;
     const where = hasPlace(ev) ? fitPlace(ev, PLACE, ROW_WIDTH, step.rows, 26) : null;
@@ -1039,10 +1097,10 @@ function posterFlyer(ev, sky) {
   for (let size = 168; size >= 56; size -= 4) {
     const font = { ...TITLE, size };
     if (!wordsFit(measured, font, WIDTH)) continue;
-    const lines = planLines(measured, font, WIDTH);
+    const lines = planLines(measured, font, WIDTH, { spare: Math.floor(room / (size * 1.02)) });
     if (lines.length * size * 1.02 > room) continue;
-    const { weakEnds, weakLines } = badBreaks(lines);
-    const score = size * (1 - 0.1 * weakEnds - 0.3 * weakLines);
+    const { weakEnds, weakLines, loneFirst } = badBreaks(lines);
+    const score = size * (1 - 0.2 * weakEnds - 0.3 * weakLines - 0.12 * loneFirst);
     if (!title || score > title.score) title = { size, lines, score };
   }
   if (!title) {
@@ -1053,8 +1111,10 @@ function posterFlyer(ev, sky) {
     title = { size: 56, lines: planLines(text, font, WIDTH, { force }) };
   }
 
-  const skyEl = skyNode(horizon);
   const titleHeight = title.lines.length * title.size * 1.02;
+  const titleTop = night ? horizon - POSTER.air - titleHeight : top;
+  const titleLines = title.lines.map((_, i) => ({ baseline: titleTop + i * title.size * 1.02 + (0.51 + TEXT.base) * title.size, size: title.size, metrics: TEXT }));
+  const skyEl = skyNode(horizon, clearEdges(horizon, titleLines));
   if (night) {
     const r = 64;
     const moon = { x: FLYER_WIDTH - SIDE - r - 10, y: 56 + r + 18 };
@@ -1067,7 +1127,7 @@ function posterFlyer(ev, sky) {
     const up = Math.max(POSTER.sunRoom - 28, Math.min(SUN_UP[sky] * 2 * r, horizon - top - titleHeight - 28));
     skyEl.append(astroNode(FLYER_WIDTH - r * 0.62, horizon - up + r, r));
   }
-  const titleEl = at(lined('div', 'po-title', title.lines, title.size), { left: SIDE, top: night ? horizon - POSTER.air - titleHeight : top, width: WIDTH });
+  const titleEl = at(lined('div', 'po-title', title.lines, title.size), { left: SIDE, top: titleTop, width: WIDTH });
 
   return [
     skyEl,
@@ -1089,50 +1149,53 @@ export const FLYER_STYLES = [
 
 // ---------- Aviso de cancelamento ----------
 // Not one of the styles: every cancelled activity gets this notice, whatever style is picked. The
-// sky of its hour, without its sun or moon, says "Cancelada" over the date and time the hand struck
-// out; the land gives the reason, then the activity struck through: what, who and where.
+// sky of its hour, without its sun or moon (the stars stay at night), says "Cancelada" over the date
+// and time the hand struck out; the land names what was cancelled, struck by the same hand, then the
+// reason, then who organized it and where.
 
 const NOTICE = {
   minSky: 400,
   air: 58, // the struck date's last baseline → the band
   whenGap: 30, // "Cancelada" → the struck date
-  reasonGap: 36, // the reason → the record (.nt-record)
-  recordGap: 14, // the struck title → its rows
+  reasonGap: 24, // the struck title → the reason (.nt-reason)
+  rowsGap: 22, // what comes before → the rows (.fl--notice .fl-rows)
 };
 
+// The hand's stroke across a line of text (HAND.underline), placed by css/flyers.css (.nt-strike).
+const strike = () => fromHtml(`<svg class="fl-hand nt-strike" viewBox="${HAND.underline.viewBox}" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="${HAND.underline.d}"/></svg>`);
+
 function noticeFlyer(ev, sky) {
+  const night = sky === 'night';
   const names = orgNames(ev);
   const reason = tidy(ev.cancelReason);
   const label = { text: 'Motivo:', face: NAME_FACE, kind: 'label' };
   const reasonRuns = (text) => [label, { text, face: FULL_FACE, kind: '' }];
   const reasonStart = reason.length > 180 ? 36 : 40;
 
-  // The squeeze t goes from 0 (the design's sizes) to 1 (compact): the reason, the record and the
-  // date step down together, and the sky gives way down to NOTICE.minSky. The least that fits wins.
+  // The squeeze t goes from 0 (the design's sizes) to 1 (compact): the title, the reason, the rows
+  // and the date step down together, and the sky gives way down to NOTICE.minSky. The least that
+  // fits wins.
   let plan;
   for (let i = 0; i <= 20; i++) {
     const t = i / 20;
     const whenSize = Math.round(between(60, 44, t));
-    const whenFont = { ...VOICE_SOFT, size: whenSize };
-    const whenText = longWhen(ev);
-    const when = planLines(whenText, whenFont, WIDTH);
+    const when = planLines(longWhen(ev), { ...VOICE_SOFT, size: whenSize }, WIDTH);
     const wordSize = sizeToWidth('Cancelada', VOICE, WIDTH, Math.round(between(220, 170, t)), 120);
     const sky0 = 56 + wordSize * (DISPLAY.cap + DISPLAY.descent) + NOTICE.whenGap + DISPLAY.accent * whenSize + (when.length - 1) * whenSize * 1.12 + NOTICE.air;
 
     const reasonSize = Math.round(between(reasonStart, 30, t));
     const rowSize = Math.round(between(36, 30, t));
-    const title = pickSize(tidy(ev.title), { ...TITLE, track: 0 }, WIDTH, [[Math.round(between(56, 42, t)), 2], [Math.round(between(48, 40, t)), 3]], { floor: 30, ragged: true });
+    const title = pickSize(tidy(ev.title), { ...TITLE, track: 0 }, WIDTH, [[Math.round(between(60, 44, t)), 2], [Math.round(between(52, 40, t)), 3]], { floor: 30, shrink: true, spare: true });
     const org = names.length ? fitOrgs(names, ROW_WIDTH, [[rowSize, t < 0.55 ? 2 : 1]], 26) : null;
     const where = hasPlace(ev) ? fitPlace(ev, PLACE, ROW_WIDTH, [[rowSize, t < 0.85 ? 2 : 1]], 26) : null;
-    const record = linesHeight(title, LH.title) + (org || where ? NOTICE.recordGap + rowsHeight(org, where) : 0);
+    const rows = rowsHeight(org, where);
     const font = { face: FULL_FACE, size: reasonSize };
-    const fixed = LAND_TOP + record + SIGN_SPACE + (reason ? NOTICE.reasonGap : 0);
+    const fixed = LAND_TOP + linesHeight(title, LH.title) + (reason ? NOTICE.reasonGap : 0) + (rows ? NOTICE.rowsGap + rows : 0) + SIGN_SPACE;
     const free = FLYER_HEIGHT - BAND - Math.max(NOTICE.minSky, Math.ceil(sky0)) - fixed;
     const force = Boolean(reason) && !wordsFit(reason, font, WIDTH);
-    let reasonLines = reason ? planLines(reasonRuns(reason), font, WIDTH, { greedy: true, force }) : [];
-    plan = { t, when, whenSize, wordSize, title, org, where, record, font, reasonLines, fixed };
-    const need = reasonLines.length * reasonSize * LH.reason;
-    if (need <= free) break;
+    const reasonLines = reason ? planLines(reasonRuns(reason), font, WIDTH, { greedy: true, force }) : [];
+    plan = { when, whenSize, wordSize, title, org, where, font, reasonLines, fixed };
+    if (reasonLines.length * reasonSize * LH.reason <= free) break;
     // Fully squeezed and still too long: the reason is cut to the lines left.
     if (i === 20 && reason) {
       const keep = Math.max(1, Math.floor(free / (reasonSize * LH.reason)));
@@ -1146,23 +1209,25 @@ function noticeFlyer(ev, sky) {
 
   // On the sky, up from the horizon: the struck date and time, then "Cancelada".
   const lastBaseline = horizon - NOTICE.air;
-  const whenItems = when.map((line, i) => {
-    const node = voice('nt-when', [line], whenSize, { left: SIDE, baseline: lastBaseline - (when.length - 1 - i) * whenSize * 1.12 });
-    node.firstElementChild.append(fromHtml(`<svg class="fl-hand nt-strike" viewBox="${HAND.underline.viewBox}" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="${HAND.underline.d}"/></svg>`));
-    return node;
-  });
-  const firstTop = lastBaseline - (when.length - 1) * whenSize * 1.12 - DISPLAY.accent * whenSize;
-  const word = voice('nt-word', ['Cancelada'], wordSize, { left: SIDE, baseline: firstTop - NOTICE.whenGap - DISPLAY.descent * wordSize });
+  const whenBaselines = when.map((_, i) => lastBaseline - (when.length - 1 - i) * whenSize * 1.12);
+  const whenItems = when.map((line, i) => voice('nt-when', [[line, strike()]], whenSize, { left: SIDE, baseline: whenBaselines[i] }));
+  const firstTop = whenBaselines[0] - DISPLAY.accent * whenSize;
+  const wordBaseline = firstTop - NOTICE.whenGap - DISPLAY.descent * wordSize;
+  const word = voice('nt-word', ['Cancelada'], wordSize, { left: SIDE, baseline: wordBaseline });
 
-  const recordRows = rowsNode(orgRow(org), placeRow(ev, where));
+  const lines = [{ baseline: wordBaseline, size: wordSize }, ...whenBaselines.map((baseline) => ({ baseline, size: whenSize }))];
+  const skyEl = skyNode(horizon, clearEdges(horizon, lines));
+  if (night) skyEl.append(starsNode({ left: 36, right: FLYER_WIDTH - 36, top: 28, bottom: wordBaseline - DISPLAY.accent * wordSize - 24 }) || '');
+
   return [
-    skyNode(horizon),
+    skyEl,
     word,
     ...whenItems,
     bandNode(horizon),
     landNode(horizon,
+      lined('div', 'fl-title nt-title', title.lines.map((line) => [line, strike()]), title.size),
       reasonLines.length > 0 && lined('p', 'nt-reason', reasonLines, font.size),
-      h('div', 'nt-record', titleNode(title, 'fl-title nt-title'), recordRows)),
+      rowsNode(orgRow(org), placeRow(ev, where))),
     signature(),
   ];
 }
