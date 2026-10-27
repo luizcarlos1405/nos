@@ -1,585 +1,517 @@
 ---
 name: NOS Dourados
-description: The shared calendar of Dourados' organizations as a folhinha, a tear-off wall calendar whose day sheets carry each activity, ready to send to WhatsApp.
+description: "The shared agenda of Dourados' organizations under the sky of this hour: flat sky bands over a woven horizon, the land below, the next activity circled by hand in urucum."
 colors:
-  brand: "#E4002B"
-  brand-hover: "#C70026"
-  brand-tint: "#FDEBEE"
-  brand-ring: "#F2B8C3"
-  next: "#FFC20E"
-  ink: "#1C1C1E"
-  ground: "#EFEFEC"
-  surface: "#FFFFFF"
-  surface-hover: "#F7F7F5"
-  seam: "#D9D9D4"
-  muted: "#5C5C61"
-  faded: "#BDBDB8"
-  on-ink: "#FFFFFF"
-  series-1: "#0455A1"
-  series-2: "#00875A"
-  series-3: "#9B3894"
-  series-4: "#00808A"
-  series-5: "#C25700"
-  series-6: "#5E6A71"
-  series-7: "#7A4E2D"
-  series-8: "#C2185B"
-  ink-past: "color-mix(in srgb, #5C5C61 55%, #BDBDB8)"
-  red-letter-past: "color-mix(in srgb, #E4002B 75%, #FFFFFF)"
-  scrim: "color-mix(in srgb, #1C1C1E 55%, transparent)"
-  shadow: "color-mix(in srgb, #1C1C1E 14%, transparent)"
-  wash: "color-mix(in srgb, #1C1C1E 6%, transparent)"
+  # The land by day
+  clay: "#F2E3D7"
+  clay-card: "#FFFBF7"
+  clay-card-hover: "#FFF4EC"
+  clay-fill: "#F4E4D9"
+  clay-line: "#E9D5C8"
+  clay-faded: "#D8C2B5"
+  ink: "#221714"
+  ink-soft: "#6A4E44"
+  white: "#FFFFFF"
+  earth-shadow: "#4A2212"
+  # The land at night
+  terra-roxa: "#231311"
+  terra-roxa-card: "#301B17"
+  terra-roxa-card-hover: "#37201B"
+  terra-roxa-fill: "#40261F"
+  terra-roxa-line: "#4A2F28"
+  terra-roxa-faded: "#6B4A40"
+  moonlit: "#F7EBE3"
+  moonlit-soft: "#CFB5A9"
+  night-shade: "#0E0706"
+  # Urucum, the one marking colour
+  urucum: "#C2410C"
+  urucum-text: "#A3360A"
+  urucum-tint: "#F9D9C8"
+  urucum-door: "#F7CDB8"
+  urucum-night: "#FF8A5C"
+  urucum-night-tint: "#5A2A1E"
+  # Ipê-rosa, Comércio's colour
+  ipe-rosa: "#C03A73"
+  ipe-rosa-text: "#A12E5F"
+  ipe-rosa-tint: "#F3C8DA"
+  ipe-rosa-night: "#F58AB3"
+  ipe-rosa-night-tint: "#522036"
+  # The sky, five bands from the top (1) to the horizon (5), at each hour
+  dawn-1: "#93C1E6"
+  dawn-2: "#BED6E8"
+  dawn-3: "#F0D5C6"
+  dawn-4: "#F8C095"
+  dawn-5: "#FBD789"
+  dawn-ink-soft: "#4B362D"
+  day-1: "#6FAEE3"
+  day-2: "#9DCAEE"
+  day-3: "#CDE2EE"
+  day-4: "#F1E3CF"
+  day-5: "#F6D2A2"
+  day-ink-soft: "#45312A"
+  dusk-1: "#8C99D6"
+  dusk-2: "#B8A2D4"
+  dusk-3: "#EAABAA"
+  dusk-4: "#F5A275"
+  dusk-5: "#F7C460"
+  dusk-ink-soft: "#3A2730"
+  night-1: "#140D26"
+  night-2: "#1C1233"
+  night-3: "#271740"
+  night-4: "#361C48"
+  night-5: "#47214A"
+  night-ink-soft: "#D8C6D3"
+  sun: "#F4A11E"
+  moon: "#F4DDB0"
+  star: "#F6E6C6"
+  # The eight groups of the organizations: by day, and lighter at night
+  group-1: "#0455A1"
+  group-2: "#00875A"
+  group-3: "#9B3894"
+  group-4: "#00808A"
+  group-5: "#C25700"
+  group-6: "#5E6A71"
+  group-7: "#7A4E2D"
+  group-8: "#C2185B"
+  group-night-1: "#5B9BE6"
+  group-night-2: "#3DBA8A"
+  group-night-3: "#C77BC0"
+  group-night-4: "#2DB3BC"
+  group-night-5: "#E8873A"
+  group-night-6: "#9AA7AF"
+  group-night-7: "#B98A66"
+  group-night-8: "#E9608F"
 typography:
-  numeral:
-    fontFamily: "Barlow Condensed, Barlow, system-ui, sans-serif"
-    fontSize: "3.625rem"
+  display:
+    fontFamily: "Bricolage Grotesque, Inter, system-ui, sans-serif"
+    fontSize: "3.25rem"
     fontWeight: 800
-    lineHeight: 0.9
-    letterSpacing: "-0.01em"
-  numeral-desk:
-    fontFamily: "Barlow Condensed, Barlow, system-ui, sans-serif"
-    fontSize: "4rem"
+    lineHeight: 0.923
+    letterSpacing: "-0.03em"
+  headline:
+    fontFamily: "Bricolage Grotesque, Inter, system-ui, sans-serif"
+    fontSize: "1.875rem"
     fontWeight: 800
-    lineHeight: 0.9
-    letterSpacing: "-0.01em"
-  numeral-panel:
-    fontFamily: "Barlow Condensed, Barlow, system-ui, sans-serif"
-    fontSize: "2.75rem"
+    lineHeight: 1.13
+    letterSpacing: "-0.025em"
+  date:
+    fontFamily: "Bricolage Grotesque, Inter, system-ui, sans-serif"
+    fontSize: "1.25rem"
     fontWeight: 800
-    lineHeight: 0.9
-  month-title:
-    fontFamily: "Barlow Condensed, Barlow, system-ui, sans-serif"
-    fontSize: "1.75rem"
-    fontWeight: 800
-    lineHeight: 1
-  month-title-wall:
-    fontFamily: "Barlow Condensed, Barlow, system-ui, sans-serif"
-    fontSize: "2rem"
-    fontWeight: 800
-    lineHeight: 1
-  masthead:
-    fontFamily: "Barlow Condensed, Barlow, system-ui, sans-serif"
-    fontSize: "1.5rem"
-    fontWeight: 800
-    lineHeight: 1.05
-  masthead-desk:
-    fontFamily: "Barlow Condensed, Barlow, system-ui, sans-serif"
-    fontSize: "1.625rem"
-    fontWeight: 800
-    lineHeight: 1.05
-  weekday:
-    fontFamily: "Barlow Condensed, Barlow, system-ui, sans-serif"
+    lineHeight: 1.2
+    letterSpacing: "-0.015em"
+    fontFeature: "tnum"
+  title:
+    fontFamily: "Bricolage Grotesque, Inter, system-ui, sans-serif"
     fontSize: "1.1875rem"
-    fontWeight: 700
-    lineHeight: 1.1
-    letterSpacing: "0.06em"
-  time:
-    fontFamily: "Barlow Condensed, Barlow, system-ui, sans-serif"
+    fontWeight: 750
+    lineHeight: 1.26
+    letterSpacing: "-0.015em"
+    fontFeature: "tnum"
+  activity-lead:
+    fontFamily: "Inter, system-ui, sans-serif"
     fontSize: "1.375rem"
     fontWeight: 700
-    lineHeight: 1.1
-    fontFeature: "tnum"
-  day-numeral:
-    fontFamily: "Barlow Condensed, Barlow, system-ui, sans-serif"
-    fontSize: "1.25rem"
-    fontWeight: 700
-    lineHeight: 1
-  badge:
-    fontFamily: "Barlow Condensed, Barlow, system-ui, sans-serif"
-    fontSize: "1rem"
-    fontWeight: 700
-    lineHeight: 1
-    letterSpacing: "0.02em"
-  stamp:
-    fontFamily: "Barlow Condensed, Barlow, system-ui, sans-serif"
-    fontSize: "0.875rem"
-    fontWeight: 800
-    lineHeight: 1.2
-    letterSpacing: "0.11em"
-  type-label:
-    fontFamily: "Barlow Condensed, Barlow, system-ui, sans-serif"
-    fontSize: "0.9375rem"
-    fontWeight: 600
-    lineHeight: 1.15
-  headline:
-    fontFamily: "Barlow, system-ui, sans-serif"
-    fontSize: "1.5rem"
-    fontWeight: 700
-    lineHeight: 1.2
-  title:
-    fontFamily: "Barlow, system-ui, sans-serif"
+    lineHeight: 1.25
+    letterSpacing: "-0.015em"
+  activity:
+    fontFamily: "Inter, system-ui, sans-serif"
     fontSize: "1.0625rem"
     fontWeight: 600
     lineHeight: 1.3
+    letterSpacing: "-0.01em"
   body:
-    fontFamily: "Barlow, system-ui, sans-serif"
+    fontFamily: "Inter, system-ui, sans-serif"
     fontSize: "1rem"
-    fontWeight: 500
+    fontWeight: 400
     lineHeight: 1.45
   meta:
-    fontFamily: "Barlow, system-ui, sans-serif"
-    fontSize: "0.9375rem"
-    fontWeight: 500
-    lineHeight: 1.35
-  caption:
-    fontFamily: "Barlow, system-ui, sans-serif"
+    fontFamily: "Inter, system-ui, sans-serif"
     fontSize: "0.875rem"
-    fontWeight: 500
-    lineHeight: 1.3
+    fontWeight: 400
+    lineHeight: 1.36
   button:
-    fontFamily: "Barlow, system-ui, sans-serif"
-    fontSize: "1rem"
-    fontWeight: 700
-    lineHeight: 1.15
-  cell:
-    fontFamily: "Barlow, system-ui, sans-serif"
-    fontSize: "0.8125rem"
-    fontWeight: 500
-    lineHeight: 1.3
-  cell-holiday:
-    fontFamily: "Barlow, system-ui, sans-serif"
-    fontSize: "0.75rem"
+    fontFamily: "Inter, system-ui, sans-serif"
+    fontSize: "0.9375rem"
     fontWeight: 600
-    lineHeight: 1.15
-  flyer-numeral:
-    fontFamily: "Barlow Condensed, Barlow, system-ui, sans-serif"
-    fontSize: "460px"
-    fontWeight: 800
-    lineHeight: 0.8
-    letterSpacing: "-0.013em"
-  flyer-display:
-    fontFamily: "Barlow Condensed, Barlow, system-ui, sans-serif"
-    fontSize: "168px"
-    fontWeight: 800
-    lineHeight: 0.95
-  flyer-title:
-    fontFamily: "Barlow, system-ui, sans-serif"
-    fontSize: "78px"
-    fontWeight: 700
-    lineHeight: 1.08
-    letterSpacing: "-0.013em"
-  flyer-stamp:
-    fontFamily: "Barlow Condensed, Barlow, system-ui, sans-serif"
-    fontSize: "140px"
-    fontWeight: 800
-    lineHeight: 0.965
-    letterSpacing: "0.057em"
+    lineHeight: 1.2
 rounded:
-  cell-mark: "1px"
-  bound: "2px"
-  plate: "3px"
-  sm: "4px"
-  md: "6px"
-  lg: "8px"
-  sheet: "14px"
+  sm: "6px"
+  default: "12px"
+  card: "18px"
+  sheet: "24px"
   pill: "999px"
+  circle: "50%"
 spacing:
-  2xs: "4px"
-  xs: "6px"
-  sm: "8px"
-  md: "12px"
-  lg: "16px"
-  xl: "24px"
-  2xl: "32px"
+  gutter-narrow: "12px"
+  gutter: "16px"
+  gutter-wide: "24px"
+  gutter-desk: "32px"
+  stack: "8px"
+  days: "18px"
 components:
-  button-accent:
-    backgroundColor: "{colors.brand}"
-    textColor: "{colors.on-ink}"
+  button-primary:
+    backgroundColor: "{colors.urucum}"
+    textColor: "{colors.white}"
     typography: "{typography.button}"
-    rounded: "{rounded.md}"
+    rounded: "{rounded.pill}"
     padding: "0 18px"
-    height: "48px"
-  button-accent-hover:
-    backgroundColor: "{colors.brand-hover}"
-  button-line:
-    backgroundColor: "transparent"
+    height: "44px"
+  button-primary-night:
+    backgroundColor: "{colors.urucum-night}"
+    textColor: "{colors.terra-roxa}"
+    typography: "{typography.button}"
+    rounded: "{rounded.pill}"
+    padding: "0 18px"
+    height: "44px"
+  button-outlined:
+    backgroundColor: "{colors.clay-card}"
     textColor: "{colors.ink}"
     typography: "{typography.button}"
-    rounded: "{rounded.md}"
+    rounded: "{rounded.pill}"
     padding: "0 18px"
-    height: "48px"
-  button-line-hover:
+    height: "44px"
+  button-outlined-done:
     backgroundColor: "{colors.ink}"
-    textColor: "{colors.on-ink}"
-  button-icon:
-    backgroundColor: "{colors.surface}"
+    textColor: "{colors.clay-card}"
+    typography: "{typography.button}"
+    rounded: "{rounded.pill}"
+    padding: "0 18px"
+    height: "44px"
+  icon-button:
     textColor: "{colors.ink}"
-    rounded: "{rounded.md}"
+    rounded: "{rounded.circle}"
     size: "44px"
-  chip:
-    backgroundColor: "{colors.surface}"
+  share-circle:
+    backgroundColor: "{colors.clay-fill}"
     textColor: "{colors.ink}"
-    typography: "{typography.meta}"
+    rounded: "{rounded.circle}"
+    size: "40px"
+  chip:
+    backgroundColor: "{colors.clay-card}"
+    textColor: "{colors.ink}"
     rounded: "{rounded.pill}"
     padding: "0 14px"
-    height: "44px"
+    height: "36px"
   chip-pressed:
     backgroundColor: "{colors.ink}"
-    textColor: "{colors.on-ink}"
-  org-pill:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.ink}"
-    typography: "{typography.meta}"
+    textColor: "{colors.clay-card}"
     rounded: "{rounded.pill}"
-    padding: "8px 12px"
-    height: "44px"
-  org-pill-active:
+    padding: "0 14px 0 10px"
+    height: "36px"
+  segment-chosen:
     backgroundColor: "{colors.ink}"
-    textColor: "{colors.on-ink}"
-  masthead:
-    backgroundColor: "{colors.brand}"
-    textColor: "{colors.on-ink}"
-    typography: "{typography.masthead}"
-  view-tab:
-    backgroundColor: "transparent"
-    textColor: "{colors.muted}"
+    textColor: "{colors.clay-card}"
+    rounded: "{rounded.pill}"
+    padding: "0 12px"
+    height: "42px"
+  input-search:
+    backgroundColor: "{colors.clay-card}"
+    textColor: "{colors.ink}"
     typography: "{typography.body}"
-    padding: "0 12px 4px"
-    height: "49px"
-  view-tab-selected:
-    textColor: "{colors.ink}"
-  segment:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.sm}"
-    height: "44px"
-  segment-selected:
+    rounded: "{rounded.pill}"
+    padding: "0 48px 0 46px"
+    height: "48px"
+  tag:
+    backgroundColor: "{colors.clay-card}"
+    textColor: "{colors.ink-soft}"
+    rounded: "{rounded.pill}"
+    padding: "0 8px"
+    height: "22px"
+  tag-cancelled:
     backgroundColor: "{colors.ink}"
-    textColor: "{colors.on-ink}"
-  day-sheet:
-    backgroundColor: "{colors.surface}"
+    textColor: "{colors.clay-card}"
+    rounded: "{rounded.pill}"
+    padding: "0 8px"
+    height: "22px"
+  group-dot:
+    backgroundColor: "{colors.group-1}"
+    rounded: "{rounded.circle}"
+    size: "8px"
+  card-activity:
+    backgroundColor: "{colors.clay-card}"
     textColor: "{colors.ink}"
-    rounded: "2px 2px 6px 6px"
-    padding: "4px 12px 12px 16px"
-  badge-today:
-    backgroundColor: "{colors.ink}"
-    textColor: "{colors.on-ink}"
-    typography: "{typography.badge}"
-    rounded: "{rounded.sm}"
-    padding: "0 9px"
-    height: "1.625em"
-  badge-next:
-    backgroundColor: "{colors.next}"
+    typography: "{typography.activity}"
+    rounded: "{rounded.card}"
+    padding: "14px 14px 15px 16px"
+  card-activity-night:
+    backgroundColor: "{colors.terra-roxa-card}"
+    textColor: "{colors.moonlit}"
+    typography: "{typography.activity}"
+    rounded: "{rounded.card}"
+    padding: "14px 14px 15px 16px"
+  door-agenda:
+    backgroundColor: "{colors.urucum-door}"
     textColor: "{colors.ink}"
-    typography: "{typography.badge}"
-    rounded: "{rounded.sm}"
-    padding: "0 9px"
-    height: "1.625em"
-  activity-line:
-    backgroundColor: "{colors.surface}"
+    rounded: "{rounded.card}"
+    padding: "12px 12px 14px 14px"
+  door-agenda-night:
+    backgroundColor: "{colors.urucum-night-tint}"
+    textColor: "{colors.moonlit}"
+    rounded: "{rounded.card}"
+    padding: "12px 12px 14px 14px"
+  door-commerce:
+    backgroundColor: "{colors.ipe-rosa-tint}"
     textColor: "{colors.ink}"
-    typography: "{typography.title}"
-    padding: "14px 6px 14px 16px"
-  activity-line-hover:
-    backgroundColor: "{colors.surface-hover}"
-  activity-line-selected:
-    backgroundColor: "{colors.brand-tint}"
-  time-plate-next:
-    backgroundColor: "{colors.next}"
+    rounded: "{rounded.card}"
+    padding: "12px 12px 14px 14px"
+  door-commerce-night:
+    backgroundColor: "{colors.ipe-rosa-night-tint}"
+    textColor: "{colors.moonlit}"
+    rounded: "{rounded.card}"
+    padding: "12px 12px 14px 14px"
+  soon-panel:
+    backgroundColor: "{colors.ipe-rosa-tint}"
     textColor: "{colors.ink}"
-    typography: "{typography.time}"
-    rounded: "{rounded.plate}"
-    padding: "1px 5px"
-  city-tag:
-    backgroundColor: "{colors.ink}"
-    textColor: "{colors.on-ink}"
-    rounded: "{rounded.plate}"
-    padding: "1px 7px 2px"
-  sector-square:
-    backgroundColor: "{colors.series-1}"
-    rounded: "{rounded.bound}"
-    size: "10px"
-  stamp:
-    backgroundColor: "transparent"
-    textColor: "{colors.brand-hover}"
-    typography: "{typography.stamp}"
-    rounded: "{rounded.plate}"
-    padding: "2px 7px"
-  month-day:
-    backgroundColor: "transparent"
+    rounded: "{rounded.card}"
+    padding: "24px 22px 26px"
+  nav-bar:
+    backgroundColor: "{colors.clay-card}"
+    textColor: "{colors.ink-soft}"
+    height: "64px"
+  nav-pill-current:
+    backgroundColor: "{colors.urucum-tint}"
+    textColor: "{colors.urucum-text}"
+    rounded: "{rounded.pill}"
+    width: "56px"
+    height: "32px"
+  sheet:
+    backgroundColor: "{colors.clay-card}"
     textColor: "{colors.ink}"
-    typography: "{typography.day-numeral}"
-    height: "56px"
-  month-day-selected:
-    backgroundColor: "{colors.ink}"
-    textColor: "{colors.on-ink}"
-    rounded: "{rounded.sm}"
-  week-bar:
-    backgroundColor: "{colors.series-1}"
-    textColor: "{colors.on-ink}"
-    rounded: "{rounded.plate}"
-    height: "1.25rem"
-  bottom-sheet:
-    backgroundColor: "{colors.surface}"
     rounded: "{rounded.sheet}"
-  notice:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.md}"
-    padding: "14px 16px"
-  notice-error:
-    backgroundColor: "{colors.brand-tint}"
-  chat-bubble:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.lg}"
-    padding: "12px"
-  flyer-tag:
-    backgroundColor: "{colors.ink}"
-    textColor: "{colors.on-ink}"
-    rounded: "{rounded.md}"
-    padding: "6px 16px"
 ---
 
 # Design System: NOS Dourados
 
 ## Overview
 
-**Creative North Star: "The Folhinha"**
+**Creative North Star: "Céu · Terra"**
 
-NOS Dourados is drawn as a folhinha, the tear-off wall calendar of Brazilian homes and shops. A red printed header card hangs at the top; under it, on a pale wall, hangs a pad of white day sheets, each bound by a red strip and a row of perforation holes, each with a giant two-digit numeral and its weekday in condensed capitals, and every organization's activities are printed on the sheet of their day. Today's sheet is on top, past sheets are torn off until someone asks for them, the next activity carries the calendar's only yellow, Sundays and national holidays print in red, and a cancelled activity keeps its place under a red rubber stamp. The month view is the calendar's month page, Sunday first; the flyers are the same header card and sheets at poster size.
+NOS opens on the sky over Dourados at this hour and the land beneath it. Every page stacks the same three layers: the header is the sky of this hour, painted in five flat bands (amanhecer, dia, entardecer and noite by the clock in the light theme, always the night in the dark theme); the woven band under it is the horizon; below lies the land, light clay by day and terra roxa at night, where the activities, the doors and the businesses rest as clear rounded cards. The sun, a disc inside an urucum loop drawn by hand, rises big from behind the band and runs off the edge; at night a small moon, about a fifth of the sun, sits high among the stars.
 
-The system is printed, not decorated. One type family, Barlow and Barlow Condensed, with hierarchy carried by scale and width; flat paper on a wall, separated by 1px seams; corners that stay nearly square where a sheet is bound and soften where it hangs free; colour used the way a calendar printer uses it: red for the header, the binding and the red-letter days, graphite for everything printed, one yellow for "Próxima", eight sector inks as small printed squares. Density is set for mid-range phones used outdoors: big numerals, strong contrast, tap targets of 44px and more. Motion is minimal: state changes fade in 0.15s, the view tab underline moves in 0.2s and the phone's bottom sheet slides in 0.3s, all on one curve (`--ease`, `cubic-bezier(0.16, 1, 0.3, 1)`); with reduced motion every transition is instant.
+The hand is the system's signature. The same urucum pen that draws the sun's loop and the O of the NOS mark circles the next activity and underlines today: urucum is the one marking colour, and it marks rather than fills. Each page wears one colour of the landscape on its door and its own panel (Agenda urucum, Comércio ipê-rosa); the organizations' eight groups are coloured dots. Bricolage Grotesque is NOS's voice (the greeting, dates, page titles, day heads) and Inter the reading text and the controls. The density is calm and phone-first: lists of cards with 44px targets on the phone, a production bench on the desk, never a dashboard.
 
-It refuses the category default of event apps (a grey list with thin date dividers and coloured event pills) and the protest-poster costume. Only the palette comes from the Calendário de Luta this repository was copied from; its metro line, stations, countdown and slogan are retired.
+The world refuses the hero banner over icon tiles, the dashboard, the grey list with thin dividers and coloured pills, the marketplace (carousels, banners, prices, ratings), and the Folhinha's notepad and torn-off sheets; nothing of the old campaign interface (the metro line to election day, the countdown, the slogan) comes back, and nothing should read as a startup, a city hall or an election campaign. Light and dark are both finished themes. The approved artboards (`design/direcao-ceu-terra-*.html`) also draw sections and a search that were deliberately not built; where they and the build diverge, the build is the reference. The flyers are the one surface still in the previous world's layout (see Components).
 
 **Key Characteristics:**
-- Every day is a sheet: red binding strip, perforation row, two-digit numeral, weekday in condensed capitals.
-- Sundays and national holidays print red on every calendar surface.
-- Yellow means the next activity and nothing else.
-- A sector is a small printed square beside the organization, never a fill behind content.
-- One family, hierarchy by scale: Barlow Condensed prints the calendar, Barlow carries what people read.
-- Flat sheets on a pale wall with 1px seams; shadows only on what floats.
-- Every colour is a variable in two layers, palette then roles, so a theme is one block of variables.
+- Sky over land on every page, meeting at a woven horizon.
+- The sky in flat bands by the hour: hard stops, never a soft gradient.
+- One marking colour, urucum, drawn by hand: loops and strokes, not badges.
+- Pages in colours of the landscape; the organizations' groups as dots.
+- Bricolage Grotesque 800 for the voice, Inter for reading; tabular dates.
+- Rounded cards and standard controls: pills, circles, 18px cards.
+- A soft earth-tinted shadow by day, a 1px line at night.
+- One authored motion: the home's sun rises.
 
 ## Colors
 
-A calendar printer's palette: one red, graphite ink, white paper on a pale wall, a single reserved yellow and eight sector inks. Every value lives in `css/theme.css` as a palette variable (`--color-*`, which the design files in `design/` use directly) and reaches the interface and the flyers only through a role (`--role-*`).
+A palette taken from the place: clay and terra roxa for the land, urucum and ipê-rosa from its plants, and the sky of Dourados at four hours. Every colour is a palette value in `css/theme.css` (`--color-*`, named for what it is) and reaches the pages only through a role (`--role-*`, named for what it does); the light and dark themes and the hour's sky swap the roles, never the palette.
 
 ### Primary
-- **Folhinha Red** (#E4002B, `--color-brand`): the printed header card (`--role-header`), the binding strip on every sheet (`--role-binding`), Sundays and holidays (`--role-red-letter`), the panel's one primary action (`--role-accent`: "Enviar no WhatsApp", "Compartilhar imagem", or "Baixar PNG" when the device can't share files), the alarm on flyers (`--role-alert`: the "Cancelada" stamp, the strike through a cancelled date, also the day circled by hand on the month flyer), the O of the NOS mark wherever the mark prints on paper (`--role-mark-loop`: the app icons, the favicons, the link preview), error icons, text selection and the caret. White on it, and it on paper, both reach 4.85:1.
-- **Deep Red** (#C70026, `--color-brand-hover`): the accent's hover (`--role-accent-hover`) and every small red text of the alarm (`--role-alert-text`): the on-screen "Cancelada" stamp and "Motivo: …" (6.08:1 on paper).
-- **Blush Tint** (#FDEBEE, `--color-brand-tint`): the activity open in the panel (`--role-selected`) and the error notice's ground (`--role-alert-soft`).
-- **Rose Ring** (#F2B8C3, `--color-brand-ring`): the error notice's border (`--role-alert-ring`).
+- **Urucum** (#C2410C): the one marking colour. It fills the primary button (white text, 5.18:1) and strokes the hand marks on the land: the loop around the next activity, the stroke under today. On the sky it is the hand that draws the sun's loop, the O of the mark and the open page's 3px underline.
+- **Deep Urucum** (#A3360A): urucum as words and as focus: "a próxima", the links to more of the agenda, the open page's label in the phone bar, the 2px focus ring (5.42:1 on clay, 6.60:1 on cards).
+- **Urucum Tint** (#F9D9C8): text selection, the open page's pill in the phone bar, the error notice.
+- **Agenda Urucum** (#F7CDB8): the Agenda's door on the home.
+- **Night Urucum** (#FF8A5C): urucum in the dark theme and on the night sky: the button (with terra roxa text, 7.71:1), the hand marks, the focus ring.
+- **Night Urucum Tint** (#5A2A1E): selection, the phone bar's pill and the Agenda's door at night.
 
 ### Secondary
-- **Próxima Yellow** (#FFC20E, `--color-next`): the next activity, nothing else (`--role-next`, with Graphite Ink on it as `--role-on-next`, 10.5:1): the "Próxima" badge on its start day's sheet and the plate behind its time.
+- **Ipê-Rosa** (#C03A73): Comércio's colour of the landscape and the named source of its shades; the site paints only the deep and tint shades below.
+- **Deep Ipê-Rosa** (#A12E5F): Comércio's icons, and the colour mixed into the text of its panel and door.
+- **Ipê-Rosa Tint** (#F3C8DA): Comércio's door and its "Em breve" panel (ink on it: 11.73:1).
+- **Night Ipê-Rosa** (#F58AB3) and **Night Ipê-Rosa Tint** (#522036): the same two jobs at night.
 
 ### Tertiary
-Sector inks. `js/colors.js` gives each sector a series and sets `--sector: var(--role-series-N)` on the node; the suggested sectors keep a fixed series (`SECTOR_SERIES` in `js/config.js`), the eight suggested sectors use all eight series, so another sector borrows the series of a suggested sector absent from the sheet and then falls back to a name hash. All eight carry white text at 4.5:1 or more.
-- **Sector Blue** (#0455A1, `series-1`, azul): Sindicatos.
-- **Sector Green** (#00875A, `series-2`, verde): Rural, indígena, luta pela terra.
-- **Sector Lilac** (#9B3894, `series-3`, lilás): Movimentos Sociais.
-- **Sector Teal** (#00808A, `series-4`, turquesa): Academia e Movimento Estudantil.
-- **Sector Orange** (#C25700, `series-5`, laranja): Órgãos do Estado.
-- **Sector Silver** (#5E6A71, `series-6`, prata): Partidos.
-- **Sector Brown** (#7A4E2D, `series-7`, marrom): Outros.
-- **Sector Magenta** (#C2185B, `series-8`, magenta): Terceiro Setor.
-
-An activity without a sector gets Pencil Grey (`--role-no-sector`).
+The sky: five bands from the top (1) to the horizon (5) at each hour, and what shines in it.
+- **Amanhecer** (#93C1E6, #BED6E8, #F0D5C6, #F8C095, #FBD789; 5–9h): morning blue warming to rose, apricot and gold; its soft ink is #4B362D. The icons and the link preview always show this sky.
+- **Dia** (#6FAEE3, #9DCAEE, #CDE2EE, #F1E3CF, #F6D2A2; 9–16h): a clear deep blue over a warm, dusty horizon; soft ink #45312A. Its top band is the static light browser colour and the manifest's theme colour.
+- **Entardecer** (#8C99D6, #B8A2D4, #EAABAA, #F5A275, #F7C460; 16–19h): dusk violet, lilac, rose, orange and gold; soft ink #3A2730.
+- **Noite** (#140D26, #1C1233, #271740, #361C48, #47214A; 19–5h, and always in the dark theme): deep indigo warming to plum; soft ink #D8C6D3, ink Moonlit.
+- **Sun** (#F4A11E), **Moon** (#F4DDB0) and **Star** (#F6E6C6): the astro's disc by day and at night, and the small stars of the night.
 
 ### Neutral
-- **Graphite Ink** (#1C1C1E, `--color-ink`): all printed text (`--role-ink`, 17:1 on paper), the "on" fill of controls and badges and the chosen view tab's underline (`--role-strong`), the focus ring (`--role-focus`), the letters of the NOS mark on paper, the city tag and the flyer type tag.
-- **Pale Wall** (#EFEFEC, `--color-ground`): the page behind the sheets (`--role-wall`), the flyers' ground, the chat ground of the WhatsApp preview (`--role-chat`).
-- **Sheet White** (#FFFFFF, `--color-surface`): sheets, the panel, chips and pills (`--role-paper`), the message bubble (`--role-bubble`).
-- **Paper Hover** (#F7F7F5, `--color-surface-hover`): an activity line under the pointer (`--role-paper-hover`).
-- **Seam Grey** (#D9D9D4, `--color-seam`): 1px seams and sheet edges, the perforation dots on screen and on the day and month flyers, the grabber (`--role-line`).
-- **Pencil Grey** (#5C5C61, `--color-muted`): secondary text and icons (`--role-ink-soft`, 6.65:1 on paper), the no-sector square.
-- **Faded Grey** (#BDBDB8, `--color-faded`): the perforation of the Cartaz and Aviso flyers and of the link preview's sheet (`--role-ink-faded`), the scrollbar (`--role-scrollbar`).
-- **Reverse White** (#FFFFFF, `--color-on-ink`): text and focus on red, graphite and sector colours (`--role-on-header`, `--role-on-strong`, `--role-on-accent`, `--role-on-series`, `--role-focus-on-color`).
-- **Torn-off Grey** (`ink-past`, `--role-ink-past`): Pencil Grey mixed 55% into Faded Grey, for the numerals of past sheets and of days outside the month; still 3.54:1 on paper.
-- **Faded Red-Letter** (`red-letter-past`, `--role-red-letter-past`): Folhinha Red mixed 75% into white, for red-letter numerals on past sheets and outside the month (3.86:1).
-- **Graphite Scrim, Shadow and Wash** (`scrim`, `shadow`, `wash`: Graphite Ink at 55%, 14% and 6%): the backdrop behind the phone's bottom sheet (`--role-scrim`), the three soft shadows (`--role-shadow`), the hover wash of quiet controls and the inline `code` ground (`--role-wash`).
+- **Clay** (#F2E3D7): the land by day, the page below the horizon; the manifest's background.
+- **Warm White Card** (#FFFBF7): cards, fields, chips, the panel and the phone bar by day; the text on ink fills.
+- **Card Hover** (#FFF4EC): hover on cards, chips and outlined controls.
+- **Clay Fill** (#F4E4D9): the tonal fill: share circles, the chat behind the message, the month's days off, the city tag.
+- **Clay Line** (#E9D5C8): hairlines: the outlines of chips, fields and outlined buttons, dividers, empty cards, the grabber.
+- **Faded Clay** (#D8C2B5): the scrollbar; the flyers' perforation.
+- **Warm Ink** (#221714): text (13.95:1 on clay); the chosen segment and the pressed chips; the sky's ink in the three light skies.
+- **Earth Soft Ink** (#6A4E44): secondary text and icons, tinted from the earth and never grey (6.01:1 on clay); the quiet selection ring.
+- **White** (#FFFFFF): the text on the urucum button.
+- **Earth Shadow** (#4A2212): the colour of every shadow by day.
+- **Terra Roxa** (#231311): the land at night; the text on Night Urucum and on Moonlit fills.
+- **Terra Roxa Card** (#301B17), **Card Hover** (#37201B), **Fill** (#40261F), **Line** (#4A2F28) and **Faded** (#6B4A40): the same jobs at night; the line also stands in for the cards' shadow.
+- **Moonlit** (#F7EBE3) and **Moonlit Soft** (#CFB5A9): text and secondary text at night (15.30:1 and 8.37:1); Moonlit is also the night sky's ink.
+- **Night Shade** (#0E0706): the scrim and the sheet's shadow at night.
+- The washes are mixes, not palette values: the hover wash is the ink at 7% (Moonlit at 9% at night), the sky's wash the ink at 9% (Moonlit at 12%), the scrim the ink at 50% (Night Shade at 70%).
 
-Themes are blocks of variables. A `:root[data-theme='name']` block at the end of `css/theme.css` overrides palette entries or roles; `data-theme` on `<html>` in `index.html` picks it (empty means the default), and `?tema=<name>` in the address tries one without editing a file (the inline script in `index.html`'s `<head>`). The bundled `exemplo` theme is a template: a graphite header card and binding. Two places can't read variables and change by hand: the `theme-color` meta (the red header, in `index.html`) and `theme_color`/`background_color` in the web manifest. The icons, the link preview and the screenshots are PNGs rendered from the theme: re-render them with `node assets/render.cjs`.
+### Groups
+The eight groups of the organizations, one series each, by day and lighter at night (`js/colors.js` sets the group's series as `--sector` on the node): azul (#0455A1 / #5B9BE6), verde (#00875A / #3DBA8A), lilás (#9B3894 / #C77BC0), turquesa (#00808A / #2DB3BC), laranja (#C25700 / #E8873A), prata (#5E6A71 / #9AA7AF), marrom (#7A4E2D / #B98A66), magenta (#C2185B / #E9608F). An activity without a group takes the soft ink. Comércio's categories carry no colour.
 
 ### Named Rules
-**The Roles-Only Rule.** `css/style.css` and `css/flyers.css` name roles, never palette variables or colour literals; `transparent`, `currentColor` and, inside `@media (forced-colors: active)`, system colours are the only exceptions. A new colour enters `css/theme.css` as a palette entry plus a role, and a sector's colour arrives only as `var(--sector)`.
+**The One Marking Colour Rule.** Urucum marks; it never fills an area. At full strength it is only the hand (the loop around the next activity, the stroke under today, the sun's loop, the mark's O), the primary button and the open page; its tints may colour the Agenda's door, the phone bar's pill, selection and the error notice. If urucum covers a panel, a header or a card on the site, it is wrong.
 
-**The One Yellow Rule.** Próxima Yellow marks the next activity and nothing else: the "Próxima" badge on its start day's sheet and the plate behind its time (or its dash, when that day has several activities or is today). It never marks focus, warnings, the month grid or a flyer.
+**The Flat Sky Rule.** The sky is five flat bands with hard stops, coloured by the hour in the light theme and always the night in the dark theme: never a soft gradient, never a photo. Text on it uses only the sky's ink and soft ink, which hold 4.5:1 or more on every band of every hour (the lowest pair is 5.05:1, the dusk's soft ink); urucum on the sky is a drawn mark, never the only sign of a state.
 
-**The Red-Letter Rule.** Sundays and national holidays print in Folhinha Red wherever the calendar prints a date: the sheet's numeral and weekday, the holiday's name, the month page's Sunday column and numerals, the Folha do dia and the Calendário do mês. Red on a date means a Sunday or a holiday, never decoration. A torn-off sheet keeps its red numeral, faded to Faded Red-Letter; the month page fades it only outside the month.
-
-**The Printed Square Rule.** A sector shows as a small square of its ink beside the organization: 10px with 2px corners on screen, 6px with 1px corners in month cells, 0.7em on flyers. The only larger sector fills are the multi-day bars of the month page. Sector colour never fills a card, a chip or a line, and never colours text.
+**The Dots, Never Shapes Rule.** A group is a coloured dot (8px; 6px in the phone month), a thin bar in the phone month, or a tinted bar with its dot on the desk month: never a shape, an icon, a filled card or a coloured pill, and never the only place the group is named (the chips and the panel say it in words). A cancelled activity keeps its group's colour as an outline.
 
 ## Typography
 
-**Display Font:** Barlow Condensed (with Barlow, system-ui, sans-serif), self-hosted at 600, 700 and 800
-**Body Font:** Barlow (with system-ui, sans-serif), self-hosted at 500, 600 and 700
+**Display Font:** Bricolage Grotesque (variable, 500–800, with its optical-size axis; falls back to Inter, system-ui, sans-serif)
+**Body Font:** Inter (variable, 400–700; falls back to system-ui, sans-serif)
+**Flyer Fonts:** Barlow (500, 600, 700) and Barlow Condensed (600, 700, 800), for the flyers only
 
-**Character:** One superfamily in two widths. The condensed cut is the calendar's print, tall and tight: heavy numerals, tracked capitals for weekdays, tabular times. The normal width carries what people read: titles, organizations, places, descriptions, buttons. Hierarchy comes from scale: reading sizes sit in a tight 14 to 17px band, and the printed numerals jump to 44 to 64px.
+**Character:** Bricolage Grotesque is the voice and Inter the reading text. Bricolage at its heaviest, with its optical sizes, gives the greeting and the dates a local, hand-set warmth; Inter keeps what the organizations announce plain and legible outdoors on cheap phones. Both are self-hosted in `fonts/`; no request goes to Google Fonts.
 
 ### Hierarchy
-- **Numeral** (Barlow Condensed 800, 3.625rem, 4rem from 1100px, line-height 0.9, -0.01em): the day on every sheet, two digits, in a fixed 4rem column (4.5rem from 1100px).
-- **Panel Numeral** (Barlow Condensed 800, 2.75rem, line-height 0.9): the small sheet head at the top of the activity panel.
-- **Month Title** (Barlow Condensed 800, 1.75rem, 2rem from 1280px, 1.375rem on very narrow screens, line-height 1): "Outubro 2026" over the month page.
-- **Masthead** (Barlow Condensed 800, 1.5rem, 1.625rem from 1100px, line-height 1.05): "Dourados/MS" on the header card.
-- **Weekday** (Barlow Condensed 700, 1.1875rem, line-height 1.1, 0.06em, capitals): "QUINTA-FEIRA" beside the numeral; 1rem in the panel head. The month page's column letters ("DOM", "SEG") speak the same voice at 0.8125rem and 0.05em.
-- **Time** (Barlow Condensed 700, 1.375rem, line-height 1.1, tabular figures): an activity's start ("11h", "9h30") on its plate; 1.0625rem when only the end is known ("até 12h").
-- **Day Numeral** (Barlow Condensed 700, 1.25rem, line-height 1): the month page's numerals, plain digits.
-- **Badge** (Barlow Condensed 700, 1rem, line-height 1, 0.02em): "Hoje" and "Próxima".
-- **Stamp** (Barlow Condensed 800, 0.875rem, line-height 1.2, 0.11em, capitals): "CANCELADA".
-- **Type Label** (Barlow Condensed 600, 0.9375rem, line-height 1.15): the activity's type under its time ("Festa", "Plenária", "Prazo"). The city tag uses the same face at 700 and 0.875rem.
-- **Headline** (Barlow 700, 1.5rem, line-height 1.2, balanced): the activity's title in the panel.
-- **Title** (Barlow 600, 1.0625rem, line-height 1.3, pretty wrapping): the activity's title on its sheet.
-- **Body** (Barlow 500, 1rem, line-height 1.45): base text.
-- **Meta** (Barlow 500, 0.9375rem, line-height 1.35): organization (at 600), place, period, facts, chips, notices, the month name under the weekday; the description keeps line-height 1.45.
-- **Caption** (Barlow 500, 0.875rem, line-height 1.3): "Núcleo de Organização Social" under the masthead, holiday names (600, red), organizations' full names in the panel, the flyer hint.
-- **Button** (Barlow 700, 1rem, line-height 1.15): every button label.
-- **Cell** (Barlow 500, 0.8125rem, line-height 1.3): the entries written into the wall-sized month page, each time at 700; the multi-day bars carry their titles at 600, and the page's column letters use Barlow Condensed 700 at this size.
-- **Cell Holiday** (Barlow 600, 0.75rem, line-height 1.15): a holiday's short name under its numeral on the wall-sized month page, in red; a full cell's "+N" count uses the same size.
-
-Every interface size is in rem, and so are the boxes that hold text (the numeral and time columns, the month page's bars and lanes), so a larger default font size grows them together.
-
-Flyers have their own px scale on the 1080 × 1350 canvas. `css/flyers.css` holds the base sizes and `js/flyer.js` sets the planned size of each text inline:
-- **Flyer Numeral** (Barlow Condensed 800, 460px, line-height 0.8, -0.013em): the Folha do dia's day. The Cartaz sheet sets its numeral at 204px, the Aviso at 290px.
-- **Flyer Display** (Barlow Condensed 800, 168px, line-height 0.95, capitals): the Cartaz title.
-- **Flyer Title** (Barlow 700, 78px, line-height 1.08, -0.013em): the title on the Folha do dia; 76px on the month flyer, 64px struck through on the Aviso.
-- **Flyer Stamp** (Barlow Condensed 800, 140px, line-height 0.965, 0.057em): "CANCELADA" on the Aviso de cancelamento.
-
-The flyer masthead sets the mark beside "Dourados/MS" in Barlow Condensed 800 at 62px over "Núcleo de Organização Social" in Barlow 500 at 28px; the footer "Agenda das organizações de Dourados" is Barlow 500 at 26px in Pencil Grey.
+- **Display** (Bricolage 800, 3.25rem, line-height 0.923, -0.03em): the greeting on the home's sky, "Bom dia, Dourados", on two lines on phones; 4rem/1 on one line from 760px, 4.75rem/1.05 from 1100px, 2.625rem on narrow screens.
+- **Headline** (Bricolage 800, 1.875rem, 1.13, -0.025em): the page's name on the sky ("Agenda", "Comércio"); 2.5rem/1.1 from 760px. The same weight sets "Em breve" (2rem/1.05; 2.75rem on the desk), the month's title (1.5rem/1.1; 1.75rem from 1280px) and Comércio's letters (1.75rem/1).
+- **Date** (Bricolage 800, 1.25rem, 1.2, -0.015em, tabular figures): the dates in NOS's voice, such as the home's circled date (1.4375rem from 760px).
+- **Title** (Bricolage 750, 1.1875rem, 1.26, -0.015em, tabular figures): the day heads ("Hoje · terça, 27/10"). At 750 too: the panel's day (1.25rem/1.2), business names (1.25rem/1.2), the information card's title (1.375rem/1.2), empty-state titles (1.1875rem/1.3), the month's numerals (1.0625rem/1) and "Dourados" beside the mark (1.375rem/1.27). At 700: the doors' names (1.125rem/1.33, -0.02em) and "Também na agenda".
+- **Activity Lead** (Inter 700, 1.375rem, 1.25, -0.015em): an activity's title in the panel; 1.875rem/1.2 on the home's desk card.
+- **Activity** (Inter 600, 1.0625rem, 1.3, -0.01em): an activity's title on its card and on the home's phone card.
+- **Body** (Inter 400, 1rem, 1.45): reading text; descriptions at 0.9375rem/1.5; hints held to about 34–36ch.
+- **Meta** (Inter 400, 0.875rem, 1.36, soft ink): the organization and the place under an activity; the time row above them is 600 at 0.9375rem in ink.
+- **Button** (Inter 600, 0.9375rem, 1.2): buttons. Chips and segments are 500 at 0.9375rem (600 when chosen), the phone bar's labels and the tags 500 at 0.8125rem, and the month's weekday heads 600 at 0.75rem with 0.04em tracking in capitals, the site's only uppercase.
 
 ### Named Rules
-**The Two-Digit Numeral Rule.** A sheet prints its day with two digits ("09"), as printed folhinhas do: the agenda's sheets, the panel head, the Folha do dia, the Cartaz and the Aviso de cancelamento. The month page keeps plain numerals ("9"), as month pages do.
+**The Two Voices Rule.** Bricolage Grotesque is NOS speaking: the greeting, dates, page titles, day heads and the headings that file things (doors, letters, businesses). Inter is what the organizations announce and every control: an activity's title is the organization's own words and is never set in Bricolage.
 
-**The Printer and Reader Rule.** Barlow Condensed prints the calendar: numerals, weekdays, times, types, month names, badges, the stamp, the masthead. Barlow carries what people read: titles, organizations, places, descriptions, buttons. No third family, and no weight beyond the six that are self-hosted.
+**The Tabular Dates Rule.** Every date, time and count is set with tabular figures, so days and hours line up down a list.
+
+**The Barlow Stays on Paper Rule.** Barlow and Barlow Condensed load only when an activity opens, for the flyers, whose layout engine measures their glyph widths; the site never sets text in them (the mark's N and S are drawings traced from Barlow Condensed 800, not text).
 
 ## Layout
 
-Phone first, one column. The red header card runs edge to edge (16px gutter inside the safe area: the inset on top and, on a landscape iPhone, at the sides) and carries only the brand. Under it the filter row (the organization pill, a 1px by 24px seam divider, the sector chips) scrolls sideways under a 24px fade at the right edge; the filters serve both views, so they come first. Then the view tabs, directly on top of the list or the month page they switch, 12px above it. Then the pad: sheets stacked 12px apart, 16px from the screen's edges. Inside a sheet two aligned columns run from the head down through the activities: the folio column (the numeral, then each activity's time and type) and the text column (weekday and month, then titles, organization, place).
+Phone first: one column of cards on the land under a short sky. Gutters are 16px on phones, 24px from 600px, 32px from 1100px and 12px on narrow screens (under 22.4375em: 359px at the default size, which also catches 200% zoom and large default fonts); content is capped at 1344px and centred. Cards stack 8px apart and days 18px apart; the home's blocks sit 12px apart (24px by 32px on the desk). Text sizes, and the boxes that hold text, are in rem, so a larger default font grows them together; the media queries are in px except the two narrow ones, in em. Every edge pads with the safe-area insets, and phones may turn on their side.
 
-At 600px the gutters grow to 24px, the bottom sheet centres at 560px wide and month cells grow to 64px. From 1100px (the `desktop` media query in `js/app.js` must agree with `css/style.css`) the page becomes a desk inside a 1344px shell with 32px padding (1280px of content): the pad on the left, fluid, and the activity panel on the right at 380px (420px from 1280px), 32px apart. The header keeps only the brand, on the left; its right side stays free. The chips wrap beside the organization pill, the view tabs sit under the filters at the top of the left column (two 132px tabs on a seam that runs the column's width, 16px above the list or the month), and the panel sticks 24px from the top, never taller than the viewport minus 128px. From 1280px the month page grows into a wall calendar with the titles written in (see Month Page).
-
-The two narrowest queries are in em, so a larger default font size brings them in sooner. Under 22.4375em (359px at 16px: small phones, 200% zoom) the sheet heads and lines reflow: the names drop under the numeral when they don't fit, the time takes its own row, the tab icons and the share glyph go. Under 16.1875em (259px) the panel's date stacks and the send button drops its icon. Height matters too: on phones under 700px tall Panfleto opens at the format bar when the panel is long enough to bring it to the top, desks under 865px tall fold the organization and the hint in flyer mode, and the flyer preview's width follows the viewport's height so the format bar and the buttons stay in view. Phones on their side (500px tall or less) give the sheet nearly the whole height and stand the flyer preview beside the format bar and the style picker; nothing locks the orientation.
-
-Spacing rhythm: 8px between an icon and its label, chip and chip, button and button; 12px between stacked blocks (sheets in the pad, numeral and text column); 16px as the inset of sheets and the phone gutter (20px inside sheets from 1100px); 24px and 32px as the gutters at 600px and 1100px; 4px and 6px inside stacks of text. Media queries are in px except the two narrow ones.
-
-Flyers are a fixed 1080 × 1350 canvas in px, with 60px margins on the Folha do dia and the Calendário do mês and 80px on the Cartaz and the Aviso. `js/flyer.js` plans every size and line break from embedded Barlow glyph widths, with no DOM measurement, so the preview and the PNG match.
+- **Under 760px:** the pages' links are a bar fixed along the foot of the screen (the body keeps 64px for it); the page's name sits beside the theme button on a short sky strip.
+- **600px:** wider gutters; the bottom sheet centres at 560px.
+- **760px:** the links move onto the sky beside the mark in a 68px bar, with the page's name or the greeting under them; the home shows its actions and "Também na agenda"; Comércio's businesses become rows with the contacts in their own column.
+- **1100px:** the agenda becomes two columns, the list or month (fluid) and the persistent panel (380px), 32px apart; the home sets its next activity beside the doors stacked in 380px; Comércio's information card takes the panel's place. The chips wrap instead of scrolling.
+- **1280px:** the panel grows to 420px and the month writes its entries in.
+- **Short and narrow screens:** under 700px tall, Panfleto scrolls its format bar to the top so the preview takes the title's room; phones on their side give the sheet nearly the whole height and stand the flyer beside its controls; under 16.1875em the send button drops its icon.
 
 ### Named Rules
-**The Folio Column Rule.** The numeral and the activity times share one fixed column (4rem; 4.5rem from 1100px), and the weekday, the month and the activity titles share the next, so every sheet head sits at the same scale and baseline and the times read down the pad like a split-flap board, in tabular figures. An empty day's line ("Nenhuma atividade hoje") starts in the text column too.
+**The Horizon Rule.** Every page stacks the same three layers: the sky, the band (full-bleed; 16px under the inner pages' sky, 18px from 760px; 40px on the home, 44px from 760px), and the land. Only the home's next activity crosses the line: it rests on the band, the land rising 14px onto it.
+
+**The Calm Desk Rule.** The desk adds a column, never a dashboard: the agenda's list or month beside its panel, the home's next activity beside its two doors, Comércio's list beside its information card.
 
 ## Elevation & Depth
 
-Flat. Sheets, the month page and the desktop panel hang flat on the wall; their edges are 1px Seam Grey lines, and depth comes from white paper against the pale wall and from the binding strip on top. Two soft shadows, both in Graphite Shadow (ink at 14%), mark the only things that float. States are drawn with inset strokes, never with elevation.
+A hybrid that changes with the light. By day, cards rest on the clay with a soft two-layer shadow tinted from the earth, never grey; at night the shadow goes and a 1px terra roxa line draws the card's edge, so the dark theme has no shadows on the land. Only the bottom sheet, lifted over its scrim, keeps a shadow at night. Flat colour panels (the doors, "Em breve") carry no shadow: the colour is the card. State shows as a ring, never a lift: nothing moves up on hover.
 
 ### Shadow Vocabulary
-- **Sheet lift** (`box-shadow: 0 -8px 24px var(--role-shadow)`): the phone's bottom sheet, over the Graphite Scrim. The desktop panel has none.
-- **Bubble** (`box-shadow: 0 1px 3px var(--role-shadow)`): the message bubble in the WhatsApp preview.
-- **Strokes, not depth:** the selected activity's frame and the month page's today ring (`box-shadow: inset 0 0 0 2px var(--role-strong)`), the chosen view tab's underline (`inset 0 -4px 0 var(--role-strong)`), the hollow mark of a cancelled activity on the month page (`inset 0 0 0 1.5px var(--sector)`), the white ring round a pressed chip's square (`0 0 0 1.5px var(--role-on-strong)`).
+- **Day rest** (`box-shadow: 0 1px 2px color-mix(in srgb, #4A2212 8%, transparent), 0 6px 16px color-mix(in srgb, #4A2212 7%, transparent)`): activity cards, the month, the home's next card, the desk panel, business and information cards, the message bubble.
+- **Night rest** (`box-shadow: 0 0 0 0 transparent; border: 1px solid #4A2F28`): the same surfaces at night.
+- **Sheet** (`box-shadow: 0 -8px 28px color-mix(in srgb, #4A2212 18%, transparent)`; at night `0 -8px 28px color-mix(in srgb, #0E0706 60%, transparent)`): the bottom sheet, over a scrim of the ink at 50% (Night Shade at 70%).
+- **Selection ring** (`box-shadow: 0 0 0 1.5px` in the soft ink, added to the rest shadow; inset on the month's chosen day): the activity open in the panel, the chosen day.
+- **Focus ring** (`outline: 2px solid` Deep Urucum, `outline-offset: 2px`; Night Urucum in the dark theme; the sky's ink on the sky): every focusable element.
 
 ### Named Rules
-**The Flat Wall Rule.** Nothing printed casts a shadow. Sheets, the month page and the desktop panel are paper on the wall, edged by 1px seams; only the phone's bottom sheet and the chat bubble float.
+**The Day Shadow, Night Line Rule.** Cards rest on the earth shadow by day and on a 1px line at night: never a shadow on the land in the dark theme, never a hard offset shadow, never a lift on hover.
+
+**The Quiet Selection Rule.** Selection is a 1.5px soft-ink ring; focus is the strong 2px urucum ring (the sky's ink on the sky). They never trade places, and a selected card that takes focus shows both.
 
 ## Shapes
 
-Paper shapes. The base corner is 6px (`--radius`): buttons, icon buttons, notices, the flyer preview, a sheet's free bottom edge. 4px (`--radius-sm`) for badges, the segmented control and the month page's numerals; 8px (`--radius-lg`) for the chat, its bubble and the desktop panel's bottom; 14px (`--radius-sheet`) only for the top of the phone's bottom sheet. Full pills (`--radius-pill`) belong to the filter controls (sector chips, the organization pill, the flyer style select) and to the today ring on the wall-sized month page. Smaller printed pieces use literal corners: 3px for the time plate, the city tag, the stamp and the ends of month bars; 2px for a sheet's bound top, sector squares, the grabber and the bubble's tail; 1px for the month page's 6px marks. Flyers keep their own px corners on the 1080 canvas: 4px bound tops over 12px bottoms (Folha do dia, Calendário do mês) or 6px bottoms (Cartaz, Aviso), 6px type tags, 4px squares.
+Soft and round, with one freehand line. Every control is a pill (999px): buttons, chips, segmented controls, the faces of the selects, the search field, tags, the skip link, the phone bar's pill. Round buttons are circles: 44px icon buttons and the month's arrows, 40px share circles, 8px group dots. Containers are cards at 18px: activity cards, the month, the home's card and doors, empty states, business and information cards, the desk panel. The bottom sheet rounds its top corners at 24px; notices, the chat and the message bubble use 12px (the bubble's tail corner 4px); the city tag, inline code and the flyer's frame 6px. The sky, the band and the phone bar run full-bleed with square edges.
 
-The perforation is a row of dots drawn with a repeating radial gradient. On screen: 3px Seam Grey dots every 10px, under a 4px binding strip, 13px in all (`.sheet::before`). On flyers: 8px Seam Grey dots every 24px under a 12px strip (Folha do dia, Calendário do mês), or 6px Faded Grey dots every 22 to 25px (Cartaz, Aviso). Squares are the sectors' shape; circles appear only as the today ring from 1280px, the hand-drawn ring on the month flyer and the O of the NOS mark.
+The woven band is a tile of strips with softened ends (a taquara twill in straw with urucum selvages, 48 by 32 units, repeated sideways at the band's height). The NOS mark is N and S traced from Barlow Condensed 800 with a marker loop for the O, its end running past its start.
 
 ### Named Rules
-**The Bound Top Rule.** Anything shown as a sheet is bound at the top and free at the bottom: a binding strip, a perforation row, nearly square top corners (2px) and softer bottom corners (6px; 8px on the desktop panel). The agenda's day sheets, the month page, the desktop panel, the flyer sheets and the link preview's sheet share this silhouette.
+**The Hand Rule.** The only freehand forms are the hand's: two open pen loops (two drawings, so they don't look stamped) and a short underline on the land, in urucum at 2.5px with round caps that keep their width as they stretch to what they mark; the astro's loop on the sky, whose pen grows with the sun (3px to 6px); and the O of the mark. A loop circles only the next activity, the underline only today; never a perfect ring or a badge in their place.
 
-**The Hand-Applied Tilt Rule.** Only what a hand would add is tilted: the "Cancelada" stamp (-3° on screen, -8° on the Aviso), and on the month flyer the circled day (-7°) and the stroke under the other days of a long activity (-2°), and the O of the NOS mark, circled at -9°. Everything printed stays square to its sheet.
+**The Pills and Cards Rule.** Controls are pills or circles and containers are 18px cards (the sheet 24px at its top); no button, field or card on the land has sharp corners, except the day cells inside the month's grid.
 
 ## Components
 
 ### Buttons
-Plain printed blocks: a label on a 6px block, never a pill.
-- **Shape:** gently squared corners (6px), at least 48px tall, padding 0 18px, a 2px border.
-- **Primary (Accent):** Folhinha Red with a white Button label and a 20px icon 8px before it: "Enviar no WhatsApp" ("Avisar no WhatsApp" for a cancelled activity), "Compartilhar imagem", and "Baixar PNG" when the device can't share files (`canShareFiles` in `js/app.js`).
-- **Hover / Focus:** the accent deepens to Deep Red; the line button fills graphite with a white label; background, colour and border change in 0.15s, and hover applies only where a pointer can hover. Focus is a 3px Graphite Ink outline 2px out, white on the red header and on the chosen segment, moved inside lines, days and tabs (-3px to -6px) so the selected frame can't hide it.
-- **Line (secondary):** a 2px graphite border on transparent, graphite label: "Copiar texto", "Baixar PNG" beside "Compartilhar imagem", "Ver atividades anteriores". Once its action is done it fills graphite with a check for 2 seconds ("Copiado", "Imagem baixada", "Compartilhado"); while an image is made it reads "Gerando imagem…" at 70% opacity.
-- **Text:** an underlined Button label, at least 44px tall: "Limpar filtros", "Voltar para hoje".
-- **Icon button:** 44 × 44px, 1px seam border, 6px corners, paper, graphite icon; hover darkens the border to graphite. The month arrows, the flyer style arrows, the panel's close.
-- **Action bar:** the primary takes the width and the secondary its own size; under 600px the secondary shrinks to a 48px square showing only its icon, its name kept in `aria-label`.
+- **Shape:** pill (999px), at least 44px tall (48px in the panel's action bar), 18px icons with an 8px gap.
+- **Primary:** Urucum with white text, Inter 600 at 0.9375rem, padding 0 18px; at night Night Urucum with terra roxa text. It carries the main action, sending to WhatsApp ("Enviar no WhatsApp").
+- **Hover / Focus:** hover mixes 14% of the ink into the urucum (16% at night) in 0.15s; focus is the 2px ring at 2px offset. No lift, no glow.
+- **Outlined:** the card colour with a 1px line and ink text ("Copiar texto"); hover turns the line soft ink over the card hover; done ("Copiado") fills with ink. Under 600px the panel's outlined action becomes a 48px circle, its name kept for screen readers.
+- **Text and round:** text buttons are ink, 600, underlined; round icon buttons are 44px circles, outlined on the land (the month's arrows) or bare on the sky (the theme button), with a wash on hover.
 
 ### Chips
-- **Style:** pills, at least 44px tall, padding 0 14px, a 1px Seam Grey border on paper, Meta text; the sector's 10px square 8px before the label. "Todos" comes first, without a square.
-- **State:** pressed (`aria-pressed="true"`) fills graphite with white 600 text and rings the square in white; hover darkens the border to graphite. Several sectors can be pressed at once.
-- **Row:** the organization pill, a 1px by 24px seam divider, then the chips. On phones the row scrolls sideways under a 24px fade (with a mouse, a thin scrollbar shows); from 1100px the chips wrap beside the pill.
+- **Style:** 36px pills with a 44px tap area, the card colour, a 1px line, ink text at 500 0.9375rem, and the group's 8px dot before the name.
+- **State:** pressed fills with ink (on-ink text, 600) and a check takes the dot's place; hover turns the line soft ink over the card hover. The organization filter is a native select under the same pill face, ink when active. Comércio's category chips are the same without dots.
+- **Rows:** on phones the row scrolls sideways under a 24px fade at its right edge (a thin scrollbar with a mouse); on the desk the chips wrap.
+
+### Segmented Controls
+Lista | Mês and Mensagem | Panfleto: a pill of two equal 42px segments on the card colour, split by a 1px line; the chosen segment is ink with a check in place of its icon, and the focus ring sits 4px inside the segment (in the on-ink colour on the chosen one).
 
 ### Cards / Containers
-- **Corner Style:** bound top (2px) and free bottom (6px); see The Bound Top Rule.
-- **Background:** Sheet White on the Pale Wall.
-- **Shadow Strategy:** none (The Flat Wall Rule).
-- **Border:** 1px Seam Grey on the sides and the bottom; the top is the 4px Folhinha Red binding strip and the perforation row.
-- **Internal Padding:** 16px from the left on phones (20px from 1100px), 12px between the folio and text columns (16px from 1100px).
-- **Notices:** a paper card with a 1px seam, 6px corners, 14px 16px padding and an alert icon in Pencil Grey; an error turns Blush Tint with a Rose Ring border and a red icon, and the rows it skipped fold into a list naming each "Linha N".
+- **Corner Style:** 18px.
+- **Background:** Warm White Card by day, Terra Roxa Card at night; hover moves to the card hover and underlines an activity's title.
+- **Shadow Strategy:** the day rest by day, the 1px line at night (see Elevation & Depth).
+- **Border:** transparent by day, Terra Roxa Line at night; empty days and empty states are flat and outlined in the line colour instead.
+- **Internal Padding:** 14px 14px 15px 16px for an activity card on phones, 16px 18px 17px 20px on the desk; 20px to 28px on larger containers.
+- **The activity card:** the whole card is the button that opens the panel. Its title (Activity) sits beside a 40px share circle; under it come the time (600, tabular), the organization with its group's dot and full name, and the place, each a meta row with a 16px soft icon. The next activity's time is circled by hand, with "a próxima" in Deep Urucum beside it. A cancelled one is struck through in soft ink under an ink "Cancelada" tag.
 
 ### Inputs / Fields
-- **Style:** the only fields are native selects dressed as pills. The organization filter: a 1.5px graphite border, Meta at 600, the users icon, the label (at most 15rem, then an ellipsis) and a chevron; the real `<select>` lies over it at zero opacity and 1rem so iOS doesn't zoom, and its options carry full names grouped by sector ("SIMTED – Sindicato Municipal dos Trabalhadores e Trabalhadoras em Educação de Dourados"). The flyer style picker: a 1px graphite border, the style's name ("Folha do dia", "Calendário do mês", "Cartaz"), a "1/3" count and a drawn chevron, between two 44px arrow buttons.
-- **Focus:** the 3px graphite outline drawn on the pill's face (`:has(select:focus-visible)`).
-- **Active:** while an organization is chosen, its pill fills graphite with white text and shows the short name.
+- **Style:** the search field is a 48px pill on the card colour with a 1px line, a soft search icon inside its left edge and a 44px round clear button at its right; Inter 400 at 1rem (16px, so iOS doesn't zoom), 500 once typed; the placeholder in soft ink.
+- **Focus:** the line turns Deep Urucum and the 2px ring sits flush (0 offset).
+- **Selects:** native selects under pill faces (the organization filter; the flyer's style picker, with its count and a drawn chevron), so phones get their own pickers.
 
 ### Navigation
-- **View tabs** ("Agenda" and "Mês") sit on the wall directly on top of the list or the month page they switch, under the filters, never on the header card: Pencil Grey Body labels with 18px icons over a 1px Seam Grey baseline, 49px tall, each half the width on phones and 132px wide from 1100px. The chosen tab turns Graphite Ink at 700 over a 4px graphite underline drawn as an inset shadow, moving in 0.2s on `--ease`; hover darkens a label to Graphite Ink; focus is the graphite ring, inset 4px.
-- **Segmented control** ("Mensagem" and "Panfleto") in the panel: a 1px graphite frame with 4px corners, split into two 44px halves by a graphite rule; the chosen half fills graphite with white 600 text. It sticks to the top of the panel while the message or the flyer scrolls under it.
-- **Month header:** 44px arrow buttons round the Month Title; "Voltar para hoje" appears when another month is shown, centred under the title on phones and at the right of the row from 1280px.
-- **Skip link:** "Pular para a agenda", a graphite block that appears on focus.
+- **Phones (under 760px):** a bar fixed along the foot of the screen, on the card colour with a 1px top line: three equal links, a 22px icon over a 0.8125rem label in soft ink; the open page in Deep Urucum at 600, its icon in a 56 by 32px Urucum Tint pill; hover shows the fill pill.
+- **From 760px:** the links sit on the sky beside the mark in a 68px bar, 1rem labels in the sky's soft ink; the open page in the sky's ink with a 3px urucum underline 12px below it (the sky's hand); hover is the sky's wash pill.
+- **The brand and the theme button:** the NOS mark with "Dourados" in Bricolage 750, its letters in the sky's ink and its O in the sky's hand (on phones, shown on the home only); a 44px round theme button (a moon in the light theme, a sun in the dark) that flips light and dark.
 
-### Day Sheet (signature)
-The pad's unit. Binding strip and perforation, then the head: the two-digit Numeral in its column; the Weekday in capitals with the month under it in Pencil Grey (and the year when it isn't this one); the holiday's name in red when there is one; and at the right a status, the graphite "Hoje" badge, the yellow "Próxima" badge, or how far the day is ("em 3 dias", "há 6 dias") in Pencil Grey. Red-letter sheets print numeral and weekday in red. Past sheets turn the numeral Torn-off Grey (Faded Red-Letter on red-letter days) and the weekday Pencil Grey. Today's sheet is printed even when empty ("Nenhuma atividade hoje"). Past sheets stay torn off behind "Ver N atividades anteriores"; an activity of several days that began earlier is printed on today's sheet ("Em andamento, até …"). With filters on and nothing ahead, a blank sheet says so ("Nenhuma atividade para COMAFRO de hoje em diante"), names when the last one was, and offers "Ver atividades anteriores" and "Limpar filtros".
+### The Sky Header (signature)
+The header of every page is the sky: flat bands counted up from the horizon (inner pages 9/18/27/36px on phones and 11/22/33/44px from 760px; the home 16/36/62/98px, and 18/40/66/100px from 1100px), band 1 taking the rest. One astro drawing (a disc inside the hand's loop, a little off register like a screen print) is the sun by day, big and running off the edge (inner pages 108px, 200px from 760px; the home 367px, 400px, 490px), and the moon at night, about a fifth of the sun and high among small stars. The page's name (Headline) with its line ("4 atividades até 20/11"), or the greeting (Display) with the date, sits on it in the sky's inks. The phone's browser bar takes the sky's top band.
 
-### Activity Line (signature)
-Each activity is one full-width button on its sheet, the lines parted by 1px seams. The folio column holds the Time on its plate and the Type Label under it ("—" when there is no time, "até 12h" when only the end is known). The text column holds the Title; the organization (600) after its sector square; the place after a 16px pin (a globe when online), with a graphite city tag in front when the activity is outside Dourados; and, for activities of several days, the period after a calendar icon ("até sáb, 24/10"). A 44px share glyph closes the row. Hover: Paper Hover and an underlined title. Selected (open in the panel): Blush Tint inside a 2px graphite frame. Next: the time sits on a Próxima Yellow plate with 3px corners.
+### The Band (signature)
+The horizon: `assets/faixa.svg` repeated sideways, full-bleed under the sky. It is an artwork and doesn't change with the theme or the hour. It is provisional, drawn only from the structure of a taquara twill with an urucum selvage, and every footer credits it: "Faixa: arte provisória. A definitiva será criada e assinada por artistas da Reserva Indígena de Dourados."
 
-### Cancellation Stamp
-A rubber stamp: "CANCELADA" in Stamp type inside a 2px Deep Red border with 3px corners, tilted -3°, set above the struck title; the time is struck in Pencil Grey and the reason follows in Deep Red ("Motivo: …"). The panel repeats stamp and reason above its title and strikes the title and the date line; the message becomes a notice ("❌ ATIVIDADE CANCELADA"), and the flyer becomes the Aviso de cancelamento: the day's numeral struck in red under a 140px stamp at -8°.
+**The Real Band Rule.** The provisional band may only be replaced by the real one: made, signed and paid for by artists of the Reserva Indígena de Dourados (Kaiowá, Guarani Ñandeva and Terena), with their visible credit in place of the provisional one. Never imitate or adapt anyone's grafismo in the meantime, and never draw a new "Indigenous" pattern to fill the band.
 
-### Month Page
-The calendar's month page, printed on a sheet (binding and perforation on top). Weeks start on Sunday, the column letters head the page ("DOM" in red), and weeks are parted by 1px seams. Day Numerals are plain digits: red on Sundays and holidays; Pencil Grey on past days, where red stays red; Torn-off Grey, or Faded Red-Letter, outside the month. Today wears a 2px graphite ring (4px corners on phones, a circle from 1280px); the chosen day fills graphite on phones and, from 1280px, the whole cell takes a 2px graphite frame. On phones a one-day activity is a 6px sector square (three at most, then "+N") and an activity of several days is a 4px bar in a lane along the bottom of its week. From 1280px the page is a wall calendar with the titles written in: cells at least 7.625rem tall with seams between days, one-day entries as 0.8125rem text rows with a bold time, multi-day bars 1.25rem tall carrying their titles in white 600 under the numerals, and holiday short names ("Finados", "Consciência Negra") in red under the numeral, two lines at most, the whole week making room so its bars stay level. Cancelled entries turn hollow and struck through. The grid is one tab stop moved with the arrow keys; choosing a day prints its sheet under the page.
+### Doors (signature)
+The home's way into each page: a flat 18px card in the page's landscape tint (Agenda Urucum or Ipê-Rosa Tint; the night tints in the dark theme), with a 22px icon in the page's deep colour, the page's name in Bricolage 700, its live line in ink at 600, and secondary text that mixes 55% of the page's deep colour into the ink. Hover deepens the tint with 12% of that colour. Two side by side on phones (one column on narrow screens), stacked at the right on the desk.
 
-### Activity Panel
-The production bench. On phones it is a bottom sheet: 14px top corners, the Sheet lift, a 36 × 4px grabber, the Graphite Scrim behind it, sliding in over 0.3s on `--ease` and following the finger when pulled down; from 600px it centres at 560px. From 1100px it is a sticky column printed as a sheet (binding and perforation, a 1px seam, 8px bottom corners, no shadow) that before any choice reads "Escolha uma atividade para ver os detalhes e montar a mensagem e o panfleto." Its head is a small sheet head (Panel Numeral, the weekday at 1rem, then "Outubro · até sáb, 24/10" with the time). Then the Headline; the facts, each after a 20px slot (the sector square for the organization, its full name under it in Caption, then period, place, type, contact, link and "Ver o post de origem"); the description; the segmented control; and the format. Mensagem shows the message as WhatsApp would, a white bubble with 8px corners and a 2px tail corner on a Pale Wall chat. Panfleto shows the style picker, the flyer scaled into a frame with a 1px seam and 6px corners, and the hint "Imagem 1080 × 1350, no formato do WhatsApp e do Instagram." The action bar sticks to the bottom under a 1px seam.
+**The Landscape Doors Rule.** A page shows its landscape colour only as its door's tint and on its own panel ("Em breve"), with its deep shade for icons and mixed text; secondary text on a tint is the hue mixed into the ink, never a grey.
 
-### Flyers
-1080 × 1350 PNGs built from the same world (`css/flyers.css`, every rule scoped under `.fl`): the red header card with the mark, "Dourados/MS" and the full name, sheets with binding and perforation on the Pale Wall, the footer "Agenda das organizações de Dourados". Four styles:
-- **Folha do dia:** one giant sheet with the 460px numeral, the weekday and "OUTUBRO 2026" beside it and the time below; then, under a 2px seam, the title, the organization after its square and a graphite type tag.
-- **Calendário do mês:** the month page on a sheet ("OUTUBRO 2026", the Sunday column in red), the activity's day circled by hand in red and a red stroke under the other days of a long activity; then title, date and time, place and organization.
-- **Cartaz:** the header card at poster size: a Folhinha Red ground, the title in white capitals, a white sheet with a graphite binding (the 204px numeral, the weekday, the month, then the time and type), place and organization in white, and the NOS signature (the mark, "Dourados/MS" and "Agenda das organizações de Dourados") at the bottom right.
-- **Aviso de cancelamento** (always, for a cancelled activity): the sheet with its numeral struck in red under the "CANCELADA" stamp, the struck time, "Motivo:", the struck title.
+### The Activity Panel
+A bottom sheet under 1100px (24px top corners, a grabber, the sheet shadow over the scrim; it drags down and closes with Back), centred at 560px from 600px, and a sticky 380px card on the desk (420px from 1280px). Its head gives the day in Bricolage 750 and the time at 600 with "a próxima"; the title is the Activity Lead; the facts are 44px rows (30px on the desk) with 18px soft icons, the organization with a 10px dot and its full name. Mensagem | Panfleto stick to its top; the message shows as WhatsApp will (a bubble on the chat fill), the flyer in a 6px-rounded frame. The action bar stays at its foot: the primary button and an outlined one.
 
-Flyers carry no yellow. Export waits for `document.fonts.ready`.
+### The Month
+A card of week rows, Sunday first, under a Bricolage 800 title between 44px round arrows. Sundays and holidays are shaded in the fill as days off; the numerals are Bricolage 750; today's is underlined by hand, the next activity's circled, the chosen day ringed in soft ink. On phones one-day activities are 6px group dots and multi-day ones 4px bars in lanes at the week's foot (outlines when cancelled). From 1280px the month becomes a wall calendar: each day writes its entries (dot, time at 700, title; three lines at most, 0.8125rem), holidays are named under the numeral, and the bars are tinted with 22% of the group's colour over the card, with the group's dot and the title in ink.
 
-### The NOS Mark
-NOS with the O circled by hand, the way someone circles a date on the folhinha (`brandMark` and `MARK` in `js/icons.js`, with a static copy in each page so the name shows without JS; chosen on 2026-10-27 among five proposals, `design/marca-propostas.html`). N and S are Barlow Condensed 800 outlines; the O is the outline of a marker stroke, its width swelling and thinning, tilted -9° and running past its start at the top, the one hand-applied thing in the mark. One inline SVG, 1493 × 902 font units (3.807em by 2.3em), sized by font-size: 1.25rem in the header, 1rem on very narrow screens, 42px on the Folha do dia and the Calendário do mês, 40px on the Aviso and 30px in the Cartaz's signature. The letters take the text colour and the loop takes `--mark-loop` (the text colour too, unless set), so on the red header card and the flyers it is all white, and on paper the letters print in Graphite Ink and the O in Folhinha Red (`--role-mark-loop`). It casts no shadow. Beside it, "Dourados/MS" in Masthead type over "Núcleo de Organização Social" in Caption; the mark already says NOS, so no text repeats it. The app icons are the mark on a day sheet (paper under the red binding strip; `assets/icon.html`), the favicons the red O alone, drawn as a stroke, on a rounded sheet, and the link preview lays a day sheet across the whole red card, the mark where the day goes and the city and the full name beside it, as a sheet head sets its weekday and month (`assets/og-image.html`). The drawing spells NOS: another `APP_NAME` prints the word in its place (`.mark-text`) until a mark is drawn for it; after any change, `node assets/render.cjs`.
+### Comércio
+Paused, it shows "Em breve": a flat Ipê-Rosa Tint panel (18px), a 56px circle in the card colour holding the store icon in Deep Ipê-Rosa, "Em breve" in Bricolage 800 and a sentence at 1.0625rem in the ipê-mixed ink, held to 34ch, beside an information card whose icons are Deep Ipê-Rosa. The list's code stays styled for its return: business cards with the name in Bricolage 750, the offer, a quiet category tag, and labelled contact rows with the numbers at 700 in tabular figures.
 
 ### Icons
-Lucide outlines (ISC license) at one stroke weight (2) on a 24px grid with round caps and joins, drawn in `currentColor` at 20px (18px in the view tabs and the organization pill, 16px beside places and periods, 40px on the blank sheet). Emoji exist only inside the WhatsApp message text, where WhatsApp shows them.
+Lucide (ISC) drawings on a 24px grid with a 2px round stroke in `currentColor`, inline SVG: 16px in meta rows, 18px in buttons, chips and facts, 20px by default, 22px in the header, the phone bar and the doors. No glyphs or emoji as interface icons (the emoji in the WhatsApp message preview are the message's text, as it will be sent).
 
-### Named Rules
-**The Ink State Rule.** "On" is graphite: a graphite fill with white text for the pressed sector chip, the active organization pill, the chosen segment, the "Hoje" badge, the chosen day on the phone's month page and a line button once its action is done; graphite text over a 4px graphite underline for the chosen view tab. Only the activity open in the panel is tinted, Blush Tint inside a 2px graphite frame.
+### The NOS Mark
+NOS with the O circled by hand, sized by font-size (a 3.807em by 2.3em box): the letters take the current colour and the loop `--mark-loop`, which falls back to it; on the sky the letters take the sky's ink and the loop the sky's hand. The app icons print the mark on the dawn sky over the band and the clay; the favicons are the sun in its loop alone on the sky; the link preview is the home's first view at poster scale on the dawn sky. Another app name prints as the word in Bricolage 800 until a mark is drawn for it.
 
-**The Stamp, Don't Erase Rule.** A cancelled activity is never removed, never hidden and never the next one: it stays on its sheet under the "Cancelada" stamp, struck through, with its reason in Deep Red; on the month page its mark or bar turns hollow, and its flyer becomes the Aviso de cancelamento.
+### Flyers (the exception)
+The 1080 by 1350 PNG flyers ("Folha do dia", "Calendário do mês", "Cartaz", "Aviso de cancelamento") keep the tear-off calendar layout of the previous world: an urucum header card, day sheets on the clay with a binding and a perforation, Sundays and holidays in Deep Urucum, the poster on a full urucum ground, set in Barlow and Barlow Condensed in px. They take the new palette through the roles and always print in the light theme. They wait for their own redesign in Céu · Terra; until then they are an exception, not a source: none of their devices (header cards, bindings, perforations, urucum grounds, Barlow) moves into the site.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** style every new surface with roles (`var(--role-*)`) from `css/theme.css`; when a colour is missing, add a palette entry and a role there.
-- **Do** give anything presented as a sheet the folhinha's top: a 4px binding strip and a perforation row (13px together), 2px top corners, 6px bottom corners and a 1px Seam Grey edge.
-- **Do** print a sheet's day with two digits in Barlow Condensed 800, in the folio column the times share (4rem; 4.5rem from 1100px), with tabular figures for times.
-- **Do** print Sundays and national holidays in red on every calendar surface, and start month pages on Sunday.
-- **Do** show "on" states with a graphite fill and white text, and keep every tap target at 44px or more (48px for the panel's actions).
-- **Do** keep a cancelled activity on its sheet with the "Cancelada" stamp, the struck title and time, and "Motivo: …" in Deep Red.
-- **Do** size interface text, and the boxes that hold text, in rem; keep flyers in px on the 1080 × 1350 canvas, with sizes planned by `js/flyer.js`.
-- **Do** add a theme as a `:root[data-theme='name']` block that overrides palette entries or roles, try it with `?tema=<name>`, and update the `theme-color` meta by hand.
+- **Do** take every colour from a role (`--role-*` in `css/theme.css`); the only literals in the stylesheets are `transparent`, `currentColor`, the band's image and system colours under forced colours.
+- **Do** finish every new surface in both themes and under all four skies, with any text on the sky in the sky's ink or soft ink (4.5:1 or more on every band).
+- **Do** keep urucum for the hand, the primary button and the open page; give a new page its own colour of the landscape as a door tint, with its deep shade for icons and mixed text.
+- **Do** show a group as its dot beside its name, so colour is never the only carrier of meaning.
+- **Do** circle the next activity and underline today with the hand marks, and nothing else.
+- **Do** set dates in Bricolage 800 with tabular figures, headings at 700–750, and what the organizations announce in Inter.
+- **Do** rest cards on the day shadow and the night line from the roles, and mark selection with the quiet soft-ink ring.
+- **Do** keep every target at 44px or more (the 36px chips carry a 44px tap area) and size text in rem.
+- **Do** credit the band as provisional in every footer while `assets/faixa.svg` is the provisional art.
 
 ### Don't:
-- **Don't** write a hex, rgb or named colour, or a `--color-*` palette variable, in `css/style.css` or `css/flyers.css`; `transparent`, `currentColor` and system colours inside `forced-colors` are the only exceptions.
-- **Don't** use Próxima Yellow (#FFC20E) for anything but the next activity: not for focus rings, highlights or warnings, not on the month grid, not on flyers.
-- **Don't** reduce the days to thin date dividers in one grey list, or print activities as coloured event pills: each day is a sheet, and a sector is a small square beside the organization.
-- **Don't** fill cards, chips, lines or text with a sector colour; the only sector fills are the squares and the month page's multi-day bars.
-- **Don't** put on the protest-poster costume: no raised fists, megaphones, stencil or distressed type, halftone or grunge textures. The Cartaz is the red header card at poster size with a day sheet on it.
-- **Don't** bring back the retired Calendário de Luta devices: the metro line to election day, stations, countdowns, campaign slogans.
-- **Don't** add a typeface outside the Barlow superfamily, or a weight that isn't self-hosted (Barlow 500, 600, 700; Barlow Condensed 600, 700, 800).
-- **Don't** lift sheets, the month page or the desktop panel with shadows; shadows belong to what floats (the phone's bottom sheet, the chat bubble).
-- **Don't** tilt printed content; rotation belongs to hand-applied marks (the stamp, the circled day and its underline, the O of the NOS mark).
-- **Don't** invent logos, photos or slogans for the organizations; they are named in text, with their full names where they are known.
-
-## Pages (2026-10-26)
-
-The site is three pages in the same world: Início (`index.html`), Calendário (`calendario.html`) and Comércio (`comercio.html`).
-
-- **Page tabs:** folder tabs at the foot of the red header card, a plain link each (Barlow 600, 18px icon, 6px top corners, 44px tall, 48px from 1100px). The open page's tab takes the wall colour and runs into the page (graphite text at 700, graphite focus ring); the others are white on red and deepen to Deep Red under the pointer (`--role-header-hover`). Início has no tabs: its doors are the navigation.
-- **Comércio, the phone book:** one sheet per letter, the letter at Numeral size in the folio column (4.5rem here), its count beside it. Each business: its category in Type Label in the folio column; its name in Barlow Condensed 800 capitals at 1.375rem; subtitle (Meta 600, Pencil Grey) and offer (Meta, 1.4 line height). Contacts as label/value rows: labels in Type Label in the folio column, phone numbers in the Time voice (Barlow Condensed 700, 1.375rem, tabular figures, underlined), handles and links in Meta 600 underlined, the phone glyph to call. "Indicar no WhatsApp" is a share glyph on phones and written out from 760px, where contacts get their own column. Search is a pill like the organization select (1.5px graphite, 48px). No sector colours, no yellow.
-- **Início, the doors:** two sheets, each a whole link with a red button: today's day sheet (with "Hoje", the next activities, the first with the yellow "Próxima") and the phone book's "A–Z" sheet with businesses drawn at random, joined to their category by dot leaders in Faded Grey. Door titles are Barlow Condensed 800 at 2rem, 2.5rem from 1100px.
+- **Don't** fill a panel, a header or a card with full-strength urucum on the site, or use it for anything but marking.
+- **Don't** draw the sky with a soft gradient, a photo or a texture, or set text on it in anything but the sky's inks.
+- **Don't** give the groups shapes, icons, filled cards or coloured pills, and don't colour Comércio's categories.
+- **Don't** replace the band with an imitation or adaptation of any people's grafismo; the real band comes from artists of the Reserva Indígena de Dourados, signed, paid and credited.
+- **Don't** put shadows on the land in the dark theme, use hard offset shadows, or lift elements on hover.
+- **Don't** use the strong urucum ring for selection or the quiet ring for focus.
+- **Don't** set the site in Barlow, fetch fonts from Google Fonts, or set an activity's title in Bricolage.
+- **Don't** add motion beyond the home's rising sun (1.6s, off under reduced motion); state changes are 0.15s colour transitions and the sheet's 0.3s slide.
+- **Don't** bring the Folhinha's devices to the site (the red header card, bindings, perforations, a yellow "Próxima") or the old campaign interface (the metro line to election day, the countdown, the slogan); nothing should read as a startup, a city hall or an election campaign.
+- **Don't** invent logos, photos, slogans, ratings or prices for the organizations or the businesses.
