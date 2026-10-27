@@ -103,16 +103,19 @@
         </div>
       </article>
 
+      <!-- Comércio is paused while the businesses are collected and organized: "Em breve" instead of the
+           count and the businesses drawn at random (js/home.js doesn't read the sheet). -->
       <article class="sheet door" aria-labelledby="door-commerce">
         <div class="sheet-head door-head">
           <span class="sheet-num door-az" aria-hidden="true">A–Z</span>
           <span class="sheet-names">
-            <span class="sheet-month" id="business-count"></span>
+            <span class="sheet-weekday" id="business-count">Em breve</span>
           </span>
         </div>
         <div class="door-body">
           <h2 class="door-title" id="door-commerce">Comércio</h2>
           <p class="door-text">Comida, serviços, consertos e mais, de Dourados e região. Fale direto com cada negócio pelo WhatsApp ou pelo Instagram.</p>
+          <p class="door-text">Estamos coletando as informações e organizando antes de mostrá-&#8288;las&nbsp;aqui.</p>
           <ul class="door-list" id="some-businesses" aria-label="Alguns negócios" hidden></ul>
           <a class="btn btn-accent door-go" href="comercio.html"><span>Ver o comércio</span><span data-icon="arrow-right" aria-hidden="true"></span></a>
         </div>
