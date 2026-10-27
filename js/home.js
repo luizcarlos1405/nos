@@ -1,109 +1,194 @@
-// Início (index.html): one sentence and two doors, each a sheet of the page it opens. The
-// Calendário door prints today's sheet and the next activities; the Comércio door, how many
-// businesses there are and a few of them, drawn at random on every visit so each gets its turn.
-// Without the sheets (offline, a broken link) the doors keep their text and their buttons.
+// Início (index.html): the greeting of this hour on the sky, the next activity resting on the band
+// (its date circled by hand, a link to send it to WhatsApp and, from 760px, "Ver na agenda" and what
+// else comes), then a door to each page. The agenda's door says how much is ahead; Comércio's says
+// "Em breve" while its list is paused. Without the agenda's sheet (offline with nothing saved, a
+// broken link) the card says so and the doors stay.
 
 import { COMMERCE_CSV_URL, CSV_URL } from './config.js';
-import { buildEvents, capitalize, formatLongDate, formatTinyDate, monthName, startTime, upcomingEvents, weekdayName } from './events.js';
-import { holidayOn, isRedLetter } from './holidays.js';
+import { agendaSummary, buildEvents, capitalize, dateKey, formatDayMonth, formatTimeRange, lastDayKey, monthName, orgFullName, relativeDay, startTime, upcomingEvents, weekdayName } from './events.js';
 import { assignSectorColors, paintSector, sectorsOf } from './colors.js';
 import { buildBusinesses } from './businesses.js';
+import { placeRow } from './agenda.js';
+import { handMark, icon } from './icons.js';
+import { greeting } from './sky.js';
+import { buildWhatsAppMessage, whatsAppShareUrl } from './whatsapp.js';
 import { $, el, initPage, readSheet, registerWorker } from './page.js';
 
-// The phone shows the first of each list, the desk all of them (css/style.css).
-const NEXT_COUNT = 3;
-const PEEK_COUNT = 4;
+// What else comes, under the next one (from 760px).
+const LATER_COUNT = 3;
 
 let today = new Date();
+let events = null;
+let shownNext = undefined; // the id on the card, to redraw it only when it changes
 
-// Today's sheet, as the calendar prints it: two-digit day, weekday, month, Hoje; red on Sundays
-// and holidays.
-function renderToday() {
-  const head = $('today');
-  const holiday = holidayOn(today);
-  const label = el('span', 'sr-only', `Hoje, ${formatLongDate(today).toLowerCase()}${holiday ? `, ${holiday.name}` : ''}.`);
-  const num = el('span', 'sheet-num', String(today.getDate()).padStart(2, '0'));
-  const names = el('span', 'sheet-names');
-  names.append(el('span', 'sheet-weekday', weekdayName(today)), el('span', 'sheet-month', capitalize(monthName(today.getMonth()))));
-  if (holiday) names.append(el('span', 'sheet-holiday', holiday.name));
-  const status = el('span', 'sheet-status');
-  status.append(el('span', 'badge is-today', 'Hoje'));
-  for (const node of [num, names, status]) node.setAttribute('aria-hidden', 'true');
-  head.replaceChildren(label, num, names, status);
-  head.closest('.sheet').classList.toggle('is-red', isRedLetter(today));
+const plainWeekday = (date) => weekdayName(date).replace('-feira', '');
+
+// "Terça, 27 de outubro" (and the year from 760px).
+function renderHello() {
+  $('hello-word').textContent = greeting(today);
+  $('hello-date').replaceChildren(`${capitalize(plainWeekday(today))}, ${today.getDate()} de ${monthName(today.getMonth())}`, el('span', 'hello-year', ` de ${today.getFullYear()}`));
 }
 
-// The next activities (not cancelled, not started yet), the first one marked Próxima.
-async function renderNext() {
-  const { headers, records, lines } = await readSheet(CSV_URL);
-  const { events } = buildEvents(headers, records, lines);
-  const upcoming = upcomingEvents(events, today).slice(0, NEXT_COUNT);
-  if (!upcoming.length) return;
-  assignSectorColors(sectorsOf(events));
-  const list = $('next-activities');
-  list.replaceChildren(...upcoming.map((ev, i) => {
-    const item = el('li', 'door-item');
-    const when = el('span', 'door-when');
-    if (i === 0) when.append(el('span', 'badge is-next', 'Próxima'));
-    const date = el('span', 'door-date', formatTinyDate(ev.date));
-    if (isRedLetter(ev.date)) date.classList.add('is-red');
-    when.append(date);
-    const time = startTime(ev);
-    if (time) when.append(el('span', 'door-time', time));
-    const what = el('span', 'door-what');
-    what.append(el('span', 'door-item-title', ev.title));
-    if (ev.org) {
-      const org = el('span', 'door-org');
-      paintSector(org, ev.sector);
-      org.append(el('span', 'sector-mark'), el('span', null, ev.orgs[0] || ev.org));
-      what.append(org);
+// "sáb 31/10"
+const shortDate = (date) => `${weekdayName(date).slice(0, 3)} ${formatDayMonth(date)}`;
+const timeOf = (ev) => (startTime(ev) || ev.endTime != null || ev.endTimeRaw ? formatTimeRange(ev) : '');
+
+function metaRow(className, iconName, content) {
+  const row = el('p', `meta ${className}`);
+  if (iconName) row.insertAdjacentHTML('beforeend', icon(iconName));
+  const text = el('span', 'meta-text');
+  text.append(content);
+  row.append(text);
+  return row;
+}
+
+// The next activity, resting on the band.
+function renderNext(next, upcoming) {
+  const card = $('next-card');
+  shownNext = next?.id ?? null;
+  if (!next) {
+    const title = el('h2', 'next-title', 'A próxima atividade');
+    title.id = 'next-title';
+    card.style.removeProperty('--sector');
+    card.replaceChildren(title, el('p', 'next-status', 'Nada marcado por enquanto. As atividades das organizações aparecem aqui assim que entram na agenda.'));
+    return;
+  }
+  paintSector(card, next.sector);
+  const message = buildWhatsAppMessage(next);
+  const shareUrl = whatsAppShareUrl(message);
+  const time = timeOf(next);
+  const relative = relativeDay(next.date, today);
+
+  const head = el('div', 'next-head');
+  const when = el('p', 'next-when');
+  const date = el('span', 'circled date-big', shortDate(next.date));
+  date.insertAdjacentHTML('beforeend', handMark('loop'));
+  when.append(date, el('span', 'next-time', time || 'horário a confirmar'));
+  when.append(el('span', 'next-label', ['hoje', 'amanhã'].includes(relative) ? `a próxima, ${relative}` : 'a próxima'));
+  const share = el('a', 'share-button');
+  share.href = shareUrl;
+  share.target = '_blank';
+  share.rel = 'noopener';
+  share.setAttribute('aria-label', `Compartilhar no WhatsApp: ${next.title}`);
+  share.innerHTML = icon('share');
+  head.append(when, share);
+
+  const title = el('h2', 'next-title', next.title);
+  title.id = 'next-title';
+
+  const facts = el('div', 'next-facts');
+  facts.append(metaRow('meta-time', 'clock', time || 'Horário a confirmar'));
+  if (next.org) {
+    const org = el('p', 'meta meta-org');
+    org.append(el('span', 'dot'));
+    const text = el('span', 'meta-text');
+    text.append(el('b', null, next.org));
+    const full = next.orgs.length === 1 ? orgFullName(next.orgs[0]) : '';
+    if (full) text.append(el('span', 'next-org-full', ` · ${full}`));
+    org.append(text);
+    facts.append(org);
+  }
+  if (next.local || next.city) {
+    const place = placeRow(next);
+    const row = el('p', place.className);
+    row.append(...place.childNodes);
+    facts.append(row);
+  }
+  if (next.endDate) facts.append(metaRow('meta-range', 'calendar-range', `Até ${weekdayName(next.endDate).slice(0, 3)}, ${formatDayMonth(next.endDate)}`));
+
+  // From 760px: the two actions, and what else comes.
+  const actions = el('div', 'next-actions');
+  const send = el('a', 'btn btn-accent');
+  send.href = shareUrl;
+  send.target = '_blank';
+  send.rel = 'noopener';
+  send.innerHTML = `${icon('message')}<span>Compartilhar no WhatsApp</span>`;
+  const open = el('a', 'btn btn-line', 'Ver na agenda');
+  open.href = 'calendario.html';
+  actions.append(send, open);
+
+  const parts = [head, title, facts, actions];
+  const later = upcoming.slice(1, 1 + LATER_COUNT);
+  if (later.length) {
+    const box = el('section', 'later');
+    box.setAttribute('aria-labelledby', 'later-title');
+    const heading = el('h3', 'later-title', 'Também na agenda');
+    heading.id = 'later-title';
+    const list = el('ul', 'later-list');
+    for (const ev of later) {
+      const item = el('li', 'later-item');
+      const at = el('time', null, [shortDate(ev.date), timeOf(ev)].filter(Boolean).join(', '));
+      at.dateTime = ev.dateKey;
+      item.append(at, el('span', null, ev.title), el('span', 'later-org', ev.orgs[0] || ''));
+      list.append(item);
     }
-    item.append(when, what);
-    return item;
-  }));
-  list.hidden = false;
+    const ahead = events.filter((ev) => !ev.cancelled && lastDayKey(ev) >= dateKey(today)).length;
+    const more = el('a', 'more');
+    more.href = 'calendario.html';
+    more.innerHTML = `<span>Ver ${ahead > 1 ? `as ${agendaSummary(events, today)}` : 'a agenda'}</span>${icon('arrow-right')}`;
+    box.append(heading, list, more);
+    parts.push(box);
+  }
+  card.replaceChildren(...parts);
 }
 
-// How many businesses, and a few of them at random: name, dots, category (and, on the desk, the offer).
-async function renderBusinesses() {
+function render() {
+  const upcoming = upcomingEvents(events, today);
+  renderNext(upcoming[0] || null, upcoming);
+  $('door-agenda-line').textContent = agendaSummary(events, today);
+}
+
+async function load() {
+  try {
+    const { headers, records, lines } = await readSheet(CSV_URL);
+    events = buildEvents(headers, records, lines).events;
+    assignSectorColors(sectorsOf(events));
+    render();
+  } catch (err) {
+    console.warn('Agenda:', err);
+    // A failed re-read keeps what is on screen.
+    if (!events) $('next-status').textContent = 'Não foi possível carregar a agenda agora. Confira a conexão e abra a agenda.';
+  }
+}
+
+// Comércio's door when its list returns: how many businesses there are.
+async function renderCommerceDoor() {
   const { headers, records, lines } = await readSheet(COMMERCE_CSV_URL);
   const { businesses } = buildBusinesses(headers, records, lines);
-  if (!businesses.length) return;
-  $('business-count').textContent = `${businesses.length} ${businesses.length === 1 ? 'negócio cadastrado' : 'negócios cadastrados'}`;
-  const pool = [...businesses];
-  for (let i = pool.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [pool[i], pool[j]] = [pool[j], pool[i]];
-  }
-  const list = $('some-businesses');
-  list.replaceChildren(...pool.slice(0, PEEK_COUNT).map((biz) => {
-    const item = el('li', 'door-biz');
-    item.append(el('span', 'door-biz-name', biz.name));
-    const dots = el('span', 'door-dots');
-    dots.setAttribute('aria-hidden', 'true');
-    item.append(dots);
-    if (biz.category) item.append(el('span', 'door-biz-category', biz.category));
-    if (biz.offer) item.append(el('span', 'door-biz-offer', biz.offer));
-    return item;
-  }));
-  list.hidden = false;
+  if (businesses.length) $('door-commerce-line').textContent = `${businesses.length} ${businesses.length === 1 ? 'negócio' : 'negócios'} da rede`;
 }
 
 initPage();
-renderToday();
-if (location.protocol !== 'file:') {
-  renderNext().catch((err) => console.warn('Agenda:', err));
-  // Comércio is paused while the businesses are collected and organized: its door says "Em breve"
-  // (index.html). Calling renderBusinesses() here again brings the businesses back.
-}
+renderHello();
+if (location.protocol !== 'file:') load();
+// Comércio is paused while the businesses are collected and organized: its door says "Em breve" and
+// why (index.html), and this page doesn't read its sheet. When the list returns, call
+// renderCommerceDoor().catch(…) here and give the door its own text again.
 
-// The installed app opens here and may resume the next day: reprint today and the next activities.
-function refresh() {
-  if (new Date().toDateString() === today.toDateString()) return;
+// "Now" moves: the greeting follows the hour, the date the day, and the card the next activity (an
+// activity stays next until an hour after it starts). After a long absence the sheet is read again.
+let hiddenAt = null;
+function tick() {
+  const dayTurned = dateKey(new Date()) !== dateKey(today);
   today = new Date();
-  renderToday();
-  if (location.protocol !== 'file:') renderNext().catch((err) => console.warn('Agenda:', err));
+  renderHello();
+  if (!events) return;
+  const next = upcomingEvents(events, today)[0]?.id ?? null;
+  if (dayTurned || next !== shownNext) render();
 }
-document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
-window.addEventListener('pageshow', refresh);
+setInterval(() => {
+  if (!document.hidden) tick();
+}, 60_000);
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    hiddenAt = Date.now();
+    return;
+  }
+  if (hiddenAt && Date.now() - hiddenAt > 30 * 60_000 && location.protocol !== 'file:') load();
+  tick();
+  hiddenAt = null;
+});
+window.addEventListener('pageshow', (e) => {
+  if (e.persisted) tick();
+});
 registerWorker();
