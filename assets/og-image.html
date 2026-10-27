@@ -1,11 +1,12 @@
 <!doctype html>
 <!-- Source of assets/og-image.png (1200 × 630), the link preview of WhatsApp, Telegram and the
-     social networks (rendered by assets/render.cjs). The folhinha's pad at poster size on the red header
-     card, with the NOS mark (MARK in js/icons.js) printed where a day sheet prints its day: the letters
-     in ink and the O circled in red, the date someone marked. Under it the city as the weekday and the
-     full name as the month. The pad is today's sheet over the edges of two sheets under it, its binding
-     graphite as on the Cartaz flyer's sheet (a red strip would vanish into the red card). Everything sits
-     in the centred 630 × 630 square, which WhatsApp's small previews crop to, and nothing in it dates.
+     social networks (rendered by assets/render.cjs). The folhinha's sheet lying across the red header
+     card, wide enough to fill the preview: the NOS mark (MARK in js/icons.js) printed where a day sheet
+     prints its day, the letters in ink and the O circled in red, and beside it the city as the weekday
+     and the full name as the month, as the site's sheet heads set them. Under it the edges of two
+     sheets, the pad; its binding is graphite as on the Cartaz flyer's sheet (a red strip would vanish
+     into the red card). WhatsApp shows this image whole, above the title, in a bubble about 330px wide:
+     the type is sized for that (78px and 46px here are about 21px and 13px there). Nothing in it dates.
      Colours are the roles of css/theme.css; the texts come from js/config.js. -->
 <html lang="pt-BR">
 <head>
@@ -22,30 +23,34 @@
   html, body { width: 1200px; height: 630px; overflow: hidden; }
   body { position: relative; background: var(--role-header); color: var(--role-ink); -webkit-font-smoothing: antialiased; }
 
-  /* The pad: 500px sheets, today's 500px tall, two edges of 15px under it (530px in all). */
-  .pad { position: absolute; left: 350px; top: 50px; width: 500px; height: 530px; }
+  /* The pad: a 1080 × 476px sheet, two edges of 15px under it (506px in all), 60px of red around. */
+  .pad { position: absolute; left: 60px; top: 62px; width: 1080px; height: 506px; }
   .pad > svg { position: absolute; inset: 0; overflow: visible; }
   .pad-paper { fill: var(--role-paper); }
   .pad-seam { fill: var(--role-ink-faded); }
   .pad-binding { fill: var(--role-strong); }
   .pad-perf { fill: var(--role-ink-faded); }
 
-  /* Today's sheet, under its binding (20px) and perforation (40px): the head of a day sheet. */
-  .head { position: absolute; left: 0; right: 0; top: 60px; height: 440px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-bottom: 28px; text-align: center; }
-  .mark { display: block; flex: none; width: 400px; height: 241.7px; overflow: visible; } /* the drawing is 1493:902 */
+  /* Today's sheet, under its binding (20px) and perforation (40px): the mark in the numeral's place,
+     the city and the full name in the text column beside it. */
+  .head { position: absolute; left: 0; right: 0; top: 60px; height: 416px; display: flex; align-items: center; justify-content: center; gap: 64px; padding-bottom: 16px; }
+  .mark { display: block; flex: none; width: 503px; height: 304px; overflow: visible; } /* the drawing is 1493:902 */
   .mark-letters { fill: var(--role-ink); }
   .mark-loop { fill: var(--role-mark-loop); }
-  .weekday { margin-top: 30px; font: 700 64px/1 var(--font-display); letter-spacing: 0.06em; text-transform: uppercase; }
-  .month { margin-top: 14px; font: 500 32px/1.25 var(--font-ui); color: var(--role-ink-soft); }
+  .text { display: flex; flex-direction: column; gap: 20px; max-width: 440px; }
+  .weekday { font: 700 78px/1 var(--font-display); letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap; }
+  .month { font: 500 46px/1.16 var(--font-ui); color: var(--role-ink-soft); text-wrap: balance; }
 </style>
 </head>
 <body>
   <div class="pad">
-    <svg id="sheets" xmlns="http://www.w3.org/2000/svg" width="500" height="530" viewBox="0 0 500 530" aria-hidden="true"></svg>
+    <svg id="sheets" xmlns="http://www.w3.org/2000/svg" width="1080" height="506" viewBox="0 0 1080 506" aria-hidden="true"></svg>
     <div class="head">
       <svg class="mark" id="mark" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
-      <p class="weekday" id="city"></p>
-      <p class="month" id="full"></p>
+      <div class="text">
+        <p class="weekday" id="city"></p>
+        <p class="month" id="full"></p>
+      </div>
     </div>
   </div>
 <script type="module">
@@ -68,9 +73,9 @@
       + `V${y + rt}Q${x},${y} ${x + rt},${y}Z`;
   }
 
-  // The pad in px: the binding, perforation and corners of the Cartaz's sheet (css/flyers.css) scaled
-  // to a 500px sheet, and the edges of two sheets under it, each 15px lower and 7px narrower a side.
-  const W = 500, H = 500, RT = 6, RB = 16, BINDING = 20, PERF = 40, DOT = 9, DOTS = 14, MARGIN = 42;
+  // The pad in px: the binding, perforation and corners of the Cartaz's sheet (css/flyers.css) at this
+  // scale, a dot every 36px, and the edges of two sheets under it, each 15px lower and 7px narrower a side.
+  const W = 1080, H = 476, RT = 6, RB = 16, BINDING = 20, PERF = 40, DOT = 9, STEP = 36, MARGIN = 40;
   const UNDER = [{ inset: 7, edge: 15 }, { inset: 14, edge: 30 }];
   const SEAM = 4;
   const sheets = document.getElementById('sheets');
@@ -85,8 +90,10 @@
   }
   add(sheets, 'path', { d: sheetPath(0, 0, W, H, RT, RB) }, 'pad-paper');
   add(sheets, 'path', { d: `M${RT},0H${W - RT}Q${W},0 ${W},${RT}V${BINDING}H0V${RT}Q0,0 ${RT},0Z` }, 'pad-binding');
-  for (let i = 0; i < DOTS; i++) {
-    add(sheets, 'circle', { cx: MARGIN + (i * (W - 2 * MARGIN)) / (DOTS - 1), cy: BINDING + PERF / 2, r: DOT / 2 }, 'pad-perf');
+  const dots = Math.floor((W - 2 * MARGIN) / STEP) + 1;
+  const first = (W - (dots - 1) * STEP) / 2;
+  for (let i = 0; i < dots; i++) {
+    add(sheets, 'circle', { cx: first + i * STEP, cy: BINDING + PERF / 2, r: DOT / 2 }, 'pad-perf');
   }
 
   const mark = document.getElementById('mark');
