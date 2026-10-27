@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Céu · Pipas · Quadro</title>
+<script>if (new URLSearchParams(location.search).get('tema') === 'escuro') document.documentElement.dataset.tema = 'escuro';</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Inter:opsz,wght@14..32,400..700&display=swap">
+<link rel="stylesheet" href="assets/design.css">
+<link rel="stylesheet" href="assets/direcao-ceu-pipas.css">
+<style>
+/* The variant's board: the idea on its own sky (the whole network, by day or by night as the theme says), the
+   pipa drawn big and the eight group colours, the same sky by day and by night side by side (fixed palettes,
+   whatever the theme) with the rule for how many pipas fly, then what changed from Céu, colour and type, and
+   the risk. */
+.board {
+  display: flex;
+  flex-direction: column;
+  width: 1200px;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: 15px;
+  line-height: 23px;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+}
+.board ::selection { background: var(--accent-tint); color: var(--ink); }
+:where(.board) :where(h1, h2, h3, h4, p, ul, ol, figure, figcaption) { margin: 0; padding: 0; }
+:where(.board) :where(a) { color: inherit; text-decoration: none; }
+:where(.board) :where(.icon) { width: 18px; height: 18px; flex-shrink: 0; }
+
+/* The head: the idea on the sky, the network flying (or shining) at right, the sun rising behind the band. */
+.sky--board { --h5: 18px; --h4: 40px; --h3: 64px; --h2: 98px; height: 316px; padding: 42px 56px 0; }
+.sky--board .astro--sol { left: 382px; bottom: -132px; width: 204px; height: 204px; --loop-w: 4px; }
+.sky--board .astro--lua { left: 412px; bottom: -78px; width: 132px; height: 132px; --loop-w: 3px; }
+.name { display: flex; align-items: center; gap: 16px; }
+.name h1 { font-family: var(--font-display); font-size: 64px; line-height: 68px; font-weight: 700; letter-spacing: -0.03em; }
+.pill { padding: 4px 11px 5px; border-radius: 999px; background: var(--sky-ink); color: var(--sky-1); font-size: 13px; line-height: 18px; font-weight: 600; white-space: nowrap; }
+.thesis { max-width: 540px; margin-top: 16px; font-size: 19px; line-height: 29px; font-weight: 500; letter-spacing: -0.01em; text-wrap: pretty; }
+.board > .faixa { --faixa-h: 40px; }
+
+.inner { display: flex; flex-direction: column; gap: 32px; padding: 34px 56px 40px; }
+.block { display: flex; flex-direction: column; gap: 14px; }
+.block > h2 { font-family: var(--font-display); font-size: 28px; line-height: 32px; font-weight: 700; letter-spacing: -0.02em; }
+.block > p.intro { margin-top: -4px; color: var(--ink-soft); text-wrap: pretty; }
+
+/* Fixed skies (they don't follow the theme): a windy morning and the night, with their own pipas' and stars'
+   colours, as Céu's board did for its four hours. */
+.fixo-dia {
+  --sky-1: #AED4F0; --sky-2: #C0DDF2; --sky-3: #D3E7F3; --sky-4: #E7EFEF; --sky-5: #F8E5B3;
+  --sky-ink: #171A21; --sky-ink-soft: #33465C; --sky-field: #FFFFFF; --sun: #F2B21B; --hand: #C2410C; --mark-loop: #C2410C;
+  --pipa-tinta: #1E2230; --linha: rgba(30, 34, 48, .62);
+  --g-sindicatos: #0455A1; --g-rural: #00875A; --g-movimentos: #9B3894; --g-academia: #00808A;
+  --g-orgaos: #C25700; --g-partidos: #5E6A71; --g-outros: #7A4E2D; --g-terceiro: #C2185B;
+}
+.fixo-noite {
+  --sky-1: #141A3D; --sky-2: #1B2350; --sky-3: #232D61; --sky-4: #2D3870; --sky-5: #2D3870;
+  --sky-ink: #EEF0F3; --sky-ink-soft: #C5CBE3; --sky-field: #191D26; --moon: #EFE3C4; --star: #F4ECD6; --hand: #FF8A5C; --mark-loop: #FF8A5C;
+  --g-sindicatos: #5B9BE6; --g-rural: #3DBA8A; --g-movimentos: #C77BC0; --g-academia: #2DB3BC;
+  --g-orgaos: #E8873A; --g-partidos: #9AA7AF; --g-outros: #B98A66; --g-terceiro: #E9608F;
+}
+.fixo-dia, .fixo-noite { color: var(--sky-ink); }
+.fixo-noite .rotulo { fill: var(--sky-ink-soft); }
+
+/* A pipa, drawn big, with notes in the hand's own leader lines. */
+.pipa-row { display: grid; grid-template-columns: 460px minmax(0, 1fr); gap: 24px; align-items: start; }
+.anatomy { position: relative; overflow: hidden; border-radius: 18px; }
+.anatomy .sky { height: 298px; --h5: 16px; --h4: 34px; --h3: 58px; --h2: 92px; }
+.anatomy .faixa { --faixa-h: 32px; }
+.anatomy .note { position: absolute; width: 176px; font-size: 13px; line-height: 18px; font-weight: 500; color: var(--sky-ink-soft); text-wrap: pretty; }
+.anatomy .note b { font-weight: 600; color: var(--sky-ink); }
+.anatomy .linha { stroke-width: 1.6px; }
+.anatomy .rabiola { stroke-width: 1.3px; }
+.anatomy .leaders { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; fill: none; stroke: var(--pipa-tinta); stroke-width: 1px; stroke-linecap: round; opacity: .7; pointer-events: none; }
+
+/* The eight colours: each group's pipa on a patch of sky, its name, how many, its colour by day and by night. */
+.groups { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px 12px; }
+.group { display: flex; flex-direction: column; min-width: 0; }
+.group .sky { height: 76px; border-radius: 12px; --h5: 6px; --h4: 14px; --h3: 24px; --h2: 38px; }
+.group b { margin-top: 8px; font-size: 13px; line-height: 17px; font-weight: 600; text-wrap: balance; }
+.group small { margin-top: 1px; font-size: 12px; line-height: 16px; color: var(--ink-soft); }
+.hexes { display: flex; align-items: center; gap: 4px; margin-top: 4px; font-size: 11px; line-height: 16px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.hexes i { flex-shrink: 0; width: 12px; height: 12px; border-radius: 3px; }
+.hexes i + i, .hexes i.noite { margin-left: 4px; }
+.hexes i.noite { display: grid; place-items: center; border-radius: 3px; background: #141A3D; }
+.hexes i.noite::after { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--c); }
+
+/* By day and by night: the phone's sky, at its real size, on both palettes. */
+.daynight { display: grid; grid-template-columns: 390px 390px minmax(0, 1fr); gap: 20px; align-items: start; }
+.tile { overflow: hidden; border-radius: 18px; box-shadow: var(--shadow); border: 1px solid var(--card-border); }
+.tile .sky { height: 286px; --h5: 14px; --h4: 30px; --h3: 52px; --h2: 84px; }
+.tile .faixa { --faixa-h: 32px; }
+.tile .astro--sol { --astro-fill: var(--sun); right: 6px; bottom: -64px; width: 124px; height: 124px; --loop-w: 3.5px; }
+.tile .astro--lua { --astro-fill: var(--moon); right: 26px; bottom: -34px; width: 70px; height: 70px; --loop-w: 2.5px; }
+.tile .brand .nos-mark { color: var(--sky-ink); }
+.tile .hello { padding: 4px 16px 0; }
+.tile .hello__title { font-family: var(--font-display); font-size: 40px; line-height: 40px; font-weight: 700; letter-spacing: -0.02em; }
+.tile .hello__date { margin-top: 8px; font-size: 15px; line-height: 20px; font-weight: 500; color: var(--sky-ink-soft); }
+.tile .sky-link { display: inline-flex; align-items: center; gap: 4px; margin-top: 6px; font-size: 15px; line-height: 20px; font-weight: 600; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px; text-decoration-color: color-mix(in srgb, var(--sky-ink) 40%, transparent); }
+.tile .icon-button .icon { width: 24px; height: 24px; }
+.tile figcaption { padding: 10px 16px 12px; background: var(--surface); font-size: 14px; line-height: 20px; color: var(--ink-soft); }
+.tile figcaption b { font-weight: 600; color: var(--ink); }
+.rule { display: flex; flex-direction: column; gap: 10px; }
+.rule h3 { font-family: var(--font-display); font-size: 19px; line-height: 24px; font-weight: 700; letter-spacing: -0.012em; }
+.rule p { font-size: 14px; line-height: 20px; color: var(--ink-soft); text-wrap: pretty; }
+.rule p b { font-weight: 600; color: var(--ink); }
+
+/* Panels */
+.row3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.panel { display: flex; flex-direction: column; gap: 10px; padding: 18px 20px 20px; }
+.panel h3 { font-family: var(--font-display); font-size: 19px; line-height: 24px; font-weight: 700; letter-spacing: -0.012em; }
+.panel p, .panel li { color: var(--ink-soft); font-size: 13.5px; line-height: 20px; text-wrap: pretty; }
+.panel p b, .panel li b { font-weight: 600; color: var(--ink); }
+.panel ul { display: flex; flex-direction: column; gap: 5px; padding-left: 16px; }
+.panel li::marker { color: var(--hand); }
+.bands { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; }
+.bands h4 { margin-bottom: 4px; font-size: 13px; line-height: 18px; font-weight: 600; }
+.bands-col { display: flex; flex-direction: column; }
+.bands-col span { display: flex; align-items: center; gap: 8px; font-size: 12px; line-height: 15px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.bands-col i { width: 34px; height: 15px; }
+.bands-col span:first-child i { border-radius: 5px 5px 0 0; }
+.bands-col span:last-child i { border-radius: 0 0 5px 5px; }
+.lights { display: flex; flex-wrap: wrap; gap: 6px 10px; font-size: 12px; line-height: 16px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.lights span { display: inline-flex; align-items: center; gap: 6px; }
+.lights i { width: 14px; height: 14px; border-radius: 50%; box-shadow: 0 0 0 1px color-mix(in srgb, var(--ink) 28%, transparent); }
+.panel .type-2 { font-size: 14px; line-height: 20px; color: var(--ink); }
+.panel .type-2 b { font-weight: 600; }
+.panel.risk p { font-size: 14px; line-height: 21px; color: var(--ink); }
+</style>
+</head>
+<body>
+<!-- Céu · Pipas · board (a free variant of D3 · Céu): a rede no céu. -->
+<div class="board">
+  <div class="sky sky--board">
+    <svg class="astro astro--sol only-claro" viewBox="0 0 120 120" aria-hidden="true"><use href="#astro"/></svg>
+    <svg class="astro astro--lua only-escuro" viewBox="0 0 120 120" aria-hidden="true"><use href="#astro"/></svg>
+    <svg class="ceu-pipas" width="1200" height="316" viewBox="0 0 1200 316" aria-hidden="true">
+    <g class="only-claro">
+    <g><path class="linha linha--longe" d="M1178.7 296.9Q1182.1 314.2 1190 324"/><path class="linha linha--longe" d="M329.9 278.9Q335.6 307.8 348.8 324"/><path class="linha linha--longe" d="M627.9 276.9Q633.9 307 647.7 324"/><path class="linha linha--longe" d="M986.2 305Q988.6 317.2 994.2 324"/><path class="linha linha--longe" d="M1103.3 291Q1107.5 312.1 1117.2 324"/><path class="linha linha--longe" d="M1149.2 305Q1151.6 317.2 1157.2 324"/><path class="linha linha--longe" d="M300.1 293Q304 312.9 313.1 324"/><path class="linha linha--longe" d="M606.1 293Q610 312.9 619.1 324"/><path class="linha linha--longe" d="M1053 297.1Q1056.4 314.3 1064.3 324"/><path class="linha linha--longe" d="M86.1 287.3Q90.8 310.8 101.6 324"/><path class="linha linha--longe" d="M706.5 269.4Q713.3 304.3 729.4 324"/><path class="linha linha--longe" d="M776.3 259.5Q784.4 300.8 803.4 324"/><path class="linha linha--longe" d="M1165.3 267.5Q1172.4 303.7 1189 324"/><path class="linha linha--longe" d="M1077.9 255.6Q1086.5 299.4 1106.6 324"/><path class="linha" d="M1007.2 271.7Q1013.8 305.2 1029.1 324"/><path class="linha" d="M959.8 233Q971.3 291.2 998.1 324"/><path class="linha" d="M675.8 209.1Q690.3 282.6 724 324"/><path class="linha" d="M749.2 157.5Q770.1 264.1 819.1 324"/><path class="linha" d="M1130.3 207.6Q1144.9 282.1 1179.1 324"/><path class="linha" d="M910.6 147.8Q932.8 260.6 984.6 324"/><path class="linha" d="M1039 170Q1058.4 268.6 1103.7 324"/><path class="linha" d="M830.1 197Q846.1 278.3 883.4 324"/></g>
+    <g><path class="rabiola" d="M1178.1 304.4C1179.2 306.6 1173.1 307.7 1174.9 310.8"/><use href="#pipa-longe" class="pipa pipa--longe g-movimentos" transform="translate(1178.7 296) rotate(4) scale(0.130)"/></g>
+    <g><path class="rabiola" d="M329.1 286.4C330.2 288.6 324 289.7 325.9 292.8"/><use href="#pipa-longe" class="pipa pipa--longe g-partidos" transform="translate(330 278) rotate(6) scale(0.130)"/></g>
+    <g><path class="rabiola" d="M627.3 284.4C628.3 286.6 622.2 287.7 624 290.8"/><use href="#pipa-longe" class="pipa pipa--longe g-outros" transform="translate(628 276) rotate(5) scale(0.130)"/></g>
+    <g><path class="rabiola" d="M985.5 313.1C986.6 315.4 980.1 316.6 982 319.9"/><use href="#pipa-longe" class="pipa pipa--longe g-rural" transform="translate(986.3 304) rotate(5) scale(0.140)"/></g>
+    <g><path class="rabiola" d="M1104.2 299.1C1105.3 301.4 1098.7 302.6 1100.7 305.9"/><use href="#pipa-longe" class="pipa pipa--longe g-rural" transform="translate(1103.2 290) rotate(-6) scale(0.140)"/></g>
+    <g><path class="rabiola" d="M1149.9 313.1C1151 315.4 1144.5 316.6 1146.4 319.9"/><use href="#pipa-longe" class="pipa pipa--longe g-movimentos" transform="translate(1149.1 304) rotate(-5) scale(0.140)"/></g>
+    <g><path class="rabiola" d="M300.8 301.7C302 304.3 295 305.5 297.1 309.1"/><use href="#pipa-longe" class="pipa pipa--longe g-partidos" transform="translate(300 292) rotate(-5) scale(0.150)"/></g>
+    <g><path class="rabiola" d="M606.7 301.7C607.9 304.3 600.8 305.5 602.9 309.1"/><use href="#pipa-longe" class="pipa pipa--longe g-outros" transform="translate(606 292) rotate(-4) scale(0.150)"/></g>
+    <g><path class="rabiola" d="M1053.6 306.4C1054.9 309.1 1047.4 310.4 1049.6 314.2"/><use href="#pipa-longe" class="pipa pipa--longe g-rural" transform="translate(1052.9 296) rotate(-4) scale(0.160)"/></g>
+    <g><path class="rabiola" d="M87.2 297.6C89 301.3 78.8 303 81.8 308.2"/><use href="#pipa-longe" class="pipa pipa--longe g-orgaos" transform="translate(86 286) rotate(-6) scale(0.180)"/></g>
+    <g><path class="rabiola" d="M705.2 280.9C707.1 285 695.8 286.9 699.2 292.7"/><use href="#pipa-a" class="pipa pipa--longe g-academia" transform="translate(706.6 268) rotate(6) scale(0.200)"/></g>
+    <g><path class="rabiola" d="M777.8 272C779.9 276.5 767.5 278.6 771.2 284.9"/><use href="#pipa-c" class="pipa pipa--longe g-terceiro" transform="translate(776.2 258) rotate(-6) scale(0.220)"/></g>
+    <g><path class="rabiola" d="M1164.1 280.2C1166.2 284.7 1153.8 286.8 1157.5 293.2"/><use href="#pipa-a" class="pipa pipa--longe g-movimentos" transform="translate(1165.4 266) rotate(5) scale(0.220)"/></g>
+    <g><path class="rabiola" d="M1076.7 268.7C1078.9 273.4 1066 275.6 1069.8 282.2"/><use href="#pipa-c" class="pipa pipa--longe g-rural" transform="translate(1078.1 254) rotate(6) scale(0.230)"/></g>
+    <g><path class="rabiola" d="M1008.8 285.4C1011.2 290.5 997.1 292.9 1001.3 300.1"/><path class="lacos g-rural" d="M1007.4 289.5L1005.4 288.8L1006.8 287.5ZM1007.4 289.5L1008.1 291.6L1009.5 290.3ZM1001 299.7L999.6 301.5L998.7 299.8ZM1001 299.7L1003 299.8L1002.2 298.1Z"/><use href="#pipa-b" class="pipa pipa--meio g-rural" transform="translate(1007 270) rotate(-5) scale(0.250)"/></g>
+    <g><path class="rabiola" d="M961.7 256.6C966.9 267.6 936.6 272.7 945.6 288.2"/><path class="lacos g-sindicatos" d="M958.8 265.3L955.4 264.1L957.8 261.9ZM958.8 265.3L960.1 269L962.4 266.8ZM951.3 271.4L947.7 269.6L950.2 267.6ZM951.3 271.4L951.9 274.8L954.4 272.7ZM945 278.4L941.4 278.4L942.8 275.5ZM945 278.4L947.4 281.4L948.9 278.5ZM945.1 287.3L942.6 290.4L941.1 287.4ZM945.1 287.3L948.5 287.4L947.1 284.5Z"/><use href="#pipa-b" class="pipa g-sindicatos" transform="translate(959.7 230) rotate(-3) scale(0.430)"/></g>
+    <g><path class="rabiola" d="M678.4 234.7C683.8 246.1 652.1 251.5 661.5 267.7"/><path class="lacos g-academia" d="M675.3 243.8L671.8 242.5L674.3 240.2ZM675.3 243.8L676.6 247.7L679.1 245.3ZM667.5 250.2L663.7 248.3L666.4 246.2ZM667.5 250.2L668.1 253.7L670.8 251.6ZM660.9 257.5L657.1 257.4L658.6 254.4ZM660.9 257.5L663.4 260.7L664.9 257.6ZM661 266.8L658.3 270L656.8 266.9ZM661 266.8L664.6 266.9L663.1 263.8Z"/><use href="#pipa-c" class="pipa g-academia" transform="translate(675.5 206) rotate(-5) scale(0.450)"/></g>
+    <g><path class="rabiola" d="M747 184.9C753.4 198.5 715.8 204.9 727 224.1"/><path class="lacos g-terceiro" d="M743.4 195.7L739.4 194.3L742.2 191.7ZM743.4 195.7L744.9 200L747.6 197.4ZM734.1 203.3L729.9 201.2L732.9 198.8ZM734.1 203.3L734.8 207.2L737.8 204.8ZM726.3 211.9L722 211.9L723.8 208.5ZM726.3 211.9L729 215.5L730.8 212.1ZM726.4 223L723.5 226.6L721.8 223.2ZM726.4 223L730.4 223.1L728.7 219.7Z"/><use href="#pipa-b" class="pipa g-terceiro" transform="translate(749.5 154) rotate(6) scale(0.500)"/></g>
+    <g><path class="rabiola" d="M1134 236C1127.4 250.1 1101.6 256.8 1113.2 276.7"/><path class="lacos g-movimentos" d="M1124.4 247.3L1120.3 245.6L1123.3 243ZM1124.4 247.3L1125.7 251.8L1128.7 249.1ZM1115.9 255.1L1111.3 253.6L1113.9 250.7ZM1115.9 255.1L1117.2 259.1L1119.9 256.2ZM1110.6 264.1L1106.3 265.1L1107.2 261.3ZM1110.6 264.1L1114.3 267L1115.2 263.1ZM1112.6 275.6L1109.6 279.4L1107.7 275.9ZM1112.6 275.6L1116.7 275.6L1114.9 272.1Z"/><use href="#pipa-b" class="pipa g-movimentos" transform="translate(1129.9 204) rotate(-6) scale(0.520)"/></g>
+    <g><path class="rabiola" d="M908.9 178.5C901.9 193.2 875.2 200.1 887.3 220.8"/><path class="lacos g-sindicatos" d="M898.9 190.2L894.6 188.5L897.7 185.8ZM898.9 190.2L900.3 194.9L903.3 192.2ZM890 198.4L885.2 196.8L888 193.8ZM890 198.4L891.4 202.5L894.2 199.5ZM884.5 207.7L880.1 208.8L881 204.8ZM884.5 207.7L888.4 210.7L889.3 206.7ZM886.6 219.6L883.5 223.6L881.6 219.9ZM886.6 219.6L890.9 219.7L889 216Z"/><use href="#pipa-c" class="pipa g-sindicatos" transform="translate(910.8 144) rotate(4) scale(0.540)"/></g>
+    <g><path class="rabiola" d="M1034.1 203.3C1041.5 219.1 997.9 226.5 1010.9 248.8"/><path class="lacos g-rural" d="M1029.9 215.9L1025.3 214.2L1028.5 211.2ZM1029.9 215.9L1031.6 220.8L1034.8 217.8ZM1019.1 224.7L1014.3 222.2L1017.7 219.5ZM1019.1 224.7L1020 229.2L1023.4 226.4ZM1010 234.7L1005.2 234.6L1007.2 230.7ZM1010 234.7L1013.3 238.8L1015.3 234.9ZM1010.2 247.5L1006.8 251.6L1004.8 247.7ZM1010.2 247.5L1014.8 247.6L1012.9 243.7Z"/><use href="#pipa-a" class="pipa g-rural" transform="translate(1039.6 166) rotate(8) scale(0.580)"/></g>
+    <g><path class="rabiola" d="M834.9 238.5C843.5 256.8 792.7 265.5 807.9 291.4"/><path class="lacos g-sindicatos" d="M830 253.1L824.3 251.1L828.2 247.3ZM830 253.1L832.1 259.3L836 255.5ZM817.4 263.4L811.4 260.3L815.6 256.9ZM817.4 263.4L818.4 269L822.7 265.5ZM806.8 275L800.8 274.9L803.3 270.1ZM806.8 275L810.8 280.1L813.3 275.2ZM807 289.9L802.8 295L800.3 290.1ZM807 289.9L812.8 290.1L810.3 285.2Z"/><use href="#pipa-a" class="pipa g-sindicatos" transform="translate(829.4 192) rotate(-7) scale(0.720)"/></g>
+    </g>
+    <g class="only-escuro">
+    <circle class="estrela-fundo" cx="720" cy="40" r="1"/>
+    <circle class="estrela-fundo" cx="1150" cy="46" r="0.9"/>
+    <circle class="estrela-fundo" cx="40" cy="250" r="0.8"/>
+    <circle class="estrela-fundo" cx="600" cy="34" r="0.8"/>
+    <circle class="estrela-fundo" cx="980" cy="90" r="0.8"/>
+    <path class="constelacao g-sindicatos" d="M910.8 144L829.4 192L959.7 230"/>
+    <path class="constelacao g-rural" d="M1039.6 166L1078.1 254L1103.2 290M1039.6 166L1007 270L986.3 304M1007 270L1052.9 296"/>
+    <path class="constelacao g-movimentos" d="M1129.9 204L1165.4 266L1178.7 296L1149.1 304"/>
+    <path class="constelacao g-academia" d="M675.5 206L706.6 268"/>
+    <path class="constelacao g-terceiro" d="M749.5 154L776.2 258"/>
+    <path class="constelacao g-partidos" d="M300 292L330 278"/>
+    <path class="constelacao g-outros" d="M606 292L628 276"/>
+    <circle class="estrela estrela--halo g-academia" cx="675.5" cy="206" r="6.7"/>
+    <circle class="estrela g-academia" cx="675.5" cy="206" r="2.9"/>
+    <circle class="estrela estrela--halo g-terceiro" cx="749.5" cy="154" r="6.7"/>
+    <circle class="estrela g-terceiro" cx="749.5" cy="154" r="2.9"/>
+    <circle class="estrela estrela--halo g-sindicatos" cx="829.4" cy="192" r="6.7"/>
+    <circle class="estrela g-sindicatos" cx="829.4" cy="192" r="2.9"/>
+    <circle class="estrela estrela--halo g-sindicatos" cx="910.8" cy="144" r="6.7"/>
+    <circle class="estrela g-sindicatos" cx="910.8" cy="144" r="2.9"/>
+    <circle class="estrela estrela--halo g-sindicatos" cx="959.7" cy="230" r="6.7"/>
+    <circle class="estrela g-sindicatos" cx="959.7" cy="230" r="2.9"/>
+    <circle class="estrela estrela--halo g-rural" cx="1039.6" cy="166" r="6.7"/>
+    <circle class="estrela g-rural" cx="1039.6" cy="166" r="2.9"/>
+    <circle class="estrela estrela--halo g-movimentos" cx="1129.9" cy="204" r="6.7"/>
+    <circle class="estrela g-movimentos" cx="1129.9" cy="204" r="2.9"/>
+    <circle class="estrela g-academia" cx="706.6" cy="268" r="1.6"/>
+    <circle class="estrela g-terceiro" cx="776.2" cy="258" r="1.6"/>
+    <circle class="estrela estrela--halo g-rural" cx="1007" cy="270" r="5.1"/>
+    <circle class="estrela g-rural" cx="1007" cy="270" r="2.2"/>
+    <circle class="estrela g-rural" cx="1078.1" cy="254" r="1.6"/>
+    <circle class="estrela g-rural" cx="1052.9" cy="296" r="1.6"/>
+    <circle class="estrela g-rural" cx="986.3" cy="304" r="1.6"/>
+    <circle class="estrela g-rural" cx="1103.2" cy="290" r="1.6"/>
+    <circle class="estrela g-movimentos" cx="1165.4" cy="266" r="1.6"/>
+    <circle class="estrela g-movimentos" cx="1149.1" cy="304" r="1.6"/>
+    <circle class="estrela g-movimentos" cx="1178.7" cy="296" r="1.6"/>
+    <circle class="estrela g-partidos" cx="300" cy="292" r="1.6"/>
+    <circle class="estrela g-partidos" cx="330" cy="278" r="1.6"/>
+    <circle class="estrela g-outros" cx="606" cy="292" r="1.6"/>
+    <circle class="estrela g-outros" cx="628" cy="276" r="1.6"/>
+    <circle class="estrela g-orgaos" cx="86" cy="286" r="1.6"/>
+    </g>
+    <g class="only-claro"><text class="rotulo" x="674" y="182" text-anchor="middle">DCE UFGD</text><text class="rotulo" x="750.6" y="132" text-anchor="middle">Univida</text><text class="rotulo" x="826.8" y="159.9" text-anchor="middle">SINTEF</text><text class="rotulo" x="912.3" y="116.5" text-anchor="middle">SIMTED</text><text class="rotulo" x="958.6" y="210.1" text-anchor="middle">ADUF</text><text class="rotulo" x="1042.8" y="138.9" text-anchor="middle">Teia dos Povos MS</text><text class="rotulo" x="1127.7" y="181.5" text-anchor="middle">Quintal de Palmares</text></g>
+    <g class="only-escuro"><text class="rotulo" x="685.4" y="210.5" text-anchor="start">DCE UFGD</text><text class="rotulo" x="759.4" y="158.5" text-anchor="start">Univida</text><text class="rotulo" x="819.4" y="196.5" text-anchor="end">SINTEF</text><text class="rotulo" x="920.7" y="148.5" text-anchor="start">SIMTED</text><text class="rotulo" x="969.6" y="234.5" text-anchor="start">ADUF</text><text class="rotulo" x="1049.5" y="170.5" text-anchor="start">Teia dos Povos MS</text><text class="rotulo" x="1129.9" y="192" text-anchor="middle">Quintal de Palmares</text></g>
+    </svg>
+    <div class="name"><h1>Céu · Pipas</h1><span class="pill">Variante livre de D3 · Céu</span></div>
+    <p class="thesis">A rede no céu. De dia, as organizações voam sobre Dourados como pipas, cada uma na cor do seu grupo, a linha presa à faixa, a terra. De noite, nos mesmos lugares, acendem estrelas das mesmas cores, ligadas por grupo.</p>
+  </div>
+  <div class="faixa" role="img" aria-label="Faixa tecida (arte provisória)"></div>
+
+  <div class="inner">
+    <section class="block">
+      <h2>A pipa, pela mão do laço</h2>
+      <div class="pipa-row">
+        <figure class="anatomy fixo-dia">
+          <div class="sky">
+            <svg class="ceu-pipas" width="460" height="298" viewBox="0 0 460 298" aria-hidden="true">
+            <g>
+            <g><path class="linha" d="M171.3 124.3Q194.2 240.6 247.6 306"/></g>
+            <g><path class="rabiola" d="M181.3 225.8C193.1 251 123.6 262.8 144.3 298.3"/><path class="lacos g-rural" d="M174.6 245.9L160.6 240.9L170.3 231.7ZM174.6 245.9L179.7 260.9L189.4 251.7ZM157.3 259.9L142.7 252.5L153.1 244.1ZM157.3 259.9L159.9 273.7L170.3 265.2ZM142.9 275.8L128.1 275.7L134.2 263.8ZM142.9 275.8L152.7 288.3L158.8 276.4ZM143.2 296.2L132.7 308.8L126.8 296.9ZM143.2 296.2L157.2 296.7L151.2 284.7Z"/><use href="#pipa-a" class="pipa g-rural" style="--vareta: 1.8px; --contorno: 2.2px" transform="translate(170 112) rotate(-6) scale(1.760)"/></g>
+            </g>
+            </svg>
+            <svg class="leaders" aria-hidden="true">
+              <path d="M262 48C238 44 214 50 196 60"/>
+              <path d="M262 126C246 124 228 128 210 134"/>
+              <path d="M262 214C244 214 220 212 201 208"/>
+              <path d="M104 262C118 262 128 264 136 270"/>
+            </svg>
+            <p class="note" style="left: 268px; top: 38px"><b>Contorno</b> em jenipapo, fora do registro, que passa do começo como o laço do NOS</p>
+            <p class="note" style="left: 268px; top: 116px"><b>Seda</b> em dois tons da cor do grupo: o lado do sol e o outro</p>
+            <p class="note" style="left: 268px; top: 204px"><b>Linha</b> presa embaixo da faixa: toda organização tem chão</p>
+            <p class="note" style="left: 16px; top: 244px; width: 88px"><b>Rabiola</b> de laços</p>
+          </div>
+          <div class="faixa" aria-hidden="true"></div>
+        </figure>
+
+        <div class="groups" aria-label="Uma cor por grupo">
+          <figure class="group">
+            <div class="sky fixo-dia">
+              <svg class="ceu-pipas" width="142" height="76" viewBox="0 0 142 76" aria-hidden="true">
+              <g>
+              <g><path class="linha" d="M69.7 33.1Q75.9 64.4 90.3 82"/></g>
+              <g><path class="rabiola" d="M68.3 57.2C63 68.5 42.5 73.7 51.8 89.6"/><path class="lacos g-rural" d="M60.6 66.2L57.2 64.8L59.7 62.6ZM60.6 66.2L61.8 70L64.3 67.8ZM51.3 75.8L47.2 75.3L48.9 72.4ZM51.3 75.8L53 78.8L54.8 76ZM51.3 88.6L49.1 91.6L47.6 88.7ZM51.3 88.6L55.2 88.4L53.7 85.5Z"/><use href="#pipa-b" class="pipa g-rural" transform="translate(70 30) rotate(5) scale(0.440)"/></g>
+              </g>
+              </svg>
+            </div>
+            <b>Rural, indígena e luta pela terra</b><small>6 organizações</small>
+            <span class="hexes"><i style="background:#00875A"></i>#00875A<i class="noite" style="--c:#3DBA8A"></i>#3DBA8A</span>
+          </figure>
+          <figure class="group">
+            <div class="sky fixo-dia">
+              <svg class="ceu-pipas" width="142" height="76" viewBox="0 0 142 76" aria-hidden="true">
+              <g>
+              <g><path class="linha" d="M70.2 33.1Q76.4 64.4 90.8 82"/></g>
+              <g><path class="rabiola" d="M72.3 58.1C77.6 69.3 46.6 74.6 55.8 90.4"/><path class="lacos g-movimentos" d="M69.3 67L65.8 65.8L68.3 63.5ZM69.3 67L70.6 70.8L73 68.5ZM57.9 76.6L54.1 75.3L56.4 72.8ZM57.9 76.6L59 80L61.3 77.5ZM55.3 89.5L53.1 92.4L51.6 89.4ZM55.3 89.5L59.3 89.4L57.8 86.4Z"/><use href="#pipa-c" class="pipa g-movimentos" transform="translate(70 30) rotate(-4) scale(0.440)"/></g>
+              </g>
+              </svg>
+            </div>
+            <b>Movimentos Sociais</b><small>4 organizações</small>
+            <span class="hexes"><i style="background:#9B3894"></i>#9B3894<i class="noite" style="--c:#C77BC0"></i>#C77BC0</span>
+          </figure>
+          <figure class="group">
+            <div class="sky fixo-dia">
+              <svg class="ceu-pipas" width="142" height="76" viewBox="0 0 142 76" aria-hidden="true">
+              <g>
+              <g><path class="linha" d="M70.3 33.1Q76.5 64.4 90.9 82"/></g>
+              <g><path class="rabiola" d="M72.8 58.5C67.5 69.7 47.1 75 56.3 90.8"/><path class="lacos g-sindicatos" d="M65.2 67.4L61.7 66L64.2 63.8ZM65.2 67.4L66.3 71.2L68.8 69ZM55.8 77L51.7 76.5L53.5 73.7ZM55.8 77L57.5 80.1L59.3 77.2ZM55.8 89.9L53.6 92.9L52.1 89.9ZM55.8 89.9L59.8 89.7L58.2 86.7Z"/><use href="#pipa-a" class="pipa g-sindicatos" transform="translate(70 30) rotate(-6) scale(0.440)"/></g>
+              </g>
+              </svg>
+            </div>
+            <b>Sindicatos</b><small>3 organizações</small>
+            <span class="hexes"><i style="background:#0455A1"></i>#0455A1<i class="noite" style="--c:#5B9BE6"></i>#5B9BE6</span>
+          </figure>
+          <figure class="group">
+            <div class="sky fixo-dia">
+              <svg class="ceu-pipas" width="142" height="76" viewBox="0 0 142 76" aria-hidden="true">
+              <g>
+              <g><path class="linha" d="M69.7 33.1Q75.8 64.4 90.2 82"/></g>
+              <g><path class="rabiola" d="M67.4 58C72.7 69.3 41.7 74.5 50.9 90.4"/><path class="lacos g-academia" d="M64.4 67L60.9 65.7L63.4 63.4ZM64.4 67L65.7 70.7L68.1 68.4ZM53 76.6L49.1 75.3L51.4 72.8ZM53 76.6L54.1 79.9L56.4 77.5ZM50.4 89.4L48.2 92.4L46.7 89.4ZM50.4 89.4L54.4 89.3L52.9 86.3Z"/><use href="#pipa-c" class="pipa g-academia" transform="translate(70 30) rotate(6) scale(0.440)"/></g>
+              </g>
+              </svg>
+            </div>
+            <b>Academia e Movimento Estudantil</b><small>2 organizações</small>
+            <span class="hexes"><i style="background:#00808A"></i>#00808A<i class="noite" style="--c:#2DB3BC"></i>#2DB3BC</span>
+          </figure>
+          <figure class="group">
+            <div class="sky fixo-dia">
+              <svg class="ceu-pipas" width="142" height="76" viewBox="0 0 142 76" aria-hidden="true">
+              <g>
+              <g><path class="linha" d="M70.3 33.1Q76.4 64.4 90.8 82"/></g>
+              <g><path class="rabiola" d="M73 57.1C67.8 68.3 47.3 73.6 56.5 89.5"/><path class="lacos g-terceiro" d="M65.4 66.1L62 64.7L64.5 62.5ZM65.4 66.1L66.5 69.9L69 67.7ZM56 75.7L51.9 75.2L53.7 72.3ZM56 75.7L57.8 78.7L59.5 75.9ZM56 88.5L53.9 91.5L52.3 88.6ZM56 88.5L60 88.3L58.4 85.4Z"/><use href="#pipa-b" class="pipa g-terceiro" transform="translate(70 30) rotate(-5) scale(0.440)"/></g>
+              </g>
+              </svg>
+            </div>
+            <b>Terceiro Setor</b><small>2 organizações</small>
+            <span class="hexes"><i style="background:#C2185B"></i>#C2185B<i class="noite" style="--c:#E9608F"></i>#E9608F</span>
+          </figure>
+          <figure class="group">
+            <div class="sky fixo-dia">
+              <svg class="ceu-pipas" width="142" height="76" viewBox="0 0 142 76" aria-hidden="true">
+              <g>
+              <g><path class="linha" d="M69.8 33.1Q76 64.4 90.3 82"/></g>
+              <g><path class="rabiola" d="M67.8 58.5C73.1 69.7 42.1 75 51.3 90.9"/><path class="lacos g-partidos" d="M64.8 67.5L61.4 66.2L63.8 63.9ZM64.8 67.5L66.1 71.2L68.5 68.9ZM53.4 77.1L49.6 75.7L51.9 73.3ZM53.4 77.1L54.5 80.4L56.8 78ZM50.8 89.9L48.6 92.9L47.1 89.9ZM50.8 89.9L54.8 89.8L53.3 86.8Z"/><use href="#pipa-a" class="pipa g-partidos" transform="translate(70 30) rotate(4) scale(0.440)"/></g>
+              </g>
+              </svg>
+            </div>
+            <b>Partidos</b><small>2 organizações</small>
+            <span class="hexes"><i style="background:#5E6A71"></i>#5E6A71<i class="noite" style="--c:#9AA7AF"></i>#9AA7AF</span>
+          </figure>
+          <figure class="group">
+            <div class="sky fixo-dia">
+              <svg class="ceu-pipas" width="142" height="76" viewBox="0 0 142 76" aria-hidden="true">
+              <g>
+              <g><path class="linha" d="M70.2 33.1Q76.3 64.4 90.7 82"/></g>
+              <g><path class="rabiola" d="M71.8 58.1C66.5 69.3 46.1 74.6 55.3 90.4"/><path class="lacos g-outros" d="M64.2 67L60.7 65.7L63.3 63.5ZM64.2 67L65.3 70.9L67.8 68.6ZM54.8 76.7L50.7 76.2L52.5 73.3ZM54.8 76.7L56.6 79.7L58.3 76.8ZM54.8 89.5L52.7 92.5L51.1 89.6ZM54.8 89.5L58.8 89.3L57.2 86.4Z"/><use href="#pipa-c" class="pipa g-outros" transform="translate(70 30) rotate(-3) scale(0.440)"/></g>
+              </g>
+              </svg>
+            </div>
+            <b>Outros</b><small>2 organizações</small>
+            <span class="hexes"><i style="background:#7A4E2D"></i>#7A4E2D<i class="noite" style="--c:#B98A66"></i>#B98A66</span>
+          </figure>
+          <figure class="group">
+            <div class="sky fixo-dia">
+              <svg class="ceu-pipas" width="142" height="76" viewBox="0 0 142 76" aria-hidden="true">
+              <g>
+              <g><path class="linha" d="M69.7 33.1Q75.9 64.4 90.3 82"/></g>
+              <g><path class="rabiola" d="M68.3 57.2C73.6 68.5 42.5 73.7 51.8 89.6"/><path class="lacos g-orgaos" d="M65.3 66.2L61.8 64.9L64.2 62.6ZM65.3 66.2L66.6 69.9L69 67.6ZM53.9 75.8L50 74.4L52.3 72ZM53.9 75.8L55 79.1L57.3 76.7ZM51.3 88.6L49.1 91.6L47.6 88.6ZM51.3 88.6L55.2 88.5L53.8 85.5Z"/><use href="#pipa-b" class="pipa g-orgaos" transform="translate(70 30) rotate(5) scale(0.440)"/></g>
+              </g>
+              </svg>
+            </div>
+            <b>Órgãos do Estado</b><small>1 organização</small>
+            <span class="hexes"><i style="background:#C25700"></i>#C25700<i class="noite" style="--c:#E8873A"></i>#E8873A</span>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>De dia, pipas; de noite, estrelas</h2>
+      <p class="intro">A Início do celular às 7:30 e às 21:40, em tamanho real: de dia, oito pipas, uma por grupo; de noite, as 22 organizações acendem, ligadas por grupo.</p>
+      <div class="daynight">
+        <figure class="tile fixo-dia">
+          <div class="sky">
+            <svg class="astro astro--sol" viewBox="0 0 120 120" aria-hidden="true"><use href="#astro"/></svg>
+            <svg class="ceu-pipas" width="390" height="286" viewBox="0 0 390 286" aria-hidden="true">
+            <g>
+            <g><path class="linha linha--longe" d="M51.9 262.9Q55.8 282.8 65 294"/><path class="linha linha--longe" d="M247.9 81Q263.9 217.3 301.2 294"/><path class="linha linha--longe" d="M122.1 269Q125.2 285 132.6 294"/><path class="linha linha--longe" d="M192.2 259.5Q196.5 281.6 206.7 294"/><path class="linha" d="M311.8 241.8Q318.4 275.2 333.8 294"/><path class="linha" d="M236.2 208.8Q246.9 263.3 272 294"/><path class="linha" d="M363.5 199.2Q375.4 259.9 403.3 294"/><path class="linha" d="M292.6 138.7Q312.1 238.1 357.8 294"/></g>
+            <g><path class="rabiola" d="M51.1 270.4C52.2 272.6 46 273.7 47.9 276.8"/><use href="#pipa-longe" class="pipa pipa--longe g-partidos" transform="translate(52 262) rotate(6) scale(0.130)"/></g>
+            <g><path class="rabiola" d="M247.3 89.7C248.8 92.8 240.3 94.2 242.8 98.5"/><use href="#pipa-longe" class="pipa pipa--longe g-outros" transform="translate(248 80) rotate(4) scale(0.150)"/></g>
+            <g><path class="rabiola" d="M122.8 277.7C124.3 280.8 115.8 282.2 118.3 286.5"/><use href="#pipa-longe" class="pipa pipa--longe g-orgaos" transform="translate(122 268) rotate(-5) scale(0.150)"/></g>
+            <g><path class="rabiola" d="M193.7 270.9C195.7 275.2 183.8 277.2 187.4 283.3"/><use href="#pipa-b" class="pipa pipa--longe g-academia" transform="translate(192 258) rotate(-6) scale(0.210)"/></g>
+            <g><path class="rabiola" d="M310.4 256.8C313.3 263 296.2 265.9 301.3 274.7"/><path class="lacos g-terceiro" d="M308.8 261.8L306.7 261L308.2 259.7ZM308.8 261.8L309.5 264L311 262.6ZM301 274.1L299.5 276L298.6 274.2ZM301 274.1L303.1 274.2L302.2 272.5Z"/><use href="#pipa-a" class="pipa pipa--meio g-terceiro" transform="translate(312 240) rotate(5) scale(0.260)"/></g>
+            <g><path class="rabiola" d="M238.1 231.5C233 242.4 213.1 247.5 222.1 262.9"/><path class="lacos g-movimentos" d="M230.7 240.2L227.6 238.9L229.9 236.9ZM230.7 240.2L231.7 243.6L234 241.6ZM224.1 246.2L220.6 245.1L222.7 242.8ZM224.1 246.2L225.1 249.3L227.2 247ZM220.1 253.1L216.8 253.9L217.5 251ZM220.1 253.1L222.9 255.4L223.6 252.4ZM221.6 262L219.3 264.9L217.9 262.2ZM221.6 262L224.8 262L223.4 259.3Z"/><use href="#pipa-c" class="pipa g-movimentos" transform="translate(236 206) rotate(-4) scale(0.400)"/></g>
+            <g><path class="rabiola" d="M360.2 224.3C366.5 237.6 329.7 243.8 340.7 262.6"/><path class="lacos g-rural" d="M356.7 234.9L353 233.6L355.6 231.2ZM356.7 234.9L358 238.8L360.6 236.4ZM347.6 242.3L343.7 240.4L346.5 238.1ZM347.6 242.3L348.2 245.9L351 243.7ZM339.9 250.7L336 250.7L337.6 247.6ZM339.9 250.7L342.5 254L344.1 250.9ZM340.1 261.5L337.3 264.8L335.8 261.7ZM340.1 261.5L343.7 261.6L342.2 258.5Z"/><use href="#pipa-b" class="pipa g-rural" transform="translate(364 196) rotate(9) scale(0.460)"/></g>
+            <g><path class="rabiola" d="M297.1 177.9C305.3 195.2 257.3 203.4 271.6 227.9"/><path class="lacos g-sindicatos" d="M292.5 191.7L287.1 189.8L290.9 186.2ZM292.5 191.7L294.5 197.5L298.2 194ZM280.6 201.4L275 198.5L279 195.3ZM280.6 201.4L281.6 206.7L285.6 203.4ZM270.6 212.4L264.9 212.3L267.3 207.7ZM270.6 212.4L274.4 217.2L276.8 212.6ZM270.8 226.4L266.8 231.3L264.5 226.7ZM270.8 226.4L276.2 226.6L273.9 222Z"/><use href="#pipa-a" class="pipa g-sindicatos" transform="translate(292 134) rotate(-7) scale(0.680)"/></g>
+            </g>
+            </svg>
+            <div class="status-bar">
+              <span class="status-bar__time">7:30</span>
+              <span class="status-bar__icons"><svg class="icon"><use href="assets/icons.svg#signal"/></svg><svg class="icon"><use href="assets/icons.svg#wifi"/></svg><svg class="icon"><use href="assets/icons.svg#battery-full"/></svg></span>
+            </div>
+            <div class="top-bar">
+              <span class="brand"><svg class="nos-mark" role="img" aria-label="NOS"><use href="assets/icons.svg#marca-nos"/></svg><span class="brand__place">Dourados</span></span>
+              <span class="icon-button"><svg class="icon"><use href="assets/icons.svg#search"/></svg></span>
+            </div>
+            <div class="hello">
+              <p class="hello__title">Bom dia,<br>Dourados</p>
+              <p class="hello__date">Terça, 27 de outubro</p>
+              <span class="sky-link">22 organizações<svg class="icon"><use href="assets/icons.svg#arrow-right"/></svg></span>
+            </div>
+          </div>
+          <div class="faixa" aria-hidden="true"></div>
+        </figure>
+        <figure class="tile fixo-noite">
+          <div class="sky">
+            <svg class="astro astro--lua" viewBox="0 0 120 120" aria-hidden="true"><use href="#astro"/></svg>
+            <svg class="ceu-pipas" width="390" height="286" viewBox="0 0 390 286" aria-hidden="true">
+            <g>
+            <circle class="estrela-fundo" cx="196" cy="22" r="1"/>
+            <circle class="estrela-fundo" cx="288" cy="56" r="0.9"/>
+            <circle class="estrela-fundo" cx="378" cy="128" r="0.9"/>
+            <circle class="estrela-fundo" cx="140" cy="98" r="0.8"/>
+            <path class="constelacao g-sindicatos" d="M256 110L292 134L346 112"/>
+            <path class="constelacao g-rural" d="M380 152L346 166L364 196L388 204L378 232L336 222"/>
+            <path class="constelacao g-movimentos" d="M258 182L236 206L258 232M236 206L210 236"/>
+            <path class="constelacao g-academia" d="M192 258L222 274"/>
+            <path class="constelacao g-terceiro" d="M312 240L284 258"/>
+            <path class="constelacao g-partidos" d="M52 262L28 276"/>
+            <path class="constelacao g-outros" d="M212 66L248 80"/>
+            <circle class="estrela g-sindicatos" cx="256" cy="110" r="2.1"/>
+            <circle class="estrela g-sindicatos" cx="346" cy="112" r="2.1"/>
+            <circle class="estrela g-rural" cx="380" cy="152" r="1.8"/>
+            <circle class="estrela g-rural" cx="346" cy="166" r="1.6"/>
+            <circle class="estrela g-rural" cx="388" cy="204" r="1.4"/>
+            <circle class="estrela g-rural" cx="378" cy="232" r="1.6"/>
+            <circle class="estrela g-rural" cx="336" cy="222" r="1.7"/>
+            <circle class="estrela g-movimentos" cx="258" cy="182" r="1.8"/>
+            <circle class="estrela g-movimentos" cx="210" cy="236" r="1.6"/>
+            <circle class="estrela g-movimentos" cx="258" cy="232" r="1.5"/>
+            <circle class="estrela g-academia" cx="222" cy="274" r="1.5"/>
+            <circle class="estrela g-terceiro" cx="284" cy="258" r="1.5"/>
+            <circle class="estrela g-partidos" cx="28" cy="276" r="1.4"/>
+            <circle class="estrela g-outros" cx="212" cy="66" r="1.4"/>
+            <circle class="estrela estrela--halo g-sindicatos" cx="292" cy="134" r="6.7"/>
+            <circle class="estrela g-sindicatos" cx="292" cy="134" r="2.9"/>
+            <circle class="estrela estrela--halo g-rural" cx="364" cy="196" r="6.7"/>
+            <circle class="estrela g-rural" cx="364" cy="196" r="2.9"/>
+            <circle class="estrela estrela--halo g-movimentos" cx="236" cy="206" r="6.7"/>
+            <circle class="estrela g-movimentos" cx="236" cy="206" r="2.9"/>
+            <circle class="estrela estrela--halo g-terceiro" cx="312" cy="240" r="5.1"/>
+            <circle class="estrela g-terceiro" cx="312" cy="240" r="2.2"/>
+            <circle class="estrela g-academia" cx="192" cy="258" r="1.6"/>
+            <circle class="estrela g-outros" cx="248" cy="80" r="1.6"/>
+            <circle class="estrela g-orgaos" cx="122" cy="268" r="1.6"/>
+            <circle class="estrela g-partidos" cx="52" cy="262" r="1.6"/>
+            </g>
+            </svg>
+            <div class="status-bar">
+              <span class="status-bar__time">21:40</span>
+              <span class="status-bar__icons"><svg class="icon"><use href="assets/icons.svg#signal"/></svg><svg class="icon"><use href="assets/icons.svg#wifi"/></svg><svg class="icon"><use href="assets/icons.svg#battery-full"/></svg></span>
+            </div>
+            <div class="top-bar">
+              <span class="brand"><svg class="nos-mark" role="img" aria-label="NOS"><use href="assets/icons.svg#marca-nos"/></svg><span class="brand__place">Dourados</span></span>
+              <span class="icon-button"><svg class="icon"><use href="assets/icons.svg#search"/></svg></span>
+            </div>
+            <div class="hello">
+              <p class="hello__title">Boa noite,<br>Dourados</p>
+              <p class="hello__date">Terça, 27 de outubro</p>
+              <span class="sky-link">22 organizações<svg class="icon"><use href="assets/icons.svg#arrow-right"/></svg></span>
+            </div>
+          </div>
+          <div class="faixa" aria-hidden="true"></div>
+        </figure>
+        <div class="rule">
+          <h3>Quantas pipas voam</h3>
+          <p><b>No celular, 8:</b> uma por grupo, a de novidade mais recente (agenda, mutirão ou notícia).</p>
+          <p><b>No desktop, até 24:</b> as de novidade na semana voam perto e com o nome, que abre a organização; as outras, longe.</p>
+          <p><b>De noite, até 40 estrelas</b>, as de novidade no mês; só as do mesmo grupo se ligam.</p>
+          <p><b>Com 60 organizações</b> o céu não cresce: a regra escolhe, e ninguém some, porque “22 organizações” leva à lista toda.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="row3">
+      <section class="panel card">
+        <h3>O que mudou do Céu, e por quê</h3>
+        <ul>
+          <li><b>O céu ganhou gente:</b> as organizações são as pipas e as estrelas. Soltar pipa é coisa de bairro, de todo mundo.</li>
+          <li><b>Manhã de vento</b> no lugar do amanhecer: um azul mais limpo, para as oito cores aparecerem.</li>
+          <li><b>As estrelas</b>, que eram enfeite, viraram a rede.</li>
+          <li><b>Mais céu</b> (286px no celular, 288 no desktop) e portas mais justas.</li>
+          <li><b>Na Agenda</b> voam só as organizações da lista.</li>
+        </ul>
+      </section>
+      <section class="panel card">
+        <h3>Cor e letra</h3>
+        <div class="bands">
+          <div>
+            <h4>Manhã · claro</h4>
+            <div class="bands-col">
+              <span><i style="background:#AED4F0"></i>#AED4F0</span>
+              <span><i style="background:#C0DDF2"></i>#C0DDF2</span>
+              <span><i style="background:#D3E7F3"></i>#D3E7F3</span>
+              <span><i style="background:#E7EFEF"></i>#E7EFEF</span>
+              <span><i style="background:#F8E5B3"></i>#F8E5B3</span>
+            </div>
+          </div>
+          <div>
+            <h4>Noite · escuro</h4>
+            <div class="bands-col">
+              <span><i style="background:#141A3D"></i>#141A3D</span>
+              <span><i style="background:#1B2350"></i>#1B2350</span>
+              <span><i style="background:#232D61"></i>#232D61</span>
+              <span><i style="background:#2D3870"></i>#2D3870</span>
+            </div>
+          </div>
+        </div>
+        <div class="lights">
+          <span><i style="background:#F2B21B"></i>Sol #F2B21B</span>
+          <span><i style="background:#EFE3C4"></i>Lua #EFE3C4</span>
+          <span><i style="background:#1E2230"></i>Jenipapo #1E2230</span>
+        </div>
+        <p>Pipas nas cores dos grupos (as dos pontos); o lado do sol leva 38% de branco.</p>
+        <p class="type-2"><b>Bricolage Grotesque</b>, a voz do NOS; <b>Inter</b>, as organizações e os nomes das pipas.</p>
+      </section>
+      <section class="panel card risk">
+        <h3>Risco</h3>
+        <p>O céu fica mais cheio e disputa o olhar com a saudação e a próxima atividade: nenhuma pipa passa sobre o texto, e a linha é fina.</p>
+        <p>Com 60 organizações o céu lotaria; a regra segura 8 pipas no celular, 24 no desktop e 40 estrelas.</p>
+        <p>Pipa pode parecer coisa de criança: o traço tem de ficar de livro ilustrado, nunca de figurinha.</p>
+      </section>
+    </div>
+  </div>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="astro" viewBox="0 0 120 120"><circle cx="58" cy="60" r="49" style="fill: var(--astro-fill)"/><path vector-effect="non-scaling-stroke" style="fill: none; stroke: var(--hand); stroke-width: var(--loop-w, 3px); stroke-linecap: round; stroke-linejoin: round" d="M78 9C56 4 22 12 12 38C3 64 20 104 56 108C92 112 116 88 112 56C109 28 92 7 66 5.5C54 5 40 10 28 19"/></symbol>
+  <defs>
+    <g id="pipa-a"><path style="fill: var(--k)" d="M-0.4 65C-10.9 42.4 -23.9 21.1 -35.5 -1C-24.5 -13.4 -13.6 -26 0.6 -35Z"/><path style="fill: var(--k-luz)" d="M0.6 -35C14.5 -26.3 25.1 -14 36.5 -2.5C24.5 20.1 13.5 43.4 -0.4 65Z"/><path vector-effect="non-scaling-stroke" style="fill: none; stroke: var(--pipa-tinta); stroke-width: var(--vareta); stroke-linecap: round; opacity: .75" d="M0.8 -37.6L-0.5 66.8M-37.3 -0.5Q0.5 -12.5 38.3 -2.8"/><path vector-effect="non-scaling-stroke" style="fill: none; stroke: var(--pipa-tinta); stroke-width: var(--contorno); stroke-linecap: round; stroke-linejoin: round" d="M7 -33.4C18 -24.2 29.9 -16 39 -4.6C28.1 19.9 13.8 42.7 1.8 66.6C-10.3 43.4 -20.6 19.3 -33.4 -3.6C-23.8 -16.6 -10.6 -25.7 1.5 -36Q7.9 -32.5 16.7 -27.7"/></g>
+        <g id="pipa-b"><path style="fill: var(--k)" d="M1.5 62C-13.3 41.5 -25.2 19.2 -38 -2.5C-26.2 -12.4 -14.9 -22.9 -1 -30Z"/><path style="fill: var(--k-luz)" d="M-1 -30C13.8 -21.1 28 -11.5 40 1C26.2 20.7 14.8 42 1.5 62Z"/><path vector-effect="non-scaling-stroke" style="fill: none; stroke: var(--pipa-tinta); stroke-width: var(--vareta); stroke-linecap: round; opacity: .75" d="M-0.8 -32.6L1.4 63.8M-39.8 -2Q1 -12.5 41.8 0.7"/><path vector-effect="non-scaling-stroke" style="fill: none; stroke: var(--pipa-tinta); stroke-width: var(--contorno); stroke-linecap: round; stroke-linejoin: round" d="M5.8 -28.7C19.7 -21.9 30.1 -10.6 41.9 -1.2C29.4 20.6 14.8 41.2 3.2 63.6C-10.2 40.9 -24.5 18.8 -36.2 -4.9C-25.5 -15.5 -12.6 -22.9 -0.2 -31.1Q6.9 -27.9 16.7 -23.4"/></g>
+        <g id="pipa-c"><path style="fill: var(--k)" d="M0.8 64C-10.3 41.6 -22.3 19.6 -32 -3.5C-23.3 -16.8 -11.4 -27.2 0 -38Z"/><path style="fill: var(--k-luz)" d="M0 -38C12.6 -29.5 21.6 -17.6 31 -6C22.9 18.2 11.1 40.8 0.8 64Z"/><path vector-effect="non-scaling-stroke" style="fill: none; stroke: var(--pipa-tinta); stroke-width: var(--vareta); stroke-linecap: round; opacity: .75" d="M0.2 -40.6L0.7 65.8M-33.8 -3Q-0.5 -16 32.8 -6.3"/><path vector-effect="non-scaling-stroke" style="fill: none; stroke: var(--pipa-tinta); stroke-width: var(--contorno); stroke-linecap: round; stroke-linejoin: round" d="M6.1 -35.9C16.1 -27.3 26.5 -19 33.6 -7.6C23.5 16.8 14.9 41.8 2.9 65.4C-9.4 42.5 -18.4 18.1 -29.9 -5.1C-20 -16.6 -11 -29.1 1.2 -38.5Q6.8 -35.1 14.6 -30.4"/></g>
+        <g id="pipa-longe"><path style="fill: var(--k)" d="M0 65C-11.9 43 -23.7 20.9 -35 -1.5C-24.6 -14.2 -12.3 -24.8 0.4 -35Z"/><path style="fill: var(--k-luz)" d="M0.4 -35C13.5 -25.3 24.9 -13.9 36 -2C24.8 20.8 12.5 43 0 65Z"/><path vector-effect="non-scaling-stroke" style="fill: none; stroke: var(--pipa-tinta); stroke-width: var(--contorno); stroke-linejoin: round; opacity: .9" d="M0.4 -35L36 -2L0 65L-35 -1.5Z"/></g>
+  </defs>
+</svg>
+</body>
+</html>

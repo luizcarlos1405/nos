@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Céu · Pipas · Celular · Início</title>
+<script>if (new URLSearchParams(location.search).get('tema') === 'escuro') document.documentElement.dataset.tema = 'escuro';</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Inter:opsz,wght@14..32,400..700&display=swap">
+<link rel="stylesheet" href="assets/design.css">
+<link rel="stylesheet" href="assets/direcao-ceu-pipas.css">
+<style>
+/* Início: the sky at this hour holds the bars, the greeting and the network: eight pipas by day (one
+   for each group), their lines tied down behind the band; by night the whole network as stars, joined
+   by group. The sun rises behind the band (the moon at night). Below the horizon, Céu as it is: the
+   next activity rests on the band, then a door to each section. The sky is 292px (Céu's was 237): the
+   doors' padding gives back the room. */
+.sky--home { --h5: 14px; --h4: 30px; --h3: 52px; --h2: 84px; height: 286px; }
+.hello { padding: 4px 16px 0; }
+.hello__title { font-family: var(--font-display); font-size: 40px; line-height: 40px; font-weight: 700; letter-spacing: -0.02em; }
+.hello__date { margin-top: 8px; font-size: 15px; line-height: 20px; font-weight: 500; color: var(--sky-ink-soft); }
+.sky--home .astro--sol { right: 6px; bottom: -64px; width: 124px; height: 124px; --loop-w: 3.5px; }
+.sky--home .astro--lua { right: 26px; bottom: -34px; width: 70px; height: 70px; --loop-w: 2.5px; }
+
+/* The link to Organizações, on the sky beside the pipas: 20px of text in a 44px tap area. */
+.sky-link { position: relative; display: inline-flex; align-items: center; gap: 4px; margin-top: 6px; font-size: 15px; line-height: 20px; font-weight: 600; color: var(--sky-ink); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px; text-decoration-color: color-mix(in srgb, var(--sky-ink) 40%, transparent); }
+.sky-link::after { content: ''; position: absolute; inset: -12px -8px; }
+.sky-link .icon { width: 18px; height: 18px; }
+.sky-link:hover { text-decoration-color: currentColor; }
+
+.faixa { --faixa-h: 32px; }
+
+/* The screen lets the next card rise onto the band; the bottom navigation stays on top. */
+.screen { overflow: visible; }
+
+/* The next activity, resting on the horizon (as in Céu). */
+.next { position: relative; z-index: 1; margin: -12px 16px 0; padding: 9px 14px 12px 16px; }
+.next__head { display: flex; align-items: center; gap: 8px; min-height: 44px; }
+.next__when { display: flex; flex: 1 1 auto; align-items: center; gap: 14px; }
+.next__when .circled { margin-left: 8px; font-size: 19px; line-height: 24px; }
+.next__title { margin-top: 4px; font-size: 17px; line-height: 22px; font-weight: 600; letter-spacing: -0.01em; text-wrap: pretty; }
+.next__row { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 8px; }
+.next__row .meta { align-items: center; }
+.next__row .meta .dot { margin: 0 4px; }
+.next__row .meta .icon { margin-top: 0; }
+.next__place { margin-top: 4px; }
+
+/* The doors: two columns, each in its section's tint; a little tighter than Céu's. */
+.doors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 8px 16px 0; }
+.door-tile { gap: 3px; padding: 10px 14px 11px; }
+.door-tile__name { font-size: 18px; line-height: 22px; }
+.door-tile__line { line-height: 18px; }
+</style>
+</head>
+<body>
+<!-- Céu · Pipas · Início (phone). The sky at this hour (light theme: a windy morning, dark theme: night) holds the
+     status bar, the top bar and the greeting, and the network: by day eight pipas, one for each group, drawn by the
+     hand of the urucum loop, their lines tied down behind the band (provisional art), the horizon; by night the
+     same places hold stars of the same colours, and the other organizations come out too, joined by group. The
+     link "22 organizações" opens Organizações. The sun rises behind the band (the moon at night). Then Céu: the
+     next activity on the band, its date circled in urucum, and the six doors. -->
+<div class="phone">
+  <div class="sky sky--home">
+    <svg class="astro astro--sol only-claro" viewBox="0 0 120 120" aria-hidden="true"><use href="#astro"/></svg>
+    <svg class="astro astro--lua only-escuro" viewBox="0 0 120 120" aria-hidden="true"><use href="#astro"/></svg>
+    <svg class="ceu-pipas" width="390" height="286" viewBox="0 0 390 286" aria-hidden="true">
+    <g class="only-claro">
+    <g><path class="linha linha--longe" d="M51.9 262.9Q55.8 282.8 65 294"/><path class="linha linha--longe" d="M247.9 81Q263.9 217.3 301.2 294"/><path class="linha linha--longe" d="M122.1 269Q125.2 285 132.6 294"/><path class="linha linha--longe" d="M192.2 259.5Q196.5 281.6 206.7 294"/><path class="linha" d="M311.8 241.8Q318.4 275.2 333.8 294"/><path class="linha" d="M236.2 208.8Q246.9 263.3 272 294"/><path class="linha" d="M363.5 199.2Q375.4 259.9 403.3 294"/><path class="linha" d="M292.6 138.7Q312.1 238.1 357.8 294"/></g>
+    <g><path class="rabiola" d="M51.1 270.4C52.2 272.6 46 273.7 47.9 276.8"/><use href="#pipa-longe" class="pipa pipa--longe g-partidos" transform="translate(52 262) rotate(6) scale(0.130)"/></g>
+    <g><path class="rabiola" d="M247.3 89.7C248.8 92.8 240.3 94.2 242.8 98.5"/><use href="#pipa-longe" class="pipa pipa--longe g-outros" transform="translate(248 80) rotate(4) scale(0.150)"/></g>
+    <g><path class="rabiola" d="M122.8 277.7C124.3 280.8 115.8 282.2 118.3 286.5"/><use href="#pipa-longe" class="pipa pipa--longe g-orgaos" transform="translate(122 268) rotate(-5) scale(0.150)"/></g>
+    <g><path class="rabiola" d="M193.7 270.9C195.7 275.2 183.8 277.2 187.4 283.3"/><use href="#pipa-b" class="pipa pipa--longe g-academia" transform="translate(192 258) rotate(-6) scale(0.210)"/></g>
+    <g><path class="rabiola" d="M310.4 256.8C313.3 263 296.2 265.9 301.3 274.7"/><path class="lacos g-terceiro" d="M308.8 261.8L306.7 261L308.2 259.7ZM308.8 261.8L309.5 264L311 262.6ZM301 274.1L299.5 276L298.6 274.2ZM301 274.1L303.1 274.2L302.2 272.5Z"/><use href="#pipa-a" class="pipa pipa--meio g-terceiro" transform="translate(312 240) rotate(5) scale(0.260)"/></g>
+    <g><path class="rabiola" d="M238.1 231.5C233 242.4 213.1 247.5 222.1 262.9"/><path class="lacos g-movimentos" d="M230.7 240.2L227.6 238.9L229.9 236.9ZM230.7 240.2L231.7 243.6L234 241.6ZM224.1 246.2L220.6 245.1L222.7 242.8ZM224.1 246.2L225.1 249.3L227.2 247ZM220.1 253.1L216.8 253.9L217.5 251ZM220.1 253.1L222.9 255.4L223.6 252.4ZM221.6 262L219.3 264.9L217.9 262.2ZM221.6 262L224.8 262L223.4 259.3Z"/><use href="#pipa-c" class="pipa g-movimentos" transform="translate(236 206) rotate(-4) scale(0.400)"/></g>
+    <g><path class="rabiola" d="M360.2 224.3C366.5 237.6 329.7 243.8 340.7 262.6"/><path class="lacos g-rural" d="M356.7 234.9L353 233.6L355.6 231.2ZM356.7 234.9L358 238.8L360.6 236.4ZM347.6 242.3L343.7 240.4L346.5 238.1ZM347.6 242.3L348.2 245.9L351 243.7ZM339.9 250.7L336 250.7L337.6 247.6ZM339.9 250.7L342.5 254L344.1 250.9ZM340.1 261.5L337.3 264.8L335.8 261.7ZM340.1 261.5L343.7 261.6L342.2 258.5Z"/><use href="#pipa-b" class="pipa g-rural" transform="translate(364 196) rotate(9) scale(0.460)"/></g>
+    <g><path class="rabiola" d="M297.1 177.9C305.3 195.2 257.3 203.4 271.6 227.9"/><path class="lacos g-sindicatos" d="M292.5 191.7L287.1 189.8L290.9 186.2ZM292.5 191.7L294.5 197.5L298.2 194ZM280.6 201.4L275 198.5L279 195.3ZM280.6 201.4L281.6 206.7L285.6 203.4ZM270.6 212.4L264.9 212.3L267.3 207.7ZM270.6 212.4L274.4 217.2L276.8 212.6ZM270.8 226.4L266.8 231.3L264.5 226.7ZM270.8 226.4L276.2 226.6L273.9 222Z"/><use href="#pipa-a" class="pipa g-sindicatos" transform="translate(292 134) rotate(-7) scale(0.680)"/></g>
+    </g>
+    <g class="only-escuro">
+    <circle class="estrela-fundo" cx="196" cy="22" r="1"/>
+    <circle class="estrela-fundo" cx="288" cy="56" r="0.9"/>
+    <circle class="estrela-fundo" cx="378" cy="128" r="0.9"/>
+    <circle class="estrela-fundo" cx="140" cy="98" r="0.8"/>
+    <path class="constelacao g-sindicatos" d="M256 110L292 134L346 112"/>
+    <path class="constelacao g-rural" d="M380 152L346 166L364 196L388 204L378 232L336 222"/>
+    <path class="constelacao g-movimentos" d="M258 182L236 206L258 232M236 206L210 236"/>
+    <path class="constelacao g-academia" d="M192 258L222 274"/>
+    <path class="constelacao g-terceiro" d="M312 240L284 258"/>
+    <path class="constelacao g-partidos" d="M52 262L28 276"/>
+    <path class="constelacao g-outros" d="M212 66L248 80"/>
+    <circle class="estrela g-sindicatos" cx="256" cy="110" r="2.1"/>
+    <circle class="estrela g-sindicatos" cx="346" cy="112" r="2.1"/>
+    <circle class="estrela g-rural" cx="380" cy="152" r="1.8"/>
+    <circle class="estrela g-rural" cx="346" cy="166" r="1.6"/>
+    <circle class="estrela g-rural" cx="388" cy="204" r="1.4"/>
+    <circle class="estrela g-rural" cx="378" cy="232" r="1.6"/>
+    <circle class="estrela g-rural" cx="336" cy="222" r="1.7"/>
+    <circle class="estrela g-movimentos" cx="258" cy="182" r="1.8"/>
+    <circle class="estrela g-movimentos" cx="210" cy="236" r="1.6"/>
+    <circle class="estrela g-movimentos" cx="258" cy="232" r="1.5"/>
+    <circle class="estrela g-academia" cx="222" cy="274" r="1.5"/>
+    <circle class="estrela g-terceiro" cx="284" cy="258" r="1.5"/>
+    <circle class="estrela g-partidos" cx="28" cy="276" r="1.4"/>
+    <circle class="estrela g-outros" cx="212" cy="66" r="1.4"/>
+    <circle class="estrela estrela--halo g-sindicatos" cx="292" cy="134" r="6.7"/>
+    <circle class="estrela g-sindicatos" cx="292" cy="134" r="2.9"/>
+    <circle class="estrela estrela--halo g-rural" cx="364" cy="196" r="6.7"/>
+    <circle class="estrela g-rural" cx="364" cy="196" r="2.9"/>
+    <circle class="estrela estrela--halo g-movimentos" cx="236" cy="206" r="6.7"/>
+    <circle class="estrela g-movimentos" cx="236" cy="206" r="2.9"/>
+    <circle class="estrela estrela--halo g-terceiro" cx="312" cy="240" r="5.1"/>
+    <circle class="estrela g-terceiro" cx="312" cy="240" r="2.2"/>
+    <circle class="estrela g-academia" cx="192" cy="258" r="1.6"/>
+    <circle class="estrela g-outros" cx="248" cy="80" r="1.6"/>
+    <circle class="estrela g-orgaos" cx="122" cy="268" r="1.6"/>
+    <circle class="estrela g-partidos" cx="52" cy="262" r="1.6"/>
+    </g>
+    </svg>
+
+    <div class="status-bar">
+      <span class="status-bar__time"><span class="only-claro">7:30</span><span class="only-escuro">21:40</span></span>
+      <span class="status-bar__icons">
+        <svg class="icon"><use href="assets/icons.svg#signal"/></svg>
+        <svg class="icon"><use href="assets/icons.svg#wifi"/></svg>
+        <svg class="icon"><use href="assets/icons.svg#battery-full"/></svg>
+      </span>
+    </div>
+
+    <header class="top-bar">
+      <a class="brand" href="#" aria-current="page">
+        <svg class="nos-mark" role="img" aria-label="NOS"><use href="assets/icons.svg#marca-nos"/></svg>
+        <span class="brand__place">Dourados</span>
+      </a>
+      <button class="icon-button" type="button" aria-label="Buscar"><svg class="icon"><use href="assets/icons.svg#search"/></svg></button>
+    </header>
+
+    <div class="hello">
+      <h1 class="hello__title"><span class="only-claro">Bom dia,<br>Dourados</span><span class="only-escuro">Boa noite,<br>Dourados</span></h1>
+      <p class="hello__date">Terça, 27 de outubro</p>
+      <a class="sky-link" href="#organizacoes">22 organizações<svg class="icon"><use href="assets/icons.svg#arrow-right"/></svg></a>
+    </div>
+  </div>
+
+  <div class="faixa" role="img" aria-label="Faixa tecida (arte provisória)"></div>
+
+  <main class="screen">
+    <article class="next card" aria-label="A próxima atividade">
+      <div class="next__head">
+        <p class="next__when"><span class="circled date-big">sáb 31/10<svg class="hand" aria-hidden="true"><use href="#hand-a"/></svg></span><span class="next-label">a próxima</span></p>
+        <button class="share-button" type="button" aria-label="Compartilhar no WhatsApp"><svg class="icon"><use href="assets/icons.svg#share-2"/></svg></button>
+      </div>
+      <h2 class="next__title">Caminhada Ecológica de Dourados</h2>
+      <div class="next__row">
+        <p class="meta"><svg class="icon"><use href="assets/icons.svg#clock-3"/></svg>Horário a confirmar</p>
+        <p class="meta"><span class="dot g-sindicatos" title="Sindicatos"></span><b>SINTEF</b></p>
+      </div>
+      <p class="meta next__place"><svg class="icon"><use href="assets/icons.svg#map-pin"/></svg><span>AGECOLD (largada e exposição) e Parque Arnulpho Fioravante</span></p>
+    </article>
+
+    <nav class="doors" aria-label="Seções">
+      <a class="door-tile s-agenda" href="#agenda">
+        <span class="door-tile__head"><svg class="icon"><use href="assets/icons.svg#calendar-days"/></svg><span class="door-tile__name">Agenda</span></span>
+        <span class="door-tile__line">4 atividades até 20/11</span>
+      </a>
+      <a class="door-tile s-mutiroes" href="#mutiroes">
+        <span class="door-tile__head"><svg class="icon"><use href="assets/icons.svg#hand-heart"/></svg><span class="door-tile__name">Mutirões</span></span>
+        <span class="door-tile__line">Sementes crioulas e saúde nas aldeias</span>
+      </a>
+      <a class="door-tile s-noticias" href="#noticias">
+        <span class="door-tile__head"><svg class="icon"><use href="assets/icons.svg#newspaper"/></svg><span class="door-tile__name">Notícias</span></span>
+        <span class="door-tile__line">ADUF condena presença da PM em assembleia do SINTEF na UFGD</span>
+      </a>
+      <a class="door-tile s-mapa" href="#mapa">
+        <span class="door-tile__head"><svg class="icon"><use href="assets/icons.svg#map"/></svg><span class="door-tile__name">Mapa</span></span>
+        <span class="door-tile__line">Feira Afro na Praça Antônio João</span>
+      </a>
+      <a class="door-tile s-comercio" href="#comercio">
+        <span class="door-tile__head"><svg class="icon"><use href="assets/icons.svg#store"/></svg><span class="door-tile__name">Comércio</span></span>
+        <span class="door-tile__line">16 negócios, do pão ao eletricista</span>
+      </a>
+      <a class="door-tile s-orgs" href="#organizacoes">
+        <span class="door-tile__head"><svg class="icon"><use href="assets/icons.svg#users"/></svg><span class="door-tile__name">Organizações</span></span>
+        <span class="door-tile__line">22 organizações em 8 grupos</span>
+      </a>
+    </nav>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Principal">
+    <div class="bottom-nav__items">
+      <a class="nav-item is-active" href="#" aria-current="page"><span class="nav-item__icon"><svg class="icon"><use href="assets/icons.svg#house"/></svg></span>Início</a>
+      <a class="nav-item" href="#agenda"><span class="nav-item__icon"><svg class="icon"><use href="assets/icons.svg#calendar-days"/></svg></span>Agenda</a>
+      <a class="nav-item" href="#mutiroes"><span class="nav-item__icon"><svg class="icon"><use href="assets/icons.svg#hand-heart"/></svg></span>Mutirões</a>
+      <a class="nav-item" href="#comercio"><span class="nav-item__icon"><svg class="icon"><use href="assets/icons.svg#store"/></svg></span>Comércio</a>
+      <a class="nav-item" href="#mais"><span class="nav-item__icon"><svg class="icon"><use href="assets/icons.svg#ellipsis"/></svg></span>Mais</a>
+    </div>
+    <div class="home-indicator"></div>
+  </nav>
+</div>
+
+<!-- The hand marks (from D): loops circle the next one, the stroke underlines today. #astro is the same hand drawing
+     the sun or the moon: a disc (--astro-fill) and the urucum loop around it. The pipas (#pipa-a, -b, -c, and
+     #pipa-longe without sticks) are drawn by that hand too: two tones of the group's colour (--k, --k-luz), sticks
+     and an outline in jenipapo that runs past its start, a little off register. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="hand-a" viewBox="0 0 120 60" preserveAspectRatio="none"><path vector-effect="non-scaling-stroke" d="M84 7C62 2 28 4 12 15C1 23 2 41 22 50C42 59 88 58 108 46C122 37 119 17 98 9C84 4 66 4 47 9"/></symbol>
+  <symbol id="astro" viewBox="0 0 120 120"><circle cx="58" cy="60" r="49" style="fill: var(--astro-fill)"/><path vector-effect="non-scaling-stroke" style="fill: none; stroke: var(--hand); stroke-width: var(--loop-w, 3px); stroke-linecap: round; stroke-linejoin: round" d="M78 9C56 4 22 12 12 38C3 64 20 104 56 108C92 112 116 88 112 56C109 28 92 7 66 5.5C54 5 40 10 28 19"/></symbol>
+  <defs>
+    <g id="pipa-a"><path style="fill: var(--k)" d="M-0.4 65C-10.9 42.4 -23.9 21.1 -35.5 -1C-24.5 -13.4 -13.6 -26 0.6 -35Z"/><path style="fill: var(--k-luz)" d="M0.6 -35C14.5 -26.3 25.1 -14 36.5 -2.5C24.5 20.1 13.5 43.4 -0.4 65Z"/><path vector-effect="non-scaling-stroke" style="fill: none; stroke: var(--pipa-tinta); stroke-width: var(--vareta); stroke-linecap: round; opacity: .75" d="M0.8 -37.6L-0.5 66.8M-37.3 -0.5Q0.5 -12.5 38.3 -2.8"/><path vector-effect="non-scaling-stroke" style="fill: none; stroke: var(--pipa-tinta); stroke-width: var(--contorno); stroke-linecap: round; stroke-linejoin: round" d="M7 -33.4C18 -24.2 29.9 -16 39 -4.6C28.1 19.9 13.8 42.7 1.8 66.6C-10.3 43.4 -20.6 19.3 -33.4 -3.6C-23.8 -16.6 -10.6 -25.7 1.5 -36Q7.9 -32.5 16.7 -27.7"/></g>
+        <g id="pipa-b"><path style="fill: var(--k)" d="M1.5 62C-13.3 41.5 -25.2 19.2 -38 -2.5C-26.2 -12.4 -14.9 -22.9 -1 -30Z"/><path style="fill: var(--k-luz)" d="M-1 -30C13.8 -21.1 28 -11.5 40 1C26.2 20.7 14.8 42 1.5 62Z"/><path vector-effect="non-scaling-stroke" style="fill: none; stroke: var(--pipa-tinta); stroke-width: var(--vareta); stroke-linecap: round; opacity: .75" d="M-0.8 -32.6L1.4 63.8M-39.8 -2Q1 -12.5 41.8 0.7"/><path vector-effect="non-scaling-stroke" style="fill: none; stroke: var(--pipa-tinta); stroke-width: var(--contorno); stroke-linecap: round; stroke-linejoin: round" d="M5.8 -28.7C19.7 -21.9 30.1 -10.6 41.9 -1.2C29.4 20.6 14.8 41.2 3.2 63.6C-10.2 40.9 -24.5 18.8 -36.2 -4.9C-25.5 -15.5 -12.6 -22.9 -0.2 -31.1Q6.9 -27.9 16.7 -23.4"/></g>
+        <g id="pipa-c"><path style="fill: var(--k)" d="M0.8 64C-10.3 41.6 -22.3 19.6 -32 -3.5C-23.3 -16.8 -11.4 -27.2 0 -38Z"/><path style="fill: var(--k-luz)" d="M0 -38C12.6 -29.5 21.6 -17.6 31 -6C22.9 18.2 11.1 40.8 0.8 64Z"/><path vector-effect="non-scaling-stroke" style="fill: none; stroke: var(--pipa-tinta); stroke-width: var(--vareta); stroke-linecap: round; opacity: .75" d="M0.2 -40.6L0.7 65.8M-33.8 -3Q-0.5 -16 32.8 -6.3"/><path vector-effect="non-scaling-stroke" style="fill: none; stroke: var(--pipa-tinta); stroke-width: var(--contorno); stroke-linecap: round; stroke-linejoin: round" d="M6.1 -35.9C16.1 -27.3 26.5 -19 33.6 -7.6C23.5 16.8 14.9 41.8 2.9 65.4C-9.4 42.5 -18.4 18.1 -29.9 -5.1C-20 -16.6 -11 -29.1 1.2 -38.5Q6.8 -35.1 14.6 -30.4"/></g>
+        <g id="pipa-longe"><path style="fill: var(--k)" d="M0 65C-11.9 43 -23.7 20.9 -35 -1.5C-24.6 -14.2 -12.3 -24.8 0.4 -35Z"/><path style="fill: var(--k-luz)" d="M0.4 -35C13.5 -25.3 24.9 -13.9 36 -2C24.8 20.8 12.5 43 0 65Z"/><path vector-effect="non-scaling-stroke" style="fill: none; stroke: var(--pipa-tinta); stroke-width: var(--contorno); stroke-linejoin: round; opacity: .9" d="M0.4 -35L36 -2L0 65L-35 -1.5Z"/></g>
+  </defs>
+</svg>
+</body>
+</html>

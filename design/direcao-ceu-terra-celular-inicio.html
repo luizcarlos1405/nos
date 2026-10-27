@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Céu · Terra · Celular · Início</title>
+<script>if (new URLSearchParams(location.search).get('tema') === 'escuro') document.documentElement.dataset.tema = 'escuro';</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Inter:opsz,wght@14..32,400..700&display=swap">
+<link rel="stylesheet" href="assets/design.css">
+<link rel="stylesheet" href="assets/direcao-ceu-terra.css">
+<style>
+/* Início: the sky at this hour holds the bars and a heavier, larger greeting; a big sun rises behind the
+   band and runs off the right edge (at night the full moon rises there). Below the horizon, the land:
+   the next activity rests on the band, then a door to each section in its landscape colour. */
+.sky--home { --h5: 16px; --h4: 36px; --h3: 62px; --h2: 98px; }
+.sky--home .top-bar { height: 52px; }
+.hello { padding: 2px 16px 20px; }
+.hello__title { font-family: var(--font-display); font-size: 52px; line-height: 48px; font-weight: 800; letter-spacing: -0.03em; }
+.hello__date { margin-top: 10px; font-size: 15px; line-height: 20px; font-weight: 500; color: var(--sky-ink-soft); }
+/* The disc's centre sits off the artboard, 30px under the horizon: a big, gentle curve. */
+.sky--home .astro--sol { right: -203px; bottom: -213px; width: 367px; height: 367px; --loop-w: 5px; }
+.sky--home .astro--lua { right: 34px; top: 112px; width: 62px; height: 62px; --loop-w: 2.5px; } /* small and high: the moon isn't the sun */
+
+/* The screen lets the next card rise onto the band; the bottom navigation stays on top. */
+.screen { overflow: visible; }
+
+/* The next activity, resting on the horizon. */
+.next { position: relative; z-index: 1; margin: -14px 16px 0; padding: 10px 14px 13px 16px; }
+.next__head { display: flex; align-items: center; gap: 8px; min-height: 44px; }
+.next__when { display: flex; flex: 1 1 auto; align-items: center; gap: 14px; }
+.next__when .circled { margin-left: 8px; font-size: 20px; line-height: 24px; }
+.next__title { margin-top: 4px; font-size: 17px; line-height: 22px; font-weight: 600; letter-spacing: -0.01em; text-wrap: pretty; }
+.next__row { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 8px; }
+.next__row .meta { align-items: center; }
+.next__row .meta .dot { margin: 0 4px; }
+.next__row .meta .icon { margin-top: 0; }
+.next__place { margin-top: 4px; }
+
+/* The doors: two columns on the land, each in its section's landscape colour. */
+.doors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 12px 16px 0; }
+</style>
+</head>
+<body>
+<!-- Céu · Terra · Início (phone). The sky at this hour (light theme: manhã dourada, dark theme: noite quente)
+     holds the status bar, the top bar and the greeting in Bricolage 800; a big sun, drawn round by the urucum
+     loop, rises behind the band and runs off the right edge (at night the full moon rises there, among warm
+     stars). The band is the horizon (provisional art). Below it the page is the land (light clay by day, terra
+     roxa at night): the next activity rests on the band, its date circled in urucum; then the six doors, each
+     in its landscape colour with one live line. -->
+<div class="phone">
+  <div class="sky sky--home">
+    <svg class="astro astro--sol only-claro" viewBox="0 0 120 120" aria-hidden="true"><use href="#astro"/></svg>
+    <svg class="astro astro--lua only-escuro" viewBox="0 0 120 120" aria-hidden="true"><use href="#astro"/></svg>
+    <svg class="stars only-escuro" aria-hidden="true">
+      <circle cx="140" cy="26" r="1.2"/><circle cx="206" cy="66" r="1.4"/><circle cx="262" cy="82" r="1.1"/>
+      <circle cx="318" cy="64" r="1.6"/><circle cx="352" cy="112" r="1.2"/><circle cx="200" cy="212" r="1.5"/>
+      <circle cx="238" cy="236" r="1.2"/><circle cx="376" cy="30" r="1.1"/>
+    </svg>
+
+    <div class="status-bar">
+      <span class="status-bar__time"><span class="only-claro">5:50</span><span class="only-escuro">21:40</span></span>
+      <span class="status-bar__icons">
+        <svg class="icon"><use href="assets/icons.svg#signal"/></svg>
+        <svg class="icon"><use href="assets/icons.svg#wifi"/></svg>
+        <svg class="icon"><use href="assets/icons.svg#battery-full"/></svg>
+      </span>
+    </div>
+
+    <header class="top-bar">
+      <a class="brand" href="#" aria-current="page">
+        <svg class="nos-mark" role="img" aria-label="NOS"><use href="assets/icons.svg#marca-nos"/></svg>
+        <span class="brand__place">Dourados</span>
+      </a>
+      <button class="icon-button" type="button" aria-label="Buscar"><svg class="icon"><use href="assets/icons.svg#search"/></svg></button>
+    </header>
+
+    <div class="hello">
+      <h1 class="hello__title"><span class="only-claro">Bom dia,<br>Dourados</span><span class="only-escuro">Boa noite,<br>Dourados</span></h1>
+      <p class="hello__date">Terça, 27 de outubro</p>
+    </div>
+  </div>
+
+  <div class="faixa" role="img" aria-label="Faixa tecida (arte provisória)"></div>
+
+  <main class="screen">
+    <article class="next card" aria-label="A próxima atividade">
+      <div class="next__head">
+        <p class="next__when"><span class="circled date-big">sáb 31/10<svg class="hand" aria-hidden="true"><use href="#hand-a"/></svg></span><span class="next-label">a próxima</span></p>
+        <button class="share-button" type="button" aria-label="Compartilhar no WhatsApp"><svg class="icon"><use href="assets/icons.svg#share-2"/></svg></button>
+      </div>
+      <h2 class="next__title">Caminhada Ecológica de Dourados</h2>
+      <div class="next__row">
+        <p class="meta"><svg class="icon"><use href="assets/icons.svg#clock-3"/></svg>Horário a confirmar</p>
+        <p class="meta"><span class="dot g-sindicatos" title="Sindicatos"></span><b>SINTEF</b></p>
+      </div>
+      <p class="meta next__place"><svg class="icon"><use href="assets/icons.svg#map-pin"/></svg><span>AGECOLD (largada e exposição) e Parque Arnulpho Fioravante</span></p>
+    </article>
+
+    <nav class="doors" aria-label="Seções">
+      <a class="door-tile s-agenda" href="#agenda">
+        <span class="door-tile__head"><svg class="icon"><use href="assets/icons.svg#calendar-days"/></svg><span class="door-tile__name">Agenda</span></span>
+        <span class="door-tile__line">4 atividades até 20/11</span>
+      </a>
+      <a class="door-tile s-mutiroes" href="#mutiroes">
+        <span class="door-tile__head"><svg class="icon"><use href="assets/icons.svg#hand-heart"/></svg><span class="door-tile__name">Mutirões</span></span>
+        <span class="door-tile__line">Sementes crioulas e saúde nas aldeias</span>
+      </a>
+      <a class="door-tile s-noticias" href="#noticias">
+        <span class="door-tile__head"><svg class="icon"><use href="assets/icons.svg#newspaper"/></svg><span class="door-tile__name">Notícias</span></span>
+        <span class="door-tile__line">ADUF condena presença da PM em assembleia do SINTEF na UFGD</span>
+      </a>
+      <a class="door-tile s-mapa" href="#mapa">
+        <span class="door-tile__head"><svg class="icon"><use href="assets/icons.svg#map"/></svg><span class="door-tile__name">Mapa</span></span>
+        <span class="door-tile__line">Feira Afro na Praça Antônio João</span>
+      </a>
+      <a class="door-tile s-comercio" href="#comercio">
+        <span class="door-tile__head"><svg class="icon"><use href="assets/icons.svg#store"/></svg><span class="door-tile__name">Comércio</span></span>
+        <span class="door-tile__line">16 negócios, do pão ao eletricista</span>
+      </a>
+      <a class="door-tile s-orgs" href="#organizacoes">
+        <span class="door-tile__head"><svg class="icon"><use href="assets/icons.svg#users"/></svg><span class="door-tile__name">Organizações</span></span>
+        <span class="door-tile__line">22 organizações em 8 grupos</span>
+      </a>
+    </nav>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Principal">
+    <div class="bottom-nav__items">
+      <a class="nav-item is-active" href="#" aria-current="page"><span class="nav-item__icon"><svg class="icon"><use href="assets/icons.svg#house"/></svg></span>Início</a>
+      <a class="nav-item" href="#agenda"><span class="nav-item__icon"><svg class="icon"><use href="assets/icons.svg#calendar-days"/></svg></span>Agenda</a>
+      <a class="nav-item" href="#mutiroes"><span class="nav-item__icon"><svg class="icon"><use href="assets/icons.svg#hand-heart"/></svg></span>Mutirões</a>
+      <a class="nav-item" href="#comercio"><span class="nav-item__icon"><svg class="icon"><use href="assets/icons.svg#store"/></svg></span>Comércio</a>
+      <a class="nav-item" href="#mais"><span class="nav-item__icon"><svg class="icon"><use href="assets/icons.svg#ellipsis"/></svg></span>Mais</a>
+    </div>
+    <div class="home-indicator"></div>
+  </nav>
+</div>
+
+<!-- The hand marks (from Céu): loops circle the next one, the stroke underlines today. #astro is the same hand
+     drawing the sun or the moon: a disc (its colour from --astro-fill) and the urucum loop around it, which
+     runs past its start like the O of the NOS mark. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="hand-a" viewBox="0 0 120 60" preserveAspectRatio="none"><path vector-effect="non-scaling-stroke" d="M84 7C62 2 28 4 12 15C1 23 2 41 22 50C42 59 88 58 108 46C122 37 119 17 98 9C84 4 66 4 47 9"/></symbol>
+  <symbol id="hand-b" viewBox="0 0 120 60" preserveAspectRatio="none"><path vector-effect="non-scaling-stroke" d="M20 15C40 4 86 1 106 13C121 22 117 44 94 52C68 61 24 59 9 45C-2 34 6 15 30 9C46 5 66 5 80 8"/></symbol>
+  <symbol id="hand-u" viewBox="0 0 120 10" preserveAspectRatio="none"><path vector-effect="non-scaling-stroke" d="M2 7.5C22 5 46 4.6 70 5.2C88 5.6 104 4.4 118 2.5"/></symbol>
+  <symbol id="astro" viewBox="0 0 120 120"><circle cx="58" cy="60" r="49" style="fill: var(--astro-fill)"/><path vector-effect="non-scaling-stroke" style="fill: none; stroke: var(--hand); stroke-width: var(--loop-w, 3px); stroke-linecap: round; stroke-linejoin: round" d="M78 9C56 4 22 12 12 38C3 64 20 104 56 108C92 112 116 88 112 56C109 28 92 7 66 5.5C54 5 40 10 28 19"/></symbol>
+</svg>
+</body>
+</html>

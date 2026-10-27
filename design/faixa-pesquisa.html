@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A faixa · pesquisa</title>
+<script>if (new URLSearchParams(location.search).get('tema') === 'escuro') document.documentElement.dataset.tema = 'escuro';</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Inter:opsz,wght@14..32,400..700&display=swap">
+<link rel="stylesheet" href="assets/design.css">
+<link rel="stylesheet" href="assets/direcao-trama-ceu.css">
+<style>
+/* The band's research board (kept from direction D · Trama, now styled by Céu's tokens): the provisional
+   bands and the slot for the Reserva's artists, what the research showed, how to do it right, the sources. */
+.board {
+  display: flex;
+  flex-direction: column;
+  width: 1200px;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 23px;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+}
+.board ::selection { background: var(--accent-tint); color: var(--ink); }
+:where(.board) :where(h1, h2, h3, p, ul, ol, figure, figcaption, blockquote) { margin: 0; padding: 0; }
+:where(.board) :where(a) { color: inherit; }
+.board .faixa { --faixa-h: 48px; }
+.inner { display: flex; flex-direction: column; gap: 48px; padding: 48px 56px 56px; }
+
+.head { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 48px; align-items: start; }
+.name { display: flex; align-items: center; gap: 14px; }
+.name h1 { font-family: 'Bricolage Grotesque', 'Inter', sans-serif; font-size: 44px; line-height: 50px; font-weight: 700; letter-spacing: -0.02em; }
+.pill { padding: 4px 11px 5px; border-radius: 999px; background: var(--ink); color: var(--on-ink); font-size: 13px; line-height: 18px; font-weight: 600; white-space: nowrap; }
+.thesis { margin-top: 16px; max-width: 64ch; font-size: 19px; line-height: 29px; font-weight: 500; letter-spacing: -0.01em; text-wrap: pretty; }
+.keeps { padding: 18px 20px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); }
+.keeps h2 { font-size: 15px; line-height: 22px; font-weight: 600; }
+.keeps ul { margin-top: 6px; list-style: none; color: var(--ink-soft); }
+.keeps li { padding: 3px 0; }
+
+.block { display: flex; flex-direction: column; gap: 18px; }
+.block > h2 { font-size: 24px; line-height: 30px; font-weight: 700; letter-spacing: -0.02em; }
+.block > p.intro { max-width: 72ch; color: var(--ink-soft); text-wrap: pretty; }
+
+/* The bands */
+.bands { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.band-card { display: flex; flex-direction: column; overflow: hidden; }
+.band-card .faixa { --faixa-h: 64px; }
+.band-card figcaption { display: flex; flex-direction: column; gap: 4px; padding: 14px 16px 16px; }
+.band-card b { font-weight: 600; }
+.band-card span { color: var(--ink-soft); font-size: 14px; line-height: 21px; text-wrap: pretty; }
+.slot { display: grid; grid-template-columns: 320px minmax(0, 1fr); gap: 24px; align-items: center; padding: 20px; border: 1.5px dashed var(--ink-soft); border-radius: 16px; }
+.slot__band { display: grid; place-items: center; height: 64px; border-radius: 6px; background: repeating-linear-gradient(135deg, var(--fill) 0 8px, transparent 8px 16px); color: var(--ink-soft); font-size: 14px; font-weight: 600; }
+.slot__text b { font-weight: 600; }
+.slot__credit { margin-top: 6px; color: var(--ink-soft); font-size: 14px; }
+
+/* Research */
+.research { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; list-style: none; }
+.finding { padding: 18px 20px; }
+.finding p { text-wrap: pretty; }
+.finding q { font-style: italic; }
+.finding .src { margin-top: 8px; color: var(--ink-soft); font-size: 13px; line-height: 19px; }
+.how { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; list-style: none; counter-reset: how; }
+.how li { position: relative; padding: 18px 20px 18px 56px; border-radius: 16px; background: var(--surface); border: 1px solid var(--card-border); box-shadow: var(--shadow); text-wrap: pretty; }
+.how li::before { counter-increment: how; content: counter(how); position: absolute; left: 18px; top: 17px; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--accent); color: var(--on-accent); font-size: 14px; font-weight: 700; }
+
+/* Marks, colour, type, groups */
+.row3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.panel { display: flex; flex-direction: column; gap: 14px; padding: 20px; }
+.panel h3 { font-size: 17px; line-height: 24px; font-weight: 600; }
+.panel p { color: var(--ink-soft); font-size: 14px; line-height: 21px; text-wrap: pretty; }
+.marks { display: flex; align-items: center; gap: 28px; padding: 14px 6px 6px; }
+.marks .circled { margin-left: 9px; font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.marks .today { font-size: 18px; font-weight: 700; }
+.marks .next-label { margin-left: 12px; font-size: 14px; }
+.swatches { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 14px; }
+.sw { display: flex; align-items: center; gap: 10px; font-size: 13px; line-height: 17px; }
+.sw i { flex-shrink: 0; width: 28px; height: 28px; border-radius: 8px; box-shadow: inset 0 0 0 1px rgba(127, 127, 127, .25); }
+.sw small { display: block; color: var(--ink-soft); font-size: 12px; font-variant-numeric: tabular-nums; }
+.specimen { font-size: 34px; line-height: 40px; font-weight: 700; letter-spacing: -0.025em; }
+.specimen-2 { font-size: 17px; line-height: 24px; font-weight: 600; }
+.groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 16px; list-style: none; font-size: 14px; }
+.groups li { display: flex; align-items: center; gap: 8px; }
+
+.risk { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
+.risk .panel h3 { font-size: 17px; }
+.risk .panel p { font-size: 15px; line-height: 23px; color: var(--ink); }
+.sources { color: var(--ink-soft); font-size: 13px; line-height: 20px; }
+.sources ol { margin-top: 6px; padding-left: 18px; }
+.sources a { color: var(--ink-soft); text-underline-offset: 2px; }
+</style>
+</head>
+<body>
+<!-- A faixa · pesquisa: why the woven band exists, what the research found and how to make the real one with the
+     artists of the Reserva Indígena de Dourados. Applies to every Céu variant. -->
+<div class="board">
+  <div class="faixa" role="img" aria-label="Faixa tecida (arte provisória)"></div>
+  <div class="inner">
+    <header class="head">
+      <div>
+        <div class="name"><h1>A faixa</h1><span class="pill">Pesquisa · vale para todas as variações do Céu</span></div>
+        <p class="thesis">No Céu, a faixa tecida é o horizonte: a terra de onde o sol nasce. Ela é um espaço para a arte dos povos da Reserva Indígena de Dourados, e a definitiva tem de ser feita com eles. Aqui está o que a pesquisa mostrou e como fazer direito.</p>
+      </div>
+      <section class="keeps" aria-label="Em resumo">
+        <h2>Em resumo</h2>
+        <ul>
+          <li>As faixas das telas são provisórias, feitas só da técnica do trançado.</li>
+          <li>Nenhum grafismo de ninguém foi copiado.</li>
+          <li>A definitiva é criada, assinada e paga a artistas da Reserva.</li>
+          <li>O app mostra o crédito da artista.</li>
+        </ul>
+      </section>
+    </header>
+
+    <section class="block">
+      <h2>A faixa</h2>
+      <p class="intro">Uma faixa tecida corre sob o céu, como horizonte. Ela é um espaço para a arte dos povos da Reserva Indígena de Dourados (Kaiowá, Guarani Ñandeva e Terena). As três abaixo são provisórias e foram desenhadas só a partir da técnica, sem copiar grafismo de ninguém. A faixa é uma obra: não muda com o tema.</p>
+      <div class="bands">
+        <figure class="band-card card"><div class="faixa" style="--faixa: var(--faixa-trancado)"></div><figcaption><b>Trançado de taquara (provisória)</b><span>Sarja quebrada: as fitas sobem e descem de duas em duas e a diagonal vira a cada seis. É a que aparece nas telas.</span></figcaption></figure>
+        <figure class="band-card card"><div class="faixa" style="--faixa: var(--faixa-tear)"></div><figcaption><b>Faixa de tear (provisória)</b><span>Fios tingidos lado a lado, como as faixas que as tecelãs da Jaguapirú fazem hoje com barbante e lã.</span></figcaption></figure>
+        <figure class="band-card card"><div class="faixa" style="--faixa: var(--faixa-barro)"></div><figcaption><b>Barro pintado (provisória)</b><span>Linhas e pontos de tabatinga sobre barro vermelho, como uma faixa de cerâmica.</span></figcaption></figure>
+      </div>
+      <div class="slot">
+        <div class="slot__band">a faixa da artista entra aqui</div>
+        <div class="slot__text">
+          <p><b>A faixa definitiva</b> é criada, assinada e paga a artistas da Reserva, e o app mostra o crédito. Pode mudar a cada estação, cada vez com uma artista.</p>
+          <p class="slot__credit">Crédito no app: “Faixa de [nome da artista] · aldeia [Jaguapirú, Bororó…] · [povo]”</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>O que a pesquisa mostrou</h2>
+      <ul class="research">
+        <li class="finding card"><p>Na Reserva de Dourados, os trançados são <q>os caminhos percorridos pelos anciãos e anciãs rumo ao paraíso celestial</q> (Dona Tereza). A tecelã guarani Marilda Duarte faz faixas no tear com barbante e lã: <q>isso vai para o mercado, mas leva as nossas memórias</q>.</p><p class="src">Rosalvo Ivarra Ortiz, arqueólogo guarani, ensaio sobre as artes da Jaguapirú e da Bororó (2024)</p></li>
+        <li class="finding card"><p>Os grafismos kaiowá (<i>mbojeguaha</i>) expressam identidade, espiritualidade e resistência; cada traço tem história. A rapper e pesquisadora kaiowá Anarandà lançou em Dourados o livro <i>Mbojeguaha – Grafismo</i> e alerta para o uso indevido: <q>é preciso devolver o significado a esses grafismos</q>.</p><p class="src">Campo Grande News, 27/11/2024</p></li>
+        <li class="finding card"><p>Na cestaria guarani, as fitas de taquara são tingidas de roxo, vermelho, verde e amarelo, e cada padrão tem nome e sentido (<i>ypará korá</i>, como as costas da cobra; <i>ypará jaxá</i>, o movimento infinito). Por isso a faixa provisória usa só a estrutura do trançado.</p><p class="src">Estudo sobre artesanato guarani (Editora UFN); cestaria mbya, <i>ajaka para</i> (Unicamp)</p></li>
+        <li class="finding card"><p>Usar grafismo sem o povo é apropriação. Em outubro de 2025, lideranças kaingang denunciaram o uso dos seus grafismos no tradicionalismo gaúcho sem reconhecimento. O urucum (vermelho) e o jenipapo (preto-azulado) das pinturas viraram aqui o destaque e a tinta.</p><p class="src">Brasil de Fato, 19/10/2025</p></li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>Como fazer direito</h2>
+      <ol class="how">
+        <li>Perguntar às organizações indígenas da rede (Aty Guasu, Retomada Yvy Verá, Teia dos Povos) se querem a faixa e como.</li>
+        <li>Convidar artistas da Reserva para criá-la, com pagamento e crédito. Anarandà pesquisa os <i>mbojeguaha</i>; a coleta também registra o rap de MC Anarandá na I Feira AfroLatinas, do Quintal de Palmares.</li>
+        <li>Combinar o que pode e o que não pode: grafismos de uso restrito ficam de fora, e a arte continua sendo das artistas.</li>
+      </ol>
+    </section>
+
+    
+    
+    <section class="sources" aria-label="Fontes">
+      <b>Fontes</b>
+      <ol>
+        <li>Rosalvo Ivarra Ortiz, <a href="https://labinac.com/wp-content/uploads/2024/04/Rosalvo-Ivarra-Ortiz_essay_port.pdf">“Os rituais Guarani e Kaiowá da região sul do Mato Grosso do Sul: relações intrínsecas com as artes tradicionais”</a> (2024)</li>
+        <li>Campo Grande News, <a href="https://www.campograndenews.com.br/lado-b/artes-23-08-2011-08/anaranda-lanca-livro-que-celebra-o-grafismo-indigena-e-raizes-culturais">“Anarandà lança livro que celebra o grafismo indígena e raízes culturais”</a> (27/11/2024)</li>
+        <li><a href="https://editora.ufn.edu.br/index.php/1/catalog/download/67/71/302?inline=1">Editora UFN, estudo sobre artesanato guarani</a>; <a href="https://econtents.bc.unicamp.br/inpec/index.php/proa/article/download/17826/12485/46673">Revista Proa (Unicamp), grafismos guarani mbya</a></li>
+        <li>Brasil de Fato, <a href="https://www.brasildefato.com.br/2025/10/19/indigenas-criticam-apropriacao-cultural-em-adornos-gauchos/">“Indígenas criticam apropriação cultural em adornos gaúchos”</a> (19/10/2025)</li>
+      </ol>
+    </section>
+  </div>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="hand-a" viewBox="0 0 120 60" preserveAspectRatio="none"><path vector-effect="non-scaling-stroke" d="M84 7C62 2 28 4 12 15C1 23 2 41 22 50C42 59 88 58 108 46C122 37 119 17 98 9C84 4 66 4 47 9"/></symbol>
+  <symbol id="hand-u" viewBox="0 0 120 10" preserveAspectRatio="none"><path vector-effect="non-scaling-stroke" d="M2 7.5C22 5 46 4.6 70 5.2C88 5.6 104 4.4 118 2.5"/></symbol>
+</svg>
+</body>
+</html>

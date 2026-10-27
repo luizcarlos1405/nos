@@ -1,6 +1,43 @@
 {
   "sections": [
     {
+      "title": "Céu · Terra (aprovada, 27/10)",
+      "designs": [
+        { "file": "direcao-ceu-terra-quadro.html", "title": "Céu · Terra · Quadro", "width": 1200, "height": 1598 },
+        { "file": "direcao-ceu-terra-celular-inicio.html", "title": "Céu · Terra · Celular · Início · claro", "width": 390, "height": 844 },
+        { "file": "direcao-ceu-terra-celular-inicio.html?tema=escuro", "title": "Céu · Terra · Celular · Início · escuro", "width": 390, "height": 844 },
+        { "file": "direcao-ceu-terra-celular-agenda.html", "title": "Céu · Terra · Celular · Agenda · claro", "width": 390, "height": 844 },
+        { "file": "direcao-ceu-terra-celular-agenda.html?tema=escuro", "title": "Céu · Terra · Celular · Agenda · escuro", "width": 390, "height": 844 },
+        { "file": "direcao-ceu-terra-desktop-inicio.html", "title": "Céu · Terra · Desktop · Início · claro", "width": 1440, "height": 900 },
+        { "file": "direcao-ceu-terra-desktop-inicio.html?tema=escuro", "title": "Céu · Terra · Desktop · Início · escuro", "width": 1440, "height": 900 }
+      ]
+    },
+    {
+      "title": "Céu · Pipas (guardada para depois)",
+      "designs": [
+        { "file": "direcao-ceu-pipas-quadro.html", "title": "Céu · Pipas · Quadro", "width": 1200, "height": 1592 },
+        { "file": "direcao-ceu-pipas-celular-inicio.html", "title": "Céu · Pipas · Celular · Início · claro", "width": 390, "height": 844 },
+        { "file": "direcao-ceu-pipas-celular-inicio.html?tema=escuro", "title": "Céu · Pipas · Celular · Início · escuro", "width": 390, "height": 844 },
+        { "file": "direcao-ceu-pipas-celular-agenda.html", "title": "Céu · Pipas · Celular · Agenda · claro", "width": 390, "height": 844 },
+        { "file": "direcao-ceu-pipas-celular-agenda.html?tema=escuro", "title": "Céu · Pipas · Celular · Agenda · escuro", "width": 390, "height": 844 },
+        { "file": "direcao-ceu-pipas-desktop-inicio.html", "title": "Céu · Pipas · Desktop · Início · claro", "width": 1440, "height": 900 },
+        { "file": "direcao-ceu-pipas-desktop-inicio.html?tema=escuro", "title": "Céu · Pipas · Desktop · Início · escuro", "width": 1440, "height": 900 }
+      ]
+    },
+    {
+      "title": "Céu · a base, e a pesquisa da faixa",
+      "designs": [
+        { "file": "direcao-trama-ceu-quadro.html", "title": "D3 · Céu · Quadro", "width": 1200, "height": 1669 },
+        { "file": "direcao-trama-ceu-celular-inicio.html", "title": "D3 · Céu · Celular · Início · claro", "width": 390, "height": 844 },
+        { "file": "direcao-trama-ceu-celular-inicio.html?tema=escuro", "title": "D3 · Céu · Celular · Início · escuro", "width": 390, "height": 844 },
+        { "file": "direcao-trama-ceu-celular-agenda.html", "title": "D3 · Céu · Celular · Agenda · claro", "width": 390, "height": 844 },
+        { "file": "direcao-trama-ceu-celular-agenda.html?tema=escuro", "title": "D3 · Céu · Celular · Agenda · escuro", "width": 390, "height": 844 },
+        { "file": "direcao-trama-ceu-desktop-inicio.html", "title": "D3 · Céu · Desktop · Início · claro", "width": 1440, "height": 900 },
+        { "file": "direcao-trama-ceu-desktop-inicio.html?tema=escuro", "title": "D3 · Céu · Desktop · Início · escuro", "width": 1440, "height": 900 },
+        { "file": "faixa-pesquisa.html", "title": "A faixa · pesquisa", "width": 1200, "height": 1828 }
+      ]
+    },
+    {
       "title": "Marca e componentes",
       "designs": [
         { "file": "marca-nos.html", "title": "Marca NOS", "width": 860, "height": 860 },
@@ -59,7 +96,7 @@
       ]
     },
     {
-      "title": "Direções visuais (exploração inicial)",
+      "title": "Direções visuais (exploração inicial, 26/10: escolhida a Folhinha)",
       "designs": [
         { "file": "direcao-a-faixa.html", "title": "A · Faixa", "width": 390, "height": 844 },
         { "file": "direcao-b-folhinha.html", "title": "B · Folhinha", "width": 390, "height": 844 },

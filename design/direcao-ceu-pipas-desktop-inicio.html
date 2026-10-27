@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Céu · Pipas · Desktop · Início</title>
+<script>if (new URLSearchParams(location.search).get('tema') === 'escuro') document.documentElement.dataset.tema = 'escuro';</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Inter:opsz,wght@14..32,400..700&display=swap">
+<link rel="stylesheet" href="assets/design.css">
+<link rel="stylesheet" href="assets/direcao-ceu-pipas.css">
+<style>
+/* Início on desktop: a wide sky with the top bar on it, the greeting at left and the whole network flying
+   at right (22 pipas; the seven with something new this week fly nearest, with their names); the sun
+   rises behind the band under the greeting. Below the horizon, Céu's calm layout: the next activity
+   resting on the band with its two actions, one open call, the latest news, one quiet link to each page. */
+.desk {
+  display: flex;
+  flex-direction: column;
+  width: 1440px;
+  height: 900px;
+  overflow: hidden;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: 15px;
+  line-height: 22px;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  caret-color: var(--accent);
+}
+.desk ::selection { background: var(--accent-tint); color: var(--ink); }
+.desk :focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; }
+:where(.desk) :where(h1, h2, h3, p, ul) { margin: 0; padding: 0; }
+:where(.desk) :where(a) { color: inherit; text-decoration: none; }
+:where(.desk) :where(button) { margin: 0; padding: 0; border: 0; background: none; font: inherit; color: inherit; cursor: pointer; }
+:where(.desk) :where(.icon) { width: 20px; height: 20px; flex-shrink: 0; }
+
+.wrap { width: 1120px; margin: 0 auto; }
+
+/* The sky: 288px with the top bar on it (Céu's was 240: the pipas need the air). */
+.sky--desk { --h5: 18px; --h4: 38px; --h3: 60px; --h2: 124px; height: 288px; }
+.sky--desk .astro--sol { left: 486px; bottom: -150px; width: 236px; height: 236px; --loop-w: 4.5px; }
+.sky--desk .astro--lua { left: 532px; bottom: -86px; width: 150px; height: 150px; --loop-w: 3.5px; }
+
+/* Top bar on the sky: the lockup, the pages, search and the theme. */
+.bar { height: 68px; }
+.bar .wrap { display: flex; align-items: center; gap: 36px; height: 100%; }
+.brand .nos-mark { color: var(--sky-ink); }
+.pages { display: flex; gap: 4px; flex: 1 1 auto; }
+.pages a { position: relative; display: flex; align-items: center; height: 44px; padding: 0 12px; border-radius: 22px; color: var(--sky-ink-soft); font-weight: 500; }
+.pages a:hover { background: color-mix(in srgb, var(--sky-ink) 8%, transparent); color: var(--sky-ink); }
+.pages a[aria-current] { color: var(--sky-ink); font-weight: 600; }
+.pages a[aria-current]::after { content: ''; position: absolute; left: 12px; right: 12px; bottom: -12px; height: 3px; border-radius: 2px; background: var(--hand); }
+.search { display: flex; align-items: center; gap: 8px; width: 300px; height: 44px; padding: 0 14px; border-radius: 22px; background: var(--sky-field); color: var(--ink-soft); }
+.search span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* The greeting on the sky, and the way to the organizations that fly in it. */
+.hello { padding-top: 30px; }
+.hello__title { font-family: var(--font-display); font-size: 58px; line-height: 64px; font-weight: 700; letter-spacing: -0.025em; }
+.hello__date { margin-top: 6px; font-size: 17px; line-height: 24px; font-weight: 500; color: var(--sky-ink-soft); }
+.sky-link { position: relative; display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; font-size: 16px; line-height: 22px; font-weight: 600; color: var(--sky-ink); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px; text-decoration-color: color-mix(in srgb, var(--sky-ink) 40%, transparent); }
+.sky-link::after { content: ''; position: absolute; inset: -11px -8px; }
+.sky-link:hover { text-decoration-color: currentColor; }
+.sky-link .icon { width: 18px; height: 18px; }
+
+.faixa { --faixa-h: 40px; }
+
+/* The page: the grid rises 12px onto the band. */
+.main { flex: 1 1 auto; }
+.grid { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 24px; margin-top: -12px; }
+
+/* The next activity: when (circled), what, who, where, and the two actions. */
+.feature { display: flex; flex-direction: column; padding: 22px 28px 18px; }
+.when { display: flex; align-items: center; gap: 16px; font-size: 15px; line-height: 22px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.when .circled { margin-left: 9px; font-size: 22px; line-height: 28px; color: var(--ink); }
+.feature h2 { margin-top: 12px; font-size: 30px; line-height: 36px; font-weight: 700; letter-spacing: -0.022em; text-wrap: balance; }
+.facts { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; color: var(--ink-soft); }
+.fact { display: flex; align-items: flex-start; gap: 10px; }
+.fact .icon { width: 18px; height: 18px; margin-top: 2px; }
+.fact .dot { margin: 7px 5px 0; }
+.fact b { font-weight: 600; color: var(--ink); }
+.actions { display: flex; gap: 10px; margin-top: 18px; }
+.later { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
+.later h3 { font-family: var(--font-display); font-size: 17px; line-height: 22px; font-weight: 650; }
+.later ul { list-style: none; margin-top: 2px; }
+.later li a { display: grid; grid-template-columns: 112px minmax(0, 1fr) auto; align-items: baseline; gap: 12px; padding: 8px 0; }
+.later li + li a { border-top: 1px solid var(--line); }
+.later time { font-weight: 600; font-variant-numeric: tabular-nums; }
+.later .org { color: var(--ink-soft); font-size: 14px; }
+.more { display: inline-flex; align-items: center; gap: 4px; margin-top: 6px; height: 32px; font-weight: 600; color: var(--s-text, var(--accent-text)); }
+.more .icon { width: 18px; height: 18px; }
+
+/* The side: one open call and the latest news, each in its section's tint. */
+.side { display: flex; flex-direction: column; gap: 20px; }
+.note { display: flex; flex-direction: column; padding: 20px 24px 14px; border-radius: 18px; background: var(--s-tint); }
+.note h3 { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-size: 17px; line-height: 22px; font-weight: 650; }
+.note h3 .icon { width: 20px; height: 20px; color: var(--s-text); }
+.note p.lead { margin-top: 10px; font-size: 18px; line-height: 25px; font-weight: 600; letter-spacing: -0.012em; text-wrap: pretty; }
+.note p.by { margin-top: 6px; font-size: 14px; color: var(--s-soft); }
+
+/* One quiet link to each page: its icon in its colour, the name in Bricolage. */
+.index { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); margin-top: 22px; border-top: 1px solid var(--line); }
+.index a { display: flex; flex-direction: column; gap: 2px; padding: 14px 16px 10px 0; }
+.index a:hover .index__name { color: var(--s-text); }
+.index .icon { width: 22px; height: 22px; margin-bottom: 6px; color: var(--s-text); }
+.index__name { font-family: var(--font-display); font-size: 18px; line-height: 24px; font-weight: 650; letter-spacing: -0.01em; }
+.index__line { font-size: 14px; line-height: 20px; color: var(--ink-soft); }
+
+.credit { margin-top: 10px; font-size: 13px; line-height: 18px; color: var(--ink-soft); }
+</style>
+</head>
+<body>
+<!-- Céu · Pipas · Início (desktop), calm: the sky at this hour (a windy morning in the light theme, night in the
+     dark) with the top bar on it; the greeting at left with the way to the 22 organizations; the network flying at
+     right: 22 pipas in their groups' colours, the seven with something new this week nearest, with their names (each
+     name opens the organization's page), lines tied down behind the band (provisional art), the horizon. The sun
+     rises behind it under the greeting. By night the same places hold the stars, joined by group, named as on a star
+     chart, and the moon rises where the sun was. The next activity rests on the band; then one call, the latest
+     news, a link to each page. -->
+<div class="desk">
+  <div class="sky sky--desk">
+    <svg class="astro astro--sol only-claro" viewBox="0 0 120 120" aria-hidden="true"><use href="#astro"/></svg>
+    <svg class="astro astro--lua only-escuro" viewBox="0 0 120 120" aria-hidden="true"><use href="#astro"/></svg>
+    <svg class="ceu-pipas" width="1440" height="288" viewBox="0 0 1440 288" role="group" aria-label="A rede no céu: as 22 organizações">
+    <g class="only-claro">
+    <g><path class="linha linha--longe" d="M1427.9 269Q1431.3 286.3 1439.3 296"/><path class="linha linha--longe" d="M451.9 247Q458.1 278.4 472.5 296"/><path class="linha linha--longe" d="M1167.9 277Q1170.3 289.2 1175.9 296"/><path class="linha linha--longe" d="M1388.1 277Q1390.5 289.2 1396.1 296"/><path class="linha linha--longe" d="M711.9 249Q717.8 279.1 731.6 296"/><path class="linha linha--longe" d="M1326.1 263.1Q1330.3 284.2 1339.9 296"/><path class="linha linha--longe" d="M420.1 263.1Q424.2 284.2 433.9 296"/><path class="linha linha--longe" d="M692.1 271.2Q695.2 287.1 702.5 296"/><path class="linha linha--longe" d="M1258.1 269.3Q1261.5 286.4 1269.3 296"/><path class="linha linha--longe" d="M789.8 241.5Q796.7 276.4 812.7 296"/><path class="linha linha--longe" d="M72.2 239.5Q79.3 275.7 95.9 296"/><path class="linha" d="M884.2 231.7Q892.3 272.8 911.2 296"/><path class="linha" d="M1409.9 239.7Q1417 275.7 1433.5 296"/><path class="linha" d="M1291.8 227.8Q1300.4 271.5 1320.4 296"/><path class="linha" d="M1196.2 244Q1202.7 277.3 1218 296"/><path class="linha" d="M1132.2 205.4Q1143.6 263.4 1170.2 296"/><path class="linha" d="M748.3 181.5Q762.7 254.8 796.4 296"/><path class="linha" d="M847.6 129.9Q868.5 236.2 917.4 296"/><path class="linha" d="M1362.4 180Q1377 254.3 1411.1 296"/><path class="linha" d="M1065.7 120.2Q1087.9 232.7 1139.5 296"/><path class="linha" d="M1239.4 142.4Q1258.7 240.7 1303.9 296"/><path class="linha" d="M956.7 169.6Q972.6 250.5 1009.8 296"/></g>
+    <g><path class="rabiola" d="M1427.4 277.1C1428.5 279.5 1421.9 280.6 1423.9 283.9"/><use href="#pipa-longe" class="pipa pipa--longe g-movimentos" transform="translate(1428 268) rotate(4) scale(0.140)"/></g>
+    <g><path class="rabiola" d="M451 255.1C452.2 257.4 445.6 258.6 447.5 261.9"/><use href="#pipa-longe" class="pipa pipa--longe g-partidos" transform="translate(452 246) rotate(6) scale(0.140)"/></g>
+    <g><path class="rabiola" d="M1167.2 285.7C1168.4 288.3 1161.3 289.5 1163.4 293.1"/><use href="#pipa-longe" class="pipa pipa--longe g-rural" transform="translate(1168 276) rotate(5) scale(0.150)"/></g>
+    <g><path class="rabiola" d="M1388.8 285.7C1390 288.3 1383 289.5 1385.1 293.1"/><use href="#pipa-longe" class="pipa pipa--longe g-movimentos" transform="translate(1388 276) rotate(-5) scale(0.150)"/></g>
+    <g><path class="rabiola" d="M711.2 257.7C712.4 260.3 705.3 261.5 707.4 265.1"/><use href="#pipa-longe" class="pipa pipa--longe g-outros" transform="translate(712 248) rotate(5) scale(0.150)"/></g>
+    <g><path class="rabiola" d="M1327.1 272.3C1328.4 275.1 1320.8 276.3 1323.1 280.2"/><use href="#pipa-longe" class="pipa pipa--longe g-rural" transform="translate(1326 262) rotate(-6) scale(0.160)"/></g>
+    <g><path class="rabiola" d="M420.9 272.4C422.2 275.1 414.7 276.4 416.9 280.2"/><use href="#pipa-longe" class="pipa pipa--longe g-partidos" transform="translate(420 262) rotate(-5) scale(0.160)"/></g>
+    <g><path class="rabiola" d="M692.8 281C694.1 283.9 686.1 285.3 688.5 289.4"/><use href="#pipa-longe" class="pipa pipa--longe g-outros" transform="translate(692 270) rotate(-4) scale(0.170)"/></g>
+    <g><path class="rabiola" d="M1258.8 279.7C1260.3 282.7 1251.8 284.2 1254.3 288.5"/><use href="#pipa-longe" class="pipa pipa--longe g-rural" transform="translate(1258 268) rotate(-4) scale(0.180)"/></g>
+    <g><path class="rabiola" d="M788.4 254.2C790.5 258.7 778.1 260.8 781.8 267.1"/><use href="#pipa-a" class="pipa pipa--longe g-academia" transform="translate(790 240) rotate(6) scale(0.220)"/></g>
+    <g><path class="rabiola" d="M73.8 251.5C75.9 256 63.5 258.1 67.2 264.5"/><use href="#pipa-b" class="pipa pipa--longe g-orgaos" transform="translate(72 238) rotate(-6) scale(0.220)"/></g>
+    <g><path class="rabiola" d="M885.8 245.3C888.1 250.2 874.6 252.5 878.6 259.4"/><path class="lacos g-terceiro" d="M884.5 249.2L882.6 248.5L883.9 247.2ZM884.5 249.2L885.2 251.2L886.5 250ZM878.4 259L877 260.7L876.1 259ZM878.4 259L880.3 259L879.5 257.4Z"/><use href="#pipa-c" class="pipa pipa--meio g-terceiro" transform="translate(884 230) rotate(-6) scale(0.240)"/></g>
+    <g><path class="rabiola" d="M1408.5 253.5C1410.8 258.4 1397.3 260.7 1401.3 267.6"/><path class="lacos g-movimentos" d="M1407.2 257.4L1405.3 256.8L1406.7 255.5ZM1407.2 257.4L1407.9 259.5L1409.3 258.2ZM1401.1 267.2L1399.7 269L1398.9 267.3ZM1401.1 267.2L1403 267.3L1402.2 265.7Z"/><use href="#pipa-a" class="pipa pipa--meio g-movimentos" transform="translate(1410 238) rotate(5) scale(0.240)"/></g>
+    <g><path class="rabiola" d="M1290.5 242.6C1293 247.9 1278.3 250.4 1282.7 257.9"/><path class="lacos g-rural" d="M1289.1 246.8L1287 246.1L1288.4 244.7ZM1289.1 246.8L1289.8 249L1291.2 247.7ZM1282.4 257.4L1280.9 259.3L1280 257.5ZM1282.4 257.4L1284.5 257.5L1283.6 255.7Z"/><use href="#pipa-c" class="pipa pipa--meio g-rural" transform="translate(1292 226) rotate(6) scale(0.260)"/></g>
+    <g><path class="rabiola" d="M1197.9 259.3C1200.6 265 1184.8 267.7 1189.5 275.7"/><path class="lacos g-rural" d="M1196.4 263.8L1194.2 263L1195.7 261.6ZM1196.4 263.8L1197.2 266.2L1198.8 264.7ZM1189.3 275.2L1187.6 277.3L1186.7 275.3ZM1189.3 275.2L1191.5 275.3L1190.6 273.4Z"/><use href="#pipa-b" class="pipa pipa--meio g-rural" transform="translate(1196 242) rotate(-5) scale(0.280)"/></g>
+    <g><path class="rabiola" d="M1134.3 231.7C1140 243.9 1106.2 249.7 1116.3 267"/><path class="lacos g-sindicatos" d="M1131 241.4L1127.2 240.1L1129.9 237.6ZM1131 241.4L1132.4 245.5L1135.1 243ZM1122.6 248.3L1118.6 246.2L1121.5 243.9ZM1122.6 248.3L1123.3 252L1126.2 249.7ZM1115.6 256L1111.5 256L1113.2 252.7ZM1115.6 256L1118.3 259.4L1119.9 256.2ZM1115.7 265.9L1112.9 269.4L1111.3 266.1ZM1115.7 265.9L1119.5 266.1L1117.9 262.8Z"/><use href="#pipa-b" class="pipa g-sindicatos" transform="translate(1132 202) rotate(-3) scale(0.480)"/></g>
+    <g><path class="rabiola" d="M751.2 209.8C757.2 222.6 721.9 228.6 732.4 246.6"/><path class="lacos g-academia" d="M747.8 220L743.8 218.6L746.6 216ZM747.8 220L749.2 224.3L752 221.7ZM739.1 227.1L734.9 225L737.8 222.6ZM739.1 227.1L739.8 231L742.7 228.6ZM731.7 235.2L727.5 235.2L729.2 231.8ZM731.7 235.2L734.5 238.7L736.2 235.4ZM731.9 245.5L728.9 249.1L727.2 245.7ZM731.9 245.5L735.8 245.7L734.2 242.3Z"/><use href="#pipa-c" class="pipa g-academia" transform="translate(748 178) rotate(-5) scale(0.500)"/></g>
+    <g><path class="rabiola" d="M845.2 160.6C852.4 175.8 810.3 183 822.8 204.5"/><path class="lacos g-terceiro" d="M841.2 172.8L836.7 171.2L839.8 168.2ZM841.2 172.8L842.8 177.5L845.9 174.6ZM830.7 181.2L826.1 178.9L829.4 176.2ZM830.7 181.2L831.5 185.6L834.8 182.9ZM821.9 190.9L817.2 190.9L819.2 187.1ZM821.9 190.9L825.1 194.9L827 191.1ZM822.1 203.2L818.8 207.3L816.9 203.5ZM822.1 203.2L826.6 203.4L824.7 199.6Z"/><use href="#pipa-b" class="pipa g-terceiro" transform="translate(848 126) rotate(6) scale(0.560)"/></g>
+    <g><path class="rabiola" d="M1366.6 211.7C1359.2 227.4 1330.4 234.9 1343.4 257.1"/><path class="lacos g-movimentos" d="M1355.9 224.2L1351.4 222.4L1354.7 219.5ZM1355.9 224.2L1357.4 229.3L1360.7 226.3ZM1346.4 233L1341.2 231.3L1344.2 228.1ZM1346.4 233L1347.8 237.4L1350.8 234.2ZM1340.5 243L1335.8 244.2L1336.7 239.9ZM1340.5 243L1344.6 246.2L1345.6 241.9ZM1342.7 255.8L1339.3 260.1L1337.3 256.2ZM1342.7 255.8L1347.3 255.9L1345.3 252Z"/><use href="#pipa-b" class="pipa g-movimentos" transform="translate(1362 176) rotate(-6) scale(0.580)"/></g>
+    <g><path class="rabiola" d="M1063.8 154.3C1056.1 170.7 1026.4 178.3 1039.8 201.4"/><path class="lacos g-sindicatos" d="M1052.7 167.3L1048 165.5L1051.4 162.5ZM1052.7 167.3L1054.2 172.5L1057.7 169.5ZM1042.8 176.4L1037.5 174.7L1040.6 171.3ZM1042.8 176.4L1044.4 181L1047.5 177.6ZM1036.8 186.8L1031.9 188L1032.9 183.5ZM1036.8 186.8L1041 190.1L1042.1 185.7ZM1039 200L1035.6 204.4L1033.5 200.4ZM1039 200L1043.8 200.1L1041.7 196Z"/><use href="#pipa-c" class="pipa g-sindicatos" transform="translate(1066 116) rotate(4) scale(0.600)"/></g>
+    <g><path class="rabiola" d="M1234 179.2C1242.1 196.6 1194 204.8 1208.4 229.3"/><path class="lacos g-rural" d="M1229.3 193L1224.3 191.2L1227.8 187.9ZM1229.3 193L1231.2 198.5L1234.7 195.2ZM1217.4 202.7L1212.1 200.1L1215.8 197ZM1217.4 202.7L1218.3 207.7L1222.1 204.7ZM1207.4 213.8L1202 213.7L1204.2 209.4ZM1207.4 213.8L1210.9 218.3L1213.1 214ZM1207.6 227.9L1203.8 232.5L1201.6 228.1ZM1207.6 227.9L1212.7 228.1L1210.5 223.7Z"/><use href="#pipa-a" class="pipa g-rural" transform="translate(1240 138) rotate(8) scale(0.640)"/></g>
+    <g><path class="rabiola" d="M962 215.7C971.6 236.1 915.2 245.7 932 274.5"/><path class="lacos g-sindicatos" d="M956.6 231.9L950.3 229.7L954.7 225.5ZM956.6 231.9L958.9 238.8L963.3 234.6ZM942.6 243.3L936 239.9L940.7 236.1ZM942.6 243.3L943.8 249.5L948.5 245.7ZM930.9 256.2L924.1 256.2L926.9 250.8ZM930.9 256.2L935.3 261.9L938.1 256.5ZM931.1 272.7L926.4 278.5L923.7 273ZM931.1 272.7L937.5 273L934.8 267.5Z"/><use href="#pipa-a" class="pipa g-sindicatos" transform="translate(956 164) rotate(-7) scale(0.800)"/></g>
+    </g>
+    <g class="only-escuro">
+    <circle class="estrela-fundo" cx="96" cy="118" r="1"/>
+    <circle class="estrela-fundo" cx="40" cy="184" r="0.9"/>
+    <circle class="estrela-fundo" cx="372" cy="240" r="0.8"/>
+    <circle class="estrela-fundo" cx="1182" cy="82" r="0.8"/>
+    <circle class="estrela-fundo" cx="1318" cy="94" r="0.9"/>
+    <circle class="estrela-fundo" cx="996" cy="236" r="0.8"/>
+    <circle class="estrela-fundo" cx="640" cy="92" r="0.8"/>
+    <path class="constelacao g-sindicatos" d="M1066 116L956 164L1132 202"/>
+    <path class="constelacao g-rural" d="M1240 138L1292 226L1326 262M1240 138L1196 242L1168 276M1196 242L1258 268"/>
+    <path class="constelacao g-movimentos" d="M1362 176L1410 238L1428 268L1388 276"/>
+    <path class="constelacao g-academia" d="M748 178L790 240"/>
+    <path class="constelacao g-terceiro" d="M848 126L884 230"/>
+    <path class="constelacao g-partidos" d="M420 262L452 246"/>
+    <path class="constelacao g-outros" d="M692 270L712 248"/>
+    <circle class="estrela estrela--halo g-academia" cx="748" cy="178" r="6.7"/>
+    <circle class="estrela g-academia" cx="748" cy="178" r="2.9"/>
+    <circle class="estrela estrela--halo g-terceiro" cx="848" cy="126" r="6.7"/>
+    <circle class="estrela g-terceiro" cx="848" cy="126" r="2.9"/>
+    <circle class="estrela estrela--halo g-sindicatos" cx="956" cy="164" r="6.7"/>
+    <circle class="estrela g-sindicatos" cx="956" cy="164" r="2.9"/>
+    <circle class="estrela estrela--halo g-sindicatos" cx="1066" cy="116" r="6.7"/>
+    <circle class="estrela g-sindicatos" cx="1066" cy="116" r="2.9"/>
+    <circle class="estrela estrela--halo g-sindicatos" cx="1132" cy="202" r="6.7"/>
+    <circle class="estrela g-sindicatos" cx="1132" cy="202" r="2.9"/>
+    <circle class="estrela estrela--halo g-rural" cx="1240" cy="138" r="6.7"/>
+    <circle class="estrela g-rural" cx="1240" cy="138" r="2.9"/>
+    <circle class="estrela estrela--halo g-movimentos" cx="1362" cy="176" r="6.7"/>
+    <circle class="estrela g-movimentos" cx="1362" cy="176" r="2.9"/>
+    <circle class="estrela g-academia" cx="790" cy="240" r="1.6"/>
+    <circle class="estrela estrela--halo g-terceiro" cx="884" cy="230" r="5.1"/>
+    <circle class="estrela g-terceiro" cx="884" cy="230" r="2.2"/>
+    <circle class="estrela estrela--halo g-rural" cx="1196" cy="242" r="5.1"/>
+    <circle class="estrela g-rural" cx="1196" cy="242" r="2.2"/>
+    <circle class="estrela estrela--halo g-rural" cx="1292" cy="226" r="5.1"/>
+    <circle class="estrela g-rural" cx="1292" cy="226" r="2.2"/>
+    <circle class="estrela g-rural" cx="1258" cy="268" r="1.6"/>
+    <circle class="estrela g-rural" cx="1168" cy="276" r="1.6"/>
+    <circle class="estrela g-rural" cx="1326" cy="262" r="1.6"/>
+    <circle class="estrela estrela--halo g-movimentos" cx="1410" cy="238" r="5.1"/>
+    <circle class="estrela g-movimentos" cx="1410" cy="238" r="2.2"/>
+    <circle class="estrela g-movimentos" cx="1388" cy="276" r="1.6"/>
+    <circle class="estrela g-movimentos" cx="1428" cy="268" r="1.6"/>
+    <circle class="estrela g-partidos" cx="420" cy="262" r="1.6"/>
+    <circle class="estrela g-partidos" cx="452" cy="246" r="1.6"/>
+    <circle class="estrela g-outros" cx="692" cy="270" r="1.6"/>
+    <circle class="estrela g-outros" cx="712" cy="248" r="1.6"/>
+    <circle class="estrela g-orgaos" cx="72" cy="238" r="1.6"/>
+    </g>
+    <g class="only-claro"><a href="#org-dce-ufgd" aria-label="DCE UFGD"><text class="rotulo" x="746.3" y="152.1" text-anchor="middle">DCE UFGD</text></a><a href="#org-univida" aria-label="Univida"><text class="rotulo" x="849.2" y="102.2" text-anchor="middle">Univida</text></a><a href="#org-sintef" aria-label="SINTEF"><text class="rotulo" x="953.1" y="129.2" text-anchor="middle">SINTEF</text></a><a href="#org-simted" aria-label="SIMTED"><text class="rotulo" x="1067.6" y="86.3" text-anchor="middle">SIMTED</text></a><a href="#org-aduf" aria-label="ADUF"><text class="rotulo" x="1130.8" y="180.6" text-anchor="middle">ADUF</text></a><a href="#org-teia-dos-povos" aria-label="Teia dos Povos MS"><text class="rotulo" x="1243.5" y="108.9" text-anchor="middle">Teia dos Povos MS</text></a><a href="#org-quintal-de-palmares" aria-label="Quintal de Palmares"><text class="rotulo" x="1359.6" y="151.8" text-anchor="middle">Quintal de Palmares</text></a></g>
+    <g class="only-escuro"><a href="#org-dce-ufgd" aria-label="DCE UFGD"><text class="rotulo" x="757.9" y="182.5" text-anchor="start">DCE UFGD</text></a><a href="#org-univida" aria-label="Univida"><text class="rotulo" x="857.9" y="130.5" text-anchor="start">Univida</text></a><a href="#org-sintef" aria-label="SINTEF"><text class="rotulo" x="946" y="168.5" text-anchor="end">SINTEF</text></a><a href="#org-simted" aria-label="SIMTED"><text class="rotulo" x="1075.9" y="120.5" text-anchor="start">SIMTED</text></a><a href="#org-aduf" aria-label="ADUF"><text class="rotulo" x="1141.9" y="206.5" text-anchor="start">ADUF</text></a><a href="#org-teia-dos-povos" aria-label="Teia dos Povos MS"><text class="rotulo" x="1249.9" y="142.5" text-anchor="start">Teia dos Povos MS</text></a><a href="#org-quintal-de-palmares" aria-label="Quintal de Palmares"><text class="rotulo" x="1362" y="164" text-anchor="middle">Quintal de Palmares</text></a></g>
+    </svg>
+
+    <header class="bar">
+      <div class="wrap">
+        <a class="brand" href="#" aria-label="NOS Dourados (página inicial)">
+          <svg class="nos-mark" role="img" aria-label="NOS"><use href="assets/icons.svg#marca-nos"/></svg>
+          <span class="brand__place">Dourados</span>
+        </a>
+        <nav class="pages" aria-label="Páginas">
+          <a href="#" aria-current="page">Início</a>
+          <a href="#agenda">Agenda</a>
+          <a href="#mutiroes">Mutirões</a>
+          <a href="#noticias">Notícias</a>
+          <a href="#mapa">Mapa</a>
+          <a href="#comercio">Comércio</a>
+          <a href="#organizacoes">Organizações</a>
+        </nav>
+        <label class="search"><svg class="icon"><use href="assets/icons.svg#search"/></svg><span>Buscar atividades, chamados, negócios…</span></label>
+        <button class="icon-button" type="button" aria-label="Trocar o tema"><svg class="icon only-claro"><use href="assets/icons.svg#moon"/></svg><svg class="icon only-escuro"><use href="assets/icons.svg#sun"/></svg></button>
+      </div>
+    </header>
+
+    <div class="wrap hello">
+      <h1 class="hello__title"><span class="only-claro">Bom dia, Dourados</span><span class="only-escuro">Boa noite, Dourados</span></h1>
+      <p class="hello__date">Terça, 27 de outubro de 2026</p>
+      <a class="sky-link" href="#organizacoes">22 organizações<svg class="icon"><use href="assets/icons.svg#arrow-right"/></svg></a>
+    </div>
+  </div>
+
+  <div class="faixa" role="img" aria-label="Faixa tecida (arte provisória)"></div>
+
+  <main class="main">
+    <div class="wrap">
+      <div class="grid">
+        <article class="feature card s-agenda">
+          <p class="when"><span class="circled date-big">sáb 31/10<svg class="hand" aria-hidden="true"><use href="#hand-a"/></svg></span>horário a confirmar · a próxima atividade</p>
+          <h2>Caminhada Ecológica de Dourados</h2>
+          <div class="facts">
+            <p class="fact"><span class="dot g-sindicatos" title="Sindicatos"></span><span><b>SINTEF</b> · Sindicato dos Trabalhadores em Educação das Instituições Federais</span></p>
+            <p class="fact"><svg class="icon"><use href="assets/icons.svg#map-pin"/></svg><span>AGECOLD (largada e exposição) e Parque Arnulpho Fioravante</span></p>
+          </div>
+          <div class="actions">
+            <a class="button button--primary" href="#compartilhar"><svg class="icon"><use href="assets/icons.svg#message-circle"/></svg>Compartilhar no WhatsApp</a>
+            <a class="button button--secondary" href="#agenda">Ver na agenda</a>
+          </div>
+
+          <section class="later" aria-label="Também na agenda">
+            <h3>Também na agenda</h3>
+            <ul>
+              <li><a href="#baile"><time>sáb 31/10, 21h</time><span>Baile dos Educadores – Festa Tropical</span><span class="org">SIMTED</span></a></li>
+              <li><a href="#eleicao"><time>qua 04/11</time><span>Eleição da Direção e do Conselho Fiscal do SIMTED</span><span class="org">SIMTED</span></a></li>
+            </ul>
+            <a class="more" href="#agenda">Ver as 4 atividades até 20/11<svg class="icon"><use href="assets/icons.svg#arrow-right"/></svg></a>
+          </section>
+        </article>
+
+        <div class="side">
+          <article class="note s-mutiroes">
+            <h3><svg class="icon"><use href="assets/icons.svg#hand-heart"/></svg>Chamado aberto</h3>
+            <p class="lead">Rede de Sementes: financiamento coletivo para sementes crioulas</p>
+            <p class="by">Teia dos Povos MS · Doação</p>
+            <a class="more" href="#mutiroes">Ver os 2 chamados<svg class="icon"><use href="assets/icons.svg#arrow-right"/></svg></a>
+          </article>
+          <article class="note s-noticias">
+            <h3><svg class="icon"><use href="assets/icons.svg#newspaper"/></svg>Notícia mais recente</h3>
+            <p class="lead">ADUF condena presença da PM em assembleia do SINTEF na UFGD</p>
+            <p class="by">10/10 · ADUF</p>
+            <a class="more" href="#noticias">Ver as notícias<svg class="icon"><use href="assets/icons.svg#arrow-right"/></svg></a>
+          </article>
+        </div>
+      </div>
+
+      <nav class="index" aria-label="Todas as páginas">
+        <a class="s-agenda" href="#agenda"><svg class="icon"><use href="assets/icons.svg#calendar-days"/></svg><span class="index__name">Agenda</span><span class="index__line">4 atividades até 20/11</span></a>
+        <a class="s-mutiroes" href="#mutiroes"><svg class="icon"><use href="assets/icons.svg#hand-heart"/></svg><span class="index__name">Mutirões</span><span class="index__line">2 chamados abertos</span></a>
+        <a class="s-noticias" href="#noticias"><svg class="icon"><use href="assets/icons.svg#newspaper"/></svg><span class="index__name">Notícias</span><span class="index__line">5 recentes</span></a>
+        <a class="s-mapa" href="#mapa"><svg class="icon"><use href="assets/icons.svg#map"/></svg><span class="index__name">Mapa</span><span class="index__line">Onde acontece</span></a>
+        <a class="s-comercio" href="#comercio"><svg class="icon"><use href="assets/icons.svg#store"/></svg><span class="index__name">Comércio</span><span class="index__line">16 negócios da rede</span></a>
+        <a class="s-orgs" href="#organizacoes"><svg class="icon"><use href="assets/icons.svg#users"/></svg><span class="index__name">Organizações</span><span class="index__line">22 em 8 grupos</span></a>
+      </nav>
+
+      <p class="credit">Faixa: arte provisória. A definitiva será criada e assinada por artistas da Reserva Indígena de Dourados.</p>
+    </div>
+  </main>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="hand-a" viewBox="0 0 120 60" preserveAspectRatio="none"><path vector-effect="non-scaling-stroke" d="M84 7C62 2 28 4 12 15C1 23 2 41 22 50C42 59 88 58 108 46C122 37 119 17 98 9C84 4 66 4 47 9"/></symbol>
+  <symbol id="astro" viewBox="0 0 120 120"><circle cx="58" cy="60" r="49" style="fill: var(--astro-fill)"/><path vector-effect="non-scaling-stroke" style="fill: none; stroke: var(--hand); stroke-width: var(--loop-w, 3px); stroke-linecap: round; stroke-linejoin: round" d="M78 9C56 4 22 12 12 38C3 64 20 104 56 108C92 112 116 88 112 56C109 28 92 7 66 5.5C54 5 40 10 28 19"/></symbol>
+  <defs>
+    <g id="pipa-a"><path style="fill: var(--k)" d="M-0.4 65C-10.9 42.4 -23.9 21.1 -35.5 -1C-24.5 -13.4 -13.6 -26 0.6 -35Z"/><path style="fill: var(--k-luz)" d="M0.6 -35C14.5 -26.3 25.1 -14 36.5 -2.5C24.5 20.1 13.5 43.4 -0.4 65Z"/><path vector-effect="non-scaling-stroke" style="fill: none; stroke: var(--pipa-tinta); stroke-width: var(--vareta); stroke-linecap: round; opacity: .75" d="M0.8 -37.6L-0.5 66.8M-37.3 -0.5Q0.5 -12.5 38.3 -2.8"/><path vector-effect="non-scaling-stroke" style="fill: none; stroke: var(--pipa-tinta); stroke-width: var(--contorno); stroke-linecap: round; stroke-linejoin: round" d="M7 -33.4C18 -24.2 29.9 -16 39 -4.6C28.1 19.9 13.8 42.7 1.8 66.6C-10.3 43.4 -20.6 19.3 -33.4 -3.6C-23.8 -16.6 -10.6 -25.7 1.5 -36Q7.9 -32.5 16.7 -27.7"/></g>
+        <g id="pipa-b"><path style="fill: var(--k)" d="M1.5 62C-13.3 41.5 -25.2 19.2 -38 -2.5C-26.2 -12.4 -14.9 -22.9 -1 -30Z"/><path style="fill: var(--k-luz)" d="M-1 -30C13.8 -21.1 28 -11.5 40 1C26.2 20.7 14.8 42 1.5 62Z"/><path vector-effect="non-scaling-stroke" style="fill: none; stroke: var(--pipa-tinta); stroke-width: var(--vareta); stroke-linecap: round; opacity: .75" d="M-0.8 -32.6L1.4 63.8M-39.8 -2Q1 -12.5 41.8 0.7"/><path vector-effect="non-scaling-stroke" style="fill: none; stroke: var(--pipa-tinta); stroke-width: var(--contorno); stroke-linecap: round; stroke-linejoin: round" d="M5.8 -28.7C19.7 -21.9 30.1 -10.6 41.9 -1.2C29.4 20.6 14.8 41.2 3.2 63.6C-10.2 40.9 -24.5 18.8 -36.2 -4.9C-25.5 -15.5 -12.6 -22.9 -0.2 -31.1Q6.9 -27.9 16.7 -23.4"/></g>
+        <g id="pipa-c"><path style="fill: var(--k)" d="M0.8 64C-10.3 41.6 -22.3 19.6 -32 -3.5C-23.3 -16.8 -11.4 -27.2 0 -38Z"/><path style="fill: var(--k-luz)" d="M0 -38C12.6 -29.5 21.6 -17.6 31 -6C22.9 18.2 11.1 40.8 0.8 64Z"/><path vector-effect="non-scaling-stroke" style="fill: none; stroke: var(--pipa-tinta); stroke-width: var(--vareta); stroke-linecap: round; opacity: .75" d="M0.2 -40.6L0.7 65.8M-33.8 -3Q-0.5 -16 32.8 -6.3"/><path vector-effect="non-scaling-stroke" style="fill: none; stroke: var(--pipa-tinta); stroke-width: var(--contorno); stroke-linecap: round; stroke-linejoin: round" d="M6.1 -35.9C16.1 -27.3 26.5 -19 33.6 -7.6C23.5 16.8 14.9 41.8 2.9 65.4C-9.4 42.5 -18.4 18.1 -29.9 -5.1C-20 -16.6 -11 -29.1 1.2 -38.5Q6.8 -35.1 14.6 -30.4"/></g>
+        <g id="pipa-longe"><path style="fill: var(--k)" d="M0 65C-11.9 43 -23.7 20.9 -35 -1.5C-24.6 -14.2 -12.3 -24.8 0.4 -35Z"/><path style="fill: var(--k-luz)" d="M0.4 -35C13.5 -25.3 24.9 -13.9 36 -2C24.8 20.8 12.5 43 0 65Z"/><path vector-effect="non-scaling-stroke" style="fill: none; stroke: var(--pipa-tinta); stroke-width: var(--contorno); stroke-linejoin: round; opacity: .9" d="M0.4 -35L36 -2L0 65L-35 -1.5Z"/></g>
+  </defs>
+</svg>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>D3 · Céu · Desktop · Início</title>
+<script>if (new URLSearchParams(location.search).get('tema') === 'escuro') document.documentElement.dataset.tema = 'escuro';</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Inter:opsz,wght@14..32,400..700&display=swap">
+<link rel="stylesheet" href="assets/design.css">
+<link rel="stylesheet" href="assets/direcao-trama-ceu.css">
+<style>
+/* Início on desktop: a wide sky with the top bar on it, the greeting at left and the sun rising at right
+   behind the band, which runs full width as the horizon. Below it, D's calm layout: the next activity
+   resting on the horizon with its two actions, one open call, the latest news, one quiet link to each page. */
+.desk {
+  display: flex;
+  flex-direction: column;
+  width: 1440px;
+  height: 900px;
+  overflow: hidden;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: 15px;
+  line-height: 22px;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  caret-color: var(--accent);
+}
+.desk ::selection { background: var(--accent-tint); color: var(--ink); }
+.desk :focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; }
+:where(.desk) :where(h1, h2, h3, p, ul) { margin: 0; padding: 0; }
+:where(.desk) :where(a) { color: inherit; text-decoration: none; }
+:where(.desk) :where(button) { margin: 0; padding: 0; border: 0; background: none; font: inherit; color: inherit; cursor: pointer; }
+:where(.desk) :where(.icon) { width: 20px; height: 20px; flex-shrink: 0; }
+
+.wrap { width: 1120px; margin: 0 auto; }
+
+/* The sky: 240px with the top bar on it. */
+.sky--desk { --h5: 22px; --h4: 50px; --h3: 84px; --h2: 128px; height: 240px; }
+.sky--desk .astro--sol { right: 194px; bottom: -114px; width: 260px; height: 260px; --loop-w: 5px; }
+.sky--desk .astro--lua { right: 252px; top: 84px; width: 92px; height: 92px; --loop-w: 3.5px; }
+
+/* Top bar on the sky: the lockup, the pages, search and the theme. */
+.bar { height: 68px; }
+.bar .wrap { display: flex; align-items: center; gap: 36px; height: 100%; }
+.brand .nos-mark { color: var(--sky-ink); }
+.pages { display: flex; gap: 4px; flex: 1 1 auto; }
+.pages a { position: relative; display: flex; align-items: center; height: 44px; padding: 0 12px; border-radius: 22px; color: var(--sky-ink-soft); font-weight: 500; }
+.pages a:hover { background: color-mix(in srgb, var(--sky-ink) 8%, transparent); color: var(--sky-ink); }
+.pages a[aria-current] { color: var(--sky-ink); font-weight: 600; }
+.pages a[aria-current]::after { content: ''; position: absolute; left: 12px; right: 12px; bottom: -12px; height: 3px; border-radius: 2px; background: var(--hand); }
+.search { display: flex; align-items: center; gap: 8px; width: 300px; height: 44px; padding: 0 14px; border-radius: 22px; background: var(--sky-field); color: var(--ink-soft); }
+.search span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* The greeting on the sky. */
+.hello { padding-top: 30px; }
+.hello__title { font-family: var(--font-display); font-size: 58px; line-height: 64px; font-weight: 700; letter-spacing: -0.025em; }
+.hello__date { margin-top: 6px; font-size: 17px; line-height: 24px; font-weight: 500; color: var(--sky-ink-soft); }
+
+.faixa { --faixa-h: 40px; }
+
+/* The page: the grid rises 12px onto the band. */
+.main { flex: 1 1 auto; }
+.grid { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 24px; margin-top: -12px; }
+
+/* The next activity: when (circled), what, who, where, and the two actions. */
+.feature { display: flex; flex-direction: column; padding: 26px 28px 22px; }
+.when { display: flex; align-items: center; gap: 16px; font-size: 15px; line-height: 22px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.when .circled { margin-left: 9px; font-size: 22px; line-height: 28px; color: var(--ink); }
+.feature h2 { margin-top: 14px; font-size: 30px; line-height: 36px; font-weight: 700; letter-spacing: -0.022em; text-wrap: balance; }
+.facts { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; color: var(--ink-soft); }
+.fact { display: flex; align-items: flex-start; gap: 10px; }
+.fact .icon { width: 18px; height: 18px; margin-top: 2px; }
+.fact .dot { margin: 7px 5px 0; }
+.fact b { font-weight: 600; color: var(--ink); }
+.actions { display: flex; gap: 10px; margin-top: 20px; }
+.later { margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--line); }
+.later h3 { font-family: var(--font-display); font-size: 17px; line-height: 22px; font-weight: 650; }
+.later ul { list-style: none; margin-top: 4px; }
+.later li a { display: grid; grid-template-columns: 112px minmax(0, 1fr) auto; align-items: baseline; gap: 12px; padding: 9px 0; }
+.later li + li a { border-top: 1px solid var(--line); }
+.later time { font-weight: 600; font-variant-numeric: tabular-nums; }
+.later .org { color: var(--ink-soft); font-size: 14px; }
+.more { display: inline-flex; align-items: center; gap: 4px; margin-top: 8px; height: 32px; font-weight: 600; color: var(--s-text, var(--accent-text)); }
+.more .icon { width: 18px; height: 18px; }
+
+/* The side: one open call and the latest news, each in its section's tint. */
+.side { display: flex; flex-direction: column; gap: 20px; }
+.note { display: flex; flex-direction: column; padding: 22px 24px 16px; border-radius: 18px; background: var(--s-tint); }
+.note h3 { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-size: 17px; line-height: 22px; font-weight: 650; }
+.note h3 .icon { width: 20px; height: 20px; color: var(--s-text); }
+.note p.lead { margin-top: 10px; font-size: 18px; line-height: 25px; font-weight: 600; letter-spacing: -0.012em; text-wrap: pretty; }
+.note p.by { margin-top: 6px; font-size: 14px; color: var(--s-soft); }
+
+/* One quiet link to each page: its icon in its colour, the name in Bricolage. */
+.index { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); margin-top: 28px; border-top: 1px solid var(--line); }
+.index a { display: flex; flex-direction: column; gap: 2px; padding: 16px 16px 12px 0; }
+.index a:hover .index__name { color: var(--s-text); }
+.index .icon { width: 22px; height: 22px; margin-bottom: 8px; color: var(--s-text); }
+.index__name { font-family: var(--font-display); font-size: 18px; line-height: 24px; font-weight: 650; letter-spacing: -0.01em; }
+.index__line { font-size: 14px; line-height: 20px; color: var(--ink-soft); }
+
+.credit { margin-top: 12px; font-size: 13px; line-height: 18px; color: var(--ink-soft); }
+</style>
+</head>
+<body>
+<!-- D3 · Céu · Início (desktop), calm: the sky at this hour (amanhecer in the light theme, noite in the dark) with
+     the top bar on it; the greeting at left; the urucum loop rising as the sun behind the band (provisional art),
+     the full-width horizon. The next activity rests on it; then one call, the latest news, a link to each page. -->
+<div class="desk">
+  <div class="sky sky--desk">
+    <svg class="astro astro--sol only-claro" viewBox="0 0 120 120" aria-hidden="true"><use href="#astro"/></svg>
+    <svg class="astro astro--lua only-escuro" viewBox="0 0 120 120" aria-hidden="true"><use href="#astro"/></svg>
+    <svg class="stars only-escuro" aria-hidden="true">
+      <circle cx="64" cy="30" r="1.3"/><circle cx="92" cy="112" r="1.6"/><circle cx="124" cy="196" r="1.2"/>
+      <circle cx="808" cy="104" r="1.4"/><circle cx="858" cy="178" r="1.7"/><circle cx="930" cy="120" r="1.2"/>
+      <circle cx="986" cy="208" r="1.4"/><circle cx="1032" cy="96" r="1.1"/><circle cx="1236" cy="128" r="1.6"/>
+      <circle cx="1274" cy="208" r="1.2"/><circle cx="1344" cy="92" r="1.5"/><circle cx="1392" cy="172" r="1.2"/>
+      <circle cx="1360" cy="30" r="1.1"/><circle cx="742" cy="210" r="1.2"/>
+    </svg>
+
+    <header class="bar">
+      <div class="wrap">
+        <a class="brand" href="#" aria-label="NOS Dourados (página inicial)">
+          <svg class="nos-mark" role="img" aria-label="NOS"><use href="assets/icons.svg#marca-nos"/></svg>
+          <span class="brand__place">Dourados</span>
+        </a>
+        <nav class="pages" aria-label="Páginas">
+          <a href="#" aria-current="page">Início</a>
+          <a href="#agenda">Agenda</a>
+          <a href="#mutiroes">Mutirões</a>
+          <a href="#noticias">Notícias</a>
+          <a href="#mapa">Mapa</a>
+          <a href="#comercio">Comércio</a>
+          <a href="#organizacoes">Organizações</a>
+        </nav>
+        <label class="search"><svg class="icon"><use href="assets/icons.svg#search"/></svg><span>Buscar atividades, chamados, negócios…</span></label>
+        <button class="icon-button" type="button" aria-label="Trocar o tema"><svg class="icon only-claro"><use href="assets/icons.svg#moon"/></svg><svg class="icon only-escuro"><use href="assets/icons.svg#sun"/></svg></button>
+      </div>
+    </header>
+
+    <div class="wrap hello">
+      <h1 class="hello__title"><span class="only-claro">Bom dia, Dourados</span><span class="only-escuro">Boa noite, Dourados</span></h1>
+      <p class="hello__date">Terça, 27 de outubro de 2026</p>
+    </div>
+  </div>
+
+  <div class="faixa" role="img" aria-label="Faixa tecida (arte provisória)"></div>
+
+  <main class="main">
+    <div class="wrap">
+      <div class="grid">
+        <article class="feature card s-agenda">
+          <p class="when"><span class="circled date-big">sáb 31/10<svg class="hand" aria-hidden="true"><use href="#hand-a"/></svg></span>horário a confirmar · a próxima atividade</p>
+          <h2>Caminhada Ecológica de Dourados</h2>
+          <div class="facts">
+            <p class="fact"><span class="dot g-sindicatos" title="Sindicatos"></span><span><b>SINTEF</b> · Sindicato dos Trabalhadores em Educação das Instituições Federais</span></p>
+            <p class="fact"><svg class="icon"><use href="assets/icons.svg#map-pin"/></svg><span>AGECOLD (largada e exposição) e Parque Arnulpho Fioravante</span></p>
+          </div>
+          <div class="actions">
+            <a class="button button--primary" href="#compartilhar"><svg class="icon"><use href="assets/icons.svg#message-circle"/></svg>Compartilhar no WhatsApp</a>
+            <a class="button button--secondary" href="#agenda">Ver na agenda</a>
+          </div>
+
+          <section class="later" aria-label="Também na agenda">
+            <h3>Também na agenda</h3>
+            <ul>
+              <li><a href="#baile"><time>sáb 31/10, 21h</time><span>Baile dos Educadores – Festa Tropical</span><span class="org">SIMTED</span></a></li>
+              <li><a href="#eleicao"><time>qua 04/11</time><span>Eleição da Direção e do Conselho Fiscal do SIMTED</span><span class="org">SIMTED</span></a></li>
+            </ul>
+            <a class="more" href="#agenda">Ver as 4 atividades até 20/11<svg class="icon"><use href="assets/icons.svg#arrow-right"/></svg></a>
+          </section>
+        </article>
+
+        <div class="side">
+          <article class="note s-mutiroes">
+            <h3><svg class="icon"><use href="assets/icons.svg#hand-heart"/></svg>Chamado aberto</h3>
+            <p class="lead">Rede de Sementes: financiamento coletivo para sementes crioulas</p>
+            <p class="by">Teia dos Povos MS · Doação</p>
+            <a class="more" href="#mutiroes">Ver os 2 chamados<svg class="icon"><use href="assets/icons.svg#arrow-right"/></svg></a>
+          </article>
+          <article class="note s-noticias">
+            <h3><svg class="icon"><use href="assets/icons.svg#newspaper"/></svg>Notícia mais recente</h3>
+            <p class="lead">ADUF condena presença da PM em assembleia do SINTEF na UFGD</p>
+            <p class="by">10/10 · ADUF</p>
+            <a class="more" href="#noticias">Ver as notícias<svg class="icon"><use href="assets/icons.svg#arrow-right"/></svg></a>
+          </article>
+        </div>
+      </div>
+
+      <nav class="index" aria-label="Todas as páginas">
+        <a class="s-agenda" href="#agenda"><svg class="icon"><use href="assets/icons.svg#calendar-days"/></svg><span class="index__name">Agenda</span><span class="index__line">4 atividades até 20/11</span></a>
+        <a class="s-mutiroes" href="#mutiroes"><svg class="icon"><use href="assets/icons.svg#hand-heart"/></svg><span class="index__name">Mutirões</span><span class="index__line">2 chamados abertos</span></a>
+        <a class="s-noticias" href="#noticias"><svg class="icon"><use href="assets/icons.svg#newspaper"/></svg><span class="index__name">Notícias</span><span class="index__line">5 recentes</span></a>
+        <a class="s-mapa" href="#mapa"><svg class="icon"><use href="assets/icons.svg#map"/></svg><span class="index__name">Mapa</span><span class="index__line">Onde acontece</span></a>
+        <a class="s-comercio" href="#comercio"><svg class="icon"><use href="assets/icons.svg#store"/></svg><span class="index__name">Comércio</span><span class="index__line">16 negócios da rede</span></a>
+        <a class="s-orgs" href="#organizacoes"><svg class="icon"><use href="assets/icons.svg#users"/></svg><span class="index__name">Organizações</span><span class="index__line">22 em 8 grupos</span></a>
+      </nav>
+
+      <p class="credit">Faixa: arte provisória. A definitiva será criada e assinada por artistas da Reserva Indígena de Dourados.</p>
+    </div>
+  </main>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="hand-a" viewBox="0 0 120 60" preserveAspectRatio="none"><path vector-effect="non-scaling-stroke" d="M84 7C62 2 28 4 12 15C1 23 2 41 22 50C42 59 88 58 108 46C122 37 119 17 98 9C84 4 66 4 47 9"/></symbol>
+  <symbol id="astro" viewBox="0 0 120 120"><circle cx="58" cy="60" r="49" style="fill: var(--astro-fill)"/><path vector-effect="non-scaling-stroke" style="fill: none; stroke: var(--hand); stroke-width: var(--loop-w, 3px); stroke-linecap: round; stroke-linejoin: round" d="M78 9C56 4 22 12 12 38C3 64 20 104 56 108C92 112 116 88 112 56C109 28 92 7 66 5.5C54 5 40 10 28 19"/></symbol>
+</svg>
+</body>
+</html>
