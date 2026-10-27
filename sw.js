@@ -34,10 +34,10 @@ const HOME = absolute('./');
 // App shell, cached on install so the first visit already works offline: on that visit the page
 // isn't controlled by this worker yet, so only what is listed here gets saved. That is the three
 // pages (index.html as './', calendario.html, comercio.html) and everything they load: the manifest
-// and its icons, the favicons, the three stylesheets and the fonts they declare, every module
-// reached from js/home.js, js/app.js and js/comercio.js, and the vendored image library (which also
-// fetches the fonts again to embed them in the flyer PNG). Later visits also save at runtime anything
-// missing here, but keep this list in step with those files.
+// and its icons, the favicons, the three stylesheets with the fonts they declare and the woven band
+// (assets/faixa.svg), every module reached from js/home.js, js/app.js and js/comercio.js, and the
+// vendored image library (which also fetches the fonts again to embed them in the flyer PNG). Later
+// visits also save at runtime anything missing here, but keep this list in step with those files.
 const SHELL = [
   './',
   'calendario.html',
@@ -51,6 +51,7 @@ const SHELL = [
   'assets/icons/favicon-16.png',
   'assets/icons/favicon-32.png',
   'assets/icons/favicon-48.png',
+  'assets/faixa.svg',
   'css/theme.css',
   'css/style.css',
   'css/flyers.css',
@@ -68,8 +69,11 @@ const SHELL = [
   'js/icons.js',
   'js/month.js',
   'js/page.js',
+  'js/sky.js',
   'js/whatsapp.js',
   'js/vendor/html-to-image.js',
+  'fonts/bricolage-grotesque.woff2',
+  'fonts/inter.woff2',
   'fonts/barlow-500.woff2',
   'fonts/barlow-600.woff2',
   'fonts/barlow-700.woff2',
@@ -85,7 +89,7 @@ const cacheable = (res) => res.ok && res.status !== 206 && (res.type === 'basic'
 
 // Copies are saved under their bare URL, never under the page's Request: an entry saved by the
 // install (no request headers) and one saved later must replace each other even when the server
-// sends Vary. Pages are saved without their query (?tema=exemplo, ?utm_source=…, ?fbclid=…): it is
+// sends Vary. Pages are saved without their query (?tema=escuro, ?utm_source=…, ?fbclid=…): it is
 // the same static file, and one copy per query would grow the cache with every shared link. For the
 // same reason index.html and its folder share one copy, refreshed by a visit to either address.
 function keyFor(request) {

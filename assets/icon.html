@@ -1,90 +1,110 @@
 <!doctype html>
 <!-- Source of the app icons and favicons in assets/icons/ (rendered by assets/render.cjs).
-     The NOS mark (MARK in js/icons.js) printed on a day sheet: paper under the red binding strip, the
-     letters in ink and the O circled in red. It renders at the viewport size; the hash picks the variant:
-       #any       manifest icon, purpose "any" (192, 512): a rounded sheet on a transparent ground.
-       #maskable  manifest icon, purpose "maskable" (192, 512): full bleed; the strip runs deeper and the
-                  mark sits inside the centred circle of 80% diameter that every launcher mask keeps.
+     The sky at dawn in flat bands over the woven band (assets/faixa.svg, provisional art) and the clay
+     below, with the NOS mark (MARK in js/icons.js) on the sky: the letters in ink, and the O the urucum
+     loop drawing the sun round, as on the site's sky. It renders at the viewport size; the hash picks
+     the variant:
+       #any       manifest icon, purpose "any" (192, 512): a rounded square on a transparent ground.
+       #maskable  manifest icon, purpose "maskable" (192, 512): full bleed; the mark sits inside the
+                  centred circle of 80% diameter that every launcher mask keeps.
        #apple     apple-touch-icon (180): an opaque full-bleed square; iOS rounds the corners.
-       #favicon   browser tab (16, 32, 48): the red circle alone on a rounded sheet, the one part of the
-                  mark that still reads at these sizes, drawn as a stroke so it keeps its weight.
-     Colours are the roles of css/theme.css. -->
-<html lang="pt-BR">
+       #favicon   browser tab (16, 32, 48): the sun in its loop alone on the sky, the one part of the
+                  mark that still reads at these sizes, the loop drawn as a stroke so it keeps its weight.
+     Colours are the roles of css/theme.css, in the light theme at dawn (data-scheme, data-sky). -->
+<html lang="pt-BR" data-scheme="light" data-sky="dawn">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ícone do app</title>
-<!-- The site's colour theme: data-theme on <html>, or ?tema=<name> as in index.html. -->
-<script>
-  var theme = new URLSearchParams(location.search).get('tema');
-  if (theme) document.documentElement.dataset.theme = theme;
-</script>
 <link rel="stylesheet" href="../css/theme.css">
 <style>
-  * { margin: 0; padding: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { width: 100vw; height: 100vh; overflow: hidden; background: transparent; }
-  svg { display: block; width: 100vw; height: 100vh; }
-  .sheet { fill: var(--role-paper); }
-  .strip { fill: var(--role-binding); }
-  .mark-letters { fill: var(--role-ink); }
-  .mark-loop { fill: var(--role-mark-loop); }
-  .loop-line { fill: none; stroke: var(--role-mark-loop); stroke-linecap: round; stroke-linejoin: round; }
+  /* 1vmin is a hundredth of the icon. */
+  .icon { position: relative; width: 100vmin; height: 100vmin; overflow: hidden; border-radius: var(--radius-icon, 0); background: var(--role-ground); }
+  .sky {
+    position: absolute;
+    inset: 0 0 auto;
+    height: var(--horizon);
+    background: linear-gradient(to top,
+      var(--role-sky-5) 0 var(--h5),
+      var(--role-sky-4) 0 var(--h4),
+      var(--role-sky-3) 0 var(--h3),
+      var(--role-sky-2) 0 var(--h2),
+      var(--role-sky-1) 0);
+  }
+  .band { position: absolute; left: 0; right: 0; top: var(--horizon); height: var(--band); background: url(faixa.svg) 0 50% / auto 100% repeat-x; }
+  svg { position: absolute; display: block; overflow: visible; }
+  .sun { fill: var(--role-astro); }
+  .mark-letters { fill: var(--role-sky-ink); }
+  .mark-loop { fill: var(--role-sky-hand); }
+  .loop-line { fill: none; stroke: var(--role-sky-hand); stroke-linecap: round; stroke-linejoin: round; }
 </style>
 </head>
 <body>
-<svg id="icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
+<div class="icon" id="icon"><div class="sky"></div><div class="band"></div></div>
 <script type="module">
   import { MARK } from '../js/icons.js';
 
   const NS = 'http://www.w3.org/2000/svg';
   const variant = location.hash.slice(1) || 'any';
-  const S = Math.min(innerWidth, innerHeight);
-  const svg = document.getElementById('icon');
-  svg.setAttribute('viewBox', `0 0 ${S} ${S}`);
+  const icon = document.getElementById('icon');
 
-  // In hundredths of the icon: the sheet's corners, the strip's height, the mark's width and the
-  // height of its middle.
+  // In hundredths of the icon: the corners, the horizon (the band's top), the band's height, the sky's
+  // bands counted up from the horizon, the mark's width and the height of its middle.
   const LAYOUT = {
-    any: { radius: 22, strip: 13, width: 70, middle: 56.5 },
-    apple: { radius: 0, strip: 13, width: 70, middle: 56.5 },
-    maskable: { radius: 0, strip: 26, width: 52, middle: 58 },
+    any: { radius: 22, horizon: 72, band: 10, bands: [7, 15, 24, 35], width: 72, middle: 38 },
+    apple: { radius: 0, horizon: 72, band: 10, bands: [7, 15, 24, 35], width: 72, middle: 38 },
+    maskable: { radius: 0, horizon: 74, band: 10, bands: [7, 15, 25, 37], width: 56, middle: 45 },
+    favicon: { radius: 22, horizon: 100, band: 0, bands: [0, 0, 0, 0] },
   };
-  // The favicons: the loop's centre line (font units, as MARK), its box, and the stroke and the margin
-  // in hundredths of the icon.
+  // The sun inside the O: an ellipse a little inside the loop's centre line (font units, as MARK), and
+  // for the favicons the centre line itself (its box, and the stroke and margin in hundredths).
+  const SUN = { cx: 777, cy: -357, rx: 236, ry: 388 };
   const LOOP_LINE = 'M885 -654l-19 -17l-19 -15l-20 -13l-20 -11l-21 -9l-20 -7l-21 -4l-21 -2l-20 1l-21 4l-20 6l-19 9l-19 12l-18 14l-17 18l-15 20l-14 23l-13 25l-10 27l-9 30l-7 31l-4 32l-3 33l-1 34l2 34l3 34l4 34l7 34l8 33l10 33l11 31l13 31l14 29l16 28l17 25l17 25l19 22l20 19l21 18l21 14l22 12l22 9l23 6l22 3l22 0l22 -4l22 -6l20 -9l20 -12l19 -14l18 -18l17 -19l15 -22l15 -25l12 -26l12 -29l9 -30l8 -32l6 -34l3 -34l2 -36l0 -37l-3 -36l-5 -37l-7 -37l-9 -36l-11 -34l-13 -34l-15 -32l-16 -30l-18 -28l-19 -25l-20 -24l-20 -21l-22 -19l-22 -16l-22 -14l-23 -11l-23 -9l-24 -6l-23 -4l-23 -1l-23 2l-23 5l-23 8l-21 12l-21 14l-20 18l-18 21l-17 24';
   const LOOP_BOX = [514, -780, 534, 841];
-  const FAVICON = { radius: 20, stroke: 13, margin: 17 };
+  const FAVICON = { stroke: 13, margin: 17 };
+
+  const L = LAYOUT[variant] ?? LAYOUT.any;
+  icon.style.setProperty('--radius-icon', `${L.radius}vmin`);
+  icon.style.setProperty('--horizon', `${L.horizon}vmin`);
+  icon.style.setProperty('--band', `${L.band}vmin`);
+  ['--h5', '--h4', '--h3', '--h2'].forEach((name, i) => icon.style.setProperty(name, `${L.bands[i]}vmin`));
 
   function add(parent, tag, attrs) {
-    const el = document.createElementNS(NS, tag);
-    for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
-    parent.append(el);
-    return el;
+    const node = document.createElementNS(NS, tag);
+    for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v);
+    parent.append(node);
+    return node;
   }
-
+  const svg = add(icon, 'svg', { 'aria-hidden': 'true' });
+  const S = Math.min(innerWidth, innerHeight);
+  svg.setAttribute('width', S);
+  svg.setAttribute('height', S);
+  svg.style.inset = '0';
   const u = S / 100;
+
   if (variant === 'favicon') {
-    add(svg, 'rect', { class: 'sheet', width: S, height: S, rx: FAVICON.radius * u });
+    // The sun in its loop, centred: the disc a little inside the loop's line, the loop as a stroke.
     const [x, y, w, h] = LOOP_BOX;
     const stroke = FAVICON.stroke * u;
     const room = S - 2 * FAVICON.margin * u;
     const scale = (room - stroke) / Math.max(w, h);
-    const tx = S / 2 - (x + w / 2) * scale;
-    const ty = S / 2 - (y + h / 2) * scale;
-    add(svg, 'path', { class: 'loop-line', d: LOOP_LINE, transform: `translate(${tx} ${ty}) scale(${scale})`, 'stroke-width': stroke / scale });
+    const g = add(svg, 'g', { transform: `translate(${S / 2 - (x + w / 2) * scale} ${S / 2 - (y + h / 2) * scale}) scale(${scale})` });
+    add(g, 'ellipse', { class: 'sun', cx: SUN.cx, cy: SUN.cy, rx: SUN.rx + 10, ry: SUN.ry + 14 });
+    add(g, 'path', { class: 'loop-line', d: LOOP_LINE, 'stroke-width': stroke / scale });
   } else {
-    const L = LAYOUT[variant] ?? LAYOUT.any;
-    add(add(svg, 'clipPath', { id: 'sheet' }), 'rect', { width: S, height: S, rx: L.radius * u });
-    const sheet = add(svg, 'g', { 'clip-path': 'url(#sheet)' });
-    add(sheet, 'rect', { class: 'sheet', width: S, height: S });
-    add(sheet, 'rect', { class: 'strip', width: S, height: L.strip * u });
     const [x, y, w, h] = MARK.viewBox.split(' ').map(Number);
     const scale = (L.width * u) / w;
     const g = add(svg, 'g', { transform: `translate(${S / 2 - (x + w / 2) * scale} ${L.middle * u - (y + h / 2) * scale}) scale(${scale})` });
+    add(g, 'ellipse', { class: 'sun', cx: SUN.cx, cy: SUN.cy, rx: SUN.rx, ry: SUN.ry });
     add(g, 'path', { class: 'mark-letters', d: MARK.letters });
     add(g, 'path', { class: 'mark-loop', d: MARK.loop });
   }
-  document.documentElement.dataset.ready = '';
+  // The band is a background image: wait for it before saying the icon is drawn.
+  const band = new Image();
+  band.onload = band.onerror = () => { document.documentElement.dataset.ready = ''; };
+  band.src = new URL('faixa.svg', location.href).href;
 </script>
 </body>
 </html>

@@ -8,8 +8,8 @@
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#EFEFEC",
-  "theme_color": "#E4002B",
+  "background_color": "#F2E3D7",
+  "theme_color": "#6FAEE3",
   "categories": ["social", "news", "shopping"],
   "icons": [
     { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
@@ -19,8 +19,8 @@
   ],
   "shortcuts": [
     {
-      "name": "Calendário",
-      "description": "A agenda das organizações e movimentos de Dourados",
+      "name": "Agenda",
+      "description": "As atividades das organizações e movimentos de Dourados",
       "url": "calendario.html",
       "icons": [{ "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     },
@@ -37,7 +37,7 @@
       "sizes": "780x1688",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Agenda no celular: uma folha por dia, com as atividades das organizações de Dourados"
+      "label": "Agenda no celular: os dias sob o céu de Dourados, com as atividades das organizações"
     },
     {
       "src": "assets/screenshots/phone-message.png",
@@ -58,7 +58,7 @@
       "sizes": "780x1688",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Comércio no celular: os negócios da rede, de A a Z, com WhatsApp e Instagram de cada um"
+      "label": "Comércio no celular: os negócios da rede, em breve"
     },
     {
       "src": "assets/screenshots/desktop.png",
