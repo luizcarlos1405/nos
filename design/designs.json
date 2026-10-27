@@ -44,11 +44,16 @@
       ]
     },
     {
-      "title": "Panfletos (o layout de antes, com a paleta nova)",
+      "title": "Panfletos (Céu · Terra: o céu da hora de cada atividade)",
       "designs": [
-        { "file": "panfleto-folha-do-dia.html", "title": "Panfleto · Folha do dia", "width": 1080, "height": 1350 },
-        { "file": "panfleto-calendario-do-mes.html", "title": "Panfleto · Calendário do mês", "width": 1080, "height": 1350 },
-        { "file": "panfleto-cartaz.html", "title": "Panfleto · Cartaz", "width": 1080, "height": 1350 },
+        { "file": "panfleto-folha-do-dia.html", "title": "Panfleto · Folha do dia · dia", "width": 1080, "height": 1350 },
+        { "file": "panfleto-folha-do-dia.html?atividade=oficina", "title": "Panfleto · Folha do dia · amanhecer", "width": 1080, "height": 1350 },
+        { "file": "panfleto-folha-do-dia.html?atividade=baile", "title": "Panfleto · Folha do dia · noite", "width": 1080, "height": 1350 },
+        { "file": "panfleto-agenda-do-mes.html", "title": "Panfleto · Agenda do mês · dia", "width": 1080, "height": 1350 },
+        { "file": "panfleto-agenda-do-mes.html?atividade=baile", "title": "Panfleto · Agenda do mês · noite", "width": 1080, "height": 1350 },
+        { "file": "panfleto-cartaz.html", "title": "Panfleto · Cartaz · dia", "width": 1080, "height": 1350 },
+        { "file": "panfleto-cartaz.html?atividade=forum", "title": "Panfleto · Cartaz · entardecer", "width": 1080, "height": 1350 },
+        { "file": "panfleto-cartaz.html?atividade=baile", "title": "Panfleto · Cartaz · noite", "width": 1080, "height": 1350 },
         { "file": "panfleto-aviso-de-cancelamento.html", "title": "Panfleto · Aviso de cancelamento", "width": 1080, "height": 1350 }
       ]
     }

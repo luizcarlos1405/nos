@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panfleto · Agenda do mês</title>
+<link rel="stylesheet" href="../css/theme.css">
+<link rel="stylesheet" href="assets/design.css">
+<link rel="stylesheet" href="../css/flyers.css">
+<style>
+.panfleto { width: 1080px; height: 1350px; overflow: hidden; }
+</style>
+</head>
+<body>
+<!-- Agenda do mês: the month on the sky, its weeks the sky's bands from the first under the month's name to the last on the horizon; the activity's day is the sun (the moon, for an evening) drawn round by the hand; the land says what, when, who and where.
+     Drawn by js/flyer.js itself (assets/panfletos.js holds the activities, real rows of the agenda), so
+     this artboard is always the flyer the site exports; ?atividade=<key> picks another activity and with
+     it the sky of its hour (see assets/panfletos.js). -->
+<div class="panfleto"></div>
+<script type="module">
+  import { drawFlyer } from './assets/panfletos.js';
+  drawFlyer('month', 'feira');
+</script>
+</body>
+</html>

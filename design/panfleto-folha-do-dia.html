@@ -6,97 +6,20 @@
 <title>Panfleto · Folha do dia</title>
 <link rel="stylesheet" href="../css/theme.css">
 <link rel="stylesheet" href="assets/design.css">
+<link rel="stylesheet" href="../css/flyers.css">
 <style>
-.panfleto-folha-do-dia { display: flex; flex-direction: column; align-items: flex-start; width: 1080px; height: 1350px; background: var(--color-clay); overflow: hidden; }
-.header-card { display: flex; align-items: center; gap: 28px; padding: 44px 60px; align-self: stretch; flex-shrink: 0; background: var(--color-urucum); }
-.nos-mark-large { display: block; width: 159.9px; height: 96.6px; flex-shrink: 0; overflow: visible; color: var(--color-white); }
-.lockup-text { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; flex-shrink: 0; }
-.name { flex-shrink: 0; font-family: var(--font-flyer-display); font-size: 62px; font-weight: 800; line-height: 1; white-space: nowrap; color: var(--color-white); }
-.full-name { flex-shrink: 0; font-family: var(--font-flyer); font-size: 28px; font-weight: 500; line-height: 1.2; white-space: nowrap; color: var(--color-white); }
-.wall { display: flex; flex-direction: column; align-items: flex-start; padding: 40px 60px 0; align-self: stretch; min-height: 0; flex: 1 1 0; }
-.day-sheet-2 { display: flex; flex-direction: column; align-items: flex-start; align-self: stretch; min-height: 0; flex: 1 1 0; background: var(--color-clay-card); border-radius: 4px 4px 12px 12px; outline: 2px solid var(--color-clay-line); outline-offset: -1px; overflow: hidden; }
-.sheet-binding { align-self: stretch; height: 12px; flex-shrink: 0; background: var(--color-urucum); }
-.sheet-perforation { display: flex; align-items: flex-start; justify-content: space-between; padding: 12px 32px 0; align-self: stretch; height: 32px; flex-shrink: 0; }
-.perf-dot-2 { width: 8px; height: 8px; flex-shrink: 0; background: var(--color-clay-line); border-radius: 50%; }
-.sheet-head { display: flex; align-items: center; gap: 40px; padding: 0 48px 58px; align-self: stretch; min-height: 0; flex: 1 1 0; }
-.day-numeral { flex-shrink: 0; font-family: var(--font-flyer-display); font-size: 460px; font-weight: 800; line-height: 0.8; letter-spacing: -6px; white-space: nowrap; color: var(--color-urucum); }
-.day-text { display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; padding: 32px 0 0; min-width: 0; height: 368px; flex: 1 1 0; }
-.date-group { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; flex-shrink: 0; }
-.weekday { flex-shrink: 0; font-family: var(--font-flyer-display); font-size: 70px; font-weight: 800; line-height: 1; letter-spacing: 2px; white-space: nowrap; color: var(--color-urucum); }
-.month-year { flex-shrink: 0; font-family: var(--font-flyer-display); font-size: 40px; font-weight: 700; line-height: 1.1; letter-spacing: 3px; white-space: nowrap; color: var(--color-ink); }
-.time { flex-shrink: 0; font-family: var(--font-flyer-display); font-size: 120px; font-weight: 800; line-height: 0.8; letter-spacing: -1px; white-space: nowrap; color: var(--color-ink); }
-.head-seam { align-self: stretch; height: 2px; flex-shrink: 0; background: var(--color-clay-line); }
-.sheet-body { display: flex; flex-direction: column; align-items: flex-start; gap: 36px; padding: 44px 48px 48px; align-self: stretch; flex-shrink: 0; }
-.title { align-self: stretch; flex-shrink: 0; font-family: var(--font-flyer); font-size: 78px; font-weight: 700; line-height: 1.08; letter-spacing: -1px; color: var(--color-ink); }
-.meta { display: flex; flex-direction: column; align-items: flex-start; gap: 24px; align-self: stretch; flex-shrink: 0; }
-.who-where { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; align-self: stretch; flex-shrink: 0; }
-.org-row { display: flex; align-items: flex-start; gap: 16px; align-self: stretch; flex-shrink: 0; }
-.sector-mark-box { display: flex; align-items: center; justify-content: center; width: 36px; height: 48px; flex-shrink: 0; }
-.sector-mark { width: 28px; height: 28px; flex-shrink: 0; background: var(--color-group-1); border-radius: 4px; }
-.org { min-width: 0; flex: 1 1 0; font-family: var(--font-flyer); font-size: 40px; font-weight: 600; line-height: 1.2; color: var(--color-ink); }
-.place-row { display: flex; align-items: flex-start; gap: 16px; align-self: stretch; flex-shrink: 0; }
-.place-icon-box { display: flex; align-items: center; justify-content: center; width: 36px; height: 46px; flex-shrink: 0; }
-.place-icon { width: 36px; height: 36px; flex-shrink: 0; color: var(--color-ink-soft); }
-.place { min-width: 0; flex: 1 1 0; font-family: var(--font-flyer); font-size: 38px; font-weight: 500; line-height: 1.2; color: var(--color-ink-soft); }
-.type-tag { display: flex; align-items: center; padding: 6px 16px; flex-shrink: 0; background: var(--color-ink); border-radius: 6px; }
-.type { flex-shrink: 0; font-family: var(--font-flyer-display); font-size: 34px; font-weight: 700; line-height: 1.2; letter-spacing: 0.5px; white-space: nowrap; color: var(--color-white); }
-.footer { display: flex; align-items: flex-start; padding: 28px 60px 44px; align-self: stretch; flex-shrink: 0; }
-.footer-line { flex-shrink: 0; font-family: var(--font-flyer); font-size: 26px; font-weight: 500; line-height: 1.2; white-space: nowrap; color: var(--color-ink-soft); }
+.panfleto { width: 1080px; height: 1350px; overflow: hidden; }
 </style>
 </head>
 <body>
-<div class="panfleto-folha-do-dia">
-  <div class="header-card">
-    <svg class="nos-mark-large" aria-hidden="true"><use href="assets/icons.svg#marca-nos"/></svg>
-    <div class="lockup-text">
-      <span class="name">Dourados/MS</span>
-      <span class="full-name">Núcleo de Organização Social</span>
-    </div>
-  </div>
-  <div class="wall">
-    <div class="day-sheet-2">
-      <div class="sheet-binding"></div>
-      <div class="sheet-perforation">
-        <div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div>
-      </div>
-      <div class="sheet-head">
-        <span class="day-numeral">18</span>
-        <div class="day-text">
-          <div class="date-group">
-            <span class="weekday">DOMINGO</span>
-            <span class="month-year">OUTUBRO 2026</span>
-          </div>
-          <span class="time">11h</span>
-        </div>
-      </div>
-      <div class="head-seam"></div>
-      <div class="sheet-body">
-        <span class="title">Almoço dos Educadores</span>
-        <div class="meta">
-          <div class="who-where">
-            <div class="org-row">
-              <div class="sector-mark-box">
-                <div class="sector-mark"></div>
-              </div>
-              <span class="org">SIMTED</span>
-            </div>
-            <div class="place-row">
-              <div class="place-icon-box">
-                <svg class="place-icon"><use href="assets/icons.svg#map-pin"/></svg>
-              </div>
-              <span class="place">Chácara do SIMTED</span>
-            </div>
-          </div>
-          <div class="type-tag">
-            <span class="type">Festa</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="footer">
-    <span class="footer-line">Agenda das organizações de Dourados</span>
-  </div>
-</div>
+<!-- Folha do dia: the day is the hero. Its numeral stands on the horizon in front of the rising sun (under the small moon and the stars at night), the weekday, the month and the time beside it on the sky; the land says what it is, who organizes it and where.
+     Drawn by js/flyer.js itself (assets/panfletos.js holds the activities, real rows of the agenda), so
+     this artboard is always the flyer the site exports; ?atividade=<key> picks another activity and with
+     it the sky of its hour (see assets/panfletos.js). -->
+<div class="panfleto"></div>
+<script type="module">
+  import { drawFlyer } from './assets/panfletos.js';
+  drawFlyer('day', 'caminhada');
+</script>
 </body>
 </html>
