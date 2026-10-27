@@ -221,9 +221,10 @@ const isFiller = (word) => isWeak(word) || EMOJI_ONLY.test(word);
 // What a line break costs, against 100 for a line left empty: after a short word (times its
 // weakness), a line of nothing but short words, inside a word (after a slash or hyphen, or
 // between letters); a break between clauses ("Baile dos Educadores –" over "Festa Tropical",
-// "Dourados vem pra rua:" over "ato pela democracia", an address before its parenthesis) earns a
+// "Dourados vem pra rua:" over "ato pela democracia", an address before its parenthesis) or before a
+// short word that opens a phrase ("Eleição da Direção / e do Conselho Fiscal / do SIMTED") earns a
 // little back.
-const COST = { weakEnd: 90, weakLine: 200, inWord: 60, clause: -10, spareLine: 30 };
+const COST = { weakEnd: 90, weakLine: 200, inWord: 60, clause: -10, phrase: -12, spareLine: 30 };
 const CLAUSE_END = /[,;:.!?–—-]$/;
 
 // Greedy fill, as a browser breaks: the fewest lines. Returns [start, end) unit ranges.
@@ -266,6 +267,7 @@ function evenLines(units, space, limit, count, ragged) {
     if (j < n && units[j].glued) cost += COST.inWord;
     else if (j < n && (CLAUSE_END.test(units[j - 1].text) || units[j].text.startsWith('('))) cost += COST.clause;
     if (j < n) cost += COST.weakEnd * ends[j - 1];
+    if (j < n && !units[j].glued && isWeak(units[j].text)) cost += COST.phrase; // the next line starts a phrase
     if (weak[j] - weak[i] === j - i) cost += COST.weakLine;
     return cost;
   };
@@ -602,54 +604,70 @@ function skyNode(horizon, edges = [...BAND_TOPS].reverse().map((share) => Math.r
 
 // The sky's band edges kept clear of its type. An edge across a line of text splits its letters
 // between two colours and, near their tops or their feet, reads as the text standing on it or hanging
-// from it. So no edge crosses a line of text, from its capitals to its descenders with a margin of
-// 0.15em (8px to 22px); display type of GIANT size and up (the numeral, the time, a poster's title,
-// "Cancelada"), which the bands must cross, only keeps its cap line, its x-height line and its foot
-// clear. An edge that would cross moves to the nearest clear place, the bands kept in order and at
-// least MIN_BAND tall. `lines`: [{ baseline, size, metrics, digits }] (figures have no x-height).
-const MIN_BAND = 18;
-const GIANT = 120;
+// from it; an edge hugging a block of text frames it like a label. So no edge comes within AIR of a
+// line of text, from its capitals to its descenders, and lines closer than BAND_MIN make one block.
+// Display type of GIANT size and up (the numeral, the time, a poster's title, "Cancelada"), which the
+// bands must cross, only keeps its cap line, its x-height line and its foot clear by 0.15em. The bands
+// stay sky: each at least BAND_MIN tall, and the search prefers them close to the shares of BAND_TOPS
+// and growing up from the horizon. `lines`: [{ baseline, size, metrics, digits }] (figures have no
+// x-height or descenders).
+const BAND_MIN = 40;
+const AIR = 20;
+const GIANT = 100;
 function clearEdges(horizon, lines, edges = [...BAND_TOPS].reverse().map((share) => Math.round(horizon * (1 - share)))) {
-  const near = lines.flatMap(({ baseline, size, metrics = DISPLAY, digits = false }) => {
+  const zonesWith = (air) => lines.flatMap(({ baseline, size, metrics = DISPLAY, digits = false }) => {
     const pad = Math.max(8, Math.min(22, 0.15 * size));
     const top = baseline - metrics.cap * size;
-    const foot = [baseline - pad, baseline + (digits ? pad : Math.max(pad, metrics.descent * size + 6))];
-    if (size < GIANT) return [[top - pad, foot[1]]];
+    const bottom = baseline + (digits ? 0 : metrics.descent * size);
+    if (size < GIANT) return [[top - Math.max(air, pad), bottom + Math.max(air, pad)]];
     const x = baseline - metrics.x * size;
-    return [[top - pad, top + pad], ...(digits ? [] : [[x - pad, x + pad]]), foot];
-  });
-  // Zones closer than MIN_BAND merge: an edge never squeezes between two lines of a block.
-  const zones = near.sort((p, q) => p[0] - q[0]).reduce((list, zone) => {
+    return [[top - pad, top + pad], ...(digits ? [] : [[x - pad, x + pad]]), [baseline - pad, bottom + pad]];
+  }).sort((p, q) => p[0] - q[0]).reduce((list, zone) => {
     const last = list[list.length - 1];
-    if (last && zone[0] - last[1] < MIN_BAND) last[1] = Math.max(last[1], zone[1]);
+    if (last && zone[0] - last[1] < BAND_MIN) last[1] = Math.max(last[1], zone[1]);
     else list.push([...zone]);
     return list;
   }, []);
-  const clear = (y) => zones.every(([a, b]) => y <= a || y >= b);
-  // Placed from the top down, and from the bottom up: the order that leaves fewer edges crossing
-  // (then the one that moves them less) wins.
-  const place = (order) => {
-    const out = [...edges];
-    const done = new Set();
-    for (const i of order) {
-      const above = [...done].filter((j) => j < i);
-      const below = [...done].filter((j) => j > i);
-      const low = above.length ? out[Math.max(...above)] + MIN_BAND * (i - Math.max(...above)) : MIN_BAND * (i + 1);
-      const high = below.length ? out[Math.min(...below)] - MIN_BAND * (Math.min(...below) - i) : horizon - MIN_BAND * (out.length - i);
-      const start = Math.max(low, Math.min(high, edges[i]));
-      out[i] = start;
-      for (let d = 0; start - d >= low || start + d <= high; d++) {
-        if (start - d >= low && clear(start - d)) { out[i] = start - d; break; }
-        if (start + d <= high && clear(start + d)) { out[i] = start + d; break; }
+
+  // The bands' heights up from the horizon (5, 4, 3, 2) whose edges are all clear: a depth-first
+  // search, the cheapest heights first, cut where it can't do better. A height costs its squared
+  // distance from the wanted one, and more when it is thinner than the band under it.
+  const want = [horizon - edges[3], edges[3] - edges[2], edges[2] - edges[1], edges[1] - edges[0]];
+  const solve = (zones, least) => {
+    const clear = (y) => zones.every(([a, b]) => y <= a || y >= b);
+    let best = null;
+    const heights = [];
+    const shrink = (t, under) => (under && t < under ? 2 * ((under - t) / under) ** 2 : 0);
+    const search = (k, y, cost) => {
+      if (k === want.length) {
+        const rest = shrink(y, heights[k - 1]);
+        if (y >= least && (!best || cost + rest < best.cost)) best = { cost: cost + rest, heights: [...heights] };
+        return;
       }
-      done.add(i);
-    }
-    return { out, crossing: out.filter((y) => !clear(y)).length, moved: sum(out.map((y, i) => Math.abs(y - edges[i]))) };
+      const options = [];
+      for (let t = least; y - t >= least; t += 2) {
+        if (clear(y - t)) options.push({ t, c: ((t - want[k]) / want[k]) ** 2 + shrink(t, heights[k - 1]) });
+      }
+      options.sort((p, q) => p.c - q.c);
+      for (const { t, c } of options) {
+        if (best && cost + c >= best.cost) break;
+        heights.push(t);
+        search(k + 1, y - t, cost + c);
+        heights.pop();
+      }
+    };
+    search(0, horizon, 0);
+    return best;
   };
-  const indices = edges.map((_, i) => i);
-  const [best] = [place(indices), place([...indices].reverse())].sort((a, b) => a.crossing - b.crossing || a.moved - b.moved);
-  return best.out;
+  // With air around the text first; then without it; then with thinner bands allowed.
+  const best = solve(zonesWith(AIR), BAND_MIN) || solve(zonesWith(0), BAND_MIN) || solve(zonesWith(0), MIN_SLIVER);
+  if (!best) return edges;
+  const out = [];
+  let y = horizon;
+  for (const t of best.heights) out.unshift((y -= t));
+  return out;
 }
+const MIN_SLIVER = 38;
 
 // The sun or the moon (HAND.astro): the hand's loop around a disc of radius `r` centred at (x, y),
 // a little off register; the pen grows with it. css/flyers.css paints it from the sky's roles.
@@ -1043,6 +1061,7 @@ const POSTER = {
   air: 52, // the title's last line box → the band, at night
   sunRoom: 160, // by day, the least sky kept under the title for the sun to rise in
   sun: 320, // the sun's radius
+  breaks: 0.86, // the title's size may give up to 14% for lines that read better
   whenGap: 30, // the when → the rows (.fl--poster .fl-rows)
   loop: { x: 0.4, top: -0.02, height: 1.42 }, // the hand's loop around the date, in em of its line
 };
@@ -1121,17 +1140,17 @@ function posterFlyer(ev, sky) {
   // dos Educadores –" over "Baile dos / Educadores –"). By day it hangs from the top and the sun
   // rises under it; at night it stands on the horizon under the moon.
   const room = horizon - (night ? POSTER.air : POSTER.sunRoom) - top;
-  let title = null;
+  const fits = [];
   for (let size = 168; size >= 56; size -= 4) {
     const font = { ...TITLE, size };
     if (!wordsFit(measured, font, WIDTH)) continue;
     const lines = planLines(measured, font, WIDTH, { spare: Math.floor(room / (size * 1.02)) });
-    if (lines.length * size * 1.02 > room) continue;
-    const { weakEnds, weakLines, oneWord } = badBreaks(lines);
-    const clean = weakEnds === 0;
-    const score = size * (1 - 0.5 * weakEnds - 0.3 * weakLines - 0.25 * oneWord);
-    if (!title || (clean && !title.clean) || (clean === title.clean && score > title.score)) title = { size, lines, score, clean };
+    if (lines.length * size * 1.02 <= room) fits.push({ size, lines, ...badBreaks(lines) });
   }
+  // Within POSTER.breaks of the largest size, the lines that read best: no line ending in a short
+  // word, no line of short words alone, the fewest lines of one word; then the largest.
+  const window = fits.filter((fit) => fit.size >= fits[0]?.size * POSTER.breaks);
+  let title = window.sort((p, q) => p.weakEnds - q.weakEnds || p.weakLines - q.weakLines || p.oneWord - q.oneWord || q.size - p.size)[0] || null;
   if (!title) {
     // Too long even at 56px: cut to the lines that fit (a word too wide breaks between letters).
     const font = { ...TITLE, size: 56 };
@@ -1184,8 +1203,8 @@ export const FLYER_STYLES = [
 
 const NOTICE = {
   minSky: 400,
-  air: 58, // the struck date's last baseline → the band
-  whenGap: 30, // "Cancelada" → the struck date
+  air: 88, // the struck date's last baseline → the band: room for the bottom band under it
+  whenGap: 72, // "Cancelada" → the struck date: room for a band's edge between them
   reasonGap: 24, // the struck title → the reason (.nt-reason)
   rowsGap: 22, // what comes before → the rows (.fl--notice .fl-rows)
 };

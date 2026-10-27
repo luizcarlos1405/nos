@@ -177,9 +177,11 @@
     // inside the flyer; the sky's text on the sky (under the top, over the band) and the land's under
     // the band and over the signature; no two blocks of text running into each other; a planned line
     // no wider than its box; the hand's marks inside the flyer; and every text against what lies
-    // under it (the sky's bands, the sun or the moon, the land) at 4.5:1 or more; and no edge
-    // between the sky's bands across a sky line, from its capitals to its baseline with 0.15em (8px to
-    // 22px) to spare (a giant numeral only keeps its top and foot clear).
+    // under it (the sky's bands, the sun or the moon, the land) at 4.5:1 or more; no edge between
+    // the sky's bands across a line of sky text under 100px, from its capitals to its descenders with
+    // 0.15em (8px to 22px) to spare (display type from 100px only keeps its cap line, x-height line
+    // and foot clear); and the bands still sky, not boxes: none under 38px, none framing a block of
+    // small text with less than 30px above and below it (the month's weeks aside).
     const BLOCKS = '.dy-num, .dy-weekday, .dy-month, .dy-holiday, .dy-until, .dy-time, .dy-end, .dy-tbc, .mo-name, .mo-year, .mo-heads, .mo-num, .po-title, .nt-word, .nt-when, .fl-land .fl-title, .mo-when, .po-when-line, .po-under, .po-holiday, .fl-row, .nt-reason, .fl-sign-brand, .fl-sign-text';
     const BOXED = '.fl-land .fl-title, .fl-row-text, .mo-when, .nt-reason, .po-title';
     const MIN_CONTRAST = 4.5;
@@ -312,17 +314,36 @@
         range.selectNodeContents(text);
         for (const r of [...range.getClientRects()].filter((rect) => rect.width > 0)) {
           const baseline = (r.top - frame.top) / s + m.ascent;
-          // Text under 120px keeps its whole body clear (capitals to descenders, 0.15em to spare);
-          // display type from 120px keeps its cap line, x-height line (figures have none) and foot.
+          // Text under 100px keeps its whole body clear (capitals to descenders, 0.15em to spare);
+          // display type from 100px keeps its cap line, x-height line (figures have none) and foot.
           const pad = Math.max(8, Math.min(22, 0.15 * size)) - 1;
           const top = baseline - lines.cap * size;
           const digits = /^[\d\s]+$/.test(text.textContent);
           const foot = baseline + (digits ? pad : Math.max(pad, m.inkDown + 4));
           const x = baseline - lines.x * size;
-          const hit = (edge) => (size < 120
+          const hit = (edge) => (size < 100
             ? edge > top - pad && edge < foot
             : Math.abs(edge - top) < pad || (!digits && Math.abs(edge - x) < pad) || (edge > baseline - pad && edge < foot));
           if (edges.some(hit)) problems.push(`a band edge crosses "${text.textContent.trim().slice(0, 24)}"`);
+        }
+      }
+      if (!node.classList.contains('fl--month')) {
+        // The bands stay sky: none a sliver, and none hugging a block of small text above and below.
+        const tops = [...node.querySelectorAll('.fl-sky-band')].map((band) => local(band.getBoundingClientRect()).top);
+        const heights = [horizon - tops[4], tops[4] - tops[3], tops[3] - tops[2], tops[2] - tops[1], tops[1]];
+        if (heights.some((t) => t < 38)) problems.push(`a sky band under 38px (${heights.map(Math.round).join('/')})`);
+        const small = textNodes(node).filter((t) => !t.parentElement.closest('.fl-land, .fl-sign') && parseFloat(getComputedStyle(t.parentElement).fontSize) < 100).map((t) => inkBox(t, frame, s)).filter(Boolean).sort((p, q) => p.top - q.top);
+        const blocks = small.reduce((list, box) => {
+          const last = list[list.length - 1];
+          if (last && box.top - last.bottom < 40) last.bottom = Math.max(last.bottom, box.bottom);
+          else list.push({ ...box });
+          return list;
+        }, []);
+        for (let i = 1; i < tops.length; i++) {
+          const bottom = i < tops.length - 1 ? tops[i + 1] : horizon;
+          if (bottom >= horizon - 1) continue;
+          const hugged = blocks.find((block) => block.top >= tops[i] && block.bottom <= bottom && block.top - tops[i] < 30 && bottom - block.bottom < 30);
+          if (hugged) problems.push(`sky band ${i + 1} frames a block of text`);
         }
       }
       for (const mark of node.querySelectorAll('.fl-hand')) {
