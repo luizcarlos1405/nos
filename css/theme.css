@@ -1,17 +1,36 @@
-/* NOS Dourados — theme. Every colour of the site and of the flyers lives here.
+/* NOS Dourados — theme ("Céu · Terra"). Every colour of the site and of the flyers lives here.
+
+   The world: the sky of Dourados at this hour, flat bands over the woven band (the horizon), and the
+   land below it, light clay by day and terra roxa at night. Urucum is the one marking colour; each
+   page takes a colour of the landscape; the organizations' groups are coloured dots.
 
    Two layers:
-   1. The palette: the raw colours (kept from the Calendário de Luta; the designs in design/
-      use them directly).
-   2. The roles: what each colour is for. css/style.css and css/flyers.css only use roles,
-      never palette values or colour literals (`transparent` and `currentColor` aside).
+   1. The palette: the raw colours, named for what they are (clay, terra roxa, urucum, the sky's
+      bands at each hour). Light and dark colours both live here; the palette never changes with the
+      theme. The designs in design/ use it directly.
+   2. The roles: what each colour is for. css/style.css and css/flyers.css only use roles, never
+      palette values or colour literals (`transparent` and `currentColor` aside).
 
-   To try another theme, copy the ":root[data-theme='exemplo']" block at the end, give it a
-   name and change the palette (and, if needed, a role). Then either set data-theme="<name>" on
-   the <html> tag of index.html, or try it without editing anything by adding ?tema=<name> to
-   the address. The <meta name="theme-color"> in index.html (browser bar on phones) can't read
-   variables: update it by hand to the theme's --role-header. */
+   Light and dark: the roles below are the light theme. `data-scheme="dark"` on <html> swaps them for
+   the dark ones. The inline script in each page's head sets it before the first paint: the visitor's
+   choice (the theme button, saved as `nos.tema` in localStorage), else the system's
+   (prefers-color-scheme). ?tema=claro or ?tema=escuro forces one for that visit (screenshots, links
+   to show a theme); it is not saved.
 
+   The sky by the hour: `data-sky` on <html> (dawn 5–9h, day 9–16h, dusk 16–19h, night 19–5h, by
+   the local clock; js/sky.js keeps it right while the page stays open; ?ceu=<period> forces one).
+   The dark theme's sky is always the night.
+
+   The <meta name="theme-color"> tags (browser bar on phones) can't read variables: the head script
+   and js/sky.js copy the sky's top band into them; their static values are --color-day-1 and
+   --color-night-1. manifest.webmanifest repeats --color-day-1 and --color-clay. */
+
+/* Bricolage Grotesque (the voice: greeting, dates, titles) and Inter (what the organizations
+   announce, and the controls): variable fonts, Latin. Bricolage keeps its optical-size axis, which
+   gives its display sizes their character. */
+@font-face { font-family: 'Bricolage Grotesque'; font-style: normal; font-weight: 500 800; font-display: swap; src: url(../fonts/bricolage-grotesque.woff2) format('woff2'); }
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 400 700; font-display: swap; src: url(../fonts/inter.woff2) format('woff2'); }
+/* Barlow: the flyers only. js/flyer.js plans their line breaks from Barlow's glyph widths. */
 @font-face { font-family: 'Barlow'; font-weight: 500; font-display: swap; src: url(../fonts/barlow-500.woff2) format('woff2'); }
 @font-face { font-family: 'Barlow'; font-weight: 600; font-display: swap; src: url(../fonts/barlow-600.woff2) format('woff2'); }
 @font-face { font-family: 'Barlow'; font-weight: 700; font-display: swap; src: url(../fonts/barlow-700.woff2) format('woff2'); }
@@ -21,94 +40,265 @@
 
 :root {
   /* ---------- 1. Palette ---------- */
-  --color-brand: #E4002B;          /* red: the header card, Sundays, primary actions */
-  --color-brand-hover: #C70026;
-  --color-brand-tint: #FDEBEE;
-  --color-brand-ring: #F2B8C3;
-  --color-next: #FFC20E;           /* yellow: the next activity */
-  --color-ink: #1C1C1E;            /* graphite */
-  --color-ground: #EFEFEC;         /* the wall */
-  --color-surface: #FFFFFF;        /* paper */
-  --color-surface-hover: #F7F7F5;
-  --color-seam: #D9D9D4;
-  --color-muted: #5C5C61;
-  --color-faded: #BDBDB8;
-  --color-on-ink: #FFFFFF;
-  --color-on-ink-muted: #B4B4B9;   /* used by the designs (design/), not by the site yet */
-  --color-series-1: #0455A1;       /* azul */
-  --color-series-2: #00875A;       /* verde */
-  --color-series-3: #9B3894;       /* lilás */
-  --color-series-4: #00808A;       /* turquesa */
-  --color-series-5: #C25700;       /* laranja */
-  --color-series-6: #5E6A71;       /* prata */
-  --color-series-7: #7A4E2D;       /* marrom */
-  --color-series-8: #C2185B;       /* magenta */
 
-  /* ---------- 2. Roles ---------- */
-  --role-wall: var(--color-ground);              /* page background */
-  --role-paper: var(--color-surface);            /* sheets, panels, chips */
-  --role-paper-hover: var(--color-surface-hover);
-  --role-ink: var(--color-ink);                  /* text */
-  --role-ink-soft: var(--color-muted);           /* secondary text, icons */
-  --role-ink-faded: var(--color-faded);          /* perforation holes, the scrollbar */
-  /* Day numbers of past or other-month days: lighter, but still 3:1 on paper. */
-  --role-ink-past: color-mix(in srgb, var(--color-muted) 55%, var(--color-faded));
-  --role-line: var(--color-seam);                /* 1px seams, perforation */
-  --role-header: var(--color-brand);             /* the calendar's printed header card */
-  --role-header-hover: var(--color-brand-hover); /* a page tab on the header card, under the pointer */
-  --role-on-header: var(--color-on-ink);
-  --role-binding: var(--color-brand);            /* strip on top of each sheet */
-  --role-mark-loop: var(--color-brand);          /* the O of the NOS mark on paper: icons, link preview */
-  --role-red-letter: var(--color-brand);         /* Sundays and holidays */
-  --role-red-letter-past: color-mix(in srgb, var(--color-brand) 75%, var(--color-surface));
-  --role-red-letter-soft: var(--color-brand-ring);
-  --role-accent: var(--color-brand);             /* primary actions */
-  --role-accent-hover: var(--color-brand-hover);
-  --role-on-accent: var(--color-on-ink);
-  --role-selected: var(--color-brand-tint);      /* the activity open in the panel */
-  --role-alert: var(--color-brand);              /* errors, the big Cancelada stamp on flyers */
-  --role-alert-text: var(--color-brand-hover);   /* small red text: reasons, the line stamp */
-  --role-alert-soft: var(--color-brand-tint);
-  --role-alert-ring: var(--color-brand-ring);
-  --role-next: var(--color-next);                /* the next activity, nothing else */
-  --role-on-next: var(--color-ink);
-  --role-strong: var(--color-ink);               /* active chips, Hoje badge, segmented control */
-  --role-on-strong: var(--color-on-ink);
-  --role-on-series: var(--color-on-ink);         /* titles on sector-coloured bars */
-  --role-focus: var(--color-ink);
-  --role-focus-on-color: var(--color-on-ink);    /* focus ring on the red header and on ink */
-  --role-scrim: color-mix(in srgb, var(--color-ink) 55%, transparent);
-  --role-shadow: color-mix(in srgb, var(--color-ink) 14%, transparent);
-  --role-wash: color-mix(in srgb, var(--color-ink) 6%, transparent); /* hover wash on quiet controls */
-  --role-scrollbar: var(--color-faded);
-  --role-chat: var(--color-ground);              /* WhatsApp preview background */
-  --role-bubble: var(--color-surface);
-  /* Sector colours: js/colors.js picks one per sector and sets it as --sector on the node. */
-  --role-series-1: var(--color-series-1);
-  --role-series-2: var(--color-series-2);
-  --role-series-3: var(--color-series-3);
-  --role-series-4: var(--color-series-4);
-  --role-series-5: var(--color-series-5);
-  --role-series-6: var(--color-series-6);
-  --role-series-7: var(--color-series-7);
-  --role-series-8: var(--color-series-8);
-  --role-no-sector: var(--color-muted);
+  /* A terra by day: light clay, warm white cards, a warm near-black ink. */
+  --color-clay: #F2E3D7;
+  --color-clay-card: #FFFBF7;
+  --color-clay-card-hover: #FFF4EC;
+  --color-clay-fill: #F4E4D9;        /* tonal fill: share buttons, the chat behind the message */
+  --color-clay-line: #E9D5C8;
+  --color-clay-faded: #D8C2B5;       /* scrollbar, the flyers' perforation */
+  --color-ink: #221714;
+  --color-ink-soft: #6A4E44;         /* tinted from the earth, never grey */
+  --color-white: #FFFFFF;
+  --color-earth-shadow: #4A2212;     /* the cards' shadow, by day */
+
+  /* A terra at night: terra roxa, its cards, a moonlit ink. */
+  --color-terra-roxa: #231311;
+  --color-terra-roxa-card: #301B17;
+  --color-terra-roxa-card-hover: #37201B;
+  --color-terra-roxa-fill: #40261F;
+  --color-terra-roxa-line: #4A2F28;
+  --color-terra-roxa-faded: #6B4A40;
+  --color-moonlit: #F7EBE3;
+  --color-moonlit-soft: #CFB5A9;
+  --color-night-shade: #0E0706;      /* the scrim under the bottom sheet, at night */
+
+  /* Urucum: the one marking colour. Fill, text, tints; the night's is lighter. */
+  --color-urucum: #C2410C;
+  --color-urucum-text: #A3360A;
+  --color-urucum-tint: #F9D9C8;
+  --color-urucum-door: #F7CDB8;
+  --color-urucum-night: #FF8A5C;
+  --color-urucum-night-tint: #5A2A1E;
+
+  /* Ipê-rosa: Comércio's colour. */
+  --color-ipe-rosa: #C03A73;
+  --color-ipe-rosa-text: #A12E5F;
+  --color-ipe-rosa-tint: #F3C8DA;
+  --color-ipe-rosa-night: #F58AB3;
+  --color-ipe-rosa-night-tint: #522036;
+
+  /* O céu, in flat bands counted from the top (1) down to the horizon (5), at each hour. */
+  --color-dawn-1: #93C1E6;           /* amanhecer, 5–9h: morning blue warming to rose, apricot and gold */
+  --color-dawn-2: #BED6E8;
+  --color-dawn-3: #F0D5C6;
+  --color-dawn-4: #F8C095;
+  --color-dawn-5: #FBD789;
+  --color-dawn-ink-soft: #4B362D;
+  --color-day-1: #6FAEE3;            /* dia, 9–16h: a clear deep blue over a warm, dusty horizon */
+  --color-day-2: #9DCAEE;
+  --color-day-3: #CDE2EE;
+  --color-day-4: #F1E3CF;
+  --color-day-5: #F6D2A2;
+  --color-day-ink-soft: #45312A;
+  --color-dusk-1: #8C99D6;           /* entardecer, 16–19h: dusk violet, lilac, rose, orange, gold */
+  --color-dusk-2: #B8A2D4;
+  --color-dusk-3: #EAABAA;
+  --color-dusk-4: #F5A275;
+  --color-dusk-5: #F7C460;
+  --color-dusk-ink-soft: #3A2730;
+  --color-night-1: #140D26;          /* noite, 19–5h (and the dark theme): deep indigo warming to plum */
+  --color-night-2: #1C1233;
+  --color-night-3: #271740;
+  --color-night-4: #361C48;
+  --color-night-5: #47214A;
+  --color-night-ink-soft: #D8C6D3;
+  --color-sun: #F4A11E;
+  --color-moon: #F4DDB0;
+  --color-star: #F6E6C6;
+
+  /* The eight groups of the organizations, as dots: by day, and lighter at night. */
+  --color-group-1: #0455A1;          /* azul */
+  --color-group-2: #00875A;          /* verde */
+  --color-group-3: #9B3894;          /* lilás */
+  --color-group-4: #00808A;          /* turquesa */
+  --color-group-5: #C25700;          /* laranja */
+  --color-group-6: #5E6A71;          /* prata */
+  --color-group-7: #7A4E2D;          /* marrom */
+  --color-group-8: #C2185B;          /* magenta */
+  --color-group-night-1: #5B9BE6;
+  --color-group-night-2: #3DBA8A;
+  --color-group-night-3: #C77BC0;
+  --color-group-night-4: #2DB3BC;
+  --color-group-night-5: #E8873A;
+  --color-group-night-6: #9AA7AF;
+  --color-group-night-7: #B98A66;
+  --color-group-night-8: #E9608F;
 
   /* ---------- Type and shape ---------- */
-  --font-ui: 'Barlow', system-ui, sans-serif;
-  --font-display: 'Barlow Condensed', 'Barlow', system-ui, sans-serif;
-  --radius-sm: 4px;
-  --radius: 6px;
-  --radius-lg: 8px;
-  --radius-sheet: 14px;
+  --font-display: 'Bricolage Grotesque', 'Inter', system-ui, sans-serif;
+  --font-ui: 'Inter', system-ui, sans-serif;
+  --font-flyer: 'Barlow', system-ui, sans-serif;
+  --font-flyer-display: 'Barlow Condensed', 'Barlow', system-ui, sans-serif;
+  --radius-sm: 6px;
+  --radius: 12px;
+  --radius-card: 18px;
+  --radius-sheet: 24px;
   --radius-pill: 999px;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Example theme, kept as a template: a graphite header instead of the red one.
-   Try it with ?tema=exemplo, or set data-theme="exemplo" on <html> in index.html. */
-:root[data-theme='exemplo'] {
-  --role-header: var(--color-ink);
-  --role-header-hover: color-mix(in srgb, var(--color-ink) 82%, var(--color-on-ink));
-  --role-binding: var(--color-ink);
+/* ---------- 2. Roles: the light theme ---------- */
+/* The flyers (.fl) always print in it, whatever the page's theme: they are pictures to send. */
+
+:root, .fl {
+  color-scheme: light;
+
+  /* The land */
+  --role-ground: var(--color-clay);              /* the page below the horizon */
+  --role-card: var(--color-clay-card);           /* cards, fields, chips, the panel, the navigation */
+  --role-card-hover: var(--color-clay-card-hover);
+  --role-card-border: transparent;               /* at night a line stands in for the shadow */
+  --role-card-shadow: 0 1px 2px color-mix(in srgb, var(--color-earth-shadow) 8%, transparent), 0 6px 16px color-mix(in srgb, var(--color-earth-shadow) 7%, transparent);
+  --role-sheet-shadow: 0 -8px 28px color-mix(in srgb, var(--color-earth-shadow) 18%, transparent);
+  --role-fill: var(--color-clay-fill);           /* tonal fill: share circles, quiet hovers */
+  --role-line: var(--color-clay-line);
+  --role-ink: var(--color-ink);                  /* text */
+  --role-ink-soft: var(--color-ink-soft);        /* secondary text, icons */
+  --role-ink-faded: var(--color-clay-faded);     /* the scrollbar, the flyers' perforation */
+  --role-on-ink: var(--color-clay-card);         /* text on an ink fill: the chosen segment and chips */
+  --role-wash: color-mix(in srgb, var(--color-ink) 7%, transparent); /* hover on quiet controls */
+  --role-scrim: color-mix(in srgb, var(--color-ink) 50%, transparent);
+  --role-scrollbar: var(--color-clay-faded);
+
+  /* Urucum, the one marking colour: the next activity's loop, today's stroke, the primary button,
+     the open page. */
+  --role-accent: var(--color-urucum);
+  --role-accent-hover: color-mix(in srgb, var(--role-accent) 86%, var(--role-ink));
+  --role-on-accent: var(--color-white);
+  --role-accent-text: var(--color-urucum-text);  /* urucum as text: "a próxima", links */
+  --role-accent-tint: var(--color-urucum-tint);  /* selection, the open tab's pill */
+  --role-hand: var(--color-urucum);              /* the hand marks on the land */
+  --role-mark-loop: var(--color-urucum);         /* the O of the NOS mark on clay or cards */
+  --role-focus: var(--color-urucum-text);
+
+  /* The pages, from the landscape: fill or icon / text / the door's tint. */
+  --role-agenda: var(--color-urucum);
+  --role-agenda-text: var(--color-urucum-text);
+  --role-agenda-tint: var(--color-urucum-door);
+  --role-commerce: var(--color-ipe-rosa);
+  --role-commerce-text: var(--color-ipe-rosa-text);
+  --role-commerce-tint: var(--color-ipe-rosa-tint);
+
+  /* The groups: js/colors.js picks one per sector and sets it as --sector on the node. */
+  --role-series-1: var(--color-group-1);
+  --role-series-2: var(--color-group-2);
+  --role-series-3: var(--color-group-3);
+  --role-series-4: var(--color-group-4);
+  --role-series-5: var(--color-group-5);
+  --role-series-6: var(--color-group-6);
+  --role-series-7: var(--color-group-7);
+  --role-series-8: var(--color-group-8);
+  --role-no-sector: var(--color-ink-soft);
+
+  /* The WhatsApp preview */
+  --role-chat: var(--color-clay-fill);
+  --role-bubble: var(--color-clay-card);
+
+  /* The flyers' folhinha (css/flyers.css): the mast and the sheets' binding in urucum, Sundays and
+     holidays in urucum text, the cancellation stamp and the hand ring in urucum. */
+  --role-header: var(--color-urucum);
+  --role-on-header: var(--color-white);
+  --role-binding: var(--color-urucum);
+  --role-red-letter: var(--color-urucum-text);
+  --role-alert: var(--color-urucum);
+}
+
+/* ---------- The dark theme ---------- */
+
+:root[data-scheme='dark'] {
+  color-scheme: dark;
+
+  --role-ground: var(--color-terra-roxa);
+  --role-card: var(--color-terra-roxa-card);
+  --role-card-hover: var(--color-terra-roxa-card-hover);
+  --role-card-border: var(--color-terra-roxa-line);
+  --role-card-shadow: none;
+  --role-sheet-shadow: 0 -8px 28px color-mix(in srgb, var(--color-night-shade) 60%, transparent);
+  --role-fill: var(--color-terra-roxa-fill);
+  --role-line: var(--color-terra-roxa-line);
+  --role-ink: var(--color-moonlit);
+  --role-ink-soft: var(--color-moonlit-soft);
+  --role-ink-faded: var(--color-terra-roxa-faded);
+  --role-on-ink: var(--color-terra-roxa);
+  --role-wash: color-mix(in srgb, var(--color-moonlit) 9%, transparent);
+  --role-scrim: color-mix(in srgb, var(--color-night-shade) 70%, transparent);
+  --role-scrollbar: var(--color-terra-roxa-faded);
+
+  --role-accent: var(--color-urucum-night);
+  --role-accent-hover: color-mix(in srgb, var(--role-accent) 84%, var(--role-ink));
+  --role-on-accent: var(--color-terra-roxa);
+  --role-accent-text: var(--color-urucum-night);
+  --role-accent-tint: var(--color-urucum-night-tint);
+  --role-hand: var(--color-urucum-night);
+  --role-mark-loop: var(--color-urucum-night);
+  --role-focus: var(--color-urucum-night);
+
+  --role-agenda: var(--color-urucum-night);
+  --role-agenda-text: var(--color-urucum-night);
+  --role-agenda-tint: var(--color-urucum-night-tint);
+  --role-commerce: var(--color-ipe-rosa-night);
+  --role-commerce-text: var(--color-ipe-rosa-night);
+  --role-commerce-tint: var(--color-ipe-rosa-night-tint);
+
+  --role-series-1: var(--color-group-night-1);
+  --role-series-2: var(--color-group-night-2);
+  --role-series-3: var(--color-group-night-3);
+  --role-series-4: var(--color-group-night-4);
+  --role-series-5: var(--color-group-night-5);
+  --role-series-6: var(--color-group-night-6);
+  --role-series-7: var(--color-group-night-7);
+  --role-series-8: var(--color-group-night-8);
+  --role-no-sector: var(--color-moonlit-soft);
+
+  --role-chat: var(--color-terra-roxa);
+  --role-bubble: var(--color-terra-roxa-fill);
+}
+
+/* ---------- The sky at this hour ---------- */
+/* Five flat bands from the top (1) to the horizon (5), the ink that reads on all of them, the
+   astro's loop (the hand that draws the sun or the moon) and what shines in it. Day is the default. */
+
+:root {
+  --role-sky-1: var(--color-day-1);
+  --role-sky-2: var(--color-day-2);
+  --role-sky-3: var(--color-day-3);
+  --role-sky-4: var(--color-day-4);
+  --role-sky-5: var(--color-day-5);
+  --role-sky-ink: var(--color-ink);
+  --role-sky-ink-soft: var(--color-day-ink-soft);
+  --role-sky-hand: var(--color-urucum);
+  --role-sky-wash: color-mix(in srgb, var(--color-ink) 9%, transparent);
+  --role-astro: var(--color-sun);
+  --role-star: var(--color-star);
+}
+:root[data-sky='dawn'] {
+  --role-sky-1: var(--color-dawn-1);
+  --role-sky-2: var(--color-dawn-2);
+  --role-sky-3: var(--color-dawn-3);
+  --role-sky-4: var(--color-dawn-4);
+  --role-sky-5: var(--color-dawn-5);
+  --role-sky-ink-soft: var(--color-dawn-ink-soft);
+}
+:root[data-sky='dusk'] {
+  --role-sky-1: var(--color-dusk-1);
+  --role-sky-2: var(--color-dusk-2);
+  --role-sky-3: var(--color-dusk-3);
+  --role-sky-4: var(--color-dusk-4);
+  --role-sky-5: var(--color-dusk-5);
+  --role-sky-ink-soft: var(--color-dusk-ink-soft);
+}
+/* After the others: the dark theme's sky is the night whatever the hour. */
+:root[data-sky='night'], :root[data-scheme='dark'] {
+  --role-sky-1: var(--color-night-1);
+  --role-sky-2: var(--color-night-2);
+  --role-sky-3: var(--color-night-3);
+  --role-sky-4: var(--color-night-4);
+  --role-sky-5: var(--color-night-5);
+  --role-sky-ink: var(--color-moonlit);
+  --role-sky-ink-soft: var(--color-night-ink-soft);
+  --role-sky-hand: var(--color-urucum-night);
+  --role-sky-wash: color-mix(in srgb, var(--color-moonlit) 12%, transparent);
+  --role-astro: var(--color-moon);
 }
