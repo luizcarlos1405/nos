@@ -291,7 +291,7 @@ NOS opens on the sky over Dourados at this hour and the land beneath it. Every p
 
 The hand is the system's signature. The same urucum pen that draws the sun's loop and the O of the NOS mark circles the next activity and underlines today: urucum is the one marking colour, and it marks rather than fills. Each page wears one colour of the landscape on its door and its own panel (Agenda urucum, Comércio ipê-rosa); the organizations' eight groups are coloured dots. Bricolage Grotesque is NOS's voice (the greeting, dates, page titles, day heads) and Inter the reading text and the controls. The density is calm and phone-first: lists of cards with 44px targets on the phone, a production bench on the desk, never a dashboard.
 
-The world refuses the hero banner over icon tiles, the dashboard, the grey list with thin dividers and coloured pills, the marketplace (carousels, banners, prices, ratings), and the Folhinha's notepad and torn-off sheets; nothing of the old campaign interface (the metro line to election day, the countdown, the slogan) comes back, and nothing should read as a startup, a city hall or an election campaign. Light and dark are both finished themes. The approved artboards (`design/direcao-ceu-terra-*.html`) also draw sections and a search that were deliberately not built; where they and the build diverge, the build is the reference. The flyers are the one surface still in the previous world's layout (see Components).
+The world refuses the hero banner over icon tiles, the dashboard, the grey list with thin dividers and coloured pills, the marketplace (carousels, banners, prices, ratings), and the Folhinha's notepad and torn-off sheets; nothing of the old campaign interface (the metro line to election day, the countdown, the slogan) comes back, and nothing should read as a startup, a city hall or an election campaign. Light and dark are both finished themes. The approved artboards (`design/direcao-ceu-terra-*.html`) also draw sections and a search that were deliberately not built; where they and the build diverge, the build is the reference. The flyers carry the same world into a picture: the sky of the activity's hour over the band and the land (see Components).
 
 **Key Characteristics:**
 - Sky over land on every page, meeting at a woven horizon.
@@ -335,7 +335,7 @@ The sky: five bands from the top (1) to the horizon (5) at each hour, and what s
 - **Card Hover** (#FFF4EC): hover on cards, chips and outlined controls.
 - **Clay Fill** (#F4E4D9): the tonal fill: share circles, the chat behind the message, the month's days off, the city tag.
 - **Clay Line** (#E9D5C8): hairlines: the outlines of chips, fields and outlined buttons, dividers, empty cards, the grabber.
-- **Faded Clay** (#D8C2B5): the scrollbar; the flyers' perforation.
+- **Faded Clay** (#D8C2B5): the scrollbar.
 - **Warm Ink** (#221714): text (13.95:1 on clay); the chosen segment and the pressed chips; the sky's ink in the three light skies.
 - **Earth Soft Ink** (#6A4E44): secondary text and icons, tinted from the earth and never grey (6.01:1 on clay); the quiet selection ring.
 - **White** (#FFFFFF): the text on the urucum button.
@@ -360,7 +360,7 @@ The eight groups of the organizations, one series each, by day and lighter at ni
 
 **Display Font:** Bricolage Grotesque (variable, 500–800, with its optical-size axis; falls back to Inter, system-ui, sans-serif)
 **Body Font:** Inter (variable, 400–700; falls back to system-ui, sans-serif)
-**Flyer Fonts:** Barlow (500, 600, 700) and Barlow Condensed (600, 700, 800), for the flyers only
+**On the flyers:** the same two, Bricolage Grotesque (700, 800) with its optical size pinned at 96 and Inter (500 to 700), in px on a fixed canvas
 
 **Character:** Bricolage Grotesque is the voice and Inter the reading text. Bricolage at its heaviest, with its optical sizes, gives the greeting and the dates a local, hand-set warmth; Inter keeps what the organizations announce plain and legible outdoors on cheap phones. Both are self-hosted in `fonts/`; no request goes to Google Fonts.
 
@@ -380,7 +380,7 @@ The eight groups of the organizations, one series each, by day and lighter at ni
 
 **The Tabular Dates Rule.** Every date, time and count is set with tabular figures, so days and hours line up down a list.
 
-**The Barlow Stays on Paper Rule.** Barlow and Barlow Condensed load only when an activity opens, for the flyers, whose layout engine measures their glyph widths; the site never sets text in them (the mark's N and S are drawings traced from Barlow Condensed 800, not text).
+**The Planned Flyer Rule.** A flyer sets only the faces, weights and optical size its layout engine measured (`.impeccable/flyer-metrics.html`), and every line is planned before it is drawn: the preview and the PNG are one picture. Its numerals stand alone, so they keep the font's proportional figures; dates and times in lists keep the tabular ones. A new face or weight means measuring again.
 
 ## Layout
 
@@ -488,8 +488,15 @@ Lucide (ISC) drawings on a 24px grid with a 2px round stroke in `currentColor`, 
 ### The NOS Mark
 NOS with the O circled by hand, sized by font-size (a 3.807em by 2.3em box): the letters take the current colour and the loop `--mark-loop`, which falls back to it; on the sky the letters take the sky's ink and the loop the sky's hand. The app icons print the mark on the dawn sky over the band and the clay; the favicons are the sun in its loop alone on the sky; the link preview is the home's first view at poster scale on the dawn sky. Another app name prints as the word in Bricolage 800 until a mark is drawn for it.
 
-### Flyers (the exception)
-The 1080 by 1350 PNG flyers ("Folha do dia", "Calendário do mês", "Cartaz", "Aviso de cancelamento") keep the tear-off calendar layout of the previous world: an urucum header card, day sheets on the clay with a binding and a perforation, Sundays and holidays in Deep Urucum, the poster on a full urucum ground, set in Barlow and Barlow Condensed in px. They take the new palette through the roles and always print in the light theme. They wait for their own redesign in Céu · Terra; until then they are an exception, not a source: none of their devices (header cards, bindings, perforations, urucum grounds, Barlow) moves into the site.
+### Flyers
+The 1080 by 1350 PNG flyers ("Folha do dia", "Agenda do mês", "Cartaz", and "Aviso de cancelamento", which every cancelled activity gets) are small landscapes of the same world, read first as a 300px thumbnail in a WhatsApp chat, then full screen. Each is the sky of the hour its activity starts (amanhecer, dia, entardecer, noite; the day's sky when there is no time) in five flat bands over the woven band (64px), and the land below: the light clay under the three light skies, terra roxa under the night, whatever the page's theme. The sky carries the flyer's idea in NOS's voice; the land carries the activity in Inter.
+- **Folha do dia:** the day's numeral (Bricolage 800, up to 600px, -0.03em) stands 40px above the band in front of the rising sun, a disc inside the hand's loop running off the right edge (at night the small moon high above it and the stars). At its left, from its top line, the weekday (Bricolage 800) and the month (700, soft ink); on its baseline the time (800, its end apart in 700) or "Horário a confirmar".
+- **Agenda do mês:** the month's name (Bricolage 800, 104px) and its year, the weekday heads in Inter capitals, then the weeks as the sky's bands, from the first under the name to the last on the horizon. The activity's day is the sun or the moon inside the hand's loop, its numeral in ink; a period's other days are underlined by hand; Sundays and holidays take the soft ink.
+- **Cartaz:** the title in Inter 700, as large as the sky allows (168px down to 56px, weighed against short words ending its lines), hanging from the top with the sun rising in the sky left under it; at night it stands on the horizon under the moon. On the land, the date circled by hand in urucum with the time beside it.
+- **Aviso de cancelamento:** "Cancelada" (Bricolage 800, up to 220px) on the sky of the activity's hour without its sun or moon (the stars stay at night), over the date and time the hand struck out. On the land, the title struck by an urucum stroke, "Motivo:" and the reason, then who and where in the soft ink, the group's dot as an outline.
+- **The land, on every flyer:** the title (Inter 700, -0.02em); the organizations, the group's dot before each name in 700 with its full name in 500 and soft ink where it is known; the place after a pin (a globe online), with its city outside Dourados; a holiday's name; and the signature at the foot: the NOS mark, "Dourados", "Agenda das organizações" and the site's address. No type, logos or slogans: only the activity's own fields.
+
+**The Sky of the Hour Rule.** A flyer's sky is the hour its activity starts, never the hour it is made, and the day's when there is no time. Its text uses the sky's inks only, and the edges between its bands keep clear of the text's lines: never grazing a baseline, an x-height or a cap line.
 
 ## Do's and Don'ts
 
@@ -498,7 +505,7 @@ The 1080 by 1350 PNG flyers ("Folha do dia", "Calendário do mês", "Cartaz", "A
 - **Do** finish every new surface in both themes and under all four skies, with any text on the sky in the sky's ink or soft ink (4.5:1 or more on every band).
 - **Do** keep urucum for the hand, the primary button and the open page; give a new page its own colour of the landscape as a door tint, with its deep shade for icons and mixed text.
 - **Do** show a group as its dot beside its name, so colour is never the only carrier of meaning.
-- **Do** circle the next activity and underline today with the hand marks, and nothing else.
+- **Do** circle the next activity and underline today with the hand marks, and nothing else on the site; on a flyer the hand circles the activity's date or day and strikes out what was cancelled.
 - **Do** set dates in Bricolage 800 with tabular figures, headings at 700–750, and what the organizations announce in Inter.
 - **Do** rest cards on the day shadow and the night line from the roles, and mark selection with the quiet soft-ink ring.
 - **Do** keep every target at 44px or more (the 36px chips carry a 44px tap area) and size text in rem.
@@ -511,7 +518,7 @@ The 1080 by 1350 PNG flyers ("Folha do dia", "Calendário do mês", "Cartaz", "A
 - **Don't** replace the band with an imitation or adaptation of any people's grafismo; the real band comes from artists of the Reserva Indígena de Dourados, signed, paid and credited.
 - **Don't** put shadows on the land in the dark theme, use hard offset shadows, or lift elements on hover.
 - **Don't** use the strong urucum ring for selection or the quiet ring for focus.
-- **Don't** set the site in Barlow, fetch fonts from Google Fonts, or set an activity's title in Bricolage.
+- **Don't** fetch fonts from Google Fonts, or set an activity's title in Bricolage, on the site or on a flyer.
 - **Don't** add motion beyond the home's rising sun (1.6s, off under reduced motion); state changes are 0.15s colour transitions and the sheet's 0.3s slide.
 - **Don't** bring the Folhinha's devices to the site (the red header card, bindings, perforations, a yellow "Próxima") or the old campaign interface (the metro line to election day, the countdown, the slogan); nothing should read as a startup, a city hall or an election campaign.
 - **Don't** invent logos, photos, slogans, ratings or prices for the organizations or the businesses.

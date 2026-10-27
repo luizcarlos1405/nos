@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-27T19:04:00Z",
+  "generatedAt": "2026-10-27T20:24:00Z",
   "title": "Design System: NOS Dourados",
   "extensions": {
     "colorMeta": {
@@ -108,7 +108,6 @@
         "canonical": "#D8C2B5",
         "variable": "--color-clay-faded",
         "roles": [
-          "--role-ink-faded (light)",
           "--role-scrollbar (light)"
         ],
         "tonalRamp": [
@@ -132,7 +131,8 @@
           "--role-wash (light)",
           "--role-scrim (light)",
           "--role-sky-ink (sky: dia (default))",
-          "--role-sky-wash (sky: dia (default))"
+          "--role-sky-wash (sky: dia (default))",
+          "--role-on-astro (flyers)"
         ],
         "tonalRamp": [
           "oklch(15.0% 0.019 35.8)",
@@ -171,8 +171,7 @@
         "canonical": "#FFFFFF",
         "variable": "--color-white",
         "roles": [
-          "--role-on-accent (light)",
-          "--role-on-header (light)"
+          "--role-on-accent (light)"
         ],
         "tonalRamp": [
           "oklch(15.0% 0.000 89.9)",
@@ -312,7 +311,6 @@
         "canonical": "#6B4A40",
         "variable": "--color-terra-roxa-faded",
         "roles": [
-          "--role-ink-faded (dark)",
           "--role-scrollbar (dark)"
         ],
         "tonalRamp": [
@@ -398,9 +396,6 @@
           "--role-hand (light)",
           "--role-mark-loop (light)",
           "--role-agenda (light)",
-          "--role-header (light)",
-          "--role-binding (light)",
-          "--role-alert (light)",
           "--role-sky-hand (sky: dia (default))"
         ],
         "tonalRamp": [
@@ -422,8 +417,7 @@
         "roles": [
           "--role-accent-text (light)",
           "--role-focus (light)",
-          "--role-agenda-text (light)",
-          "--role-red-letter (light)"
+          "--role-agenda-text (light)"
         ],
         "tonalRamp": [
           "oklch(15.0% 0.051 38.5)",
@@ -1616,7 +1610,6 @@
         "--role-line": "var(--color-clay-line)",
         "--role-ink": "var(--color-ink)",
         "--role-ink-soft": "var(--color-ink-soft)",
-        "--role-ink-faded": "var(--color-clay-faded)",
         "--role-on-ink": "var(--color-clay-card)",
         "--role-wash": "color-mix(in srgb, var(--color-ink) 7%, transparent)",
         "--role-scrim": "color-mix(in srgb, var(--color-ink) 50%, transparent)",
@@ -1645,12 +1638,7 @@
         "--role-series-8": "var(--color-group-8)",
         "--role-no-sector": "var(--color-ink-soft)",
         "--role-chat": "var(--color-clay-fill)",
-        "--role-bubble": "var(--color-clay-card)",
-        "--role-header": "var(--color-urucum)",
-        "--role-on-header": "var(--color-white)",
-        "--role-binding": "var(--color-urucum)",
-        "--role-red-letter": "var(--color-urucum-text)",
-        "--role-alert": "var(--color-urucum)"
+        "--role-bubble": "var(--color-clay-card)"
       },
       "dark": {
         "--role-ground": "var(--color-terra-roxa)",
@@ -1663,7 +1651,6 @@
         "--role-line": "var(--color-terra-roxa-line)",
         "--role-ink": "var(--color-moonlit)",
         "--role-ink-soft": "var(--color-moonlit-soft)",
-        "--role-ink-faded": "var(--color-terra-roxa-faded)",
         "--role-on-ink": "var(--color-terra-roxa)",
         "--role-wash": "color-mix(in srgb, var(--color-moonlit) 9%, transparent)",
         "--role-scrim": "color-mix(in srgb, var(--color-night-shade) 70%, transparent)",
@@ -1705,7 +1692,8 @@
         "--role-sky-hand": "var(--color-urucum)",
         "--role-sky-wash": "color-mix(in srgb, var(--color-ink) 9%, transparent)",
         "--role-astro": "var(--color-sun)",
-        "--role-star": "var(--color-star)"
+        "--role-star": "var(--color-star)",
+        "--role-on-astro": "var(--color-ink)"
       },
       "sky: amanhecer": {
         "--role-sky-1": "var(--color-dawn-1)",
@@ -1812,7 +1800,7 @@
   ],
   "narrative": {
     "northStar": "Céu · Terra",
-    "overview": "NOS opens on the sky over Dourados at this hour and the land beneath it. Every page stacks the same three layers: the header is the sky of this hour, painted in five flat bands (amanhecer, dia, entardecer and noite by the clock in the light theme, always the night in the dark theme); the woven band under it is the horizon; below lies the land, light clay by day and terra roxa at night, where the activities, the doors and the businesses rest as clear rounded cards. The sun, a disc inside an urucum loop drawn by hand, rises big from behind the band and runs off the edge; at night a small moon, about a fifth of the sun, sits high among the stars.\n\nThe hand is the system's signature. The same urucum pen that draws the sun's loop and the O of the NOS mark circles the next activity and underlines today: urucum is the one marking colour, and it marks rather than fills. Each page wears one colour of the landscape on its door and its own panel (Agenda urucum, Comércio ipê-rosa); the organizations' eight groups are coloured dots. Bricolage Grotesque is NOS's voice (the greeting, dates, page titles, day heads) and Inter the reading text and the controls. The density is calm and phone-first: lists of cards with 44px targets on the phone, a production bench on the desk, never a dashboard.\n\nThe world refuses the hero banner over icon tiles, the dashboard, the grey list with thin dividers and coloured pills, the marketplace (carousels, banners, prices, ratings), and the Folhinha's notepad and torn-off sheets; nothing of the old campaign interface (the metro line to election day, the countdown, the slogan) comes back, and nothing should read as a startup, a city hall or an election campaign. Light and dark are both finished themes. The approved artboards (`design/direcao-ceu-terra-*.html`) also draw sections and a search that were deliberately not built; where they and the build diverge, the build is the reference. The flyers are the one surface still in the previous world's layout (see Components).",
+    "overview": "NOS opens on the sky over Dourados at this hour and the land beneath it. Every page stacks the same three layers: the header is the sky of this hour, painted in five flat bands (amanhecer, dia, entardecer and noite by the clock in the light theme, always the night in the dark theme); the woven band under it is the horizon; below lies the land, light clay by day and terra roxa at night, where the activities, the doors and the businesses rest as clear rounded cards. The sun, a disc inside an urucum loop drawn by hand, rises big from behind the band and runs off the edge; at night a small moon, about a fifth of the sun, sits high among the stars.\n\nThe hand is the system's signature. The same urucum pen that draws the sun's loop and the O of the NOS mark circles the next activity and underlines today: urucum is the one marking colour, and it marks rather than fills. Each page wears one colour of the landscape on its door and its own panel (Agenda urucum, Comércio ipê-rosa); the organizations' eight groups are coloured dots. Bricolage Grotesque is NOS's voice (the greeting, dates, page titles, day heads) and Inter the reading text and the controls. The density is calm and phone-first: lists of cards with 44px targets on the phone, a production bench on the desk, never a dashboard.\n\nThe world refuses the hero banner over icon tiles, the dashboard, the grey list with thin dividers and coloured pills, the marketplace (carousels, banners, prices, ratings), and the Folhinha's notepad and torn-off sheets; nothing of the old campaign interface (the metro line to election day, the countdown, the slogan) comes back, and nothing should read as a startup, a city hall or an election campaign. Light and dark are both finished themes. The approved artboards (`design/direcao-ceu-terra-*.html`) also draw sections and a search that were deliberately not built; where they and the build diverge, the build is the reference. The flyers carry the same world into a picture: the sky of the activity's hour over the band and the land (see Components).",
     "keyCharacteristics": [
       "Sky over land on every page, meeting at a woven horizon.",
       "The sky in flat bands by the hour: hard stops, never a soft gradient.",
@@ -1850,9 +1838,14 @@
         "section": "typography"
       },
       {
-        "name": "The Barlow Stays on Paper Rule",
-        "body": "Barlow and Barlow Condensed load only when an activity opens, for the flyers, whose layout engine measures their glyph widths; the site never sets text in them (the mark's N and S are drawings traced from Barlow Condensed 800, not text).",
+        "name": "The Planned Flyer Rule",
+        "body": "A flyer sets only the faces, weights and optical size its layout engine measured (`.impeccable/flyer-metrics.html`), and every line is planned before it is drawn: the preview and the PNG are one picture. Its numerals stand alone, so they keep the font's proportional figures; dates and times in lists keep the tabular ones. A new face or weight means measuring again.",
         "section": "typography"
+      },
+      {
+        "name": "The Sky of the Hour Rule",
+        "body": "A flyer's sky is the hour its activity starts, never the hour it is made, and the day's when there is no time. Its text uses the sky's inks only, and the edges between its bands keep clear of the text's lines: never grazing a baseline, an x-height or a cap line.",
+        "section": "components"
       },
       {
         "name": "The Horizon Rule",
@@ -1900,7 +1893,7 @@
       "Do finish every new surface in both themes and under all four skies, with any text on the sky in the sky's ink or soft ink (4.5:1 or more on every band).",
       "Do keep urucum for the hand, the primary button and the open page; give a new page its own colour of the landscape as a door tint, with its deep shade for icons and mixed text.",
       "Do show a group as its dot beside its name, so colour is never the only carrier of meaning.",
-      "Do circle the next activity and underline today with the hand marks, and nothing else.",
+      "Do circle the next activity and underline today with the hand marks, and nothing else on the site; on a flyer the hand circles the activity's date or day and strikes out what was cancelled.",
       "Do set dates in Bricolage 800 with tabular figures, headings at 700–750, and what the organizations announce in Inter.",
       "Do rest cards on the day shadow and the night line from the roles, and mark selection with the quiet soft-ink ring.",
       "Do keep every target at 44px or more (the 36px chips carry a 44px tap area) and size text in rem.",
@@ -1913,7 +1906,7 @@
       "Don't replace the band with an imitation or adaptation of any people's grafismo; the real band comes from artists of the Reserva Indígena de Dourados, signed, paid and credited.",
       "Don't put shadows on the land in the dark theme, use hard offset shadows, or lift elements on hover.",
       "Don't use the strong urucum ring for selection or the quiet ring for focus.",
-      "Don't set the site in Barlow, fetch fonts from Google Fonts, or set an activity's title in Bricolage.",
+      "Don't fetch fonts from Google Fonts, or set an activity's title in Bricolage, on the site or on a flyer.",
       "Don't add motion beyond the home's rising sun (1.6s, off under reduced motion); state changes are 0.15s colour transitions and the sheet's 0.3s slide.",
       "Don't bring the Folhinha's devices to the site (the red header card, bindings, perforations, a yellow \"Próxima\") or the old campaign interface (the metro line to election day, the countdown, the slogan); nothing should read as a startup, a city hall or an election campaign.",
       "Don't invent logos, photos, slogans, ratings or prices for the organizations or the businesses."
