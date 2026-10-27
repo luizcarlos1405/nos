@@ -15,7 +15,7 @@ O visual é o "Céu · Terra": no alto, o céu de Dourados desta hora (amanhecer
 Cada atividade mostra quem organiza, onde e quando, e de onde veio a informação; a próxima tem o horário circulado à mão. Para cada atividade o site gera:
 
 - **Mensagem de WhatsApp** pronta para colar (com negrito, emojis e só os campos preenchidos);
-- **Panfleto em PNG** (1080 × 1350 px) em três estilos (Folha do dia, Calendário do mês e Cartaz). Atividade cancelada vira um aviso de cancelamento.
+- **Panfleto em PNG** (1080 × 1350 px) em três estilos (Folha do dia, Agenda do mês e Cartaz), com o céu da hora da atividade. Atividade cancelada vira um aviso de cancelamento.
 
 Sem build, sem dependências para instalar: HTML, CSS e JavaScript puro. Nasceu de uma cópia do [Calendário de Luta](https://github.com/luizcarlos1405/calendario).
 
@@ -140,13 +140,13 @@ Tudo que costuma mudar fica em `js/config.js`:
 - `EXTRA_HOLIDAYS`: feriados locais, marcados como os nacionais (`js/holidays.js`).
 - `ORG_NAMES`: nomes por extenso das organizações.
 
-**Cores, tema claro e escuro, o céu.** Todas as cores do site e dos panfletos ficam em `css/theme.css`, em duas camadas: a paleta (as cores: barro, terra roxa, urucum, ipê-rosa, as faixas do céu de cada hora, as cores dos grupos) e os papéis (para que serve cada cor: o chão, os cartões, a tinta, o destaque, o céu…). O resto do CSS só usa os papéis. O tema escuro troca os papéis, não a paleta. Os panfletos saem sempre no tema claro. As cores do `<meta name="theme-color">` das três páginas e `theme_color`/`background_color` no `manifest.webmanifest` não leem variáveis: se mudar o céu do dia ou o barro, troque-as à mão e refaça ícones, prévia do link e capturas com `node assets/render.cjs`.
+**Cores, tema claro e escuro, o céu.** Todas as cores do site e dos panfletos ficam em `css/theme.css`, em duas camadas: a paleta (as cores: barro, terra roxa, urucum, ipê-rosa, as faixas do céu de cada hora, as cores dos grupos) e os papéis (para que serve cada cor: o chão, os cartões, a tinta, o destaque, o céu…). O resto do CSS só usa os papéis. O tema escuro troca os papéis, não a paleta. Os panfletos não seguem o tema da página: cada um tem o céu da hora da atividade (amanhecer, dia, entardecer ou noite; sem horário, o dia), com o barro embaixo, ou a terra roxa à noite. As cores do `<meta name="theme-color">` das três páginas e `theme_color`/`background_color` no `manifest.webmanifest` não leem variáveis: se mudar o céu do dia ou o barro, troque-as à mão e refaça ícones, prévia do link e capturas com `node assets/render.cjs`.
 
 Outros textos:
 
 - Frase final das mensagens de WhatsApp: `CLOSING_LINE` (atividades) e `COMMERCE_CLOSING_LINE` (negócios indicados) em `js/whatsapp.js` (usam `APP_NAME`, `HOME_CITY` e `SITE_URL`).
 - Para trocar o nome do site, além de `APP_NAME`/`APP_FULL_NAME`, mude o `<title>`, a descrição e as tags `og:` no `<head>` das três páginas e o `<h1>` escondido logo abaixo do `<body>`; o nome do app instalável fica no `manifest.webmanifest` e no `apple-mobile-web-app-title` das páginas. A marca é um desenho de NOS (`MARK` em `js/icons.js`): com outro nome, o site escreve a palavra no lugar dela até que se desenhe uma marca nova. Depois refaça os ícones e a prévia com `node assets/render.cjs`.
-- Estilos de panfleto: lista `FLYER_STYLES` em `js/flyer.js`, com o visual em `css/flyers.css`. Eles ainda têm o desenho de folhinha do visual anterior, com as cores novas; um panfleto no mundo Céu · Terra fica para depois.
+- Estilos de panfleto: lista `FLYER_STYLES` em `js/flyer.js`, com o visual em `css/flyers.css`. Cada panfleto é uma paisagem do mundo Céu · Terra: o céu da hora da atividade, a faixa no horizonte e a terra com a atividade. O `js/flyer.js` planeja as quebras de linha pelas larguras medidas das fontes; se trocar fonte ou peso, meça de novo com `.impeccable/flyer-metrics.html`.
 - A faixa do horizonte é a imagem `assets/faixa.svg` (provisória). Quando a faixa das artistas da Reserva chegar, ela entra no lugar desse arquivo e o crédito no rodapé das três páginas muda junto.
 
 ## Design
@@ -172,7 +172,7 @@ assets/render.cjs   gera ícones, prévia do link e capturas de tela (e anota em
 assets/icons/       ícones e favicons
 assets/faixa.svg    a faixa do horizonte (arte provisória)
 assets/screenshots/ capturas de tela do app instalável
-fonts/              fontes hospedadas no próprio site: Bricolage Grotesque e Inter (o site), Barlow (os panfletos); licenças em fonts/OFL-*.txt
+fonts/              fontes hospedadas no próprio site: Bricolage Grotesque e Inter (o site e os panfletos); licenças em fonts/OFL-*.txt (a da Barlow fica pela marca, desenhada a partir dela)
 js/config.js        configurações (planilhas, nome, cidade, endereço do site, setores, feriados locais, nomes das organizações, categorias do comércio)
 js/page.js          o que as três páginas compartilham (cabeçalho, avisos, leitura das planilhas, modo sem internet)
 js/sky.js           o céu desta hora e o tema claro ou escuro
@@ -200,6 +200,6 @@ design/             o design: uma página HTML por tela, e design/index.html, qu
 - `CLAUDE.md`: arquitetura, regras do código e decisões (em inglês, como todo o código).
 - `PRODUCT.md`: para quem é o site e o que ele precisa fazer.
 - `DESIGN.md` e `.impeccable/design.json`: o sistema visual ("Céu · Terra"); os desenhos estão em `design/`.
-- `.impeccable/`: o resumo da direção visual, o laboratório de panfletos (`flyer-lab.html`) e o script de capturas para revisão (`capture.cjs`).
+- `.impeccable/`: o resumo da direção visual, o laboratório de panfletos (`flyer-lab.html`), a medição das fontes dos panfletos (`flyer-metrics.html`) e o script de capturas para revisão (`capture.cjs`).
 - `.claude/`: a skill [Impeccable](https://github.com/pbakaus/impeccable) para o Claude Code (Apache-2.0; licença e origem em `.claude/skills/impeccable/`), e `.mcp.json`, o MCP da Namecheap para quando o site tiver domínio.
 
