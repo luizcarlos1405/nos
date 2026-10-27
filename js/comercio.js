@@ -1,7 +1,7 @@
-// Comércio (comercio.html): the network's businesses as a phone book, one sheet per letter.
-// Reads the registration form's answers (COMMERCE_CSV_URL, through js/businesses.js), filters them
-// by search and category, and prints each business with its ways to be reached and a ready
-// "Indicar no WhatsApp" message.
+// Comércio (comercio.html): the network's businesses from A to Z, a heading per letter and a card per
+// business. Reads the registration form's answers (COMMERCE_CSV_URL, through js/businesses.js),
+// filters them by search and category, and prints each business with its ways to be reached and a
+// ready "Indicar no WhatsApp" message. Paused for now: see the end of this file.
 
 import { COMMERCE_CSV_URL, COMMERCE_FORM_URL } from './config.js';
 import { buildBusinesses, categoriesOf, matchesSearch } from './businesses.js';
@@ -33,6 +33,7 @@ async function load() {
       return;
     }
     state.businesses = businesses;
+    $('page-sub').textContent = `${count(businesses.length)} da rede`;
     if (invalid.length) {
       const rows = invalid.map((r) => `<li>Linha ${r.line}: falta o nome do negócio.</li>`).join('');
       showNotice(`<p><strong>${invalid.length === 1 ? '1 linha da planilha ficou de fora' : `${invalid.length} linhas da planilha ficaram de fora`}.</strong></p><details><summary>Ver as linhas para corrigir</summary><ul>${rows}</ul></details>`);
@@ -59,9 +60,12 @@ function renderChips() {
   bar.hidden = categories.length === 0;
   const chips = $('category-chips');
   const chip = (label, key) => {
-    const b = el('button', 'chip', label);
+    const b = el('button', 'chip');
     b.type = 'button';
     b.dataset.key = key;
+    const check = el('span', 'chip-check');
+    check.innerHTML = icon('check');
+    b.append(check, label);
     b.addEventListener('click', () => {
       if (!key) state.categories.clear();
       else if (state.categories.has(key)) state.categories.delete(key);
@@ -104,7 +108,7 @@ function clearAll() {
   announce(summary());
 }
 
-// ---------- The phone book ----------
+// ---------- The list ----------
 
 function render() {
   syncChips();
@@ -125,21 +129,19 @@ function render() {
   list.replaceChildren(...order.map((letter) => letterSheet(letter, letters.get(letter))));
 }
 
-// A sheet of the phone book: the letter in the folio column, then its businesses.
+// One letter: its heading and count, then its businesses.
 function letterSheet(letter, businesses) {
-  const sheet = el('section', 'sheet letter-sheet');
+  const group = el('section', 'letter-group');
   const id = `letra-${letter === '#' ? 'outros' : letter.toLowerCase()}`;
-  sheet.setAttribute('aria-labelledby', id);
-  const head = el('div', 'sheet-head');
-  const title = el('h2', 'sheet-num', letter);
+  group.setAttribute('aria-labelledby', id);
+  const head = el('div', 'letter-head');
+  const title = el('h2', 'letter', letter);
   title.id = id;
-  const names = el('div', 'sheet-names');
-  names.append(el('span', 'sheet-month', count(businesses.length)));
-  head.append(title, names);
+  head.append(title, el('span', 'letter-count', count(businesses.length)));
   const list = el('ul', 'biz-list');
   list.append(...businesses.map(businessItem));
-  sheet.append(head, list);
-  return sheet;
+  group.append(head, list);
+  return group;
 }
 
 function businessItem(biz) {
@@ -148,7 +150,7 @@ function businessItem(biz) {
   card.id = biz.id;
   card.setAttribute('aria-labelledby', `${biz.id}-name`);
 
-  if (biz.category) card.append(el('p', 'biz-category', biz.category));
+  if (biz.category) card.append(el('p', 'biz-category tag', biz.category));
 
   const main = el('div', 'biz-main');
   const name = el('h3', 'biz-name', biz.name);
@@ -192,7 +194,7 @@ function businessItem(biz) {
   return item;
 }
 
-// One way to reach the business: its label in the folio column, the value beside it.
+// One way to reach the business: its label, the value beside it.
 function contact(label, value) {
   const row = el('div', 'contact');
   const dd = el('dd');
@@ -247,12 +249,11 @@ function breakable(text) {
 
 // Nothing to show: say why, and offer the way back.
 function blankSheet() {
-  const sheet = el('div', 'sheet is-blank');
-  const box = el('div', 'blank');
-  box.innerHTML = icon('search-x', 'blank-icon');
+  const box = el('div', 'empty-state');
+  box.innerHTML = icon('search-x', 'icon empty-icon');
   const query = state.query.trim();
   const cats = chosenCategories().join(', ');
-  const actions = el('div', 'blank-actions');
+  const actions = el('div', 'empty-actions');
   const button = (label, className, onClick) => {
     const b = el('button', className, label);
     b.type = 'button';
@@ -261,11 +262,11 @@ function blankSheet() {
   };
 
   if (!state.businesses.length) {
-    box.append(el('p', 'blank-title', 'Ainda não há negócios na lista'), el('p', 'blank-hint', 'Os negócios aparecem aqui quando se cadastram pelo formulário da rede.'));
+    box.append(el('p', 'empty-title', 'Ainda não há negócios na lista'), el('p', 'empty-hint', 'Os negócios aparecem aqui quando se cadastram pelo formulário da rede.'));
   } else {
     const title = query && cats ? `Nenhum negócio de ${cats} com “${query}”` : query ? `Nenhum negócio com “${query}”` : `Nenhum negócio de ${cats}`;
-    box.append(el('p', 'blank-title', title));
-    if (query) box.append(el('p', 'blank-hint', 'Confira se a palavra está certa ou tente outra parecida.'));
+    box.append(el('p', 'empty-title', title));
+    if (query) box.append(el('p', 'empty-hint', 'Confira se a palavra está certa ou tente outra parecida.'));
     const elsewhere = query && state.categories.size > 0 && state.businesses.some((biz) => matchesSearch(biz, query));
     if (elsewhere) {
       actions.append(button('Buscar em todas as categorias', 'btn btn-line', () => {
@@ -280,8 +281,7 @@ function blankSheet() {
     }
     box.append(actions);
   }
-  sheet.append(box);
-  return sheet;
+  return box;
 }
 
 // ---------- Wiring ----------
@@ -314,5 +314,7 @@ if (formUrl) {
 }
 
 // Paused while the businesses are collected and organized: comercio.html shows "Em breve" where the
-// phone book goes. Calling load() here again brings the list back.
+// list goes. To bring the list back: call load() here again (as `if (location.protocol !== 'file:')
+// load();`), put the "Carregando o comércio…" placeholder back in #lista in comercio.html, and on the
+// home call renderCommerceDoor() (js/home.js) and give Comércio's door its own text in index.html.
 registerWorker();
