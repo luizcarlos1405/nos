@@ -1,5 +1,6 @@
-// Flyers: 1080 × 1350 PNGs in the site's tear-off calendar look (the red header card, day sheets
-// with their binding strip and perforation, Barlow). Three layouts to pick from, plus the
+// Flyers: 1080 × 1350 PNGs in a tear-off calendar look (the urucum header card, day sheets with
+// their binding strip and perforation, Barlow), kept from the site's previous world until the flyers
+// get their own redesign; the colours follow css/theme.css. Three layouts to pick from, plus the
 // cancellation notice that every cancelled activity gets. Each layout turns an activity into a
 // detached DOM node styled by css/flyers.css (.fl--<id>).
 //
@@ -25,7 +26,7 @@ const NBSP = '\u00a0';
 
 // ---------- Text metrics ----------
 
-// Advance widths in thousandths of an em, measured from fonts/*.woff2 with canvas at 1000px,
+// Advance widths in thousandths of an em, measured from fonts/barlow*.woff2 with canvas at 1000px,
 // kerning off: the printable ASCII range (space to tilde), then the signs of EXTRA_SIGNS.
 // An accented letter counts as its base letter (as wide or a little wider). Kerning is left out:
 // it makes real titles up to 1% narrower (7% in contrived capitals like "AVATAR VOLTA"), so the
@@ -444,7 +445,7 @@ function lined(tag, className, lines, size) {
   return size ? sized(node, size) : node;
 }
 
-// The red header card: the mark beside "NOS Dourados" and the full name.
+// The header card: the mark beside "NOS Dourados" and the full name.
 const masthead = () =>
   h('div', 'fl-mast', fromHtml(brandMark(APP_NAME)), h('div', 'fl-mast-text', h('div', 'fl-mast-name', CITY), h('div', 'fl-mast-full', APP_FULL_NAME)));
 
