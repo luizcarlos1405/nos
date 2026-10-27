@@ -1,1181 +1,1922 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-15T21:08:42Z",
+  "generatedAt": "2026-10-27T19:04:00Z",
   "title": "Design System: NOS Dourados",
   "extensions": {
     "colorMeta": {
-      "brand": {
-        "role": "primary",
-        "displayName": "Folhinha Red",
-        "canonical": "#E4002B",
-        "variable": "--color-brand",
+      "clay": {
+        "role": "neutral",
+        "displayName": "Clay",
+        "canonical": "#F2E3D7",
+        "variable": "--color-clay",
         "roles": [
-          "--role-header",
-          "--role-binding",
-          "--role-red-letter",
-          "--role-accent",
-          "--role-alert",
-          "--role-mark-loop"
+          "--role-ground (light)"
         ],
         "tonalRamp": [
-          "oklch(15% 0.105 24)",
-          "oklch(25% 0.176 24)",
-          "oklch(35% 0.234 24)",
-          "oklch(48% 0.234 24)",
-          "oklch(60% 0.234 24)",
-          "oklch(72% 0.234 24)",
-          "oklch(84% 0.176 24)",
-          "oklch(95% 0.105 24)"
+          "oklch(15.0% 0.023 61.2)",
+          "oklch(26.4% 0.023 61.2)",
+          "oklch(37.9% 0.023 61.2)",
+          "oklch(49.3% 0.023 61.2)",
+          "oklch(60.7% 0.023 61.2)",
+          "oklch(72.1% 0.023 61.2)",
+          "oklch(83.6% 0.023 61.2)",
+          "oklch(95.0% 0.023 61.2)"
         ]
       },
-      "brand-hover": {
-        "role": "primary",
-        "displayName": "Deep Red",
-        "canonical": "#C70026",
-        "variable": "--color-brand-hover",
+      "clay-card": {
+        "role": "neutral",
+        "displayName": "Warm White Card",
+        "canonical": "#FFFBF7",
+        "variable": "--color-clay-card",
         "roles": [
-          "--role-accent-hover",
-          "--role-alert-text"
+          "--role-card (light)",
+          "--role-on-ink (light)",
+          "--role-bubble (light)"
         ],
         "tonalRamp": [
-          "oklch(15% 0.095 23)",
-          "oklch(25% 0.159 23)",
-          "oklch(35% 0.211 23)",
-          "oklch(48% 0.211 23)",
-          "oklch(60% 0.211 23)",
-          "oklch(72% 0.211 23)",
-          "oklch(84% 0.159 23)",
-          "oklch(95% 0.095 23)"
+          "oklch(15.0% 0.007 67.7)",
+          "oklch(26.4% 0.007 67.7)",
+          "oklch(37.9% 0.007 67.7)",
+          "oklch(49.3% 0.007 67.7)",
+          "oklch(60.7% 0.007 67.7)",
+          "oklch(72.1% 0.007 67.7)",
+          "oklch(83.6% 0.007 67.7)",
+          "oklch(95.0% 0.007 67.7)"
         ]
       },
-      "brand-tint": {
-        "role": "primary",
-        "displayName": "Blush Tint",
-        "canonical": "#FDEBEE",
-        "variable": "--color-brand-tint",
+      "clay-card-hover": {
+        "role": "neutral",
+        "displayName": "Card Hover",
+        "canonical": "#FFF4EC",
+        "variable": "--color-clay-card-hover",
         "roles": [
-          "--role-selected",
-          "--role-alert-soft"
+          "--role-card-hover (light)"
         ],
         "tonalRamp": [
-          "oklch(15% 0.009 6)",
-          "oklch(25% 0.015 6)",
-          "oklch(35% 0.020 6)",
-          "oklch(48% 0.020 6)",
-          "oklch(60% 0.020 6)",
-          "oklch(72% 0.020 6)",
-          "oklch(84% 0.015 6)",
-          "oklch(95% 0.009 6)"
+          "oklch(15.0% 0.016 58.6)",
+          "oklch(26.4% 0.016 58.6)",
+          "oklch(37.9% 0.016 58.6)",
+          "oklch(49.3% 0.016 58.6)",
+          "oklch(60.7% 0.016 58.6)",
+          "oklch(72.1% 0.016 58.6)",
+          "oklch(83.6% 0.016 58.6)",
+          "oklch(95.0% 0.016 58.6)"
         ]
       },
-      "brand-ring": {
-        "role": "primary",
-        "displayName": "Rose Ring",
-        "canonical": "#F2B8C3",
-        "variable": "--color-brand-ring",
+      "clay-fill": {
+        "role": "neutral",
+        "displayName": "Clay Fill",
+        "canonical": "#F4E4D9",
+        "variable": "--color-clay-fill",
         "roles": [
-          "--role-alert-ring"
+          "--role-fill (light)",
+          "--role-chat (light)"
         ],
         "tonalRamp": [
-          "oklch(15% 0.031 6)",
-          "oklch(25% 0.051 6)",
-          "oklch(35% 0.068 6)",
-          "oklch(48% 0.068 6)",
-          "oklch(60% 0.068 6)",
-          "oklch(72% 0.068 6)",
-          "oklch(84% 0.051 6)",
-          "oklch(95% 0.031 6)"
+          "oklch(15.0% 0.023 56.9)",
+          "oklch(26.4% 0.023 56.9)",
+          "oklch(37.9% 0.023 56.9)",
+          "oklch(49.3% 0.023 56.9)",
+          "oklch(60.7% 0.023 56.9)",
+          "oklch(72.1% 0.023 56.9)",
+          "oklch(83.6% 0.023 56.9)",
+          "oklch(95.0% 0.023 56.9)"
         ]
       },
-      "next": {
-        "role": "secondary",
-        "displayName": "Próxima Yellow",
-        "canonical": "#FFC20E",
-        "variable": "--color-next",
+      "clay-line": {
+        "role": "neutral",
+        "displayName": "Clay Line",
+        "canonical": "#E9D5C8",
+        "variable": "--color-clay-line",
         "roles": [
-          "--role-next"
+          "--role-line (light)"
         ],
         "tonalRamp": [
-          "oklch(15% 0.077 85)",
-          "oklch(25% 0.129 85)",
-          "oklch(35% 0.172 85)",
-          "oklch(48% 0.172 85)",
-          "oklch(60% 0.172 85)",
-          "oklch(72% 0.172 85)",
-          "oklch(84% 0.129 85)",
-          "oklch(95% 0.077 85)"
+          "oklch(15.0% 0.028 55.3)",
+          "oklch(26.4% 0.028 55.3)",
+          "oklch(37.9% 0.028 55.3)",
+          "oklch(49.3% 0.028 55.3)",
+          "oklch(60.7% 0.028 55.3)",
+          "oklch(72.1% 0.028 55.3)",
+          "oklch(83.6% 0.028 55.3)",
+          "oklch(95.0% 0.028 55.3)"
+        ]
+      },
+      "clay-faded": {
+        "role": "neutral",
+        "displayName": "Faded Clay",
+        "canonical": "#D8C2B5",
+        "variable": "--color-clay-faded",
+        "roles": [
+          "--role-ink-faded (light)",
+          "--role-scrollbar (light)"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.031 52.6)",
+          "oklch(26.4% 0.031 52.6)",
+          "oklch(37.9% 0.031 52.6)",
+          "oklch(49.3% 0.031 52.6)",
+          "oklch(60.7% 0.031 52.6)",
+          "oklch(72.1% 0.031 52.6)",
+          "oklch(83.6% 0.031 52.6)",
+          "oklch(95.0% 0.029 52.6)"
         ]
       },
       "ink": {
         "role": "neutral",
-        "displayName": "Graphite Ink",
-        "canonical": "#1C1C1E",
+        "displayName": "Warm Ink",
+        "canonical": "#221714",
         "variable": "--color-ink",
         "roles": [
-          "--role-ink",
-          "--role-on-next",
-          "--role-strong",
-          "--role-focus"
+          "--role-ink (light)",
+          "--role-wash (light)",
+          "--role-scrim (light)",
+          "--role-sky-ink (sky: dia (default))",
+          "--role-sky-wash (sky: dia (default))"
         ],
         "tonalRamp": [
-          "oklch(15% 0.002 286)",
-          "oklch(25% 0.003 286)",
-          "oklch(35% 0.004 286)",
-          "oklch(48% 0.004 286)",
-          "oklch(60% 0.004 286)",
-          "oklch(72% 0.004 286)",
-          "oklch(84% 0.003 286)",
-          "oklch(95% 0.002 286)"
+          "oklch(15.0% 0.019 35.8)",
+          "oklch(26.4% 0.019 35.8)",
+          "oklch(37.9% 0.019 35.8)",
+          "oklch(49.3% 0.019 35.8)",
+          "oklch(60.7% 0.019 35.8)",
+          "oklch(72.1% 0.019 35.8)",
+          "oklch(83.6% 0.019 35.8)",
+          "oklch(95.0% 0.019 35.8)"
         ]
       },
-      "ground": {
+      "ink-soft": {
         "role": "neutral",
-        "displayName": "Pale Wall",
-        "canonical": "#EFEFEC",
-        "variable": "--color-ground",
+        "displayName": "Earth Soft Ink",
+        "canonical": "#6A4E44",
+        "variable": "--color-ink-soft",
         "roles": [
-          "--role-wall",
-          "--role-chat"
+          "--role-ink-soft (light)",
+          "--role-no-sector (light)"
         ],
         "tonalRamp": [
-          "oklch(15% 0.002 106)",
-          "oklch(25% 0.003 106)",
-          "oklch(35% 0.004 106)",
-          "oklch(48% 0.004 106)",
-          "oklch(60% 0.004 106)",
-          "oklch(72% 0.004 106)",
-          "oklch(84% 0.003 106)",
-          "oklch(95% 0.002 106)"
+          "oklch(15.0% 0.041 40.5)",
+          "oklch(26.4% 0.041 40.5)",
+          "oklch(37.9% 0.041 40.5)",
+          "oklch(49.3% 0.041 40.5)",
+          "oklch(60.7% 0.041 40.5)",
+          "oklch(72.1% 0.041 40.5)",
+          "oklch(83.6% 0.041 40.5)",
+          "oklch(95.0% 0.026 40.5)"
         ]
       },
-      "surface": {
+      "white": {
         "role": "neutral",
-        "displayName": "Sheet White",
+        "displayName": "White",
         "canonical": "#FFFFFF",
-        "variable": "--color-surface",
+        "variable": "--color-white",
         "roles": [
-          "--role-paper",
-          "--role-bubble"
+          "--role-on-accent (light)",
+          "--role-on-header (light)"
         ],
         "tonalRamp": [
-          "oklch(15% 0 0)",
-          "oklch(25% 0 0)",
-          "oklch(35% 0 0)",
-          "oklch(48% 0 0)",
-          "oklch(60% 0 0)",
-          "oklch(72% 0 0)",
-          "oklch(84% 0 0)",
-          "oklch(95% 0 0)"
+          "oklch(15.0% 0.000 89.9)",
+          "oklch(26.4% 0.000 89.9)",
+          "oklch(37.9% 0.000 89.9)",
+          "oklch(49.3% 0.000 89.9)",
+          "oklch(60.7% 0.000 89.9)",
+          "oklch(72.1% 0.000 89.9)",
+          "oklch(83.6% 0.000 89.9)",
+          "oklch(95.0% 0.000 89.9)"
         ]
       },
-      "surface-hover": {
+      "earth-shadow": {
         "role": "neutral",
-        "displayName": "Paper Hover",
-        "canonical": "#F7F7F5",
-        "variable": "--color-surface-hover",
+        "displayName": "Earth Shadow",
+        "canonical": "#4A2212",
+        "variable": "--color-earth-shadow",
         "roles": [
-          "--role-paper-hover"
+          "--role-card-shadow (light)",
+          "--role-card-shadow (light)",
+          "--role-sheet-shadow (light)"
         ],
         "tonalRamp": [
-          "oklch(15% 0.001 106)",
-          "oklch(25% 0.002 106)",
-          "oklch(35% 0.003 106)",
-          "oklch(48% 0.003 106)",
-          "oklch(60% 0.003 106)",
-          "oklch(72% 0.003 106)",
-          "oklch(84% 0.002 106)",
-          "oklch(95% 0.001 106)"
+          "oklch(15.0% 0.048 41.7)",
+          "oklch(26.4% 0.066 41.7)",
+          "oklch(37.9% 0.066 41.7)",
+          "oklch(49.3% 0.066 41.7)",
+          "oklch(60.7% 0.066 41.7)",
+          "oklch(72.1% 0.066 41.7)",
+          "oklch(83.6% 0.066 41.7)",
+          "oklch(95.0% 0.026 41.7)"
         ]
       },
-      "seam": {
+      "terra-roxa": {
         "role": "neutral",
-        "displayName": "Seam Grey",
-        "canonical": "#D9D9D4",
-        "variable": "--color-seam",
+        "displayName": "Terra Roxa",
+        "canonical": "#231311",
+        "variable": "--color-terra-roxa",
         "roles": [
-          "--role-line"
+          "--role-ground (dark)",
+          "--role-on-ink (dark)",
+          "--role-on-accent (dark)",
+          "--role-chat (dark)"
         ],
         "tonalRamp": [
-          "oklch(15% 0.003 107)",
-          "oklch(25% 0.005 107)",
-          "oklch(35% 0.007 107)",
-          "oklch(48% 0.007 107)",
-          "oklch(60% 0.007 107)",
-          "oklch(72% 0.007 107)",
-          "oklch(84% 0.005 107)",
-          "oklch(95% 0.003 107)"
+          "oklch(15.0% 0.027 27.4)",
+          "oklch(26.4% 0.027 27.4)",
+          "oklch(37.9% 0.027 27.4)",
+          "oklch(49.3% 0.027 27.4)",
+          "oklch(60.7% 0.027 27.4)",
+          "oklch(72.1% 0.027 27.4)",
+          "oklch(83.6% 0.027 27.4)",
+          "oklch(95.0% 0.025 27.4)"
         ]
       },
-      "muted": {
+      "terra-roxa-card": {
         "role": "neutral",
-        "displayName": "Pencil Grey",
-        "canonical": "#5C5C61",
-        "variable": "--color-muted",
+        "displayName": "Terra Roxa Card",
+        "canonical": "#301B17",
+        "variable": "--color-terra-roxa-card",
         "roles": [
-          "--role-ink-soft",
-          "--role-no-sector"
+          "--role-card (dark)"
         ],
         "tonalRamp": [
-          "oklch(15% 0.004 286)",
-          "oklch(25% 0.006 286)",
-          "oklch(35% 0.008 286)",
-          "oklch(48% 0.008 286)",
-          "oklch(60% 0.008 286)",
-          "oklch(72% 0.008 286)",
-          "oklch(84% 0.006 286)",
-          "oklch(95% 0.004 286)"
+          "oklch(15.0% 0.035 31.4)",
+          "oklch(26.4% 0.035 31.4)",
+          "oklch(37.9% 0.035 31.4)",
+          "oklch(49.3% 0.035 31.4)",
+          "oklch(60.7% 0.035 31.4)",
+          "oklch(72.1% 0.035 31.4)",
+          "oklch(83.6% 0.035 31.4)",
+          "oklch(95.0% 0.025 31.4)"
         ]
       },
-      "faded": {
+      "terra-roxa-card-hover": {
         "role": "neutral",
-        "displayName": "Faded Grey",
-        "canonical": "#BDBDB8",
-        "variable": "--color-faded",
+        "displayName": "Terra Roxa Card Hover",
+        "canonical": "#37201B",
+        "variable": "--color-terra-roxa-card-hover",
         "roles": [
-          "--role-ink-faded",
-          "--role-scrollbar"
+          "--role-card-hover (dark)"
         ],
         "tonalRamp": [
-          "oklch(15% 0.003 107)",
-          "oklch(25% 0.005 107)",
-          "oklch(35% 0.007 107)",
-          "oklch(48% 0.007 107)",
-          "oklch(60% 0.007 107)",
-          "oklch(72% 0.007 107)",
-          "oklch(84% 0.005 107)",
-          "oklch(95% 0.003 107)"
+          "oklch(15.0% 0.037 32.9)",
+          "oklch(26.4% 0.037 32.9)",
+          "oklch(37.9% 0.037 32.9)",
+          "oklch(49.3% 0.037 32.9)",
+          "oklch(60.7% 0.037 32.9)",
+          "oklch(72.1% 0.037 32.9)",
+          "oklch(83.6% 0.037 32.9)",
+          "oklch(95.0% 0.025 32.9)"
         ]
       },
-      "on-ink": {
+      "terra-roxa-fill": {
         "role": "neutral",
-        "displayName": "Reverse White",
-        "canonical": "#FFFFFF",
-        "variable": "--color-on-ink",
+        "displayName": "Terra Roxa Fill",
+        "canonical": "#40261F",
+        "variable": "--color-terra-roxa-fill",
         "roles": [
-          "--role-on-header",
-          "--role-on-accent",
-          "--role-on-strong",
-          "--role-on-series",
-          "--role-focus-on-color"
+          "--role-fill (dark)",
+          "--role-bubble (dark)"
         ],
         "tonalRamp": [
-          "oklch(15% 0 0)",
-          "oklch(25% 0 0)",
-          "oklch(35% 0 0)",
-          "oklch(48% 0 0)",
-          "oklch(60% 0 0)",
-          "oklch(72% 0 0)",
-          "oklch(84% 0 0)",
-          "oklch(95% 0 0)"
+          "oklch(15.0% 0.042 35.8)",
+          "oklch(26.4% 0.042 35.8)",
+          "oklch(37.9% 0.042 35.8)",
+          "oklch(49.3% 0.042 35.8)",
+          "oklch(60.7% 0.042 35.8)",
+          "oklch(72.1% 0.042 35.8)",
+          "oklch(83.6% 0.042 35.8)",
+          "oklch(95.0% 0.026 35.8)"
         ]
       },
-      "series-1": {
+      "terra-roxa-line": {
+        "role": "neutral",
+        "displayName": "Terra Roxa Line",
+        "canonical": "#4A2F28",
+        "variable": "--color-terra-roxa-line",
+        "roles": [
+          "--role-card-border (dark)",
+          "--role-line (dark)"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.042 35.2)",
+          "oklch(26.4% 0.042 35.2)",
+          "oklch(37.9% 0.042 35.2)",
+          "oklch(49.3% 0.042 35.2)",
+          "oklch(60.7% 0.042 35.2)",
+          "oklch(72.1% 0.042 35.2)",
+          "oklch(83.6% 0.042 35.2)",
+          "oklch(95.0% 0.025 35.2)"
+        ]
+      },
+      "terra-roxa-faded": {
+        "role": "neutral",
+        "displayName": "Faded Terra Roxa",
+        "canonical": "#6B4A40",
+        "variable": "--color-terra-roxa-faded",
+        "roles": [
+          "--role-ink-faded (dark)",
+          "--role-scrollbar (dark)"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.048 37.6)",
+          "oklch(26.4% 0.048 37.6)",
+          "oklch(37.9% 0.048 37.6)",
+          "oklch(49.3% 0.048 37.6)",
+          "oklch(60.7% 0.048 37.6)",
+          "oklch(72.1% 0.048 37.6)",
+          "oklch(83.6% 0.048 37.6)",
+          "oklch(95.0% 0.026 37.6)"
+        ]
+      },
+      "moonlit": {
+        "role": "neutral",
+        "displayName": "Moonlit",
+        "canonical": "#F7EBE3",
+        "variable": "--color-moonlit",
+        "roles": [
+          "--role-ink (dark)",
+          "--role-wash (dark)",
+          "--role-sky-ink (sky: noite (and the dark theme))",
+          "--role-sky-wash (sky: noite (and the dark theme))"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.017 56.2)",
+          "oklch(26.4% 0.017 56.2)",
+          "oklch(37.9% 0.017 56.2)",
+          "oklch(49.3% 0.017 56.2)",
+          "oklch(60.7% 0.017 56.2)",
+          "oklch(72.1% 0.017 56.2)",
+          "oklch(83.6% 0.017 56.2)",
+          "oklch(95.0% 0.017 56.2)"
+        ]
+      },
+      "moonlit-soft": {
+        "role": "neutral",
+        "displayName": "Moonlit Soft",
+        "canonical": "#CFB5A9",
+        "variable": "--color-moonlit-soft",
+        "roles": [
+          "--role-ink-soft (dark)",
+          "--role-no-sector (dark)"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.034 46.3)",
+          "oklch(26.4% 0.034 46.3)",
+          "oklch(37.9% 0.034 46.3)",
+          "oklch(49.3% 0.034 46.3)",
+          "oklch(60.7% 0.034 46.3)",
+          "oklch(72.1% 0.034 46.3)",
+          "oklch(83.6% 0.034 46.3)",
+          "oklch(95.0% 0.027 46.3)"
+        ]
+      },
+      "night-shade": {
+        "role": "neutral",
+        "displayName": "Night Shade",
+        "canonical": "#0E0706",
+        "variable": "--color-night-shade",
+        "roles": [
+          "--role-sheet-shadow (dark)",
+          "--role-scrim (dark)"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.014 30.1)",
+          "oklch(26.4% 0.014 30.1)",
+          "oklch(37.9% 0.014 30.1)",
+          "oklch(49.3% 0.014 30.1)",
+          "oklch(60.7% 0.014 30.1)",
+          "oklch(72.1% 0.014 30.1)",
+          "oklch(83.6% 0.014 30.1)",
+          "oklch(95.0% 0.014 30.1)"
+        ]
+      },
+      "urucum": {
+        "role": "primary",
+        "displayName": "Urucum",
+        "canonical": "#C2410C",
+        "variable": "--color-urucum",
+        "roles": [
+          "--role-accent (light)",
+          "--role-hand (light)",
+          "--role-mark-loop (light)",
+          "--role-agenda (light)",
+          "--role-header (light)",
+          "--role-binding (light)",
+          "--role-alert (light)",
+          "--role-sky-hand (sky: dia (default))"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.051 38.4)",
+          "oklch(26.4% 0.086 38.4)",
+          "oklch(37.9% 0.123 38.4)",
+          "oklch(49.3% 0.160 38.4)",
+          "oklch(60.7% 0.174 38.4)",
+          "oklch(72.1% 0.174 38.4)",
+          "oklch(83.6% 0.094 38.4)",
+          "oklch(95.0% 0.026 38.4)"
+        ]
+      },
+      "urucum-text": {
+        "role": "primary",
+        "displayName": "Deep Urucum",
+        "canonical": "#A3360A",
+        "variable": "--color-urucum-text",
+        "roles": [
+          "--role-accent-text (light)",
+          "--role-focus (light)",
+          "--role-agenda-text (light)",
+          "--role-red-letter (light)"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.051 38.5)",
+          "oklch(26.4% 0.086 38.5)",
+          "oklch(37.9% 0.123 38.5)",
+          "oklch(49.3% 0.152 38.5)",
+          "oklch(60.7% 0.152 38.5)",
+          "oklch(72.1% 0.152 38.5)",
+          "oklch(83.6% 0.094 38.5)",
+          "oklch(95.0% 0.026 38.5)"
+        ]
+      },
+      "urucum-tint": {
+        "role": "primary",
+        "displayName": "Urucum Tint",
+        "canonical": "#F9D9C8",
+        "variable": "--color-urucum-tint",
+        "roles": [
+          "--role-accent-tint (light)"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.042 49.8)",
+          "oklch(26.4% 0.043 49.8)",
+          "oklch(37.9% 0.043 49.8)",
+          "oklch(49.3% 0.043 49.8)",
+          "oklch(60.7% 0.043 49.8)",
+          "oklch(72.1% 0.043 49.8)",
+          "oklch(83.6% 0.043 49.8)",
+          "oklch(95.0% 0.028 49.8)"
+        ]
+      },
+      "urucum-door": {
+        "role": "primary",
+        "displayName": "Agenda Urucum",
+        "canonical": "#F7CDB8",
+        "variable": "--color-urucum-door",
+        "roles": [
+          "--role-agenda-tint (light)"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.043 48.1)",
+          "oklch(26.4% 0.056 48.1)",
+          "oklch(37.9% 0.056 48.1)",
+          "oklch(49.3% 0.056 48.1)",
+          "oklch(60.7% 0.056 48.1)",
+          "oklch(72.1% 0.056 48.1)",
+          "oklch(83.6% 0.056 48.1)",
+          "oklch(95.0% 0.028 48.1)"
+        ]
+      },
+      "urucum-night": {
+        "role": "primary",
+        "displayName": "Night Urucum",
+        "canonical": "#FF8A5C",
+        "variable": "--color-urucum-night",
+        "roles": [
+          "--role-accent (dark)",
+          "--role-accent-text (dark)",
+          "--role-hand (dark)",
+          "--role-mark-loop (dark)",
+          "--role-focus (dark)",
+          "--role-agenda (dark)",
+          "--role-agenda-text (dark)",
+          "--role-sky-hand (sky: noite (and the dark theme))"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.048 41.6)",
+          "oklch(26.4% 0.081 41.6)",
+          "oklch(37.9% 0.115 41.6)",
+          "oklch(49.3% 0.150 41.6)",
+          "oklch(60.7% 0.155 41.6)",
+          "oklch(72.1% 0.155 41.6)",
+          "oklch(83.6% 0.095 41.6)",
+          "oklch(95.0% 0.026 41.6)"
+        ]
+      },
+      "urucum-night-tint": {
+        "role": "primary",
+        "displayName": "Night Urucum Tint",
+        "canonical": "#5A2A1E",
+        "variable": "--color-urucum-night-tint",
+        "roles": [
+          "--role-accent-tint (dark)",
+          "--role-agenda-tint (dark)"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.055 35.1)",
+          "oklch(26.4% 0.074 35.1)",
+          "oklch(37.9% 0.074 35.1)",
+          "oklch(49.3% 0.074 35.1)",
+          "oklch(60.7% 0.074 35.1)",
+          "oklch(72.1% 0.074 35.1)",
+          "oklch(83.6% 0.074 35.1)",
+          "oklch(95.0% 0.025 35.1)"
+        ]
+      },
+      "ipe-rosa": {
+        "role": "secondary",
+        "displayName": "Ipê-Rosa",
+        "canonical": "#C03A73",
+        "variable": "--color-ipe-rosa",
+        "roles": [
+          "--role-commerce (light)"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.063 358.5)",
+          "oklch(26.4% 0.108 358.5)",
+          "oklch(37.9% 0.154 358.5)",
+          "oklch(49.3% 0.177 358.5)",
+          "oklch(60.7% 0.177 358.5)",
+          "oklch(72.1% 0.177 358.5)",
+          "oklch(83.6% 0.100 358.5)",
+          "oklch(95.0% 0.027 358.5)"
+        ],
+        "note": "Comércio's named landscape colour. Its only role (--role-commerce) is declared but not painted on the site; the site shows ipe-rosa-text and ipe-rosa-tint."
+      },
+      "ipe-rosa-text": {
+        "role": "secondary",
+        "displayName": "Deep Ipê-Rosa",
+        "canonical": "#A12E5F",
+        "variable": "--color-ipe-rosa-text",
+        "roles": [
+          "--role-commerce-text (light)"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.063 358.6)",
+          "oklch(26.4% 0.108 358.6)",
+          "oklch(37.9% 0.154 358.6)",
+          "oklch(49.3% 0.156 358.6)",
+          "oklch(60.7% 0.156 358.6)",
+          "oklch(72.1% 0.156 358.6)",
+          "oklch(83.6% 0.100 358.6)",
+          "oklch(95.0% 0.027 358.6)"
+        ]
+      },
+      "ipe-rosa-tint": {
+        "role": "secondary",
+        "displayName": "Ipê-Rosa Tint",
+        "canonical": "#F3C8DA",
+        "variable": "--color-ipe-rosa-tint",
+        "roles": [
+          "--role-commerce-tint (light)"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.054 351.2)",
+          "oklch(26.4% 0.054 351.2)",
+          "oklch(37.9% 0.054 351.2)",
+          "oklch(49.3% 0.054 351.2)",
+          "oklch(60.7% 0.054 351.2)",
+          "oklch(72.1% 0.054 351.2)",
+          "oklch(83.6% 0.054 351.2)",
+          "oklch(95.0% 0.029 351.2)"
+        ]
+      },
+      "ipe-rosa-night": {
+        "role": "secondary",
+        "displayName": "Night Ipê-Rosa",
+        "canonical": "#F58AB3",
+        "variable": "--color-ipe-rosa-night",
+        "roles": [
+          "--role-commerce (dark)",
+          "--role-commerce-text (dark)"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.063 356.5)",
+          "oklch(26.4% 0.109 356.5)",
+          "oklch(37.9% 0.137 356.5)",
+          "oklch(49.3% 0.137 356.5)",
+          "oklch(60.7% 0.137 356.5)",
+          "oklch(72.1% 0.137 356.5)",
+          "oklch(83.6% 0.101 356.5)",
+          "oklch(95.0% 0.028 356.5)"
+        ]
+      },
+      "ipe-rosa-night-tint": {
+        "role": "secondary",
+        "displayName": "Night Ipê-Rosa Tint",
+        "canonical": "#522036",
+        "variable": "--color-ipe-rosa-night-tint",
+        "roles": [
+          "--role-commerce-tint (dark)"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.063 354.9)",
+          "oklch(26.4% 0.080 354.9)",
+          "oklch(37.9% 0.080 354.9)",
+          "oklch(49.3% 0.080 354.9)",
+          "oklch(60.7% 0.080 354.9)",
+          "oklch(72.1% 0.080 354.9)",
+          "oklch(83.6% 0.080 354.9)",
+          "oklch(95.0% 0.028 354.9)"
+        ]
+      },
+      "dawn-1": {
         "role": "tertiary",
-        "displayName": "Sector Blue",
+        "displayName": "Amanhecer 1 (top)",
+        "canonical": "#93C1E6",
+        "variable": "--color-dawn-1",
+        "roles": [
+          "--role-sky-1 (sky: amanhecer)"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.038 243.1)",
+          "oklch(26.4% 0.064 243.1)",
+          "oklch(37.9% 0.072 243.1)",
+          "oklch(49.3% 0.072 243.1)",
+          "oklch(60.7% 0.072 243.1)",
+          "oklch(72.1% 0.072 243.1)",
+          "oklch(83.6% 0.072 243.1)",
+          "oklch(95.0% 0.026 243.1)"
+        ]
+      },
+      "dawn-2": {
+        "role": "tertiary",
+        "displayName": "Amanhecer 2",
+        "canonical": "#BED6E8",
+        "variable": "--color-dawn-2",
+        "roles": [
+          "--role-sky-2 (sky: amanhecer)"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.036 240.3)",
+          "oklch(26.4% 0.036 240.3)",
+          "oklch(37.9% 0.036 240.3)",
+          "oklch(49.3% 0.036 240.3)",
+          "oklch(60.7% 0.036 240.3)",
+          "oklch(72.1% 0.036 240.3)",
+          "oklch(83.6% 0.036 240.3)",
+          "oklch(95.0% 0.027 240.3)"
+        ]
+      },
+      "dawn-3": {
+        "role": "tertiary",
+        "displayName": "Amanhecer 3",
+        "canonical": "#F0D5C6",
+        "variable": "--color-dawn-3",
+        "roles": [
+          "--role-sky-3 (sky: amanhecer)"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.036 51.0)",
+          "oklch(26.4% 0.036 51.0)",
+          "oklch(37.9% 0.036 51.0)",
+          "oklch(49.3% 0.036 51.0)",
+          "oklch(60.7% 0.036 51.0)",
+          "oklch(72.1% 0.036 51.0)",
+          "oklch(83.6% 0.036 51.0)",
+          "oklch(95.0% 0.028 51.0)"
+        ]
+      },
+      "dawn-4": {
+        "role": "tertiary",
+        "displayName": "Amanhecer 4",
+        "canonical": "#F8C095",
+        "variable": "--color-dawn-4",
+        "roles": [
+          "--role-sky-4 (sky: amanhecer)"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.037 58.8)",
+          "oklch(26.4% 0.063 58.8)",
+          "oklch(37.9% 0.086 58.8)",
+          "oklch(49.3% 0.086 58.8)",
+          "oklch(60.7% 0.086 58.8)",
+          "oklch(72.1% 0.086 58.8)",
+          "oklch(83.6% 0.086 58.8)",
+          "oklch(95.0% 0.031 58.8)"
+        ]
+      },
+      "dawn-5": {
+        "role": "tertiary",
+        "displayName": "Amanhecer 5 (horizon)",
+        "canonical": "#FBD789",
+        "variable": "--color-dawn-5",
+        "roles": [
+          "--role-sky-5 (sky: amanhecer)"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.032 85.6)",
+          "oklch(26.4% 0.055 85.6)",
+          "oklch(37.9% 0.078 85.6)",
+          "oklch(49.3% 0.101 85.6)",
+          "oklch(60.7% 0.105 85.6)",
+          "oklch(72.1% 0.105 85.6)",
+          "oklch(83.6% 0.105 85.6)",
+          "oklch(95.0% 0.054 85.6)"
+        ]
+      },
+      "dawn-ink-soft": {
+        "role": "tertiary",
+        "displayName": "Amanhecer Soft Ink",
+        "canonical": "#4B362D",
+        "variable": "--color-dawn-ink-soft",
+        "roles": [
+          "--role-sky-ink-soft (sky: amanhecer)"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.034 44.2)",
+          "oklch(26.4% 0.034 44.2)",
+          "oklch(37.9% 0.034 44.2)",
+          "oklch(49.3% 0.034 44.2)",
+          "oklch(60.7% 0.034 44.2)",
+          "oklch(72.1% 0.034 44.2)",
+          "oklch(83.6% 0.034 44.2)",
+          "oklch(95.0% 0.027 44.2)"
+        ]
+      },
+      "day-1": {
+        "role": "tertiary",
+        "displayName": "Dia 1 (top)",
+        "canonical": "#6FAEE3",
+        "variable": "--color-day-1",
+        "roles": [
+          "--role-sky-1 (sky: dia (default))"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.039 245.2)",
+          "oklch(26.4% 0.067 245.2)",
+          "oklch(37.9% 0.096 245.2)",
+          "oklch(49.3% 0.101 245.2)",
+          "oklch(60.7% 0.101 245.2)",
+          "oklch(72.1% 0.101 245.2)",
+          "oklch(83.6% 0.088 245.2)",
+          "oklch(95.0% 0.026 245.2)"
+        ]
+      },
+      "day-2": {
+        "role": "tertiary",
+        "displayName": "Dia 2",
+        "canonical": "#9DCAEE",
+        "variable": "--color-day-2",
+        "roles": [
+          "--role-sky-2 (sky: dia (default))"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.037 242.8)",
+          "oklch(26.4% 0.064 242.8)",
+          "oklch(37.9% 0.070 242.8)",
+          "oklch(49.3% 0.070 242.8)",
+          "oklch(60.7% 0.070 242.8)",
+          "oklch(72.1% 0.070 242.8)",
+          "oklch(83.6% 0.070 242.8)",
+          "oklch(95.0% 0.026 242.8)"
+        ]
+      },
+      "day-3": {
+        "role": "tertiary",
+        "displayName": "Dia 3",
+        "canonical": "#CDE2EE",
+        "variable": "--color-day-3",
+        "roles": [
+          "--role-sky-3 (sky: dia (default))"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.028 232.7)",
+          "oklch(26.4% 0.028 232.7)",
+          "oklch(37.9% 0.028 232.7)",
+          "oklch(49.3% 0.028 232.7)",
+          "oklch(60.7% 0.028 232.7)",
+          "oklch(72.1% 0.028 232.7)",
+          "oklch(83.6% 0.028 232.7)",
+          "oklch(95.0% 0.028 232.7)"
+        ]
+      },
+      "day-4": {
+        "role": "tertiary",
+        "displayName": "Dia 4",
+        "canonical": "#F1E3CF",
+        "variable": "--color-day-4",
+        "roles": [
+          "--role-sky-4 (sky: dia (default))"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.031 77.0)",
+          "oklch(26.4% 0.031 77.0)",
+          "oklch(37.9% 0.031 77.0)",
+          "oklch(49.3% 0.031 77.0)",
+          "oklch(60.7% 0.031 77.0)",
+          "oklch(72.1% 0.031 77.0)",
+          "oklch(83.6% 0.031 77.0)",
+          "oklch(95.0% 0.031 77.0)"
+        ]
+      },
+      "day-5": {
+        "role": "tertiary",
+        "displayName": "Dia 5 (horizon)",
+        "canonical": "#F6D2A2",
+        "variable": "--color-day-5",
+        "roles": [
+          "--role-sky-5 (sky: dia (default))"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.033 74.6)",
+          "oklch(26.4% 0.056 74.6)",
+          "oklch(37.9% 0.074 74.6)",
+          "oklch(49.3% 0.074 74.6)",
+          "oklch(60.7% 0.074 74.6)",
+          "oklch(72.1% 0.074 74.6)",
+          "oklch(83.6% 0.074 74.6)",
+          "oklch(95.0% 0.040 74.6)"
+        ]
+      },
+      "day-ink-soft": {
+        "role": "tertiary",
+        "displayName": "Dia Soft Ink",
+        "canonical": "#45312A",
+        "variable": "--color-day-ink-soft",
+        "roles": [
+          "--role-sky-ink-soft (sky: dia (default))"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.032 40.1)",
+          "oklch(26.4% 0.032 40.1)",
+          "oklch(37.9% 0.032 40.1)",
+          "oklch(49.3% 0.032 40.1)",
+          "oklch(60.7% 0.032 40.1)",
+          "oklch(72.1% 0.032 40.1)",
+          "oklch(83.6% 0.032 40.1)",
+          "oklch(95.0% 0.026 40.1)"
+        ]
+      },
+      "dusk-1": {
+        "role": "tertiary",
+        "displayName": "Entardecer 1 (top)",
+        "canonical": "#8C99D6",
+        "variable": "--color-dusk-1",
+        "roles": [
+          "--role-sky-1 (sky: entardecer)"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.091 274.6)",
+          "oklch(26.4% 0.091 274.6)",
+          "oklch(37.9% 0.091 274.6)",
+          "oklch(49.3% 0.091 274.6)",
+          "oklch(60.7% 0.091 274.6)",
+          "oklch(72.1% 0.091 274.6)",
+          "oklch(83.6% 0.082 274.6)",
+          "oklch(95.0% 0.024 274.6)"
+        ]
+      },
+      "dusk-2": {
+        "role": "tertiary",
+        "displayName": "Entardecer 2",
+        "canonical": "#B8A2D4",
+        "variable": "--color-dusk-2",
+        "roles": [
+          "--role-sky-2 (sky: entardecer)"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.075 304.7)",
+          "oklch(26.4% 0.075 304.7)",
+          "oklch(37.9% 0.075 304.7)",
+          "oklch(49.3% 0.075 304.7)",
+          "oklch(60.7% 0.075 304.7)",
+          "oklch(72.1% 0.075 304.7)",
+          "oklch(83.6% 0.075 304.7)",
+          "oklch(95.0% 0.030 304.7)"
+        ]
+      },
+      "dusk-3": {
+        "role": "tertiary",
+        "displayName": "Entardecer 3",
+        "canonical": "#EAABAA",
+        "variable": "--color-dusk-3",
+        "roles": [
+          "--role-sky-3 (sky: entardecer)"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.062 19.9)",
+          "oklch(26.4% 0.074 19.9)",
+          "oklch(37.9% 0.074 19.9)",
+          "oklch(49.3% 0.074 19.9)",
+          "oklch(60.7% 0.074 19.9)",
+          "oklch(72.1% 0.074 19.9)",
+          "oklch(83.6% 0.074 19.9)",
+          "oklch(95.0% 0.025 19.9)"
+        ]
+      },
+      "dusk-4": {
+        "role": "tertiary",
+        "displayName": "Entardecer 4",
+        "canonical": "#F5A275",
+        "variable": "--color-dusk-4",
+        "roles": [
+          "--role-sky-4 (sky: entardecer)"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.042 48.9)",
+          "oklch(26.4% 0.072 48.9)",
+          "oklch(37.9% 0.102 48.9)",
+          "oklch(49.3% 0.116 48.9)",
+          "oklch(60.7% 0.116 48.9)",
+          "oklch(72.1% 0.116 48.9)",
+          "oklch(83.6% 0.100 48.9)",
+          "oklch(95.0% 0.028 48.9)"
+        ]
+      },
+      "dusk-5": {
+        "role": "tertiary",
+        "displayName": "Entardecer 5 (horizon)",
+        "canonical": "#F7C460",
+        "variable": "--color-dusk-5",
+        "roles": [
+          "--role-sky-5 (sky: entardecer)"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.032 82.2)",
+          "oklch(26.4% 0.055 82.2)",
+          "oklch(37.9% 0.078 82.2)",
+          "oklch(49.3% 0.102 82.2)",
+          "oklch(60.7% 0.125 82.2)",
+          "oklch(72.1% 0.131 82.2)",
+          "oklch(83.6% 0.131 82.2)",
+          "oklch(95.0% 0.049 82.2)"
+        ]
+      },
+      "dusk-ink-soft": {
+        "role": "tertiary",
+        "displayName": "Entardecer Soft Ink",
+        "canonical": "#3A2730",
+        "variable": "--color-dusk-ink-soft",
+        "roles": [
+          "--role-sky-ink-soft (sky: entardecer)"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.032 349.2)",
+          "oklch(26.4% 0.032 349.2)",
+          "oklch(37.9% 0.032 349.2)",
+          "oklch(49.3% 0.032 349.2)",
+          "oklch(60.7% 0.032 349.2)",
+          "oklch(72.1% 0.032 349.2)",
+          "oklch(83.6% 0.032 349.2)",
+          "oklch(95.0% 0.030 349.2)"
+        ]
+      },
+      "night-1": {
+        "role": "tertiary",
+        "displayName": "Noite 1 (top)",
+        "canonical": "#140D26",
+        "variable": "--color-night-1",
+        "roles": [
+          "--role-sky-1 (sky: noite (and the dark theme))"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.050 293.9)",
+          "oklch(26.4% 0.050 293.9)",
+          "oklch(37.9% 0.050 293.9)",
+          "oklch(49.3% 0.050 293.9)",
+          "oklch(60.7% 0.050 293.9)",
+          "oklch(72.1% 0.050 293.9)",
+          "oklch(83.6% 0.050 293.9)",
+          "oklch(95.0% 0.026 293.9)"
+        ]
+      },
+      "night-2": {
+        "role": "tertiary",
+        "displayName": "Noite 2",
+        "canonical": "#1C1233",
+        "variable": "--color-night-2",
+        "roles": [
+          "--role-sky-2 (sky: noite (and the dark theme))"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.063 294.5)",
+          "oklch(26.4% 0.063 294.5)",
+          "oklch(37.9% 0.063 294.5)",
+          "oklch(49.3% 0.063 294.5)",
+          "oklch(60.7% 0.063 294.5)",
+          "oklch(72.1% 0.063 294.5)",
+          "oklch(83.6% 0.063 294.5)",
+          "oklch(95.0% 0.026 294.5)"
+        ]
+      },
+      "night-3": {
+        "role": "tertiary",
+        "displayName": "Noite 3",
+        "canonical": "#271740",
+        "variable": "--color-night-3",
+        "roles": [
+          "--role-sky-3 (sky: noite (and the dark theme))"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.075 298.8)",
+          "oklch(26.4% 0.075 298.8)",
+          "oklch(37.9% 0.075 298.8)",
+          "oklch(49.3% 0.075 298.8)",
+          "oklch(60.7% 0.075 298.8)",
+          "oklch(72.1% 0.075 298.8)",
+          "oklch(83.6% 0.075 298.8)",
+          "oklch(95.0% 0.028 298.8)"
+        ]
+      },
+      "night-4": {
+        "role": "tertiary",
+        "displayName": "Noite 4",
+        "canonical": "#361C48",
+        "variable": "--color-night-4",
+        "roles": [
+          "--role-sky-4 (sky: noite (and the dark theme))"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.078 309.4)",
+          "oklch(26.4% 0.082 309.4)",
+          "oklch(37.9% 0.082 309.4)",
+          "oklch(49.3% 0.082 309.4)",
+          "oklch(60.7% 0.082 309.4)",
+          "oklch(72.1% 0.082 309.4)",
+          "oklch(83.6% 0.082 309.4)",
+          "oklch(95.0% 0.032 309.4)"
+        ]
+      },
+      "night-5": {
+        "role": "tertiary",
+        "displayName": "Noite 5 (horizon)",
+        "canonical": "#47214A",
+        "variable": "--color-night-5",
+        "roles": [
+          "--role-sky-5 (sky: noite (and the dark theme))"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.072 324.5)",
+          "oklch(26.4% 0.084 324.5)",
+          "oklch(37.9% 0.084 324.5)",
+          "oklch(49.3% 0.084 324.5)",
+          "oklch(60.7% 0.084 324.5)",
+          "oklch(72.1% 0.084 324.5)",
+          "oklch(83.6% 0.084 324.5)",
+          "oklch(95.0% 0.043 324.5)"
+        ]
+      },
+      "night-ink-soft": {
+        "role": "tertiary",
+        "displayName": "Noite Soft Ink",
+        "canonical": "#D8C6D3",
+        "variable": "--color-night-ink-soft",
+        "roles": [
+          "--role-sky-ink-soft (sky: noite (and the dark theme))"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.027 335.5)",
+          "oklch(26.4% 0.027 335.5)",
+          "oklch(37.9% 0.027 335.5)",
+          "oklch(49.3% 0.027 335.5)",
+          "oklch(60.7% 0.027 335.5)",
+          "oklch(72.1% 0.027 335.5)",
+          "oklch(83.6% 0.027 335.5)",
+          "oklch(95.0% 0.027 335.5)"
+        ]
+      },
+      "sun": {
+        "role": "tertiary",
+        "displayName": "Sun",
+        "canonical": "#F4A11E",
+        "variable": "--color-sun",
+        "roles": [
+          "--role-astro (sky: dia (default))"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.034 71.0)",
+          "oklch(26.4% 0.057 71.0)",
+          "oklch(37.9% 0.082 71.0)",
+          "oklch(49.3% 0.106 71.0)",
+          "oklch(60.7% 0.131 71.0)",
+          "oklch(72.1% 0.155 71.0)",
+          "oklch(83.6% 0.132 71.0)",
+          "oklch(95.0% 0.037 71.0)"
+        ]
+      },
+      "moon": {
+        "role": "tertiary",
+        "displayName": "Moon",
+        "canonical": "#F4DDB0",
+        "variable": "--color-moon",
+        "roles": [
+          "--role-astro (sky: noite (and the dark theme))"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.032 84.0)",
+          "oklch(26.4% 0.055 84.0)",
+          "oklch(37.9% 0.064 84.0)",
+          "oklch(49.3% 0.064 84.0)",
+          "oklch(60.7% 0.064 84.0)",
+          "oklch(72.1% 0.064 84.0)",
+          "oklch(83.6% 0.064 84.0)",
+          "oklch(95.0% 0.051 84.0)"
+        ]
+      },
+      "star": {
+        "role": "tertiary",
+        "displayName": "Star",
+        "canonical": "#F6E6C6",
+        "variable": "--color-star",
+        "roles": [
+          "--role-star (sky: dia (default))"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.032 84.6)",
+          "oklch(26.4% 0.045 84.6)",
+          "oklch(37.9% 0.045 84.6)",
+          "oklch(49.3% 0.045 84.6)",
+          "oklch(60.7% 0.045 84.6)",
+          "oklch(72.1% 0.045 84.6)",
+          "oklch(83.6% 0.045 84.6)",
+          "oklch(95.0% 0.045 84.6)"
+        ]
+      },
+      "group-1": {
+        "role": "series",
+        "displayName": "Group 1 · Azul",
         "canonical": "#0455A1",
-        "variable": "--color-series-1",
+        "variable": "--color-group-1",
         "roles": [
-          "--role-series-1"
+          "--role-series-1 (light)"
         ],
         "tonalRamp": [
-          "oklch(15% 0.063 254)",
-          "oklch(25% 0.106 254)",
-          "oklch(35% 0.141 254)",
-          "oklch(48% 0.141 254)",
-          "oklch(60% 0.141 254)",
-          "oklch(72% 0.141 254)",
-          "oklch(84% 0.106 254)",
-          "oklch(95% 0.063 254)"
+          "oklch(15.0% 0.049 253.9)",
+          "oklch(26.4% 0.084 253.9)",
+          "oklch(37.9% 0.120 253.9)",
+          "oklch(49.3% 0.141 253.9)",
+          "oklch(60.7% 0.141 253.9)",
+          "oklch(72.1% 0.141 253.9)",
+          "oklch(83.6% 0.083 253.9)",
+          "oklch(95.0% 0.024 253.9)"
         ]
       },
-      "series-2": {
-        "role": "tertiary",
-        "displayName": "Sector Green",
+      "group-2": {
+        "role": "series",
+        "displayName": "Group 2 · Verde",
         "canonical": "#00875A",
-        "variable": "--color-series-2",
+        "variable": "--color-group-2",
         "roles": [
-          "--role-series-2"
+          "--role-series-2 (light)"
         ],
         "tonalRamp": [
-          "oklch(15% 0.055 161)",
-          "oklch(25% 0.092 161)",
-          "oklch(35% 0.122 161)",
-          "oklch(48% 0.122 161)",
-          "oklch(60% 0.122 161)",
-          "oklch(72% 0.122 161)",
-          "oklch(84% 0.092 161)",
-          "oklch(95% 0.055 161)"
+          "oklch(15.0% 0.034 161.2)",
+          "oklch(26.4% 0.059 161.2)",
+          "oklch(37.9% 0.084 161.2)",
+          "oklch(49.3% 0.110 161.2)",
+          "oklch(60.7% 0.122 161.2)",
+          "oklch(72.1% 0.122 161.2)",
+          "oklch(83.6% 0.122 161.2)",
+          "oklch(95.0% 0.076 161.2)"
         ]
       },
-      "series-3": {
-        "role": "tertiary",
-        "displayName": "Sector Lilac",
+      "group-3": {
+        "role": "series",
+        "displayName": "Group 3 · Lilás",
         "canonical": "#9B3894",
-        "variable": "--color-series-3",
+        "variable": "--color-group-3",
         "roles": [
-          "--role-series-3"
+          "--role-series-3 (light)"
         ],
         "tonalRamp": [
-          "oklch(15% 0.077 331)",
-          "oklch(25% 0.128 331)",
-          "oklch(35% 0.171 331)",
-          "oklch(48% 0.171 331)",
-          "oklch(60% 0.171 331)",
-          "oklch(72% 0.171 331)",
-          "oklch(84% 0.128 331)",
-          "oklch(95% 0.077 331)"
+          "oklch(15.0% 0.070 330.6)",
+          "oklch(26.4% 0.121 330.6)",
+          "oklch(37.9% 0.171 330.6)",
+          "oklch(49.3% 0.171 330.6)",
+          "oklch(60.7% 0.171 330.6)",
+          "oklch(72.1% 0.171 330.6)",
+          "oklch(83.6% 0.146 330.6)",
+          "oklch(95.0% 0.040 330.6)"
         ]
       },
-      "series-4": {
-        "role": "tertiary",
-        "displayName": "Sector Teal",
+      "group-4": {
+        "role": "series",
+        "displayName": "Group 4 · Turquesa",
         "canonical": "#00808A",
-        "variable": "--color-series-4",
+        "variable": "--color-group-4",
         "roles": [
-          "--role-series-4"
+          "--role-series-4 (light)"
         ],
         "tonalRamp": [
-          "oklch(15% 0.042 204)",
-          "oklch(25% 0.070 204)",
-          "oklch(35% 0.093 204)",
-          "oklch(48% 0.093 204)",
-          "oklch(60% 0.093 204)",
-          "oklch(72% 0.093 204)",
-          "oklch(84% 0.070 204)",
-          "oklch(95% 0.042 204)"
+          "oklch(15.0% 0.026 204.4)",
+          "oklch(26.4% 0.045 204.4)",
+          "oklch(37.9% 0.065 204.4)",
+          "oklch(49.3% 0.084 204.4)",
+          "oklch(60.7% 0.093 204.4)",
+          "oklch(72.1% 0.093 204.4)",
+          "oklch(83.6% 0.093 204.4)",
+          "oklch(95.0% 0.053 204.4)"
         ]
       },
-      "series-5": {
-        "role": "tertiary",
-        "displayName": "Sector Orange",
+      "group-5": {
+        "role": "series",
+        "displayName": "Group 5 · Laranja",
         "canonical": "#C25700",
-        "variable": "--color-series-5",
+        "variable": "--color-group-5",
         "roles": [
-          "--role-series-5"
+          "--role-series-5 (light)"
         ],
         "tonalRamp": [
-          "oklch(15% 0.071 48)",
-          "oklch(25% 0.118 48)",
-          "oklch(35% 0.157 48)",
-          "oklch(48% 0.157 48)",
-          "oklch(60% 0.157 48)",
-          "oklch(72% 0.157 48)",
-          "oklch(84% 0.118 48)",
-          "oklch(95% 0.071 48)"
+          "oklch(15.0% 0.042 48.5)",
+          "oklch(26.4% 0.072 48.5)",
+          "oklch(37.9% 0.103 48.5)",
+          "oklch(49.3% 0.133 48.5)",
+          "oklch(60.7% 0.157 48.5)",
+          "oklch(72.1% 0.157 48.5)",
+          "oklch(83.6% 0.100 48.5)",
+          "oklch(95.0% 0.028 48.5)"
         ]
       },
-      "series-6": {
-        "role": "tertiary",
-        "displayName": "Sector Silver",
+      "group-6": {
+        "role": "series",
+        "displayName": "Group 6 · Prata",
         "canonical": "#5E6A71",
-        "variable": "--color-series-6",
+        "variable": "--color-group-6",
         "roles": [
-          "--role-series-6"
+          "--role-series-6 (light)"
         ],
         "tonalRamp": [
-          "oklch(15% 0.008 233)",
-          "oklch(25% 0.014 233)",
-          "oklch(35% 0.018 233)",
-          "oklch(48% 0.018 233)",
-          "oklch(60% 0.018 233)",
-          "oklch(72% 0.018 233)",
-          "oklch(84% 0.014 233)",
-          "oklch(95% 0.008 233)"
+          "oklch(15.0% 0.018 233.3)",
+          "oklch(26.4% 0.018 233.3)",
+          "oklch(37.9% 0.018 233.3)",
+          "oklch(49.3% 0.018 233.3)",
+          "oklch(60.7% 0.018 233.3)",
+          "oklch(72.1% 0.018 233.3)",
+          "oklch(83.6% 0.018 233.3)",
+          "oklch(95.0% 0.018 233.3)"
         ]
       },
-      "series-7": {
-        "role": "tertiary",
-        "displayName": "Sector Brown",
+      "group-7": {
+        "role": "series",
+        "displayName": "Group 7 · Marrom",
         "canonical": "#7A4E2D",
-        "variable": "--color-series-7",
+        "variable": "--color-group-7",
         "roles": [
-          "--role-series-7"
+          "--role-series-7 (light)"
         ],
         "tonalRamp": [
-          "oklch(15% 0.034 56)",
-          "oklch(25% 0.057 56)",
-          "oklch(35% 0.076 56)",
-          "oklch(48% 0.076 56)",
-          "oklch(60% 0.076 56)",
-          "oklch(72% 0.076 56)",
-          "oklch(84% 0.057 56)",
-          "oklch(95% 0.034 56)"
+          "oklch(15.0% 0.038 56.4)",
+          "oklch(26.4% 0.065 56.4)",
+          "oklch(37.9% 0.076 56.4)",
+          "oklch(49.3% 0.076 56.4)",
+          "oklch(60.7% 0.076 56.4)",
+          "oklch(72.1% 0.076 56.4)",
+          "oklch(83.6% 0.076 56.4)",
+          "oklch(95.0% 0.030 56.4)"
         ]
       },
-      "series-8": {
-        "role": "tertiary",
-        "displayName": "Sector Magenta",
+      "group-8": {
+        "role": "series",
+        "displayName": "Group 8 · Magenta",
         "canonical": "#C2185B",
-        "variable": "--color-series-8",
+        "variable": "--color-group-8",
         "roles": [
-          "--role-series-8"
+          "--role-series-8 (light)"
         ],
         "tonalRamp": [
-          "oklch(15% 0.091 6)",
-          "oklch(25% 0.151 6)",
-          "oklch(35% 0.202 6)",
-          "oklch(48% 0.202 6)",
-          "oklch(60% 0.202 6)",
-          "oklch(72% 0.202 6)",
-          "oklch(84% 0.151 6)",
-          "oklch(95% 0.091 6)"
+          "oklch(15.0% 0.062 5.6)",
+          "oklch(26.4% 0.107 5.6)",
+          "oklch(37.9% 0.152 5.6)",
+          "oklch(49.3% 0.198 5.6)",
+          "oklch(60.7% 0.202 5.6)",
+          "oklch(72.1% 0.183 5.6)",
+          "oklch(83.6% 0.095 5.6)",
+          "oklch(95.0% 0.026 5.6)"
         ]
       },
-      "ink-past": {
-        "role": "neutral",
-        "displayName": "Torn-off Grey",
-        "canonical": "color-mix(in srgb, #5C5C61 55%, #BDBDB8)",
-        "variable": "--role-ink-past",
+      "group-night-1": {
+        "role": "series",
+        "displayName": "Group 1 · Azul, night",
+        "canonical": "#5B9BE6",
+        "variable": "--color-group-night-1",
         "roles": [
-          "--role-ink-past"
+          "--role-series-1 (dark)"
         ],
         "tonalRamp": [
-          "oklch(15% 0 0)",
-          "oklch(25% 0 0)",
-          "oklch(35% 0 0)",
-          "oklch(48% 0 0)",
-          "oklch(60% 0 0)",
-          "oklch(72% 0 0)",
-          "oklch(84% 0 0)",
-          "oklch(95% 0 0)"
+          "oklch(15.0% 0.049 253.5)",
+          "oklch(26.4% 0.083 253.5)",
+          "oklch(37.9% 0.119 253.5)",
+          "oklch(49.3% 0.130 253.5)",
+          "oklch(60.7% 0.130 253.5)",
+          "oklch(72.1% 0.130 253.5)",
+          "oklch(83.6% 0.084 253.5)",
+          "oklch(95.0% 0.024 253.5)"
         ]
       },
-      "red-letter-past": {
-        "role": "neutral",
-        "displayName": "Faded Red-Letter",
-        "canonical": "color-mix(in srgb, #E4002B 75%, #FFFFFF)",
-        "variable": "--role-red-letter-past",
+      "group-night-2": {
+        "role": "series",
+        "displayName": "Group 2 · Verde, night",
+        "canonical": "#3DBA8A",
+        "variable": "--color-group-night-2",
         "roles": [
-          "--role-red-letter-past"
+          "--role-series-2 (dark)"
         ],
         "tonalRamp": [
-          "oklch(15% 0.093 15)",
-          "oklch(25% 0.155 15)",
-          "oklch(35% 0.206 15)",
-          "oklch(48% 0.206 15)",
-          "oklch(60% 0.206 15)",
-          "oklch(72% 0.206 15)",
-          "oklch(84% 0.155 15)",
-          "oklch(95% 0.093 15)"
+          "oklch(15.0% 0.033 163.6)",
+          "oklch(26.4% 0.057 163.6)",
+          "oklch(37.9% 0.081 163.6)",
+          "oklch(49.3% 0.106 163.6)",
+          "oklch(60.7% 0.130 163.6)",
+          "oklch(72.1% 0.131 163.6)",
+          "oklch(83.6% 0.131 163.6)",
+          "oklch(95.0% 0.075 163.6)"
         ]
       },
-      "scrim": {
-        "role": "neutral",
-        "displayName": "Graphite Scrim",
-        "canonical": "color-mix(in srgb, #1C1C1E 55%, transparent)",
-        "variable": "--role-scrim",
+      "group-night-3": {
+        "role": "series",
+        "displayName": "Group 3 · Lilás, night",
+        "canonical": "#C77BC0",
+        "variable": "--color-group-night-3",
         "roles": [
-          "--role-scrim"
+          "--role-series-3 (dark)"
         ],
         "tonalRamp": [
-          "oklch(15% 0.002 286 / 0.55)",
-          "oklch(25% 0.003 286 / 0.55)",
-          "oklch(35% 0.004 286 / 0.55)",
-          "oklch(48% 0.004 286 / 0.55)",
-          "oklch(60% 0.004 286 / 0.55)",
-          "oklch(72% 0.004 286 / 0.55)",
-          "oklch(84% 0.003 286 / 0.55)",
-          "oklch(95% 0.002 286 / 0.55)"
+          "oklch(15.0% 0.070 330.2)",
+          "oklch(26.4% 0.121 330.2)",
+          "oklch(37.9% 0.130 330.2)",
+          "oklch(49.3% 0.130 330.2)",
+          "oklch(60.7% 0.130 330.2)",
+          "oklch(72.1% 0.130 330.2)",
+          "oklch(83.6% 0.130 330.2)",
+          "oklch(95.0% 0.040 330.2)"
         ]
       },
-      "shadow": {
-        "role": "neutral",
-        "displayName": "Graphite Shadow",
-        "canonical": "color-mix(in srgb, #1C1C1E 14%, transparent)",
-        "variable": "--role-shadow",
+      "group-night-4": {
+        "role": "series",
+        "displayName": "Group 4 · Turquesa, night",
+        "canonical": "#2DB3BC",
+        "variable": "--color-group-night-4",
         "roles": [
-          "--role-shadow"
+          "--role-series-4 (dark)"
         ],
         "tonalRamp": [
-          "oklch(15% 0.002 286 / 0.14)",
-          "oklch(25% 0.003 286 / 0.14)",
-          "oklch(35% 0.004 286 / 0.14)",
-          "oklch(48% 0.004 286 / 0.14)",
-          "oklch(60% 0.004 286 / 0.14)",
-          "oklch(72% 0.004 286 / 0.14)",
-          "oklch(84% 0.003 286 / 0.14)",
-          "oklch(95% 0.002 286 / 0.14)"
+          "oklch(15.0% 0.026 201.8)",
+          "oklch(26.4% 0.045 201.8)",
+          "oklch(37.9% 0.065 201.8)",
+          "oklch(49.3% 0.084 201.8)",
+          "oklch(60.7% 0.103 201.8)",
+          "oklch(72.1% 0.110 201.8)",
+          "oklch(83.6% 0.110 201.8)",
+          "oklch(95.0% 0.058 201.8)"
         ]
       },
-      "wash": {
-        "role": "neutral",
-        "displayName": "Graphite Wash",
-        "canonical": "color-mix(in srgb, #1C1C1E 6%, transparent)",
-        "variable": "--role-wash",
+      "group-night-5": {
+        "role": "series",
+        "displayName": "Group 5 · Laranja, night",
+        "canonical": "#E8873A",
+        "variable": "--color-group-night-5",
         "roles": [
-          "--role-wash"
+          "--role-series-5 (dark)"
         ],
         "tonalRamp": [
-          "oklch(15% 0.002 286 / 0.06)",
-          "oklch(25% 0.003 286 / 0.06)",
-          "oklch(35% 0.004 286 / 0.06)",
-          "oklch(48% 0.004 286 / 0.06)",
-          "oklch(60% 0.004 286 / 0.06)",
-          "oklch(72% 0.004 286 / 0.06)",
-          "oklch(84% 0.003 286 / 0.06)",
-          "oklch(95% 0.002 286 / 0.06)"
+          "oklch(15.0% 0.039 55.4)",
+          "oklch(26.4% 0.066 55.4)",
+          "oklch(37.9% 0.093 55.4)",
+          "oklch(49.3% 0.122 55.4)",
+          "oklch(60.7% 0.148 55.4)",
+          "oklch(72.1% 0.148 55.4)",
+          "oklch(83.6% 0.106 55.4)",
+          "oklch(95.0% 0.030 55.4)"
+        ]
+      },
+      "group-night-6": {
+        "role": "series",
+        "displayName": "Group 6 · Prata, night",
+        "canonical": "#9AA7AF",
+        "variable": "--color-group-night-6",
+        "roles": [
+          "--role-series-6 (dark)"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.019 234.6)",
+          "oklch(26.4% 0.019 234.6)",
+          "oklch(37.9% 0.019 234.6)",
+          "oklch(49.3% 0.019 234.6)",
+          "oklch(60.7% 0.019 234.6)",
+          "oklch(72.1% 0.019 234.6)",
+          "oklch(83.6% 0.019 234.6)",
+          "oklch(95.0% 0.019 234.6)"
+        ]
+      },
+      "group-night-7": {
+        "role": "series",
+        "displayName": "Group 7 · Marrom, night",
+        "canonical": "#B98A66",
+        "variable": "--color-group-night-7",
+        "roles": [
+          "--role-series-7 (dark)"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.037 58.5)",
+          "oklch(26.4% 0.063 58.5)",
+          "oklch(37.9% 0.076 58.5)",
+          "oklch(49.3% 0.076 58.5)",
+          "oklch(60.7% 0.076 58.5)",
+          "oklch(72.1% 0.076 58.5)",
+          "oklch(83.6% 0.076 58.5)",
+          "oklch(95.0% 0.031 58.5)"
+        ]
+      },
+      "group-night-8": {
+        "role": "series",
+        "displayName": "Group 8 · Magenta, night",
+        "canonical": "#E9608F",
+        "variable": "--color-group-night-8",
+        "roles": [
+          "--role-series-8 (dark)"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.062 1.6)",
+          "oklch(26.4% 0.107 1.6)",
+          "oklch(37.9% 0.153 1.6)",
+          "oklch(49.3% 0.175 1.6)",
+          "oklch(60.7% 0.175 1.6)",
+          "oklch(72.1% 0.175 1.6)",
+          "oklch(83.6% 0.097 1.6)",
+          "oklch(95.0% 0.027 1.6)"
         ]
       }
     },
     "typographyMeta": {
-      "numeral": {
-        "displayName": "Numeral",
-        "purpose": "The day on every sheet, always two digits, in the 4rem folio column."
-      },
-      "numeral-desk": {
-        "displayName": "Numeral Desk",
-        "purpose": "The sheet numeral from 1100px (in a 4.5rem column)."
-      },
-      "numeral-panel": {
-        "displayName": "Panel Numeral",
-        "purpose": "The small sheet head at the top of the activity panel."
-      },
-      "month-title": {
-        "displayName": "Month Title",
-        "purpose": "\"Outubro 2026\" over the month page (1.375rem under 22.4375em)."
-      },
-      "month-title-wall": {
-        "displayName": "Month Title Wall",
-        "purpose": "The month title from 1280px, when the page becomes a wall calendar."
-      },
-      "masthead": {
-        "displayName": "Masthead",
-        "purpose": "\"Dourados/MS\" on the red header card."
-      },
-      "masthead-desk": {
-        "displayName": "Masthead Desk",
-        "purpose": "\"Dourados/MS\" from 1100px."
-      },
-      "weekday": {
-        "displayName": "Weekday",
-        "purpose": "Weekday beside the numeral, in capitals (text-transform: uppercase); 1rem in the panel head."
-      },
-      "time": {
-        "displayName": "Time",
-        "purpose": "An activity's start time on its plate, tabular figures; 1.0625rem for \"até 12h\"."
-      },
-      "day-numeral": {
-        "displayName": "Day Numeral",
-        "purpose": "Month page numerals, plain digits."
-      },
-      "badge": {
-        "displayName": "Badge",
-        "purpose": "\"Hoje\" and \"Próxima\"."
-      },
-      "stamp": {
-        "displayName": "Stamp",
-        "purpose": "\"CANCELADA\" rubber stamp, capitals, tilted -3deg."
-      },
-      "type-label": {
-        "displayName": "Type Label",
-        "purpose": "The activity type under its time (\"Festa\", \"Plenária\", \"Prazo\")."
+      "display": {
+        "displayName": "Display · the greeting",
+        "purpose": "The greeting on the home's sky (\"Bom dia, Dourados\"): two lines on phones, one from 760px.",
+        "steps": [
+          "3.25rem / 0.923 (phones)",
+          "4rem / 1 (760px)",
+          "4.75rem / 1.05 (1100px)",
+          "2.625rem (under 22.4375em)"
+        ]
       },
       "headline": {
-        "displayName": "Headline",
-        "purpose": "The activity title in the panel; text-wrap: balance."
+        "displayName": "Headline · the page on the sky",
+        "purpose": "The page's name on the sky; at 800 also \"Em breve\", the month's title and Comércio's letters.",
+        "steps": [
+          "1.875rem / 1.13 (phones)",
+          "2.5rem / 1.1 (760px)",
+          "1.625rem (under 22.4375em)"
+        ]
+      },
+      "date": {
+        "displayName": "Date",
+        "purpose": "Dates in NOS's voice, with tabular figures: the home's circled date.",
+        "steps": [
+          "1.25rem / 1.2 (phones)",
+          "1.4375rem (760px)"
+        ]
       },
       "title": {
-        "displayName": "Title",
-        "purpose": "The activity title on its sheet; text-wrap: pretty."
+        "displayName": "Title · day heads",
+        "purpose": "Day heads at 750 with tabular figures; 750 also for the panel's day, business names, empty-state titles, the month's numerals; 700 for the doors' names."
+      },
+      "activity-lead": {
+        "displayName": "Activity Lead",
+        "purpose": "An activity's title in the panel (Inter: the organization's own words).",
+        "steps": [
+          "1.375rem / 1.25 (panel)",
+          "1.875rem / 1.2 (home desk card)"
+        ]
+      },
+      "activity": {
+        "displayName": "Activity",
+        "purpose": "An activity's title on its card and on the home's phone card."
       },
       "body": {
         "displayName": "Body",
-        "purpose": "Base text."
+        "purpose": "Reading text; descriptions at 0.9375rem/1.5; hints held to 34–36ch."
       },
       "meta": {
         "displayName": "Meta",
-        "purpose": "Organization (600), place, period, facts, chips, notices, the month under the weekday."
-      },
-      "caption": {
-        "displayName": "Caption",
-        "purpose": "Masthead full name, holiday names (600, red), organizations' full names, the flyer hint."
+        "purpose": "The organization and the place under an activity, in the soft ink; the time row above is 600 at 0.9375rem in ink."
       },
       "button": {
         "displayName": "Button",
-        "purpose": "Every button label."
-      },
-      "cell": {
-        "displayName": "Cell",
-        "purpose": "Entries written into the wall-sized month page (time at 700; bar titles at 600); column letters use Barlow Condensed 700 at this size."
-      },
-      "cell-holiday": {
-        "displayName": "Cell Holiday",
-        "purpose": "A holiday's short name under its numeral on the wall-sized month page, in red; the \"+N\" count."
-      },
-      "flyer-numeral": {
-        "displayName": "Flyer Numeral",
-        "purpose": "Folha do dia day number (Cartaz 204px, Aviso 290px); base size, js/flyer.js plans the rest inline."
-      },
-      "flyer-display": {
-        "displayName": "Flyer Display",
-        "purpose": "Cartaz title in capitals; base size, shrinks with the title's length."
-      },
-      "flyer-title": {
-        "displayName": "Flyer Title",
-        "purpose": "Activity title on the Folha do dia (76px on the month flyer, 64px struck on the Aviso)."
-      },
-      "flyer-stamp": {
-        "displayName": "Flyer Stamp",
-        "purpose": "\"CANCELADA\" on the Aviso de cancelamento, tilted -8deg."
+        "purpose": "Buttons; chips and segments 500 at 0.9375rem (600 chosen); tags and the phone bar 500 at 0.8125rem; month weekday heads 600 0.75rem 0.04em uppercase."
       }
     },
     "shadows": [
       {
-        "name": "sheet-lift",
-        "value": "0 -8px 24px var(--role-shadow)",
-        "purpose": "The phone's bottom sheet, over the 55% graphite scrim. The desktop panel has none."
+        "name": "day-rest",
+        "value": "0 1px 2px color-mix(in srgb, #4A2212 8%, transparent), 0 6px 16px color-mix(in srgb, #4A2212 7%, transparent)",
+        "variable": "--role-card-shadow (light)",
+        "purpose": "Cards at rest by day: activity cards, the month, the home's next card, the desk panel, business and information cards, the message bubble."
       },
       {
-        "name": "bubble",
-        "value": "0 1px 3px var(--role-shadow)",
-        "purpose": "The message bubble of the WhatsApp preview."
+        "name": "night-rest",
+        "value": "0 0 0 0 transparent",
+        "border": "1px solid #4A2F28",
+        "variable": "--role-card-shadow + --role-card-border (dark)",
+        "purpose": "The same surfaces at night: no shadow, a 1px terra roxa line draws the edge (not `none`: lists add rings to it)."
       },
       {
-        "name": "selected-frame",
-        "value": "inset 0 0 0 2px var(--role-strong)",
-        "purpose": "Stroke, not depth: the activity open in the panel, the today ring and (from 1280px) the chosen month cell."
+        "name": "sheet-day",
+        "value": "0 -8px 28px color-mix(in srgb, #4A2212 18%, transparent)",
+        "variable": "--role-sheet-shadow (light)",
+        "purpose": "The bottom sheet over its scrim (the ink at 50%)."
       },
       {
-        "name": "tab-underline",
-        "value": "inset 0 -4px 0 var(--role-strong)",
-        "purpose": "Stroke, not depth: the chosen view tab, on the wall above the list or the month page."
+        "name": "sheet-night",
+        "value": "0 -8px 28px color-mix(in srgb, #0E0706 60%, transparent)",
+        "variable": "--role-sheet-shadow (dark)",
+        "purpose": "The only shadow at night: the bottom sheet over its scrim (Night Shade at 70%)."
       },
       {
-        "name": "hollow-mark",
-        "value": "inset 0 0 0 1.5px var(--sector)",
-        "purpose": "Stroke, not depth: a cancelled activity's mark or bar on the month page."
+        "name": "selection-ring",
+        "value": "0 0 0 1.5px var(--role-ink-soft)",
+        "purpose": "The quiet mark of selection, added to the rest shadow (the activity open in the panel) or inset (the month's chosen day)."
       },
       {
-        "name": "pressed-square-ring",
-        "value": "0 0 0 1.5px var(--role-on-strong)",
-        "purpose": "Stroke, not depth: the white ring round a pressed chip's sector square."
+        "name": "focus-ring",
+        "value": "outline: 2px solid var(--role-focus); outline-offset: 2px",
+        "purpose": "The strong mark of focus: Deep Urucum by day, Night Urucum at night, the sky's ink on the sky."
       }
     ],
     "motion": [
       {
         "name": "ease",
         "value": "cubic-bezier(0.16, 1, 0.3, 1)",
-        "purpose": "The one curve (--ease): bottom sheet slide and view tab underline."
+        "variable": "--ease",
+        "purpose": "The sheet's slide and the sun's rise."
       },
       {
         "name": "state",
         "value": "0.15s",
-        "purpose": "Background, colour and border changes on chips, lines and buttons (default ease)."
-      },
-      {
-        "name": "tab",
-        "value": "box-shadow 0.2s var(--ease)",
-        "purpose": "The view tab underline."
+        "purpose": "Background, colour, border and shadow changes on hover and state: buttons, chips, segments, cards, doors, the nav pill."
       },
       {
         "name": "sheet",
         "value": "transform 0.3s var(--ease)",
-        "purpose": "The phone's bottom sheet sliding in and out; it follows the finger (--drag) with no transition while dragged."
+        "purpose": "The bottom sheet slides up and away; while dragged it follows the finger with no transition."
       },
       {
-        "name": "flash",
-        "value": "2000ms",
-        "purpose": "How long a done button keeps its confirmation (\"Copiado\", \"Imagem baixada\", \"Compartilhado\")."
+        "name": "sun-rise",
+        "value": "rise 1.6s var(--ease) both; from { translate: 0 10% }",
+        "purpose": "The one authored motion: the home's sun rises a little when the page opens; only under prefers-reduced-motion: no-preference."
       },
       {
         "name": "reduced-motion",
-        "value": "transition-duration: 0s",
-        "purpose": "prefers-reduced-motion: every transition is instant."
+        "value": "transition-duration: 0s; animation: none",
+        "purpose": "Under prefers-reduced-motion: reduce every transition and animation stops."
       }
     ],
     "breakpoints": [
       {
-        "name": "wide-phone",
-        "value": "600px",
-        "purpose": "24px gutters, the bottom sheet centred at 560px, 64px month cells."
-      },
-      {
-        "name": "desk",
-        "value": "1100px",
-        "purpose": "Two columns: pad + sticky panel (380px); must match `desktop` in js/app.js."
-      },
-      {
-        "name": "wall",
-        "value": "1280px",
-        "purpose": "Panel 420px; the month page with titles written in."
+        "name": "narrowest",
+        "value": "max-width: 16.1875em",
+        "purpose": "259px at 16px (zoomed phones): the send button drops its icon."
       },
       {
         "name": "narrow",
         "value": "max-width: 22.4375em",
-        "purpose": "359px at 16px: sheet heads and lines reflow."
+        "purpose": "359px at 16px (small phones, 200% zoom, large default fonts): 12px gutters, smaller greeting and page name, one column of doors."
       },
       {
-        "name": "tiny",
-        "value": "max-width: 16.1875em",
-        "purpose": "259px at 16px: the panel's date stacks."
+        "name": "wide-phone",
+        "value": "600px",
+        "purpose": "24px gutters; the bottom sheet centred at 560px."
+      },
+      {
+        "name": "tablet",
+        "value": "760px",
+        "purpose": "The links on the sky (no bar at the foot), the page's name under them, the home's actions and \"Também na agenda\", Comércio's rows."
+      },
+      {
+        "name": "desk",
+        "value": "1100px",
+        "purpose": "Two columns: the agenda with its 380px panel, the home's calm desk, Comércio's information card; 32px gutters."
+      },
+      {
+        "name": "desk-wide",
+        "value": "1280px",
+        "purpose": "The panel at 420px; the month writes its entries in."
       },
       {
         "name": "short-phone",
-        "value": "(max-width: 1099px) and (max-height: 699px)",
-        "purpose": "Panfleto opens at the format bar; smaller preview."
+        "value": "max-width: 1099px and max-height: 699px",
+        "purpose": "Panfleto scrolls its format bar to the top; the preview takes the title's room."
+      },
+      {
+        "name": "phone-landscape",
+        "value": "max-width: 1099px and max-height: 500px and orientation: landscape",
+        "purpose": "The sheet takes nearly the whole height; the flyer stands beside its controls."
       },
       {
         "name": "short-desk",
-        "value": "(min-width: 1100px) and (max-height: 865px)",
-        "purpose": "Flyer mode folds the organization and the hint."
-      },
-      {
-        "name": "shell",
-        "value": "1344px",
-        "purpose": "Desk shell with 32px padding: 1280px of content."
+        "value": "min-width: 1100px and max-height: 850px",
+        "purpose": "Flyer mode also folds the organization and the hint."
       }
     ],
-    "roles": [
-      {
-        "name": "--role-wall",
-        "value": "var(--color-ground)",
-        "purpose": "Page background; flyers' ground; flyer preview frame."
+    "roleMap": {
+      "light": {
+        "--role-ground": "var(--color-clay)",
+        "--role-card": "var(--color-clay-card)",
+        "--role-card-hover": "var(--color-clay-card-hover)",
+        "--role-card-border": "transparent",
+        "--role-card-shadow": "0 1px 2px color-mix(in srgb, var(--color-earth-shadow) 8%, transparent), 0 6px 16px color-mix(in srgb, var(--color-earth-shadow) 7%, transparent)",
+        "--role-sheet-shadow": "0 -8px 28px color-mix(in srgb, var(--color-earth-shadow) 18%, transparent)",
+        "--role-fill": "var(--color-clay-fill)",
+        "--role-line": "var(--color-clay-line)",
+        "--role-ink": "var(--color-ink)",
+        "--role-ink-soft": "var(--color-ink-soft)",
+        "--role-ink-faded": "var(--color-clay-faded)",
+        "--role-on-ink": "var(--color-clay-card)",
+        "--role-wash": "color-mix(in srgb, var(--color-ink) 7%, transparent)",
+        "--role-scrim": "color-mix(in srgb, var(--color-ink) 50%, transparent)",
+        "--role-scrollbar": "var(--color-clay-faded)",
+        "--role-accent": "var(--color-urucum)",
+        "--role-accent-hover": "color-mix(in srgb, var(--role-accent) 86%, var(--role-ink))",
+        "--role-on-accent": "var(--color-white)",
+        "--role-accent-text": "var(--color-urucum-text)",
+        "--role-accent-tint": "var(--color-urucum-tint)",
+        "--role-hand": "var(--color-urucum)",
+        "--role-mark-loop": "var(--color-urucum)",
+        "--role-focus": "var(--color-urucum-text)",
+        "--role-agenda": "var(--color-urucum)",
+        "--role-agenda-text": "var(--color-urucum-text)",
+        "--role-agenda-tint": "var(--color-urucum-door)",
+        "--role-commerce": "var(--color-ipe-rosa)",
+        "--role-commerce-text": "var(--color-ipe-rosa-text)",
+        "--role-commerce-tint": "var(--color-ipe-rosa-tint)",
+        "--role-series-1": "var(--color-group-1)",
+        "--role-series-2": "var(--color-group-2)",
+        "--role-series-3": "var(--color-group-3)",
+        "--role-series-4": "var(--color-group-4)",
+        "--role-series-5": "var(--color-group-5)",
+        "--role-series-6": "var(--color-group-6)",
+        "--role-series-7": "var(--color-group-7)",
+        "--role-series-8": "var(--color-group-8)",
+        "--role-no-sector": "var(--color-ink-soft)",
+        "--role-chat": "var(--color-clay-fill)",
+        "--role-bubble": "var(--color-clay-card)",
+        "--role-header": "var(--color-urucum)",
+        "--role-on-header": "var(--color-white)",
+        "--role-binding": "var(--color-urucum)",
+        "--role-red-letter": "var(--color-urucum-text)",
+        "--role-alert": "var(--color-urucum)"
       },
-      {
-        "name": "--role-paper",
-        "value": "var(--color-surface)",
-        "purpose": "Sheets, the panel, chips, pills, icon buttons, segments."
+      "dark": {
+        "--role-ground": "var(--color-terra-roxa)",
+        "--role-card": "var(--color-terra-roxa-card)",
+        "--role-card-hover": "var(--color-terra-roxa-card-hover)",
+        "--role-card-border": "var(--color-terra-roxa-line)",
+        "--role-card-shadow": "0 0 0 0 transparent",
+        "--role-sheet-shadow": "0 -8px 28px color-mix(in srgb, var(--color-night-shade) 60%, transparent)",
+        "--role-fill": "var(--color-terra-roxa-fill)",
+        "--role-line": "var(--color-terra-roxa-line)",
+        "--role-ink": "var(--color-moonlit)",
+        "--role-ink-soft": "var(--color-moonlit-soft)",
+        "--role-ink-faded": "var(--color-terra-roxa-faded)",
+        "--role-on-ink": "var(--color-terra-roxa)",
+        "--role-wash": "color-mix(in srgb, var(--color-moonlit) 9%, transparent)",
+        "--role-scrim": "color-mix(in srgb, var(--color-night-shade) 70%, transparent)",
+        "--role-scrollbar": "var(--color-terra-roxa-faded)",
+        "--role-accent": "var(--color-urucum-night)",
+        "--role-accent-hover": "color-mix(in srgb, var(--role-accent) 84%, var(--role-ink))",
+        "--role-on-accent": "var(--color-terra-roxa)",
+        "--role-accent-text": "var(--color-urucum-night)",
+        "--role-accent-tint": "var(--color-urucum-night-tint)",
+        "--role-hand": "var(--color-urucum-night)",
+        "--role-mark-loop": "var(--color-urucum-night)",
+        "--role-focus": "var(--color-urucum-night)",
+        "--role-agenda": "var(--color-urucum-night)",
+        "--role-agenda-text": "var(--color-urucum-night)",
+        "--role-agenda-tint": "var(--color-urucum-night-tint)",
+        "--role-commerce": "var(--color-ipe-rosa-night)",
+        "--role-commerce-text": "var(--color-ipe-rosa-night)",
+        "--role-commerce-tint": "var(--color-ipe-rosa-night-tint)",
+        "--role-series-1": "var(--color-group-night-1)",
+        "--role-series-2": "var(--color-group-night-2)",
+        "--role-series-3": "var(--color-group-night-3)",
+        "--role-series-4": "var(--color-group-night-4)",
+        "--role-series-5": "var(--color-group-night-5)",
+        "--role-series-6": "var(--color-group-night-6)",
+        "--role-series-7": "var(--color-group-night-7)",
+        "--role-series-8": "var(--color-group-night-8)",
+        "--role-no-sector": "var(--color-moonlit-soft)",
+        "--role-chat": "var(--color-terra-roxa)",
+        "--role-bubble": "var(--color-terra-roxa-fill)"
       },
-      {
-        "name": "--role-paper-hover",
-        "value": "var(--color-surface-hover)",
-        "purpose": "An activity line under the pointer."
+      "sky: dia (default)": {
+        "--role-sky-1": "var(--color-day-1)",
+        "--role-sky-2": "var(--color-day-2)",
+        "--role-sky-3": "var(--color-day-3)",
+        "--role-sky-4": "var(--color-day-4)",
+        "--role-sky-5": "var(--color-day-5)",
+        "--role-sky-ink": "var(--color-ink)",
+        "--role-sky-ink-soft": "var(--color-day-ink-soft)",
+        "--role-sky-hand": "var(--color-urucum)",
+        "--role-sky-wash": "color-mix(in srgb, var(--color-ink) 9%, transparent)",
+        "--role-astro": "var(--color-sun)",
+        "--role-star": "var(--color-star)"
       },
-      {
-        "name": "--role-ink",
-        "value": "var(--color-ink)",
-        "purpose": "Text."
+      "sky: amanhecer": {
+        "--role-sky-1": "var(--color-dawn-1)",
+        "--role-sky-2": "var(--color-dawn-2)",
+        "--role-sky-3": "var(--color-dawn-3)",
+        "--role-sky-4": "var(--color-dawn-4)",
+        "--role-sky-5": "var(--color-dawn-5)",
+        "--role-sky-ink-soft": "var(--color-dawn-ink-soft)"
       },
-      {
-        "name": "--role-ink-soft",
-        "value": "var(--color-muted)",
-        "purpose": "Secondary text and icons."
+      "sky: entardecer": {
+        "--role-sky-1": "var(--color-dusk-1)",
+        "--role-sky-2": "var(--color-dusk-2)",
+        "--role-sky-3": "var(--color-dusk-3)",
+        "--role-sky-4": "var(--color-dusk-4)",
+        "--role-sky-5": "var(--color-dusk-5)",
+        "--role-sky-ink-soft": "var(--color-dusk-ink-soft)"
       },
-      {
-        "name": "--role-ink-faded",
-        "value": "var(--color-faded)",
-        "purpose": "Perforation of the mark and of the Cartaz and Aviso flyers."
-      },
-      {
-        "name": "--role-ink-past",
-        "value": "color-mix(in srgb, var(--color-muted) 55%, var(--color-faded))",
-        "purpose": "Numerals of past sheets and of days outside the month (3:1 on paper)."
-      },
-      {
-        "name": "--role-line",
-        "value": "var(--color-seam)",
-        "purpose": "1px seams, sheet edges, perforation dots, the grabber."
-      },
-      {
-        "name": "--role-header",
-        "value": "var(--color-brand)",
-        "purpose": "The printed header card; the Cartaz ground."
-      },
-      {
-        "name": "--role-on-header",
-        "value": "var(--color-on-ink)",
-        "purpose": "Text and focus on the header card."
-      },
-      {
-        "name": "--role-binding",
-        "value": "var(--color-brand)",
-        "purpose": "The strip on top of each sheet."
-      },
-      {
-        "name": "--role-mark-loop",
-        "value": "var(--color-brand)",
-        "purpose": "The O of the NOS mark where the mark prints on paper: the app icons, the favicons, the link preview."
-      },
-      {
-        "name": "--role-red-letter",
-        "value": "var(--color-brand)",
-        "purpose": "Sundays and national holidays."
-      },
-      {
-        "name": "--role-red-letter-past",
-        "value": "color-mix(in srgb, var(--color-brand) 75%, var(--color-surface))",
-        "purpose": "Red-letter numerals of past sheets and outside the month."
-      },
-      {
-        "name": "--role-accent",
-        "value": "var(--color-brand)",
-        "purpose": "The panel's primary action; text selection; the caret."
-      },
-      {
-        "name": "--role-accent-hover",
-        "value": "var(--color-brand-hover)",
-        "purpose": "Hover of the primary action."
-      },
-      {
-        "name": "--role-on-accent",
-        "value": "var(--color-on-ink)",
-        "purpose": "Label on the primary action; selected text."
-      },
-      {
-        "name": "--role-selected",
-        "value": "var(--color-brand-tint)",
-        "purpose": "The activity open in the panel."
-      },
-      {
-        "name": "--role-alert",
-        "value": "var(--color-brand)",
-        "purpose": "Error icons; on flyers the Cancelada stamp, the strike through a cancelled date, the circled day."
-      },
-      {
-        "name": "--role-alert-text",
-        "value": "var(--color-brand-hover)",
-        "purpose": "Small red text: the on-screen stamp, cancellation reasons."
-      },
-      {
-        "name": "--role-alert-soft",
-        "value": "var(--color-brand-tint)",
-        "purpose": "Error notice ground."
-      },
-      {
-        "name": "--role-alert-ring",
-        "value": "var(--color-brand-ring)",
-        "purpose": "Error notice border."
-      },
-      {
-        "name": "--role-next",
-        "value": "var(--color-next)",
-        "purpose": "The next activity, nothing else."
-      },
-      {
-        "name": "--role-on-next",
-        "value": "var(--color-ink)",
-        "purpose": "Text on the next activity's badge and plate."
-      },
-      {
-        "name": "--role-strong",
-        "value": "var(--color-ink)",
-        "purpose": "On states (pressed chip, active pill, chosen segment, Hoje, chosen day, done button, the chosen view tab's underline), city and type tags, line-button borders."
-      },
-      {
-        "name": "--role-on-strong",
-        "value": "var(--color-on-ink)",
-        "purpose": "Text on graphite fills."
-      },
-      {
-        "name": "--role-on-series",
-        "value": "var(--color-on-ink)",
-        "purpose": "Titles on sector-coloured month bars."
-      },
-      {
-        "name": "--role-focus",
-        "value": "var(--color-ink)",
-        "purpose": "Focus ring."
-      },
-      {
-        "name": "--role-focus-on-color",
-        "value": "var(--color-on-ink)",
-        "purpose": "Focus ring on the red header and the chosen segment."
-      },
-      {
-        "name": "--role-scrim",
-        "value": "color-mix(in srgb, var(--color-ink) 55%, transparent)",
-        "purpose": "Backdrop behind the phone's bottom sheet."
-      },
-      {
-        "name": "--role-shadow",
-        "value": "color-mix(in srgb, var(--color-ink) 14%, transparent)",
-        "purpose": "The three soft shadows."
-      },
-      {
-        "name": "--role-wash",
-        "value": "color-mix(in srgb, var(--color-ink) 6%, transparent)",
-        "purpose": "Hover wash on quiet controls; inline code ground."
-      },
-      {
-        "name": "--role-scrollbar",
-        "value": "var(--color-faded)",
-        "purpose": "Scrollbar."
-      },
-      {
-        "name": "--role-chat",
-        "value": "var(--color-ground)",
-        "purpose": "WhatsApp preview background."
-      },
-      {
-        "name": "--role-bubble",
-        "value": "var(--color-surface)",
-        "purpose": "WhatsApp preview bubble."
-      },
-      {
-        "name": "--role-series-1",
-        "value": "var(--color-series-1)",
-        "purpose": "Sector ink 1; js/colors.js sets it as --sector."
-      },
-      {
-        "name": "--role-series-2",
-        "value": "var(--color-series-2)",
-        "purpose": "Sector ink 2; js/colors.js sets it as --sector."
-      },
-      {
-        "name": "--role-series-3",
-        "value": "var(--color-series-3)",
-        "purpose": "Sector ink 3; js/colors.js sets it as --sector."
-      },
-      {
-        "name": "--role-series-4",
-        "value": "var(--color-series-4)",
-        "purpose": "Sector ink 4; js/colors.js sets it as --sector."
-      },
-      {
-        "name": "--role-series-5",
-        "value": "var(--color-series-5)",
-        "purpose": "Sector ink 5; js/colors.js sets it as --sector."
-      },
-      {
-        "name": "--role-series-6",
-        "value": "var(--color-series-6)",
-        "purpose": "Sector ink 6; js/colors.js sets it as --sector."
-      },
-      {
-        "name": "--role-series-7",
-        "value": "var(--color-series-7)",
-        "purpose": "Sector ink 7; js/colors.js sets it as --sector."
-      },
-      {
-        "name": "--role-series-8",
-        "value": "var(--color-series-8)",
-        "purpose": "Sector ink 8; js/colors.js sets it as --sector."
-      },
-      {
-        "name": "--role-no-sector",
-        "value": "var(--color-muted)",
-        "purpose": "Square of an activity without a sector."
+      "sky: noite (and the dark theme)": {
+        "--role-sky-1": "var(--color-night-1)",
+        "--role-sky-2": "var(--color-night-2)",
+        "--role-sky-3": "var(--color-night-3)",
+        "--role-sky-4": "var(--color-night-4)",
+        "--role-sky-5": "var(--color-night-5)",
+        "--role-sky-ink": "var(--color-moonlit)",
+        "--role-sky-ink-soft": "var(--color-night-ink-soft)",
+        "--role-sky-hand": "var(--color-urucum-night)",
+        "--role-sky-wash": "color-mix(in srgb, var(--color-moonlit) 12%, transparent)",
+        "--role-astro": "var(--color-moon)"
       }
-    ],
-    "themes": {
-      "selector": ":root[data-theme='<name>'] in css/theme.css, overriding palette entries or roles",
-      "pick": "data-theme on <html> in index.html ('' = default)",
-      "try": "?tema=<name> in the address",
-      "byHand": [
-        "<meta name=\"theme-color\"> in index.html (the header colour)",
-        "manifest.webmanifest colours"
-      ],
-      "themes": [
-        {
-          "name": "exemplo",
-          "overrides": {
-            "--role-header": "var(--color-ink)",
-            "--role-binding": "var(--color-ink)"
-          },
-          "purpose": "Template: a graphite header card and binding."
-        }
-      ]
-    },
-    "flyers": {
-      "canvas": "1080 x 1350 px PNG",
-      "styles": [
-        {
-          "id": "day",
-          "slug": "folha",
-          "name": "Folha do dia",
-          "purpose": "One giant sheet: 460px numeral, weekday, month and year, time; title, organization, type tag."
-        },
-        {
-          "id": "month",
-          "slug": "mes",
-          "name": "Calendário do mês",
-          "purpose": "The month page with the day circled by hand in red; title, date and time, place, organization."
-        },
-        {
-          "id": "poster",
-          "slug": "cartaz",
-          "name": "Cartaz",
-          "purpose": "The header card at poster size: red ground, white capital title, a white day sheet with a graphite binding, NOS signature."
-        },
-        {
-          "id": "notice",
-          "slug": "cancelada",
-          "name": "Aviso de cancelamento",
-          "purpose": "Forced for cancelled activities: the sheet's numeral struck in red under the CANCELADA stamp, the reason, the struck title."
-        }
-      ],
-      "margins": "60px (Folha do dia, Calendário do mês), 80px (Cartaz, Aviso)",
-      "planning": "js/flyer.js plans sizes and line breaks from embedded Barlow glyph widths (no DOM measurement) and sets them inline in whole pixels; css/flyers.css holds the base sizes, every rule scoped under .fl.",
-      "export": "html-to-image (js/vendor/) after document.fonts.ready."
     }
   },
   "components": [
     {
-      "name": "Accent Button",
+      "name": "Primary Button",
       "kind": "button",
-      "refersTo": "button-accent",
-      "description": "The panel's one primary action: Enviar no WhatsApp, Compartilhar imagem, or Baixar PNG when files can't be shared.",
-      "html": "<button type=\"button\" class=\"ds-btn-accent\"><svg class=\"ds-btn-accent-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7.9 20A9 9 0 1 0 4 16.1L2 22Z\"/></svg><span>Enviar no WhatsApp</span></button>",
-      "css": ".ds-btn-accent, .ds-btn-accent *, .ds-btn-accent *::before, .ds-btn-accent *::after { box-sizing: border-box; } .ds-btn-accent { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 18px; border: 2px solid transparent; border-radius: var(--radius, 6px); background: var(--role-accent, #E4002B); color: var(--role-on-accent, #FFFFFF); font: 700 1rem/1.15 var(--font-ui, 'Barlow', system-ui, sans-serif); text-align: center; text-decoration: none; cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s; } .ds-btn-accent-icon { width: 20px; height: 20px; flex: none; } .ds-btn-accent:hover { background: var(--role-accent-hover, #C70026); } .ds-btn-accent:focus-visible { outline: 3px solid var(--role-focus, #1C1C1E); outline-offset: 2px; } .ds-btn-accent:disabled { cursor: progress; opacity: 0.7; }"
+      "refersTo": "button-primary",
+      "description": "The main action, in urucum: sending an activity to WhatsApp. Night Urucum with terra roxa text in the dark theme.",
+      "html": "<button class=\"ds-btn-accent\" type=\"button\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7.9 20A9 9 0 1 0 4 16.1L2 22Z\"/></svg>Enviar no WhatsApp</button>",
+      "css": ".ds-btn-accent { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 18px; border: 1px solid transparent; border-radius: 999px; background: var(--role-accent, #C2410C); color: var(--role-on-accent, #FFFFFF); font: 600 0.9375rem/1.2 var(--font-ui, 'Inter', system-ui, sans-serif); cursor: pointer; transition: background 0.15s; } .ds-btn-accent .ds-icon { width: 18px; height: 18px; flex: none; } .ds-btn-accent:hover { background: var(--role-accent-hover, color-mix(in srgb, #C2410C 86%, #221714)); } .ds-btn-accent:focus-visible { outline: 2px solid var(--role-focus, #A3360A); outline-offset: 2px; }"
     },
     {
-      "name": "Line Button",
+      "name": "Outlined Button",
       "kind": "button",
-      "refersTo": "button-line",
-      "description": "The secondary action (Copiar texto, Baixar PNG beside Compartilhar imagem); fills graphite on hover and for 2s once done (Copiado).",
-      "html": "<button type=\"button\" class=\"ds-btn-line\"><svg class=\"ds-btn-line-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\"/><path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\"/></svg><span>Copiar texto</span></button>",
-      "css": ".ds-btn-line, .ds-btn-line *, .ds-btn-line *::before, .ds-btn-line *::after { box-sizing: border-box; } .ds-btn-line { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 18px; border: 2px solid var(--role-strong, #1C1C1E); border-radius: var(--radius, 6px); background: transparent; color: var(--role-ink, #1C1C1E); font: 700 1rem/1.15 var(--font-ui, 'Barlow', system-ui, sans-serif); text-align: center; cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s; } .ds-btn-line-icon { width: 20px; height: 20px; flex: none; } .ds-btn-line:hover, .ds-btn-line.is-done { background: var(--role-strong, #1C1C1E); color: var(--role-on-strong, #FFFFFF); } .ds-btn-line:focus-visible { outline: 3px solid var(--role-focus, #1C1C1E); outline-offset: 2px; }"
+      "refersTo": "button-outlined",
+      "description": "The second action beside the primary one: the card colour with a 1px line; done fills with ink.",
+      "html": "<div class=\"ds-row\"><button class=\"ds-btn-line\" type=\"button\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\"/><path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\"/></svg>Copiar texto</button><button class=\"ds-btn-line is-done\" type=\"button\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 6 9 17l-5-5\"/></svg>Copiado</button></div>",
+      "css": ".ds-row { display: flex; flex-wrap: wrap; gap: 8px; } .ds-btn-line { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 18px; border: 1px solid var(--role-line, #E9D5C8); border-radius: 999px; background: var(--role-card, #FFFBF7); color: var(--role-ink, #221714); font: 600 0.9375rem/1.2 var(--font-ui, 'Inter', system-ui, sans-serif); cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s; } .ds-btn-line .ds-icon { width: 18px; height: 18px; flex: none; } .ds-btn-line:not(.is-done):hover { border-color: var(--role-ink-soft, #6A4E44); background: var(--role-card-hover, #FFF4EC); } .ds-btn-line.is-done { border-color: var(--role-ink, #221714); background: var(--role-ink, #221714); color: var(--role-on-ink, #FFFBF7); } .ds-btn-line:focus-visible { outline: 2px solid var(--role-focus, #A3360A); outline-offset: 2px; }"
     },
     {
-      "name": "Sector Chips",
+      "name": "Group Chips",
       "kind": "chip",
       "refersTo": "chip",
-      "description": "Sector filter: \"Todos\" first, then one pill per sector with its printed square; pressed fills graphite.",
-      "html": "<div class=\"ds-chips\" role=\"group\" aria-label=\"Filtrar por setor\"><button type=\"button\" class=\"ds-chip\" aria-pressed=\"true\">Todos</button><button type=\"button\" class=\"ds-chip\" aria-pressed=\"false\" style=\"--sector: var(--role-series-1, #0455A1)\"><span class=\"ds-chip-square\"></span>Sindicatos</button><button type=\"button\" class=\"ds-chip\" aria-pressed=\"false\" style=\"--sector: var(--role-series-3, #9B3894)\"><span class=\"ds-chip-square\"></span>Movimentos sociais</button></div>",
-      "css": ".ds-chips, .ds-chips *, .ds-chips *::before, .ds-chips *::after { box-sizing: border-box; } .ds-chips { display: flex; flex-wrap: wrap; gap: 8px; } .ds-chip { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border: 1px solid var(--role-line, #D9D9D4); border-radius: var(--radius-pill, 999px); background: var(--role-paper, #FFFFFF); color: var(--role-ink, #1C1C1E); font-family: var(--font-ui, 'Barlow', system-ui, sans-serif); font-size: 0.9375rem; font-weight: 500; white-space: nowrap; cursor: pointer; transition: background 0.15s, border-color 0.15s, color 0.15s; } .ds-chip:hover { border-color: var(--role-strong, #1C1C1E); } .ds-chip[aria-pressed=\"true\"] { background: var(--role-strong, #1C1C1E); border-color: var(--role-strong, #1C1C1E); color: var(--role-on-strong, #FFFFFF); font-weight: 600; } .ds-chip:focus-visible { outline: 3px solid var(--role-focus, #1C1C1E); outline-offset: 2px; } .ds-chip-square { flex: none; width: 10px; height: 10px; border-radius: 2px; background: var(--sector, var(--role-no-sector, #5C5C61)); } .ds-chip[aria-pressed=\"true\"] .ds-chip-square { box-shadow: 0 0 0 1.5px var(--role-on-strong, #FFFFFF); }"
-    },
-    {
-      "name": "Organization Pill",
-      "kind": "input",
-      "refersTo": "org-pill",
-      "description": "Organization filter: a native select laid over a pill face; options carry full names grouped by sector; fills graphite while active.",
-      "html": "<div class=\"ds-org-pill\"><span class=\"ds-org-face\" aria-hidden=\"true\"><svg class=\"ds-org-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/><path d=\"M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75\"/></svg><span class=\"ds-org-label\">Organização</span><svg class=\"ds-org-chevron\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m6 9 6 6 6-6\"/></svg></span><select class=\"ds-org-select\" aria-label=\"Filtrar por organização\"><option value=\"\">Todas as organizações</option><optgroup label=\"Sindicatos\"><option value=\"simted\">SIMTED – Sindicato Municipal dos Trabalhadores e Trabalhadoras em Educação de Dourados</option></optgroup></select></div>",
-      "css": ".ds-org-pill, .ds-org-pill *, .ds-org-pill *::before, .ds-org-pill *::after { box-sizing: border-box; } .ds-org-pill { position: relative; display: inline-flex; align-items: center; } .ds-org-face { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; max-width: 15rem; padding: 8px 12px; border: 1.5px solid var(--role-strong, #1C1C1E); border-radius: var(--radius-pill, 999px); background: var(--role-paper, #FFFFFF); color: var(--role-ink, #1C1C1E); font-family: var(--font-ui, 'Barlow', system-ui, sans-serif); font-size: 0.9375rem; font-weight: 600; pointer-events: none; } .ds-org-icon { width: 18px; height: 18px; flex: none; } .ds-org-chevron { width: 16px; height: 16px; flex: none; } .ds-org-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .ds-org-select { position: absolute; inset: 0; width: 100%; opacity: 0; cursor: pointer; font-size: 1rem; } .ds-org-pill:has(.ds-org-select:focus-visible) .ds-org-face { outline: 3px solid var(--role-focus, #1C1C1E); outline-offset: 2px; } .ds-org-pill.is-active .ds-org-face { background: var(--role-strong, #1C1C1E); color: var(--role-on-strong, #FFFFFF); }"
-    },
-    {
-      "name": "View Tabs",
-      "kind": "nav",
-      "refersTo": "view-tab",
-      "description": "Agenda | Mês on the wall, directly on top of the list or the month page they switch (under the filters): grey labels on a seam, the chosen one graphite and bold over a 4px graphite underline.",
-      "html": "<div class=\"ds-tabs\" role=\"tablist\" aria-label=\"Visualização\"><button type=\"button\" role=\"tab\" class=\"ds-tab\" aria-selected=\"true\"><svg class=\"ds-tab-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 6h.01M3 12h.01M3 18h.01M8 6h13M8 12h13M8 18h13\"/></svg><span>Agenda</span></button><button type=\"button\" role=\"tab\" class=\"ds-tab\" aria-selected=\"false\"><svg class=\"ds-tab-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect width=\"18\" height=\"18\" x=\"3\" y=\"4\" rx=\"2\"/><path d=\"M8 2v4M16 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01\"/></svg><span>Mês</span></button></div>",
-      "css": ".ds-tabs, .ds-tabs *, .ds-tabs *::before, .ds-tabs *::after { box-sizing: border-box; } .ds-tabs { display: flex; max-width: 390px; border-bottom: 1px solid var(--role-line, #D9D9D4); } .ds-tab { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 49px; padding: 0 12px 4px; border: 0; background: none; color: var(--role-ink-soft, #5C5C61); font-family: var(--font-ui, 'Barlow', system-ui, sans-serif); font-size: 1rem; font-weight: 500; cursor: pointer; box-shadow: inset 0 -4px 0 transparent; transition: box-shadow 0.2s var(--ease, cubic-bezier(0.16, 1, 0.3, 1)), color 0.15s; } .ds-tab-icon { width: 18px; height: 18px; flex: none; } .ds-tab:hover { color: var(--role-ink, #1C1C1E); } .ds-tab[aria-selected=\"true\"] { color: var(--role-ink, #1C1C1E); font-weight: 700; box-shadow: inset 0 -4px 0 var(--role-strong, #1C1C1E); } .ds-tab:focus-visible { outline: 3px solid var(--role-focus, #1C1C1E); outline-offset: -4px; }"
+      "description": "The agenda's group filter: 36px pills (44px tap area), each group's dot before its name; pressed fills with ink and a check takes the dot's place.",
+      "html": "<div class=\"ds-chips\" role=\"group\" aria-label=\"Grupos\"><button class=\"ds-chip\" type=\"button\" aria-pressed=\"true\"><svg class=\"ds-icon ds-chip-check\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 6 9 17l-5-5\"/></svg>Todos</button><button class=\"ds-chip\" type=\"button\" aria-pressed=\"false\" style=\"--sector: var(--role-series-1, #0455A1)\"><span class=\"ds-dot\"></span>Sindicatos</button><button class=\"ds-chip\" type=\"button\" aria-pressed=\"false\" style=\"--sector: var(--role-series-3, #9B3894)\"><span class=\"ds-dot\"></span>Movimentos Sociais</button></div>",
+      "css": ".ds-chips { display: flex; flex-wrap: wrap; gap: 0 8px; } .ds-chip { position: relative; flex: none; display: inline-flex; align-items: center; gap: 7px; height: 36px; margin: 4px 0; padding: 0 14px; border: 1px solid var(--role-line, #E9D5C8); border-radius: 999px; background: var(--role-card, #FFFBF7); color: var(--role-ink, #221714); font: 500 0.9375rem/1 var(--font-ui, 'Inter', system-ui, sans-serif); white-space: nowrap; cursor: pointer; transition: background 0.15s, border-color 0.15s, color 0.15s; } .ds-chip::after { content: ''; position: absolute; inset: -5px 0; } .ds-chip-check { display: none; width: 18px; height: 18px; } .ds-chip[aria-pressed=\"true\"] { padding-left: 10px; border-color: var(--role-ink, #221714); background: var(--role-ink, #221714); color: var(--role-on-ink, #FFFBF7); font-weight: 600; } .ds-chip[aria-pressed=\"true\"] .ds-chip-check { display: block; } .ds-chip[aria-pressed=\"true\"] .ds-dot { display: none; } .ds-chip:not([aria-pressed=\"true\"]):hover { background: var(--role-card-hover, #FFF4EC); border-color: var(--role-ink-soft, #6A4E44); } .ds-chip:focus-visible { outline: 2px solid var(--role-focus, #A3360A); outline-offset: 2px; } .ds-dot { display: inline-block; flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--sector, var(--role-no-sector, #6A4E44)); }"
     },
     {
       "name": "Segmented Control",
+      "kind": "custom",
+      "refersTo": "segment-chosen",
+      "description": "Lista | Mês and Mensagem | Panfleto: two equal 42px segments in a pill; the chosen one in ink with a check in place of its icon.",
+      "html": "<div class=\"ds-seg\" role=\"tablist\" aria-label=\"Visualização\"><button class=\"ds-seg-tab\" role=\"tab\" type=\"button\" aria-selected=\"true\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 6 9 17l-5-5\"/></svg>Lista</button><button class=\"ds-seg-tab\" role=\"tab\" type=\"button\" aria-selected=\"false\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect width=\"18\" height=\"18\" x=\"3\" y=\"4\" rx=\"2\"/><path d=\"M8 2v4M16 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01\"/></svg>Mês</button></div>",
+      "css": ".ds-seg { display: grid; grid-template-columns: 1fr 1fr; max-width: 420px; overflow: hidden; border: 1px solid var(--role-line, #E9D5C8); border-radius: 999px; background: var(--role-card, #FFFBF7); } .ds-seg-tab { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 42px; padding: 0 12px; border: 0; background: none; color: var(--role-ink, #221714); font: 500 1rem/1.2 var(--font-ui, 'Inter', system-ui, sans-serif); cursor: pointer; transition: background 0.15s, color 0.15s; } .ds-seg-tab + .ds-seg-tab { border-left: 1px solid var(--role-line, #E9D5C8); } .ds-seg-tab .ds-icon { width: 18px; height: 18px; } .ds-seg-tab[aria-selected=\"true\"] { background: var(--role-ink, #221714); color: var(--role-on-ink, #FFFBF7); font-weight: 600; } .ds-seg-tab:not([aria-selected=\"true\"]):hover { background: var(--role-card-hover, #FFF4EC); } .ds-seg-tab:focus-visible { outline: 2px solid var(--role-focus, #A3360A); outline-offset: -4px; } .ds-seg-tab[aria-selected=\"true\"]:focus-visible { outline-color: var(--role-on-ink, #FFFBF7); }"
+    },
+    {
+      "name": "Search Field",
+      "kind": "input",
+      "refersTo": "input-search",
+      "description": "Comércio's search: a 48px pill at 16px type (no iOS zoom), a soft icon inside, a round clear button; focus turns the line urucum.",
+      "html": "<div class=\"ds-search\"><span class=\"ds-search-icon\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m21 21-4.34-4.34\"/><circle cx=\"11\" cy=\"11\" r=\"8\"/></svg></span><input type=\"search\" placeholder=\"Buscar: bolo, eletricista, celular…\" aria-label=\"Buscar: bolo, eletricista, celular…\"><button class=\"ds-search-clear\" type=\"button\" aria-label=\"Limpar a busca\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M18 6 6 18M6 6l12 12\"/></svg></button></div>",
+      "css": ".ds-search { position: relative; display: flex; align-items: center; max-width: 400px; } .ds-search-icon { position: absolute; left: 16px; display: flex; color: var(--role-ink-soft, #6A4E44); pointer-events: none; } .ds-search-icon .ds-icon { width: 20px; height: 20px; } .ds-search input { width: 100%; min-height: 48px; margin: 0; padding: 0 48px 0 46px; border: 1px solid var(--role-line, #E9D5C8); border-radius: 999px; background: var(--role-card, #FFFBF7); color: var(--role-ink, #221714); font: 400 1rem/1.2 var(--font-ui, 'Inter', system-ui, sans-serif); -webkit-appearance: none; appearance: none; } .ds-search input::placeholder { color: var(--role-ink-soft, #6A4E44); opacity: 1; } .ds-search input:not(:placeholder-shown) { font-weight: 500; } .ds-search input:focus-visible { outline: 2px solid var(--role-focus, #A3360A); outline-offset: 0; border-color: var(--role-focus, #A3360A); } .ds-search-clear { position: absolute; right: 2px; display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 50%; background: none; color: var(--role-ink, #221714); cursor: pointer; } .ds-search-clear .ds-icon { width: 18px; height: 18px; } .ds-search-clear:hover { background: var(--role-wash, color-mix(in srgb, #221714 7%, transparent)); } .ds-search-clear:focus-visible { outline: 2px solid var(--role-focus, #A3360A); outline-offset: 2px; }"
+    },
+    {
+      "name": "Navigation (phone bar)",
       "kind": "nav",
-      "refersTo": "segment",
-      "description": "Mensagem | Panfleto in the panel: a graphite frame split in two; the chosen half fills graphite.",
-      "html": "<div class=\"ds-seg\" role=\"tablist\" aria-label=\"Formato\"><button type=\"button\" role=\"tab\" class=\"ds-seg-tab\" aria-selected=\"true\"><svg class=\"ds-seg-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z\"/><path d=\"M13 8H7M17 12H7\"/></svg><span>Mensagem</span></button><button type=\"button\" role=\"tab\" class=\"ds-seg-tab\" aria-selected=\"false\"><svg class=\"ds-seg-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\"/><circle cx=\"9\" cy=\"9\" r=\"2\"/><path d=\"m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21\"/></svg><span>Panfleto</span></button></div>",
-      "css": ".ds-seg, .ds-seg *, .ds-seg *::before, .ds-seg *::after { box-sizing: border-box; } .ds-seg { display: grid; grid-template-columns: 1fr 1fr; max-width: 380px; border: 1px solid var(--role-strong, #1C1C1E); border-radius: var(--radius-sm, 4px); overflow: hidden; } .ds-seg-tab { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; border: 0; background: var(--role-paper, #FFFFFF); color: var(--role-ink, #1C1C1E); font-family: var(--font-ui, 'Barlow', system-ui, sans-serif); font-size: 1rem; font-weight: 600; cursor: pointer; } .ds-seg-tab + .ds-seg-tab { border-left: 1px solid var(--role-strong, #1C1C1E); } .ds-seg-icon { width: 20px; height: 20px; flex: none; } .ds-seg-tab[aria-selected=\"true\"] { background: var(--role-strong, #1C1C1E); color: var(--role-on-strong, #FFFFFF); } .ds-seg-tab:focus-visible { outline: 3px solid var(--role-focus, #1C1C1E); outline-offset: -4px; } .ds-seg-tab[aria-selected=\"true\"]:focus-visible { outline-color: var(--role-focus-on-color, #FFFFFF); }"
+      "refersTo": "nav-bar",
+      "description": "Under 760px the pages' links run along the foot of the screen; the open page in Deep Urucum, its icon in an Urucum Tint pill. From 760px they move onto the sky.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Páginas\"><a class=\"ds-nav-link\" href=\"#\" aria-current=\"page\"><span class=\"ds-nav-icon\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8\"/><path d=\"M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/></svg></span>Início</a><a class=\"ds-nav-link\" href=\"#\"><span class=\"ds-nav-icon\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect width=\"18\" height=\"18\" x=\"3\" y=\"4\" rx=\"2\"/><path d=\"M8 2v4M16 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01\"/></svg></span>Agenda</a><a class=\"ds-nav-link\" href=\"#\"><span class=\"ds-nav-icon\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5\"/><path d=\"M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244\"/><path d=\"M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05\"/></svg></span>Comércio</a></nav>",
+      "css": ".ds-nav { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 390px; padding: 6px 4px; border-top: 1px solid var(--role-line, #E9D5C8); background: var(--role-card, #FFFBF7); color: var(--role-ink-soft, #6A4E44); } .ds-nav-link { display: flex; flex-direction: column; align-items: center; gap: 4px; min-height: 52px; border-radius: 12px; color: inherit; font: 500 0.8125rem/1.38 var(--font-ui, 'Inter', system-ui, sans-serif); text-decoration: none; } .ds-nav-icon { display: grid; place-items: center; width: 56px; height: 32px; border-radius: 999px; transition: background 0.15s; } .ds-nav-icon .ds-icon { width: 22px; height: 22px; } .ds-nav-link[aria-current=\"page\"] { color: var(--role-accent-text, #A3360A); font-weight: 600; } .ds-nav-link[aria-current=\"page\"] .ds-nav-icon { background: var(--role-accent-tint, #F9D9C8); } .ds-nav-link:not([aria-current=\"page\"]):hover .ds-nav-icon { background: var(--role-fill, #F4E4D9); } .ds-nav-link:focus-visible { outline: 2px solid var(--role-focus, #A3360A); outline-offset: 2px; }"
     },
     {
-      "name": "Day Sheet",
+      "name": "Activity Card",
       "kind": "card",
-      "refersTo": "day-sheet",
-      "description": "Signature: a sheet of the folhinha with its binding strip, perforation, two-digit numeral (red on Sundays and holidays), status badge and the day's activities; the next one's time sits on the yellow plate.",
-      "html": "<section class=\"ds-sheet is-red\"><header class=\"ds-sheet-head\"><span class=\"ds-sheet-num\">18</span><span class=\"ds-sheet-names\"><span class=\"ds-sheet-weekday\">domingo</span><span class=\"ds-sheet-month\">Outubro</span></span><span class=\"ds-badge ds-badge-next\">Próxima</span></header><ul class=\"ds-lines\"><li><button type=\"button\" class=\"ds-line is-next\" style=\"--sector: var(--role-series-1, #0455A1)\"><span class=\"ds-line-time\"><span class=\"ds-line-clock\">11h</span><span class=\"ds-line-type\">Festa</span></span><span class=\"ds-line-body\"><span class=\"ds-line-title\">Almoço dos Educadores</span><span class=\"ds-line-org\"><span class=\"ds-square\"></span><span>SIMTED</span></span><span class=\"ds-line-place\"><svg class=\"ds-line-place-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0\"/><circle cx=\"12\" cy=\"10\" r=\"3\"/></svg><span>Chácara do SIMTED</span></span></span><span class=\"ds-line-go\"><svg class=\"ds-line-go-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"18\" cy=\"5\" r=\"3\"/><circle cx=\"6\" cy=\"12\" r=\"3\"/><circle cx=\"18\" cy=\"19\" r=\"3\"/><path d=\"m8.59 13.51 6.83 3.98M15.41 6.51l-6.82 3.98\"/></svg></span></button></li></ul></section>",
-      "css": ".ds-sheet, .ds-sheet *, .ds-sheet *::before, .ds-sheet *::after { box-sizing: border-box; } .ds-sheet { max-width: 560px; background: var(--role-paper, #FFFFFF); color: var(--role-ink, #1C1C1E); border: 1px solid var(--role-line, #D9D9D4); border-top: 0; border-radius: 2px 2px var(--radius, 6px) var(--radius, 6px); overflow: hidden; font: 500 1rem/1.45 var(--font-ui, 'Barlow', system-ui, sans-serif); } .ds-sheet::before { content: ''; display: block; height: 13px; background: linear-gradient(var(--role-binding, #E4002B), var(--role-binding, #E4002B)) top / 100% 4px no-repeat, radial-gradient(circle, var(--role-line, #D9D9D4) 1.5px, transparent 1.75px) 12px 8px / 10px 3px repeat-x; } .ds-sheet-head { display: flex; align-items: center; gap: 12px; padding: 4px 12px 12px 16px; } .ds-sheet-num { flex: none; width: 4rem; font: 800 3.625rem/0.9 var(--font-display, 'Barlow Condensed', 'Barlow', system-ui, sans-serif); letter-spacing: -0.01em; } .ds-sheet-names { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; } .ds-sheet-weekday { font: 700 1.1875rem/1.1 var(--font-display, 'Barlow Condensed', 'Barlow', system-ui, sans-serif); letter-spacing: 0.06em; text-transform: uppercase; } .ds-sheet-month { font-size: 0.9375rem; line-height: 1.2; color: var(--role-ink-soft, #5C5C61); } .ds-sheet.is-red .ds-sheet-num, .ds-sheet.is-red .ds-sheet-weekday { color: var(--role-red-letter, #E4002B); } .ds-badge { flex: none; display: inline-flex; align-items: center; height: 1.625em; padding: 0 9px; border-radius: var(--radius-sm, 4px); font: 700 1rem/1 var(--font-display, 'Barlow Condensed', 'Barlow', system-ui, sans-serif); letter-spacing: 0.02em; } .ds-badge-next { background: var(--role-next, #FFC20E); color: var(--role-on-next, #1C1C1E); } .ds-lines { list-style: none; margin: 0; padding: 0; } .ds-line { display: flex; align-items: flex-start; gap: 12px; width: 100%; padding: 14px 6px 14px 16px; border: 0; border-top: 1px solid var(--role-line, #D9D9D4); background: var(--role-paper, #FFFFFF); color: inherit; font: inherit; text-align: left; cursor: pointer; transition: background 0.15s; } .ds-line:hover { background: var(--role-paper-hover, #F7F7F5); } .ds-line:hover .ds-line-title { text-decoration: underline; text-decoration-thickness: 1px; } .ds-line:focus-visible { outline: 3px solid var(--role-focus, #1C1C1E); outline-offset: -3px; } .ds-line-time { flex: none; width: 4rem; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; } .ds-line-clock { padding: 1px 5px; margin-left: -5px; border-radius: 3px; font: 700 1.375rem/1.1 var(--font-display, 'Barlow Condensed', 'Barlow', system-ui, sans-serif); font-variant-numeric: tabular-nums; } .ds-line.is-next .ds-line-clock { background: var(--role-next, #FFC20E); color: var(--role-on-next, #1C1C1E); } .ds-line-type { font: 600 0.9375rem/1.15 var(--font-display, 'Barlow Condensed', 'Barlow', system-ui, sans-serif); color: var(--role-ink-soft, #5C5C61); } .ds-line-body { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; } .ds-line-title { font-size: 1.0625rem; font-weight: 600; line-height: 1.3; } .ds-line-org, .ds-line-place { display: flex; gap: 8px; font-size: 0.9375rem; line-height: 1.35; } .ds-line-org { align-items: center; font-weight: 600; } .ds-line-place { gap: 6px; color: var(--role-ink-soft, #5C5C61); } .ds-line-place-icon { width: 16px; height: 16px; margin-top: 1px; flex: none; } .ds-square { flex: none; width: 10px; height: 10px; border-radius: 2px; background: var(--sector, var(--role-no-sector, #5C5C61)); } .ds-line-go { flex: none; display: grid; place-items: center; width: 44px; height: 44px; margin: -10px 0; } .ds-line-go-icon { width: 20px; height: 20px; }"
+      "refersTo": "card-activity",
+      "description": "One activity on the land: its title beside the share mark, then when (the next one circled by hand, \"a próxima\"), who (the group's dot) and where. The whole card opens the panel.",
+      "html": "<button class=\"ds-event\" type=\"button\"><span class=\"ds-event-head\"><span class=\"ds-event-title\">Caminhada Ecológica de Dourados</span><span class=\"ds-share\" aria-hidden=\"true\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"18\" cy=\"5\" r=\"3\"/><circle cx=\"6\" cy=\"12\" r=\"3\"/><circle cx=\"18\" cy=\"19\" r=\"3\"/><path d=\"m8.59 13.51 6.83 3.98M15.41 6.51l-6.82 3.98\"/></svg></span></span><span class=\"ds-event-meta\"><span class=\"ds-meta ds-meta-time\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M12 6v6h4\"/></svg><span class=\"ds-circled\">Horário a confirmar<svg class=\"ds-hand\" viewBox=\"0 0 120 60\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path vector-effect=\"non-scaling-stroke\" d=\"M20 15C40 4 86 1 106 13C121 22 117 44 94 52C68 61 24 59 9 45C-2 34 6 15 30 9C46 5 66 5 80 8\"/></svg></span><span class=\"ds-next\">a próxima</span></span><span class=\"ds-meta\"><span class=\"ds-dot\" style=\"--sector: var(--role-series-1, #0455A1)\"></span><span><b>SINTEF</b> · Sindicato dos Trabalhadores em Educação das Instituições Federais</span></span><span class=\"ds-meta\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0\"/><circle cx=\"12\" cy=\"10\" r=\"3\"/></svg><span>AGECOLD (largada e exposição) e Parque Arnulpho Fioravante</span></span></span></button>",
+      "css": ".ds-event { display: flex; flex-direction: column; width: 100%; max-width: 560px; padding: 14px 14px 15px 16px; border: 1px solid var(--role-card-border, transparent); border-radius: 18px; background: var(--role-card, #FFFBF7); box-shadow: var(--role-card-shadow, 0 1px 2px color-mix(in srgb, #4A2212 8%, transparent), 0 6px 16px color-mix(in srgb, #4A2212 7%, transparent)); color: var(--role-ink, #221714); font-family: var(--font-ui, 'Inter', system-ui, sans-serif); text-align: left; cursor: pointer; transition: background 0.15s, box-shadow 0.15s; } .ds-event:hover { background: var(--role-card-hover, #FFF4EC); } .ds-event:hover .ds-event-title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; } .ds-event:focus-visible { outline: 2px solid var(--role-focus, #A3360A); outline-offset: 2px; } .ds-event-head { display: flex; align-items: center; gap: 8px; } .ds-event-title { flex: 1 1 0; min-width: 0; font-size: 1.0625rem; line-height: 1.3; font-weight: 600; letter-spacing: -0.01em; } .ds-share { display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: 50%; background: var(--role-fill, #F4E4D9); color: var(--role-ink, #221714); } .ds-share .ds-icon { width: 20px; height: 20px; } .ds-event-meta { display: flex; flex-direction: column; gap: 4px; margin-top: 6px; } .ds-meta { display: flex; align-items: flex-start; gap: 6px; font-size: 0.875rem; line-height: 1.36; color: var(--role-ink-soft, #6A4E44); } .ds-meta .ds-icon { flex: none; width: 16px; height: 16px; margin-top: 1.5px; } .ds-meta b { font-weight: 600; color: var(--role-ink, #221714); } .ds-meta .ds-dot { margin: 5.5px 4px 0; } .ds-meta-time { flex-wrap: wrap; align-items: center; row-gap: 2px; font-size: 0.9375rem; line-height: 1.33; font-weight: 600; color: var(--role-ink, #221714); font-variant-numeric: tabular-nums; } .ds-meta-time .ds-icon { margin-top: 0; color: var(--role-ink-soft, #6A4E44); } .ds-circled { position: relative; display: inline-block; margin: 0 16px 0 11px; white-space: nowrap; } .ds-hand { position: absolute; left: -11px; top: -8px; width: calc(100% + 22px); height: calc(100% + 16px); overflow: visible; fill: none; stroke: var(--role-hand, #C2410C); stroke-width: 2.5px; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; } .ds-next { font-size: 0.875rem; line-height: 1.3; font-weight: 600; color: var(--role-accent-text, #A3360A); white-space: nowrap; } .ds-dot { display: inline-block; flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--sector, var(--role-no-sector, #6A4E44)); }"
     },
     {
-      "name": "Cancellation Stamp",
+      "name": "Doors",
       "kind": "custom",
-      "refersTo": "stamp",
-      "description": "A cancelled activity stays on its sheet: the tilted CANCELADA rubber stamp above the struck title and time, the reason in Deep Red.",
-      "html": "<div class=\"ds-cancel\" style=\"--sector: var(--role-series-4, #00808A)\"><span class=\"ds-cancel-time\"><span class=\"ds-cancel-clock\">15h</span><span class=\"ds-cancel-type\">Plenária</span></span><span class=\"ds-cancel-body\"><span class=\"ds-stamp\">Cancelada</span><span class=\"ds-cancel-title\">Conselho de Entidades de Base extraordinário</span><span class=\"ds-cancel-reason\">Motivo: O DCE cancelou todas as suas atividades de 09/10.</span><span class=\"ds-cancel-org\"><span class=\"ds-cancel-square\"></span><span>DCE UFGD</span></span></span></div>",
-      "css": ".ds-cancel, .ds-cancel *, .ds-cancel *::before, .ds-cancel *::after { box-sizing: border-box; } .ds-cancel { display: flex; align-items: flex-start; gap: 12px; max-width: 560px; padding: 14px 16px; background: var(--role-paper, #FFFFFF); color: var(--role-ink, #1C1C1E); border: 1px solid var(--role-line, #D9D9D4); border-radius: var(--radius, 6px); font: 500 1rem/1.45 var(--font-ui, 'Barlow', system-ui, sans-serif); } .ds-cancel-time { flex: none; width: 4rem; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; } .ds-cancel-clock { font: 700 1.375rem/1.1 var(--font-display, 'Barlow Condensed', 'Barlow', system-ui, sans-serif); font-variant-numeric: tabular-nums; color: var(--role-ink-soft, #5C5C61); text-decoration: line-through; } .ds-cancel-type { font: 600 0.9375rem/1.15 var(--font-display, 'Barlow Condensed', 'Barlow', system-ui, sans-serif); color: var(--role-ink-soft, #5C5C61); } .ds-cancel-body { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; } .ds-stamp { display: inline-block; padding: 2px 7px; border: 2px solid var(--role-alert-text, #C70026); border-radius: 3px; color: var(--role-alert-text, #C70026); font: 800 0.875rem/1.2 var(--font-display, 'Barlow Condensed', 'Barlow', system-ui, sans-serif); letter-spacing: 0.11em; text-transform: uppercase; rotate: -3deg; } .ds-cancel-title { font-size: 1.0625rem; font-weight: 600; line-height: 1.3; color: var(--role-ink-soft, #5C5C61); text-decoration: line-through; } .ds-cancel-reason { font-size: 0.9375rem; line-height: 1.35; font-weight: 500; color: var(--role-alert-text, #C70026); } .ds-cancel-org { display: flex; align-items: center; gap: 8px; font-size: 0.9375rem; line-height: 1.35; font-weight: 600; } .ds-cancel-square { flex: none; width: 10px; height: 10px; border-radius: 2px; background: var(--sector, var(--role-no-sector, #5C5C61)); }"
+      "refersTo": "door-agenda",
+      "description": "The home's way into each page: flat cards in the page's landscape tint (Agenda urucum, Comércio ipê-rosa), secondary text mixed from the hue into the ink.",
+      "html": "<nav class=\"ds-doors\" aria-label=\"Agenda e Comércio\"><a class=\"ds-door\" href=\"#\"><span class=\"ds-door-head\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect width=\"18\" height=\"18\" x=\"3\" y=\"4\" rx=\"2\"/><path d=\"M8 2v4M16 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01\"/></svg><span class=\"ds-door-name\">Agenda</span></span><span class=\"ds-door-line\">4 atividades até 20/11</span><span class=\"ds-door-text\">Depois, sáb 31/10, 21h: Baile dos Educadores – Festa Tropical</span></a><a class=\"ds-door ds-door--commerce\" href=\"#\"><span class=\"ds-door-head\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5\"/><path d=\"M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244\"/><path d=\"M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05\"/></svg><span class=\"ds-door-name\">Comércio</span></span><span class=\"ds-door-line\">Em breve</span><span class=\"ds-door-text\">Estamos coletando as informações e organizando antes de mostrá-las aqui.</span></a></nav>",
+      "css": ".ds-doors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; max-width: 390px; } .ds-door { --door-tint: var(--role-agenda-tint, #F7CDB8); --door-text: var(--role-agenda-text, #A3360A); display: flex; flex-direction: column; gap: 4px; min-width: 0; padding: 12px 12px 14px 14px; border-radius: 18px; background: var(--door-tint); color: var(--role-ink, #221714); font-family: var(--font-ui, 'Inter', system-ui, sans-serif); text-decoration: none; transition: background 0.15s; } .ds-door--commerce { --door-tint: var(--role-commerce-tint, #F3C8DA); --door-text: var(--role-commerce-text, #A12E5F); } .ds-door:hover { background: color-mix(in srgb, var(--door-tint) 88%, var(--door-text)); } .ds-door:focus-visible { outline: 2px solid var(--role-focus, #A3360A); outline-offset: 2px; } .ds-door-head { display: flex; align-items: center; gap: 8px; } .ds-door-head .ds-icon { width: 22px; height: 22px; color: var(--door-text); } .ds-door-name { font: 700 1.125rem/1.33 var(--font-display, 'Bricolage Grotesque', 'Inter', system-ui, sans-serif); letter-spacing: -0.02em; } .ds-door-line { font-size: 0.875rem; line-height: 1.36; font-weight: 600; } .ds-door-text { font-size: 0.8125rem; line-height: 1.4; color: color-mix(in srgb, var(--door-text) 55%, var(--role-ink, #221714)); }"
     },
     {
-      "name": "Masthead and NOS Mark",
+      "name": "Sky Header and Band",
       "kind": "custom",
-      "refersTo": "masthead",
-      "description": "The red printed header card: the NOS mark (NOS with the O circled by hand, an inline SVG sized by font-size; letters in currentColor, the loop in --mark-loop), the city and the full name.",
-      "html": "<div class=\"ds-masthead\"><a class=\"ds-brand\" href=\"#\"><svg class=\"ds-mark\" viewBox=\"0 -799 1493 902\" aria-hidden=\"true\" focusable=\"false\"><path class=\"ds-mark-letters\" d=\"M300 -700H440Q445 -700 448.5 -696.5Q452 -693 452 -688V-12Q452 -7 448.5 -3.5Q445 0 440 0H281Q270 0 267 -10L168 -358Q167 -361 164.5 -361.5Q162 -362 162 -358L164 -12Q164 -7 160.5 -3.5Q157 0 152 0H12Q7 0 3.5 -3.5Q0 -7 0 -12V-688Q0 -693 3.5 -696.5Q7 -700 12 -700H169Q180 -700 183 -690L283 -340Q284 -337 286.5 -337Q289 -337 289 -341L288 -688Q288 -693 291.5 -696.5Q295 -700 300 -700ZM1084 -178V-209Q1084 -214 1087.5 -217.5Q1091 -221 1096 -221H1236Q1241 -221 1244.5 -217.5Q1248 -214 1248 -209V-186Q1248 -162 1259.5 -148Q1271 -134 1289 -134Q1307 -134 1318.5 -147.5Q1330 -161 1330 -182Q1330 -205 1312 -223.5Q1294 -242 1240 -281Q1190 -317 1158 -345.5Q1126 -374 1103 -416.5Q1080 -459 1080 -515Q1080 -572 1105.5 -616Q1131 -660 1177.5 -684Q1224 -708 1284 -708Q1345 -708 1391.5 -683.5Q1438 -659 1463.5 -614.5Q1489 -570 1489 -512V-488Q1489 -483 1485.5 -479.5Q1482 -476 1477 -476H1338Q1333 -476 1329.5 -479.5Q1326 -483 1326 -488V-516Q1326 -538 1314 -552Q1302 -566 1284 -566Q1266 -566 1255 -552Q1244 -538 1244 -515Q1244 -490 1261 -470Q1278 -450 1330 -412Q1393 -365 1425 -336Q1457 -307 1475 -271.5Q1493 -236 1493 -188Q1493 -98 1436.5 -45Q1380 8 1288 8Q1227 8 1181 -15.5Q1135 -39 1109.5 -81.5Q1084 -124 1084 -178Z\"/><path class=\"ds-mark-loop\" d=\"M894 -663l-7 -8l-8 -8l-7 -8l-8 -8l-7 -7l-7 -8l-8 -8l-8 -7l-8 -7l-8 -6l-9 -6l-9 -6l-9 -5l-9 -4l-10 -3l-10 -3l-11 -2l-10 -1l-10 -1l-10 0l-11 0l-10 0l-11 1l-10 2l-10 2l-11 3l-10 4l-10 4l-10 4l-10 5l-9 6l-10 6l-9 7l-9 8l-8 8l-9 8l-8 9l-7 9l-8 10l-7 11l-7 10l-6 12l-6 11l-5 12l-6 12l-5 13l-4 13l-4 13l-4 13l-4 14l-3 14l-2 14l-2 15l-2 14l-2 15l-1 14l-1 15l0 15l0 15l0 15l1 15l1 15l1 15l2 15l2 15l2 15l2 15l3 15l4 14l3 15l4 14l4 14l4 15l5 14l5 13l5 14l6 13l5 14l6 13l7 13l6 12l7 12l7 13l7 11l8 12l8 11l8 11l8 11l9 10l9 10l9 9l9 9l9 9l10 8l10 8l10 8l10 7l11 6l10 6l11 5l11 5l11 4l11 4l12 3l11 3l12 2l11 1l12 0l11 0l12 0l11 -2l11 -2l11 -3l11 -3l11 -4l10 -4l11 -5l10 -6l9 -6l10 -6l9 -7l9 -8l9 -8l8 -8l8 -9l8 -9l8 -9l7 -10l7 -11l7 -10l6 -11l6 -12l6 -12l5 -12l6 -12l4 -13l5 -13l4 -13l4 -14l4 -13l3 -15l3 -14l3 -14l2 -15l2 -15l1 -15l1 -16l1 -15l1 -16l0 -15l-1 -16l-1 -16l-1 -16l-1 -16l-2 -16l-2 -16l-3 -16l-3 -15l-3 -16l-4 -16l-4 -15l-5 -15l-5 -15l-5 -15l-5 -15l-6 -14l-6 -14l-7 -14l-6 -14l-7 -13l-8 -13l-7 -12l-8 -12l-8 -12l-8 -12l-9 -11l-9 -10l-9 -10l-9 -10l-10 -9l-9 -8l-10 -9l-10 -7l-10 -8l-10 -7l-10 -6l-11 -6l-10 -5l-11 -5l-10 -4l-11 -4l-11 -4l-11 -3l-10 -2l-11 -2l-11 -2l-10 -1l-11 0l-11 0l-10 1l-10 1l-11 1l-10 3l-10 2l-10 4l-10 3l-9 4l-10 5l-9 5l-9 6l-9 6l-8 7l-9 7l-8 8l-8 8l-8 9l-7 9l-7 9l-7 10l-7 10l2 -2l3 -1l3 0l2 1l2 2l1 3l0 3l-1 3l7 -10l7 -10l7 -8l7 -9l8 -7l8 -7l8 -7l8 -5l9 -6l8 -4l9 -4l8 -4l9 -3l9 -2l9 -2l8 -1l9 -1l9 0l8 0l9 0l9 1l8 2l9 2l8 2l9 3l8 3l8 3l8 4l9 4l8 5l8 5l8 5l8 5l8 6l8 6l8 7l7 7l8 7l8 8l7 8l8 8l7 8l7 9l8 10l7 9l7 10l7 10l6 11l7 11l6 11l6 12l6 12l6 12l5 12l6 13l4 13l5 13l4 14l4 13l4 14l3 14l3 14l3 14l2 15l2 14l1 14l2 14l0 15l1 14l0 14l0 14l-1 14l-1 13l-1 14l-1 13l-2 13l-3 13l-2 13l-3 12l-3 12l-3 12l-4 12l-4 11l-4 11l-4 10l-5 10l-5 10l-5 9l-5 10l-5 8l-6 8l-6 8l-6 8l-5 7l-7 6l-6 7l-6 5l-6 6l-7 5l-6 4l-7 4l-6 4l-7 3l-6 3l-7 2l-6 2l-7 2l-7 1l-6 1l-7 1l-7 0l-6 -1l-7 0l-7 -1l-7 -1l-7 -2l-7 -2l-7 -3l-7 -3l-7 -3l-7 -4l-7 -4l-7 -5l-7 -5l-8 -6l-7 -6l-7 -6l-7 -7l-7 -7l-7 -7l-7 -8l-6 -9l-7 -8l-6 -9l-7 -10l-6 -9l-6 -10l-6 -10l-5 -11l-6 -10l-5 -11l-5 -12l-5 -11l-5 -12l-5 -11l-4 -12l-4 -13l-4 -12l-3 -12l-4 -13l-3 -13l-3 -12l-3 -13l-2 -13l-2 -13l-2 -13l-1 -13l-2 -13l-1 -13l-1 -13l0 -13l0 -13l0 -13l0 -13l1 -12l1 -13l2 -12l1 -12l2 -12l2 -11l3 -11l3 -11l3 -11l3 -10l4 -11l3 -9l4 -9l5 -9l4 -9l5 -8l5 -8l5 -7l5 -6l5 -7l5 -6l6 -5l5 -5l6 -5l6 -4l6 -4l5 -3l6 -4l6 -2l6 -3l7 -2l6 -1l6 -2l7 -1l6 0l6 -1l7 0l7 1l7 0l6 1l7 2l7 1l8 1l7 1l8 1l8 2l8 1l9 2l9 3l8 3l9 3l8 5l9 4l8 6l8 6l8 7l-3 -4l-1 -5l1 -6l2 -4l5 -3l5 -1l5 1z\"/></svg><span class=\"ds-brand-text\"><span class=\"ds-brand-city\">Dourados/MS</span><span class=\"ds-brand-name\">Núcleo de Organização Social</span></span></a></div>",
-      "css": ".ds-masthead, .ds-masthead *, .ds-masthead *::before, .ds-masthead *::after { box-sizing: border-box; } .ds-masthead { padding: 6px 16px 0; background: var(--role-header, #E4002B); color: var(--role-on-header, #FFFFFF); } .ds-brand { display: flex; align-items: center; gap: 12px; width: fit-content; padding: 6px 0 12px; border-radius: var(--radius-sm, 4px); color: inherit; text-decoration: none; } .ds-brand:focus-visible { outline: 3px solid var(--role-focus-on-color, #FFFFFF); outline-offset: 2px; } .ds-mark { display: block; flex: none; width: 3.807em; height: 2.3em; font-size: 1.25rem; overflow: visible; } .ds-mark-letters { fill: currentColor; } .ds-mark-loop { fill: var(--mark-loop, currentColor); } .ds-brand-text { display: flex; flex-direction: column; gap: 2px; } .ds-brand-city { font: 800 1.5rem/1.05 var(--font-display, 'Barlow Condensed', 'Barlow', system-ui, sans-serif); } .ds-brand-name { font: 500 0.875rem/1.2 var(--font-ui, 'Barlow', system-ui, sans-serif); }"
-    },
-    {
-      "name": "Month Page Weeks",
-      "kind": "custom",
-      "refersTo": "month-day",
-      "description": "Two weeks of the month page on a phone: Sunday first and red, past days grey, today ringed, the chosen day in graphite, sector squares for one-day activities (hollow when cancelled), bars for activities of several days.",
-      "html": "<div class=\"ds-month\"><div class=\"ds-weekdays\" aria-hidden=\"true\"><span class=\"is-red\">Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span></div><div class=\"ds-week\"><div class=\"ds-days\"><button type=\"button\" class=\"ds-day is-past is-red\"><span class=\"ds-day-num\">4</span></button><button type=\"button\" class=\"ds-day is-past\"><span class=\"ds-day-num\">5</span></button><button type=\"button\" class=\"ds-day is-past\"><span class=\"ds-day-num\">6</span></button><button type=\"button\" class=\"ds-day is-past\"><span class=\"ds-day-num\">7</span><span class=\"ds-day-items\"><span class=\"ds-cell-mark\" style=\"--sector: var(--role-series-5, #C25700)\"></span></span></button><button type=\"button\" class=\"ds-day is-past\"><span class=\"ds-day-num\">8</span></button><button type=\"button\" class=\"ds-day is-past\"><span class=\"ds-day-num\">9</span><span class=\"ds-day-items\"><span class=\"ds-cell-mark\" style=\"--sector: var(--role-series-1, #0455A1)\"></span><span class=\"ds-cell-mark\" style=\"--sector: var(--role-series-1, #0455A1)\"></span><span class=\"ds-cell-mark is-cancelled\" style=\"--sector: var(--role-series-4, #00808A)\"></span></span></button><button type=\"button\" class=\"ds-day is-past\"><span class=\"ds-day-num\">10</span><span class=\"ds-day-items\"><span class=\"ds-cell-mark\" style=\"--sector: var(--role-series-4, #00808A)\"></span></span></button></div><div class=\"ds-bars\" aria-hidden=\"true\"><span class=\"ds-bar is-start is-end\" style=\"grid-column: 5 / 7; --sector: var(--role-series-1, #0455A1)\"></span></div></div><div class=\"ds-week\"><div class=\"ds-days\"><button type=\"button\" class=\"ds-day is-past is-red\"><span class=\"ds-day-num\">11</span></button><button type=\"button\" class=\"ds-day is-past is-red\"><span class=\"ds-day-num\">12</span></button><button type=\"button\" class=\"ds-day is-past\"><span class=\"ds-day-num\">13</span></button><button type=\"button\" class=\"ds-day is-past\"><span class=\"ds-day-num\">14</span></button><button type=\"button\" class=\"ds-day is-today\"><span class=\"ds-day-num\">15</span></button><button type=\"button\" class=\"ds-day is-selected\"><span class=\"ds-day-num\">16</span></button><button type=\"button\" class=\"ds-day \"><span class=\"ds-day-num\">17</span></button></div><div class=\"ds-bars\" aria-hidden=\"true\"><span class=\"ds-bar is-start\" style=\"grid-column: 6 / 8; --sector: var(--role-series-1, #0455A1)\"></span></div></div></div>",
-      "css": ".ds-month, .ds-month *, .ds-month *::before, .ds-month *::after { box-sizing: border-box; } .ds-month { max-width: 390px; background: var(--role-paper, #FFFFFF); color: var(--role-ink, #1C1C1E); border: 1px solid var(--role-line, #D9D9D4); border-top: 0; border-radius: 2px 2px var(--radius, 6px) var(--radius, 6px); overflow: hidden; font-family: var(--font-ui, 'Barlow', system-ui, sans-serif); } .ds-month::before { content: ''; display: block; height: 13px; background: linear-gradient(var(--role-binding, #E4002B), var(--role-binding, #E4002B)) top / 100% 4px no-repeat, radial-gradient(circle, var(--role-line, #D9D9D4) 1.5px, transparent 1.75px) 12px 8px / 10px 3px repeat-x; } .ds-weekdays { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); padding: 2px 0 8px; } .ds-weekdays span { text-align: center; font: 700 0.8125rem/1 var(--font-display, 'Barlow Condensed', 'Barlow', system-ui, sans-serif); letter-spacing: 0.05em; text-transform: uppercase; color: var(--role-ink-soft, #5C5C61); } .ds-weekdays .is-red { color: var(--role-red-letter, #E4002B); } .ds-week { position: relative; border-top: 1px solid var(--role-line, #D9D9D4); } .ds-days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); } .ds-day { display: flex; flex-direction: column; align-items: center; gap: 3px; min-width: 0; min-height: 56px; padding: 6px 0 14px; border: 0; background: none; color: var(--role-ink, #1C1C1E); cursor: pointer; } .ds-day:hover { background: var(--role-wash, color-mix(in srgb, #1C1C1E 6%, transparent)); } .ds-day:focus-visible { outline: 3px solid var(--role-focus, #1C1C1E); outline-offset: -3px; } .ds-day-num { display: grid; place-items: center; min-width: 1.75rem; height: 1.75rem; padding: 0 3px; border-radius: var(--radius-sm, 4px); font: 700 1.25rem/1 var(--font-display, 'Barlow Condensed', 'Barlow', system-ui, sans-serif); } .ds-day.is-red .ds-day-num { color: var(--role-red-letter, #E4002B); } .ds-day.is-past .ds-day-num { color: var(--role-ink-soft, #5C5C61); } .ds-day.is-past.is-red .ds-day-num { color: var(--role-red-letter, #E4002B); } .ds-day.is-today .ds-day-num { box-shadow: inset 0 0 0 2px var(--role-strong, #1C1C1E); } .ds-day.is-selected .ds-day-num { background: var(--role-strong, #1C1C1E); color: var(--role-on-strong, #FFFFFF); box-shadow: none; } .ds-day-items { display: flex; flex-wrap: wrap; justify-content: center; gap: 3px; width: 100%; padding: 0 2px; } .ds-cell-mark { flex: none; width: 6px; height: 6px; border-radius: 1px; background: var(--sector); } .ds-cell-mark.is-cancelled { background: none; box-shadow: inset 0 0 0 1.5px var(--sector); } .ds-bars { position: absolute; inset: auto 0 6px; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); pointer-events: none; } .ds-bar { grid-row: 1; height: 4px; background: var(--sector); align-self: end; } .ds-bar.is-start { margin-left: 4px; border-top-left-radius: 2px; border-bottom-left-radius: 2px; } .ds-bar.is-end { margin-right: 4px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; }"
+      "description": "Every page's header: the sky of this hour in flat bands with hard stops (here the dia sky of an inner page on a phone), the sun rising behind the provisional woven band (at night the small, high moon, through :host-context where the browser supports it), the page's name in the sky's ink.",
+      "html": "<div class=\"ds-skyhead\"><header class=\"ds-sky\"><svg class=\"ds-astro\" viewBox=\"0 0 120 120\" aria-hidden=\"true\"><circle cx=\"58\" cy=\"60\" r=\"49\"/><path vector-effect=\"non-scaling-stroke\" d=\"M78 9C56 4 22 12 12 38C3 64 20 104 56 108C92 112 116 88 112 56C109 28 92 7 66 5.5C54 5 40 10 28 19\"/></svg><div class=\"ds-sky-title\"><h1 class=\"ds-page-name\">Agenda</h1><p class=\"ds-page-sub\">4 atividades até 20/11</p></div></header><div class=\"ds-band\" aria-hidden=\"true\"></div></div>",
+      "css": ".ds-skyhead { max-width: 390px; } .ds-sky { --h5: 9px; --h4: 18px; --h3: 27px; --h2: 36px; position: relative; overflow: hidden; padding: 6px 16px 36px; background: linear-gradient(to top, var(--role-sky-5, #F6D2A2) 0 var(--h5), var(--role-sky-4, #F1E3CF) 0 var(--h4), var(--role-sky-3, #CDE2EE) 0 var(--h3), var(--role-sky-2, #9DCAEE) 0 var(--h2), var(--role-sky-1, #6FAEE3) 0); color: var(--role-sky-ink, #221714); } .ds-astro { position: absolute; right: 16px; bottom: -68px; width: 108px; height: 108px; overflow: visible; } .ds-astro circle { fill: var(--role-astro, #F4A11E); } .ds-astro path { fill: none; stroke: var(--role-sky-hand, #C2410C); stroke-width: 3px; stroke-linecap: round; stroke-linejoin: round; } :host-context([data-sky='night']) .ds-astro, :host-context([data-scheme='dark']) .ds-astro { top: auto; right: 30px; bottom: 7px; width: 22px; height: 22px; } :host-context([data-sky='night']) .ds-astro path, :host-context([data-scheme='dark']) .ds-astro path { stroke-width: 1.75px; } .ds-sky-title { position: relative; display: flex; flex-direction: column; justify-content: center; min-height: 60px; } .ds-page-name { margin: 0; font: 800 1.875rem/1.13 var(--font-display, 'Bricolage Grotesque', 'Inter', system-ui, sans-serif); letter-spacing: -0.025em; } .ds-page-sub { margin: 0; font: 500 0.875rem/1.3 var(--font-ui, 'Inter', system-ui, sans-serif); color: var(--role-sky-ink-soft, #45312A); font-variant-numeric: tabular-nums; } .ds-band { height: 16px; background: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 32' width='48' height='32' shape-rendering='geometricPrecision'%3E%3Crect x='0' y='0' width='48' height='32' fill='%23A8864F'/%3E%3Crect x='0' y='0' width='48' height='3.12' fill='%23B4381A'/%3E%3Crect x='0' y='28.9' width='48' height='3.12' fill='%23B4381A'/%3E%3Crect x='0.275' y='4.28' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='0.275' y='20.3' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='4.28' y='4.28' width='3.45' height='3.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='4.28' y='16.3' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='8.28' y='12.3' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='12.3' y='8.28' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='12.3' y='24.3' width='3.45' height='3.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='16.3' y='4.28' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='16.3' y='20.3' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='20.3' y='4.28' width='3.45' height='3.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='20.3' y='16.3' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='24.3' y='4.28' width='3.45' height='3.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='24.3' y='16.3' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='28.3' y='4.28' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='28.3' y='20.3' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='32.3' y='8.28' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='32.3' y='24.3' width='3.45' height='3.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='36.3' y='12.3' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='40.3' y='4.28' width='3.45' height='3.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='40.3' y='16.3' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='44.3' y='4.28' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='44.3' y='20.3' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='8.28' y='4.28' width='7.45' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='32.3' y='4.28' width='7.45' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='4.28' y='8.28' width='7.45' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='20.3' y='8.28' width='7.45' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='36.3' y='8.28' width='7.45' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='0' y='12.3' width='7.72' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='0' y='12.3' width='2' height='3.45' fill='%23D9B678'/%3E%3Crect x='16.3' y='12.3' width='15.5' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='40.3' y='12.3' width='7.73' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='46' y='12.3' width='2' height='3.45' fill='%23D9B678'/%3E%3Crect x='0' y='16.3' width='3.73' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='0' y='16.3' width='2' height='3.45' fill='%23D9B678'/%3E%3Crect x='12.3' y='16.3' width='7.45' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='28.3' y='16.3' width='7.45' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='44.3' y='16.3' width='3.73' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='46' y='16.3' width='2' height='3.45' fill='%23D9B678'/%3E%3Crect x='8.28' y='20.3' width='7.45' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='32.3' y='20.3' width='7.45' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='4.28' y='24.3' width='7.45' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='20.3' y='24.3' width='7.45' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='36.3' y='24.3' width='7.45' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3C/svg%3E\") 0 50% / auto 100% repeat-x; }"
     }
   ],
   "narrative": {
-    "northStar": "The Folhinha",
-    "overview": "NOS Dourados is drawn as a folhinha, the tear-off wall calendar of Brazilian homes and shops. A red printed header card hangs at the top; under it, on a pale wall, hangs a pad of white day sheets, each bound by a red strip and a row of perforation holes, each with a giant two-digit numeral and its weekday in condensed capitals, and every organization's activities are printed on the sheet of their day. Today's sheet is on top, past sheets are torn off until someone asks for them, the next activity carries the calendar's only yellow, Sundays and national holidays print in red, and a cancelled activity keeps its place under a red rubber stamp. The month view is the calendar's month page, Sunday first; the flyers are the same header card and sheets at poster size.\n\nThe system is printed, not decorated. One type family, Barlow and Barlow Condensed, with hierarchy carried by scale and width; flat paper on a wall, separated by 1px seams; corners that stay nearly square where a sheet is bound and soften where it hangs free; colour used the way a calendar printer uses it: red for the header, the binding and the red-letter days, graphite for everything printed, one yellow for \"Próxima\", eight sector inks as small printed squares. Density is set for mid-range phones used outdoors: big numerals, strong contrast, tap targets of 44px and more. Motion is minimal: state changes fade in 0.15s, the view tab underline moves in 0.2s and the phone's bottom sheet slides in 0.3s, all on one curve (`--ease`, `cubic-bezier(0.16, 1, 0.3, 1)`); with reduced motion every transition is instant.\n\nIt refuses the category default of event apps (a grey list with thin date dividers and coloured event pills) and the protest-poster costume. Only the palette comes from the Calendário de Luta this repository was copied from; its metro line, stations, countdown and slogan are retired.",
+    "northStar": "Céu · Terra",
+    "overview": "NOS opens on the sky over Dourados at this hour and the land beneath it. Every page stacks the same three layers: the header is the sky of this hour, painted in five flat bands (amanhecer, dia, entardecer and noite by the clock in the light theme, always the night in the dark theme); the woven band under it is the horizon; below lies the land, light clay by day and terra roxa at night, where the activities, the doors and the businesses rest as clear rounded cards. The sun, a disc inside an urucum loop drawn by hand, rises big from behind the band and runs off the edge; at night a small moon, about a fifth of the sun, sits high among the stars.\n\nThe hand is the system's signature. The same urucum pen that draws the sun's loop and the O of the NOS mark circles the next activity and underlines today: urucum is the one marking colour, and it marks rather than fills. Each page wears one colour of the landscape on its door and its own panel (Agenda urucum, Comércio ipê-rosa); the organizations' eight groups are coloured dots. Bricolage Grotesque is NOS's voice (the greeting, dates, page titles, day heads) and Inter the reading text and the controls. The density is calm and phone-first: lists of cards with 44px targets on the phone, a production bench on the desk, never a dashboard.\n\nThe world refuses the hero banner over icon tiles, the dashboard, the grey list with thin dividers and coloured pills, the marketplace (carousels, banners, prices, ratings), and the Folhinha's notepad and torn-off sheets; nothing of the old campaign interface (the metro line to election day, the countdown, the slogan) comes back, and nothing should read as a startup, a city hall or an election campaign. Light and dark are both finished themes. The approved artboards (`design/direcao-ceu-terra-*.html`) also draw sections and a search that were deliberately not built; where they and the build diverge, the build is the reference. The flyers are the one surface still in the previous world's layout (see Components).",
     "keyCharacteristics": [
-      "Every day is a sheet: red binding strip, perforation row, two-digit numeral, weekday in condensed capitals.",
-      "Sundays and national holidays print red on every calendar surface.",
-      "Yellow means the next activity and nothing else.",
-      "A sector is a small printed square beside the organization, never a fill behind content.",
-      "One family, hierarchy by scale: Barlow Condensed prints the calendar, Barlow carries what people read.",
-      "Flat sheets on a pale wall with 1px seams; shadows only on what floats.",
-      "Every colour is a variable in two layers, palette then roles, so a theme is one block of variables."
+      "Sky over land on every page, meeting at a woven horizon.",
+      "The sky in flat bands by the hour: hard stops, never a soft gradient.",
+      "One marking colour, urucum, drawn by hand: loops and strokes, not badges.",
+      "Pages in colours of the landscape; the organizations' groups as dots.",
+      "Bricolage Grotesque 800 for the voice, Inter for reading; tabular dates.",
+      "Rounded cards and standard controls: pills, circles, 18px cards.",
+      "A soft earth-tinted shadow by day, a 1px line at night.",
+      "One authored motion: the home's sun rises."
     ],
     "rules": [
       {
-        "name": "The Roles-Only Rule",
-        "body": "`css/style.css` and `css/flyers.css` name roles, never palette variables or colour literals; `transparent`, `currentColor` and, inside `@media (forced-colors: active)`, system colours are the only exceptions. A new colour enters `css/theme.css` as a palette entry plus a role, and a sector's colour arrives only as `var(--sector)`.",
+        "name": "The One Marking Colour Rule",
+        "body": "Urucum marks; it never fills an area. At full strength it is only the hand (the loop around the next activity, the stroke under today, the sun's loop, the mark's O), the primary button and the open page; its tints may colour the Agenda's door, the phone bar's pill, selection and the error notice. If urucum covers a panel, a header or a card on the site, it is wrong.",
         "section": "colors"
       },
       {
-        "name": "The One Yellow Rule",
-        "body": "Próxima Yellow marks the next activity and nothing else: the \"Próxima\" badge on its start day's sheet and the plate behind its time (or its dash, when that day has several activities or is today). It never marks focus, warnings, the month grid or a flyer.",
+        "name": "The Flat Sky Rule",
+        "body": "The sky is five flat bands with hard stops, coloured by the hour in the light theme and always the night in the dark theme: never a soft gradient, never a photo. Text on it uses only the sky's ink and soft ink, which hold 4.5:1 or more on every band of every hour (the lowest pair is 5.05:1, the dusk's soft ink); urucum on the sky is a drawn mark, never the only sign of a state.",
         "section": "colors"
       },
       {
-        "name": "The Red-Letter Rule",
-        "body": "Sundays and national holidays print in Folhinha Red wherever the calendar prints a date: the sheet's numeral and weekday, the holiday's name, the month page's Sunday column and numerals, the Folha do dia and the Calendário do mês. Red on a date means a Sunday or a holiday, never decoration. A torn-off sheet keeps its red numeral, faded to Faded Red-Letter; the month page fades it only outside the month.",
+        "name": "The Dots, Never Shapes Rule",
+        "body": "A group is a coloured dot (8px; 6px in the phone month), a thin bar in the phone month, or a tinted bar with its dot on the desk month: never a shape, an icon, a filled card or a coloured pill, and never the only place the group is named (the chips and the panel say it in words). A cancelled activity keeps its group's colour as an outline.",
         "section": "colors"
       },
       {
-        "name": "The Printed Square Rule",
-        "body": "A sector shows as a small square of its ink beside the organization: 10px with 2px corners on screen, 6px with 1px corners in month cells, 0.7em on flyers. The only larger sector fills are the multi-day bars of the month page. Sector colour never fills a card, a chip or a line, and never colours text.",
-        "section": "colors"
-      },
-      {
-        "name": "The Two-Digit Numeral Rule",
-        "body": "A sheet prints its day with two digits (\"09\"), as printed folhinhas do: the agenda's sheets, the panel head, the Folha do dia, the Cartaz and the Aviso de cancelamento. The month page keeps plain numerals (\"9\"), as month pages do.",
+        "name": "The Two Voices Rule",
+        "body": "Bricolage Grotesque is NOS speaking: the greeting, dates, page titles, day heads and the headings that file things (doors, letters, businesses). Inter is what the organizations announce and every control: an activity's title is the organization's own words and is never set in Bricolage.",
         "section": "typography"
       },
       {
-        "name": "The Printer and Reader Rule",
-        "body": "Barlow Condensed prints the calendar: numerals, weekdays, times, types, month names, badges, the stamp, the masthead. Barlow carries what people read: titles, organizations, places, descriptions, buttons. No third family, and no weight beyond the six that are self-hosted.",
+        "name": "The Tabular Dates Rule",
+        "body": "Every date, time and count is set with tabular figures, so days and hours line up down a list.",
         "section": "typography"
       },
       {
-        "name": "The Folio Column Rule",
-        "body": "The numeral and the activity times share one fixed column (4rem; 4.5rem from 1100px), and the weekday, the month and the activity titles share the next, so every sheet head sits at the same scale and baseline and the times read down the pad like a split-flap board, in tabular figures. An empty day's line (\"Nenhuma atividade hoje\") starts in the text column too.",
+        "name": "The Barlow Stays on Paper Rule",
+        "body": "Barlow and Barlow Condensed load only when an activity opens, for the flyers, whose layout engine measures their glyph widths; the site never sets text in them (the mark's N and S are drawings traced from Barlow Condensed 800, not text).",
+        "section": "typography"
+      },
+      {
+        "name": "The Horizon Rule",
+        "body": "Every page stacks the same three layers: the sky, the band (full-bleed; 16px under the inner pages' sky, 18px from 760px; 40px on the home, 44px from 760px), and the land. Only the home's next activity crosses the line: it rests on the band, the land rising 14px onto it.",
         "section": "layout"
       },
       {
-        "name": "The Flat Wall Rule",
-        "body": "Nothing printed casts a shadow. Sheets, the month page and the desktop panel are paper on the wall, edged by 1px seams; only the phone's bottom sheet and the chat bubble float.",
+        "name": "The Calm Desk Rule",
+        "body": "The desk adds a column, never a dashboard: the agenda's list or month beside its panel, the home's next activity beside its two doors, Comércio's list beside its information card.",
+        "section": "layout"
+      },
+      {
+        "name": "The Day Shadow, Night Line Rule",
+        "body": "Cards rest on the earth shadow by day and on a 1px line at night: never a shadow on the land in the dark theme, never a hard offset shadow, never a lift on hover.",
         "section": "elevation"
       },
       {
-        "name": "The Bound Top Rule",
-        "body": "Anything shown as a sheet is bound at the top and free at the bottom: a binding strip, a perforation row, nearly square top corners (2px) and softer bottom corners (6px; 8px on the desktop panel). The agenda's day sheets, the month page, the desktop panel, the flyer sheets and the link preview's sheet share this silhouette.",
+        "name": "The Quiet Selection Rule",
+        "body": "Selection is a 1.5px soft-ink ring; focus is the strong 2px urucum ring (the sky's ink on the sky). They never trade places, and a selected card that takes focus shows both.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Hand Rule",
+        "body": "The only freehand forms are the hand's: two open pen loops (two drawings, so they don't look stamped) and a short underline on the land, in urucum at 2.5px with round caps that keep their width as they stretch to what they mark; the astro's loop on the sky, whose pen grows with the sun (3px to 6px); and the O of the mark. A loop circles only the next activity, the underline only today; never a perfect ring or a badge in their place.",
         "section": "shapes"
       },
       {
-        "name": "The Hand-Applied Tilt Rule",
-        "body": "Only what a hand would add is tilted: the \"Cancelada\" stamp (-3° on screen, -8° on the Aviso), and on the month flyer the circled day (-7°) and the stroke under the other days of a long activity (-2°), and the O of the NOS mark, circled at -9°. Everything printed stays square to its sheet.",
+        "name": "The Pills and Cards Rule",
+        "body": "Controls are pills or circles and containers are 18px cards (the sheet 24px at its top); no button, field or card on the land has sharp corners, except the day cells inside the month's grid.",
         "section": "shapes"
       },
       {
-        "name": "The Ink State Rule",
-        "body": "\"On\" is graphite: a graphite fill with white text for the pressed sector chip, the active organization pill, the chosen segment, the \"Hoje\" badge, the chosen day on the phone's month page and a line button once its action is done; graphite text over a 4px graphite underline for the chosen view tab. Only the activity open in the panel is tinted, Blush Tint inside a 2px graphite frame.",
+        "name": "The Real Band Rule",
+        "body": "The provisional band may only be replaced by the real one: made, signed and paid for by artists of the Reserva Indígena de Dourados (Kaiowá, Guarani Ñandeva and Terena), with their visible credit in place of the provisional one. Never imitate or adapt anyone's grafismo in the meantime, and never draw a new \"Indigenous\" pattern to fill the band.",
         "section": "components"
       },
       {
-        "name": "The Stamp, Don't Erase Rule",
-        "body": "A cancelled activity is never removed, never hidden and never the next one: it stays on its sheet under the \"Cancelada\" stamp, struck through, with its reason in Deep Red; on the month page its mark or bar turns hollow, and its flyer becomes the Aviso de cancelamento.",
+        "name": "The Landscape Doors Rule",
+        "body": "A page shows its landscape colour only as its door's tint and on its own panel (\"Em breve\"), with its deep shade for icons and mixed text; secondary text on a tint is the hue mixed into the ink, never a grey.",
         "section": "components"
       }
     ],
     "dos": [
-      "Do style every new surface with roles (`var(--role-*)`) from `css/theme.css`; when a colour is missing, add a palette entry and a role there.",
-      "Do give anything presented as a sheet the folhinha's top: a 4px binding strip and a perforation row (13px together), 2px top corners, 6px bottom corners and a 1px Seam Grey edge.",
-      "Do print a sheet's day with two digits in Barlow Condensed 800, in the folio column the times share (4rem; 4.5rem from 1100px), with tabular figures for times.",
-      "Do print Sundays and national holidays in red on every calendar surface, and start month pages on Sunday.",
-      "Do show \"on\" states with a graphite fill and white text, and keep every tap target at 44px or more (48px for the panel's actions).",
-      "Do keep a cancelled activity on its sheet with the \"Cancelada\" stamp, the struck title and time, and \"Motivo: …\" in Deep Red.",
-      "Do size interface text, and the boxes that hold text, in rem; keep flyers in px on the 1080 × 1350 canvas, with sizes planned by `js/flyer.js`.",
-      "Do add a theme as a `:root[data-theme='name']` block that overrides palette entries or roles, try it with `?tema=<name>`, and update the `theme-color` meta by hand."
+      "Do take every colour from a role (`--role-*` in `css/theme.css`); the only literals in the stylesheets are `transparent`, `currentColor`, the band's image and system colours under forced colours.",
+      "Do finish every new surface in both themes and under all four skies, with any text on the sky in the sky's ink or soft ink (4.5:1 or more on every band).",
+      "Do keep urucum for the hand, the primary button and the open page; give a new page its own colour of the landscape as a door tint, with its deep shade for icons and mixed text.",
+      "Do show a group as its dot beside its name, so colour is never the only carrier of meaning.",
+      "Do circle the next activity and underline today with the hand marks, and nothing else.",
+      "Do set dates in Bricolage 800 with tabular figures, headings at 700–750, and what the organizations announce in Inter.",
+      "Do rest cards on the day shadow and the night line from the roles, and mark selection with the quiet soft-ink ring.",
+      "Do keep every target at 44px or more (the 36px chips carry a 44px tap area) and size text in rem.",
+      "Do credit the band as provisional in every footer while `assets/faixa.svg` is the provisional art."
     ],
     "donts": [
-      "Don't write a hex, rgb or named colour, or a `--color-*` palette variable, in `css/style.css` or `css/flyers.css`; `transparent`, `currentColor` and system colours inside `forced-colors` are the only exceptions.",
-      "Don't use Próxima Yellow (#FFC20E) for anything but the next activity: not for focus rings, highlights or warnings, not on the month grid, not on flyers.",
-      "Don't reduce the days to thin date dividers in one grey list, or print activities as coloured event pills: each day is a sheet, and a sector is a small square beside the organization.",
-      "Don't fill cards, chips, lines or text with a sector colour; the only sector fills are the squares and the month page's multi-day bars.",
-      "Don't put on the protest-poster costume: no raised fists, megaphones, stencil or distressed type, halftone or grunge textures. The Cartaz is the red header card at poster size with a day sheet on it.",
-      "Don't bring back the retired Calendário de Luta devices: the metro line to election day, stations, countdowns, campaign slogans.",
-      "Don't add a typeface outside the Barlow superfamily, or a weight that isn't self-hosted (Barlow 500, 600, 700; Barlow Condensed 600, 700, 800).",
-      "Don't lift sheets, the month page or the desktop panel with shadows; shadows belong to what floats (the phone's bottom sheet, the chat bubble).",
-      "Don't tilt printed content; rotation belongs to hand-applied marks (the stamp, the circled day and its underline, the O of the NOS mark).",
-      "Don't invent logos, photos or slogans for the organizations; they are named in text, with their full names where they are known."
+      "Don't fill a panel, a header or a card with full-strength urucum on the site, or use it for anything but marking.",
+      "Don't draw the sky with a soft gradient, a photo or a texture, or set text on it in anything but the sky's inks.",
+      "Don't give the groups shapes, icons, filled cards or coloured pills, and don't colour Comércio's categories.",
+      "Don't replace the band with an imitation or adaptation of any people's grafismo; the real band comes from artists of the Reserva Indígena de Dourados, signed, paid and credited.",
+      "Don't put shadows on the land in the dark theme, use hard offset shadows, or lift elements on hover.",
+      "Don't use the strong urucum ring for selection or the quiet ring for focus.",
+      "Don't set the site in Barlow, fetch fonts from Google Fonts, or set an activity's title in Bricolage.",
+      "Don't add motion beyond the home's rising sun (1.6s, off under reduced motion); state changes are 0.15s colour transitions and the sheet's 0.3s slide.",
+      "Don't bring the Folhinha's devices to the site (the red header card, bindings, perforations, a yellow \"Próxima\") or the old campaign interface (the metro line to election day, the countdown, the slogan); nothing should read as a startup, a city hall or an election campaign.",
+      "Don't invent logos, photos, slogans, ratings or prices for the organizations or the businesses."
     ]
   }
 }
