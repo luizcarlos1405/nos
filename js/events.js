@@ -1,6 +1,6 @@
 // Turns raw CSV records into normalized event objects and formats dates/times in pt-BR.
 
-import { HOME_CITY } from './config.js';
+import { HOME_CITY, ORG_NAMES } from './config.js';
 
 // Spreadsheet headers, matched without accents, case or spacing ("Horário de término" → horario_de_termino).
 // The official headers are the first of each list; the rest are accepted variations
@@ -189,8 +189,23 @@ export function upcomingEvents(events, now = new Date()) {
   return events.filter((ev) => !ev.cancelled && (ev.dateKey > key || (ev.dateKey === key && (ev.time == null || ev.time + 60 >= minutes))));
 }
 
-// The next activity: the first still to come (the yellow "Próxima").
+// The next activity: the first still to come ("a próxima", circled by hand).
 export const findNextEvent = (events, now = new Date()) => upcomingEvents(events, now)[0] || null;
+
+// What is on the agenda from today on, cancelled activities left out: "4 atividades até 20/11".
+export function agendaSummary(events, now = new Date()) {
+  const key = dateKey(now);
+  const ahead = events.filter((ev) => !ev.cancelled && lastDayKey(ev) >= key);
+  if (!ahead.length) return 'Nada marcado por enquanto';
+  const last = ahead.reduce((max, ev) => (lastDayKey(ev) > max ? lastDayKey(ev) : max), key);
+  const date = dateFromKey(last);
+  const when = formatDayMonth(date) + (date.getFullYear() !== now.getFullYear() ? `/${date.getFullYear()}` : '');
+  return ahead.length === 1 ? `1 atividade em ${when}` : `${ahead.length} atividades até ${when}`;
+}
+
+// An organization's full name where it is known (ORG_NAMES in js/config.js), else ''.
+const FULL_NAMES = new Map(Object.entries(ORG_NAMES).map(([org, name]) => [matchKey(org), name]));
+export const orgFullName = (org) => FULL_NAMES.get(matchKey(org)) || '';
 
 // Last day the activity runs (the start day for one-day activities).
 export const lastDayKey = (event) => event.endDateKey || event.dateKey;

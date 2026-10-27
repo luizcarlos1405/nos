@@ -1,25 +1,17 @@
-// The agenda: a pad of folhinha sheets, one per day, with the day's activities printed on it.
-// Past days are torn off (hidden) until asked for; today's sheet is always on top.
+// The agenda as a list: the days on the land, each with its activities as cards. Today is always
+// there, underlined by hand; the next activity's time is circled ("a próxima"). Past days stay hidden
+// until asked for.
 
-import { capitalize, dateFromKey, dateKey, formatLongDate, formatTimeRange, formatTinyDate, lastDayKey, monthName, relativeDay, startTime, weekdayName } from './events.js';
-import { holidayOn, isRedLetter } from './holidays.js';
+import { capitalize, dateFromKey, dateKey, formatDayMonth, formatLongDate, formatTimeRange, formatTinyDate, lastDayKey, orgFullName, relativeDay, startTime, weekdayName } from './events.js';
+import { holidayOn } from './holidays.js';
 import { paintSector } from './colors.js';
-import { icon } from './icons.js';
+import { handMark, icon } from './icons.js';
 import { el } from './page.js';
 
-// Day numbers on sheets always take two digits, like a printed folhinha: "09".
-export const sheetNumber = (date) => String(date.getDate()).padStart(2, '0');
+// "terça", "sábado": the weekday as people say it.
+const plainWeekday = (date) => weekdayName(date).replace('-feira', '');
 
-// The status on the right of a sheet head: Hoje and/or Próxima, or how far the day is.
-function sheetStatus(key, todayKey, isNext, today) {
-  const box = el('span', 'sheet-status');
-  if (key === todayKey) box.append(el('span', 'badge is-today', 'Hoje'));
-  if (isNext) box.append(el('span', 'badge is-next', 'Próxima'));
-  if (!box.childNodes.length) box.append(el('span', 'sheet-when', relativeDay(dateFromKey(key), today)));
-  return box;
-}
-
-// What the date line of a multi-day activity says on a given sheet.
+// What the date line of a multi-day activity says on a given day.
 function rangeText(ev, shownOn, todayKey) {
   const until = `até ${formatTinyDate(ev.endDate)}`;
   if (shownOn === ev.dateKey) return until;
@@ -27,78 +19,88 @@ function rangeText(ev, shownOn, todayKey) {
   return `De ${formatTinyDate(ev.date)} a ${formatTinyDate(ev.endDate)}`;
 }
 
-// One activity printed on a sheet. `shownOn` is the day key of the sheet it is printed on.
-export function renderLine(ev, { shownOn, todayKey, nextId, selectedId, onSelect, markEmptyNext }) {
-  const line = el('button', 'line');
-  line.type = 'button';
-  line.dataset.id = ev.id;
-  line.dataset.focus = `line:${ev.id}`;
-  paintSector(line, ev.sector);
-  // The yellow marks the next activity only on the sheet of the day it starts.
-  if (ev.id === nextId && ev.dateKey === shownOn) {
-    line.classList.add('is-next');
-    if (markEmptyNext) line.classList.add('mark-next');
-  }
-  if (ev.id === selectedId) {
-    line.classList.add('is-selected');
-    line.setAttribute('aria-current', 'true');
-  }
+function metaRow(className, iconName, content) {
+  const row = el('span', `meta ${className}`);
+  if (iconName) row.insertAdjacentHTML('beforeend', icon(iconName));
+  const text = el('span', 'meta-text');
+  text.append(content);
+  row.append(text);
+  return row;
+}
 
-  const time = startTime(ev);
-  // Only an end time: "até 12h" in the time column.
-  const until = !time && (ev.endTime != null || ev.endTimeRaw) ? formatTimeRange(ev) : '';
-  const timeCol = el('span', 'line-time');
-  if (time) {
-    timeCol.append(el('span', 'line-clock', time));
-  } else if (until) {
-    timeCol.append(el('span', 'line-clock is-until', until));
+// When: the time (its range, "até 12h", or "Horário a confirmar"), circled by hand on the next
+// activity's own day. The type stays in the panel and the message.
+function timeRow(ev, isNext) {
+  const row = el('span', 'meta meta-time');
+  row.insertAdjacentHTML('beforeend', icon('clock'));
+  const text = startTime(ev) || ev.endTime != null || ev.endTimeRaw ? formatTimeRange(ev) : 'Horário a confirmar';
+  if (isNext) {
+    const circled = el('span', 'circled meta-text', text);
+    circled.insertAdjacentHTML('beforeend', handMark('loopAlt'));
+    row.append(circled, el('span', 'next-label', 'a próxima'));
   } else {
-    const dash = el('span', 'line-clock is-empty', '—');
-    dash.setAttribute('aria-hidden', 'true');
-    timeCol.append(dash, el('span', 'sr-only', 'Sem horário.'));
+    row.append(el('span', 'meta-text', text));
   }
-  if (ev.type) timeCol.append(el('span', 'line-type', ev.type));
-  line.append(timeCol);
+  return row;
+}
 
-  const body = el('span', 'line-body');
+// Who: the group's dot, the organization, and its full name where it is known (else the group).
+export function orgRow(ev) {
+  const row = el('span', 'meta meta-org');
+  row.append(el('span', 'dot'));
+  const text = el('span', 'meta-text');
+  text.append(el('b', null, ev.org));
+  const full = ev.orgs.length === 1 ? orgFullName(ev.orgs[0]) : '';
+  if (full || ev.sector) text.append(` · ${full || ev.sector}`);
+  if (full && ev.sector) text.append(el('span', 'sr-only', ` (${ev.sector})`));
+  row.append(text);
+  return row;
+}
+
+// Where: another city than Dourados is always named first.
+export function placeRow(ev) {
+  const place = document.createDocumentFragment();
+  if (ev.city) place.append(el('span', 'city-tag', ev.city));
+  if (ev.local) place.append(ev.local);
+  return metaRow('meta-place', ev.online ? 'globe' : 'pin', place);
+}
+
+// One activity as a card: the whole card is the button that opens it in the panel. `shownOn` is the
+// key of the day it is listed under.
+export function renderCard(ev, { shownOn, todayKey, nextId, selectedId, onSelect }) {
+  const card = el('button', 'event-card');
+  card.type = 'button';
+  card.dataset.id = ev.id;
+  card.dataset.focus = `line:${ev.id}`;
+  paintSector(card, ev.sector);
+  if (ev.id === selectedId) {
+    card.classList.add('is-selected');
+    card.setAttribute('aria-current', 'true');
+  }
   if (ev.cancelled) {
-    line.classList.add('is-cancelled');
-    body.append(el('span', 'stamp', 'Cancelada'));
-  }
-  body.append(el('span', 'line-title', ev.title));
-  if (ev.cancelled && ev.cancelReason) body.append(el('span', 'line-reason', `Motivo: ${ev.cancelReason}`));
-
-  if (ev.org) {
-    const org = el('span', 'line-org');
-    org.append(el('span', 'sector-mark'), el('span', null, ev.org));
-    if (ev.sector) org.append(el('span', 'sr-only', ` (${ev.sector})`));
-    body.append(org);
+    card.classList.add('is-cancelled');
+    card.append(el('span', 'tag tag-cancelled', 'Cancelada'));
   }
 
-  if (ev.local || ev.city) {
-    const place = el('span', 'line-place');
-    place.insertAdjacentHTML('beforeend', icon(ev.online ? 'globe' : 'pin'));
-    const text = el('span', 'line-place-text');
-    if (ev.city) text.append(el('span', 'city-tag', ev.city));
-    if (ev.local) text.append(document.createTextNode(ev.local));
-    place.append(text);
-    body.append(place);
-  }
+  const head = el('span', 'event-head');
+  head.append(el('span', 'event-title', ev.title));
+  const share = el('span', 'share-circle');
+  share.setAttribute('aria-hidden', 'true');
+  share.innerHTML = icon('share');
+  head.append(share);
+  card.append(head);
+  if (ev.cancelled && ev.cancelReason) card.append(el('span', 'event-reason', `Motivo: ${ev.cancelReason}`));
 
-  if (ev.endDate) {
-    const range = el('span', 'line-range');
-    range.insertAdjacentHTML('beforeend', icon('calendar-range'));
-    range.append(el('span', null, rangeText(ev, shownOn, todayKey)));
-    body.append(range);
-  }
-  line.append(body);
+  const meta = el('span', 'event-meta');
+  // "a próxima" only on the day it starts.
+  meta.append(timeRow(ev, ev.id === nextId && ev.dateKey === shownOn));
+  if (ev.org) meta.append(orgRow(ev));
+  if (ev.local || ev.city) meta.append(placeRow(ev));
+  if (ev.endDate) meta.append(metaRow('meta-range', 'calendar-range', rangeText(ev, shownOn, todayKey)));
+  card.append(meta);
 
-  const go = el('span', 'line-go');
-  go.innerHTML = icon('share');
-  line.append(go);
-
-  line.addEventListener('click', () => onSelect(ev));
-  return line;
+  card.addEventListener('click', () => onSelect(ev));
+  return card;
 }
 
 // A day's activities in reading order: those starting that day by time (untimed first, they
@@ -110,51 +112,64 @@ function dayOrder(dayEvents, key) {
   return [...own.sort(byTime), ...running.sort((a, b) => a.date - b.date || byTime(a, b))];
 }
 
-// One sheet of the pad.
-export function renderSheet(key, dayEvents, { today, nextId, selectedId, onSelect }) {
+// One day: "Hoje · terça, 27/10" (Hoje underlined by hand), "Sábado, 31/10", a holiday's name and
+// tag; then its cards, or a quiet line when nothing is on (a holiday between listed days is its head
+// alone: `holidayLine`).
+export function renderDay(key, dayEvents, { today, nextId, selectedId, onSelect, holidayLine = false }) {
   const todayKey = dateKey(today);
   const date = dateFromKey(key);
   const holiday = holidayOn(date);
-  const isNext = dayEvents.some((ev) => ev.id === nextId && ev.dateKey === key);
+  const relative = relativeDay(date, today);
+  const otherYear = date.getFullYear() !== today.getFullYear();
 
-  const sheet = el('section', 'sheet');
-  sheet.dataset.day = key;
-  if (key < todayKey) sheet.classList.add('is-past');
-  if (key === todayKey) sheet.classList.add('is-today');
-  if (isRedLetter(date)) sheet.classList.add('is-red');
+  const day = el('section', 'day-group');
+  day.dataset.day = key;
+  if (key < todayKey) day.classList.add('is-past');
+  if (key === todayKey) day.classList.add('is-today');
 
-  const head = el('header', 'sheet-head');
-  const label = `${formatLongDate(date)}${date.getFullYear() !== today.getFullYear() ? ` de ${date.getFullYear()}` : ''}${holiday ? `, ${holiday.name}` : ''}`;
-  head.append(el('h3', 'sr-only', label));
-  const num = el('span', 'sheet-num', sheetNumber(date));
-  num.setAttribute('aria-hidden', 'true');
-  const names = el('span', 'sheet-names');
-  names.setAttribute('aria-hidden', 'true');
-  names.append(el('span', 'sheet-weekday', weekdayName(date)));
-  const month = capitalize(monthName(date.getMonth())) + (date.getFullYear() !== today.getFullYear() ? ` ${date.getFullYear()}` : '');
-  names.append(el('span', 'sheet-month', month));
-  if (holiday) names.append(el('span', 'sheet-holiday', holiday.name));
-  head.append(num, names, sheetStatus(key, todayKey, isNext, today));
-  sheet.append(head);
+  const head = el('h3', 'day-head');
+  const near = ['hoje', 'amanhã', 'ontem'].includes(relative) ? `${capitalize(relative)}, ` : '';
+  head.append(el('span', 'sr-only', `${near}${formatLongDate(date)}${otherYear ? ` de ${date.getFullYear()}` : ''}${holiday ? `, ${holiday.name}` : ''}`));
+  const label = el('span', 'day-label');
+  label.setAttribute('aria-hidden', 'true');
+  const short = `${formatDayMonth(date)}${otherYear ? `/${date.getFullYear()}` : ''}`;
+  if (key === todayKey) {
+    const word = el('span', 'underlined', 'Hoje');
+    word.insertAdjacentHTML('beforeend', handMark('underline'));
+    label.append(word, ` · ${plainWeekday(date)}, ${short}`);
+  } else if (near) {
+    label.append(`${capitalize(relative)} · ${plainWeekday(date)}, ${short}`);
+  } else {
+    label.append(`${capitalize(plainWeekday(date))}, ${short}`);
+  }
+  if (holiday) label.append(' ', el('span', 'day-head-holiday', `· ${holiday.name}`));
+  head.append(label);
+  if (holiday) {
+    const tag = el('span', 'tag', 'Feriado');
+    tag.setAttribute('aria-hidden', 'true');
+    head.append(tag);
+  }
+  day.append(head);
 
   if (dayEvents.length) {
-    // On today's sheet, or among several activities, an untimed next one needs its own mark.
-    const markEmptyNext = key === todayKey || dayEvents.length > 1;
-    const list = el('ul', 'lines');
+    const list = el('ul', 'cards');
     for (const ev of dayOrder(dayEvents, key)) {
       const item = el('li');
-      item.append(renderLine(ev, { shownOn: key, todayKey, nextId, selectedId, onSelect, markEmptyNext }));
+      item.append(renderCard(ev, { shownOn: key, todayKey, nextId, selectedId, onSelect }));
       list.append(item);
     }
-    sheet.append(list);
-  } else {
-    sheet.append(el('p', 'sheet-empty', key === todayKey ? 'Nenhuma atividade hoje' : 'Nenhuma atividade neste dia'));
+    day.append(list);
+  } else if (!holidayLine) {
+    const empty = el('p', 'empty-card');
+    empty.innerHTML = icon('calendar-x');
+    empty.append(key === todayKey ? 'Nada marcado para hoje' : 'Nada marcado neste dia');
+    day.append(empty);
   }
-  return sheet;
+  return day;
 }
 
-// Groups activities by the day their sheet shows them on. Activities that started before today
-// and are still running move to today's sheet, so a period never disappears while it is open.
+// Groups activities by the day they are listed under. Activities that started before today and are
+// still running move to today, so a period never disappears while it is open.
 export function groupByShownDay(events, todayKey) {
   const byDay = new Map();
   for (const ev of events) {
@@ -166,12 +181,12 @@ export function groupByShownDay(events, todayKey) {
 }
 
 export function renderAgenda(container, { events, today, nextId, selectedId, showPast, filtered, onSelect, onTogglePast, onClearFilters, filterLabel }) {
-  container.replaceChildren(el('h2', 'sr-only', 'Agenda'));
+  container.replaceChildren(el('h2', 'sr-only', 'Lista de atividades'));
   const todayKey = dateKey(today);
   const upcoming = events.filter((ev) => lastDayKey(ev) >= todayKey);
   const past = events.filter((ev) => lastDayKey(ev) < todayKey);
 
-  // With a filter on and nothing ahead, a blank sheet says so (and offers the past itself).
+  // With a filter on and nothing ahead, say so (and offer the past itself).
   if (filtered && !upcoming.length && !showPast) {
     container.append(renderEmpty({ past, today, filterLabel, onTogglePast: past.length ? onTogglePast : null, onClearFilters }));
     return;
@@ -181,7 +196,7 @@ export function renderAgenda(container, { events, today, nextId, selectedId, sho
   if (filtered) container.append(el('p', 'result-count', upcomingLabel(upcoming.length)));
 
   if (past.length) {
-    const toggle = el('button', 'pad-toggle');
+    const toggle = el('button', 'past-toggle');
     toggle.type = 'button';
     toggle.id = 'past-toggle';
     toggle.dataset.focus = 'past-toggle';
@@ -192,14 +207,20 @@ export function renderAgenda(container, { events, today, nextId, selectedId, sho
     container.append(toggle);
   }
 
-  const pad = el('div', 'pad');
+  const days = el('div', 'days');
   const byDay = groupByShownDay(showPast ? events : upcoming, todayKey);
   const keys = new Set(byDay.keys());
   keys.add(todayKey);
-  for (const key of [...keys].sort()) {
-    pad.append(renderSheet(key, byDay.get(key) || [], { today, nextId, selectedId, onSelect }));
+  // The holidays between the first and the last listed day are listed too, as day lines.
+  const sorted = [...keys].sort();
+  const holidays = new Set();
+  for (let d = dateFromKey(sorted[0]), last = sorted[sorted.length - 1]; dateKey(d) <= last; d.setDate(d.getDate() + 1)) {
+    if (!keys.has(dateKey(d)) && holidayOn(d)) holidays.add(dateKey(d));
   }
-  container.append(pad);
+  for (const key of [...keys, ...holidays].sort()) {
+    days.append(renderDay(key, byDay.get(key) || [], { today, nextId, selectedId, onSelect, holidayLine: holidays.has(key) }));
+  }
+  container.append(days);
 }
 
 export const upcomingLabel = (n) => `${n} ${n === 1 ? 'atividade' : 'atividades'} de hoje em diante`;
@@ -211,15 +232,14 @@ function lastWhen(date, today) {
   return `${weekend ? 'no' : 'na'} ${formatLongDate(date).replace(/^./, (c) => c.toLowerCase())}`;
 }
 
-// A blank sheet: nothing ahead for this filter.
+// Nothing ahead for this filter.
 function renderEmpty({ past, today, filterLabel, onTogglePast, onClearFilters }) {
-  const box = el('section', 'sheet is-blank');
-  const body = el('div', 'blank');
-  body.insertAdjacentHTML('beforeend', icon('calendar-x', 'icon blank-icon'));
-  body.append(el('p', 'blank-title', `Nenhuma atividade ${filterLabel} de hoje em diante`));
+  const box = el('section', 'empty-state');
+  box.insertAdjacentHTML('beforeend', icon('calendar-x', 'icon empty-icon'));
+  box.append(el('p', 'empty-title', `Nenhuma atividade ${filterLabel} de hoje em diante`));
   const last = past[past.length - 1];
-  if (last) body.append(el('p', 'blank-hint', `A última foi ${lastWhen(last.date, today)}.`));
-  const actions = el('div', 'blank-actions');
+  if (last) box.append(el('p', 'empty-hint', `A última foi ${lastWhen(last.date, today)}.`));
+  const actions = el('div', 'empty-actions');
   if (onTogglePast) {
     const more = el('button', 'btn btn-line');
     more.type = 'button';
@@ -233,7 +253,6 @@ function renderEmpty({ past, today, filterLabel, onTogglePast, onClearFilters })
   clear.dataset.focus = 'clear-filters';
   clear.addEventListener('click', onClearFilters);
   actions.append(clear);
-  body.append(actions);
-  box.append(body);
+  box.append(actions);
   return box;
 }
