@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>D3 · Céu · Quadro</title>
+<script>if (new URLSearchParams(location.search).get('tema') === 'escuro') document.documentElement.dataset.tema = 'escuro';</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Inter:opsz,wght@14..32,400..700&display=swap">
+<link rel="stylesheet" href="assets/design.css">
+<link rel="stylesheet" href="assets/direcao-trama-ceu.css">
+<style>
+/* The variant's board: the idea on its own sky, the sky at four hours, the urucum loop, the type, what
+   stays from D and what is new, the colours (sky and sections, light and dark), the calm desktop, the risk. */
+.board {
+  display: flex;
+  flex-direction: column;
+  width: 1200px;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: 15px;
+  line-height: 23px;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+}
+.board ::selection { background: var(--accent-tint); color: var(--ink); }
+:where(.board) :where(h1, h2, h3, p, ul, ol, figure, figcaption) { margin: 0; padding: 0; }
+:where(.board) :where(.icon) { width: 18px; height: 18px; flex-shrink: 0; }
+
+/* The head: the idea, written on the sky, the sun rising behind the band. */
+.sky--board { --h5: 20px; --h4: 44px; --h3: 74px; --h2: 116px; padding: 44px 56px 40px; }
+.sky--board .astro--sol { right: 70px; bottom: -134px; width: 290px; height: 290px; --loop-w: 5.5px; }
+.sky--board .astro--lua { right: 150px; top: 44px; width: 104px; height: 104px; --loop-w: 4px; }
+.name { display: flex; align-items: center; gap: 16px; }
+.name h1 { font-family: var(--font-display); font-size: 64px; line-height: 68px; font-weight: 700; letter-spacing: -0.03em; }
+.pill { padding: 4px 11px 5px; border-radius: 999px; background: var(--sky-ink); color: var(--sky-1); font-size: 13px; line-height: 18px; font-weight: 600; white-space: nowrap; }
+.thesis { max-width: 700px; margin-top: 16px; font-size: 19px; line-height: 29px; font-weight: 500; letter-spacing: -0.01em; text-wrap: pretty; }
+.board > .faixa { --faixa-h: 40px; }
+
+.inner { display: flex; flex-direction: column; gap: 36px; padding: 36px 56px 44px; }
+.block { display: flex; flex-direction: column; gap: 14px; }
+.block > h2 { font-family: var(--font-display); font-size: 28px; line-height: 32px; font-weight: 700; letter-spacing: -0.02em; }
+.block > p.intro { color: var(--ink-soft); text-wrap: pretty; }
+
+/* The sky at four hours: each swatch sets its own bands, ink and loop (they don't follow the theme). */
+.hours { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.hour { display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--card-border); border-radius: 18px; background: var(--surface); box-shadow: var(--shadow); }
+.mini { --h5: 10px; --h4: 24px; --h3: 42px; --h2: 66px; height: 140px; padding: 14px 16px; }
+.mini__hello { font-family: var(--font-display); font-size: 19px; line-height: 24px; font-weight: 700; letter-spacing: -0.015em; }
+.mini__time { margin-top: 2px; font-size: 13px; line-height: 18px; font-weight: 500; color: var(--sky-ink-soft); font-variant-numeric: tabular-nums; }
+.mini--amanhecer { --sky-1: #BCD6EC; --sky-2: #CFE0EE; --sky-3: #E6DFE6; --sky-4: #F8D7C2; --sky-5: #FBE4A6; --sky-ink: #171A21; --sky-ink-soft: #3B4A5E; --hand: #C2410C; }
+.mini--dia { --sky-1: #9CC9EC; --sky-2: #B2D5EF; --sky-3: #C6E0F2; --sky-4: #D9EAF3; --sky-5: #E8F1F1; --sky-ink: #171A21; --sky-ink-soft: #33435A; --hand: #C2410C; }
+.mini--entardecer { --sky-1: #A9B4DA; --sky-2: #D3B4CB; --sky-3: #EFB6A2; --sky-4: #F5C07C; --sky-5: #F8D58A; --sky-ink: #171A21; --sky-ink-soft: #2F3B4D; --hand: #C2410C; }
+.mini--noite { --sky-1: #141A3D; --sky-2: #1B2350; --sky-3: #232D61; --sky-4: #2D3870; --sky-5: #2D3870; --sky-ink: #EEF0F3; --sky-ink-soft: #C5CBE3; --hand: #FF8A5C; --star: #F4ECD6; }
+.mini--amanhecer .astro { right: 22px; bottom: -38px; width: 84px; height: 84px; --loop-w: 3px; }
+.mini--dia .astro { right: 30px; top: 54px; width: 50px; height: 50px; --loop-w: 2.5px; }
+.mini--entardecer .astro { left: 30px; bottom: -38px; width: 84px; height: 84px; --loop-w: 3px; }
+.mini--noite .astro { right: 34px; top: 54px; width: 40px; height: 40px; --loop-w: 2.5px; }
+.hour .faixa { --faixa-h: 12px; }
+.hour figcaption { display: flex; flex-direction: column; gap: 2px; padding: 12px 16px 14px; }
+.hour figcaption b { font-family: var(--font-display); font-size: 17px; line-height: 22px; font-weight: 700; }
+.hour figcaption span { color: var(--ink-soft); font-size: 14px; line-height: 20px; text-wrap: pretty; }
+
+/* Panels */
+.row3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.panel { display: flex; flex-direction: column; gap: 14px; padding: 20px; }
+.panel h3 { font-family: var(--font-display); font-size: 19px; line-height: 24px; font-weight: 700; letter-spacing: -0.012em; }
+.panel p { color: var(--ink-soft); font-size: 14px; line-height: 21px; text-wrap: pretty; }
+.panel p b { font-weight: 600; color: var(--ink); }
+.marks { display: flex; flex-wrap: wrap; align-items: center; gap: 18px 26px; padding: 10px 6px 4px; }
+.marks .circled { margin-left: 9px; font-size: 19px; line-height: 24px; }
+.marks .today { font-family: var(--font-display); font-size: 19px; line-height: 24px; font-weight: 700; }
+.marks .next-label { margin-left: 12px; font-size: 14px; }
+.astros { display: flex; align-items: center; gap: 14px; }
+.astro-chip { position: relative; display: block; width: 48px; height: 48px; overflow: hidden; border-radius: 12px; }
+.astro-chip .astro { left: 6px; top: 6px; width: 36px; height: 36px; --loop-w: 2.5px; }
+.astro-chip--sol { background: #FBE4A6; --hand: #C2410C; }
+.astro-chip--lua { background: #1B2350; --hand: #FF8A5C; }
+.panel .specimen { font-family: var(--font-display); font-size: 32px; line-height: 36px; font-weight: 700; letter-spacing: -0.025em; color: var(--ink); }
+.panel .specimen-2 { font-family: var(--font-display); font-size: 20px; line-height: 26px; font-weight: 650; letter-spacing: -0.01em; color: var(--ink); font-variant-numeric: tabular-nums; }
+.panel .specimen-3 { font-size: 15px; line-height: 22px; color: var(--ink); }
+.panel .specimen-3 b { font-weight: 600; }
+.dots { display: flex; flex-wrap: wrap; gap: 6px 12px; margin-top: -2px; font-size: 13px; line-height: 18px; color: var(--ink-soft); }
+.dots span { display: inline-flex; align-items: center; gap: 6px; }
+
+/* Colour: the two skies and the six sections, each in light and dark (fixed values, whatever the theme). */
+.palette { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 24px; padding: 20px 22px 22px; }
+.palette h3 { font-family: var(--font-display); font-size: 17px; line-height: 22px; font-weight: 700; }
+.skies { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 18px; margin-top: 10px; }
+.skies h4 { margin: 0 0 6px; font-size: 13px; line-height: 18px; font-weight: 600; }
+.bands-col { display: flex; flex-direction: column; }
+.bands-col span { display: flex; align-items: center; gap: 8px; font-size: 12px; line-height: 16px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.bands-col i { width: 44px; height: 20px; }
+.bands-col span:first-child i { border-radius: 6px 6px 0 0; }
+.bands-col span:last-child i { border-radius: 0 0 6px 6px; }
+.lights { display: flex; gap: 14px; margin-top: 12px; font-size: 12px; line-height: 16px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.lights span { display: inline-flex; align-items: center; gap: 6px; }
+.lights i { width: 20px; height: 20px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(127, 127, 127, .3); }
+.sections { display: grid; grid-template-columns: 160px 160px minmax(0, 1fr); align-items: center; gap: 6px 12px; margin-top: 10px; }
+.sections .col-head { font-size: 13px; line-height: 18px; font-weight: 600; }
+.sec { display: flex; align-items: center; gap: 8px; height: 32px; padding: 0 12px; border-radius: 12px; font-family: var(--font-display); font-size: 15px; line-height: 20px; font-weight: 650; }
+.sec .icon { width: 18px; height: 18px; }
+.sec--claro { color: #171A21; }
+.sec--escuro { color: #EEF0F3; }
+.sec-hex { font-size: 12px; line-height: 16px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+
+.risk { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
+.risk .panel p { font-size: 15px; line-height: 23px; color: var(--ink); }
+</style>
+</head>
+<body>
+<!-- D3 · Céu · board (variant 3 of D · Trama): hope is the sky over Dourados. -->
+<div class="board">
+  <div class="sky sky--board">
+    <svg class="astro astro--sol only-claro" viewBox="0 0 120 120" aria-hidden="true"><use href="#astro"/></svg>
+    <svg class="astro astro--lua only-escuro" viewBox="0 0 120 120" aria-hidden="true"><use href="#astro"/></svg>
+    <svg class="stars only-escuro" aria-hidden="true">
+      <circle cx="760" cy="44" r="1.5"/><circle cx="842" cy="122" r="1.8"/><circle cx="720" cy="196" r="1.3"/>
+      <circle cx="904" cy="238" r="1.4"/><circle cx="1004" cy="70" r="1.2"/><circle cx="1110" cy="214" r="1.7"/>
+      <circle cx="1150" cy="34" r="1.3"/><circle cx="986" cy="182" r="1.1"/><circle cx="1176" cy="132" r="1.2"/>
+      <circle cx="790" cy="262" r="1.2"/><circle cx="1060" cy="262" r="1.4"/>
+    </svg>
+    <div class="name"><h1>D3 · Céu</h1><span class="pill">Variante de D · Trama</span></div>
+    <p class="thesis">A esperança é o céu de Dourados. A Início abre com o céu desta hora, em faixas de cor chapada; a faixa tecida é o horizonte, a terra, e o laço de urucum do NOS nasce atrás dela como o sol. De noite, o mesmo laço desenha a lua.</p>
+  </div>
+  <div class="faixa" role="img" aria-label="Faixa tecida (arte provisória)"></div>
+
+  <div class="inner">
+    <section class="block">
+      <h2>O céu em quatro horas</h2>
+      <p class="intro">O céu acompanha o relógio de Dourados, e a saudação também: bom dia até o meio-dia, boa tarde até as 18h, boa noite depois. O tema escuro mostra sempre a noite; o claro segue a hora. Só cor chapada, em faixas: sem degradê, sem nuvem, sem temperatura.</p>
+      <div class="hours">
+        <figure class="hour">
+          <div class="sky mini mini--amanhecer">
+            <svg class="astro astro--sol" viewBox="0 0 120 120" aria-hidden="true"><use href="#astro"/></svg>
+            <p class="mini__hello">Bom dia, Dourados</p>
+            <p class="mini__time">6:40</p>
+          </div>
+          <div class="faixa" aria-hidden="true"></div>
+          <figcaption><b>Amanhecer</b><span>5h às 9h. O sol nasce atrás da faixa (o tema claro).</span></figcaption>
+        </figure>
+        <figure class="hour">
+          <div class="sky mini mini--dia">
+            <svg class="astro astro--sol" viewBox="0 0 120 120" aria-hidden="true"><use href="#astro"/></svg>
+            <p class="mini__hello">Boa tarde, Dourados</p>
+            <p class="mini__time">14:00</p>
+          </div>
+          <div class="faixa" aria-hidden="true"></div>
+          <figcaption><b>Dia</b><span>9h às 16h. O sol no alto, o céu aberto.</span></figcaption>
+        </figure>
+        <figure class="hour">
+          <div class="sky mini mini--entardecer">
+            <svg class="astro astro--sol" viewBox="0 0 120 120" aria-hidden="true"><use href="#astro"/></svg>
+            <p class="mini__hello">Boa tarde, Dourados</p>
+            <p class="mini__time">17:40</p>
+          </div>
+          <div class="faixa" aria-hidden="true"></div>
+          <figcaption><b>Entardecer</b><span>16h às 19h. O sol se põe do outro lado.</span></figcaption>
+        </figure>
+        <figure class="hour">
+          <div class="sky mini mini--noite">
+            <svg class="astro astro--lua" viewBox="0 0 120 120" aria-hidden="true"><use href="#astro"/></svg>
+            <svg class="stars" aria-hidden="true">
+              <circle cx="150" cy="22" r="1.2"/><circle cx="196" cy="84" r="1.4"/><circle cx="128" cy="110" r="1.1"/>
+              <circle cx="240" cy="104" r="1.2"/><circle cx="62" cy="96" r="1.3"/><circle cx="174" cy="56" r="1"/>
+              <circle cx="22" cy="124" r="1.1"/>
+            </svg>
+            <p class="mini__hello">Boa noite, Dourados</p>
+            <p class="mini__time">21:40</p>
+          </div>
+          <div class="faixa" aria-hidden="true"></div>
+          <figcaption><b>Noite</b><span>19h às 5h. O laço vira lua (o tema escuro).</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <div class="row3">
+      <section class="panel card">
+        <h3>Um laço só, de urucum</h3>
+        <div class="marks">
+          <span><span class="circled date-big">sáb 31/10<svg class="hand" aria-hidden="true"><use href="#hand-a"/></svg></span><span class="next-label">a próxima</span></span>
+          <span class="today">Hoje<svg class="hand" aria-hidden="true"><use href="#hand-u"/></svg></span>
+          <span class="astros">
+            <span class="astro-chip astro-chip--sol"><svg class="astro astro--sol" viewBox="0 0 120 120" aria-hidden="true"><use href="#astro"/></svg></span>
+            <span class="astro-chip astro-chip--lua"><svg class="astro astro--lua" viewBox="0 0 120 120" aria-hidden="true"><use href="#astro"/></svg></span>
+          </span>
+        </div>
+        <p>O gesto do O do NOS: circula a próxima atividade, sublinha o hoje, e desenha o sol de manhã e a lua de noite. O disco amarelo sai um pouco do traço, como numa serigrafia.</p>
+      </section>
+      <section class="panel card">
+        <h3>Letra</h3>
+        <p class="specimen">Bom dia, Dourados</p>
+        <p class="specimen-2">Agenda · Mutirões · sáb 31/10</p>
+        <p class="specimen-3"><b>Caminhada Ecológica de Dourados</b> · SINTEF · AGECOLD (largada e exposição)</p>
+        <p>Bricolage Grotesque é a voz do NOS: a saudação, as seções, as datas e os números. Inter é o que as organizações anunciam, e os controles.</p>
+      </section>
+      <section class="panel card">
+        <h3>O que fica de D, o que é novo</h3>
+        <p><b>Fica:</b> a faixa da Reserva (aqui provisória), agora como horizonte; o círculo na próxima e o traço sob o hoje; as portas na Início; o desktop calmo; a marca e a navegação; os grupos como pontos de cor.</p>
+        <div class="dots">
+          <span><i class="dot g-sindicatos"></i>Sindicatos</span><span><i class="dot g-rural"></i>Rural, indígena</span><span><i class="dot g-movimentos"></i>Movimentos</span><span><i class="dot g-academia"></i>Academia</span>
+          <span><i class="dot g-terceiro"></i>Terceiro Setor</span><span><i class="dot g-partidos"></i>Partidos</span><span><i class="dot g-orgaos"></i>Órgãos</span><span><i class="dot g-outros"></i>Outros</span>
+        </div>
+        <p><b>Novo:</b> o céu da hora, a saudação, a Bricolage e uma cor para cada seção.</p>
+      </section>
+    </div>
+
+    <section class="block">
+      <h2>Cor</h2>
+      <div class="palette card">
+        <div>
+          <h3>Céu</h3>
+          <div class="skies">
+            <div>
+              <h4>Amanhecer · claro</h4>
+              <div class="bands-col">
+                <span><i style="background:#BCD6EC"></i>#BCD6EC</span>
+                <span><i style="background:#CFE0EE"></i>#CFE0EE</span>
+                <span><i style="background:#E6DFE6"></i>#E6DFE6</span>
+                <span><i style="background:#F8D7C2"></i>#F8D7C2</span>
+                <span><i style="background:#FBE4A6"></i>#FBE4A6</span>
+              </div>
+            </div>
+            <div>
+              <h4>Noite · escuro</h4>
+              <div class="bands-col">
+                <span><i style="background:#141A3D"></i>#141A3D</span>
+                <span><i style="background:#1B2350"></i>#1B2350</span>
+                <span><i style="background:#232D61"></i>#232D61</span>
+                <span><i style="background:#2D3870"></i>#2D3870</span>
+              </div>
+            </div>
+          </div>
+          <div class="lights">
+            <span><i style="background:#F2B21B"></i>Sol #F2B21B</span>
+            <span><i style="background:#EFE3C4"></i>Lua #EFE3C4</span>
+          </div>
+          <p class="sec-hex" style="margin-top: 12px">Embaixo do horizonte, o chão de D: #F4F3EF no claro, #10131A no escuro. O texto no céu passa de 6:1 nos dois.</p>
+        </div>
+        <div>
+          <h3>Seções</h3>
+          <div class="sections">
+            <span class="col-head">Claro</span><span class="col-head">Escuro</span><span class="col-head">Cor · texto · fundo (claro), cor · fundo (escuro)</span>
+            <span class="sec sec--claro" style="background:#F8E8E2"><svg class="icon" style="color:#A3360A"><use href="assets/icons.svg#calendar-days"/></svg>Agenda</span>
+            <span class="sec sec--escuro" style="background:#4C3532"><svg class="icon" style="color:#FF8A5C"><use href="assets/icons.svg#calendar-days"/></svg>Agenda</span>
+            <span class="sec-hex">#C2410C · #A3360A · #F8E8E2 &nbsp;|&nbsp; #FF8A5C · #4C3532 — urucum, o laço</span>
+            <span class="sec sec--claro" style="background:#E6EFEA"><svg class="icon" style="color:#256840"><use href="assets/icons.svg#hand-heart"/></svg>Mutirões</span>
+            <span class="sec sec--escuro" style="background:#28423C"><svg class="icon" style="color:#5CC48A"><use href="assets/icons.svg#hand-heart"/></svg>Mutirões</span>
+            <span class="sec-hex">#2E7D4F · #256840 · #E6EFEA &nbsp;|&nbsp; #5CC48A · #28423C</span>
+            <span class="sec sec--claro" style="background:#E4ECF5"><svg class="icon" style="color:#1F5FAF"><use href="assets/icons.svg#newspaper"/></svg>Notícias</span>
+            <span class="sec sec--escuro" style="background:#2F3D54"><svg class="icon" style="color:#7FAEF5"><use href="assets/icons.svg#newspaper"/></svg>Notícias</span>
+            <span class="sec-hex">#1F5FAF · #1F5FAF · #E4ECF5 &nbsp;|&nbsp; #7FAEF5 · #2F3D54</span>
+            <span class="sec sec--claro" style="background:#FDF1D6"><svg class="icon" style="color:#7A5200"><use href="assets/icons.svg#map"/></svg>Mapa</span>
+            <span class="sec sec--escuro" style="background:#49412E"><svg class="icon" style="color:#F5C04A"><use href="assets/icons.svg#map"/></svg>Mapa</span>
+            <span class="sec-hex">#F2B21B · #7A5200 · #FDF1D6 &nbsp;|&nbsp; #F5C04A · #49412E — o sol</span>
+            <span class="sec sec--claro" style="background:#F6E7ED"><svg class="icon" style="color:#A12C5C"><use href="assets/icons.svg#store"/></svg>Comércio</span>
+            <span class="sec sec--escuro" style="background:#493343"><svg class="icon" style="color:#F27FAA"><use href="assets/icons.svg#store"/></svg>Comércio</span>
+            <span class="sec-hex">#B8336A · #A12C5C · #F6E7ED &nbsp;|&nbsp; #F27FAA · #493343</span>
+            <span class="sec sec--claro" style="background:#EDE8F4"><svg class="icon" style="color:#6B3FA0"><use href="assets/icons.svg#users"/></svg>Organizações</span>
+            <span class="sec sec--escuro" style="background:#3C3752"><svg class="icon" style="color:#B795EE"><use href="assets/icons.svg#users"/></svg>Organizações</span>
+            <span class="sec-hex">#6B3FA0 · #6B3FA0 · #EDE8F4 &nbsp;|&nbsp; #B795EE · #3C3752</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="risk">
+      <section class="panel card">
+        <h3>Desktop calmo</h3>
+        <p>Um céu largo com a saudação e o sol nascendo atrás da faixa; embaixo, só o essencial: a próxima atividade com os dois botões, um chamado aberto, a notícia mais recente e um link para cada página.</p>
+      </section>
+      <section class="panel card">
+        <h3>Risco</h3>
+        <p>Um céu pode lembrar app de previsão do tempo, e, mudando com a hora, a Início fica diferente ao longo do dia. O que a mantém NOS é o que não muda: a faixa, o urucum e a marca.</p>
+      </section>
+    </div>
+  </div>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="hand-a" viewBox="0 0 120 60" preserveAspectRatio="none"><path vector-effect="non-scaling-stroke" d="M84 7C62 2 28 4 12 15C1 23 2 41 22 50C42 59 88 58 108 46C122 37 119 17 98 9C84 4 66 4 47 9"/></symbol>
+  <symbol id="hand-u" viewBox="0 0 120 10" preserveAspectRatio="none"><path vector-effect="non-scaling-stroke" d="M2 7.5C22 5 46 4.6 70 5.2C88 5.6 104 4.4 118 2.5"/></symbol>
+  <symbol id="astro" viewBox="0 0 120 120"><circle cx="58" cy="60" r="49" style="fill: var(--astro-fill)"/><path vector-effect="non-scaling-stroke" style="fill: none; stroke: var(--hand); stroke-width: var(--loop-w, 3px); stroke-linecap: round; stroke-linejoin: round" d="M78 9C56 4 22 12 12 38C3 64 20 104 56 108C92 112 116 88 112 56C109 28 92 7 66 5.5C54 5 40 10 28 19"/></symbol>
+</svg>
+</body>
+</html>

@@ -1,0 +1,473 @@
+/* Direção "Céu · Terra", a free variant of "D3 · Céu" (direcao-trama-ceu.css): the sky and the land of
+   Dourados.
+   - O CÉU: the sky at this hour in flat bands (hard stops, counted up from the horizon), pushed warmer
+     and more saturated. Light theme = manhã dourada (morning blue warming to rose, apricot and gold);
+     dark theme = noite quente (deep indigo warming to plum at the horizon). The sun is bigger and runs
+     off the edge; at night a small full moon sits high in the sky, among the stars. Both are drawn round by the urucum loop.
+   - O HORIZONTE: Céu's woven band (provisional art, its pattern unchanged), a little taller.
+   - A TERRA: below the band the page is the land, no longer a neutral grey: light clay by day, a deep
+     terra roxa at night. Cards are warm white by day and a lighter terra at night.
+   - The six sections take their colours from the landscape: urucum (Agenda), roça (Mutirões), céu
+     (Notícias), ipê-amarelo (Mapa), ipê-rosa (Comércio), anoitecer (Organizações).
+   - Type: Bricolage Grotesque, heavier (800) and larger for the greeting, the dates and the page titles;
+     Inter carries what the organizations announce, and the controls.
+   - Kept from Céu: the greeting by the hour, the urucum hand marks (a loop circles the next one, a
+     stroke underlines today), groups as coloured dots, the doors-first home, the calm desktop, the mark,
+     the navigation.
+   Light tokens on :root, dark ones on :root[data-tema='escuro'] (?tema=escuro).
+   Used by direcao-ceu-terra-*.html. */
+
+:root {
+  color-scheme: light;
+  --font-display: 'Bricolage Grotesque', 'Inter', system-ui, sans-serif;
+  --font-text: 'Inter', system-ui, sans-serif;
+  --ground: #F2E3D7;          /* A TERRA by day: light clay below the horizon */
+  --surface: #FFFBF7;         /* cards, fields, the navigation: a warm white */
+  --surface-hover: #FFF4EC;
+  --fill: #F4E4D9;            /* tonal fill: share buttons, hover */
+  --ink: #221714;             /* a warm near-black: 14:1 on the clay, 17:1 on the cards */
+  --on-ink: #FFFBF7;
+  --ink-soft: #6A4E44;        /* tinted from the earth, never grey: 6.0:1 on the clay, 7.3:1 on the cards */
+  --line: #E9D5C8;
+  --accent: #C2410C;          /* urucum (Agenda's colour) as a fill: white on it 5.2:1 */
+  --on-accent: #FFFFFF;
+  --accent-text: #A3360A;     /* urucum as text: 6.6:1 on the cards, 5.4:1 on the clay */
+  --accent-tint: #F9D9C8;
+  --hand: #C2410C;            /* the hand marks and the loop that draws the sun (non-text, 5:1 on the cards) */
+  --card-border: transparent;
+  --shadow: 0 1px 2px rgba(74, 34, 18, .08), 0 6px 16px rgba(74, 34, 18, .07);
+  --mark-loop: #C2410C;       /* read by the sprite's #marca-nos */
+
+  /* The sky at this hour, light theme: manhã dourada. */
+  --sky-1: #93C1E6;
+  --sky-2: #BED6E8;
+  --sky-3: #F0D5C6;
+  --sky-4: #F8C095;
+  --sky-5: #FBD789;
+  --sky-ink: #221714;         /* 9.2:1 on the top band, 10.8:1 on the apricot */
+  --sky-ink-soft: #4B362D;    /* 5.9:1 on the top band, 7.0:1 on the apricot */
+  --sky-field: #FFFBF7;       /* a field resting on the sky */
+  --sky-field-ink: #6A4E44;
+  --sun: #F4A11E;
+  --moon: #F4DDB0;
+  --star: #F6E6C6;
+
+  /* The six sections, from the landscape: fill / text and icon on light / tint (the door) */
+  --agenda: #C2410C;   --agenda-text: #A3360A;   --agenda-tint: #F7CDB8;    /* urucum */
+  --mutiroes: #4E7A2A; --mutiroes-text: #3F6A1F; --mutiroes-tint: #D5E4BF;  /* roça */
+  --noticias: #2462A8; --noticias-text: #1F5796; --noticias-tint: #C9DCF0;  /* céu */
+  --mapa: #E3A21A;     --mapa-text: #7A4E00;     --mapa-tint: #F6D88F;      /* ipê-amarelo */
+  --comercio: #C03A73; --comercio-text: #A12E5F; --comercio-tint: #F3C8DA;  /* ipê-rosa */
+  --orgs: #7444A8;     --orgs-text: #643A97;     --orgs-tint: #DDCDF0;      /* anoitecer */
+
+  /* The eight groups of the organizations, as dots (D's colours, unchanged) */
+  --g-sindicatos: #0455A1;
+  --g-rural: #00875A;
+  --g-movimentos: #9B3894;
+  --g-academia: #00808A;
+  --g-orgaos: #C25700;
+  --g-partidos: #5E6A71;
+  --g-outros: #7A4E2D;
+  --g-terceiro: #C2185B;
+}
+
+:root[data-tema='escuro'] {
+  color-scheme: dark;
+  --ground: #231311;          /* A TERRA at night: terra roxa, deep and warm (not a cold grey) */
+  --surface: #301B17;
+  --surface-hover: #37201B;
+  --fill: #40261F;
+  --ink: #F7EBE3;
+  --on-ink: #231311;
+  --ink-soft: #CFB5A9;        /* 8.4:1 on the cards, 9.2:1 on the ground */
+  --line: #4A2F28;
+  --accent: #FF8A5C;          /* dark ink on it 7.7:1 */
+  --on-accent: #231311;
+  --accent-text: #FF8A5C;     /* 7.0:1 on the cards, 5.1:1 on its tint */
+  --accent-tint: #5A2A1E;
+  --hand: #FF8A5C;
+  --card-border: #4A2F28;     /* no shadows in the dark: a 1px line instead */
+  --shadow: none;
+  --mark-loop: #FF8A5C;
+
+  /* The sky, dark theme: noite quente. Deep indigo on top, warming to plum at the horizon. */
+  --sky-1: #140D26;
+  --sky-2: #1C1233;
+  --sky-3: #271740;
+  --sky-4: #361C48;
+  --sky-5: #47214A;
+  --sky-ink: #F7EBE3;         /* 11.3:1 on the plum band */
+  --sky-ink-soft: #D8C6D3;    /* 8.2:1 on the plum band */
+  --sky-field: #2A1F45;
+  --sky-field-ink: #D8C6D3;   /* 9.4:1 */
+
+  /* The sections: one colour for text, icons and fills (dark ink on them), and a deep tint */
+  --agenda: #FF8A5C;   --agenda-text: #FF8A5C;   --agenda-tint: #5A2A1E;
+  --mutiroes: #93C96F; --mutiroes-text: #93C96F; --mutiroes-tint: #2D3B1E;
+  --noticias: #8AB6F2; --noticias-text: #8AB6F2; --noticias-tint: #20304B;
+  --mapa: #F2C14E;     --mapa-text: #F2C14E;     --mapa-tint: #4A3711;
+  --comercio: #F58AB3; --comercio-text: #F58AB3; --comercio-tint: #522036;
+  --orgs: #BE9BF0;     --orgs-text: #BE9BF0;     --orgs-tint: #392752;
+
+  --g-sindicatos: #5B9BE6;
+  --g-rural: #3DBA8A;
+  --g-movimentos: #C77BC0;
+  --g-academia: #2DB3BC;
+  --g-orgaos: #E8873A;
+  --g-partidos: #9AA7AF;
+  --g-outros: #B98A66;
+  --g-terceiro: #E9608F;
+}
+
+/* A section's colours, for whatever sits inside it: --s (fill), --s-text, --s-tint, and --s-soft,
+   the secondary text on its tint (the section's hue mixed into the ink, never a plain grey). */
+.s-agenda { --s: var(--agenda); --s-text: var(--agenda-text); --s-tint: var(--agenda-tint); }
+.s-mutiroes { --s: var(--mutiroes); --s-text: var(--mutiroes-text); --s-tint: var(--mutiroes-tint); }
+.s-noticias { --s: var(--noticias); --s-text: var(--noticias-text); --s-tint: var(--noticias-tint); }
+.s-mapa { --s: var(--mapa); --s-text: var(--mapa-text); --s-tint: var(--mapa-tint); }
+.s-comercio { --s: var(--comercio); --s-text: var(--comercio-text); --s-tint: var(--comercio-tint); }
+.s-orgs { --s: var(--orgs); --s-text: var(--orgs-text); --s-tint: var(--orgs-tint); }
+.s-agenda, .s-mutiroes, .s-noticias, .s-mapa, .s-comercio, .s-orgs { --s-soft: color-mix(in srgb, var(--s-text) 55%, var(--ink)); }
+
+/* D's provisional bands, copied unchanged from Céu: weaving structure only, not anyone's grafismo. */
+:root {
+  --faixa-trancado: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 32' width='48' height='32' shape-rendering='geometricPrecision'%3E%3Crect x='0' y='0' width='48' height='32' fill='%23A8864F'/%3E%3Crect x='0' y='0' width='48' height='3.12' fill='%23B4381A'/%3E%3Crect x='0' y='28.9' width='48' height='3.12' fill='%23B4381A'/%3E%3Crect x='0.275' y='4.28' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='0.275' y='20.3' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='4.28' y='4.28' width='3.45' height='3.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='4.28' y='16.3' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='8.28' y='12.3' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='12.3' y='8.28' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='12.3' y='24.3' width='3.45' height='3.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='16.3' y='4.28' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='16.3' y='20.3' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='20.3' y='4.28' width='3.45' height='3.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='20.3' y='16.3' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='24.3' y='4.28' width='3.45' height='3.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='24.3' y='16.3' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='28.3' y='4.28' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='28.3' y='20.3' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='32.3' y='8.28' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='32.3' y='24.3' width='3.45' height='3.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='36.3' y='12.3' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='40.3' y='4.28' width='3.45' height='3.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='40.3' y='16.3' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='44.3' y='4.28' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='44.3' y='20.3' width='3.45' height='7.45' rx='1.28' fill='%231E2230'/%3E%3Crect x='8.28' y='4.28' width='7.45' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='32.3' y='4.28' width='7.45' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='4.28' y='8.28' width='7.45' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='20.3' y='8.28' width='7.45' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='36.3' y='8.28' width='7.45' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='0' y='12.3' width='7.72' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='0' y='12.3' width='2' height='3.45' fill='%23D9B678'/%3E%3Crect x='16.3' y='12.3' width='15.5' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='40.3' y='12.3' width='7.73' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='46' y='12.3' width='2' height='3.45' fill='%23D9B678'/%3E%3Crect x='0' y='16.3' width='3.73' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='0' y='16.3' width='2' height='3.45' fill='%23D9B678'/%3E%3Crect x='12.3' y='16.3' width='7.45' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='28.3' y='16.3' width='7.45' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='44.3' y='16.3' width='3.73' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='46' y='16.3' width='2' height='3.45' fill='%23D9B678'/%3E%3Crect x='8.28' y='20.3' width='7.45' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='32.3' y='20.3' width='7.45' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='4.28' y='24.3' width='7.45' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='20.3' y='24.3' width='7.45' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3Crect x='36.3' y='24.3' width='7.45' height='3.45' rx='1.28' fill='%23D9B678'/%3E%3C/svg%3E");
+  --faixa-tear: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 32' width='48' height='32' shape-rendering='geometricPrecision'%3E%3Crect x='0' y='0' width='48' height='32' fill='%23151821'/%3E%3Crect x='0.5' y='-7.6' width='3' height='7.2' rx='1.8' fill='%231E2230'/%3E%3Crect x='0.5' y='0.4' width='3' height='7.2' rx='1.8' fill='%231E2230'/%3E%3Crect x='0.5' y='8.4' width='3' height='7.2' rx='1.8' fill='%231E2230'/%3E%3Crect x='0.5' y='16.4' width='3' height='7.2' rx='1.8' fill='%231E2230'/%3E%3Crect x='0.5' y='24.4' width='3' height='7.2' rx='1.8' fill='%231E2230'/%3E%3Crect x='0.5' y='32.4' width='3' height='7.2' rx='1.8' fill='%231E2230'/%3E%3Crect x='4.5' y='-3.6' width='3' height='7.2' rx='1.8' fill='%23B4381A'/%3E%3Crect x='4.5' y='4.4' width='3' height='7.2' rx='1.8' fill='%23B4381A'/%3E%3Crect x='4.5' y='12.4' width='3' height='7.2' rx='1.8' fill='%23B4381A'/%3E%3Crect x='4.5' y='20.4' width='3' height='7.2' rx='1.8' fill='%23B4381A'/%3E%3Crect x='4.5' y='28.4' width='3' height='7.2' rx='1.8' fill='%23B4381A'/%3E%3Crect x='4.5' y='36.4' width='3' height='7.2' rx='1.8' fill='%23B4381A'/%3E%3Crect x='8.5' y='-7.6' width='3' height='7.2' rx='1.8' fill='%23B4381A'/%3E%3Crect x='8.5' y='0.4' width='3' height='7.2' rx='1.8' fill='%23B4381A'/%3E%3Crect x='8.5' y='8.4' width='3' height='7.2' rx='1.8' fill='%23B4381A'/%3E%3Crect x='8.5' y='16.4' width='3' height='7.2' rx='1.8' fill='%23B4381A'/%3E%3Crect x='8.5' y='24.4' width='3' height='7.2' rx='1.8' fill='%23B4381A'/%3E%3Crect x='8.5' y='32.4' width='3' height='7.2' rx='1.8' fill='%23B4381A'/%3E%3Crect x='12.5' y='-3.6' width='3' height='7.2' rx='1.8' fill='%23E2A532'/%3E%3Crect x='12.5' y='4.4' width='3' height='7.2' rx='1.8' fill='%23E2A532'/%3E%3Crect x='12.5' y='12.4' width='3' height='7.2' rx='1.8' fill='%23E2A532'/%3E%3Crect x='12.5' y='20.4' width='3' height='7.2' rx='1.8' fill='%23E2A532'/%3E%3Crect x='12.5' y='28.4' width='3' height='7.2' rx='1.8' fill='%23E2A532'/%3E%3Crect x='12.5' y='36.4' width='3' height='7.2' rx='1.8' fill='%23E2A532'/%3E%3Crect x='16.5' y='-7.6' width='3' height='7.2' rx='1.8' fill='%232F6B3E'/%3E%3Crect x='16.5' y='0.4' width='3' height='7.2' rx='1.8' fill='%232F6B3E'/%3E%3Crect x='16.5' y='8.4' width='3' height='7.2' rx='1.8' fill='%232F6B3E'/%3E%3Crect x='16.5' y='16.4' width='3' height='7.2' rx='1.8' fill='%232F6B3E'/%3E%3Crect x='16.5' y='24.4' width='3' height='7.2' rx='1.8' fill='%232F6B3E'/%3E%3Crect x='16.5' y='32.4' width='3' height='7.2' rx='1.8' fill='%232F6B3E'/%3E%3Crect x='20.5' y='-3.6' width='3' height='7.2' rx='1.8' fill='%232F6B3E'/%3E%3Crect x='20.5' y='4.4' width='3' height='7.2' rx='1.8' fill='%232F6B3E'/%3E%3Crect x='20.5' y='12.4' width='3' height='7.2' rx='1.8' fill='%232F6B3E'/%3E%3Crect x='20.5' y='20.4' width='3' height='7.2' rx='1.8' fill='%232F6B3E'/%3E%3Crect x='20.5' y='28.4' width='3' height='7.2' rx='1.8' fill='%232F6B3E'/%3E%3Crect x='20.5' y='36.4' width='3' height='7.2' rx='1.8' fill='%232F6B3E'/%3E%3Crect x='24.5' y='-7.6' width='3' height='7.2' rx='1.8' fill='%23E2A532'/%3E%3Crect x='24.5' y='0.4' width='3' height='7.2' rx='1.8' fill='%23E2A532'/%3E%3Crect x='24.5' y='8.4' width='3' height='7.2' rx='1.8' fill='%23E2A532'/%3E%3Crect x='24.5' y='16.4' width='3' height='7.2' rx='1.8' fill='%23E2A532'/%3E%3Crect x='24.5' y='24.4' width='3' height='7.2' rx='1.8' fill='%23E2A532'/%3E%3Crect x='24.5' y='32.4' width='3' height='7.2' rx='1.8' fill='%23E2A532'/%3E%3Crect x='28.5' y='-3.6' width='3' height='7.2' rx='1.8' fill='%23B4381A'/%3E%3Crect x='28.5' y='4.4' width='3' height='7.2' rx='1.8' fill='%23B4381A'/%3E%3Crect x='28.5' y='12.4' width='3' height='7.2' rx='1.8' fill='%23B4381A'/%3E%3Crect x='28.5' y='20.4' width='3' height='7.2' rx='1.8' fill='%23B4381A'/%3E%3Crect x='28.5' y='28.4' width='3' height='7.2' rx='1.8' fill='%23B4381A'/%3E%3Crect x='28.5' y='36.4' width='3' height='7.2' rx='1.8' fill='%23B4381A'/%3E%3Crect x='32.5' y='-7.6' width='3' height='7.2' rx='1.8' fill='%23B4381A'/%3E%3Crect x='32.5' y='0.4' width='3' height='7.2' rx='1.8' fill='%23B4381A'/%3E%3Crect x='32.5' y='8.4' width='3' height='7.2' rx='1.8' fill='%23B4381A'/%3E%3Crect x='32.5' y='16.4' width='3' height='7.2' rx='1.8' fill='%23B4381A'/%3E%3Crect x='32.5' y='24.4' width='3' height='7.2' rx='1.8' fill='%23B4381A'/%3E%3Crect x='32.5' y='32.4' width='3' height='7.2' rx='1.8' fill='%23B4381A'/%3E%3Crect x='36.5' y='-3.6' width='3' height='7.2' rx='1.8' fill='%231E2230'/%3E%3Crect x='36.5' y='4.4' width='3' height='7.2' rx='1.8' fill='%231E2230'/%3E%3Crect x='36.5' y='12.4' width='3' height='7.2' rx='1.8' fill='%231E2230'/%3E%3Crect x='36.5' y='20.4' width='3' height='7.2' rx='1.8' fill='%231E2230'/%3E%3Crect x='36.5' y='28.4' width='3' height='7.2' rx='1.8' fill='%231E2230'/%3E%3Crect x='36.5' y='36.4' width='3' height='7.2' rx='1.8' fill='%231E2230'/%3E%3Crect x='40.5' y='-7.6' width='3' height='7.2' rx='1.8' fill='%235A2C6E'/%3E%3Crect x='40.5' y='0.4' width='3' height='7.2' rx='1.8' fill='%235A2C6E'/%3E%3Crect x='40.5' y='8.4' width='3' height='7.2' rx='1.8' fill='%235A2C6E'/%3E%3Crect x='40.5' y='16.4' width='3' height='7.2' rx='1.8' fill='%235A2C6E'/%3E%3Crect x='40.5' y='24.4' width='3' height='7.2' rx='1.8' fill='%235A2C6E'/%3E%3Crect x='40.5' y='32.4' width='3' height='7.2' rx='1.8' fill='%235A2C6E'/%3E%3Crect x='44.5' y='-3.6' width='3' height='7.2' rx='1.8' fill='%235A2C6E'/%3E%3Crect x='44.5' y='4.4' width='3' height='7.2' rx='1.8' fill='%235A2C6E'/%3E%3Crect x='44.5' y='12.4' width='3' height='7.2' rx='1.8' fill='%235A2C6E'/%3E%3Crect x='44.5' y='20.4' width='3' height='7.2' rx='1.8' fill='%235A2C6E'/%3E%3Crect x='44.5' y='28.4' width='3' height='7.2' rx='1.8' fill='%235A2C6E'/%3E%3Crect x='44.5' y='36.4' width='3' height='7.2' rx='1.8' fill='%235A2C6E'/%3E%3C/svg%3E");
+  --faixa-barro: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 32' width='24' height='32' shape-rendering='geometricPrecision'%3E%3Crect x='0' y='0' width='24' height='32' fill='%239C4A2B'/%3E%3Crect x='0' y='3.6' width='24' height='2.2' fill='%23EFE6D6'/%3E%3Crect x='0' y='7' width='24' height='1.2' fill='%232A1712'/%3E%3Crect x='0' y='23.8' width='24' height='1.2' fill='%232A1712'/%3E%3Crect x='0' y='26.2' width='24' height='2.2' fill='%23EFE6D6'/%3E%3Ccircle cx='12.0' cy='16.0' r='2.48' fill='%23EFE6D6'/%3E%3Ccircle cx='0' cy='16.0' r='1.2' fill='%23EFE6D6'/%3E%3Ccircle cx='24' cy='16.0' r='1.2' fill='%23EFE6D6'/%3E%3C/svg%3E");
+}
+
+/* ---- The phone and its browser surfaces ---- */
+
+.phone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 390px;
+  height: 844px;
+  overflow: hidden;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: 15px;
+  line-height: 20px;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  caret-color: var(--accent);
+  accent-color: var(--accent);
+}
+.phone ::selection { background: var(--accent-tint); color: var(--ink); }
+.phone :focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; }
+/* Element resets at zero specificity, so every component class below wins over them. */
+:where(.phone) :where(h1, h2, h3, p) { margin: 0; }
+:where(.phone) :where(a) { color: inherit; text-decoration: none; }
+:where(.phone) :where(button) { margin: 0; padding: 0; border: 0; background: none; font: inherit; color: inherit; cursor: pointer; }
+:where(.phone) :where(.icon) { width: 24px; height: 24px; flex-shrink: 0; }
+
+/* The content between the top bar and the bottom navigation (it scrolls in the app). */
+.screen { flex: 1 1 0; min-height: 0; overflow: hidden; }
+
+/* Horizontal scrollers (chips): no scrollbar, as on phones. */
+.h-scroll { display: flex; overflow-x: auto; scrollbar-width: none; }
+.h-scroll::-webkit-scrollbar { display: none; }
+
+/* Both artboards of a pair hold the sun and the moon; the theme shows one. */
+:root:not([data-tema='escuro']) .only-escuro, :root[data-tema='escuro'] .only-claro { display: none; }
+
+/* ---- O céu: the sky, the sun and the moon ---- */
+
+/* Flat bands, counted up from the horizon (--h5 … --h2 are the tops of bands 5 to 2); band 1 takes the
+   rest. Each page sets the heights; the colours come from the theme (or a board swatch). */
+.sky {
+  --h5: 18px;
+  --h4: 42px;
+  --h3: 72px;
+  --h2: 112px;
+  position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: linear-gradient(to top,
+    var(--sky-5) 0 var(--h5),
+    var(--sky-4) 0 var(--h4),
+    var(--sky-3) 0 var(--h3),
+    var(--sky-2) 0 var(--h2),
+    var(--sky-1) 0);
+  color: var(--sky-ink);
+}
+
+/* The sun and the moon: one drawing (#astro, a disc and the hand loop around it, a little off register
+   like a screen print). The sun is big and rises from behind the horizon, running off the edge (the sky
+   clips it); the moon is small (about a fifth of the sun) and sits high in the night sky. */
+.astro { position: absolute; overflow: visible; pointer-events: none; }
+.astro--sol { --astro-fill: var(--sun); }
+.astro--lua { --astro-fill: var(--moon); }
+.stars { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; fill: var(--star); pointer-events: none; }
+.sky > :not(.astro, .stars) { position: relative; }
+
+/* ---- Bars ---- */
+
+.status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  height: 47px;
+  padding: 4px 24px 0 32px;
+}
+.status-bar__time { font-size: 16px; line-height: 20px; font-weight: 600; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+.status-bar__icons { display: flex; align-items: center; gap: 6px; }
+.status-bar__icons .icon { width: 17px; height: 17px; }
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-shrink: 0;
+  height: 56px;
+  padding: 0 6px 0 16px;
+}
+.top-bar__title { font-family: var(--font-display); font-size: 30px; line-height: 34px; font-weight: 800; letter-spacing: -0.025em; }
+.top-bar__sub { font-size: 14px; line-height: 18px; font-weight: 500; color: var(--sky-ink-soft); font-variant-numeric: tabular-nums; }
+
+/* The lockup: the NOS mark (letters in ink, loop in urucum) and the city in Bricolage. */
+.brand { display: flex; align-items: flex-start; gap: 7px; }
+.brand .nos-mark { width: 46px; height: 28px; color: var(--sky-ink); }
+.brand__place { margin-top: 2px; font-family: var(--font-display); font-size: 22px; line-height: 28px; font-weight: 750; letter-spacing: -0.02em; }
+
+.icon-button {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  color: inherit;
+}
+.icon-button:hover { background: color-mix(in srgb, currentColor 10%, transparent); }
+
+/* Bottom navigation: five tabs, the active one in an urucum-tinted pill. Positioned so content that
+   scrolls under it stays under it. */
+.bottom-nav { position: relative; z-index: 3; flex-shrink: 0; border-top: 1px solid var(--line); background: var(--surface); }
+.bottom-nav__items { display: grid; grid-template-columns: repeat(5, 1fr); height: 64px; padding: 6px 4px 0; }
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+.nav-item__icon { display: grid; place-items: center; width: 56px; height: 32px; border-radius: 16px; }
+.nav-item:hover .nav-item__icon { background: var(--fill); }
+.nav-item.is-active { font-weight: 600; color: var(--accent-text); }
+.nav-item.is-active .nav-item__icon { background: var(--accent-tint); }
+.home-indicator { display: flex; align-items: flex-end; justify-content: center; height: 34px; padding-bottom: 8px; }
+.home-indicator::before { content: ''; width: 134px; height: 5px; border-radius: 3px; background: var(--ink); }
+
+/* ---- Controls ---- */
+
+/* Segmented control: the selected segment in ink with a check. */
+.segmented {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--surface);
+  overflow: hidden;
+}
+.segment { display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: 500; }
+.segment + .segment { border-left: 1px solid var(--line); }
+.segment .icon { width: 18px; height: 18px; }
+.segment.is-selected { background: var(--ink); font-weight: 600; color: var(--on-ink); }
+
+/* Filter chips: 36px pills with a 44px tap area. */
+.chips { gap: 8px; }
+.chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  height: 36px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.chip::after { content: ''; position: absolute; inset: -4px 0; }
+.chip:hover { background: var(--surface-hover); }
+.chip .icon { width: 18px; height: 18px; }
+.chip.is-selected { padding-left: 10px; border-color: var(--ink); background: var(--ink); font-weight: 600; color: var(--on-ink); }
+
+/* Share to WhatsApp: a 40px tonal circle in a 44px button; its circle sits on the card's padding. */
+.share-button {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  margin: -2px;
+  padding: 2px;
+  border-radius: 50%;
+  background: var(--fill);
+  background-clip: content-box;
+  color: var(--ink);
+}
+.share-button .icon { width: 20px; height: 20px; }
+.share-button:hover { background-color: var(--line); }
+
+/* ---- Labels ---- */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  height: 22px;
+  padding: 0 8px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: var(--surface);
+  font-family: var(--font-text);
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+/* ---- Cards ---- */
+
+.card {
+  border: 1px solid var(--card-border);
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+/* A door to a section: the section's landscape colour as its tint, its icon in its colour, the name in
+   Bricolage and one live line. Flat (no shadow): the colour is the card, set on the land. */
+.door-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  padding: 12px 12px 13px 14px;
+  border-radius: 18px;
+  background: var(--s-tint);
+  color: var(--ink);
+}
+.door-tile:hover { background: color-mix(in srgb, var(--s-tint) 88%, var(--s)); }
+.door-tile__head { display: flex; align-items: center; gap: 8px; }
+.door-tile__head .icon { width: 22px; height: 22px; color: var(--s-text); }
+.door-tile__name { font-family: var(--font-display); font-size: 18px; line-height: 24px; font-weight: 700; letter-spacing: -0.02em; }
+.door-tile__line {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 14px;
+  line-height: 19px;
+  color: var(--s-soft);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  text-wrap: pretty;
+}
+
+/* An activity: the title first (beside the share button), then when, who and where. */
+.event-card { display: flex; flex-direction: column; padding: 16px; }
+.event-card__head { display: flex; align-items: center; gap: 8px; }
+.event-card__title { flex: 1 1 0; min-width: 0; font-size: 17px; line-height: 22px; font-weight: 600; letter-spacing: -0.01em; text-wrap: pretty; }
+.event-card__meta { display: flex; flex-direction: column; gap: 4px; margin-top: 6px; }
+
+/* Meta rows with a 16px icon: the time (strong), the organization and the place (soft). */
+.meta { display: flex; align-items: flex-start; gap: 6px; font-size: 14px; line-height: 19px; color: var(--ink-soft); }
+.meta .icon { width: 16px; height: 16px; margin-top: 1.5px; }
+.meta b { font-weight: 600; color: var(--ink); }
+.meta .dot { margin: 5.5px 4px 0; }
+.meta--time { align-items: center; gap: 6px; font-size: 15px; line-height: 20px; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+.meta--time .icon { margin-top: 0; color: var(--ink-soft); }
+
+/* A day with nothing on it: a flat, outlined card. */
+.empty-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 10px 16px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+  color: var(--ink-soft);
+}
+.empty-card .icon { width: 20px; height: 20px; }
+
+/* A day header in the agenda list, in Bricolage; a holiday adds its name and a neutral tag. */
+.day-head { display: flex; align-items: center; gap: 8px; font-family: var(--font-display); font-size: 19px; line-height: 24px; font-weight: 750; letter-spacing: -0.015em; font-variant-numeric: tabular-nums; }
+.day-head__label { flex: 1 1 auto; min-width: 0; }
+.day-head__holiday { font-weight: 500; color: var(--ink-soft); }
+
+/* ---- Kept from Céu: the band, the urucum hand marks, the group dots ---- */
+
+/* A FAIXA. Full-bleed, under the sky: the horizon. Its art repeats sideways at the band's height. */
+.faixa {
+  position: relative;
+  flex-shrink: 0;
+  height: var(--faixa-h, 40px);
+  background: var(--faixa, var(--faixa-trancado)) 0 50% / auto 100% repeat-x;
+}
+.faixa--fina { --faixa-h: 16px; }
+
+/* The hand marks, in urucum: an open pen loop that runs past its start circles the next thing; a
+   short stroke underlines today. */
+.hand {
+  position: absolute;
+  overflow: visible;
+  fill: none;
+  stroke: var(--hand);
+  stroke-width: 2.5px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+.circled { position: relative; display: inline-block; white-space: nowrap; }
+.circled > .hand { left: -9px; top: -8px; width: calc(100% + 18px); height: calc(100% + 16px); }
+.today { position: relative; display: inline-block; }
+.today > .hand { left: -2px; bottom: -7px; width: calc(100% + 4px); height: 8px; }
+.next-label { font-size: 14px; line-height: 18px; font-weight: 600; color: var(--accent-text); }
+/* A date in NOS's voice: Bricolage, heavy, tabular figures. */
+.date-big { font-family: var(--font-display); font-weight: 800; letter-spacing: -0.015em; font-variant-numeric: tabular-nums; }
+
+/* A group: a coloured dot beside the organization (never a shape, never a fill). */
+.dot { display: inline-block; flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%; background: var(--g, var(--ink-soft)); }
+.g-sindicatos { --g: var(--g-sindicatos); }
+.g-rural { --g: var(--g-rural); }
+.g-movimentos { --g: var(--g-movimentos); }
+.g-academia { --g: var(--g-academia); }
+.g-orgaos { --g: var(--g-orgaos); }
+.g-partidos { --g: var(--g-partidos); }
+.g-outros { --g: var(--g-outros); }
+.g-terceiro { --g: var(--g-terceiro); }
+
+/* Buttons: urucum primary, outlined secondary. */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 18px;
+  border: 1px solid transparent;
+  border-radius: 22px;
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.button .icon { width: 18px; height: 18px; }
+.button--primary { background: var(--accent); color: var(--on-accent); }
+.button--primary:hover { background: color-mix(in srgb, var(--accent) 88%, var(--ink)); }
+.button--secondary { border-color: var(--line); background: var(--surface); color: var(--ink); }
+.button--secondary:hover { background: var(--surface-hover); }

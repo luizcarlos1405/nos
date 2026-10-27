@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Céu · Terra · Quadro</title>
+<script>if (new URLSearchParams(location.search).get('tema') === 'escuro') document.documentElement.dataset.tema = 'escuro';</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Inter:opsz,wght@14..32,400..700&display=swap">
+<link rel="stylesheet" href="assets/design.css">
+<link rel="stylesheet" href="assets/direcao-ceu-terra.css">
+<style>
+/* The variant's board: the idea on its own sky, the palette as a landscape (sky / horizon / land, light and
+   dark, fixed whatever the theme), the screens' key moves at real size (they follow the theme), what changed
+   from Céu and why, the type, the risk. */
+.board {
+  display: flex;
+  flex-direction: column;
+  width: 1200px;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: 15px;
+  line-height: 23px;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+}
+.board ::selection { background: var(--accent-tint); color: var(--ink); }
+:where(.board) :where(h1, h2, h3, h4, p, ul, figure, figcaption) { margin: 0; padding: 0; }
+:where(.board) :where(button) { margin: 0; padding: 0; border: 0; background: none; font: inherit; color: inherit; cursor: pointer; }
+:where(.board) :where(.icon) { width: 18px; height: 18px; flex-shrink: 0; }
+
+/* Fixed tokens, for the swatches that show one theme whatever the board's theme. */
+.fix-claro {
+  --sky-1: #93C1E6; --sky-2: #BED6E8; --sky-3: #F0D5C6; --sky-4: #F8C095; --sky-5: #FBD789;
+  --sky-ink: #221714; --sun: #F4A11E; --hand: #C2410C;
+  --ground: #F2E3D7; --surface: #FFFBF7; --ink: #221714; --ink-soft: #6A4E44;
+  --card-border: transparent; --shadow: 0 1px 2px rgba(74, 34, 18, .08), 0 6px 16px rgba(74, 34, 18, .07);
+  --agenda: #C2410C;   --agenda-text: #A3360A;   --agenda-tint: #F7CDB8;
+  --mutiroes: #4E7A2A; --mutiroes-text: #3F6A1F; --mutiroes-tint: #D5E4BF;
+  --noticias: #2462A8; --noticias-text: #1F5796; --noticias-tint: #C9DCF0;
+  --mapa: #E3A21A;     --mapa-text: #7A4E00;     --mapa-tint: #F6D88F;
+  --comercio: #C03A73; --comercio-text: #A12E5F; --comercio-tint: #F3C8DA;
+  --orgs: #7444A8;     --orgs-text: #643A97;     --orgs-tint: #DDCDF0;
+}
+.fix-escuro {
+  --sky-1: #140D26; --sky-2: #1C1233; --sky-3: #271740; --sky-4: #361C48; --sky-5: #47214A;
+  --sky-ink: #F7EBE3; --moon: #F4DDB0; --star: #F6E6C6; --hand: #FF8A5C;
+  --ground: #231311; --surface: #301B17; --ink: #F7EBE3; --ink-soft: #CFB5A9;
+  --card-border: #4A2F28; --shadow: none;
+  --agenda: #FF8A5C;   --agenda-text: #FF8A5C;   --agenda-tint: #5A2A1E;
+  --mutiroes: #93C96F; --mutiroes-text: #93C96F; --mutiroes-tint: #2D3B1E;
+  --noticias: #8AB6F2; --noticias-text: #8AB6F2; --noticias-tint: #20304B;
+  --mapa: #F2C14E;     --mapa-text: #F2C14E;     --mapa-tint: #4A3711;
+  --comercio: #F58AB3; --comercio-text: #F58AB3; --comercio-tint: #522036;
+  --orgs: #BE9BF0;     --orgs-text: #BE9BF0;     --orgs-tint: #392752;
+}
+
+/* The head: the idea, written on the sky; the big sun (or the full moon) rising behind the band. */
+.sky--board { --h5: 16px; --h4: 36px; --h3: 62px; --h2: 98px; padding: 40px 56px 34px; }
+.sky--board .astro--sol { right: -65px; bottom: -236px; width: 416px; height: 416px; --loop-w: 6px; }
+.sky--board .astro--lua { right: 120px; top: 44px; width: 80px; height: 80px; --loop-w: 3px; }
+.name { display: flex; align-items: center; gap: 18px; }
+.name h1 { font-family: var(--font-display); font-size: 72px; line-height: 76px; font-weight: 800; letter-spacing: -0.035em; }
+.pill { padding: 4px 11px 5px; border-radius: 999px; background: var(--sky-ink); color: var(--sky-1); font-size: 13px; line-height: 18px; font-weight: 600; white-space: nowrap; }
+.thesis { max-width: 680px; margin-top: 14px; font-size: 18px; line-height: 27px; font-weight: 500; letter-spacing: -0.01em; text-wrap: pretty; }
+.board > .faixa { --faixa-h: 40px; }
+
+.inner { display: flex; flex-direction: column; gap: 26px; padding: 28px 56px 36px; }
+.block { display: flex; flex-direction: column; gap: 14px; }
+.block > h2 { font-family: var(--font-display); font-size: 28px; line-height: 32px; font-weight: 800; letter-spacing: -0.02em; }
+
+/* The palette as a landscape: two cross-sections (sky / horizon / land) and the six sections. */
+.palette { display: grid; grid-template-columns: 190px 190px minmax(0, 1fr); gap: 28px; padding: 22px 24px 24px; }
+.palette h3 { font-family: var(--font-display); font-size: 17px; line-height: 22px; font-weight: 750; }
+.cut { display: flex; flex-direction: column; margin-top: 10px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); border-radius: 14px; }
+.cut__sky { display: flex; flex-direction: column; }
+.cut__sky .astro--sol { right: -36px; bottom: -84px; width: 147px; height: 147px; --loop-w: 3px; }
+.cut__sky .astro--lua { right: 30px; top: 18px; width: 30px; height: 30px; --loop-w: 2px; }
+.cut__sky > span { position: relative; height: var(--bh); padding: 0 10px; font-size: 12px; line-height: var(--bh); font-weight: 500; color: var(--sky-ink); font-variant-numeric: tabular-nums; }
+.cut .faixa { --faixa-h: 18px; }
+.cut__land { display: flex; flex-direction: column; gap: 8px; padding: 9px 10px 12px; background: var(--ground); color: var(--ink); font-size: 12px; line-height: 16px; font-variant-numeric: tabular-nums; }
+.cut__card { display: flex; flex-direction: column; gap: 2px; padding: 8px 10px; border: 1px solid var(--card-border); border-radius: 10px; background: var(--surface); box-shadow: var(--shadow); }
+.cut__card b { font-weight: 600; }
+.cut__card .soft { color: var(--ink-soft); }
+.lights { display: flex; flex-wrap: wrap; gap: 6px 12px; margin-top: 10px; font-size: 12px; line-height: 16px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.lights span { display: inline-flex; align-items: center; gap: 6px; }
+.lights i { width: 16px; height: 16px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(127, 127, 127, .35); }
+.sections { display: grid; grid-template-columns: 152px 152px minmax(0, 1fr); align-items: center; gap: 6px 14px; margin-top: 10px; }
+.sections .col-head { font-size: 13px; line-height: 18px; font-weight: 600; }
+.sec { display: flex; align-items: center; gap: 8px; height: 36px; padding: 0 10px; border-radius: 12px; background: var(--s-tint); color: var(--ink); font-family: var(--font-display); font-size: 15px; line-height: 20px; font-weight: 700; }
+.sec .icon { color: var(--s-text); }
+.sec-hex { font-size: 12px; line-height: 16px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.sec-note { margin-top: 10px; font-size: 12px; line-height: 16px; color: var(--ink-soft); }
+.sec-hex b { font-family: var(--font-display); font-size: 14px; font-weight: 750; color: var(--ink); }
+
+/* The key moves at real size: they follow the board's theme. */
+.moves { display: grid; grid-template-columns: 495px minmax(0, 1fr); gap: 20px; }
+.move { display: flex; flex-direction: column; gap: 10px; }
+.move__art { display: flex; flex-direction: column; height: 262px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); border-radius: 18px; background: var(--ground); }
+.move figcaption { color: var(--ink-soft); font-size: 14px; line-height: 21px; text-wrap: pretty; }
+.move figcaption b { font-weight: 600; color: var(--ink); }
+.sky--tile { --h5: 10px; --h4: 24px; --h3: 42px; --h2: 66px; padding: 16px 16px 20px; }
+.sky--tile .astro--sol { right: -76px; bottom: -138px; width: 245px; height: 245px; --loop-w: 4px; }
+.sky--tile .astro--lua { right: 40px; top: 30px; width: 48px; height: 48px; --loop-w: 2.5px; }
+.tile-hello { font-family: var(--font-display); font-size: 40px; line-height: 40px; font-weight: 800; letter-spacing: -0.03em; }
+.move__art .faixa { --faixa-h: 36px; }
+.move .next { position: relative; z-index: 1; margin: -12px 16px 0; padding: 10px 14px 13px 16px; }
+.move .next__head { display: flex; align-items: center; gap: 8px; min-height: 44px; }
+.move .next__when { display: flex; flex: 1 1 auto; align-items: center; gap: 14px; }
+.move .next__when .circled { margin-left: 8px; font-size: 20px; line-height: 24px; }
+.move .next__title { margin-top: 4px; font-size: 17px; line-height: 22px; font-weight: 600; letter-spacing: -0.01em; }
+.move__art--doors { justify-content: center; padding: 0 16px; }
+.move__art--doors .doors { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+
+/* What changed, the type, the risk. */
+.row3 { display: grid; grid-template-columns: 1.7fr 1fr 1fr; gap: 20px; }
+.panel { display: flex; flex-direction: column; gap: 12px; padding: 20px; }
+.panel h3 { font-family: var(--font-display); font-size: 19px; line-height: 24px; font-weight: 750; letter-spacing: -0.012em; }
+.panel p, .panel li { font-size: 14px; line-height: 21px; color: var(--ink-soft); text-wrap: pretty; }
+.panel b { font-weight: 600; color: var(--ink); }
+.changes { display: flex; flex-direction: column; gap: 7px; list-style: none; }
+.panel .specimen { font-family: var(--font-display); font-size: 34px; line-height: 34px; font-weight: 800; letter-spacing: -0.03em; color: var(--ink); }
+.panel .specimen-2 { font-family: var(--font-display); font-size: 20px; line-height: 26px; font-weight: 750; letter-spacing: -0.012em; color: var(--ink); font-variant-numeric: tabular-nums; }
+.panel .specimen-3 { font-size: 15px; line-height: 22px; color: var(--ink); }
+.panel .risk-text { font-size: 15px; line-height: 23px; color: var(--ink); }
+</style>
+</head>
+<body>
+<!-- Céu · Terra · board (a free variant of D3 · Céu): the sky and the land of Dourados. -->
+<div class="board">
+  <div class="sky sky--board">
+    <svg class="astro astro--sol only-claro" viewBox="0 0 120 120" aria-hidden="true"><use href="#astro"/></svg>
+    <svg class="astro astro--lua only-escuro" viewBox="0 0 120 120" aria-hidden="true"><use href="#astro"/></svg>
+    <svg class="stars only-escuro" aria-hidden="true">
+      <circle cx="760" cy="40" r="1.5"/><circle cx="836" cy="118" r="1.8"/><circle cx="778" cy="200" r="1.3"/>
+      <circle cx="884" cy="226" r="1.4"/><circle cx="1004" cy="62" r="1.2"/><circle cx="1150" cy="40" r="1.3"/>
+      <circle cx="930" cy="92" r="1.1"/><circle cx="1176" cy="110" r="1.2"/><circle cx="756" cy="150" r="1.1"/>
+      <circle cx="1080" cy="24" r="1.4"/>
+    </svg>
+    <div class="name"><h1>Céu · Terra</h1><span class="pill">Variante livre de D3 · Céu</span></div>
+    <p class="thesis">O céu e a terra de Dourados. No alto, o céu desta hora, mais quente, com um sol maior; embaixo da faixa, a página vira chão: barro claro de manhã, terra roxa à noite. As seis seções ganham as cores da paisagem.</p>
+  </div>
+  <div class="faixa" role="img" aria-label="Faixa tecida (arte provisória)"></div>
+
+  <div class="inner">
+    <section class="block">
+      <h2>A paleta é a paisagem</h2>
+      <div class="palette card">
+        <div>
+          <h3>Manhã · claro</h3>
+          <div class="cut fix-claro">
+            <div class="cut__sky sky" style="--h5: 18px; --h4: 38px; --h3: 60px; --h2: 84px">
+              <svg class="astro astro--sol" viewBox="0 0 120 120" aria-hidden="true"><use href="#astro"/></svg>
+              <span style="--bh: 30px">#93C1E6</span>
+              <span style="--bh: 24px">#BED6E8</span>
+              <span style="--bh: 22px">#F0D5C6</span>
+              <span style="--bh: 20px">#F8C095</span>
+              <span style="--bh: 18px">#FBD789</span>
+            </div>
+            <div class="faixa" aria-hidden="true"></div>
+            <div class="cut__land">
+              <span>Terra (o chão) #F2E3D7</span>
+              <div class="cut__card"><b>Cartão #FFFBF7</b><span>Tinta #221714</span><span class="soft">Texto suave #6A4E44</span></div>
+            </div>
+          </div>
+          <p class="lights"><span><i style="background:#F4A11E"></i>Sol #F4A11E</span><span><i style="background:#C2410C"></i>Laço #C2410C</span></p>
+        </div>
+        <div>
+          <h3>Noite · escuro</h3>
+          <div class="cut fix-escuro">
+            <div class="cut__sky sky" style="--h5: 18px; --h4: 38px; --h3: 60px; --h2: 84px">
+              <svg class="astro astro--lua" viewBox="0 0 120 120" aria-hidden="true"><use href="#astro"/></svg>
+              <svg class="stars" aria-hidden="true"><circle cx="112" cy="14" r="1.1"/><circle cx="150" cy="30" r="1.3"/><circle cx="196" cy="12" r="1"/><circle cx="96" cy="44" r="1"/></svg>
+              <span style="--bh: 30px">#140D26</span>
+              <span style="--bh: 24px">#1C1233</span>
+              <span style="--bh: 22px">#271740</span>
+              <span style="--bh: 20px">#361C48</span>
+              <span style="--bh: 18px">#47214A</span>
+            </div>
+            <div class="faixa" aria-hidden="true"></div>
+            <div class="cut__land">
+              <span>Terra roxa (o chão) #231311</span>
+              <div class="cut__card"><b>Cartão #301B17</b><span>Tinta #F7EBE3</span><span class="soft">Texto suave #CFB5A9</span></div>
+            </div>
+          </div>
+          <p class="lights"><span><i style="background:#F4DDB0"></i>Lua #F4DDB0</span><span><i style="background:#FF8A5C"></i>Laço #FF8A5C</span></p>
+        </div>
+        <div>
+          <h3>As seis seções, da paisagem</h3>
+          <div class="sections">
+            <span class="col-head">Claro</span><span class="col-head">Escuro</span><span class="col-head">De onde vem a cor</span>
+            <span class="sec fix-claro s-agenda"><svg class="icon"><use href="assets/icons.svg#calendar-days"/></svg>Agenda</span>
+            <span class="sec fix-escuro s-agenda"><svg class="icon"><use href="assets/icons.svg#calendar-days"/></svg>Agenda</span>
+            <span class="sec-hex"><b>Urucum</b> · #C2410C #A3360A #F7CDB8<br>#FF8A5C #5A2A1E</span>
+            <span class="sec fix-claro s-mutiroes"><svg class="icon"><use href="assets/icons.svg#hand-heart"/></svg>Mutirões</span>
+            <span class="sec fix-escuro s-mutiroes"><svg class="icon"><use href="assets/icons.svg#hand-heart"/></svg>Mutirões</span>
+            <span class="sec-hex"><b>Roça</b> · #4E7A2A #3F6A1F #D5E4BF<br>#93C96F #2D3B1E</span>
+            <span class="sec fix-claro s-noticias"><svg class="icon"><use href="assets/icons.svg#newspaper"/></svg>Notícias</span>
+            <span class="sec fix-escuro s-noticias"><svg class="icon"><use href="assets/icons.svg#newspaper"/></svg>Notícias</span>
+            <span class="sec-hex"><b>Céu</b> · #2462A8 #1F5796 #C9DCF0<br>#8AB6F2 #20304B</span>
+            <span class="sec fix-claro s-mapa"><svg class="icon"><use href="assets/icons.svg#map"/></svg>Mapa</span>
+            <span class="sec fix-escuro s-mapa"><svg class="icon"><use href="assets/icons.svg#map"/></svg>Mapa</span>
+            <span class="sec-hex"><b>Ipê-amarelo</b> · #E3A21A #7A4E00 #F6D88F<br>#F2C14E #4A3711</span>
+            <span class="sec fix-claro s-comercio"><svg class="icon"><use href="assets/icons.svg#store"/></svg>Comércio</span>
+            <span class="sec fix-escuro s-comercio"><svg class="icon"><use href="assets/icons.svg#store"/></svg>Comércio</span>
+            <span class="sec-hex"><b>Ipê-rosa</b> · #C03A73 #A12E5F #F3C8DA<br>#F58AB3 #522036</span>
+            <span class="sec fix-claro s-orgs"><svg class="icon"><use href="assets/icons.svg#users"/></svg>Organizações</span>
+            <span class="sec fix-escuro s-orgs"><svg class="icon"><use href="assets/icons.svg#users"/></svg>Organizações</span>
+            <span class="sec-hex"><b>Anoitecer</b> · #7444A8 #643A97 #DDCDF0<br>#BE9BF0 #392752</span>
+          </div>
+          <p class="sec-note">Linha 1: cor, texto e porta no claro. Linha 2: cor e porta no escuro. Todo texto passa de 4,5:1, também no céu.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>As telas, de perto</h2>
+      <div class="moves">
+        <figure class="move">
+          <div class="move__art">
+            <div class="sky sky--tile">
+              <svg class="astro astro--sol only-claro" viewBox="0 0 120 120" aria-hidden="true"><use href="#astro"/></svg>
+              <svg class="astro astro--lua only-escuro" viewBox="0 0 120 120" aria-hidden="true"><use href="#astro"/></svg>
+              <svg class="stars only-escuro" aria-hidden="true"><circle cx="292" cy="26" r="1.2"/><circle cx="318" cy="56" r="1.5"/><circle cx="236" cy="86" r="1.1"/><circle cx="380" cy="20" r="1.3"/><circle cx="296" cy="100" r="1"/></svg>
+              <p class="tile-hello"><span class="only-claro">Bom dia,<br>Dourados</span><span class="only-escuro">Boa noite,<br>Dourados</span></p>
+            </div>
+            <div class="faixa" aria-hidden="true"></div>
+            <article class="next card">
+              <div class="next__head">
+                <p class="next__when"><span class="circled date-big">sáb 31/10<svg class="hand" aria-hidden="true"><use href="#hand-a"/></svg></span><span class="next-label">a próxima</span></p>
+                <button class="share-button" type="button" aria-label="Compartilhar no WhatsApp"><svg class="icon"><use href="assets/icons.svg#share-2"/></svg></button>
+              </div>
+              <p class="next__title">Caminhada Ecológica de Dourados</p>
+            </article>
+          </div>
+          <figcaption><b>O horizonte.</b> A saudação em Bricolage 800, o sol maior saindo pela borda (de noite, a lua cheia), a próxima pousada na faixa e, embaixo, a terra.</figcaption>
+        </figure>
+        <figure class="move">
+          <div class="move__art move__art--doors">
+            <div class="doors">
+              <span class="door-tile s-agenda"><span class="door-tile__head"><svg class="icon"><use href="assets/icons.svg#calendar-days"/></svg><span class="door-tile__name">Agenda</span></span><span class="door-tile__line">4 atividades até 20/11</span></span>
+              <span class="door-tile s-mutiroes"><span class="door-tile__head"><svg class="icon"><use href="assets/icons.svg#hand-heart"/></svg><span class="door-tile__name">Mutirões</span></span><span class="door-tile__line">Sementes crioulas e saúde nas aldeias</span></span>
+              <span class="door-tile s-noticias"><span class="door-tile__head"><svg class="icon"><use href="assets/icons.svg#newspaper"/></svg><span class="door-tile__name">Notícias</span></span><span class="door-tile__line">ADUF condena presença da PM em assembleia do SINTEF na UFGD</span></span>
+              <span class="door-tile s-mapa"><span class="door-tile__head"><svg class="icon"><use href="assets/icons.svg#map"/></svg><span class="door-tile__name">Mapa</span></span><span class="door-tile__line">Feira Afro na Praça Antônio João</span></span>
+              <span class="door-tile s-comercio"><span class="door-tile__head"><svg class="icon"><use href="assets/icons.svg#store"/></svg><span class="door-tile__name">Comércio</span></span><span class="door-tile__line">16 negócios, do pão ao eletricista</span></span>
+              <span class="door-tile s-orgs"><span class="door-tile__head"><svg class="icon"><use href="assets/icons.svg#users"/></svg><span class="door-tile__name">Organizações</span></span><span class="door-tile__line">22 organizações em 8 grupos</span></span>
+            </div>
+          </div>
+          <figcaption><b>As portas sobre a terra.</b> Cada seção na sua cor da paisagem, mais firme que no Céu para aparecer sobre o barro, mas ainda cartões com nome e linha viva, não um mosaico.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <div class="row3">
+      <section class="panel card">
+        <h3>O que mudou do Céu, e por quê</h3>
+        <ul class="changes">
+          <li><b>A terra.</b> Dourados é céu grande e terra roxa. Embaixo da faixa a página vira chão, no lugar do cinza: barro claro de manhã, terra roxa à noite.</li>
+          <li><b>Mais cor no céu.</b> Faixas mais quentes, às 5:50 de uma manhã dourada, e um sol maior, que sai pela borda; à noite, a lua cheia nasce no lugar dele.</li>
+          <li><b>Seções da paisagem.</b> Urucum, roça, céu, ipê-amarelo, ipê-rosa e anoitecer, para a Início parecer daqui, em portas de tom mais firme.</li>
+          <li><b>Fica do Céu:</b> a saudação pela hora, a faixa como horizonte (agora com 40 px), o laço de urucum, os pontos de cor dos grupos, as portas, o desktop calmo, a marca e a navegação.</li>
+        </ul>
+      </section>
+      <section class="panel card">
+        <h3>Letra</h3>
+        <p class="specimen">Bom dia,<br>Dourados</p>
+        <p class="specimen-2">sáb 31/10 · Mutirões</p>
+        <p class="specimen-3"><b>Caminhada Ecológica de Dourados</b> · SINTEF</p>
+        <p>Bricolage Grotesque 800 (antes 700) é a voz do NOS, maior na saudação: 52 px no celular, 76 no desktop. Inter é o que as organizações anunciam, e os controles.</p>
+      </section>
+      <section class="panel card">
+        <h3>Risco</h3>
+        <p class="risk-text">Tons de terra pesam: com sol grande, chão colorido e seis cores firmes, a tela pode ficar barrenta ou cheia demais. No escuro, a terra roxa e o vinho no horizonte deixam a noite menos “noite” que o índigo do Céu (pode parecer fim de tarde). E verde, amarelo e azul lado a lado lembram a bandeira: por isso o verde é de roça e o amarelo, de ipê, nunca puros.</p>
+      </section>
+    </div>
+  </div>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="hand-a" viewBox="0 0 120 60" preserveAspectRatio="none"><path vector-effect="non-scaling-stroke" d="M84 7C62 2 28 4 12 15C1 23 2 41 22 50C42 59 88 58 108 46C122 37 119 17 98 9C84 4 66 4 47 9"/></symbol>
+  <symbol id="astro" viewBox="0 0 120 120"><circle cx="58" cy="60" r="49" style="fill: var(--astro-fill)"/><path vector-effect="non-scaling-stroke" style="fill: none; stroke: var(--hand); stroke-width: var(--loop-w, 3px); stroke-linecap: round; stroke-linejoin: round" d="M78 9C56 4 22 12 12 38C3 64 20 104 56 108C92 112 116 88 112 56C109 28 92 7 66 5.5C54 5 40 10 28 19"/></symbol>
+</svg>
+</body>
+</html>
