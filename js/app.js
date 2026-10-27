@@ -479,7 +479,6 @@ function renderBench() {
   }
   bench.removeAttribute('aria-label');
   bench.setAttribute('aria-labelledby', 'bench-title');
-  loadFlyerFonts();
 
   paintSector(bench, ev.sector);
   renderBenchDate(ev);
@@ -531,17 +530,6 @@ function renderBench() {
 
   renderFlyerPreview(ev);
   showPanel(activePanel);
-}
-
-// The flyers are set in Barlow (css/flyers.css), which nothing else on the page uses: it is asked for
-// as soon as an activity is open, so the preview and the PNG don't wait for it.
-let flyerFontsAsked = false;
-function loadFlyerFonts() {
-  if (flyerFontsAsked || !document.fonts) return;
-  flyerFontsAsked = true;
-  for (const face of ['500 1em Barlow', '600 1em Barlow', '700 1em Barlow', '600 1em "Barlow Condensed"', '700 1em "Barlow Condensed"', '800 1em "Barlow Condensed"']) {
-    document.fonts.load(face).catch(() => {});
-  }
 }
 
 // ---------- Flyer style picker ----------

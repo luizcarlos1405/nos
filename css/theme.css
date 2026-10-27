@@ -26,17 +26,11 @@
    --color-night-1. manifest.webmanifest repeats --color-day-1 and --color-clay. */
 
 /* Bricolage Grotesque (the voice: greeting, dates, titles) and Inter (what the organizations
-   announce, and the controls): variable fonts, Latin. Bricolage keeps its optical-size axis, which
-   gives its display sizes their character. */
+   announce, and the controls), on the site and on the flyers: variable fonts, Latin. Bricolage keeps
+   its optical-size axis, which gives its display sizes their character (the flyers pin it at 96, the
+   size js/flyer.js measured it at). */
 @font-face { font-family: 'Bricolage Grotesque'; font-style: normal; font-weight: 500 800; font-display: swap; src: url(../fonts/bricolage-grotesque.woff2) format('woff2'); }
 @font-face { font-family: 'Inter'; font-style: normal; font-weight: 400 700; font-display: swap; src: url(../fonts/inter.woff2) format('woff2'); }
-/* Barlow: the flyers only. js/flyer.js plans their line breaks from Barlow's glyph widths. */
-@font-face { font-family: 'Barlow'; font-weight: 500; font-display: swap; src: url(../fonts/barlow-500.woff2) format('woff2'); }
-@font-face { font-family: 'Barlow'; font-weight: 600; font-display: swap; src: url(../fonts/barlow-600.woff2) format('woff2'); }
-@font-face { font-family: 'Barlow'; font-weight: 700; font-display: swap; src: url(../fonts/barlow-700.woff2) format('woff2'); }
-@font-face { font-family: 'Barlow Condensed'; font-weight: 600; font-display: swap; src: url(../fonts/barlow-condensed-600.woff2) format('woff2'); }
-@font-face { font-family: 'Barlow Condensed'; font-weight: 700; font-display: swap; src: url(../fonts/barlow-condensed-700.woff2) format('woff2'); }
-@font-face { font-family: 'Barlow Condensed'; font-weight: 800; font-display: swap; src: url(../fonts/barlow-condensed-800.woff2) format('woff2'); }
 
 :root {
   /* ---------- 1. Palette ---------- */
@@ -47,7 +41,7 @@
   --color-clay-card-hover: #FFF4EC;
   --color-clay-fill: #F4E4D9;        /* tonal fill: share buttons, the chat behind the message */
   --color-clay-line: #E9D5C8;
-  --color-clay-faded: #D8C2B5;       /* scrollbar, the flyers' perforation */
+  --color-clay-faded: #D8C2B5;       /* the scrollbar */
   --color-ink: #221714;
   --color-ink-soft: #6A4E44;         /* tinted from the earth, never grey */
   --color-white: #FFFFFF;
@@ -129,8 +123,6 @@
   /* ---------- Type and shape ---------- */
   --font-display: 'Bricolage Grotesque', 'Inter', system-ui, sans-serif;
   --font-ui: 'Inter', system-ui, sans-serif;
-  --font-flyer: 'Barlow', system-ui, sans-serif;
-  --font-flyer-display: 'Barlow Condensed', 'Barlow', system-ui, sans-serif;
   --radius-sm: 6px;
   --radius: 12px;
   --radius-card: 18px;
@@ -157,7 +149,6 @@
   --role-line: var(--color-clay-line);
   --role-ink: var(--color-ink);                  /* text */
   --role-ink-soft: var(--color-ink-soft);        /* secondary text, icons */
-  --role-ink-faded: var(--color-clay-faded);     /* the scrollbar, the flyers' perforation */
   --role-on-ink: var(--color-clay-card);         /* text on an ink fill: the chosen segment and chips */
   --role-wash: color-mix(in srgb, var(--color-ink) 7%, transparent); /* hover on quiet controls */
   --role-scrim: color-mix(in srgb, var(--color-ink) 50%, transparent);
@@ -214,7 +205,6 @@
   --role-line: var(--color-terra-roxa-line);
   --role-ink: var(--color-moonlit);
   --role-ink-soft: var(--color-moonlit-soft);
-  --role-ink-faded: var(--color-terra-roxa-faded);
   --role-on-ink: var(--color-terra-roxa);
   --role-wash: color-mix(in srgb, var(--color-moonlit) 9%, transparent);
   --role-scrim: color-mix(in srgb, var(--color-night-shade) 70%, transparent);
