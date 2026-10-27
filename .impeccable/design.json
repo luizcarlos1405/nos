@@ -14,7 +14,8 @@
           "--role-binding",
           "--role-red-letter",
           "--role-accent",
-          "--role-alert"
+          "--role-alert",
+          "--role-mark-loop"
         ],
         "tonalRamp": [
           "oklch(15% 0.105 24)",
@@ -112,7 +113,6 @@
         "variable": "--color-ink",
         "roles": [
           "--role-ink",
-          "--role-mark-binding",
           "--role-on-next",
           "--role-strong",
           "--role-focus"
@@ -621,11 +621,6 @@
     },
     "shadows": [
       {
-        "name": "mark-lift",
-        "value": "0 0.05em 0.1em var(--role-shadow)",
-        "purpose": "The NOS mark's mini sheet on the red header card; flyers drop it."
-      },
-      {
         "name": "sheet-lift",
         "value": "0 -8px 24px var(--role-shadow)",
         "purpose": "The phone's bottom sheet, over the 55% graphite scrim. The desktop panel has none."
@@ -787,9 +782,9 @@
         "purpose": "The strip on top of each sheet."
       },
       {
-        "name": "--role-mark-binding",
-        "value": "var(--color-ink)",
-        "purpose": "The strip on top of the NOS mark."
+        "name": "--role-mark-loop",
+        "value": "var(--color-brand)",
+        "purpose": "The O of the NOS mark where the mark prints on paper: the app icons, the favicons, the link preview."
       },
       {
         "name": "--role-red-letter",
@@ -965,10 +960,9 @@
           "name": "exemplo",
           "overrides": {
             "--role-header": "var(--color-ink)",
-            "--role-binding": "var(--color-ink)",
-            "--role-mark-binding": "var(--color-brand)"
+            "--role-binding": "var(--color-ink)"
           },
-          "purpose": "Template: a graphite header card and binding, a red binding on the mark."
+          "purpose": "Template: a graphite header card and binding."
         }
       ]
     },
@@ -1074,9 +1068,9 @@
       "name": "Masthead and NOS Mark",
       "kind": "custom",
       "refersTo": "masthead",
-      "description": "The red printed header card: the provisional NOS mark (a mini folhinha sheet sized by font-size), the city and the full name.",
-      "html": "<div class=\"ds-masthead\"><a class=\"ds-brand\" href=\"#\"><span class=\"ds-mark\" aria-hidden=\"true\"><span class=\"ds-mark-binding\"></span><span class=\"ds-mark-perf\"></span><span class=\"ds-mark-word\">NOS</span></span><span class=\"ds-brand-text\"><span class=\"ds-brand-city\">Dourados/MS</span><span class=\"ds-brand-name\">Núcleo de Organização Social</span></span></a></div>",
-      "css": ".ds-masthead, .ds-masthead *, .ds-masthead *::before, .ds-masthead *::after { box-sizing: border-box; } .ds-masthead { padding: 6px 16px 0; background: var(--role-header, #E4002B); color: var(--role-on-header, #FFFFFF); } .ds-brand { display: flex; align-items: center; gap: 12px; width: fit-content; padding: 6px 0 12px; border-radius: var(--radius-sm, 4px); color: inherit; text-decoration: none; } .ds-brand:focus-visible { outline: 3px solid var(--role-focus-on-color, #FFFFFF); outline-offset: 2px; } .ds-mark { display: inline-flex; flex-direction: column; width: 2.2em; height: 2.5em; border-radius: 0.15em 0.15em 0.2em 0.2em; overflow: hidden; background: var(--role-paper, #FFFFFF); box-shadow: 0 0.05em 0.1em var(--role-shadow, color-mix(in srgb, #1C1C1E 14%, transparent)); font-size: 1.25rem; } .ds-mark-binding { flex: none; height: 0.35em; background: var(--role-mark-binding, #1C1C1E); } .ds-mark-perf { flex: none; height: 0.3em; margin: 0 0.2em; background: radial-gradient(circle, var(--role-ink-faded, #BDBDB8) 0.05em, transparent 0.06em) center / 0.25em 0.3em repeat-x; } .ds-mark-word { flex: 1; display: grid; place-items: center; padding-bottom: 0.15em; font: 800 1.15em/1 var(--font-display, 'Barlow Condensed', 'Barlow', system-ui, sans-serif); letter-spacing: 0.015em; color: var(--role-ink, #1C1C1E); } .ds-brand-text { display: flex; flex-direction: column; gap: 2px; } .ds-brand-city { font: 800 1.5rem/1.05 var(--font-display, 'Barlow Condensed', 'Barlow', system-ui, sans-serif); } .ds-brand-name { font: 500 0.875rem/1.2 var(--font-ui, 'Barlow', system-ui, sans-serif); }"
+      "description": "The red printed header card: the NOS mark (NOS with the O circled by hand, an inline SVG sized by font-size; letters in currentColor, the loop in --mark-loop), the city and the full name.",
+      "html": "<div class=\"ds-masthead\"><a class=\"ds-brand\" href=\"#\"><svg class=\"ds-mark\" viewBox=\"0 -799 1493 902\" aria-hidden=\"true\" focusable=\"false\"><path class=\"ds-mark-letters\" d=\"M300 -700H440Q445 -700 448.5 -696.5Q452 -693 452 -688V-12Q452 -7 448.5 -3.5Q445 0 440 0H281Q270 0 267 -10L168 -358Q167 -361 164.5 -361.5Q162 -362 162 -358L164 -12Q164 -7 160.5 -3.5Q157 0 152 0H12Q7 0 3.5 -3.5Q0 -7 0 -12V-688Q0 -693 3.5 -696.5Q7 -700 12 -700H169Q180 -700 183 -690L283 -340Q284 -337 286.5 -337Q289 -337 289 -341L288 -688Q288 -693 291.5 -696.5Q295 -700 300 -700ZM1084 -178V-209Q1084 -214 1087.5 -217.5Q1091 -221 1096 -221H1236Q1241 -221 1244.5 -217.5Q1248 -214 1248 -209V-186Q1248 -162 1259.5 -148Q1271 -134 1289 -134Q1307 -134 1318.5 -147.5Q1330 -161 1330 -182Q1330 -205 1312 -223.5Q1294 -242 1240 -281Q1190 -317 1158 -345.5Q1126 -374 1103 -416.5Q1080 -459 1080 -515Q1080 -572 1105.5 -616Q1131 -660 1177.5 -684Q1224 -708 1284 -708Q1345 -708 1391.5 -683.5Q1438 -659 1463.5 -614.5Q1489 -570 1489 -512V-488Q1489 -483 1485.5 -479.5Q1482 -476 1477 -476H1338Q1333 -476 1329.5 -479.5Q1326 -483 1326 -488V-516Q1326 -538 1314 -552Q1302 -566 1284 -566Q1266 -566 1255 -552Q1244 -538 1244 -515Q1244 -490 1261 -470Q1278 -450 1330 -412Q1393 -365 1425 -336Q1457 -307 1475 -271.5Q1493 -236 1493 -188Q1493 -98 1436.5 -45Q1380 8 1288 8Q1227 8 1181 -15.5Q1135 -39 1109.5 -81.5Q1084 -124 1084 -178Z\"/><path class=\"ds-mark-loop\" d=\"M894 -663l-7 -8l-8 -8l-7 -8l-8 -8l-7 -7l-7 -8l-8 -8l-8 -7l-8 -7l-8 -6l-9 -6l-9 -6l-9 -5l-9 -4l-10 -3l-10 -3l-11 -2l-10 -1l-10 -1l-10 0l-11 0l-10 0l-11 1l-10 2l-10 2l-11 3l-10 4l-10 4l-10 4l-10 5l-9 6l-10 6l-9 7l-9 8l-8 8l-9 8l-8 9l-7 9l-8 10l-7 11l-7 10l-6 12l-6 11l-5 12l-6 12l-5 13l-4 13l-4 13l-4 13l-4 14l-3 14l-2 14l-2 15l-2 14l-2 15l-1 14l-1 15l0 15l0 15l0 15l1 15l1 15l1 15l2 15l2 15l2 15l2 15l3 15l4 14l3 15l4 14l4 14l4 15l5 14l5 13l5 14l6 13l5 14l6 13l7 13l6 12l7 12l7 13l7 11l8 12l8 11l8 11l8 11l9 10l9 10l9 9l9 9l9 9l10 8l10 8l10 8l10 7l11 6l10 6l11 5l11 5l11 4l11 4l12 3l11 3l12 2l11 1l12 0l11 0l12 0l11 -2l11 -2l11 -3l11 -3l11 -4l10 -4l11 -5l10 -6l9 -6l10 -6l9 -7l9 -8l9 -8l8 -8l8 -9l8 -9l8 -9l7 -10l7 -11l7 -10l6 -11l6 -12l6 -12l5 -12l6 -12l4 -13l5 -13l4 -13l4 -14l4 -13l3 -15l3 -14l3 -14l2 -15l2 -15l1 -15l1 -16l1 -15l1 -16l0 -15l-1 -16l-1 -16l-1 -16l-1 -16l-2 -16l-2 -16l-3 -16l-3 -15l-3 -16l-4 -16l-4 -15l-5 -15l-5 -15l-5 -15l-5 -15l-6 -14l-6 -14l-7 -14l-6 -14l-7 -13l-8 -13l-7 -12l-8 -12l-8 -12l-8 -12l-9 -11l-9 -10l-9 -10l-9 -10l-10 -9l-9 -8l-10 -9l-10 -7l-10 -8l-10 -7l-10 -6l-11 -6l-10 -5l-11 -5l-10 -4l-11 -4l-11 -4l-11 -3l-10 -2l-11 -2l-11 -2l-10 -1l-11 0l-11 0l-10 1l-10 1l-11 1l-10 3l-10 2l-10 4l-10 3l-9 4l-10 5l-9 5l-9 6l-9 6l-8 7l-9 7l-8 8l-8 8l-8 9l-7 9l-7 9l-7 10l-7 10l2 -2l3 -1l3 0l2 1l2 2l1 3l0 3l-1 3l7 -10l7 -10l7 -8l7 -9l8 -7l8 -7l8 -7l8 -5l9 -6l8 -4l9 -4l8 -4l9 -3l9 -2l9 -2l8 -1l9 -1l9 0l8 0l9 0l9 1l8 2l9 2l8 2l9 3l8 3l8 3l8 4l9 4l8 5l8 5l8 5l8 5l8 6l8 6l8 7l7 7l8 7l8 8l7 8l8 8l7 8l7 9l8 10l7 9l7 10l7 10l6 11l7 11l6 11l6 12l6 12l6 12l5 12l6 13l4 13l5 13l4 14l4 13l4 14l3 14l3 14l3 14l2 15l2 14l1 14l2 14l0 15l1 14l0 14l0 14l-1 14l-1 13l-1 14l-1 13l-2 13l-3 13l-2 13l-3 12l-3 12l-3 12l-4 12l-4 11l-4 11l-4 10l-5 10l-5 10l-5 9l-5 10l-5 8l-6 8l-6 8l-6 8l-5 7l-7 6l-6 7l-6 5l-6 6l-7 5l-6 4l-7 4l-6 4l-7 3l-6 3l-7 2l-6 2l-7 2l-7 1l-6 1l-7 1l-7 0l-6 -1l-7 0l-7 -1l-7 -1l-7 -2l-7 -2l-7 -3l-7 -3l-7 -3l-7 -4l-7 -4l-7 -5l-7 -5l-8 -6l-7 -6l-7 -6l-7 -7l-7 -7l-7 -7l-7 -8l-6 -9l-7 -8l-6 -9l-7 -10l-6 -9l-6 -10l-6 -10l-5 -11l-6 -10l-5 -11l-5 -12l-5 -11l-5 -12l-5 -11l-4 -12l-4 -13l-4 -12l-3 -12l-4 -13l-3 -13l-3 -12l-3 -13l-2 -13l-2 -13l-2 -13l-1 -13l-2 -13l-1 -13l-1 -13l0 -13l0 -13l0 -13l0 -13l1 -12l1 -13l2 -12l1 -12l2 -12l2 -11l3 -11l3 -11l3 -11l3 -10l4 -11l3 -9l4 -9l5 -9l4 -9l5 -8l5 -8l5 -7l5 -6l5 -7l5 -6l6 -5l5 -5l6 -5l6 -4l6 -4l5 -3l6 -4l6 -2l6 -3l7 -2l6 -1l6 -2l7 -1l6 0l6 -1l7 0l7 1l7 0l6 1l7 2l7 1l8 1l7 1l8 1l8 2l8 1l9 2l9 3l8 3l9 3l8 5l9 4l8 6l8 6l8 7l-3 -4l-1 -5l1 -6l2 -4l5 -3l5 -1l5 1z\"/></svg><span class=\"ds-brand-text\"><span class=\"ds-brand-city\">Dourados/MS</span><span class=\"ds-brand-name\">Núcleo de Organização Social</span></span></a></div>",
+      "css": ".ds-masthead, .ds-masthead *, .ds-masthead *::before, .ds-masthead *::after { box-sizing: border-box; } .ds-masthead { padding: 6px 16px 0; background: var(--role-header, #E4002B); color: var(--role-on-header, #FFFFFF); } .ds-brand { display: flex; align-items: center; gap: 12px; width: fit-content; padding: 6px 0 12px; border-radius: var(--radius-sm, 4px); color: inherit; text-decoration: none; } .ds-brand:focus-visible { outline: 3px solid var(--role-focus-on-color, #FFFFFF); outline-offset: 2px; } .ds-mark { display: block; flex: none; width: 3.807em; height: 2.3em; font-size: 1.25rem; overflow: visible; } .ds-mark-letters { fill: currentColor; } .ds-mark-loop { fill: var(--mark-loop, currentColor); } .ds-brand-text { display: flex; flex-direction: column; gap: 2px; } .ds-brand-city { font: 800 1.5rem/1.05 var(--font-display, 'Barlow Condensed', 'Barlow', system-ui, sans-serif); } .ds-brand-name { font: 500 0.875rem/1.2 var(--font-ui, 'Barlow', system-ui, sans-serif); }"
     },
     {
       "name": "Month Page Weeks",
@@ -1137,17 +1131,17 @@
       },
       {
         "name": "The Flat Wall Rule",
-        "body": "Nothing printed casts a shadow. Sheets, the month page and the desktop panel are paper on the wall, edged by 1px seams; only the phone's bottom sheet, the chat bubble and the mark on the header float.",
+        "body": "Nothing printed casts a shadow. Sheets, the month page and the desktop panel are paper on the wall, edged by 1px seams; only the phone's bottom sheet and the chat bubble float.",
         "section": "elevation"
       },
       {
         "name": "The Bound Top Rule",
-        "body": "Anything shown as a sheet is bound at the top and free at the bottom: a binding strip, a perforation row, nearly square top corners (2px) and softer bottom corners (6px; 8px on the desktop panel). The agenda's day sheets, the month page, the desktop panel, the flyer sheets and the NOS mark share this silhouette.",
+        "body": "Anything shown as a sheet is bound at the top and free at the bottom: a binding strip, a perforation row, nearly square top corners (2px) and softer bottom corners (6px; 8px on the desktop panel). The agenda's day sheets, the month page, the desktop panel, the flyer sheets and the link preview's sheet share this silhouette.",
         "section": "shapes"
       },
       {
         "name": "The Hand-Applied Tilt Rule",
-        "body": "Only what a hand would add is tilted: the \"Cancelada\" stamp (-3° on screen, -8° on the Aviso), and on the month flyer the circled day (-7°) and the stroke under the other days of a long activity (-2°). Everything printed stays square to its sheet.",
+        "body": "Only what a hand would add is tilted: the \"Cancelada\" stamp (-3° on screen, -8° on the Aviso), and on the month flyer the circled day (-7°) and the stroke under the other days of a long activity (-2°), and the O of the NOS mark, circled at -9°. Everything printed stays square to its sheet.",
         "section": "shapes"
       },
       {
@@ -1179,8 +1173,8 @@
       "Don't put on the protest-poster costume: no raised fists, megaphones, stencil or distressed type, halftone or grunge textures. The Cartaz is the red header card at poster size with a day sheet on it.",
       "Don't bring back the retired Calendário de Luta devices: the metro line to election day, stations, countdowns, campaign slogans.",
       "Don't add a typeface outside the Barlow superfamily, or a weight that isn't self-hosted (Barlow 500, 600, 700; Barlow Condensed 600, 700, 800).",
-      "Don't lift sheets, the month page or the desktop panel with shadows; shadows belong to what floats (the phone's bottom sheet, the chat bubble, the mark on the header).",
-      "Don't tilt printed content; rotation belongs to hand-applied marks (the stamp, the circled day and its underline).",
+      "Don't lift sheets, the month page or the desktop panel with shadows; shadows belong to what floats (the phone's bottom sheet, the chat bubble).",
+      "Don't tilt printed content; rotation belongs to hand-applied marks (the stamp, the circled day and its underline, the O of the NOS mark).",
       "Don't invent logos, photos or slogans for the organizations; they are named in text, with their full names where they are known."
     ]
   }

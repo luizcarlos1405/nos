@@ -58,7 +58,7 @@ Not one movement's agenda: the shared calendar of many organizations in one city
 
 ## Brand Commitments
 
-- Name: "NOS", for Núcleo de Organização Social; the site is "NOS Dourados". Name and logo are provisional: keep both easy to swap (`APP_NAME` in `js/config.js`, the mark in `js/icons.js`).
+- Name: "NOS", for Núcleo de Organização Social; the site is "NOS Dourados". The name is provisional and the logo follows it: the mark (NOS with the O circled by hand, chosen on 2026-10-27) is a drawing of NOS in `js/icons.js`, so a new `APP_NAME` prints as text until a new mark is drawn; keep both easy to swap.
 - Colors: the palette of the Calendário de Luta is kept on purpose (red `#E4002B` as the dominant color without overwhelming, yellow `#FFC20E` reserved for the next activity, graphite `#1C1C1E`, the `#EFEFEC` ground, white paper, and eight series colors for the sectors). Everything else in the old interface (the metro line to election day, the countdown, the campaign slogan) is retired.
 - No fabricated official assets: no invented logos of the organizations, photos or slogans attributed to them. The same for businesses: no logos, photos, ratings or prices; each is shown with its own words from the form.
 

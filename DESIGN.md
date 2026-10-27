@@ -356,7 +356,7 @@ It refuses the category default of event apps (a grey list with thin date divide
 A calendar printer's palette: one red, graphite ink, white paper on a pale wall, a single reserved yellow and eight sector inks. Every value lives in `css/theme.css` as a palette variable (`--color-*`, which the design files in `design/` use directly) and reaches the interface and the flyers only through a role (`--role-*`).
 
 ### Primary
-- **Folhinha Red** (#E4002B, `--color-brand`): the printed header card (`--role-header`), the binding strip on every sheet (`--role-binding`), Sundays and holidays (`--role-red-letter`), the panel's one primary action (`--role-accent`: "Enviar no WhatsApp", "Compartilhar imagem", or "Baixar PNG" when the device can't share files), the alarm on flyers (`--role-alert`: the "Cancelada" stamp, the strike through a cancelled date, also the day circled by hand on the month flyer), error icons, text selection and the caret. White on it, and it on paper, both reach 4.85:1.
+- **Folhinha Red** (#E4002B, `--color-brand`): the printed header card (`--role-header`), the binding strip on every sheet (`--role-binding`), Sundays and holidays (`--role-red-letter`), the panel's one primary action (`--role-accent`: "Enviar no WhatsApp", "Compartilhar imagem", or "Baixar PNG" when the device can't share files), the alarm on flyers (`--role-alert`: the "Cancelada" stamp, the strike through a cancelled date, also the day circled by hand on the month flyer), the O of the NOS mark wherever the mark prints on paper (`--role-mark-loop`: the app icons, the favicons, the link preview), error icons, text selection and the caret. White on it, and it on paper, both reach 4.85:1.
 - **Deep Red** (#C70026, `--color-brand-hover`): the accent's hover (`--role-accent-hover`) and every small red text of the alarm (`--role-alert-text`): the on-screen "Cancelada" stamp and "Motivo: …" (6.08:1 on paper).
 - **Blush Tint** (#FDEBEE, `--color-brand-tint`): the activity open in the panel (`--role-selected`) and the error notice's ground (`--role-alert-soft`).
 - **Rose Ring** (#F2B8C3, `--color-brand-ring`): the error notice's border (`--role-alert-ring`).
@@ -378,19 +378,19 @@ Sector inks. `js/colors.js` gives each sector a series and sets `--sector: var(-
 An activity without a sector gets Pencil Grey (`--role-no-sector`).
 
 ### Neutral
-- **Graphite Ink** (#1C1C1E, `--color-ink`): all printed text (`--role-ink`, 17:1 on paper), the "on" fill of controls and badges and the chosen view tab's underline (`--role-strong`), the focus ring (`--role-focus`), the binding of the NOS mark (`--role-mark-binding`), the city tag and the flyer type tag.
+- **Graphite Ink** (#1C1C1E, `--color-ink`): all printed text (`--role-ink`, 17:1 on paper), the "on" fill of controls and badges and the chosen view tab's underline (`--role-strong`), the focus ring (`--role-focus`), the letters of the NOS mark on paper, the city tag and the flyer type tag.
 - **Pale Wall** (#EFEFEC, `--color-ground`): the page behind the sheets (`--role-wall`), the flyers' ground, the chat ground of the WhatsApp preview (`--role-chat`).
 - **Sheet White** (#FFFFFF, `--color-surface`): sheets, the panel, chips and pills (`--role-paper`), the message bubble (`--role-bubble`).
 - **Paper Hover** (#F7F7F5, `--color-surface-hover`): an activity line under the pointer (`--role-paper-hover`).
 - **Seam Grey** (#D9D9D4, `--color-seam`): 1px seams and sheet edges, the perforation dots on screen and on the day and month flyers, the grabber (`--role-line`).
 - **Pencil Grey** (#5C5C61, `--color-muted`): secondary text and icons (`--role-ink-soft`, 6.65:1 on paper), the no-sector square.
-- **Faded Grey** (#BDBDB8, `--color-faded`): the perforation of the NOS mark and of the Cartaz and Aviso flyers (`--role-ink-faded`), the scrollbar (`--role-scrollbar`).
+- **Faded Grey** (#BDBDB8, `--color-faded`): the perforation of the Cartaz and Aviso flyers and of the link preview's sheet (`--role-ink-faded`), the scrollbar (`--role-scrollbar`).
 - **Reverse White** (#FFFFFF, `--color-on-ink`): text and focus on red, graphite and sector colours (`--role-on-header`, `--role-on-strong`, `--role-on-accent`, `--role-on-series`, `--role-focus-on-color`).
 - **Torn-off Grey** (`ink-past`, `--role-ink-past`): Pencil Grey mixed 55% into Faded Grey, for the numerals of past sheets and of days outside the month; still 3.54:1 on paper.
 - **Faded Red-Letter** (`red-letter-past`, `--role-red-letter-past`): Folhinha Red mixed 75% into white, for red-letter numerals on past sheets and outside the month (3.86:1).
 - **Graphite Scrim, Shadow and Wash** (`scrim`, `shadow`, `wash`: Graphite Ink at 55%, 14% and 6%): the backdrop behind the phone's bottom sheet (`--role-scrim`), the three soft shadows (`--role-shadow`), the hover wash of quiet controls and the inline `code` ground (`--role-wash`).
 
-Themes are blocks of variables. A `:root[data-theme='name']` block at the end of `css/theme.css` overrides palette entries or roles; `data-theme` on `<html>` in `index.html` picks it (empty means the default), and `?tema=<name>` in the address tries one without editing a file (the inline script in `index.html`'s `<head>`). The bundled `exemplo` theme is a template: a graphite header card and binding, with a red binding on the mark. Two places can't read variables and change by hand: the `theme-color` meta (the red header, in `index.html`) and `theme_color`/`background_color` in the web manifest. The icons, the link preview and the screenshots are PNGs rendered from the theme: re-render them with `node assets/render.cjs`.
+Themes are blocks of variables. A `:root[data-theme='name']` block at the end of `css/theme.css` overrides palette entries or roles; `data-theme` on `<html>` in `index.html` picks it (empty means the default), and `?tema=<name>` in the address tries one without editing a file (the inline script in `index.html`'s `<head>`). The bundled `exemplo` theme is a template: a graphite header card and binding. Two places can't read variables and change by hand: the `theme-color` meta (the red header, in `index.html`) and `theme_color`/`background_color` in the web manifest. The icons, the link preview and the screenshots are PNGs rendered from the theme: re-render them with `node assets/render.cjs`.
 
 ### Named Rules
 **The Roles-Only Rule.** `css/style.css` and `css/flyers.css` name roles, never palette variables or colour literals; `transparent`, `currentColor` and, inside `@media (forced-colors: active)`, system colours are the only exceptions. A new colour enters `css/theme.css` as a palette entry plus a role, and a sector's colour arrives only as `var(--sector)`.
@@ -436,7 +436,7 @@ Flyers have their own px scale on the 1080 × 1350 canvas. `css/flyers.css` hold
 - **Flyer Title** (Barlow 700, 78px, line-height 1.08, -0.013em): the title on the Folha do dia; 76px on the month flyer, 64px struck through on the Aviso.
 - **Flyer Stamp** (Barlow Condensed 800, 140px, line-height 0.965, 0.057em): "CANCELADA" on the Aviso de cancelamento.
 
-The flyer masthead sets "NOS Dourados" in Barlow Condensed 800 at 62px over "Núcleo de Organização Social" in Barlow 500 at 28px; the footer "Agenda das organizações de Dourados" is Barlow 500 at 26px in Pencil Grey.
+The flyer masthead sets the mark beside "Dourados/MS" in Barlow Condensed 800 at 62px over "Núcleo de Organização Social" in Barlow 500 at 28px; the footer "Agenda das organizações de Dourados" is Barlow 500 at 26px in Pencil Grey.
 
 ### Named Rules
 **The Two-Digit Numeral Rule.** A sheet prints its day with two digits ("09"), as printed folhinhas do: the agenda's sheets, the panel head, the Folha do dia, the Cartaz and the Aviso de cancelamento. The month page keeps plain numerals ("9"), as month pages do.
@@ -460,27 +460,26 @@ Flyers are a fixed 1080 × 1350 canvas in px, with 60px margins on the Folha do 
 
 ## Elevation & Depth
 
-Flat. Sheets, the month page and the desktop panel hang flat on the wall; their edges are 1px Seam Grey lines, and depth comes from white paper against the pale wall and from the binding strip on top. Three soft shadows, all in Graphite Shadow (ink at 14%), mark the only things that float. States are drawn with inset strokes, never with elevation.
+Flat. Sheets, the month page and the desktop panel hang flat on the wall; their edges are 1px Seam Grey lines, and depth comes from white paper against the pale wall and from the binding strip on top. Two soft shadows, both in Graphite Shadow (ink at 14%), mark the only things that float. States are drawn with inset strokes, never with elevation.
 
 ### Shadow Vocabulary
-- **Mark lift** (`box-shadow: 0 0.05em 0.1em var(--role-shadow)`): the NOS mark's mini sheet standing off the red header card; the flyers drop it.
 - **Sheet lift** (`box-shadow: 0 -8px 24px var(--role-shadow)`): the phone's bottom sheet, over the Graphite Scrim. The desktop panel has none.
 - **Bubble** (`box-shadow: 0 1px 3px var(--role-shadow)`): the message bubble in the WhatsApp preview.
 - **Strokes, not depth:** the selected activity's frame and the month page's today ring (`box-shadow: inset 0 0 0 2px var(--role-strong)`), the chosen view tab's underline (`inset 0 -4px 0 var(--role-strong)`), the hollow mark of a cancelled activity on the month page (`inset 0 0 0 1.5px var(--sector)`), the white ring round a pressed chip's square (`0 0 0 1.5px var(--role-on-strong)`).
 
 ### Named Rules
-**The Flat Wall Rule.** Nothing printed casts a shadow. Sheets, the month page and the desktop panel are paper on the wall, edged by 1px seams; only the phone's bottom sheet, the chat bubble and the mark on the header float.
+**The Flat Wall Rule.** Nothing printed casts a shadow. Sheets, the month page and the desktop panel are paper on the wall, edged by 1px seams; only the phone's bottom sheet and the chat bubble float.
 
 ## Shapes
 
 Paper shapes. The base corner is 6px (`--radius`): buttons, icon buttons, notices, the flyer preview, a sheet's free bottom edge. 4px (`--radius-sm`) for badges, the segmented control and the month page's numerals; 8px (`--radius-lg`) for the chat, its bubble and the desktop panel's bottom; 14px (`--radius-sheet`) only for the top of the phone's bottom sheet. Full pills (`--radius-pill`) belong to the filter controls (sector chips, the organization pill, the flyer style select) and to the today ring on the wall-sized month page. Smaller printed pieces use literal corners: 3px for the time plate, the city tag, the stamp and the ends of month bars; 2px for a sheet's bound top, sector squares, the grabber and the bubble's tail; 1px for the month page's 6px marks. Flyers keep their own px corners on the 1080 canvas: 4px bound tops over 12px bottoms (Folha do dia, Calendário do mês) or 6px bottoms (Cartaz, Aviso), 6px type tags, 4px squares.
 
-The perforation is a row of dots drawn with a repeating radial gradient. On screen: 3px Seam Grey dots every 10px, under a 4px binding strip, 13px in all (`.sheet::before`). On the mark: Faded Grey dots every 0.25em. On flyers: 8px Seam Grey dots every 24px under a 12px strip (Folha do dia, Calendário do mês), or 6px Faded Grey dots every 22 to 25px (Cartaz, Aviso). Squares are the sectors' shape; circles appear only as the today ring from 1280px and the hand-drawn ring on the month flyer.
+The perforation is a row of dots drawn with a repeating radial gradient. On screen: 3px Seam Grey dots every 10px, under a 4px binding strip, 13px in all (`.sheet::before`). On flyers: 8px Seam Grey dots every 24px under a 12px strip (Folha do dia, Calendário do mês), or 6px Faded Grey dots every 22 to 25px (Cartaz, Aviso). Squares are the sectors' shape; circles appear only as the today ring from 1280px, the hand-drawn ring on the month flyer and the O of the NOS mark.
 
 ### Named Rules
-**The Bound Top Rule.** Anything shown as a sheet is bound at the top and free at the bottom: a binding strip, a perforation row, nearly square top corners (2px) and softer bottom corners (6px; 8px on the desktop panel). The agenda's day sheets, the month page, the desktop panel, the flyer sheets and the NOS mark share this silhouette.
+**The Bound Top Rule.** Anything shown as a sheet is bound at the top and free at the bottom: a binding strip, a perforation row, nearly square top corners (2px) and softer bottom corners (6px; 8px on the desktop panel). The agenda's day sheets, the month page, the desktop panel, the flyer sheets and the link preview's sheet share this silhouette.
 
-**The Hand-Applied Tilt Rule.** Only what a hand would add is tilted: the "Cancelada" stamp (-3° on screen, -8° on the Aviso), and on the month flyer the circled day (-7°) and the stroke under the other days of a long activity (-2°). Everything printed stays square to its sheet.
+**The Hand-Applied Tilt Rule.** Only what a hand would add is tilted: the "Cancelada" stamp (-3° on screen, -8° on the Aviso), and on the month flyer the circled day (-7°) and the stroke under the other days of a long activity (-2°), and the O of the NOS mark, circled at -9°. Everything printed stays square to its sheet.
 
 ## Components
 
@@ -534,16 +533,16 @@ The calendar's month page, printed on a sheet (binding and perforation on top). 
 The production bench. On phones it is a bottom sheet: 14px top corners, the Sheet lift, a 36 × 4px grabber, the Graphite Scrim behind it, sliding in over 0.3s on `--ease` and following the finger when pulled down; from 600px it centres at 560px. From 1100px it is a sticky column printed as a sheet (binding and perforation, a 1px seam, 8px bottom corners, no shadow) that before any choice reads "Escolha uma atividade para ver os detalhes e montar a mensagem e o panfleto." Its head is a small sheet head (Panel Numeral, the weekday at 1rem, then "Outubro · até sáb, 24/10" with the time). Then the Headline; the facts, each after a 20px slot (the sector square for the organization, its full name under it in Caption, then period, place, type, contact, link and "Ver o post de origem"); the description; the segmented control; and the format. Mensagem shows the message as WhatsApp would, a white bubble with 8px corners and a 2px tail corner on a Pale Wall chat. Panfleto shows the style picker, the flyer scaled into a frame with a 1px seam and 6px corners, and the hint "Imagem 1080 × 1350, no formato do WhatsApp e do Instagram." The action bar sticks to the bottom under a 1px seam.
 
 ### Flyers
-1080 × 1350 PNGs built from the same world (`css/flyers.css`, every rule scoped under `.fl`): the red header card with the mark and "NOS Dourados", sheets with binding and perforation on the Pale Wall, the footer "Agenda das organizações de Dourados". Four styles:
+1080 × 1350 PNGs built from the same world (`css/flyers.css`, every rule scoped under `.fl`): the red header card with the mark, "Dourados/MS" and the full name, sheets with binding and perforation on the Pale Wall, the footer "Agenda das organizações de Dourados". Four styles:
 - **Folha do dia:** one giant sheet with the 460px numeral, the weekday and "OUTUBRO 2026" beside it and the time below; then, under a 2px seam, the title, the organization after its square and a graphite type tag.
 - **Calendário do mês:** the month page on a sheet ("OUTUBRO 2026", the Sunday column in red), the activity's day circled by hand in red and a red stroke under the other days of a long activity; then title, date and time, place and organization.
-- **Cartaz:** the header card at poster size: a Folhinha Red ground, the title in white capitals, a white sheet with a graphite binding (the 204px numeral, the weekday, the month, then the time and type), place and organization in white, and the NOS signature at the bottom right.
+- **Cartaz:** the header card at poster size: a Folhinha Red ground, the title in white capitals, a white sheet with a graphite binding (the 204px numeral, the weekday, the month, then the time and type), place and organization in white, and the NOS signature (the mark, "Dourados/MS" and "Agenda das organizações de Dourados") at the bottom right.
 - **Aviso de cancelamento** (always, for a cancelled activity): the sheet with its numeral struck in red under the "CANCELADA" stamp, the struck time, "Motivo:", the struck title.
 
 Flyers carry no yellow. Export waits for `document.fonts.ready`.
 
 ### The NOS Mark
-A mini folhinha sheet (`brandMark` in `js/icons.js`, with a static copy in `index.html` so the name shows without JS): a graphite binding strip, a row of Faded Grey perforation and "NOS" in Barlow Condensed 800 on white, 2.2em by 2.5em with 0.15em top and 0.2em bottom corners, sized by font-size (1.25rem in the header, 1rem on very narrow screens, 42px and 30px on flyers). Beside it, "Dourados/MS" in Masthead type over "Núcleo de Organização Social" in Caption. The app icons, the favicons and the link preview draw the mark as the pad (`assets/pad.js`): today's sheet over the edges of two sheets under it, on the red card, NOS in the numeral's place. The name and the mark are provisional and stay easy to swap (`APP_NAME` in `js/config.js`, `brandMark`, then `node assets/render.cjs`).
+NOS with the O circled by hand, the way someone circles a date on the folhinha (`brandMark` and `MARK` in `js/icons.js`, with a static copy in each page so the name shows without JS; chosen on 2026-10-27 among five proposals, `design/marca-propostas.html`). N and S are Barlow Condensed 800 outlines; the O is the outline of a marker stroke, its width swelling and thinning, tilted -9° and running past its start at the top, the one hand-applied thing in the mark. One inline SVG, 1493 × 902 font units (3.807em by 2.3em), sized by font-size: 1.25rem in the header, 1rem on very narrow screens, 42px on the Folha do dia and the Calendário do mês, 40px on the Aviso and 30px in the Cartaz's signature. The letters take the text colour and the loop takes `--mark-loop` (the text colour too, unless set), so on the red header card and the flyers it is all white, and on paper the letters print in Graphite Ink and the O in Folhinha Red (`--role-mark-loop`). It casts no shadow. Beside it, "Dourados/MS" in Masthead type over "Núcleo de Organização Social" in Caption; the mark already says NOS, so no text repeats it. The app icons are the mark on a day sheet (paper under the red binding strip; `assets/icon.html`), the favicons the red O alone, drawn as a stroke, on a rounded sheet, and the link preview prints the mark where a day sheet prints its day, on the pad over the red card (`assets/og-image.html`). The drawing spells NOS: another `APP_NAME` prints the word in its place (`.mark-text`) until a mark is drawn for it; after any change, `node assets/render.cjs`.
 
 ### Icons
 Lucide outlines (ISC license) at one stroke weight (2) on a 24px grid with round caps and joins, drawn in `currentColor` at 20px (18px in the view tabs and the organization pill, 16px beside places and periods, 40px on the blank sheet). Emoji exist only inside the WhatsApp message text, where WhatsApp shows them.
@@ -573,8 +572,8 @@ Lucide outlines (ISC license) at one stroke weight (2) on a 24px grid with round
 - **Don't** put on the protest-poster costume: no raised fists, megaphones, stencil or distressed type, halftone or grunge textures. The Cartaz is the red header card at poster size with a day sheet on it.
 - **Don't** bring back the retired Calendário de Luta devices: the metro line to election day, stations, countdowns, campaign slogans.
 - **Don't** add a typeface outside the Barlow superfamily, or a weight that isn't self-hosted (Barlow 500, 600, 700; Barlow Condensed 600, 700, 800).
-- **Don't** lift sheets, the month page or the desktop panel with shadows; shadows belong to what floats (the phone's bottom sheet, the chat bubble, the mark on the header).
-- **Don't** tilt printed content; rotation belongs to hand-applied marks (the stamp, the circled day and its underline).
+- **Don't** lift sheets, the month page or the desktop panel with shadows; shadows belong to what floats (the phone's bottom sheet, the chat bubble).
+- **Don't** tilt printed content; rotation belongs to hand-applied marks (the stamp, the circled day and its underline, the O of the NOS mark).
 - **Don't** invent logos, photos or slogans for the organizations; they are named in text, with their full names where they are known.
 
 ## Pages (2026-10-26)

@@ -3,13 +3,10 @@
    in each design. componentes.html and marca-nos.html show them on their own.
    Block__element names: .day-sheet__head is the head of a .day-sheet. */
 
-/* NOS Mark */
-.nos-mark { display: flex; flex-direction: column; align-items: flex-start; width: 44px; height: 50px; flex-shrink: 0; background: var(--color-surface); border-radius: 3px 3px 4px 4px; box-shadow: 0 1px 2px #1C1C1E33; overflow: hidden; }
-.nos-mark__binding { align-self: stretch; height: 7px; flex-shrink: 0; background: var(--color-ink); }
-.nos-mark__perforation { display: flex; align-items: flex-start; justify-content: center; gap: 3px; padding: 2px 4px; align-self: stretch; height: 6px; flex-shrink: 0; }
-.nos-mark__perf-dot { width: 2px; height: 2px; flex-shrink: 0; background: var(--color-faded); border-radius: 50%; }
-.nos-mark__word-wrap { display: flex; align-items: center; justify-content: center; padding: 0 0 3px; align-self: stretch; min-height: 0; flex: 1 1 0; }
-.nos-mark__word { flex-shrink: 0; font-family: var(--font-display); font-size: 23px; font-weight: 800; line-height: 1; letter-spacing: 0.3px; white-space: nowrap; color: var(--color-ink); }
+/* NOS Mark: the drawing of assets/icons.svg#marca-nos at the header's size (font-size 20px on the site:
+   3.807em x 2.3em). The letters take color, the loop --mark-loop (color too, unless set): white on the
+   red card; on paper, color ink and --mark-loop red. */
+.nos-mark { display: block; width: 76px; height: 46px; flex-shrink: 0; overflow: visible; color: var(--color-on-ink); }
 
 /* Chip */
 .chip { display: flex; align-items: center; gap: 8px; padding: 0 14px; height: 40px; flex-shrink: 0; background: var(--color-surface); border-radius: 20px; outline: 1px solid var(--color-seam); outline-offset: -0.5px; }

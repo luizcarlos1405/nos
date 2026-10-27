@@ -35,12 +35,7 @@
 .org { min-width: 0; flex: 1 1 0; font-family: var(--font-ui); font-size: 44px; font-weight: 600; line-height: 1.2; color: var(--color-on-ink); }
 .signature-wrap { display: flex; align-items: flex-start; justify-content: flex-end; align-self: stretch; flex-shrink: 0; }
 .signature { display: flex; align-items: center; gap: 18px; flex-shrink: 0; }
-.nos-mark-2 { display: flex; flex-direction: column; align-items: flex-start; width: 66px; height: 75px; flex-shrink: 0; background: var(--color-surface); border-radius: 4px 4px 6px 6px; overflow: hidden; }
-.mark-binding { align-self: stretch; height: 10px; flex-shrink: 0; background: var(--color-ink); }
-.mark-perforation { display: flex; align-items: flex-start; justify-content: center; gap: 4px; padding: 3px 6px; align-self: stretch; height: 9px; flex-shrink: 0; }
-.perf-dot-2 { width: 3px; height: 3px; flex-shrink: 0; background: var(--color-faded); border-radius: 50%; }
-.mark-word-wrap { display: flex; align-items: center; justify-content: center; padding: 0 0 4px; align-self: stretch; min-height: 0; flex: 1 1 0; }
-.mark-word { flex-shrink: 0; font-family: var(--font-display); font-size: 34px; font-weight: 800; line-height: 1; letter-spacing: 0.4px; white-space: nowrap; color: var(--color-ink); }
+.nos-mark-2 { display: block; width: 114.2px; height: 69.0px; flex-shrink: 0; overflow: visible; color: var(--color-on-ink); }
 .signature-text { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; flex-shrink: 0; }
 .brand { flex-shrink: 0; font-family: var(--font-display); font-size: 36px; font-weight: 800; line-height: 1.05; white-space: nowrap; color: var(--color-on-ink); }
 .footer-line { flex-shrink: 0; font-family: var(--font-ui); font-size: 24px; font-weight: 500; line-height: 1.25; white-space: nowrap; color: var(--color-on-ink); }
@@ -83,17 +78,9 @@
       </div>
       <div class="signature-wrap">
         <div class="signature">
-          <div class="nos-mark-2">
-            <div class="mark-binding"></div>
-            <div class="mark-perforation">
-              <div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div><div class="perf-dot-2"></div>
-            </div>
-            <div class="mark-word-wrap">
-              <span class="mark-word">NOS</span>
-            </div>
-          </div>
+          <svg class="nos-mark-2" aria-hidden="true"><use href="assets/icons.svg#marca-nos"/></svg>
           <div class="signature-text">
-            <span class="brand">NOS Dourados</span>
+            <span class="brand">Dourados/MS</span>
             <span class="footer-line">Agenda das organizações de Dourados</span>
           </div>
         </div>

@@ -1,14 +1,14 @@
 <!doctype html>
 <!-- Source of the app icons and favicons in assets/icons/ (rendered by assets/render.cjs).
-     The NOS mark as the folhinha's pad (assets/pad.js: today's sheet over the edges of the sheets
-     under it) hung on the red header card. It renders at the viewport size; the hash picks the variant:
-       #any       manifest icon, purpose "any" (192, 512): a rounded card on a transparent ground.
-       #maskable  manifest icon, purpose "maskable" (192, 512): full bleed, the pad inside the
-                  centred circle of 80% diameter that every launcher mask keeps.
+     The NOS mark (MARK in js/icons.js) printed on a day sheet: paper under the red binding strip, the
+     letters in ink and the O circled in red. It renders at the viewport size; the hash picks the variant:
+       #any       manifest icon, purpose "any" (192, 512): a rounded sheet on a transparent ground.
+       #maskable  manifest icon, purpose "maskable" (192, 512): full bleed; the strip runs deeper and the
+                  mark sits inside the centred circle of 80% diameter that every launcher mask keeps.
        #apple     apple-touch-icon (180): an opaque full-bleed square; iOS rounds the corners.
-       #favicon   browser tab (16, 32, 48): fitted to whole pixels; the red card reads on light
-                  and dark tab strips.
-     Colours are the roles of css/theme.css; the word is APP_NAME from js/config.js. -->
+       #favicon   browser tab (16, 32, 48): the red circle alone on a rounded sheet, the one part of the
+                  mark that still reads at these sizes, drawn as a stroke so it keeps its weight.
+     Colours are the roles of css/theme.css. -->
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
@@ -24,87 +24,67 @@
   * { margin: 0; padding: 0; }
   html, body { width: 100vw; height: 100vh; overflow: hidden; background: transparent; }
   svg { display: block; width: 100vw; height: 100vh; }
-  .card { fill: var(--role-header); }
-  .pad-paper { fill: var(--role-paper); }
-  .pad-seam { fill: var(--role-ink-faded); }
-  .pad-binding { fill: var(--role-mark-binding); }
-  .pad-perf { fill: var(--role-ink-faded); }
-  .pad-word { fill: var(--role-ink); font-family: var(--font-display); font-weight: 800; }
+  .sheet { fill: var(--role-paper); }
+  .strip { fill: var(--role-binding); }
+  .mark-letters { fill: var(--role-ink); }
+  .mark-loop { fill: var(--role-mark-loop); }
+  .loop-line { fill: none; stroke: var(--role-mark-loop); stroke-linecap: round; stroke-linejoin: round; }
 </style>
 </head>
 <body>
 <svg id="icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
 <script type="module">
-  import { APP_NAME } from '../js/config.js';
-  import { NOS_METRICS, drawPad, padHeight, padLayout, wordMetrics } from './pad.js';
+  import { MARK } from '../js/icons.js';
 
+  const NS = 'http://www.w3.org/2000/svg';
   const variant = location.hash.slice(1) || 'any';
   const S = Math.min(innerWidth, innerHeight);
   const svg = document.getElementById('icon');
   svg.setAttribute('viewBox', `0 0 ${S} ${S}`);
 
-  // In hundredths of the icon: the card's corners, the width of today's sheet (narrower on the
-  // maskable icon, to fit the 80% circle) and how far the pad sits above the middle.
-  const CARD_RADIUS = 22;
-  const WIDTH = { any: 56, favicon: 56, apple: 56, maskable: 46 };
-  const LIFT = 0.5;
-
-  // At 16 and 32px the font's outlines blur into grey, so those favicons draw the word as pixels:
-  // Barlow Condensed 800's N, O and S hinted by hand to a 5px and an 8px cap height ('#' ink,
-  // '+' half ink). Another word falls back to the font.
-  const GLYPHS_5 = {
-    N: ['#..#', '##.#', '#+##', '#.##', '#..#'],
-    O: ['+#+', '#.#', '#.#', '#.#', '+#+'],
-    S: ['+##', '#..', '+#+', '..#', '##+'],
+  // In hundredths of the icon: the sheet's corners, the strip's height, the mark's width and the
+  // height of its middle.
+  const LAYOUT = {
+    any: { radius: 22, strip: 13, width: 70, middle: 56.5 },
+    apple: { radius: 0, strip: 13, width: 70, middle: 56.5 },
+    maskable: { radius: 0, strip: 26, width: 52, middle: 58 },
   };
-  const GLYPHS_8 = {
-    N: ['##+..##', '###..##', '####.##', '##+#+##', '##+#+##', '##.####', '##..###', '##..+##'],
-    O: ['+####+', '##..##', '##..##', '##..##', '##..##', '##..##', '##..##', '+####+'],
-    S: ['+###+', '##.+#', '##...', '+##+.', '.+##+', '...##', '#+.##', '+###+'],
-  };
+  // The favicons: the loop's centre line (font units, as MARK), its box, and the stroke and the margin
+  // in hundredths of the icon.
+  const LOOP_LINE = 'M885 -654l-19 -17l-19 -15l-20 -13l-20 -11l-21 -9l-20 -7l-21 -4l-21 -2l-20 1l-21 4l-20 6l-19 9l-19 12l-18 14l-17 18l-15 20l-14 23l-13 25l-10 27l-9 30l-7 31l-4 32l-3 33l-1 34l2 34l3 34l4 34l7 34l8 33l10 33l11 31l13 31l14 29l16 28l17 25l17 25l19 22l20 19l21 18l21 14l22 12l22 9l23 6l22 3l22 0l22 -4l22 -6l20 -9l20 -12l19 -14l18 -18l17 -19l15 -22l15 -25l12 -26l12 -29l9 -30l8 -32l6 -34l3 -34l2 -36l0 -37l-3 -36l-5 -37l-7 -37l-9 -36l-11 -34l-13 -34l-15 -32l-16 -30l-18 -28l-19 -25l-20 -24l-20 -21l-22 -19l-22 -16l-22 -14l-23 -11l-23 -9l-24 -6l-23 -4l-23 -1l-23 2l-23 5l-23 8l-21 12l-21 14l-20 18l-18 21l-17 24';
+  const LOOP_BOX = [514, -780, 534, 841];
+  const FAVICON = { radius: 20, stroke: 13, margin: 17 };
 
-  // The favicons, fitted by hand to whole pixels (px). under: [inset, edge] of each sheet under today's.
-  const FIT = {
-    16: { card: 3, x: 1, y: 2, w: 14, h: 10, rt: 0, rb: 1, binding: 2, perf: 0, cap: 5, capTop: 1, glyphs: GLYPHS_5, under: [[1, 2]], seam: 1 },
-    32: { card: 7, x: 4, y: 5, w: 24, h: 18, rt: 1, rb: 2, binding: 3, perf: 3, dot: 1, dots: 6, dotStep: 3, cap: 8, capTop: 1, glyphs: GLYPHS_8, under: [[1, 2], [2, 4]], seam: 1 },
-    48: { card: 10, x: 10, y: 8, w: 28, h: 27, rt: 1, rb: 3, binding: 4, perf: 4, dot: 2, dots: 6, dotStep: 4, cap: 12, capTop: 3, under: [[1, 2], [2, 4]], seam: 1 },
-  };
-
-  function layout() {
-    const fit = variant === 'favicon' && FIT[S];
-    if (fit) {
-      return {
-        card: fit.card,
-        pad: {
-          ...fit,
-          squareDots: true,
-          firstDot: fit.perf ? (fit.w - (fit.dots - 1) * fit.dotStep) / 2 : 0,
-          under: fit.under.map(([inset, edge]) => ({ inset, edge })),
-        },
-      };
-    }
-    const w = ((WIDTH[variant] ?? WIDTH.any) * S) / 100;
-    const h = padHeight(w);
-    const card = variant === 'any' || variant === 'favicon' ? (CARD_RADIUS * S) / 100 : 0;
-    return { card, pad: padLayout((S - w) / 2, (S - h) / 2 - (LIFT * S) / 100, w) };
+  function add(parent, tag, attrs) {
+    const el = document.createElementNS(NS, tag);
+    for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+    parent.append(el);
+    return el;
   }
 
-  function draw(metrics) {
-    svg.replaceChildren();
-    const { card, pad } = layout();
-    const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-    for (const [k, v] of Object.entries({ width: S, height: S, rx: card })) rect.setAttribute(k, v);
-    rect.setAttribute('class', 'card');
-    svg.append(rect);
-    drawPad(svg, pad, APP_NAME, metrics);
+  const u = S / 100;
+  if (variant === 'favicon') {
+    add(svg, 'rect', { class: 'sheet', width: S, height: S, rx: FAVICON.radius * u });
+    const [x, y, w, h] = LOOP_BOX;
+    const stroke = FAVICON.stroke * u;
+    const room = S - 2 * FAVICON.margin * u;
+    const scale = (room - stroke) / Math.max(w, h);
+    const tx = S / 2 - (x + w / 2) * scale;
+    const ty = S / 2 - (y + h / 2) * scale;
+    add(svg, 'path', { class: 'loop-line', d: LOOP_LINE, transform: `translate(${tx} ${ty}) scale(${scale})`, 'stroke-width': stroke / scale });
+  } else {
+    const L = LAYOUT[variant] ?? LAYOUT.any;
+    add(add(svg, 'clipPath', { id: 'sheet' }), 'rect', { width: S, height: S, rx: L.radius * u });
+    const sheet = add(svg, 'g', { 'clip-path': 'url(#sheet)' });
+    add(sheet, 'rect', { class: 'sheet', width: S, height: S });
+    add(sheet, 'rect', { class: 'strip', width: S, height: L.strip * u });
+    const [x, y, w, h] = MARK.viewBox.split(' ').map(Number);
+    const scale = (L.width * u) / w;
+    const g = add(svg, 'g', { transform: `translate(${S / 2 - (x + w / 2) * scale} ${L.middle * u - (y + h / 2) * scale}) scale(${scale})` });
+    add(g, 'path', { class: 'mark-letters', d: MARK.letters });
+    add(g, 'path', { class: 'mark-loop', d: MARK.loop });
   }
-
-  // Drawn at once with the metrics of NOS, again once the font is in (ready for the renderer).
-  draw(NOS_METRICS);
-  document.fonts.load("800 100px 'Barlow Condensed'", APP_NAME).then(() => {
-    draw(wordMetrics(APP_NAME));
-    document.documentElement.dataset.ready = '';
-  });
+  document.documentElement.dataset.ready = '';
 </script>
 </body>
 </html>

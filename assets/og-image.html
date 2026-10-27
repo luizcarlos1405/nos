@@ -1,10 +1,12 @@
 <!doctype html>
 <!-- Source of assets/og-image.png (1200 × 630), the link preview of WhatsApp, Telegram and the
-     social networks (rendered by assets/render.cjs). The NOS pad at poster size on the red header
-     card: today's sheet prints the name where a folhinha prints the day (NOS in the numeral's place,
-     the city as the weekday, the full name as the month), over the edges of the sheets under it.
-     Everything sits in the centred 630 × 630 square, which WhatsApp's small previews crop to, and
-     nothing in it dates. Colours are the roles of css/theme.css; the texts come from js/config.js. -->
+     social networks (rendered by assets/render.cjs). The folhinha's pad at poster size on the red header
+     card, with the NOS mark (MARK in js/icons.js) printed where a day sheet prints its day: the letters
+     in ink and the O circled in red, the date someone marked. Under it the city as the weekday and the
+     full name as the month. The pad is today's sheet over the edges of two sheets under it, its binding
+     graphite as on the Cartaz flyer's sheet (a red strip would vanish into the red card). Everything sits
+     in the centred 630 × 630 square, which WhatsApp's small previews crop to, and nothing in it dates.
+     Colours are the roles of css/theme.css; the texts come from js/config.js. -->
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
@@ -22,16 +24,18 @@
 
   /* The pad: 500px sheets, today's 500px tall, two edges of 15px under it (530px in all). */
   .pad { position: absolute; left: 350px; top: 50px; width: 500px; height: 530px; }
-  .pad svg { position: absolute; inset: 0; overflow: visible; }
+  .pad > svg { position: absolute; inset: 0; overflow: visible; }
   .pad-paper { fill: var(--role-paper); }
   .pad-seam { fill: var(--role-ink-faded); }
-  .pad-binding { fill: var(--role-mark-binding); }
+  .pad-binding { fill: var(--role-strong); }
   .pad-perf { fill: var(--role-ink-faded); }
 
   /* Today's sheet, under its binding (20px) and perforation (40px): the head of a day sheet. */
-  .head { position: absolute; left: 0; right: 0; top: 60px; height: 440px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-bottom: 36px; text-align: center; }
-  .numeral { font: 800 var(--numeral, 296px)/0.8 var(--font-display); letter-spacing: -0.01em; }
-  .weekday { margin-top: 40px; font: 700 64px/1 var(--font-display); letter-spacing: 0.06em; text-transform: uppercase; }
+  .head { position: absolute; left: 0; right: 0; top: 60px; height: 440px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-bottom: 28px; text-align: center; }
+  .mark { display: block; flex: none; width: 400px; height: 241.7px; overflow: visible; } /* the drawing is 1493:902 */
+  .mark-letters { fill: var(--role-ink); }
+  .mark-loop { fill: var(--role-mark-loop); }
+  .weekday { margin-top: 30px; font: 700 64px/1 var(--font-display); letter-spacing: 0.06em; text-transform: uppercase; }
   .month { margin-top: 14px; font: 500 32px/1.25 var(--font-ui); color: var(--role-ink-soft); }
 </style>
 </head>
@@ -39,36 +43,60 @@
   <div class="pad">
     <svg id="sheets" xmlns="http://www.w3.org/2000/svg" width="500" height="530" viewBox="0 0 500 530" aria-hidden="true"></svg>
     <div class="head">
-      <p class="numeral" id="name"></p>
+      <svg class="mark" id="mark" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
       <p class="weekday" id="city"></p>
       <p class="month" id="full"></p>
     </div>
   </div>
 <script type="module">
-  import { APP_FULL_NAME, APP_NAME, CITY } from '../js/config.js';
-  import { PAD, drawPad, padLayout, wordMetrics } from './pad.js';
+  import { APP_FULL_NAME, CITY } from '../js/config.js';
+  import { MARK } from '../js/icons.js';
 
-  // The pad's sheets at poster size, in hundredths of the sheet's width: the binding, perforation
-  // and corners of the Cartaz's sheet (css/flyers.css) scaled to 500px.
-  const POSTER = {
-    ...PAD,
-    height: 100, topRadius: 1.2, bottomRadius: 3.2,
-    binding: 4, perf: 8, dot: 1.8, dots: 14, perfMargin: 8.4,
-    under: 2, edge: 3, inset: 1.4, seam: 0.8,
-  };
+  const NS = 'http://www.w3.org/2000/svg';
+  function add(parent, tag, attrs, cls) {
+    const el = document.createElementNS(NS, tag);
+    for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+    if (cls) el.setAttribute('class', cls);
+    parent.append(el);
+    return el;
+  }
 
-  drawPad(document.getElementById('sheets'), padLayout(0, 0, 500, POSTER), '');
-  document.getElementById('name').textContent = APP_NAME;
+  // A sheet's outline: top corners rt, bottom corners rb (the Bound Top Rule).
+  function sheetPath(x, y, w, h, rt, rb) {
+    return `M${x + rt},${y}H${x + w - rt}Q${x + w},${y} ${x + w},${y + rt}V${y + h - rb}`
+      + `Q${x + w},${y + h} ${x + w - rb},${y + h}H${x + rb}Q${x},${y + h} ${x},${y + h - rb}`
+      + `V${y + rt}Q${x},${y} ${x + rt},${y}Z`;
+  }
+
+  // The pad in px: the binding, perforation and corners of the Cartaz's sheet (css/flyers.css) scaled
+  // to a 500px sheet, and the edges of two sheets under it, each 15px lower and 7px narrower a side.
+  const W = 500, H = 500, RT = 6, RB = 16, BINDING = 20, PERF = 40, DOT = 9, DOTS = 14, MARGIN = 42;
+  const UNDER = [{ inset: 7, edge: 15 }, { inset: 14, edge: 30 }];
+  const SEAM = 4;
+  const sheets = document.getElementById('sheets');
+  for (let i = UNDER.length - 1; i >= 0; i--) {
+    // each sheet above leaves a seam on the one below
+    const { inset, edge } = UNDER[i];
+    const below = sheetPath(inset, 0, W - 2 * inset, H + edge, RT, RB);
+    add(sheets, 'path', { d: below }, 'pad-paper');
+    add(add(sheets, 'clipPath', { id: `under-${i}` }), 'path', { d: below });
+    const above = i ? UNDER[i - 1] : { inset: 0, edge: 0 };
+    add(sheets, 'path', { d: sheetPath(above.inset, 0, W - 2 * above.inset, H + above.edge + SEAM, RT, RB), 'clip-path': `url(#under-${i})` }, 'pad-seam');
+  }
+  add(sheets, 'path', { d: sheetPath(0, 0, W, H, RT, RB) }, 'pad-paper');
+  add(sheets, 'path', { d: `M${RT},0H${W - RT}Q${W},0 ${W},${RT}V${BINDING}H0V${RT}Q0,0 ${RT},0Z` }, 'pad-binding');
+  for (let i = 0; i < DOTS; i++) {
+    add(sheets, 'circle', { cx: MARGIN + (i * (W - 2 * MARGIN)) / (DOTS - 1), cy: BINDING + PERF / 2, r: DOT / 2 }, 'pad-perf');
+  }
+
+  const mark = document.getElementById('mark');
+  mark.setAttribute('viewBox', MARK.viewBox);
+  add(mark, 'path', { d: MARK.letters }, 'mark-letters');
+  add(mark, 'path', { d: MARK.loop }, 'mark-loop');
   document.getElementById('city').textContent = CITY;
   document.getElementById('full').textContent = APP_FULL_NAME;
 
-  // A longer name than NOS shrinks to keep 40px of paper on each side.
-  document.fonts.load("800 100px 'Barlow Condensed'", APP_NAME).then(() => {
-    const m = wordMetrics(APP_NAME);
-    const size = Math.min(296, Math.floor(420 / (m.right - m.left)));
-    document.body.style.setProperty('--numeral', `${size}px`);
-    return document.fonts.ready;
-  }).then(() => {
+  document.fonts.ready.then(() => {
     document.documentElement.dataset.ready = '';
   });
 </script>

@@ -58,7 +58,7 @@
   --role-header-hover: var(--color-brand-hover); /* a page tab on the header card, under the pointer */
   --role-on-header: var(--color-on-ink);
   --role-binding: var(--color-brand);            /* strip on top of each sheet */
-  --role-mark-binding: var(--color-ink);         /* strip on top of the NOS mark */
+  --role-mark-loop: var(--color-brand);          /* the O of the NOS mark on paper: icons, link preview */
   --role-red-letter: var(--color-brand);         /* Sundays and holidays */
   --role-red-letter-past: color-mix(in srgb, var(--color-brand) 75%, var(--color-surface));
   --role-red-letter-soft: var(--color-brand-ring);
@@ -111,5 +111,4 @@
   --role-header: var(--color-ink);
   --role-header-hover: color-mix(in srgb, var(--color-ink) 82%, var(--color-on-ink));
   --role-binding: var(--color-ink);
-  --role-mark-binding: var(--color-brand);
 }
