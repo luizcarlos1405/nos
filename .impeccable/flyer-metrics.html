@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:,">
+  <title>Flyer metrics</title>
+  <!-- Dev only, not linked from the site. Measures the advance widths js/flyer.js plans the flyers
+       with: each face of FACES, glyph by glyph, set as css/flyers.css sets it (the self-hosted fonts of
+       css/theme.css, Bricolage's optical size pinned at 96, kerning off) at 1000px, in Chromium. Prints
+       ADVANCES and EXTRA_ADVANCES to paste into js/flyer.js; run it again after changing a font file,
+       a weight or the optical size, and keep EXTRA_SIGNS equal to the one in js/flyer.js.
+       Served at /.impeccable/flyer-metrics.html; window.metrics holds the result. -->
+  <link rel="stylesheet" href="../css/theme.css">
+  <style>
+    body { margin: 24px; font: 15px/1.4 var(--font-ui); }
+    #probe { position: absolute; left: 0; top: 0; visibility: hidden; white-space: pre; font-size: 1000px; font-kerning: none; font-variation-settings: 'opsz' 96; }
+    pre { white-space: pre-wrap; word-break: break-all; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <h1>Flyer metrics</h1>
+  <p id="state">Measuring…</p>
+  <pre id="out"></pre>
+  <span id="probe"></span>
+  <script type="module">
+    // The faces js/flyer.js plans with: [name, CSS family, weight]. Keep in step with FACES there.
+    const FACES = [
+      ['display-800', 'Bricolage Grotesque', 800],
+      ['display-700', 'Bricolage Grotesque', 700],
+      ['text-700', 'Inter', 700],
+      ['text-600', 'Inter', 600],
+      ['text-500', 'Inter', 500],
+    ];
+    const EXTRA_SIGNS = 'ªº–—…“”‘’·•°«»×÷±²³¹½¼¾§©®™€£¢¥¿¡µ¶″‹›¨´¸¯¬¦     ';
+    const ASCII = Array.from({ length: 95 }, (_, i) => String.fromCharCode(32 + i));
+
+    const probe = document.getElementById('probe');
+    function width(sign, family, weight) {
+      probe.style.fontFamily = `'${family}'`;
+      probe.style.fontWeight = String(weight);
+      probe.textContent = sign;
+      return Math.round(probe.getBoundingClientRect().width);
+    }
+
+    async function main() {
+      for (const [, family, weight] of FACES) await document.fonts.load(`${weight} 100px '${family}'`);
+      await document.fonts.ready;
+      const advances = {};
+      const extra = {};
+      for (const [name, family, weight] of FACES) {
+        advances[name] = ASCII.map((sign) => width(sign, family, weight));
+        extra[name] = [...EXTRA_SIGNS].map((sign) => width(sign, family, weight));
+      }
+      const rows = (table) => Object.entries(table).map(([name, list]) => `  '${name}': [${list.join(', ')}],`).join('\n');
+      document.getElementById('out').textContent = `const ADVANCES = {\n${rows(advances)}\n};\n\nconst EXTRA_ADVANCES = {\n${rows(extra)}\n};\n`;
+      document.getElementById('state').textContent = 'Done: paste into js/flyer.js.';
+      window.metrics = { advances, extra };
+    }
+    main();
+  </script>
+</body>
+</html>
