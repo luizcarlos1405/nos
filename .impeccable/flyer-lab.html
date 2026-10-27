@@ -21,17 +21,17 @@
     .lab-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; min-height: 36px; margin-bottom: 24px; line-height: 20px; }
     .lab-bar .lab-name { margin: 0; font: 800 28px/36px var(--font-display); }
     .lab-bar label { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; }
-    .lab-bar select { height: 36px; padding: 0 8px; border: 1px solid var(--role-line); border-radius: var(--radius-sm); background: var(--role-paper); }
+    .lab-bar select { height: 36px; padding: 0 8px; border: 1px solid var(--role-line); border-radius: var(--radius-sm); background: var(--role-card); }
     .lab-summary { font-size: 15px; color: var(--role-ink-soft); }
-    .lab-summary.is-bad { color: var(--role-alert-text); font-weight: 700; }
+    .lab-summary.is-bad { color: var(--role-accent-text); font-weight: 700; }
     .lab-case { margin: 0 0 40px; }
     .lab-case > .lab-case-name { margin: 0 0 4px; font: 700 22px/28px var(--font-ui); }
     .lab-case > p { margin: 0 0 12px; font-size: 15px; line-height: 20px; color: var(--role-ink-soft); }
     .lab-row { display: flex; gap: 24px; overflow-x: auto; padding-bottom: 8px; }
     .lab-flyer { flex: none; margin: 0; }
     .lab-flyer figcaption { display: flex; align-items: center; gap: 10px; height: 32px; margin-bottom: 8px; font-size: 14px; line-height: 20px; font-weight: 600; white-space: nowrap; }
-    .lab-flyer figcaption button { min-height: 30px; padding: 0 10px; border: 1px solid var(--role-line); border-radius: var(--radius-sm); background: var(--role-paper); font-size: 13px; }
-    .lab-warn { color: var(--role-alert-text); font-weight: 700; }
+    .lab-flyer figcaption button { min-height: 30px; padding: 0 10px; border: 1px solid var(--role-line); border-radius: var(--radius-sm); background: var(--role-card); font-size: 13px; }
+    .lab-warn { color: var(--role-accent-text); font-weight: 700; }
     .lab-frame { position: relative; overflow: hidden; box-shadow: 0 0 0 1px var(--role-line); }
     .lab-scaler { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
   </style>
@@ -78,6 +78,7 @@
       '32º Grito dos Excluídos e Excluídas',
       'Mobilização da Classe Trabalhadora',
       'Caminhada Ecológica de Dourados',
+      'Eleição da Direção e do Conselho Fiscal do SIMTED',
       'Desfile de 7 de Setembro com o COMAFRO',
       'Inscrições do curso Meio Ambiente, Sustentabilidade e Saúde',
       'Oficina de cartazes do Grito dos Excluídos e Excluídas',
@@ -142,8 +143,14 @@
         title: LONG_TITLE, org: FOUR_ORGS, local: LONG_PLACE, city: '',
         date: '2026-11-02', endDate: '2026-11-04', time: 19 * 60 + 30, timeRaw: '19h30', endTime: 22 * 60 + 30, endTimeRaw: '22h30', type: 'Assembleia',
       }],
+      ['dawn-period', 'At dawn (6h), three days', 'Almoço dos Educadores', { date: '2026-10-16', endDate: '2026-10-18', time: 6 * 60, timeRaw: '6h' }],
+      ['dusk-holiday', 'At dusk (17h30) on a holiday (Finados)', 'Almoço dos Educadores', { date: '2026-11-02', time: 17 * 60 + 30, timeRaw: '17h30' }],
+      ['night-worst-case', 'Everything long at night (21h30 to 23h30)', 'Almoço dos Educadores', {
+        title: LONG_TITLE, org: FOUR_ORGS, local: LONG_PLACE, city: '', time: 21 * 60 + 30, timeRaw: '21h30', endTime: 23 * 60 + 30, endTimeRaw: '23h30',
+      }],
       ['cancelled-long-reason', `Cancelled, reason of ${LONG_REASON.length} characters`, 'Almoço dos Educadores', { cancelled: true, cancelReason: LONG_REASON }],
       ['cancelled-huge-reason', `Cancelled, reason of ${HUGE_REASON.length} characters`, 'Almoço dos Educadores', { cancelled: true, cancelReason: HUGE_REASON, title: LONG_TITLE }],
+      ['cancelled-night', 'Cancelled at night (21h)', 'Baile dos Educadores – Festa Tropical', { cancelled: true, cancelReason: 'Chuva forte prevista para a noite.' }],
       ['cancelled-no-reason', 'Cancelled with no reason', 'Baile dos Educadores – Festa Tropical', { cancelled: true, cancelReason: '' }],
       ['cancelled-day-04', 'Cancelled on day 04 (the 4 is wide: the stamp must stay inside the sheet)', 'Almoço dos Educadores', { cancelled: true, cancelReason: 'Chuva forte prevista para a tarde.', date: '2026-11-04' }],
       ['cancelled-day-24', 'Cancelled on day 24', 'Almoço dos Educadores', { cancelled: true, cancelReason: 'Chuva forte prevista para a tarde.', date: '2026-10-24' }],
@@ -165,76 +172,131 @@
       return [...seen.values()].sort((a, b) => rank(a) - rank(b) || a.localeCompare(b, 'pt-BR'));
     }
 
-    // Dev check (DOM measurement is fine here, never in js/flyer.js). Line boxes stand in for the
-    // text: anything outside the flyer or outside the sheet that clips it, text blocks running into
-    // each other, a planned line wider than its box, the ring leaving the sheet, the stamp on the
-    // weekday row or past the sheet's edge.
-    const BLOCKS = {
-      day: ['.fl-mast', '.dy-num', '.dy-date', '.dy-when', '.dy-title', '.dy-rows', '.fl-tag', '.fl-foot'],
-      month: ['.fl-mast', '.mo-month', '.mo-weekdays', '.mo-weeks', '.mo-title', '.mo-when', '.mo-rows', '.fl-foot'],
-      poster: ['.po-title', '.po-sheet', '.po-info', '.po-sign'],
-      notice: ['.fl-mast', '.nt-num', '.nt-row', '.nt-reason', '.nt-title', '.nt-record .fl-row', '.nt-foot'],
-    };
-    const DECOR = '.mo-ring, .mo-underline, .nt-stamp, .nt-strike';
-    const TITLES = '.dy-title, .mo-title, .po-title, .nt-title';
-    const NARROW = `${TITLES}, .fl-row-text, .mo-month, .mo-when, .dy-weekday, .dy-month, .dy-holiday, .dy-until, .dy-time, .po-time, .po-until, .po-type, .nt-reason-text, .nt-weekday, .nt-month, .nt-type, .fl-tag, .fl-foot, .po-sign-text`;
+    // Dev check (DOM measurement is fine here, never in js/flyer.js). Text is measured by its ink:
+    // each text node's box from its font's metrics (canvas), not its line box. Checked: every text
+    // inside the flyer; the sky's text on the sky (under the top, over the band) and the land's under
+    // the band and over the signature; no two blocks of text running into each other; a planned line
+    // no wider than its box; the hand's marks inside the flyer; and every text against what lies
+    // under it (the sky's bands, the sun or the moon, the land) at 4.5:1 or more.
+    const BLOCKS = '.dy-num, .dy-weekday, .dy-month, .dy-holiday, .dy-until, .dy-time, .dy-end, .dy-tbc, .mo-name, .mo-year, .mo-heads, .mo-num, .po-title, .nt-word, .nt-when, .fl-land .fl-title, .mo-when, .po-when-line, .po-under, .po-holiday, .fl-row, .nt-reason, .fl-sign-brand, .fl-sign-text';
+    const BOXED = '.fl-land .fl-title, .fl-row-text, .mo-when, .nt-reason, .po-title';
+    const MIN_CONTRAST = 4.5;
+    const BAND_HEIGHT = 64;
 
-    function audit(node, styleId) {
+    const canvas = document.createElement('canvas').getContext('2d');
+    function metrics(el, text) {
+      const style = getComputedStyle(el);
+      canvas.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+      const m = canvas.measureText(text);
+      return { ascent: m.fontBoundingBoxAscent, inkUp: m.actualBoundingBoxAscent, inkDown: m.actualBoundingBoxDescent };
+    }
+    // The ink box of a text node, in flyer pixels: the Range's box gives the content area, whose top
+    // is the font's ascent over the baseline.
+    function inkBox(textNode, frame, s) {
+      const range = document.createRange();
+      range.selectNodeContents(textNode);
+      const boxes = [...range.getClientRects()].filter((r) => r.width > 0);
+      if (!boxes.length) return null;
+      const m = metrics(textNode.parentElement, textNode.textContent.trim() || 'x');
+      const parts = boxes.map((r) => {
+        const baseline = (r.top - frame.top) / s + m.ascent;
+        return { left: (r.left - frame.left) / s, right: (r.right - frame.left) / s, top: baseline - m.inkUp, bottom: baseline + m.inkDown };
+      });
+      return parts.reduce((a, b) => ({ left: Math.min(a.left, b.left), right: Math.max(a.right, b.right), top: Math.min(a.top, b.top), bottom: Math.max(a.bottom, b.bottom) }));
+    }
+    const textNodes = (root) => {
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode: (n) => (n.textContent.trim() ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT) });
+      const list = [];
+      while (walker.nextNode()) list.push(walker.currentNode);
+      return list;
+    };
+    const union = (boxes) => boxes.filter(Boolean).reduce((a, b) => (a ? { left: Math.min(a.left, b.left), right: Math.max(a.right, b.right), top: Math.min(a.top, b.top), bottom: Math.max(a.bottom, b.bottom) } : b), null);
+    const rgb = (value) => (value.match(/[\d.]+/g) || []).slice(0, 3).map(Number);
+    const luminance = ([r, g, b]) => [r, g, b].map((c) => (c / 255 <= 0.03928 ? c / 255 / 12.92 : ((c / 255 + 0.055) / 1.055) ** 2.4)).reduce((sum, c, i) => sum + c * [0.2126, 0.7152, 0.0722][i], 0);
+    const contrast = (a, b) => {
+      const [x, y] = [luminance(rgb(a)), luminance(rgb(b))].sort((p, q) => q - p);
+      return (x + 0.05) / (y + 0.05);
+    };
+
+    function audit(node) {
       const problems = [];
-      const rect = (el) => el.getBoundingClientRect();
-      const inside = (r, box, slack = 1) => r.left >= box.left - slack && r.top >= box.top - slack && r.right <= box.right + slack && r.bottom <= box.bottom + slack;
-      const name = (el) => (typeof el.className === 'string' && el.className) || el.tagName.toLowerCase();
-      const frame = rect(node);
+      const frame = node.getBoundingClientRect();
       const s = frame.width / FLYER_WIDTH;
-      for (const el of node.querySelectorAll('*')) {
-        if (el.closest(DECOR)) continue;
-        const r = rect(el);
-        if (!r.width && !r.height) continue;
-        if (!inside(r, frame)) problems.push(`${name(el)} outside the flyer`);
-        const sheet = el.parentElement.closest('.fl-sheet, .po-sheet, .nt-sheet');
-        if (sheet && !inside(r, rect(sheet))) problems.push(`${name(el)} clipped by the sheet`);
-      }
-      const blocks = BLOCKS[styleId].flatMap((sel) => [...node.querySelectorAll(sel)]);
-      for (let i = 0; i < blocks.length; i++) {
-        for (let j = i + 1; j < blocks.length; j++) {
-          const a = rect(blocks[i]);
-          const b = rect(blocks[j]);
-          const overlap = Math.min(a.right, b.right) - Math.max(a.left, b.left) > 1 && Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top) > 1;
-          if (overlap && !blocks[i].contains(blocks[j]) && !blocks[j].contains(blocks[i])) problems.push(`${name(blocks[i])} runs into ${name(blocks[j])}`);
+      const local = (r) => ({ left: (r.left - frame.left) / s, right: (r.right - frame.left) / s, top: (r.top - frame.top) / s, bottom: (r.bottom - frame.top) / s });
+      const inside = (r, box, slack = 1) => r.left >= box.left - slack && r.top >= box.top - slack && r.right <= box.right + slack && r.bottom <= box.bottom + slack;
+      const overlap = (a, b) => Math.min(a.right, b.right) - Math.max(a.left, b.left) > 1 && Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top) > 1;
+      const name = (el) => (typeof el.className === 'string' && el.className.split(' ').find((c) => c !== 'fl-at' && c !== 'fl-line')) || el.tagName.toLowerCase();
+      const whole = { left: 0, top: 0, right: FLYER_WIDTH, bottom: FLYER_HEIGHT };
+      const horizon = local(node.querySelector('.fl-band').getBoundingClientRect()).top;
+      const land = { left: 0, right: FLYER_WIDTH, top: horizon + BAND_HEIGHT, bottom: local(node.querySelector('.fl-sign').getBoundingClientRect()).top - 8 };
+      const sky = { left: 0, right: FLYER_WIDTH, top: 8, bottom: horizon - 4 };
+
+      // What lies under the sky's text: its bands, and the sun or the moon.
+      const bands = [...node.querySelectorAll('.fl-sky-band')].map((band) => ({ ...local(band.getBoundingClientRect()), color: getComputedStyle(band).backgroundColor }));
+      const discs = [...node.querySelectorAll('.fl-astro')].map((svg) => {
+        const r = local(svg.getBoundingClientRect());
+        const w = r.right - r.left;
+        return { x: r.left + (58 / 120) * w, y: r.top + (60 / 120) * w, r: (49 / 120) * w, color: getComputedStyle(svg.querySelector('circle')).fill };
+      });
+      const ground = getComputedStyle(node).backgroundColor;
+      const touches = (box, disc) => {
+        const x = Math.max(box.left, Math.min(disc.x, box.right));
+        const y = Math.max(box.top, Math.min(disc.y, box.bottom));
+        return (x - disc.x) ** 2 + (y - disc.y) ** 2 < disc.r ** 2;
+      };
+      const within = (box, disc) => [[box.left, box.top], [box.right, box.top], [box.left, box.bottom], [box.right, box.bottom]].every(([x, y]) => (x - disc.x) ** 2 + (y - disc.y) ** 2 <= disc.r ** 2);
+
+      let lowest = Infinity;
+      for (const text of textNodes(node)) {
+        const box = inkBox(text, frame, s);
+        if (!box) continue;
+        const el = text.parentElement;
+        const label = `"${text.textContent.trim().slice(0, 24)}"`;
+        if (!inside(box, whole)) problems.push(`${label} outside the flyer`);
+        const onLand = Boolean(el.closest('.fl-land'));
+        const onSky = !onLand && !el.closest('.fl-sign');
+        if (onSky && !inside(box, sky)) problems.push(`${label} leaves the sky`);
+        if (onLand && !inside(box, land)) problems.push(`${label} leaves the land`);
+        const color = getComputedStyle(el).color;
+        const under = [];
+        if (onSky) {
+          const disc = discs.find((d) => touches(box, d));
+          if (disc) under.push(disc.color);
+          if (!disc || !within(box, disc)) under.push(...bands.filter((band) => box.bottom > band.top && box.top < band.bottom).map((band) => band.color));
+        } else under.push(ground);
+        for (const back of under) {
+          const ratio = contrast(color, back);
+          lowest = Math.min(lowest, ratio);
+          if (ratio < MIN_CONTRAST) problems.push(`${label} contrast ${ratio.toFixed(2)}:1`);
         }
       }
-      for (const el of node.querySelectorAll(NARROW)) {
-        if (el.scrollWidth > el.clientWidth + 1) problems.push(`${name(el)} wider than its box`);
+
+      // Blocks of text running into each other, by their ink.
+      const blocks = [...node.querySelectorAll(BLOCKS)].map((el) => ({ el, box: union(textNodes(el).map((t) => inkBox(t, frame, s))) })).filter((b) => b.box);
+      for (let i = 0; i < blocks.length; i++) {
+        for (let j = i + 1; j < blocks.length; j++) {
+          const [a, b] = [blocks[i], blocks[j]];
+          if (a.el.contains(b.el) || b.el.contains(a.el)) continue;
+          if (overlap(a.box, b.box)) problems.push(`${name(a.el)} runs into ${name(b.el)}`);
+        }
       }
-      // Every planned line must fit its box: the lines never wrap, so a short estimate would
-      // show here as text running past the box.
-      for (const el of node.querySelectorAll('.fl-line')) {
-        const range = document.createRange();
-        range.selectNodeContents(el);
-        const text = range.getBoundingClientRect();
-        const parent = el.parentElement;
-        const style = getComputedStyle(parent);
-        const box = rect(parent);
-        const content = { left: box.left + parseFloat(style.paddingLeft) * s, right: box.right - parseFloat(style.paddingRight) * s, top: -Infinity, bottom: Infinity };
-        if (!inside(text, content)) problems.push(`line runs past its box: "${el.textContent.slice(0, 30)}"`);
+      // Every planned line inside its box: the lines never wrap, so a short estimate would show
+      // here as text running past the box.
+      for (const el of node.querySelectorAll(BOXED)) {
+        const style = getComputedStyle(el);
+        const r = local(el.getBoundingClientRect());
+        const content = { left: r.left + parseFloat(style.paddingLeft), right: r.right - parseFloat(style.paddingRight), top: -Infinity, bottom: Infinity };
+        for (const line of el.querySelectorAll('.fl-line')) {
+          const range = document.createRange();
+          range.selectNodeContents(line);
+          if (!inside(local(range.getBoundingClientRect()), content)) problems.push(`line runs past its box: "${line.textContent.slice(0, 30)}"`);
+        }
       }
-      const col = node.querySelector('.dy-col');
-      const when = node.querySelector('.dy-when');
-      if (col && when && rect(when).bottom > rect(col).bottom + 2) problems.push('time runs past the column');
-      const ring = node.querySelector('.mo-ring');
-      if (ring && !inside(rect(ring), rect(node.querySelector('.fl-sheet')))) problems.push('ring leaves the sheet');
-      const stamp = node.querySelector('.nt-stamp');
-      const row = node.querySelector('.nt-row');
-      if (stamp && row) {
-        const lowest = stamp.offsetTop + stamp.offsetHeight * Math.cos((8 * Math.PI) / 180);
-        if (lowest > row.offsetTop) problems.push('stamp reaches the date row');
-        // The rotated stamp, border and all, inside the sheet's borders.
-        const sheet = rect(node.querySelector('.nt-sheet'));
-        const innerBox = { left: sheet.left + s, top: sheet.top + s, right: sheet.right - s, bottom: sheet.bottom - s };
-        if (!inside(rect(stamp), innerBox, 0)) problems.push('stamp crosses the edge of the sheet');
+      for (const mark of node.querySelectorAll('.fl-hand')) {
+        if (!inside(local(mark.getBoundingClientRect()), whole, 2)) problems.push(`${name(mark)} outside the flyer`);
       }
-      const titleLines = [...node.querySelectorAll(TITLES)].map((el) => el.querySelectorAll('.fl-line').length);
-      return { problems: [...new Set(problems)], titleLines };
+      const titleLines = [...node.querySelectorAll('.fl-title, .po-title')].map((el) => el.querySelectorAll('.fl-line').length);
+      return { problems: [...new Set(problems)], titleLines, lowestContrast: Math.round(lowest * 100) / 100, sky: node.dataset.sky, horizon: Math.round(horizon) };
     }
 
     function figure(ev, style, caseName) {
@@ -316,7 +378,7 @@
       await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
       let bad = 0;
       for (const fig of document.querySelectorAll('.lab-flyer')) {
-        const result = audit(fig.querySelector('.fl'), fig.dataset.style);
+        const result = audit(fig.querySelector('.fl'));
         report.push({ case: fig.dataset.case, style: fig.dataset.style, ...result });
         if (result.problems.length) {
           bad++;
