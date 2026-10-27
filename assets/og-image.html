@@ -1,109 +1,88 @@
 <!doctype html>
-<!-- Source of assets/og-image.png (1200 × 630), the link preview of WhatsApp, Telegram and the
-     social networks (rendered by assets/render.cjs). The folhinha's sheet lying across the red header
-     card, wide enough to fill the preview: the NOS mark (MARK in js/icons.js) printed where a day sheet
-     prints its day, the letters in ink and the O circled in red, and beside it the city as the weekday
-     and the full name as the month, as the site's sheet heads set them. Under it the edges of two
-     sheets, the pad; its binding is graphite as on the Cartaz flyer's sheet (a red strip would vanish
-     into the red card). WhatsApp shows this image whole, above the title, in a bubble about 330px wide:
-     the type is sized for that (78px and 46px here are about 21px and 13px there). Nothing in it dates.
-     Colours are the roles of css/theme.css; the texts come from js/config.js. -->
-<html lang="pt-BR">
+<!-- Source of assets/og-image.png (1200 × 630), the link preview of WhatsApp, Telegram and the social
+     networks (rendered by assets/render.cjs). The home's first view at poster scale: the sky at dawn in
+     flat bands, the big sun rising at the right behind the woven band (assets/faixa.svg, provisional art),
+     the clay below; on the sky at the left, the NOS mark (MARK in js/icons.js: the letters in ink, the O in
+     its urucum loop), the city in Bricolage and the full name. WhatsApp shows this image whole, above the
+     title, in a bubble about 330px wide: the type is sized for that (120px and 40px here are about 33px and
+     11px there). Nothing in it dates. Colours are the roles of css/theme.css (the light theme at dawn); the
+     texts come from js/config.js. -->
+<html lang="pt-BR" data-scheme="light" data-sky="dawn">
 <head>
 <meta charset="utf-8">
 <title>Prévia do link</title>
-<!-- The site's colour theme: data-theme on <html>, or ?tema=<name> as in index.html. -->
-<script>
-  var theme = new URLSearchParams(location.search).get('tema');
-  if (theme) document.documentElement.dataset.theme = theme;
-</script>
 <link rel="stylesheet" href="../css/theme.css">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { width: 1200px; height: 630px; overflow: hidden; }
-  body { position: relative; background: var(--role-header); color: var(--role-ink); -webkit-font-smoothing: antialiased; }
+  body { position: relative; background: var(--role-ground); color: var(--role-sky-ink); -webkit-font-smoothing: antialiased; }
 
-  /* The pad: a 1080 × 476px sheet, two edges of 15px under it (506px in all), 60px of red around. */
-  .pad { position: absolute; left: 60px; top: 62px; width: 1080px; height: 506px; }
-  .pad > svg { position: absolute; inset: 0; overflow: visible; }
-  .pad-paper { fill: var(--role-paper); }
-  .pad-seam { fill: var(--role-ink-faded); }
-  .pad-binding { fill: var(--role-strong); }
-  .pad-perf { fill: var(--role-ink-faded); }
+  /* The sky: 506px of flat bands counted up from the horizon, then the band (64px) and the clay. */
+  .sky {
+    --h5: 34px;
+    --h4: 76px;
+    --h3: 124px;
+    --h2: 182px;
+    position: absolute;
+    inset: 0 0 auto;
+    height: 506px;
+    overflow: hidden;
+    background: linear-gradient(to top,
+      var(--role-sky-5) 0 var(--h5),
+      var(--role-sky-4) 0 var(--h4),
+      var(--role-sky-3) 0 var(--h3),
+      var(--role-sky-2) 0 var(--h2),
+      var(--role-sky-1) 0);
+  }
+  .band { position: absolute; left: 0; right: 0; top: 506px; height: 64px; background: url(faixa.svg) 0 50% / auto 100% repeat-x; }
 
-  /* Today's sheet, under its binding (20px) and perforation (40px): the mark in the numeral's place,
-     the city and the full name in the text column beside it. */
-  .head { position: absolute; left: 0; right: 0; top: 60px; height: 416px; display: flex; align-items: center; justify-content: center; gap: 64px; padding-bottom: 16px; }
-  .mark { display: block; flex: none; width: 503px; height: 304px; overflow: visible; } /* the drawing is 1493:902 */
-  .mark-letters { fill: var(--role-ink); }
-  .mark-loop { fill: var(--role-mark-loop); }
-  .text { display: flex; flex-direction: column; gap: 20px; max-width: 440px; }
-  .weekday { font: 700 78px/1 var(--font-display); letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap; }
-  .month { font: 500 46px/1.16 var(--font-ui); color: var(--role-ink-soft); text-wrap: balance; }
+  /* The sun (the site's #astro drawing): its disc centred 20px under the horizon, running off the right. */
+  .sun { position: absolute; right: -60px; bottom: -260px; width: 560px; height: 560px; overflow: visible; }
+  .sun circle { fill: var(--role-astro); }
+  .sun path { fill: none; stroke: var(--role-sky-hand); stroke-width: 7px; stroke-linecap: round; stroke-linejoin: round; }
+
+  .lockup { position: absolute; left: 84px; top: 62px; display: flex; flex-direction: column; align-items: flex-start; }
+  .mark { display: block; width: 320px; height: 193px; overflow: visible; } /* the drawing is 1493:902 */
+  .mark-letters { fill: var(--role-sky-ink); }
+  .mark-loop { fill: var(--role-sky-hand); }
+  .place { margin-top: 22px; font: 800 120px/1 var(--font-display); letter-spacing: -0.03em; white-space: nowrap; }
+  .full { margin-top: 18px; font: 500 40px/1.2 var(--font-ui); color: var(--role-sky-ink-soft); white-space: nowrap; }
 </style>
 </head>
 <body>
-  <div class="pad">
-    <svg id="sheets" xmlns="http://www.w3.org/2000/svg" width="1080" height="506" viewBox="0 0 1080 506" aria-hidden="true"></svg>
-    <div class="head">
+  <div class="sky">
+    <svg class="sun" viewBox="0 0 120 120" aria-hidden="true"><circle cx="58" cy="60" r="49"/><path vector-effect="non-scaling-stroke" d="M78 9C56 4 22 12 12 38C3 64 20 104 56 108C92 112 116 88 112 56C109 28 92 7 66 5.5C54 5 40 10 28 19"/></svg>
+    <div class="lockup">
       <svg class="mark" id="mark" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
-      <div class="text">
-        <p class="weekday" id="city"></p>
-        <p class="month" id="full"></p>
-      </div>
+      <p class="place" id="place"></p>
+      <p class="full" id="full"></p>
     </div>
   </div>
+  <div class="band"></div>
 <script type="module">
   import { APP_FULL_NAME, CITY } from '../js/config.js';
   import { MARK } from '../js/icons.js';
 
   const NS = 'http://www.w3.org/2000/svg';
-  function add(parent, tag, attrs, cls) {
-    const el = document.createElementNS(NS, tag);
-    for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
-    if (cls) el.setAttribute('class', cls);
-    parent.append(el);
-    return el;
-  }
-
-  // A sheet's outline: top corners rt, bottom corners rb (the Bound Top Rule).
-  function sheetPath(x, y, w, h, rt, rb) {
-    return `M${x + rt},${y}H${x + w - rt}Q${x + w},${y} ${x + w},${y + rt}V${y + h - rb}`
-      + `Q${x + w},${y + h} ${x + w - rb},${y + h}H${x + rb}Q${x},${y + h} ${x},${y + h - rb}`
-      + `V${y + rt}Q${x},${y} ${x + rt},${y}Z`;
-  }
-
-  // The pad in px: the binding, perforation and corners of the Cartaz's sheet (css/flyers.css) at this
-  // scale, a dot every 36px, and the edges of two sheets under it, each 15px lower and 7px narrower a side.
-  const W = 1080, H = 476, RT = 6, RB = 16, BINDING = 20, PERF = 40, DOT = 9, STEP = 36, MARGIN = 40;
-  const UNDER = [{ inset: 7, edge: 15 }, { inset: 14, edge: 30 }];
-  const SEAM = 4;
-  const sheets = document.getElementById('sheets');
-  for (let i = UNDER.length - 1; i >= 0; i--) {
-    // each sheet above leaves a seam on the one below
-    const { inset, edge } = UNDER[i];
-    const below = sheetPath(inset, 0, W - 2 * inset, H + edge, RT, RB);
-    add(sheets, 'path', { d: below }, 'pad-paper');
-    add(add(sheets, 'clipPath', { id: `under-${i}` }), 'path', { d: below });
-    const above = i ? UNDER[i - 1] : { inset: 0, edge: 0 };
-    add(sheets, 'path', { d: sheetPath(above.inset, 0, W - 2 * above.inset, H + above.edge + SEAM, RT, RB), 'clip-path': `url(#under-${i})` }, 'pad-seam');
-  }
-  add(sheets, 'path', { d: sheetPath(0, 0, W, H, RT, RB) }, 'pad-paper');
-  add(sheets, 'path', { d: `M${RT},0H${W - RT}Q${W},0 ${W},${RT}V${BINDING}H0V${RT}Q0,0 ${RT},0Z` }, 'pad-binding');
-  const dots = Math.floor((W - 2 * MARGIN) / STEP) + 1;
-  const first = (W - (dots - 1) * STEP) / 2;
-  for (let i = 0; i < dots; i++) {
-    add(sheets, 'circle', { cx: first + i * STEP, cy: BINDING + PERF / 2, r: DOT / 2 }, 'pad-perf');
-  }
-
   const mark = document.getElementById('mark');
   mark.setAttribute('viewBox', MARK.viewBox);
-  add(mark, 'path', { d: MARK.letters }, 'mark-letters');
-  add(mark, 'path', { d: MARK.loop }, 'mark-loop');
-  document.getElementById('city').textContent = CITY;
+  for (const [cls, d] of [['mark-letters', MARK.letters], ['mark-loop', MARK.loop]]) {
+    const path = document.createElementNS(NS, 'path');
+    path.setAttribute('class', cls);
+    path.setAttribute('d', d);
+    mark.append(path);
+  }
+  document.getElementById('place').textContent = CITY.split('/')[0];
   document.getElementById('full').textContent = APP_FULL_NAME;
 
-  document.fonts.ready.then(() => {
+  // The band is a background image and the type a web font: wait for both.
+  const band = new Promise((resolve) => {
+    const image = new Image();
+    image.onload = image.onerror = resolve;
+    image.src = new URL('faixa.svg', location.href).href;
+  });
+  const fonts = Promise.all(['800 120px "Bricolage Grotesque"', '500 40px Inter'].map((font) => document.fonts.load(font)));
+  Promise.all([band, fonts]).then(() => document.fonts.ready).then(() => {
     document.documentElement.dataset.ready = '';
   });
 </script>

@@ -3,7 +3,7 @@
 //   node assets/render.cjs icons      only the icons and favicons (assets/icon.html)
 //   node assets/render.cjs og         only the link preview (assets/og-image.html)
 //   node assets/render.cjs shots      only the manifest screenshots (the site itself: calendario.html
-//                                     and comercio.html)
+//                                     and comercio.html, in the light theme)
 // It serves the project folder itself, on a free local port. Needs Playwright and a Chromium:
 // `npm i --no-save playwright-core && npx playwright-core install chromium` in the project folder,
 // or PLAYWRIGHT_CORE and CHROMIUM pointing at your own.
@@ -42,9 +42,9 @@ const ICON_FILES = [
   ['favicon-48.png', 'favicon', 48],
 ];
 
-// The screenshots show a fixed day, so they read the same whenever they are made.
+// The screenshots show a fixed day (in the day's sky), so they read the same whenever they are made.
 const SHOT_DAY = '2026-10-15T10:00:00';
-const SHOT_ACTIVITY = '.line[data-id^="ev-2026-10-18"]'; // Almoço dos Educadores: time, place and contact
+const SHOT_ACTIVITY = '.event-card[data-id^="ev-2026-10-18"]'; // Almoço dos Educadores: time, place and contact
 
 const TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -103,41 +103,49 @@ function stampOrigin(file, origin) {
 
 // A fresh page per render: icon.html reads its variant from the hash only when it loads. The
 // templates set html[data-ready] once they are drawn (the link preview waits for its fonts).
+// Chromium now and then refuses a capture ("Unable to capture screenshot"), mostly the first one of a
+// fresh browser: one more try after a moment.
+async function capture(page, options) {
+  try {
+    await page.screenshot(options);
+  } catch {
+    await page.waitForTimeout(500);
+    await page.screenshot(options);
+  }
+}
+
 async function renderPage(browser, url, { width, height, out, transparent = false, origin }) {
   const page = await browser.newPage({ viewport: { width, height }, deviceScaleFactor: 1 });
   await page.goto(url);
   await page.waitForSelector('html[data-ready]', { state: 'attached' });
   await page.evaluate(() => document.fonts.ready);
-  await page.screenshot({ path: out, omitBackground: transparent });
+  await capture(page, { path: out, omitBackground: transparent });
   await page.close();
   stampOrigin(out, origin);
   console.log('wrote', path.relative(ROOT, out));
 }
 
-// The theme the site uses (data-theme on <html>, the same in the three pages; read from index.html)
-// goes to the templates as ?tema=, so adopting a theme carries through to the icons and the link preview.
-const THEME = (fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8').match(/<html[^>]*\sdata-theme="([^"]*)"/) || [])[1] || '';
-const themed = (page) => (THEME ? `${page}?tema=${encodeURIComponent(THEME)}` : page);
+// The templates draw the light theme's sky at dawn (data-scheme and data-sky on their <html>).
 
 async function renderIcons(browser, base) {
   fs.mkdirSync(ICONS, { recursive: true });
   for (const [file, variant, size] of ICON_FILES) {
     // 'any' and the favicons keep their transparent corners; the others are full-bleed squares.
     const transparent = variant === 'any' || variant === 'favicon';
-    const origin = `Drawn in HTML, not generated: assets/icon.html#${variant} (the NOS mark of js/icons.js), rendered at ${size}x${size}px by node assets/render.cjs icons.`;
-    await renderPage(browser, `${base}${themed('assets/icon.html')}#${variant}`, { width: size, height: size, out: path.join(ICONS, file), transparent, origin });
+    const origin = `Drawn in HTML, not generated: assets/icon.html#${variant} (the NOS mark of js/icons.js on the dawn sky over assets/faixa.svg), rendered at ${size}x${size}px by node assets/render.cjs icons.`;
+    await renderPage(browser, `${base}assets/icon.html#${variant}`, { width: size, height: size, out: path.join(ICONS, file), transparent, origin });
   }
 }
 
 async function renderOg(browser, base) {
-  const origin = 'Drawn in HTML, not generated: assets/og-image.html (the NOS mark of js/icons.js on the pad), rendered at 1200x630px by node assets/render.cjs og.';
-  await renderPage(browser, `${base}${themed('assets/og-image.html')}`, { width: 1200, height: 630, out: path.join(ROOT, 'assets/og-image.png'), origin });
+  const origin = 'Drawn in HTML, not generated: assets/og-image.html (the NOS mark of js/icons.js on the dawn sky, the sun rising behind assets/faixa.svg), rendered at 1200x630px by node assets/render.cjs og.';
+  await renderPage(browser, `${base}assets/og-image.html`, { width: 1200, height: 630, out: path.join(ROOT, 'assets/og-image.png'), origin });
 }
 
 async function renderShots(browser, base) {
   fs.mkdirSync(SHOTS, { recursive: true });
-  const open = async (options, file = 'calendario.html', ready = '.sheet') => {
-    const context = await browser.newContext({ ...options, reducedMotion: 'reduce', serviceWorkers: 'block' });
+  const open = async (options, file = 'calendario.html', ready = '.event-card') => {
+    const context = await browser.newContext({ ...options, colorScheme: 'light', reducedMotion: 'reduce', serviceWorkers: 'block' });
     const page = await context.newPage();
     await page.clock.install({ time: new Date(SHOT_DAY) });
     await page.goto(`${base}${file}`);
@@ -148,7 +156,7 @@ async function renderShots(browser, base) {
   };
   const shot = async (page, file) => {
     const out = path.join(SHOTS, file);
-    await page.screenshot({ path: out });
+    await capture(page, { path: out });
     const where = new URL(page.url()).pathname.split('/').pop() || 'index.html';
     stampOrigin(out, `Screenshot of the site itself, not generated: ${where} with the data of data/, clock fixed at ${SHOT_DAY}, taken by node assets/render.cjs shots.`);
     console.log('wrote', path.relative(ROOT, out));
@@ -165,14 +173,15 @@ async function renderShots(browser, base) {
   await shot(phone.page, 'phone-flyer.png');
   await phone.context.close();
 
-  const commerce = await open({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true }, 'comercio.html', '.biz');
+  // Comércio is paused: its "Em breve" (.soon); when the list returns, its first business (.biz).
+  const commerce = await open({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true }, 'comercio.html', '.soon, .biz');
   await shot(commerce.page, 'phone-comercio.png');
   await commerce.context.close();
 
   // Desktop (wide): 1440x900.
   const desk = await open({ viewport: { width: 1440, height: 900 } });
   await desk.page.click(SHOT_ACTIVITY);
-  await desk.page.mouse.move(1, 1); // no hover underline on the picked line
+  await desk.page.mouse.move(1, 1); // no hover underline on the picked card
   await desk.page.waitForTimeout(300);
   await shot(desk.page, 'desktop.png');
   await desk.context.close();
