@@ -40,8 +40,7 @@
     {
       "title": "Marca",
       "designs": [
-        { "file": "marca-nos.html", "title": "Marca NOS", "width": 860, "height": 904 },
-        { "file": "marca-propostas.html", "title": "Marca · 5 propostas (escolhida: 01)", "width": 1480, "height": 2320 }
+        { "file": "marca-nos.html", "title": "Marca NOS", "width": 860, "height": 904 }
       ]
     },
     {
