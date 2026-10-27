@@ -1,11 +1,12 @@
-// What the three pages share: Início (index.html, js/home.js), Calendário (calendario.html,
-// js/app.js) and Comércio (comercio.html, js/comercio.js). The header card, small DOM helpers,
-// notices, reading a published sheet, and the offline worker.
+// What the three pages share: Início (index.html, js/home.js), Agenda (calendario.html, js/app.js)
+// and Comércio (comercio.html, js/comercio.js). The header on the sky, small DOM helpers, notices,
+// reading a published sheet, and the offline worker.
 
 import { APP_FULL_NAME, APP_NAME, CITY, COMMERCE_CSV_URL, CSV_URL } from './config.js';
 import { decodeCSV, parseCSV } from './csv.js';
 import { formatShortDate, formatTime } from './events.js';
 import { brandMark, icon } from './icons.js';
+import { initSky } from './sky.js';
 
 export const $ = (id) => document.getElementById(id);
 
@@ -27,16 +28,19 @@ export function safeUrl(value) {
   return null;
 }
 
-// The header card: the NOS mark and the texts of js/config.js (each page keeps a static copy, so
-// the name shows without JS), the page's name in the tab title, and the icons of [data-icon] nodes.
+// The header on the sky: the NOS mark and the city of js/config.js (each page keeps a static copy,
+// so the name shows without JS), the full name under the page, the page's name in the tab title, the
+// icons of [data-icon] nodes, and the sky and theme (js/sky.js).
 export function initPage(pageName = '') {
-  const site = `${APP_NAME} ${CITY.split('/')[0]}`;
+  const place = CITY.split('/')[0];
+  const site = `${APP_NAME} ${place}`;
   $('brand-mark').innerHTML = brandMark(APP_NAME);
   $('brand-name-sr').textContent = `${APP_NAME} `;
-  $('app-city').textContent = CITY;
-  $('app-full-name').textContent = APP_FULL_NAME;
+  $('app-city').textContent = place;
+  $('app-full-name').textContent = `${site} · ${APP_FULL_NAME}`;
   document.title = pageName ? `${pageName} · ${site}` : `${site} · ${APP_FULL_NAME}`;
   document.querySelectorAll('[data-icon]').forEach((node) => node.insertAdjacentHTML('afterbegin', icon(node.dataset.icon)));
+  initSky();
 }
 
 // ---------- Notices ----------

@@ -31,6 +31,10 @@ const PATHS = {
   'search-x': '<path d="m13.5 8.5-5 5"/><path d="m8.5 8.5 5 5"/><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
   'arrow-right': '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
   external: '<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>',
+  house: '<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+  clock: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6h4"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2m-7.07-17.07 1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>',
+  moon: '<path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/>',
 };
 
 export function icon(name, className = 'icon') {
@@ -38,9 +42,10 @@ export function icon(name, className = 'icon') {
 }
 
 // The NOS mark: N and S in Barlow Condensed 800 and, for the O, a circle drawn by hand, the way one
-// circles a date on the folhinha. Paths in font units (1000 = the font size, baseline at y=0), drawn
-// once from the font's outlines; the loop is the outline of a marker stroke (its width varies, its end
-// runs past its start), not an SVG stroke. assets/icon.html and assets/og-image.html draw it too.
+// circles a date on a calendar (on the sky the same hand draws the sun round: HAND.astro). Paths in
+// font units (1000 = the font size, baseline at y=0), drawn once from the font's outlines; the loop is
+// the outline of a marker stroke (its width varies, its end runs past its start), not an SVG stroke.
+// assets/icon.html and assets/og-image.html draw it too.
 export const MARK = {
   viewBox: '0 -799 1493 902',
   letters: 'M300 -700H440Q445 -700 448.5 -696.5Q452 -693 452 -688V-12Q452 -7 448.5 -3.5Q445 0 440 0H281Q270 0 267 -10L168 -358Q167 -361 164.5 -361.5Q162 -362 162 -358L164 -12Q164 -7 160.5 -3.5Q157 0 152 0H12Q7 0 3.5 -3.5Q0 -7 0 -12V-688Q0 -693 3.5 -696.5Q7 -700 12 -700H169Q180 -700 183 -690L283 -340Q284 -337 286.5 -337Q289 -337 289 -341L288 -688Q288 -693 291.5 -696.5Q295 -700 300 -700ZM1084 -178V-209Q1084 -214 1087.5 -217.5Q1091 -221 1096 -221H1236Q1241 -221 1244.5 -217.5Q1248 -214 1248 -209V-186Q1248 -162 1259.5 -148Q1271 -134 1289 -134Q1307 -134 1318.5 -147.5Q1330 -161 1330 -182Q1330 -205 1312 -223.5Q1294 -242 1240 -281Q1190 -317 1158 -345.5Q1126 -374 1103 -416.5Q1080 -459 1080 -515Q1080 -572 1105.5 -616Q1131 -660 1177.5 -684Q1224 -708 1284 -708Q1345 -708 1391.5 -683.5Q1438 -659 1463.5 -614.5Q1489 -570 1489 -512V-488Q1489 -483 1485.5 -479.5Q1482 -476 1477 -476H1338Q1333 -476 1329.5 -479.5Q1326 -483 1326 -488V-516Q1326 -538 1314 -552Q1302 -566 1284 -566Q1266 -566 1255 -552Q1244 -538 1244 -515Q1244 -490 1261 -470Q1278 -450 1330 -412Q1393 -365 1425 -336Q1457 -307 1475 -271.5Q1493 -236 1493 -188Q1493 -98 1436.5 -45Q1380 8 1288 8Q1227 8 1181 -15.5Q1135 -39 1109.5 -81.5Q1084 -124 1084 -178Z',
@@ -48,9 +53,26 @@ export const MARK = {
 };
 
 // The mark as inline SVG, sized by font-size (.mark in css/style.css). The letters take the text
-// colour, the loop takes --mark-loop (the text colour too, unless a page sets it: red on paper). The
+// colour, the loop takes --mark-loop (the text colour too, unless a page sets it: urucum on the sky). The
 // drawing spells NOS; another APP_NAME prints the word instead, until a mark is drawn for it.
 export function brandMark(word, className = 'mark') {
   if (word !== 'NOS') return `<span class="${className} mark-text" aria-hidden="true">${word}</span>`;
   return `<svg class="${className}" viewBox="${MARK.viewBox}" aria-hidden="true" focusable="false"><path class="mark-letters" d="${MARK.letters}"/><path class="mark-loop" d="${MARK.loop}"/></svg>`;
+}
+
+// The hand marks, in urucum (css/style.css .hand): an open pen loop that runs past its start circles
+// the next activity (two drawings, so neighbours don't look stamped), and a short stroke underlines
+// today. They stretch to the box they mark (preserveAspectRatio none) while the pen keeps its width.
+// `astro` is the same hand drawing the sun or the moon: a disc and the loop around it, a little off
+// register like a screen print; the pages print it on the sky (index.html, calendario.html, comercio.html).
+export const HAND = {
+  loop: { viewBox: '0 0 120 60', d: 'M84 7C62 2 28 4 12 15C1 23 2 41 22 50C42 59 88 58 108 46C122 37 119 17 98 9C84 4 66 4 47 9' },
+  loopAlt: { viewBox: '0 0 120 60', d: 'M20 15C40 4 86 1 106 13C121 22 117 44 94 52C68 61 24 59 9 45C-2 34 6 15 30 9C46 5 66 5 80 8' },
+  underline: { viewBox: '0 0 120 10', d: 'M2 7.5C22 5 46 4.6 70 5.2C88 5.6 104 4.4 118 2.5' },
+  astro: { viewBox: '0 0 120 120', disc: { cx: 58, cy: 60, r: 49 }, d: 'M78 9C56 4 22 12 12 38C3 64 20 104 56 108C92 112 116 88 112 56C109 28 92 7 66 5.5C54 5 40 10 28 19' },
+};
+
+export function handMark(name) {
+  const { viewBox, d } = HAND[name];
+  return `<svg class="hand hand--${name === 'underline' ? 'underline' : 'loop'}" viewBox="${viewBox}" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path vector-effect="non-scaling-stroke" d="${d}"/></svg>`;
 }
