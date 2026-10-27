@@ -1,6 +1,10 @@
-/* Flyers — 1080 × 1350, exported as PNG (js/flyer.js). The site's tear-off calendar at poster size:
-   the red header card, day sheets with their binding strip and perforation, Barlow.
-   Colours only through the roles of css/theme.css; the sector colour arrives as --sector.
+/* Flyers — 1080 × 1350, exported as PNG (js/flyer.js). A tear-off calendar at poster size (the
+   site's previous world, kept while the flyers wait for their own redesign): the urucum header card,
+   day sheets on the clay with their binding strip and perforation, Barlow.
+   Colours only through the roles of css/theme.css, always the light theme's (the flyer is a picture to
+   send, whatever the page's theme: css/theme.css declares the light roles on .fl too); the sector
+   colour arrives as --sector. Barlow through --font-flyer and --font-flyer-display, never the site's
+   fonts: js/flyer.js measures Barlow.
    js/flyer.js plans every text (sizes and line breaks) with the fixed measures below and sets
    the sizes that depend on the text inline, in whole pixels: keep both files in step.
    Every rule is scoped under the flyer, so page styles can't reach into it. */
@@ -12,9 +16,9 @@
   width: 1080px;
   height: 1350px;
   overflow: hidden;
-  background: var(--role-wall);
+  background: var(--role-ground);
   color: var(--role-ink);
-  font: 500 16px/1.2 var(--font-ui);
+  font: 500 16px/1.2 var(--font-flyer);
   -webkit-font-smoothing: antialiased;
 }
 .fl, .fl *, .fl *::before, .fl *::after { box-sizing: border-box; }
@@ -26,7 +30,7 @@
    browser can't break it any other way (the plan keeps every line inside its box). */
 .fl .fl-line { display: block; white-space: nowrap; }
 
-/* The red header card: the mark beside the city and the full name, as on the site's header. */
+/* The header card: the mark beside the city and the full name. */
 .fl .fl-mast {
   flex: none;
   display: flex;
@@ -39,8 +43,8 @@
 }
 .fl .fl-mast .mark { font-size: 42px; }
 .fl .fl-mast-text { display: flex; flex-direction: column; gap: 6px; }
-.fl .fl-mast-name { font: 800 62px/1 var(--font-display); }
-.fl .fl-mast-full { font: 500 28px/1.2 var(--font-ui); }
+.fl .fl-mast-name { font: 800 62px/1 var(--font-flyer-display); }
+.fl .fl-mast-full { font: 500 28px/1.2 var(--font-flyer); }
 
 /* A sheet of the pad: paper, binding strip, a row of perforation dots (drawn on the paper). */
 .fl .fl-sheet {
@@ -48,7 +52,7 @@
   min-height: 0;
   display: flex;
   flex-direction: column;
-  background: var(--role-paper);
+  background: var(--role-card);
   border: 2px solid var(--role-line);
   border-radius: 4px 4px 12px 12px;
   overflow: hidden;
@@ -58,7 +62,7 @@
   flex: none;
   height: 32px;
   padding: 0 22px; /* first dot 36px from the sheet's edge, one every 24px */
-  background: radial-gradient(circle, var(--role-line) 4px, var(--role-paper) 4.5px) 0 0 / 24px 32px repeat-x content-box;
+  background: radial-gradient(circle, var(--role-line) 4px, var(--role-card) 4.5px) 0 0 / 24px 32px repeat-x content-box;
 }
 
 /* Rows of facts: a fixed slot for the icon or the sector square, then the text. The row's
@@ -74,9 +78,9 @@
 .fl .fl-tag {
   padding: 6px 16px;
   border-radius: 6px;
-  background: var(--role-strong);
-  color: var(--role-on-strong);
-  font: 700 34px/1.2 var(--font-display);
+  background: var(--role-ink);
+  color: var(--role-on-ink);
+  font: 700 34px/1.2 var(--font-flyer-display);
   letter-spacing: 0.015em;
   white-space: nowrap;
 }
@@ -84,7 +88,7 @@
 .fl .fl-foot {
   flex: none;
   padding: 28px 60px 44px;
-  font: 500 26px/1.2 var(--font-ui);
+  font: 500 26px/1.2 var(--font-flyer);
   color: var(--role-ink-soft);
 }
 
@@ -102,7 +106,7 @@
   gap: calc(40px * var(--k));
   padding: 0 48px calc(58px * var(--k)); /* the numeral's glyphs sit low in their box */
 }
-.fl--day .dy-num { flex: none; font: 800 460px/0.8 var(--font-display); letter-spacing: -0.013em; }
+.fl--day .dy-num { flex: none; font: 800 460px/0.8 var(--font-flyer-display); letter-spacing: -0.013em; }
 .fl--day .dy-col {
   flex: 1;
   min-width: 0;
@@ -113,12 +117,12 @@
   padding-top: calc(32px * var(--k));
 }
 .fl--day .dy-date, .fl--day .dy-until { white-space: nowrap; } /* one line each, sized to the column */
-.fl--day .dy-weekday { font: 800 70px/1 var(--font-display); letter-spacing: 0.03em; }
-.fl--day .dy-month { margin-top: 0.2em; font: 700 40px/1.1 var(--font-display); letter-spacing: 0.075em; }
-.fl--day .dy-holiday { margin-top: 0.24em; font: 600 34px/1.2 var(--font-ui); color: var(--role-red-letter); }
+.fl--day .dy-weekday { font: 800 70px/1 var(--font-flyer-display); letter-spacing: 0.03em; }
+.fl--day .dy-month { margin-top: 0.2em; font: 700 40px/1.1 var(--font-flyer-display); letter-spacing: 0.075em; }
+.fl--day .dy-holiday { margin-top: 0.24em; font: 600 34px/1.2 var(--font-flyer); color: var(--role-red-letter); }
 .fl--day .dy-when { display: flex; flex-direction: column; gap: calc(8px * var(--k)); }
-.fl--day .dy-until { font: 700 48px/1 var(--font-display); }
-.fl--day .dy-time { font: 800 120px/0.8 var(--font-display); letter-spacing: -0.008em; }
+.fl--day .dy-until { font: 700 48px/1 var(--font-flyer-display); }
+.fl--day .dy-time { font: 800 120px/0.8 var(--font-flyer-display); letter-spacing: -0.008em; }
 .fl--day .dy-time.is-lines { line-height: 1; } /* a raw text from the sheet in lines: room for accents */
 .fl--day .dy-head.is-red .dy-num, .fl--day .dy-head.is-red .dy-weekday { color: var(--role-red-letter); }
 
@@ -130,7 +134,7 @@
   padding: 44px 48px 48px;
   border-top: 2px solid var(--role-line);
 }
-.fl--day .dy-title { font: 700 78px/1.08 var(--font-ui); letter-spacing: -0.013em; }
+.fl--day .dy-title { font: 700 78px/1.08 var(--font-flyer); letter-spacing: -0.013em; }
 .fl--day .dy-meta { display: flex; flex-direction: column; align-items: flex-start; gap: 24px; }
 .fl--day .dy-rows { display: flex; flex-direction: column; gap: 14px; align-self: stretch; }
 
@@ -140,7 +144,7 @@
 .fl--month .mo-content { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 44px; padding: 40px 60px 36px; }
 
 .fl--month .mo-head { flex: none; padding: 8px 40px 20px; }
-.fl--month .mo-month { font: 800 92px/0.9 var(--font-display); letter-spacing: 1px; }
+.fl--month .mo-month { font: 800 92px/0.9 var(--font-flyer-display); letter-spacing: 1px; }
 
 /* --weeks rows share the height left; --num is the numeral size picked for it. */
 .fl--month .mo-grid { flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 0 40px 28px; }
@@ -150,7 +154,7 @@
   grid-template-columns: repeat(7, minmax(0, 1fr));
   padding-bottom: 14px;
   border-bottom: 2px solid var(--role-line);
-  font: 700 30px/1.2 var(--font-display);
+  font: 700 30px/1.2 var(--font-flyer-display);
   letter-spacing: 2px;
   text-align: center;
   color: var(--role-ink-soft);
@@ -164,7 +168,7 @@
   grid-template-rows: repeat(var(--weeks), minmax(0, 1fr));
   padding-top: 8px;
 }
-.fl--month .mo-day { position: relative; display: grid; place-items: center; font: 700 var(--num)/1 var(--font-display); }
+.fl--month .mo-day { position: relative; display: grid; place-items: center; font: 700 var(--num)/1 var(--font-flyer-display); }
 .fl--month .mo-day.is-red { color: var(--role-red-letter); }
 .fl--month .mo-num { position: relative; }
 
@@ -190,8 +194,8 @@
 
 .fl--month .mo-info { flex: none; display: flex; flex-direction: column; gap: 28px; }
 .fl--month .mo-titles { display: flex; flex-direction: column; gap: 12px; }
-.fl--month .mo-title { font: 700 76px/1.08 var(--font-ui); letter-spacing: -0.013em; }
-.fl--month .mo-when { font: 600 40px/1.25 var(--font-ui); }
+.fl--month .mo-title { font: 700 76px/1.08 var(--font-flyer); letter-spacing: -0.013em; }
+.fl--month .mo-when { font: 600 40px/1.25 var(--font-flyer); }
 .fl--month .mo-holiday { white-space: nowrap; color: var(--role-red-letter); }
 .fl--month .mo-rows { display: flex; flex-direction: column; gap: 14px; }
 
@@ -203,7 +207,7 @@
   background: var(--role-header);
   color: var(--role-on-header);
 }
-.fl--poster .po-title { font: 800 168px/0.95 var(--font-display); } /* set in capitals by js/flyer.js */
+.fl--poster .po-title { font: 800 168px/0.95 var(--font-flyer-display); } /* set in capitals by js/flyer.js */
 
 .fl--poster .po-band { flex: none; display: flex; gap: 56px; }
 
@@ -212,22 +216,22 @@
   width: 340px;
   display: flex;
   flex-direction: column;
-  background: var(--role-paper);
+  background: var(--role-card);
   color: var(--role-ink);
   border-radius: 4px 4px 6px 6px;
   overflow: hidden;
 }
-.fl--poster .po-sheet .fl-binding { height: 14px; background: var(--role-strong); }
+.fl--poster .po-sheet .fl-binding { height: 14px; background: var(--role-ink); }
 .fl--poster .po-sheet .fl-perf {
   height: 28px;
   padding: 0 14px;
-  background: radial-gradient(circle, var(--role-ink-faded) 3px, var(--role-paper) 3.5px) 0 0 / 22px 28px repeat-x content-box;
+  background: radial-gradient(circle, var(--role-ink-faded) 3px, var(--role-card) 3.5px) 0 0 / 22px 28px repeat-x content-box;
 }
 .fl--poster .po-day { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 0 24px 24px; text-align: center; }
-.fl--poster .po-num { font: 800 204px/0.84 var(--font-display); letter-spacing: -2px; }
-.fl--poster .po-weekday, .fl--poster .po-month { font: 700 44px/1.1 var(--font-display); letter-spacing: 2.6px; }
+.fl--poster .po-num { font: 800 204px/0.84 var(--font-flyer-display); letter-spacing: -2px; }
+.fl--poster .po-weekday, .fl--poster .po-month { font: 700 44px/1.1 var(--font-flyer-display); letter-spacing: 2.6px; }
 .fl--poster .po-weekday { color: var(--role-red-letter); }
-.fl--poster .po-until, .fl--poster .po-type { font: 600 34px/1.15 var(--font-display); color: var(--role-ink-soft); }
+.fl--poster .po-until, .fl--poster .po-type { font: 600 34px/1.15 var(--font-flyer-display); color: var(--role-ink-soft); }
 .fl--poster .po-when {
   margin-top: auto; /* the sheet may stretch with a tall details column */
   display: flex;
@@ -238,7 +242,7 @@
   border-top: 1px solid var(--role-line);
   text-align: center;
 }
-.fl--poster .po-time { font: 800 84px/0.92 var(--font-display); }
+.fl--poster .po-time { font: 800 84px/0.92 var(--font-flyer-display); }
 .fl--poster .po-time.is-lines { line-height: 1; }
 
 .fl--poster .po-details { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; }
@@ -250,8 +254,8 @@
 .fl--poster .po-sign { display: flex; align-items: center; justify-content: flex-end; gap: 18px; }
 .fl--poster .po-sign .mark { font-size: 30px; }
 .fl--poster .po-sign-text { display: flex; flex-direction: column; gap: 4px; }
-.fl--poster .po-sign-name { font: 800 36px/1.05 var(--font-display); }
-.fl--poster .po-sign-line { font: 500 24px/1.25 var(--font-ui); }
+.fl--poster .po-sign-name { font: 800 36px/1.05 var(--font-flyer-display); }
+.fl--poster .po-sign-line { font: 500 24px/1.25 var(--font-flyer); }
 
 /* ---------- Cancellation notice ("Aviso de cancelamento") ---------- */
 
@@ -266,7 +270,7 @@
 .fl--notice .nt-sheet {
   position: relative;
   flex: none;
-  background: var(--role-paper);
+  background: var(--role-card);
   border: 1px solid var(--role-line);
   border-radius: 4px 4px 6px 6px;
   overflow: hidden;
@@ -275,27 +279,27 @@
 .fl--notice .nt-perf {
   height: 28px;
   padding: 0 17px;
-  background: radial-gradient(circle, var(--role-ink-faded) 3px, var(--role-paper) 3.5px) 0 1px / 25px 28px repeat-x content-box;
+  background: radial-gradient(circle, var(--role-ink-faded) 3px, var(--role-card) 3.5px) 0 1px / 25px 28px repeat-x content-box;
 }
 .fl--notice .nt-head { display: flex; flex-direction: column; align-items: flex-start; gap: calc(52px * var(--k)); padding: 0 40px calc(30px * var(--k)); }
-.fl--notice .nt-num { position: relative; font: 800 290px/0.84 var(--font-display); letter-spacing: -0.01em; }
+.fl--notice .nt-num { position: relative; font: 800 290px/0.84 var(--font-flyer-display); letter-spacing: -0.01em; }
 .fl--notice .nt-strike { position: absolute; left: 0; right: 0; background: var(--role-alert); }
 .fl--notice .nt-num .nt-strike { top: 0.448em; height: 0.0414em; }
 
 .fl--notice .nt-row { display: flex; align-items: center; gap: calc(32px * var(--k)); }
 /* The date keeps its lines whole; js/flyer.js gives the time what it leaves of the row. */
 .fl--notice .nt-date { flex: none; display: flex; flex-direction: column; gap: 2px; white-space: nowrap; }
-.fl--notice .nt-weekday { font: 700 56px/1.05 var(--font-display); letter-spacing: 0.054em; }
-.fl--notice .nt-month { font: 700 36px/1.1 var(--font-display); letter-spacing: 0.056em; color: var(--role-ink-soft); }
+.fl--notice .nt-weekday { font: 700 56px/1.05 var(--font-flyer-display); letter-spacing: 0.054em; }
+.fl--notice .nt-month { font: 700 36px/1.1 var(--font-flyer-display); letter-spacing: 0.056em; color: var(--role-ink-soft); }
 .fl--notice .nt-rule { flex: none; align-self: stretch; width: 1px; min-height: calc(88px * var(--k)); background: var(--role-line); }
 .fl--notice .nt-time-col { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
-.fl--notice .nt-time { font: 800 64px/0.95 var(--font-display); }
+.fl--notice .nt-time { font: 800 64px/0.95 var(--font-flyer-display); }
 .fl--notice .nt-time.is-lines { line-height: 1; }
 /* Each line of the time struck on its own, as wide as its text. */
 .fl--notice .nt-time .fl-line { position: relative; width: fit-content; }
 .fl--notice .nt-time .nt-strike { top: 0.48em; height: 0.078em; }
 .fl--notice .nt-time.is-lines .nt-strike { top: 0.5em; }
-.fl--notice .nt-type { font: 600 32px/1.2 var(--font-display); color: var(--role-ink-soft); white-space: nowrap; }
+.fl--notice .nt-type { font: 600 32px/1.2 var(--font-flyer-display); color: var(--role-ink-soft); white-space: nowrap; }
 
 /* The rubber stamp, placed by js/flyer.js over the right digit, clear of the weekday row. */
 .fl--notice .nt-stamp {
@@ -304,7 +308,7 @@
   border: 0.0714em solid var(--role-alert);
   border-radius: 0.0714em;
   color: var(--role-alert);
-  font: 800 140px/0.965 var(--font-display);
+  font: 800 140px/0.965 var(--font-flyer-display);
   letter-spacing: 0.057em;
   white-space: nowrap;
   transform: rotate(-8deg);
@@ -317,7 +321,7 @@
 
 .fl--notice .nt-record { display: flex; flex-direction: column; gap: 14px; color: var(--role-ink-soft); }
 .fl--notice .nt-title {
-  font: 700 64px/1.08 var(--font-ui);
+  font: 700 64px/1.08 var(--font-flyer);
   text-decoration: line-through;
   text-decoration-thickness: 0.08em;
 }
@@ -328,4 +332,4 @@
 
 .fl--notice .nt-foot { margin-top: auto; flex: none; display: flex; flex-direction: column; gap: 18px; padding: 0 80px 48px; }
 .fl--notice .nt-foot-rule { height: 1px; background: var(--role-line); }
-.fl--notice .nt-foot-line { font: 500 28px/1.25 var(--font-ui); color: var(--role-ink-soft); }
+.fl--notice .nt-foot-line { font: 500 28px/1.25 var(--font-flyer); color: var(--role-ink-soft); }
