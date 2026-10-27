@@ -1,10 +1,9 @@
-import { CSV_URL, ORG_NAMES } from './config.js';
-import { buildEvents, capitalize, dateKey, findNextEvent, formatLongDateRange, formatTimeRange, formatTinyDate, matchKey, monthName, weekdayName } from './events.js';
+import { CSV_URL } from './config.js';
+import { agendaSummary, buildEvents, capitalize, dateKey, findNextEvent, formatDateRange, formatLongDate, formatLongDateRange, formatTimeRange, matchKey, monthName, orgFullName } from './events.js';
 import { assignSectorColors, paintSector, sectorRank, sectorsOf } from './colors.js';
-import { isRedLetter } from './holidays.js';
 import { buildWhatsAppMessage, previewHtml, whatsAppShareUrl } from './whatsapp.js';
 import { FLYER_STYLES, FLYER_WIDTH, canShareFiles, downloadFlyer, flyerFilename, renderFlyer, shareFlyer } from './flyer.js';
-import { renderAgenda, sheetNumber, upcomingLabel } from './agenda.js';
+import { renderAgenda, upcomingLabel } from './agenda.js';
 import { renderMonth } from './month.js';
 import { icon } from './icons.js';
 import { $, announce, el, escapeHtml, initPage, readSheet, registerWorker, safeUrl, showNotice, showOffline } from './page.js';
@@ -36,8 +35,7 @@ const scrollBehavior = () => (reducedMotion.matches ? 'auto' : 'smooth');
 
 // ---------- Data ----------
 
-const FULL_NAMES = new Map(Object.entries(ORG_NAMES).map(([org, name]) => [matchKey(org), name]));
-const fullName = (org) => FULL_NAMES.get(matchKey(org)) || '';
+const fullName = orgFullName;
 
 // Organizations grouped by the sector of the activities they lead (or, failing that, take part in).
 function orgsBySector(events) {
@@ -90,6 +88,7 @@ async function fetchAgenda({ keepOnError = false } = {}) {
     $('notice').hidden = true;
     state.events = events;
     assignSectorColors(sectorsOf(events));
+    renderSummary();
     showProblems(invalid, warnings);
     // Set only on sw.js's saved copy, i.e. the live spreadsheet couldn't be reached.
     if (savedAt) showOffline(savedAt, 'a agenda salva');
@@ -136,6 +135,11 @@ async function reload() {
     rerender(renderFilters);
   }
   tick(true);
+}
+
+// The line under the page's name: "4 atividades até 20/11" (every activity, filters aside).
+function renderSummary() {
+  $('page-sub').textContent = agendaSummary(state.events, today);
 }
 
 // ---------- Notices ----------
@@ -200,9 +204,12 @@ function renderFilters() {
     b.type = 'button';
     b.dataset.focus = focusKey;
     b.setAttribute('aria-pressed', String(active));
+    const check = el('span', 'chip-check');
+    check.innerHTML = icon('check');
+    b.append(check);
     if (sector) {
       paintSector(b, sector);
-      b.append(el('span', 'sector-mark'));
+      b.append(el('span', 'dot'));
     }
     b.append(document.createTextNode(label));
     b.addEventListener('click', onClick);
@@ -374,6 +381,7 @@ function tick(force = false) {
   todayKey = dateKey(now);
   const nextId = findNext(visibleEvents())?.id ?? null;
   if (force || dayChanged || nextId !== lastNextId) {
+    renderSummary();
     rerender(() => {
       renderView();
       renderBench();
@@ -396,11 +404,11 @@ function select(ev, { trigger } = {}) {
   if (!desktop.matches) openSheet(trigger);
 }
 
-// One row of the facts list. `marker` is an icon name, or 'sector' for the sector's square.
+// One row of the facts list. `marker` is an icon name, or 'sector' for the group's dot.
 function fact(marker, content, label, className = '') {
   const row = el('div', `fact ${className}`.trim());
   const dt = el('dt');
-  dt.innerHTML = `${marker === 'sector' ? '<span class="sector-mark"></span>' : icon(marker)}<span class="sr-only">${label}</span>`;
+  dt.innerHTML = `${marker === 'sector' ? '<span class="dot"></span>' : icon(marker)}<span class="sr-only">${label}</span>`;
   const dd = el('dd');
   if (typeof content === 'string') dd.textContent = content;
   else dd.append(content);
@@ -439,23 +447,23 @@ function contactNode(text) {
   return out;
 }
 
-// The panel's date block: a small sheet head, with the full date for screen readers.
+// The panel's head: the day in NOS's voice ("Sábado, 31 de outubro", a period as "Sex, 09/10 a Dom,
+// 11/10") and the time, "a próxima" on the next activity; the full date for screen readers.
 function renderBenchDate(ev) {
   const box = $('bench-date');
   box.replaceChildren();
-  box.classList.toggle('is-red', isRedLetter(ev.date));
   box.classList.toggle('is-struck', ev.cancelled);
-  const num = el('span', 'bench-num', sheetNumber(ev.date));
-  const names = el('span', 'bench-names');
-  names.append(el('span', 'bench-weekday', weekdayName(ev.date)));
+  const year = ev.date.getFullYear() !== today.getFullYear() ? ` de ${ev.date.getFullYear()}` : '';
   const time = formatTimeRange(ev);
-  const until = ev.endDate ? `até ${formatTinyDate(ev.endDate)}` : '';
-  names.append(el('span', 'bench-month', [capitalize(monthName(ev.date.getMonth())), until, time].filter(Boolean).join(' · ')));
   const visual = el('span', 'bench-date-visual');
   visual.setAttribute('aria-hidden', 'true');
-  visual.append(num, names);
-  const year = ev.date.getFullYear() !== today.getFullYear() ? ` de ${ev.date.getFullYear()}` : '';
-  const spoken = `${formatLongDateRange(ev)}${year}${time ? `, ${time}` : ''}${ev.cancelled ? ', cancelada' : ''}.`;
+  visual.append(el('span', 'bench-day', `${ev.endDate ? formatDateRange(ev) : formatLongDate(ev.date).replace('-feira', '')}${year}`));
+  const when = el('span', 'bench-when');
+  when.append(el('span', 'bench-time', time || 'Horário a confirmar'));
+  const isNext = ev.id === lastNextId;
+  if (isNext) when.append(el('span', 'next-label', 'a próxima'));
+  visual.append(when);
+  const spoken = `${formatLongDateRange(ev)}${year}, ${time || 'horário a confirmar'}${ev.cancelled ? ', cancelada' : ''}${isNext ? ', a próxima atividade' : ''}.`;
   box.append(visual, el('span', 'sr-only', spoken));
 }
 
@@ -471,6 +479,7 @@ function renderBench() {
   }
   bench.removeAttribute('aria-label');
   bench.setAttribute('aria-labelledby', 'bench-title');
+  loadFlyerFonts();
 
   paintSector(bench, ev.sector);
   renderBenchDate(ev);
@@ -479,7 +488,7 @@ function renderBench() {
 
   const note = $('bench-cancel');
   note.hidden = !ev.cancelled;
-  note.innerHTML = ev.cancelled ? `<span class="stamp">Cancelada</span>${ev.cancelReason ? `<p>Motivo: ${escapeHtml(ev.cancelReason)}</p>` : ''}` : '';
+  note.innerHTML = ev.cancelled ? `<span class="tag tag-cancelled">Cancelada</span>${ev.cancelReason ? `<p>Motivo: ${escapeHtml(ev.cancelReason)}</p>` : ''}` : '';
 
   const facts = $('bench-facts');
   facts.replaceChildren();
@@ -522,6 +531,17 @@ function renderBench() {
 
   renderFlyerPreview(ev);
   showPanel(activePanel);
+}
+
+// The flyers are set in Barlow (css/flyers.css), which nothing else on the page uses: it is asked for
+// as soon as an activity is open, so the preview and the PNG don't wait for it.
+let flyerFontsAsked = false;
+function loadFlyerFonts() {
+  if (flyerFontsAsked || !document.fonts) return;
+  flyerFontsAsked = true;
+  for (const face of ['500 1em Barlow', '600 1em Barlow', '700 1em Barlow', '600 1em "Barlow Condensed"', '700 1em "Barlow Condensed"', '800 1em "Barlow Condensed"']) {
+    document.fonts.load(face).catch(() => {});
+  }
 }
 
 // ---------- Flyer style picker ----------
@@ -614,7 +634,7 @@ let sheetOpen = false;
 let sheetInHistory = false;
 
 function setModal(on) {
-  for (const node of [document.querySelector('.skip-link'), document.querySelector('.masthead'), $('main')]) node.inert = on;
+  for (const node of document.querySelectorAll('.skip-link, .site-head, #main, .site-foot')) node.inert = on;
   const bench = $('bench');
   if (on) {
     bench.setAttribute('role', 'dialog');
@@ -661,7 +681,7 @@ function hideSheet() {
   document.body.classList.remove('sheet-open');
   $('sheet-backdrop').hidden = true;
   setModal(false);
-  const target = returnFocus && document.contains(returnFocus) ? returnFocus : document.querySelector(`.line[data-id="${state.selectedId}"]`);
+  const target = returnFocus && document.contains(returnFocus) ? returnFocus : document.querySelector(`.event-card[data-id="${state.selectedId}"]`);
   target?.focus({ preventScroll: true });
 }
 
@@ -757,7 +777,7 @@ function wireTabs(selector, onPick) {
   });
 }
 
-initPage('Calendário');
+initPage('Agenda');
 
 wireTabs('.view-tabs [role=tab]', (tab) => {
   state.view = tab.dataset.view;

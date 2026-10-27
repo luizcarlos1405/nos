@@ -1,13 +1,14 @@
-// The month page of the wall calendar: weeks start on Sunday, Sundays and holidays are red.
-// One-day activities are marks inside their day; activities that run several days are bars
-// laid across the week, each in its own lane. Picking a day prints its sheet below the page.
-// The grid is one tab stop: arrow keys move between days (APG date grid pattern).
+// The month: weeks start on Sunday, Sundays and holidays are shaded as days off, today is underlined
+// by hand and the next activity's day circled. One-day activities are their groups' dots inside the
+// day (entries with their titles on the desk); activities that run several days are bars laid across
+// the week, each in its own lane. Picking a day lists it under the month. The grid is one tab stop:
+// arrow keys move between days (APG date grid pattern).
 
 import { capitalize, dateKey, dayKeys, formatLongDate, formatTimeRange, monthName, startTime } from './events.js';
 import { holidayOn, isRedLetter } from './holidays.js';
 import { paintSector } from './colors.js';
-import { icon } from './icons.js';
-import { renderSheet } from './agenda.js';
+import { handMark, icon } from './icons.js';
+import { renderDay } from './agenda.js';
 import { el } from './page.js';
 
 const WEEKDAYS = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
@@ -116,10 +117,13 @@ export function renderMonth(container, { year, month, events, today, selectedDay
   const inMonth = (key) => key && gridKeys.has(key) && Number(key.slice(5, 7)) === month + 1;
   const tabStop = [focusDay, selectedDay, todayKey].find(inMonth) || dateKey(first);
 
-  const page = el('div', 'month-page sheet');
+  // The next activity's first day gets the hand loop.
+  const nextKey = events.find((ev) => ev.id === nextId)?.dateKey;
+
+  const page = el('div', 'month');
   const weekdays = el('div', 'month-weekdays');
   weekdays.setAttribute('aria-hidden', 'true');
-  WEEKDAYS.forEach((label, i) => weekdays.append(el('span', `month-weekday${i === 0 ? ' is-red' : ''}`, label)));
+  WEEKDAYS.forEach((label) => weekdays.append(el('span', 'month-weekday', label)));
   page.append(weekdays);
 
   const grid = el('div', 'month-weeks');
@@ -151,13 +155,17 @@ export function renderMonth(container, { year, month, events, today, selectedDay
       if (key < todayKey) cell.classList.add('is-past');
       if (key === todayKey) cell.classList.add('is-today');
       if (key === selectedDay) cell.classList.add('is-selected');
-      if (isRedLetter(date)) cell.classList.add('is-red');
+      if (isRedLetter(date)) cell.classList.add('is-off');
+      if (key === nextKey) cell.classList.add('is-next');
       cell.setAttribute('aria-pressed', String(key === selectedDay));
       const count = dayEvents.length ? `${dayEvents.length} ${dayEvents.length === 1 ? 'atividade' : 'atividades'}` : 'sem atividades';
-      cell.setAttribute('aria-label', `${key === todayKey ? 'Hoje, ' : ''}${formatLongDate(date)}${holiday ? ` (${holiday.name})` : ''}: ${count}`);
+      cell.setAttribute('aria-label', `${key === todayKey ? 'Hoje, ' : ''}${formatLongDate(date)}${holiday ? ` (${holiday.name})` : ''}: ${count}${key === nextKey ? ', a próxima atividade' : ''}`);
 
       const top = el('span', 'day-top');
-      top.append(el('span', 'day-num', String(date.getDate())));
+      const num = el('span', 'day-num', String(date.getDate()));
+      if (key === todayKey) num.insertAdjacentHTML('beforeend', handMark('underline'));
+      if (key === nextKey) num.insertAdjacentHTML('beforeend', handMark('loop'));
+      top.append(num);
       if (holiday) top.append(el('span', 'day-holiday', holiday.short));
       cell.append(top);
 
@@ -206,10 +214,10 @@ export function renderMonth(container, { year, month, events, today, selectedDay
   page.append(grid);
   container.append(page);
 
-  // The chosen day's sheet, when that day is on this month's page.
+  // The chosen day, listed under the month, when that day is on this month's page.
   if (selectedDay && inMonth(selectedDay)) {
-    const sheet = renderSheet(selectedDay, byDay.get(selectedDay) || [], { today, nextId, selectedId, onSelect });
-    sheet.classList.add('month-day');
-    container.append(sheet);
+    const day = renderDay(selectedDay, byDay.get(selectedDay) || [], { today, nextId, selectedId, onSelect });
+    day.classList.add('month-day');
+    container.append(day);
   }
 }

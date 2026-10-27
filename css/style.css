@@ -1,35 +1,39 @@
-/* NOS Dourados — the folhinha: a red printed header card over a pad of day sheets.
+/* NOS Dourados — "Céu · Terra": the sky of this hour over the woven band, the land below it.
    Colours come only from the roles in css/theme.css. */
 
 *, *::before, *::after { box-sizing: border-box; }
 [hidden] { display: none !important; }
+/* Element margins at zero specificity: every class below wins over them. */
+:where(h1, h2, h3, p, dl, dd, figure) { margin: 0; }
 
 html {
   -webkit-text-size-adjust: 100%;
+  background: var(--role-ground);
   scrollbar-color: var(--role-scrollbar) transparent;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
-  background: var(--role-wall);
+  background: var(--role-ground);
   color: var(--role-ink);
-  font: 500 1rem/1.45 var(--font-ui);
+  font: 400 1rem/1.45 var(--font-ui);
   caret-color: var(--role-accent);
+  accent-color: var(--role-accent);
   -webkit-font-smoothing: antialiased;
 }
 body.sheet-open { overflow: hidden; }
 
-::selection { background: var(--role-accent); color: var(--role-on-accent); }
+::selection { background: var(--role-accent-tint); color: var(--role-ink); }
 
-button, select { font: inherit; color: inherit; }
+button, select, input { font: inherit; color: inherit; }
 button { cursor: pointer; }
-a { color: inherit; text-underline-offset: 3px; }
+a { color: inherit; text-underline-offset: 3px; text-decoration-thickness: 1px; }
 code { font-size: 0.9em; background: var(--role-wash); padding: 1px 5px; border-radius: var(--radius-sm); }
 
-:focus-visible { outline: 3px solid var(--role-focus); outline-offset: 2px; }
-/* On the red header and on ink-filled controls the ring turns white, so it is always seen. */
-.masthead :focus-visible, .seg [aria-selected=true]:focus-visible { outline-color: var(--role-focus-on-color); }
+:focus-visible { outline: 2px solid var(--role-focus); outline-offset: 2px; }
+/* On the sky the ring takes the sky's ink, which reads on every band of every hour. */
+.site-head :focus-visible { outline-color: var(--role-sky-ink); }
 
 .sr-only {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
@@ -39,9 +43,9 @@ code { font-size: 0.9em; background: var(--role-wash); padding: 1px 5px; border-
 .skip-link {
   position: absolute; left: calc(16px + env(safe-area-inset-left)); top: -60px; z-index: 50;
   display: inline-flex; align-items: center; min-height: 44px;
-  padding: 0 14px; border-radius: var(--radius);
-  background: var(--role-strong); color: var(--role-on-strong);
-  font-weight: 700; text-decoration: none;
+  padding: 0 16px; border-radius: var(--radius-pill);
+  background: var(--role-ink); color: var(--role-on-ink);
+  font-weight: 600; text-decoration: none;
 }
 .skip-link:focus { top: max(12px, env(safe-area-inset-top)); }
 
@@ -56,88 +60,226 @@ code { font-size: 0.9em; background: var(--role-wash); padding: 1px 5px; border-
   flex: none;
   width: 3.807em;
   height: 2.3em;
-  font-size: 1.25rem;
   overflow: visible;
 }
 .mark-letters { fill: currentColor; }
 .mark-loop { fill: var(--mark-loop, currentColor); }
-/* Another APP_NAME than NOS: the word in the masthead's type, until a mark is drawn for it. */
-.mark-text { width: auto; height: auto; font: 800 1.9em/1 var(--font-display); }
+/* Another APP_NAME than NOS: the word in the display face, until a mark is drawn for it. */
+.mark-text { width: auto; height: auto; font: 800 1.75em/1 var(--font-display); }
 
-/* ---------- Header card ---------- */
+/* ---------- O céu: the header on the sky of this hour ---------- */
+/* Flat bands counted up from the horizon (--h5 … --h2 are the tops of bands 5 to 2; band 1 takes the
+   rest). Each page sets the heights; the colours come from the hour (css/theme.css). The sun (or, at
+   night, the small moon among the stars) is one drawing, placed by --sun-* and --moon-*. */
 
-/* viewport-fit=cover: on a landscape iPhone the notch and the rounded corners cover ~47px of each
-   side (env(safe-area-inset-left/right), 0 everywhere else). Backgrounds run under them; the
-   content keeps its gutter inside the safe area, as iOS lays out its own apps. */
-.masthead { padding: 0 env(safe-area-inset-right) 0 env(safe-area-inset-left); background: var(--role-header); color: var(--role-on-header); }
-.masthead-inner {
-  max-width: 1280px;
+.site-head {
+  --h5: 9px;
+  --h4: 18px;
+  --h3: 27px;
+  --h2: 36px;
+  --sun-size: 108px;
+  --sun-right: 16px;
+  --sun-bottom: -68px;
+  --sun-loop: 3px;
+  --moon-size: 22px;
+  --moon-right: 30px;
+  --moon-top: auto;
+  --moon-bottom: 7px;
+  --moon-loop: 1.75px;
+  position: relative;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left);
+  background: linear-gradient(to top,
+    var(--role-sky-5) 0 var(--h5),
+    var(--role-sky-4) 0 var(--h4),
+    var(--role-sky-3) 0 var(--h3),
+    var(--role-sky-2) 0 var(--h2),
+    var(--role-sky-1) 0);
+  color: var(--role-sky-ink);
+}
+.sky-art { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.astro {
+  position: absolute;
+  right: var(--sun-right);
+  bottom: var(--sun-bottom);
+  width: var(--sun-size);
+  height: var(--sun-size);
+  overflow: visible;
+}
+.astro circle { fill: var(--role-astro); }
+.astro path { fill: none; stroke: var(--role-sky-hand); stroke-width: var(--sun-loop); stroke-linecap: round; stroke-linejoin: round; }
+.stars { position: absolute; inset: 0; display: none; width: 100%; height: 100%; overflow: visible; fill: var(--role-star); }
+/* At night the moon is small and high: it isn't the sun. */
+:root:is([data-sky='night'], [data-scheme='dark']) .astro {
+  top: var(--moon-top);
+  right: var(--moon-right);
+  bottom: var(--moon-bottom);
+  width: var(--moon-size);
+  height: var(--moon-size);
+}
+:root:is([data-sky='night'], [data-scheme='dark']) .astro path { stroke-width: var(--moon-loop); }
+:root:is([data-sky='night'], [data-scheme='dark']) .stars { display: block; }
+
+/* The header's grid. Phones: the page's name beside the theme button (the pages' links run along the
+   foot of the screen); the home: the mark and the city, then the greeting. From 760px: the mark, the
+   links and the button in one bar, the page's name or the greeting under it. */
+.site-head-inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: 'title toggle';
+  align-items: center;
+  column-gap: 8px;
+  max-width: 1344px;
   margin: 0 auto;
-  padding: max(6px, env(safe-area-inset-top)) 16px 0;
+  padding: 0 6px 36px 16px;
 }
 
 .brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 6px 0 12px;
-  text-decoration: none;
-  border-radius: var(--radius-sm);
+  grid-area: brand;
+  display: none;
+  align-items: flex-start;
+  gap: 7px;
   width: fit-content;
+  padding: 10px 4px 10px 0;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
 }
 .brand-mark { display: flex; }
-.brand-text { display: flex; flex-direction: column; gap: 2px; }
-.brand-city { font: 800 1.5rem/1.05 var(--font-display); }
-.brand-name { font: 500 0.875rem/1.2 var(--font-ui); }
+.brand .mark { font-size: 0.76rem; color: var(--role-sky-ink); --mark-loop: var(--role-sky-hand); }
+.brand-place { margin-top: 2px; font: 750 1.375rem/1.27 var(--font-display); letter-spacing: -0.02em; }
 
-/* ---------- Page tabs: folder tabs at the foot of the header card ---------- */
-/* One per page (Calendário, Comércio), plain links: each page is its own HTML file. The open page's
-   tab is cut into the wall: it takes the wall's colour and runs into the page under it. The home
-   (index.html) has none; its two doors are the navigation. */
+.page-title { grid-area: title; display: flex; flex-direction: column; justify-content: center; min-width: 0; min-height: 60px; padding: 6px 0 2px; }
+.page-name { font: 800 1.875rem/1.13 var(--font-display); letter-spacing: -0.025em; }
+.page-sub { font-size: 0.875rem; line-height: 1.3; font-weight: 500; color: var(--role-sky-ink-soft); font-variant-numeric: tabular-nums; }
 
-.masthead.has-tabs .brand { padding-bottom: 10px; }
-.site-tabs { display: flex; gap: 4px; }
-.site-tab {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 44px;
-  padding: 0 16px;
-  border-radius: var(--radius) var(--radius) 0 0;
-  color: var(--role-on-header);
-  font-weight: 600;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: background 0.15s, color 0.15s;
+.icon-button {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: inherit;
+  transition: background 0.15s;
 }
-.site-tab .icon { width: 18px; height: 18px; }
-.site-tab[aria-current=page] { background: var(--role-wall); color: var(--role-ink); font-weight: 700; }
-.site-tab:focus-visible { outline-offset: -4px; }
-.masthead .site-tab[aria-current=page]:focus-visible { outline-color: var(--role-focus); }
+.icon-button .icon { width: 22px; height: 22px; }
 @media (hover: hover) {
-  .site-tab:not([aria-current=page]):hover { background: var(--role-header-hover); }
+  .icon-button:hover { background: var(--role-wash); }
+  .site-head .icon-button:hover { background: var(--role-sky-wash); }
 }
+.theme-toggle { grid-area: toggle; }
+.theme-toggle .icon-sun, :root[data-scheme='dark'] .theme-toggle .icon-moon { display: none; }
+:root[data-scheme='dark'] .theme-toggle .icon-sun { display: block; }
+
+/* The pages' links. Phones: a bar along the foot of the screen, the open page in an urucum-tinted
+   pill; the page leaves room for it (body padding below). */
+.site-nav {
+  position: fixed;
+  z-index: 15;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding: 6px max(4px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(4px, env(safe-area-inset-left));
+  border-top: 1px solid var(--role-line);
+  background: var(--role-card);
+  color: var(--role-ink-soft);
+}
+.nav-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-height: 52px;
+  border-radius: var(--radius);
+  font-size: 0.8125rem;
+  line-height: 1.38;
+  font-weight: 500;
+  text-decoration: none;
+}
+.nav-icon { display: grid; place-items: center; width: 56px; height: 32px; border-radius: var(--radius-pill); transition: background 0.15s; }
+.nav-icon .icon { width: 22px; height: 22px; }
+.nav-link[aria-current='page'] { color: var(--role-accent-text); font-weight: 600; }
+.nav-link[aria-current='page'] .nav-icon { background: var(--role-accent-tint); }
+.site-head .nav-link:focus-visible { outline-color: var(--role-focus); }
+@media (hover: hover) {
+  .nav-link:not([aria-current='page']):hover .nav-icon { background: var(--role-fill); }
+}
+body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
+
+/* The greeting on the home's sky: Bricolage at its heaviest. */
+.hello { grid-area: hello; padding: 2px 0 20px; }
+.hello-title { font: 800 3.25rem/0.923 var(--font-display); letter-spacing: -0.03em; }
+.hello-date { min-height: 1.25rem; margin-top: 10px; font-size: 0.9375rem; line-height: 1.33; font-weight: 500; color: var(--role-sky-ink-soft); }
+.hello-year { display: none; }
+
+.site-head--home {
+  --h5: 16px;
+  --h4: 36px;
+  --h3: 62px;
+  --h2: 98px;
+  --sun-size: 367px;
+  --sun-right: -203px;
+  --sun-bottom: -213px;
+  --sun-loop: 5px;
+  --moon-size: 62px;
+  --moon-right: 34px;
+  --moon-top: calc(65px + env(safe-area-inset-top));
+  --moon-bottom: auto;
+  --moon-loop: 2.5px;
+}
+.site-head--home .site-head-inner { grid-template-areas: 'brand toggle' 'hello hello'; padding-bottom: 0; }
+.site-head--home .brand { display: flex; }
+.site-head--home .theme-toggle { align-self: center; }
+/* The sun rises a little when the home opens: the one moving thing. */
+@media (prefers-reduced-motion: no-preference) {
+  .site-head--home .astro { animation: rise 1.6s var(--ease) both; }
+  @keyframes rise { from { translate: 0 10%; } }
+}
+
+/* ---------- A faixa: the woven band, the horizon ---------- */
+/* Provisional art (assets/faixa.svg), full-bleed under the sky. It is an artwork: it doesn't change
+   with the theme. The credit sits in the footer. */
+
+.band { height: 16px; background: url(../assets/faixa.svg) 0 50% / auto 100% repeat-x; }
+.band--home { height: 40px; }
+
+.site-foot {
+  max-width: 1344px;
+  margin: 0 auto;
+  padding: 28px calc(16px + env(safe-area-inset-right)) 28px calc(16px + env(safe-area-inset-left));
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--role-ink-soft);
+}
+.site-foot p + p { margin-top: 4px; }
 
 /* ---------- Shell ---------- */
 
 .shell {
-  max-width: 1280px;
+  max-width: 1344px;
   margin: 0 auto;
-  padding: 0 env(safe-area-inset-right) 48px env(safe-area-inset-left);
+  padding: 0 env(safe-area-inset-right) 0 env(safe-area-inset-left);
 }
 .pad-col { min-width: 0; }
+.view { padding: 0 16px; }
 .view:focus { outline: none; }
+.placeholder { margin: 0; padding: 16px 0; color: var(--role-ink-soft); }
 
 /* ---------- Notice ---------- */
 
 .notice {
   display: flex;
   gap: 12px;
-  margin: 12px 16px 0;
+  margin: 14px 16px 0;
   padding: 14px 16px;
-  background: var(--role-paper);
   border: 1px solid var(--role-line);
   border-radius: var(--radius);
+  background: var(--role-card);
   font-size: 0.9375rem;
 }
 .notice .icon { margin-top: 1px; color: var(--role-ink-soft); }
@@ -145,18 +287,53 @@ code { font-size: 0.9em; background: var(--role-wash); padding: 1px 5px; border-
 .notice p + p, .notice p + ul + p { margin-top: 8px; }
 .notice ul { margin: 6px 0 0; padding-left: 18px; }
 .notice details { margin-top: 6px; }
-.notice summary { min-height: 32px; display: flex; align-items: center; cursor: pointer; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
-.notice[data-kind="error"] { background: var(--role-alert-soft); border-color: var(--role-alert-ring); }
-.notice[data-kind="error"] .icon { color: var(--role-alert); }
+.notice summary { display: flex; align-items: center; min-height: 32px; cursor: pointer; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.notice[data-kind='error'] { border-color: transparent; background: var(--role-accent-tint); }
+.notice[data-kind='error'] .icon { color: var(--role-accent-text); }
 .notice-offline + p { margin-top: 8px; }
 
-/* ---------- Filters ---------- */
+/* ---------- Controls ---------- */
 
+/* Segmented controls (Lista | Mês, Mensagem | Panfleto): the chosen segment in ink with a check. */
+.view-tabs, .seg {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  border: 1px solid var(--role-line);
+  border-radius: var(--radius-pill);
+  background: var(--role-card);
+}
+.view-tabs { margin: 14px 16px 0; }
+.view-tabs [role=tab], .seg [role=tab] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 42px;
+  padding: 0 12px;
+  border: 0;
+  background: none;
+  color: var(--role-ink);
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s;
+}
+.view-tabs [role=tab] + [role=tab], .seg [role=tab] + [role=tab] { border-left: 1px solid var(--role-line); }
+.view-tabs [role=tab] .icon, .seg [role=tab] .icon { width: 18px; height: 18px; }
+.tab-icon, .tab-check { display: flex; }
+[role=tab][aria-selected=true] .tab-icon, [role=tab]:not([aria-selected=true]) .tab-check { display: none; }
+.view-tabs [aria-selected=true], .seg [aria-selected=true] { background: var(--role-ink); color: var(--role-on-ink); font-weight: 600; }
+.view-tabs [role=tab]:focus-visible, .seg [role=tab]:focus-visible { outline-offset: -4px; }
+.view-tabs [aria-selected=true]:focus-visible, .seg [aria-selected=true]:focus-visible { outline-color: var(--role-on-ink); }
+@media (hover: hover) {
+  .view-tabs [role=tab]:not([aria-selected=true]):hover, .seg [role=tab]:not([aria-selected=true]):hover { background: var(--role-card-hover); }
+}
+
+/* The filters: the organization and the groups (each with its dot); the row scrolls sideways on phones. */
 .filters {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 12px 16px;
+  padding: 12px 16px 4px;
   overflow-x: auto;
   scrollbar-width: none;
   overscroll-behavior-x: contain;
@@ -167,369 +344,332 @@ code { font-size: 0.9em; background: var(--role-wash); padding: 1px 5px; border-
 .filters::-webkit-scrollbar { display: none; }
 /* With a mouse, the chips past the edge need a visible way to scroll. */
 @media (pointer: fine) {
-  .filters { scrollbar-width: thin; padding-bottom: 8px; }
+  .filters { scrollbar-width: thin; padding-bottom: 10px; }
   .filters::-webkit-scrollbar { display: block; height: 6px; }
   .filters::-webkit-scrollbar-thumb { background: var(--role-scrollbar); border-radius: 3px; }
 }
 .filters-divider { flex: none; width: 1px; height: 24px; background: var(--role-line); }
 .chips { display: flex; gap: 8px; }
 
+/* 36px pills with a 44px tap area. Chosen: ink, with a check in place of the dot. */
 .chip {
+  position: relative;
   flex: none;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  min-height: 44px;
+  gap: 7px;
+  height: 36px;
+  margin: 4px 0;
   padding: 0 14px;
   border: 1px solid var(--role-line);
   border-radius: var(--radius-pill);
-  background: var(--role-paper);
+  background: var(--role-card);
+  color: var(--role-ink);
   font-size: 0.9375rem;
   font-weight: 500;
   white-space: nowrap;
   transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
-.chip[aria-pressed=true] {
-  background: var(--role-strong);
-  border-color: var(--role-strong);
-  color: var(--role-on-strong);
-  font-weight: 600;
-}
-.chip[aria-pressed=true] .sector-mark { box-shadow: 0 0 0 1.5px var(--role-on-strong); }
+.chip::after { content: ''; position: absolute; inset: -5px 0; }
+.chip .icon { width: 18px; height: 18px; }
+.chip-check { display: none; }
+.chip[aria-pressed=true] { padding-left: 10px; border-color: var(--role-ink); background: var(--role-ink); color: var(--role-on-ink); font-weight: 600; }
+.chip[aria-pressed=true] .chip-check { display: flex; }
+.chip[aria-pressed=true] .dot { display: none; }
 @media (hover: hover) {
-  .chip:hover { border-color: var(--role-strong); }
+  .chip:not([aria-pressed=true]):hover { background: var(--role-card-hover); border-color: var(--role-ink-soft); }
 }
 
-.sector-mark {
-  flex: none;
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  border-radius: 2px;
-  background: var(--sector, var(--role-no-sector));
-}
-
-/* Organization: a native select under a pill face. */
-.org-pill { position: relative; flex: none; display: flex; align-items: center; }
+/* Organization: a native select under a pill face, so phones get their own picker. */
+.org-pill { position: relative; flex: none; display: flex; margin: 4px 0; }
 .org-pill-face {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  min-height: 44px;
+  gap: 7px;
+  height: 36px;
   max-width: 15rem;
-  padding: 8px 12px;
-  border: 1.5px solid var(--role-strong);
+  padding: 0 12px;
+  border: 1px solid var(--role-line);
   border-radius: var(--radius-pill);
-  background: var(--role-paper);
+  background: var(--role-card);
   font-size: 0.9375rem;
-  font-weight: 600;
+  font-weight: 500;
   pointer-events: none;
 }
 .org-pill-face .icon { width: 18px; height: 18px; }
-.org-pill-face > span:last-child .icon { width: 16px; height: 16px; }
 .org-pill-face > span[data-icon] { display: flex; }
+.org-pill-face > span:last-child .icon { width: 16px; height: 16px; }
 .org-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .org-pill select {
   position: absolute;
-  inset: 0;
+  inset: -4px 0;
   width: 100%;
   opacity: 0;
   cursor: pointer;
   font-size: 1rem; /* no zoom on iOS */
 }
-.org-pill:has(select:focus-visible) .org-pill-face { outline: 3px solid var(--role-focus); outline-offset: 2px; }
-.org-pill.is-active .org-pill-face { background: var(--role-strong); color: var(--role-on-strong); }
-
-/* ---------- View tabs: on top of the list or the month page they switch ---------- */
-
-.view-tabs {
-  display: flex;
-  margin: 0 16px 12px;
-  border-bottom: 1px solid var(--role-line);
-}
-.view-tabs [role=tab] {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-height: 49px;
-  padding: 0 12px 4px;
-  border: 0;
-  background: none;
-  color: var(--role-ink-soft);
-  font-weight: 500;
-  box-shadow: inset 0 -4px 0 transparent;
-  transition: box-shadow 0.2s var(--ease), color 0.15s;
-}
-.view-tabs [role=tab] .icon { width: 18px; height: 18px; }
-.view-tabs [aria-selected=true] { color: var(--role-ink); font-weight: 700; box-shadow: inset 0 -4px 0 var(--role-strong); }
-.view-tabs [role=tab]:focus-visible { outline-offset: -4px; }
+.org-pill:has(select:focus-visible) .org-pill-face { outline: 2px solid var(--role-focus); outline-offset: 2px; }
+.org-pill.is-active .org-pill-face { border-color: var(--role-ink); background: var(--role-ink); color: var(--role-on-ink); font-weight: 600; }
 @media (hover: hover) {
-  .view-tabs [role=tab]:hover { color: var(--role-ink); }
+  .org-pill:not(.is-active):hover .org-pill-face { background: var(--role-card-hover); border-color: var(--role-ink-soft); }
 }
 
-/* ---------- The pad of sheets ---------- */
-
-.view { padding: 0 16px; }
-.placeholder { color: var(--role-ink-soft); padding: 16px 0; margin: 0; }
-
-.pad { display: flex; flex-direction: column; gap: 12px; }
-
-.pad-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 44px;
-  margin: 0 0 4px -4px;
-  padding: 0 8px 0 4px;
-  border: 0;
-  border-radius: var(--radius);
-  background: none;
-  color: var(--role-ink-soft);
-  font-size: 0.9375rem;
-  font-weight: 600;
-}
-.pad-toggle .icon { width: 18px; height: 18px; }
-.result-count { margin: 0 0 4px; padding: 10px 0 6px; font-size: 0.9375rem; color: var(--role-ink-soft); }
-.result-count + .pad-toggle { margin-top: -4px; }
-@media (hover: hover) {
-  .pad-toggle:hover { color: var(--role-ink); background: var(--role-wash); }
-}
-
-/* A sheet: red binding strip, then the perforation, then the day. */
-.sheet {
-  position: relative;
-  background: var(--role-paper);
-  border: 1px solid var(--role-line);
-  border-top: 0;
-  border-radius: 2px 2px var(--radius) var(--radius);
-  overflow: hidden;
-}
-/* The top of a sheet: a 4px binding strip, then the row of perforation holes. */
-.sheet::before {
-  content: '';
-  display: block;
-  height: 13px;
-  background:
-    linear-gradient(var(--role-binding), var(--role-binding)) top / 100% 4px no-repeat,
-    radial-gradient(circle, var(--role-line) 1.5px, transparent 1.75px) 12px 8px / 10px 3px repeat-x;
-}
-
-.sheet-head {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 4px 12px 12px 16px;
-}
-.sheet-num {
-  flex: none;
-  width: 4rem;
-  font: 800 3.625rem/0.9 var(--font-display);
-  letter-spacing: -0.01em;
-}
-.sheet-names { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
-.sheet-weekday {
-  font: 700 1.1875rem/1.1 var(--font-display);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-.sheet-month { font-size: 0.9375rem; line-height: 1.2; color: var(--role-ink-soft); }
-.sheet-holiday { font-size: 0.875rem; font-weight: 600; line-height: 1.2; color: var(--role-red-letter); }
-.sheet.is-red .sheet-num, .sheet.is-red .sheet-weekday { color: var(--role-red-letter); }
-.sheet.is-past .sheet-num { color: var(--role-ink-past); }
-.sheet.is-past .sheet-weekday { color: var(--role-ink-soft); }
-.sheet.is-past.is-red .sheet-num { color: var(--role-red-letter-past); }
-.sheet-status { flex: none; display: flex; align-items: center; gap: 6px; }
-.sheet-when { font-size: 0.9375rem; color: var(--role-ink-soft); }
-
-.badge {
-  flex: none;
-  display: inline-flex;
-  align-items: center;
-  height: 1.625em;
-  padding: 0 9px;
-  border-radius: var(--radius-sm);
-  font: 700 1rem/1 var(--font-display);
-  letter-spacing: 0.02em;
-}
-.badge.is-today { background: var(--role-strong); color: var(--role-on-strong); }
-.badge.is-next { background: var(--role-next); color: var(--role-on-next); }
-
-.sheet-empty {
-  margin: 0;
-  padding: 12px 16px 16px calc(28px + 4rem);
-  border-top: 1px solid var(--role-line);
-  font-size: 0.9375rem;
-  color: var(--role-ink-soft);
-}
-
-.lines { list-style: none; margin: 0; padding: 0; }
-
-/* One activity printed on the sheet. */
-.line {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  width: 100%;
-  padding: 14px 6px 14px 16px;
-  border: 0;
-  border-top: 1px solid var(--role-line);
-  background: var(--role-paper);
-  text-align: left;
-  transition: background 0.15s;
-}
-@media (hover: hover) {
-  .line:hover { background: var(--role-paper-hover); }
-  .line:hover .line-title { text-decoration: underline; text-decoration-thickness: 1px; }
-}
-.line.is-selected { background: var(--role-selected); box-shadow: inset 0 0 0 2px var(--role-strong); }
-.line:focus-visible { outline-offset: -3px; }
-/* Inside the selection frame, so focus still shows on the selected line. */
-.line.is-selected:focus-visible { outline-offset: -6px; }
-
-.line-time { flex: none; width: 4rem; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
-.line-clock {
-  padding: 1px 5px;
-  margin-left: -5px;
-  border-radius: 3px;
-  font: 700 1.375rem/1.1 var(--font-display);
-  font-variant-numeric: tabular-nums;
-}
-/* Yellow marks the next activity: always on its time, and on its dash when the day has
-   several activities (or is today, where the head says Hoje). */
-.line.is-next .line-clock:not(.is-empty),
-.line.mark-next .line-clock.is-empty { background: var(--role-next); color: var(--role-on-next); }
-/* Only an end time ("até 12h"): smaller, so it fits the column. */
-.line-clock.is-until { font-size: 1.0625rem; line-height: 1.2; }
-.line-type { font: 600 0.9375rem/1.15 var(--font-display); color: var(--role-ink-soft); overflow-wrap: anywhere; }
-
-.line-body { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
-.line-title { font-size: 1.0625rem; font-weight: 600; line-height: 1.3; text-wrap: pretty; }
-.line-org, .line-place, .line-range { display: flex; gap: 8px; font-size: 0.9375rem; line-height: 1.35; }
-.line-org { align-items: center; font-weight: 600; }
-.line-place, .line-range { gap: 6px; color: var(--role-ink-soft); font-weight: 500; }
-.line-range { font-weight: 500; }
-.line-place .icon, .line-range .icon { width: 16px; height: 16px; margin-top: 1px; }
-.line-place-text { min-width: 0; }
-
-.city-tag {
-  display: inline-block;
-  margin-right: 6px;
-  padding: 1px 7px 2px;
-  border-radius: 3px;
-  background: var(--role-strong);
-  color: var(--role-on-strong);
-  font: 700 0.875rem/1.3 var(--font-display);
-  letter-spacing: 0.02em;
-  vertical-align: 1px;
-}
-
-.line-go { flex: none; display: grid; place-items: center; width: 44px; height: 44px; margin: -10px 0 -10px; color: var(--role-ink); }
-
-/* Cancelled: the rubber stamp, the struck title and the reason. */
-.stamp {
-  display: inline-block;
-  padding: 2px 7px;
-  border: 2px solid var(--role-alert-text);
-  border-radius: 3px;
-  color: var(--role-alert-text);
-  font: 800 0.875rem/1.2 var(--font-display);
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
-  rotate: -3deg;
-}
-.line.is-cancelled .line-title { color: var(--role-ink-soft); text-decoration: line-through; }
-.line.is-cancelled .line-clock { color: var(--role-ink-soft); text-decoration: line-through; background: none; }
-.line-reason { font-size: 0.9375rem; line-height: 1.35; color: var(--role-alert-text); font-weight: 500; }
-
-/* A blank sheet: nothing for this filter. */
-.sheet.is-blank .blank {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 20px 24px 20px;
-  text-align: center;
-}
-.blank-icon { width: 40px; height: 40px; color: var(--role-ink-soft); margin-bottom: 8px; }
-.blank-title { margin: 0; max-width: 300px; font-size: 1.125rem; font-weight: 600; line-height: 1.3; text-wrap: balance; }
-.blank-hint { margin: 0; font-size: 0.9375rem; color: var(--role-ink-soft); }
-.blank-actions { display: flex; flex-direction: column; align-items: stretch; gap: 4px; width: 100%; max-width: 320px; margin-top: 16px; }
-
-/* ---------- Buttons ---------- */
-
+/* Buttons: urucum for the main action, outlined for the others. */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 48px;
+  min-height: 44px;
   padding: 0 18px;
-  border: 2px solid transparent;
-  border-radius: var(--radius);
-  font: 700 1rem/1.15 var(--font-ui);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  font: 600 0.9375rem/1.2 var(--font-ui);
   text-align: center;
   text-decoration: none;
   transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
+.btn .icon { width: 18px; height: 18px; }
 .btn:disabled { cursor: progress; opacity: 0.7; }
 .btn-accent { background: var(--role-accent); color: var(--role-on-accent); }
-.btn-line { border-color: var(--role-strong); color: var(--role-ink); background: transparent; }
-.btn-line.is-done { background: var(--role-strong); color: var(--role-on-strong); }
+.btn-line { border-color: var(--role-line); background: var(--role-card); color: var(--role-ink); }
+.btn-line.is-done { border-color: var(--role-ink); background: var(--role-ink); color: var(--role-on-ink); }
 @media (hover: hover) {
   .btn-accent:hover { background: var(--role-accent-hover); }
-  .btn-line:hover { background: var(--role-strong); color: var(--role-on-strong); }
+  .btn-line:not(.is-done):hover { border-color: var(--role-ink-soft); background: var(--role-card-hover); }
 }
 .btn-text {
   min-height: 44px;
-  padding: 0 4px;
+  padding: 0 6px;
   border: 0;
   background: none;
-  font-weight: 700;
+  color: var(--role-ink);
+  font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 
+/* A round quiet button: the month's arrows, the flyer's style arrows. */
 .icon-btn {
   display: grid;
   place-items: center;
+  flex: none;
   width: 44px;
   height: 44px;
-  flex: none;
+  padding: 0;
   border: 1px solid var(--role-line);
-  border-radius: var(--radius);
-  background: var(--role-paper);
+  border-radius: 50%;
+  background: var(--role-card);
   color: var(--role-ink);
 }
-@media (hover: hover) { .icon-btn:hover { border-color: var(--role-strong); } }
+@media (hover: hover) { .icon-btn:hover { border-color: var(--role-ink-soft); background: var(--role-card-hover); } }
 
-/* ---------- Month page ---------- */
+/* Share to WhatsApp: a tonal circle (a 44px link on the home, a mark inside each activity's card). */
+.share-circle {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--role-fill);
+  color: var(--role-ink);
+}
+.share-circle .icon { width: 20px; height: 20px; }
+
+/* Labels */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  height: 22px;
+  padding: 0 8px;
+  border: 1px solid var(--role-line);
+  border-radius: var(--radius-pill);
+  background: var(--role-card);
+  color: var(--role-ink-soft);
+  font: 500 0.8125rem/1 var(--font-ui);
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+.tag-cancelled { border-color: var(--role-ink); background: var(--role-ink); color: var(--role-on-ink); font-weight: 600; letter-spacing: 0.02em; }
+/* Another city than Dourados: always said, before the place. */
+.city-tag {
+  display: inline-block;
+  margin-right: 6px;
+  padding: 0 6px;
+  border-radius: var(--radius-sm);
+  background: var(--role-fill);
+  color: var(--role-ink);
+  font-weight: 600;
+}
+
+/* A group: a coloured dot beside the organization (never a shape, never a fill). */
+.dot { display: inline-block; flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--sector, var(--role-no-sector)); }
+
+/* ---------- The hand marks, in urucum ---------- */
+/* An open pen loop circles the next activity, a short stroke underlines today (HAND in js/icons.js). */
+
+.hand {
+  position: absolute;
+  overflow: visible;
+  fill: none;
+  stroke: var(--role-hand);
+  stroke-width: 2.5px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+.circled { position: relative; display: inline-block; white-space: nowrap; }
+/* A little wider than the text: the loop circles it instead of crossing its first letter. */
+.circled > .hand { left: -11px; top: -8px; width: calc(100% + 22px); height: calc(100% + 16px); }
+.underlined { position: relative; display: inline-block; }
+.underlined > .hand { left: -2px; bottom: -7px; width: calc(100% + 4px); height: 8px; }
+.next-label { font-size: 0.875rem; line-height: 1.3; font-weight: 600; color: var(--role-accent-text); white-space: nowrap; }
+/* A date in NOS's voice: Bricolage, heavy, tabular figures. */
+.date-big { font-family: var(--font-display); font-weight: 800; letter-spacing: -0.015em; font-variant-numeric: tabular-nums; }
+
+/* ---------- The agenda: the days on the land, the activities as cards ---------- */
+
+.past-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  margin: 8px 0 0 -6px;
+  padding: 0 10px 0 6px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: none;
+  color: var(--role-ink-soft);
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+.past-toggle .icon { width: 18px; height: 18px; }
+.result-count { margin: 0; padding: 14px 0 0; font-size: 0.9375rem; color: var(--role-ink-soft); }
+.result-count + .past-toggle { margin-top: 2px; }
+@media (hover: hover) {
+  .past-toggle:hover { background: var(--role-wash); color: var(--role-ink); }
+}
+
+.days { display: flex; flex-direction: column; gap: 18px; padding-top: 14px; }
+.day-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  font: 750 1.1875rem/1.26 var(--font-display);
+  letter-spacing: -0.015em;
+  font-variant-numeric: tabular-nums;
+}
+.day-label { flex: 1 1 auto; min-width: 0; }
+.day-head-holiday { font-weight: 500; color: var(--role-ink-soft); }
+.day-group.is-past .day-head { color: var(--role-ink-soft); }
+
+.cards { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; }
+
+/* One activity: the title first (beside the share mark), then when, who and where. The whole card is
+   the button that opens it in the panel. */
+.event-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 14px 14px 15px 16px;
+  border: 1px solid var(--role-card-border);
+  border-radius: var(--radius-card);
+  background: var(--role-card);
+  box-shadow: var(--role-card-shadow);
+  color: var(--role-ink);
+  text-align: left;
+  transition: background 0.15s, box-shadow 0.15s;
+}
+@media (hover: hover) {
+  .event-card:hover { background: var(--role-card-hover); }
+  .event-card:hover .event-title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+}
+.event-card.is-selected { box-shadow: 0 0 0 2px var(--role-ink), var(--role-card-shadow); }
+.event-card.is-selected:focus-visible { outline-offset: 4px; }
+.event-head { display: flex; align-items: center; gap: 8px; }
+.event-title { flex: 1 1 0; min-width: 0; font-size: 1.0625rem; line-height: 1.3; font-weight: 600; letter-spacing: -0.01em; text-wrap: pretty; }
+.event-meta { display: flex; flex-direction: column; gap: 4px; margin-top: 6px; }
+.event-card > .tag-cancelled { align-self: flex-start; margin-bottom: 8px; }
+.event-reason { margin-top: 4px; font-size: 0.875rem; line-height: 1.36; color: var(--role-ink); }
+.event-card.is-cancelled .event-title { color: var(--role-ink-soft); text-decoration: line-through; }
+.event-card.is-cancelled .meta-time .meta-text { color: var(--role-ink-soft); text-decoration: line-through; }
+
+/* Meta rows with a 16px icon: the time (strong), the organization and the place (soft). */
+.meta { display: flex; align-items: flex-start; gap: 6px; font-size: 0.875rem; line-height: 1.36; color: var(--role-ink-soft); }
+.meta .icon { width: 16px; height: 16px; margin-top: 1.5px; }
+.meta b { font-weight: 600; color: var(--role-ink); }
+.meta .dot { margin: 5.5px 4px 0; }
+.meta-text { min-width: 0; overflow-wrap: anywhere; }
+.meta-time { flex-wrap: wrap; align-items: center; row-gap: 2px; font-size: 0.9375rem; line-height: 1.33; font-weight: 600; color: var(--role-ink); font-variant-numeric: tabular-nums; }
+.meta-time .icon { margin-top: 0; color: var(--role-ink-soft); }
+.meta-time .circled { margin: 0 16px 0 11px; }
+
+/* A day with nothing on it: a flat, outlined card. */
+.empty-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  margin: 0;
+  padding: 10px 16px;
+  border: 1px solid var(--role-line);
+  border-radius: var(--radius-card);
+  color: var(--role-ink-soft);
+  font-size: 0.9375rem;
+}
+
+/* Nothing for this filter (and Comércio's search): say so, and offer the way back. */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 28px 24px 22px;
+  border: 1px solid var(--role-line);
+  border-radius: var(--radius-card);
+  text-align: center;
+}
+.empty-icon { width: 40px; height: 40px; margin-bottom: 4px; color: var(--role-ink-soft); }
+.empty-title { max-width: 320px; font: 750 1.1875rem/1.3 var(--font-display); letter-spacing: -0.012em; text-wrap: balance; }
+.empty-hint { max-width: 36ch; font-size: 0.9375rem; color: var(--role-ink-soft); text-wrap: pretty; }
+.empty-actions { display: flex; flex-direction: column; align-items: stretch; gap: 4px; width: 100%; max-width: 320px; margin-top: 12px; }
+
+/* ---------- The month ---------- */
 
 .month-head {
   display: grid;
   grid-template-columns: 44px minmax(0, 1fr) 44px;
   align-items: center;
   gap: 8px;
-  margin: 0 0 12px;
+  margin: 14px 0 10px;
 }
-.month-title { margin: 0; text-align: center; font: 800 1.75rem/1 var(--font-display); }
-.month-today { grid-column: 1 / -1; justify-self: center; margin-top: -4px; }
+.month-title { text-align: center; font: 800 1.5rem/1.1 var(--font-display); letter-spacing: -0.02em; white-space: nowrap; }
+.month-title:focus { outline: none; }
+.month-today { grid-column: 1 / -1; justify-self: center; margin-top: -6px; }
 
-.month-page { margin-bottom: 12px; }
+.month {
+  overflow: hidden;
+  border: 1px solid var(--role-card-border);
+  border-radius: var(--radius-card);
+  background: var(--role-card);
+  box-shadow: var(--role-card-shadow);
+}
 .month-weekdays {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
-  padding: 2px 0 8px;
+  padding: 10px 0 8px;
 }
 .month-weekday {
   text-align: center;
-  font: 700 0.8125rem/1 var(--font-display);
-  letter-spacing: 0.05em;
+  font: 600 0.75rem/1 var(--font-ui);
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--role-ink-soft);
 }
-.month-weekday.is-red { color: var(--role-red-letter); }
 
 /* One week: the seven days, and the bars of multi-day activities laid over them. */
 .week { position: relative; border-top: 1px solid var(--role-line); }
@@ -539,43 +679,46 @@ code { font-size: 0.9em; background: var(--role-wash); padding: 1px 5px; border-
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3px;
+  gap: 4px;
   min-width: 0;
-  min-height: 56px;
+  min-height: 58px;
   padding: 6px 0 calc(8px + var(--lanes, 0) * 6px);
   border: 0;
   background: none;
   color: var(--role-ink);
 }
-@media (hover: hover) { .day:hover { background: var(--role-wash); } }
+/* Sundays and holidays: the days off, a shade of the land. */
+.day.is-off { background: var(--role-fill); }
+@media (hover: hover) { .day:hover { background: var(--role-wash); } .day.is-off:hover { background: color-mix(in srgb, var(--role-fill) 80%, var(--role-ink-soft)); } }
 .day:focus-visible { outline-offset: -3px; }
 .day-top { display: flex; flex-direction: column; align-items: center; }
 .day-num {
+  position: relative;
   display: grid;
   place-items: center;
-  min-width: 1.75rem;
-  height: 1.75rem;
-  padding: 0 3px;
-  border-radius: var(--radius-sm);
-  font: 700 1.25rem/1 var(--font-display);
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0 4px;
+  border-radius: var(--radius-pill);
+  font: 750 1.0625rem/1 var(--font-display);
+  font-variant-numeric: tabular-nums;
 }
-.day.is-red .day-num { color: var(--role-red-letter); }
 .day.is-past .day-num { color: var(--role-ink-soft); }
-.day.is-past.is-red .day-num { color: var(--role-red-letter); }
-.day.is-outside .day-num { color: var(--role-ink-past); }
-.day.is-outside.is-red .day-num { color: var(--role-red-letter-past); }
-.day.is-today .day-num { box-shadow: inset 0 0 0 2px var(--role-strong); }
-.day.is-selected .day-num { background: var(--role-strong); color: var(--role-on-strong); box-shadow: none; }
+.day.is-outside .day-num { color: color-mix(in srgb, var(--role-ink-soft) 72%, var(--role-card)); }
+.day.is-selected .day-num { background: var(--role-ink); color: var(--role-on-ink); }
+/* Today underlined by hand; the next activity's day circled. */
+.day-num > .hand--underline { left: 18%; bottom: 1px; width: 64%; height: 7px; }
+.day-num > .hand--loop { left: -6px; top: -5px; width: calc(100% + 12px); height: calc(100% + 10px); }
 .day-holiday { display: none; }
 
+/* Phones: one-day activities as their groups' dots; multi-day ones as thin bars. */
 .day-items { display: flex; flex-wrap: wrap; justify-content: center; gap: 3px; width: 100%; padding: 0 2px; }
 .cell-item { display: contents; }
 .cell-item-text { display: none; }
-.cell-mark { flex: none; width: 6px; height: 6px; border-radius: 1px; background: var(--sector); }
+.cell-mark { flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--sector); }
 .cell-item.is-cancelled .cell-mark { background: none; box-shadow: inset 0 0 0 1.5px var(--sector); }
-.day-more { font: 700 0.75rem/6px var(--font-display); color: var(--role-ink-soft); }
+.day-more { font: 700 0.75rem/6px var(--font-ui); color: var(--role-ink-soft); }
 
-/* Phones: thin bars in lanes along the bottom of the week, lane 0 lowest. */
 .week-bars {
   position: absolute;
   inset: auto 0 6px;
@@ -585,19 +728,22 @@ code { font-size: 0.9em; background: var(--role-wash); padding: 1px 5px; border-
 }
 .week-bar {
   grid-row: 1;
+  align-self: end;
   height: 4px;
   margin-bottom: calc(var(--lane) * 6px);
   background: var(--sector);
-  align-self: end;
 }
 .week-bar.is-start { margin-left: 4px; border-top-left-radius: 2px; border-bottom-left-radius: 2px; }
 .week-bar.is-end { margin-right: 4px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; }
 .week-bar.is-cancelled { background: none; box-shadow: inset 0 0 0 1.5px var(--sector); }
 .week-bar-text { display: none; }
 
-.month-day { margin-bottom: 12px; }
+/* The chosen day, printed under the month as in the list. */
+.month-day { margin-top: 18px; }
 
-/* ---------- Activity panel ---------- */
+/* ---------- The activity panel ("bench") ---------- */
+/* A bottom sheet on phones and tablets (a modal dialog with Back, js/app.js setModal), the persistent
+   column on the right from 1100px. */
 
 .sheet-backdrop {
   position: fixed;
@@ -615,9 +761,11 @@ code { font-size: 0.9em; background: var(--role-wash); padding: 1px 5px; border-
   display: flex;
   flex-direction: column;
   max-height: calc(100dvh - 48px - env(safe-area-inset-top));
-  background: var(--role-paper);
+  border: 1px solid var(--role-card-border);
+  border-bottom: 0;
   border-radius: var(--radius-sheet) var(--radius-sheet) 0 0;
-  box-shadow: 0 -8px 24px var(--role-shadow);
+  background: var(--role-card);
+  box-shadow: var(--role-sheet-shadow);
   transform: translateY(105%);
   visibility: hidden;
   transition: transform 0.3s var(--ease), visibility 0s linear 0.3s;
@@ -627,7 +775,7 @@ code { font-size: 0.9em; background: var(--role-wash); padding: 1px 5px; border-
 .bench.is-dragging { transition: none; }
 .bench:focus { outline: none; }
 .bench-empty { display: none; }
-.bench-body { display: flex; flex-direction: column; min-height: 0; flex: 1; }
+.bench-body { display: flex; flex: 1; flex-direction: column; min-height: 0; }
 
 /* flex: none, or a long panel squeezes it from 4px down to a hairline (0.5px on a phone on its side). */
 .grabber { flex: none; align-self: center; width: 36px; height: 4px; margin: 8px 0 2px; border-radius: 2px; background: var(--role-line); }
@@ -636,41 +784,40 @@ code { font-size: 0.9em; background: var(--role-wash); padding: 1px 5px; border-
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 6px 12px 10px 16px;
+  padding: 6px 8px 12px 16px;
   border-bottom: 1px solid var(--role-line);
 }
-.bench-date { flex: 1; min-width: 0; }
-.bench-date-visual { display: flex; align-items: center; gap: 12px; min-width: 0; }
 .grabber, .bench-head { touch-action: none; }
-.bench-num { font: 800 2.75rem/0.9 var(--font-display); min-width: 3rem; }
-.bench-names { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.bench-weekday { font: 700 1rem/1.1 var(--font-display); letter-spacing: 0.06em; text-transform: uppercase; }
-.bench-month { font-size: 0.9375rem; font-weight: 600; line-height: 1.2; }
-.bench-date.is-red .bench-num, .bench-date.is-red .bench-weekday { color: var(--role-red-letter); }
-.bench-date.is-struck .bench-month { text-decoration: line-through; color: var(--role-ink-soft); }
-.bench-close { border: 0; }
+.bench-date { display: flex; flex: 1; flex-direction: column; gap: 2px; min-width: 0; }
+.bench-date-visual { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.bench-day { font: 750 1.25rem/1.2 var(--font-display); letter-spacing: -0.015em; font-variant-numeric: tabular-nums; }
+.bench-when { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 12px; font-size: 0.9375rem; line-height: 1.3; font-weight: 600; font-variant-numeric: tabular-nums; }
+.bench-date.is-struck .bench-day, .bench-date.is-struck .bench-time { color: var(--role-ink-soft); text-decoration: line-through; }
+.bench-close .icon { width: 22px; height: 22px; }
 
 /* scroll-padding-top: what focus scrolls into view lands under the format bar (76px tall when it
    sticks to the top), not behind it. */
 .bench-scroll { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 16px 16px 20px; scroll-padding-top: 84px; }
 
 .cancel-note { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; margin-bottom: 12px; }
-.cancel-note p { margin: 0; font-size: 0.9375rem; font-weight: 500; color: var(--role-alert-text); }
+.cancel-note p { margin: 0; font-size: 0.9375rem; font-weight: 500; }
 
-.bench-title { margin: 0 0 14px; font: 700 1.5rem/1.2 var(--font-ui); text-wrap: balance; }
-.bench-title.is-struck { text-decoration: line-through; color: var(--role-ink-soft); }
+.bench-title { margin: 0 0 12px; font: 700 1.375rem/1.25 var(--font-ui); letter-spacing: -0.015em; text-wrap: balance; }
+.bench-title.is-struck { color: var(--role-ink-soft); text-decoration: line-through; }
 
 .facts { display: flex; flex-direction: column; margin: 0 0 12px; }
 /* Phones: each fact is a full tap row, so the links (phone, source) are easy to hit. */
-.fact { position: relative; display: flex; gap: 12px; align-items: center; min-height: 44px; padding: 4px 0; font-size: 0.9375rem; line-height: 1.35; }
+.fact { position: relative; display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 4px 0; font-size: 0.9375rem; line-height: 1.35; }
 .fact dt { flex: none; display: grid; place-items: center; width: 20px; color: var(--role-ink-soft); }
-.fact dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.fact dt .icon { width: 18px; height: 18px; }
+.fact dt .dot { width: 10px; height: 10px; }
+.fact dd { min-width: 0; overflow-wrap: anywhere; }
 .fact-org { font-weight: 600; }
-/* The organization row can run to several lines (full names): its square sits by the first one. */
+/* The organization row can run to several lines (full names): its dot sits by the first one. */
 .fact.is-org { align-items: flex-start; padding-top: 10px; }
 .fact.is-org dt { height: 20px; }
 .fact-muted { color: var(--role-ink-soft); font-weight: 500; }
-.fact-org-full { display: block; margin-top: 2px; font-size: 0.875rem; font-weight: 500; line-height: 1.3; color: var(--role-ink-soft); }
+.fact-org-full { display: block; margin-top: 2px; font-size: 0.875rem; font-weight: 400; line-height: 1.35; color: var(--role-ink-soft); }
 .fact a { font-weight: 600; }
 /* A fact that is a single link takes the whole row as its tap area. */
 .fact-link::after { content: ''; position: absolute; inset: 0; }
@@ -680,56 +827,36 @@ code { font-size: 0.9em; background: var(--role-wash); padding: 1px 5px; border-
    preview and the buttons fit together (js/app.js showPanel sets data-panel). */
 .bench[data-panel='flyer'] .facts, .bench[data-panel='flyer'] .bench-desc { display: none; }
 
-.bench-desc { margin: 0 0 4px; font-size: 0.9375rem; line-height: 1.45; text-wrap: pretty; }
+.bench-desc { margin: 0 0 4px; font-size: 0.9375rem; line-height: 1.5; text-wrap: pretty; }
 
 /* The format switch sticks to the top of the panel while the message or flyer scrolls under it. */
-.seg-bar { position: sticky; top: -16px; z-index: 2; margin: 0 -16px; padding: 16px 16px 14px; background: var(--role-paper); }
-.seg {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  border: 1px solid var(--role-strong);
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-}
-.seg [role=tab] {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  min-height: 44px;
-  border: 0;
-  background: var(--role-paper);
-  font-weight: 600;
-}
-.seg [role=tab] + [role=tab] { border-left: 1px solid var(--role-strong); }
-.seg [aria-selected=true] { background: var(--role-strong); color: var(--role-on-strong); }
-.seg [role=tab]:focus-visible { outline-offset: -4px; }
+.seg-bar { position: sticky; top: -16px; z-index: 2; margin: 0 -16px; padding: 16px 16px 14px; background: var(--role-card); }
 
-.chat { padding: 12px; border-radius: var(--radius-lg); background: var(--role-chat); }
+/* The message as WhatsApp will show it. */
+.chat { padding: 12px; border-radius: var(--radius); background: var(--role-chat); }
 .bubble {
-  padding: 12px;
-  border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) 2px;
+  padding: 12px 14px;
+  border-radius: var(--radius) var(--radius) var(--radius) 4px;
   background: var(--role-bubble);
-  box-shadow: 0 1px 3px var(--role-shadow);
+  box-shadow: var(--role-card-shadow);
   font-size: 0.9375rem;
-  font-weight: 500;
-  line-height: 1.4;
+  line-height: 1.45;
   overflow-wrap: anywhere;
 }
 .bubble strong { font-weight: 700; }
 
-.style-picker { display: grid; grid-template-columns: 44px 1fr 44px; gap: 8px; align-items: center; margin-bottom: 12px; }
+.style-picker { display: grid; grid-template-columns: 44px 1fr 44px; align-items: center; gap: 8px; margin-bottom: 12px; }
 .style-select { position: relative; display: flex; align-items: center; }
 .style-select select {
-  appearance: none;
   width: 100%;
   min-height: 44px;
   padding: 0 4rem 0 18px;
-  border: 1px solid var(--role-strong);
+  border: 1px solid var(--role-line);
   border-radius: var(--radius-pill);
-  background: var(--role-paper);
+  background: var(--role-card);
   font-size: 1rem;
   font-weight: 600;
+  appearance: none;
   cursor: pointer;
 }
 .style-count { position: absolute; right: 18px; display: flex; align-items: center; gap: 6px; font-size: 0.9375rem; color: var(--role-ink-soft); pointer-events: none; }
@@ -751,8 +878,8 @@ code { font-size: 0.9em; background: var(--role-wash); padding: 1px 5px; border-
   aspect-ratio: 1080 / 1350;
   overflow: hidden;
   border: 1px solid var(--role-line);
-  border-radius: var(--radius);
-  background: var(--role-wall);
+  border-radius: var(--radius-sm);
+  background: var(--role-ground);
 }
 .flyer-scaler { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
 /* Short phones: Panfleto opens with the format bar at the top (js/app.js settleScroll), so the
@@ -763,24 +890,25 @@ code { font-size: 0.9em; background: var(--role-wash); padding: 1px 5px; border-
 /* Phones on their side (320–440px tall): the sheet takes nearly the whole height, and in flyer
    mode the preview stands to the right of the format bar and the style picker, between the head
    and the buttons, so it is seen whole while they scroll (176px wide at most, the floor of the
-   rule above, so the picker keeps its room). The head is 17px plus its numeral or the close
-   button; the buttons are 61px plus the bottom inset (at least 12px). */
+   rule above, so the picker keeps its room). The head is 19px plus the date's two lines or the
+   close button; the buttons are 69px plus the bottom inset (at least 12px). */
 @media (max-width: 1099px) and (max-height: 500px) and (orientation: landscape) {
   .bench { max-height: calc(100dvh - 12px - env(safe-area-inset-top)); }
   .bench[data-panel='flyer'] {
-    --flyer-top: calc(47px + max(44px, 2.475rem));
-    --flyer-width: min(176px, calc((100dvh - 12px - env(safe-area-inset-top) - var(--flyer-top) - 77px - max(12px, env(safe-area-inset-bottom))) * 0.8));
+    --flyer-top: calc(51px + max(44px, 3.0625rem));
+    --flyer-width: min(176px, calc((100dvh - 12px - env(safe-area-inset-top) - var(--flyer-top) - 85px - max(12px, env(safe-area-inset-bottom))) * 0.8));
     height: calc(100dvh - 12px - env(safe-area-inset-top));
   }
   .bench[data-panel='flyer'] .bench-body { position: relative; }
   .bench[data-panel='flyer'] .bench-scroll { padding-right: calc(var(--flyer-width) + 32px); }
   .bench[data-panel='flyer'] .flyer-frame { position: absolute; top: var(--flyer-top); right: 16px; width: var(--flyer-width); min-width: 0; margin: 0; }
 }
-.hint { margin: 10px auto 0; max-width: 320px; text-align: center; font-size: 0.875rem; color: var(--role-ink-soft); text-wrap: balance; }
+.hint { max-width: 320px; margin: 10px auto 0; text-align: center; font-size: 0.875rem; color: var(--role-ink-soft); text-wrap: balance; }
 
-.bench-actions { padding: 12px 16px max(12px, env(safe-area-inset-bottom)); border-top: 1px solid var(--role-line); background: var(--role-paper); }
+.bench-actions { padding: 12px 16px max(12px, env(safe-area-inset-bottom)); border-top: 1px solid var(--role-line); background: var(--role-card); }
 .actions { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
-/* Narrow phones: the second action is a square icon button (its name stays in aria-label). The
+.actions .btn { min-height: 48px; }
+/* Narrow phones: the second action is a round icon button (its name stays in aria-label). The
    sheet spans the screen here, so its content keeps clear of the notch too (a landscape iPhone
    only gets this narrow with the page zoomed in). */
 @media (max-width: 599px) {
@@ -789,257 +917,381 @@ code { font-size: 0.9em; background: var(--role-wash); padding: 1px 5px; border-
   .actions .btn-line span { display: none; }
 }
 
-/* ---------- Comércio: the network's phone book ---------- */
-/* One sheet per letter: the letter in the folio column where a day sheet prints its day, then the
-   businesses. Each business: its category in the folio column, its name printed like a shop's card,
-   what it offers, and the ways to reach it, their labels in the folio column and the values beside. */
+/* ---------- Comércio ---------- */
 
-/* Search, count and category chips over the pad. On phones: search, chips, count; on the desk the
-   count sits beside the search. */
-.biz-tools { display: grid; grid-template-areas: 'search' 'chips' 'count'; padding-top: 12px; }
+/* Paused: "Em breve" on the land, in Comércio's ipê-rosa. */
+.soon {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 24px 22px 26px;
+  border-radius: var(--radius-card);
+  background: var(--role-commerce-tint);
+  color: var(--role-ink);
+}
+.soon-icon {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 6px;
+  border-radius: 50%;
+  background: var(--role-card);
+  color: var(--role-commerce-text);
+}
+.soon-icon .icon { width: 28px; height: 28px; }
+.soon-title { font: 800 2rem/1.05 var(--font-display); letter-spacing: -0.025em; }
+.soon-text { max-width: 34ch; font-size: 1.0625rem; line-height: 1.45; color: color-mix(in srgb, var(--role-commerce-text) 55%, var(--role-ink)); text-wrap: pretty; }
+
+/* The list (when it returns): search, count and category chips over the letters. On phones:
+   search, chips, count; on the desk the count sits beside the search. */
+.biz-tools { display: grid; grid-template-areas: 'search' 'chips' 'count'; padding-top: 14px; }
 .search { grid-area: search; position: relative; display: flex; align-items: center; margin: 0 16px; }
-.search-icon { position: absolute; left: 16px; display: flex; pointer-events: none; }
+.search-icon { position: absolute; left: 16px; display: flex; color: var(--role-ink-soft); pointer-events: none; }
 .search input {
   width: 100%;
   min-height: 48px;
   margin: 0;
   padding: 0 48px 0 46px;
-  border: 1.5px solid var(--role-strong);
+  border: 1px solid var(--role-line);
   border-radius: var(--radius-pill);
-  background: var(--role-paper);
+  background: var(--role-card);
   color: var(--role-ink);
-  font: 500 1rem/1.2 var(--font-ui); /* 16px: iOS doesn't zoom */
+  font: 400 1rem/1.2 var(--font-ui); /* 16px: iOS doesn't zoom */
   -webkit-appearance: none;
   appearance: none;
 }
-.search input:not(:placeholder-shown) { font-weight: 600; }
+.search input:focus-visible { outline-offset: 0; border-color: var(--role-focus); }
+.search input:not(:placeholder-shown) { font-weight: 500; }
 .search input::placeholder { color: var(--role-ink-soft); opacity: 1; }
 .search input::-webkit-search-cancel-button, .search input::-webkit-search-decoration { -webkit-appearance: none; appearance: none; }
 .search-clear {
   position: absolute;
-  right: 4px;
+  right: 2px;
   display: grid;
   place-items: center;
   width: 44px;
   height: 44px;
   border: 0;
-  border-radius: var(--radius-pill);
+  border-radius: 50%;
   background: none;
   color: var(--role-ink);
 }
 .search-clear .icon { width: 18px; height: 18px; }
-@media (hover: hover) {
-  .search-clear:hover { background: var(--role-wash); }
-}
+@media (hover: hover) { .search-clear:hover { background: var(--role-wash); } }
 .biz-tools .filters { grid-area: chips; }
-.biz-count { grid-area: count; margin: 0; padding: 0 20px 10px; font-size: 0.9375rem; color: var(--role-ink-soft); }
+.biz-count { grid-area: count; margin: 0; padding: 6px 20px 4px; font-size: 0.9375rem; color: var(--role-ink-soft); }
 .biz-tools:has(.filters[hidden]) .biz-count { padding-top: 12px; }
 
-.letters { display: flex; flex-direction: column; gap: 12px; }
-/* Without the tools over it (the list paused, empty or unreadable), the pad keeps off the header. */
-.biz-tools[hidden] + .letters { padding-top: 12px; }
-.letter-sheet .sheet-num { width: 4.5rem; margin: 0; }
+.letters { display: flex; flex-direction: column; gap: 24px; }
+.biz-tools:not([hidden]) + .letters { padding-top: 16px; }
+.letter-head { display: flex; align-items: baseline; gap: 10px; margin: 0 0 10px; }
+.letter { font: 800 1.75rem/1 var(--font-display); letter-spacing: -0.02em; }
+.letter-count { font-size: 0.875rem; color: var(--role-ink-soft); }
 
-.biz-list { list-style: none; margin: 0; padding: 0; }
+.biz-list { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; }
+/* A business: its category, its name, what it offers, "Indicar no WhatsApp", and the ways to reach it,
+   each with its label. */
 .biz {
   display: grid;
-  grid-template-columns: 4.5rem minmax(0, 1fr) 44px;
-  column-gap: 12px;
+  grid-template-columns: minmax(0, 1fr) 44px;
+  column-gap: 8px;
   align-items: start;
-  padding: 14px 6px 6px 16px;
-  border-top: 1px solid var(--role-line);
+  padding: 14px 10px 8px 16px;
+  border: 1px solid var(--role-card-border);
+  border-radius: var(--radius-card);
+  background: var(--role-card);
+  box-shadow: var(--role-card-shadow);
 }
-.biz-category { grid-column: 1; grid-row: 1; margin: 0; padding-top: 3px; font: 600 0.9375rem/1.15 var(--font-display); color: var(--role-ink-soft); overflow-wrap: anywhere; }
-.biz-main { grid-column: 2; grid-row: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; min-width: 0; }
-.biz-main > * { margin: 0; max-width: 100%; }
-.biz-name { font: 800 1.375rem/1.05 var(--font-display); letter-spacing: 0.01em; text-transform: uppercase; overflow-wrap: anywhere; }
-.biz-subtitle { font-size: 0.9375rem; font-weight: 600; line-height: 1.3; color: var(--role-ink-soft); }
+.biz-category { grid-column: 1 / -1; grid-row: 1; justify-self: start; margin-bottom: 8px; }
+.biz-main { grid-column: 1; grid-row: 2; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; min-width: 0; }
+.biz-main > * { max-width: 100%; }
+.biz-name { font: 750 1.25rem/1.2 var(--font-display); letter-spacing: -0.015em; overflow-wrap: anywhere; }
+.biz-subtitle { font-size: 0.9375rem; font-weight: 500; line-height: 1.3; color: var(--role-ink-soft); }
 .biz-city .city-tag { margin: 0; }
-.biz-main > .biz-offer { margin-top: 2px; font-size: 0.9375rem; line-height: 1.4; overflow-wrap: break-word; text-wrap: pretty; }
-/* "Indicar no WhatsApp": a glyph on phones (its name in aria-label), written out on the desk. */
-.biz-share { grid-column: 3; grid-row: 1; display: grid; place-items: center; width: 44px; height: 44px; margin-top: -10px; border-radius: var(--radius); color: var(--role-ink); }
+.biz-main > .biz-offer { margin-top: 2px; font-size: 0.9375rem; line-height: 1.45; overflow-wrap: break-word; text-wrap: pretty; }
+/* "Indicar no WhatsApp": the share circle on phones (its name in aria-label), written out from 760px. */
+.biz-share { grid-column: 2; grid-row: 2; display: grid; place-items: center; width: 44px; height: 44px; margin-top: -6px; border-radius: 50%; color: var(--role-ink); text-decoration: none; }
+.biz-share .icon { width: 20px; height: 20px; }
 .biz-share-text { display: none; }
+@media (hover: hover) { .biz-share:hover, .contact-call:hover { background: var(--role-wash); } .contact-value:hover { text-decoration-thickness: 2px; } }
 
-.biz-contacts { grid-column: 1 / -1; margin: 6px 0 0; }
-.contact { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); column-gap: 12px; align-items: center; min-height: 44px; }
-.contact dt { font: 600 0.9375rem/1.15 var(--font-display); color: var(--role-ink-soft); }
-.contact dd { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-width: 0; margin: 0; }
-.contact-value { display: inline-flex; align-items: center; min-height: 44px; min-width: 0; font-size: 0.9375rem; font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; text-decoration-thickness: 1px; }
-/* Numbers read down the pad like a phone book: the calendar's time voice, tabular figures. */
-.contact-value.is-number { font: 700 1.375rem/1.1 var(--font-display); font-variant-numeric: tabular-nums; white-space: nowrap; text-underline-offset: 4px; }
+.biz-contacts { grid-column: 1 / -1; grid-row: 3; margin: 8px 0 0; border-top: 1px solid var(--role-line); }
+.contact { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); column-gap: 10px; align-items: center; min-height: 44px; }
+.contact + .contact { border-top: 1px solid var(--role-line); }
+.contact dt { font-size: 0.8125rem; font-weight: 500; color: var(--role-ink-soft); }
+.contact dd { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-width: 0; }
+.contact-value { display: inline-flex; align-items: center; min-width: 0; min-height: 44px; font-size: 0.9375rem; font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; }
+/* Numbers read down the list: tabular figures. */
+.contact-value.is-number { font: 700 1.0625rem/1.2 var(--font-ui); font-variant-numeric: tabular-nums; white-space: nowrap; text-underline-offset: 4px; }
 .contact-text { padding: 10px 0; font-size: 0.9375rem; line-height: 1.35; overflow-wrap: anywhere; }
-.contact-call { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: var(--radius); color: var(--role-ink); }
-@media (hover: hover) {
-  .biz-share:hover, .contact-call:hover { background: var(--role-wash); }
-  .contact-value:hover { text-decoration-thickness: 2px; }
-}
+.contact-call { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; color: var(--role-ink); }
+.contact-call .icon { width: 18px; height: 18px; }
 
-/* What this list is and how to use it, the invitation to the form last. After the pad on phones,
-   beside it on the desk (where the calendar keeps its activity panel). */
-.side { padding: 12px 16px 0; }
-.side-body { padding: 4px 20px 20px; }
-.side-title { margin: 6px 0 8px; font: 700 1.5rem/1.2 var(--font-ui); text-wrap: balance; }
-.side-text { margin: 0 0 14px; font-size: 0.9375rem; line-height: 1.45; }
+/* What this list is and how to use it, the invitation to the form last. After the list on phones,
+   beside it on the desk (where the agenda keeps its activity panel). */
+.side { padding: 16px 16px 0; }
+.side-card {
+  padding: 20px 20px 22px;
+  border: 1px solid var(--role-card-border);
+  border-radius: var(--radius-card);
+  background: var(--role-card);
+  box-shadow: var(--role-card-shadow);
+}
+.side-title { margin-bottom: 8px; font: 750 1.375rem/1.2 var(--font-display); letter-spacing: -0.015em; text-wrap: balance; }
+.side-text { margin-bottom: 14px; font-size: 0.9375rem; line-height: 1.5; }
 .how { display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0; list-style: none; }
-.how li { display: flex; align-items: flex-start; gap: 12px; font-size: 0.9375rem; line-height: 1.4; }
-.how .icon { margin-top: 1px; color: var(--role-ink-soft); }
+.how li { display: flex; align-items: flex-start; gap: 12px; font-size: 0.9375rem; line-height: 1.45; }
+.how .icon { margin-top: 1px; color: var(--role-commerce-text); }
 .join { display: flex; flex-direction: column; gap: 6px; margin: 18px -20px 0; padding: 18px 20px 0; border-top: 1px solid var(--role-line); }
-.join-title { margin: 0; font-size: 1.0625rem; font-weight: 600; line-height: 1.3; }
-.join-text { margin: 0 0 8px; font-size: 0.9375rem; line-height: 1.4; color: var(--role-ink-soft); }
+.join-title { font-size: 1.0625rem; font-weight: 600; line-height: 1.3; }
+.join-text { margin-bottom: 8px; font-size: 0.9375rem; line-height: 1.4; color: var(--role-ink-soft); }
 .join .btn { width: 100%; }
 
+/* ---------- Início: the next activity on the horizon, then a door to each page ---------- */
+
+.home { max-width: 1344px; margin: 0 auto; padding: 0 calc(16px + env(safe-area-inset-right)) 0 calc(16px + env(safe-area-inset-left)); }
+/* The next activity rests on the band: the land rises 14px onto it. */
+.home-grid { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 12px; margin-top: -14px; }
+
+.next-card {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 14px 14px 16px;
+  border: 1px solid var(--role-card-border);
+  border-radius: var(--radius-card);
+  background: var(--role-card);
+  box-shadow: var(--role-card-shadow);
+}
+.next-status { padding: 2px 0 4px; font-size: 0.9375rem; color: var(--role-ink-soft); }
+.next-card > .next-title:first-child { padding-top: 6px; }
+.next-head { display: flex; align-items: center; gap: 8px; min-height: 44px; }
+.next-when { display: flex; flex: 1 1 auto; flex-wrap: wrap; align-items: center; gap: 4px 14px; min-width: 0; font-variant-numeric: tabular-nums; }
+.next-when .circled { margin: 0 6px 0 11px; font-size: 1.25rem; line-height: 1.2; }
+.next-time { display: none; }
+.share-button {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  margin: -2px;
+  padding: 2px;
+  border-radius: 50%;
+  background: var(--role-fill);
+  background-clip: content-box;
+  color: var(--role-ink);
+}
+.share-button .icon { width: 20px; height: 20px; }
+@media (hover: hover) { .share-button:hover { background-color: var(--role-line); } }
+.next-title { margin-top: 4px; font-size: 1.0625rem; line-height: 1.3; font-weight: 600; letter-spacing: -0.01em; text-wrap: pretty; }
+.next-facts { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 8px; }
+.next-facts .meta { align-items: center; }
+.next-facts .meta .icon { margin-top: 0; }
+.next-facts .meta .dot { margin: 0 4px; }
+.next-facts .meta-place { flex-basis: 100%; align-items: flex-start; }
+.next-facts .meta-place .icon { margin-top: 1.5px; }
+.next-org-full { display: none; }
+.next-actions, .later { display: none; }
+
+/* The doors: each page in its landscape colour, with one live line. Flat: the colour is the card. */
+.doors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.door {
+  --door-tint: var(--role-agenda-tint);
+  --door-text: var(--role-agenda-text);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  padding: 12px 12px 14px 14px;
+  border-radius: var(--radius-card);
+  background: var(--door-tint);
+  color: var(--role-ink);
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.door--commerce { --door-tint: var(--role-commerce-tint); --door-text: var(--role-commerce-text); }
+@media (hover: hover) { .door:hover { background: color-mix(in srgb, var(--door-tint) 88%, var(--door-text)); } }
+.door-head { display: flex; align-items: center; gap: 8px; }
+.door-head .icon { width: 22px; height: 22px; color: var(--door-text); }
+.door-name { font: 700 1.125rem/1.33 var(--font-display); letter-spacing: -0.02em; }
+/* Secondary text on the door's tint: its hue mixed into the ink, never a grey. */
+.door-line { font-size: 0.875rem; line-height: 1.36; font-weight: 600; color: var(--role-ink); text-wrap: pretty; }
+.door-text { font-size: 0.8125rem; line-height: 1.4; color: color-mix(in srgb, var(--door-text) 55%, var(--role-ink)); text-wrap: pretty; }
+.door-more { display: none; }
+
+/* ---------- Wider phones and tablets ---------- */
+
 @media (min-width: 600px) {
+  .site-head-inner { padding-left: 24px; padding-right: 14px; }
+  .view, .filters { padding-left: 24px; padding-right: 24px; }
+  .notice, .view-tabs { margin-left: 24px; margin-right: 24px; }
   .search { margin: 0 24px; }
   .biz-count { padding-left: 28px; padding-right: 28px; }
   .side { padding-left: 24px; padding-right: 24px; }
+  .home { padding-left: calc(24px + env(safe-area-inset-left)); padding-right: calc(24px + env(safe-area-inset-right)); }
+  .site-foot { padding-left: calc(24px + env(safe-area-inset-left)); padding-right: calc(24px + env(safe-area-inset-right)); }
+  .bench { left: 50%; right: auto; width: min(560px, 100%); translate: -50% 0; }
+  .day { min-height: 66px; }
+  .view-tabs { max-width: 420px; }
 }
 
-/* From tablets on, each business is a row: the contacts get their own column, so the numbers read
-   straight down the sheet, and "Indicar" is written out under the offer. */
+/* From tablets on: the links on the sky, beside the mark (no bar along the foot), and the page's name
+   under them. */
 @media (min-width: 760px) {
-  .biz { grid-template-columns: 4.5rem minmax(0, 1fr) minmax(15rem, 19rem); column-gap: 16px; padding: 16px 12px 12px 20px; }
-  .biz-category { grid-row: 1 / span 2; }
+  body { padding-bottom: 0; }
+  .site-head {
+    --h5: 11px;
+    --h4: 22px;
+    --h3: 33px;
+    --h2: 44px;
+    --sun-size: 200px;
+    --sun-right: 6%;
+    --sun-bottom: -132px;
+    --sun-loop: 3.5px;
+    --moon-size: 30px;
+    --moon-right: 9%;
+    --moon-bottom: 12px;
+    --moon-loop: 2px;
+  }
+  .site-head-inner {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: 'brand nav toggle' 'title title title';
+    column-gap: 24px;
+    padding: 0 18px 44px 24px;
+  }
+  .brand { display: flex; align-self: center; }
+  .site-nav {
+    position: static;
+    z-index: auto;
+    grid-area: nav;
+    display: flex;
+    gap: 2px;
+    min-height: 68px;
+    align-items: center;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--role-sky-ink-soft);
+  }
+  .nav-link { position: relative; flex-direction: row; align-items: center; min-height: 44px; padding: 0 12px; border-radius: var(--radius-pill); font-size: 1rem; line-height: 1.2; }
+  .nav-icon { display: none; }
+  .nav-link[aria-current='page'] { color: var(--role-sky-ink); }
+  .nav-link[aria-current='page']::after { content: ''; position: absolute; left: 12px; right: 12px; bottom: -12px; height: 3px; border-radius: 2px; background: var(--role-sky-hand); }
+  .site-head .nav-link:focus-visible { outline-color: var(--role-sky-ink); }
+  @media (hover: hover) {
+    .nav-link:not([aria-current='page']):hover { background: var(--role-sky-wash); color: var(--role-sky-ink); }
+  }
+  .page-title { flex-direction: row; flex-wrap: wrap; justify-content: flex-start; align-items: baseline; column-gap: 16px; min-height: 0; padding: 4px 0 2px; }
+  .page-name { font-size: 2.5rem; line-height: 1.1; }
+  .page-sub { font-size: 1rem; }
+  .band { height: 18px; }
+
+  .site-head--home {
+    --h5: 16px;
+    --h4: 36px;
+    --h3: 62px;
+    --h2: 98px;
+    --sun-size: 400px;
+    --sun-right: -60px;
+    --sun-bottom: -228px;
+    --sun-loop: 5px;
+    --moon-size: 72px;
+    --moon-right: 12%;
+    --moon-top: calc(84px + env(safe-area-inset-top));
+    --moon-bottom: auto;
+    --moon-loop: 2.75px;
+  }
+  .site-head--home .site-head-inner { grid-template-areas: 'brand nav toggle' 'hello hello hello'; }
+  .hello { padding: 18px 0 40px; }
+  .hello-title { font-size: 4rem; line-height: 1; }
+  .hello-title br { display: none; }
+  .hello-date { margin-top: 8px; font-size: 1.0625rem; line-height: 1.4; }
+  .hello-year { display: inline; }
+  .band--home { height: 44px; }
+
+  /* The home's next activity with its two actions and what else comes, then the doors. */
+  .next-card { padding: 22px 26px 20px; }
+  .next-head { min-height: 0; }
+  .next-when { gap: 4px 16px; font-size: 0.9375rem; line-height: 1.45; color: var(--role-ink-soft); }
+  .next-when .circled { font-size: 1.4375rem; line-height: 1.2; color: var(--role-ink); }
+  .next-time { display: inline; }
+  .next-head .share-button { display: none; }
+  .next-title { margin-top: 12px; font: 700 1.875rem/1.2 var(--font-ui); letter-spacing: -0.022em; text-wrap: balance; }
+  .next-facts { flex-direction: column; gap: 6px; margin-top: 12px; }
+  .next-facts .meta { align-items: flex-start; font-size: 0.9375rem; line-height: 1.45; }
+  .next-facts .meta .icon { width: 18px; height: 18px; margin-top: 2px; }
+  .next-facts .meta .dot { margin: 7px 5px 0; }
+  .next-facts .meta-time { display: none; }
+  .next-org-full { display: inline; }
+  .next-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+  .later { display: block; margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--role-line); }
+  .later-title { font: 700 1.0625rem/1.3 var(--font-display); letter-spacing: -0.01em; }
+  .later-list { margin: 4px 0 0; padding: 0; list-style: none; }
+  .later-item { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr) auto; align-items: baseline; gap: 12px; padding: 8px 0; font-size: 0.9375rem; }
+  .later-item + .later-item { border-top: 1px solid var(--role-line); }
+  .later-item time { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .later-org { font-size: 0.875rem; color: var(--role-ink-soft); }
+  .more { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; margin-top: 2px; color: var(--role-accent-text); font-weight: 600; text-decoration: none; }
+  .more .icon { width: 18px; height: 18px; }
+  @media (hover: hover) { .more:hover { text-decoration: underline; } }
+
+  .doors { gap: 16px; }
+  .door { gap: 6px; padding: 20px 22px 14px; }
+  .door-head .icon { width: 22px; height: 22px; }
+  .door-name { font-size: 1.1875rem; }
+  .door-line { margin-top: 4px; font-size: 1.125rem; line-height: 1.4; letter-spacing: -0.012em; }
+  .door-text { font-size: 0.9375rem; line-height: 1.45; }
+  .door-more { display: inline-flex; align-items: center; gap: 4px; min-height: 32px; margin-top: 4px; color: var(--door-text); font-weight: 600; }
+  .door-more .icon { width: 18px; height: 18px; }
+
+  /* Comércio: each business is a row from here, the contacts in their own column. */
+  .biz { grid-template-columns: minmax(0, 1fr) minmax(15rem, 19rem); column-gap: 20px; padding: 16px 16px 12px 20px; }
+  .biz-category { grid-column: 1; }
+  .biz-main { grid-column: 1; grid-row: 2; }
   .biz-share {
-    grid-column: 2;
-    grid-row: 2;
+    grid-column: 1;
+    grid-row: 3;
     justify-self: start;
     display: inline-flex;
     align-items: center;
     gap: 8px;
     width: auto;
     height: 40px;
-    margin: 4px 0 0 -6px;
-    padding: 0 8px 0 6px;
+    margin: 6px 0 0 -8px;
+    padding: 0 10px 0 8px;
+    border-radius: var(--radius-pill);
     font-size: 0.9375rem;
     font-weight: 600;
-    text-decoration: none;
   }
   .biz-share .icon { width: 18px; height: 18px; }
   .biz-share-text { display: inline; }
-  .biz-contacts { grid-column: 3; grid-row: 1 / span 2; margin: -8px 0 0; }
-  .contact { grid-template-columns: 4.75rem minmax(0, 1fr); column-gap: 8px; min-height: 40px; }
+  .biz-contacts { grid-column: 2; grid-row: 1 / span 3; margin: 0; border-top: 0; }
+  .contact { grid-template-columns: 5.25rem minmax(0, 1fr); min-height: 40px; }
   .contact-value { min-height: 40px; }
   .contact-call { width: 40px; height: 40px; }
 }
 
-@media (min-width: 1100px) {
-  .biz-tools { grid-template-areas: 'search count' 'chips chips'; grid-template-columns: minmax(0, 25rem) minmax(0, 1fr); align-items: center; column-gap: 16px; padding: 0; }
-  .search { margin: 0; }
-  .biz-count, .biz-tools:has(.filters[hidden]) .biz-count { padding: 0; }
-  .biz-tools .filters { display: block; padding: 12px 0 16px; }
-  .biz-tools .filters[hidden] { display: none; }
-  .biz-tools:has(.filters[hidden]) { padding-bottom: 16px; }
-  .biz-tools[hidden] + .letters { padding-top: 0; }
-
-  .side { position: sticky; top: 24px; padding: 0; }
-  .side-sheet { border-radius: 2px 2px var(--radius-lg) var(--radius-lg); }
-  .side-body { padding: 4px 24px 24px; }
-  .join { margin: 20px -24px 0; padding: 20px 24px 0; }
-}
-
-/* ---------- Início: one sentence and two doors ---------- */
-/* Each door is a sheet of the page it opens (today's day sheet, the phone book's letter sheet); its
-   button's link covers the whole sheet. */
-
-.home { max-width: 1280px; margin: 0 auto; padding: 18px calc(16px + env(safe-area-inset-right)) 48px calc(16px + env(safe-area-inset-left)); }
-.home-intro { margin: 0 4px 14px; font-size: 1.0625rem; font-weight: 600; line-height: 1.35; text-wrap: pretty; }
-.doors { display: flex; flex-direction: column; gap: 12px; }
-.door { display: flex; flex-direction: column; }
-/* Today's head is printed by js/home.js: the room is kept so nothing jumps. */
-.door-head { min-height: 4.25rem; }
-.door .sheet-num.door-az { width: auto; min-width: 4rem; }
-.door-body { display: flex; flex: 1; flex-direction: column; align-items: flex-start; gap: 8px; padding: 14px 16px 16px; border-top: 1px solid var(--role-line); }
-.door-title { margin: 0; font: 800 2rem/1 var(--font-display); }
-.door-text { margin: 0; font-size: 0.9375rem; line-height: 1.4; color: var(--role-ink-soft); }
-.door-list { align-self: stretch; margin: 6px 0 2px; padding: 0; list-style: none; }
-.door-go { align-self: stretch; margin-top: 8px; }
-.door-go::after { content: ''; position: absolute; inset: 0; }
-@media (hover: hover) {
-  .door:hover .door-go { background: var(--role-accent-hover); }
-}
-
-/* The next activities: the first on phones, three on the desk. */
-.door-item { display: flex; flex-direction: column; gap: 6px; padding: 12px 0 2px; border-top: 1px dashed var(--role-line); }
-.door-item:nth-child(n+2) { display: none; }
-.door-when { display: flex; align-items: center; gap: 10px; }
-.door-date { font: 700 1.0625rem/1.1 var(--font-display); letter-spacing: 0.03em; text-transform: uppercase; }
-.door-date.is-red { color: var(--role-red-letter); }
-.door-time { font: 600 0.9375rem/1.1 var(--font-display); color: var(--role-ink-soft); }
-.door-what { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-.door-item-title { font-size: 1.0625rem; font-weight: 600; line-height: 1.3; }
-.door-org { display: flex; align-items: center; gap: 8px; font-size: 0.9375rem; font-weight: 600; }
-
-/* A few businesses: name, dot leaders, category (and the offer on the desk); three on phones, four on the desk. */
-.door-biz { display: grid; grid-template-columns: minmax(0, max-content) minmax(1rem, 1fr) max-content; align-items: baseline; column-gap: 8px; padding: 8px 0; border-top: 1px dashed var(--role-line); }
-.door-biz:nth-child(n+4) { display: none; }
-.door-biz-name { overflow: hidden; font: 800 1.0625rem/1.25 var(--font-display); letter-spacing: 0.01em; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
-.door-dots { align-self: center; height: 4px; background: radial-gradient(circle, var(--role-ink-faded) 1.25px, transparent 1.5px) 0 50% / 6px 4px repeat-x; }
-.door-biz-category { grid-column: 3; font: 600 0.9375rem/1.25 var(--font-display); color: var(--role-ink-soft); white-space: nowrap; }
-.door-biz-offer { display: none; }
-
-@media (min-width: 600px) {
-  .home { padding-left: calc(24px + env(safe-area-inset-left)); padding-right: calc(24px + env(safe-area-inset-right)); }
-}
-
-@media (min-width: 760px) {
-  .doors { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: stretch; }
-  .door-go { align-self: flex-start; margin-top: auto; }
-  .door-list { margin-bottom: 14px; }
-}
+/* ---------- Desktop: the list or the month on the left, the panel always open on the right ---------- */
+/* From 1100px (js/app.js `desktop`): below it the left column would be too narrow for the chips and
+   the month, so tablets keep the phone layout with the bottom sheet. */
 
 @media (min-width: 1100px) {
-  .home { max-width: 1344px; padding: 36px calc(32px + env(safe-area-inset-right)) 64px calc(32px + env(safe-area-inset-left)); }
-  .home-intro { max-width: 47.5rem; margin: 0 0 24px; font-size: 1.375rem; line-height: 1.3; }
-  .doors { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: stretch; }
-  .door { border-radius: 2px 2px var(--radius-lg) var(--radius-lg); }
-  .door-head { min-height: 5.25rem; }
-  .door-body { gap: 10px; padding: 18px 24px 24px; }
-  .door-title { font-size: 2.5rem; }
-  .door-text { max-width: 30rem; font-size: 1rem; line-height: 1.45; }
-  .door-list { margin: 6px 0 14px; }
-  .door-go { align-self: flex-start; margin-top: auto; }
-  .door-item, .door-item:nth-child(n+2) { display: grid; grid-template-columns: 6rem minmax(0, 1fr); column-gap: 16px; padding: 12px 0; }
-  .door-when { flex-direction: column; align-items: flex-start; gap: 4px; }
-  .door-biz, .door-biz:nth-child(n+4) { display: grid; row-gap: 2px; padding: 12px 0; }
-  .door-biz-name { font-size: 1.1875rem; }
-  .door-biz-offer { display: block; grid-column: 1 / -1; overflow: hidden; font-size: 0.9375rem; color: var(--role-ink-soft); text-overflow: ellipsis; white-space: nowrap; }
-}
-
-/* ---------- Wider phones and tablets ---------- */
-
-@media (min-width: 600px) {
-  .masthead-inner, .filters, .view { padding-left: 24px; padding-right: 24px; }
-  .notice, .view-tabs { margin-left: 24px; margin-right: 24px; }
-  .bench { left: 50%; right: auto; width: min(560px, 100%); translate: -50% 0; }
-  .day { min-height: 64px; }
-}
-
-/* ---------- Desktop: the pad on the left, the panel always open on the right ---------- */
-/* From 1100px (js/app.js `desktop`): below it the left column would be too narrow for the chips
-   and the month, so tablets keep the phone layout with the bottom sheet. */
-
-@media (min-width: 1100px) {
-  .masthead-inner {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 24px;
-    max-width: 1344px;
-    padding: max(6px, env(safe-area-inset-top)) 32px 0;
-  }
-  .brand, .masthead.has-tabs .brand { padding: 6px 0 14px; }
-  .brand-city { font-size: 1.625rem; }
-  .site-tab { min-height: 48px; padding: 0 20px; }
-  .brand-name { font-size: 0.9375rem; }
-
+  .site-head-inner { padding-left: 32px; padding-right: 26px; }
   .shell {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 380px;
     gap: 32px;
     align-items: start;
-    max-width: 1344px;
-    padding: 28px calc(32px + env(safe-area-inset-right)) 64px calc(32px + env(safe-area-inset-left));
+    padding: 28px calc(32px + env(safe-area-inset-right)) 0 calc(32px + env(safe-area-inset-left));
   }
+  .home { padding: 0 calc(32px + env(safe-area-inset-right)) 0 calc(32px + env(safe-area-inset-left)); }
+  .site-foot { padding: 36px calc(32px + env(safe-area-inset-right)) 36px calc(32px + env(safe-area-inset-left)); }
+
+  .notice { margin: 0 0 16px; }
+  .view-tabs { margin: 0; }
   /* The chips wrap beside the organization select, not under it. */
   .filters {
     display: grid;
@@ -1047,22 +1299,14 @@ code { font-size: 0.9em; background: var(--role-wash); padding: 1px 5px; border-
     align-items: start;
     column-gap: 8px;
     overflow: visible;
-    padding: 0 0 16px;
+    padding: 12px 0 4px;
     -webkit-mask-image: none;
     mask-image: none;
   }
   .filters-divider { margin-top: 10px; }
-  .chips { flex-wrap: wrap; }
-  .notice { margin: 0 0 16px; }
-  .view-tabs { margin: 0 0 16px; }
-  .view-tabs [role=tab] { flex: none; min-width: 132px; }
+  .chips { flex-wrap: wrap; column-gap: 8px; row-gap: 0; }
   .view { padding: 0; }
-
-  .sheet-num { width: 4.5rem; font-size: 4rem; }
-  .sheet-head { padding: 6px 16px 14px 20px; gap: 16px; }
-  .sheet-empty { padding-left: calc(36px + 4.5rem); }
-  .line { padding: 16px 10px 16px 20px; gap: 16px; }
-  .line-time { width: 4.5rem; }
+  .event-card { padding: 16px 18px 17px 20px; }
 
   .sheet-backdrop { display: none; }
   .bench {
@@ -1073,73 +1317,88 @@ code { font-size: 0.9em; background: var(--role-wash); padding: 1px 5px; border-
     bottom: auto;
     z-index: auto;
     width: auto;
-    translate: none;
-    max-height: calc(100vh - 128px);
+    max-height: calc(100vh - 48px);
     overflow: hidden;
-    border: 1px solid var(--role-line);
-    border-top: 0;
-    border-radius: 2px 2px var(--radius-lg) var(--radius-lg);
-    box-shadow: none;
+    border-bottom: 1px solid var(--role-card-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--role-card-shadow);
+    translate: none;
     transform: none;
     visibility: visible;
     transition: none;
   }
-  .bench-empty {
-    display: flex;
-    align-items: center;
-    min-height: 240px;
-    padding: 24px;
-    color: var(--role-ink-soft);
-  }
-  .bench-empty p { margin: 0; }
+  .bench-empty { display: flex; align-items: center; min-height: 240px; padding: 24px; color: var(--role-ink-soft); }
   .grabber, .bench-close { display: none; }
-  /* On the desk the panel is a sheet too: binding strip and perforation on top. */
-  .bench-body::before {
-    content: '';
-    display: block;
-    flex: none;
-    height: 13px;
-    background:
-      linear-gradient(var(--role-binding), var(--role-binding)) top / 100% 4px no-repeat,
-      radial-gradient(circle, var(--role-line) 1.5px, transparent 1.75px) 12px 8px / 10px 3px repeat-x;
-  }
-  .bench-head { padding: 6px 20px 12px; }
+  .bench-head { padding: 18px 20px 14px; }
   .bench-scroll { padding: 16px 20px 20px; }
   .seg-bar { margin: 0 -20px; padding: 16px 20px 14px; }
-  .fact { min-height: 28px; padding: 2px 0; }
+  .fact { min-height: 30px; padding: 2px 0; }
   /* On the desk, flyer mode keeps who organizes the activity (its short name) above the tabs. */
   .bench[data-panel='flyer'] .facts { display: flex; }
   .bench[data-panel='flyer'] .fact:not(.is-org), .bench[data-panel='flyer'] .fact-org-full { display: none; }
-  .flyer-frame { width: min(100%, calc((100vh - 616px) * 0.8)); }
+  .flyer-frame { width: min(100%, calc((100vh - 600px) * 0.8)); }
   .bench-actions { padding: 14px 20px; }
+
+  /* Comércio: the information card takes the panel's place. */
+  .biz-tools { grid-template-areas: 'search count' 'chips chips'; grid-template-columns: minmax(0, 25rem) minmax(0, 1fr); align-items: center; column-gap: 16px; padding: 0; }
+  .search { margin: 0; }
+  .biz-count, .biz-tools:has(.filters[hidden]) .biz-count { padding: 0; }
+  .biz-tools .filters { display: block; padding: 12px 0 4px; }
+  .biz-tools .filters[hidden] { display: none; }
+  .soon { margin-top: 0; padding: 36px 36px 38px; }
+  .soon-title { font-size: 2.75rem; }
+  .soon-text { font-size: 1.1875rem; }
+  .side { position: sticky; top: 24px; padding: 0; }
+  .side-card { padding: 24px 24px 26px; }
+  .join { margin: 20px -24px 0; padding: 20px 24px 0; }
+
+  /* Início: the next activity at left, the doors stacked at right. Calm: a few things and the links. */
+  .site-head--home {
+    --h5: 18px;
+    --h4: 40px;
+    --h3: 66px;
+    --h2: 100px;
+    --sun-size: 490px;
+    --sun-right: 7px;
+    --sun-bottom: -275px;
+    --sun-loop: 6px;
+    --moon-size: 92px;
+    --moon-right: 190px;
+    --moon-top: calc(96px + env(safe-area-inset-top));
+    --moon-loop: 3px;
+  }
+  .hello { padding: 26px 0 70px; }
+  .hello-title { font-size: 4.75rem; line-height: 1.05; }
+  .home-grid { display: grid; grid-template-columns: minmax(0, 1fr) 380px; align-items: start; gap: 24px 32px; }
+  .next-card { padding: 24px 28px 20px; }
+  .doors { grid-template-columns: minmax(0, 1fr); gap: 20px; }
 }
 
 @media (min-width: 1280px) {
   .shell { grid-template-columns: minmax(0, 1fr) 420px; }
 
-  /* The month page grows into a wall calendar with the titles written in. */
-  .month-head { grid-template-columns: 44px 12.5rem 44px 1fr; }
-  .month-title { font-size: 2rem; }
+  /* The month grows into a wall calendar with the titles written in. */
+  .month-head { grid-template-columns: 44px minmax(12.5rem, max-content) 44px 1fr; margin-top: 18px; }
+  .month-title { font-size: 1.75rem; }
   .month-today { grid-column: auto; justify-self: end; margin: 0; }
-  .month-weekdays { padding: 4px 0 10px; }
-  .month-weekday { padding: 0 10px; text-align: left; font-size: 0.875rem; }
+  .month-weekdays { padding: 12px 0 10px; }
+  .month-weekday { padding: 0 10px; text-align: left; }
   .day {
     align-items: stretch;
     /* Tall enough for the week's bars plus a few one-day entries. */
     min-height: max(7.625rem, calc(20px + 3.125rem + var(--week-lanes, 0) * (1.25rem + 2px)));
-    padding: 6px 0 8px;
     gap: 6px;
+    padding: 6px 0 8px;
   }
   .day + .day { border-left: 1px solid var(--role-line); }
-  .day.is-selected { box-shadow: inset 0 0 0 2px var(--role-strong); }
+  .day.is-selected { box-shadow: inset 0 0 0 2px var(--role-ink); }
   .day.is-selected:focus-visible { outline-offset: -6px; }
   .day.is-selected .day-num { background: none; color: inherit; }
-  .day.is-selected.is-red .day-num { color: var(--role-red-letter); }
-  .day.is-today .day-num { box-shadow: inset 0 0 0 2px var(--role-strong); border-radius: var(--radius-pill); }
-  .day-top { flex-direction: row; flex-wrap: wrap; align-items: center; align-content: flex-start; gap: 2px 6px; min-height: 1.75rem; padding: 0 6px; }
-  .day-num { min-width: 1.75rem; }
-  /* A holiday's name on its own line under the numeral, two lines at most. Its whole week makes
-     room for the two lines, so the bars stay level across the days (js/month.js: has-holiday). */
+  .day.is-selected.is-past .day-num { color: var(--role-ink-soft); }
+  .day-top { flex-direction: row; flex-wrap: wrap; align-content: flex-start; align-items: center; gap: 2px 6px; min-height: 2rem; padding: 0 6px; }
+  .day-num { min-width: 2rem; }
+  /* A holiday's name on its own line under the numeral, two lines at most. Its whole week makes room
+     for the two lines, so the bars stay level across the days (js/month.js: has-holiday). */
   .day-holiday {
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -1151,102 +1410,100 @@ code { font-size: 0.9em; background: var(--role-wash); padding: 1px 5px; border-
     font-weight: 600;
     line-height: 1.15;
     text-align: left;
-    color: var(--role-red-letter);
+    color: var(--role-ink-soft);
   }
-  .week.has-holiday .day-top { min-height: calc(3.475rem + 2px); }
-  .week.has-holiday .day { min-height: max(calc(9.35rem + 2px), calc(22px + 4.85rem + var(--week-lanes, 0) * (1.25rem + 2px))); }
+  .week.has-holiday .day-top { min-height: calc(3.725rem + 2px); }
+  .week.has-holiday .day { min-height: max(calc(9.6rem + 2px), calc(22px + 5.1rem + var(--week-lanes, 0) * (1.25rem + 2px))); }
   /* One-day entries start under the bars that cross that day (and only those). */
   .day-items { flex-direction: column; flex-wrap: nowrap; align-items: stretch; gap: 2px; margin-top: calc(var(--lanes, 0) * (1.25rem + 2px)); padding: 0; }
   .cell-item { display: flex; align-items: center; gap: 6px; min-width: 0; padding: 0 8px; font-size: 0.8125rem; line-height: 1.3; text-align: left; }
   .cell-item-text { display: block; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .cell-item-time { font-weight: 700; margin-right: 4px; }
+  .cell-item-time { margin-right: 4px; font-weight: 700; }
   .day.is-past .cell-item-text { color: var(--role-ink-soft); }
-  .cell-item.is-cancelled .cell-item-text { text-decoration: line-through; color: var(--role-ink-soft); }
+  .cell-item.is-cancelled .cell-item-text { color: var(--role-ink-soft); text-decoration: line-through; }
   .day-more { padding: 0 8px; font: 600 0.75rem/1.3 var(--font-ui); text-align: left; }
 
   /* Under the day's numeral: 6px padding + the numeral + 6px gap (a holiday's two lines too). */
-  .week-bars { inset: calc(12px + 1.75rem) 0 auto; row-gap: 2px; }
-  .week.has-holiday .week-bars { top: calc(14px + 3.475rem); }
+  .week-bars { inset: calc(12px + 2rem) 0 auto; row-gap: 2px; }
+  .week.has-holiday .week-bars { top: calc(14px + 3.725rem); }
+  /* The bars of the desk: the group's colour as a light tint, its dot, the title in ink. */
   .week-bar {
+    position: relative;
     grid-row: calc(var(--lane) + 1);
+    align-self: start;
     height: 1.25rem;
     margin: 0;
-    padding: 0 6px;
+    padding: 0 6px 0 18px;
     overflow: hidden;
-    color: var(--role-on-series);
+    background: color-mix(in srgb, var(--sector) 22%, var(--role-card));
+    color: var(--role-ink);
     font: 600 0.8125rem/1.25rem var(--font-ui);
-    align-self: start;
   }
-  .week-bar.is-start { margin-left: 6px; border-radius: 3px 0 0 3px; }
-  .week-bar.is-end { margin-right: 6px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; }
-  .week-bar.is-start.is-end { border-radius: 3px; }
+  .week-bar::before { content: ''; position: absolute; left: 7px; top: calc(50% - 3.5px); width: 7px; height: 7px; border-radius: 50%; background: var(--sector); }
+  .week-bar.is-start { margin-left: 6px; border-radius: 4px 0 0 4px; }
+  .week-bar.is-end { margin-right: 6px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; }
+  .week-bar.is-start.is-end { border-radius: 4px; }
   .week-bar-text { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .week-bar.is-cancelled { color: var(--role-ink-soft); text-decoration: line-through; }
+  .week-bar.is-cancelled { background: none; box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--sector) 50%, var(--role-card)); color: var(--role-ink-soft); text-decoration: line-through; }
 }
 
 /* Short desk screens (1366×768 and 1280×800 laptops): flyer mode also folds the organization and
-   the hint, so the preview keeps a useful size. 865px is where the rule above reaches 200px. */
-@media (min-width: 1100px) and (max-height: 865px) {
+   the hint, so the preview keeps a useful size. 850px is where the rule above reaches 200px. */
+@media (min-width: 1100px) and (max-height: 850px) {
   .bench[data-panel='flyer'] .facts, .bench[data-panel='flyer'] .hint { display: none; }
-  .flyer-frame { width: min(100%, calc((100vh - 530px) * 0.8)); min-width: min(180px, 100%); }
+  .flyer-frame { width: min(100%, calc((100vh - 520px) * 0.8)); min-width: min(180px, 100%); }
 }
 
 /* ---------- Very narrow screens (small phones, 200% zoom, or a large default text size) ---------- */
 /* In em, so a larger default font size in the browser brings this layout in sooner (359px at 16px). */
 
 @media (max-width: 22.4375em) {
-  .brand { gap: 8px; }
-  .brand .mark { font-size: 1rem; }
-  .brand-city { font-size: 1.25rem; }
-  .brand-name { font-size: 0.8125rem; }
-  .view-tabs [role=tab] .icon, .site-tab .icon { display: none; }
-  .site-tab { padding: 0 12px; }
-  .sheet-head { flex-wrap: wrap; row-gap: 6px; }
-  .biz { grid-template-columns: minmax(0, 1fr) 44px; }
-  .biz-category, .biz-main { grid-column: 1; }
-  .biz-main { grid-row: 2; }
-  .biz-share { grid-column: 2; }
-  .contact { grid-template-columns: minmax(0, 1fr); row-gap: 0; padding-top: 6px; }
-  .contact-value { min-height: 40px; }
-  /* The names drop under the numeral when they can't sit beside it (200% zoom). */
-  .sheet-names { flex: 1 0 auto; max-width: 100%; }
-  .sheet-weekday { font-size: 1.0625rem; }
-  .sheet-status { order: 3; flex: 1 1 100%; flex-wrap: wrap; margin-left: 0; }
-  .sheet-empty { padding-left: 16px; }
+  .site-head--home { --sun-size: 300px; --sun-right: -190px; --sun-bottom: -180px; --sun-loop: 4px; }
+  .site-head-inner { padding-left: 12px; }
+  .page-name { font-size: 1.625rem; }
+  .hello-title { font-size: 2.625rem; }
+  .brand-place { font-size: 1.25rem; }
+  .nav-icon { width: 48px; }
+  .view, .filters { padding-left: 12px; padding-right: 12px; }
+  .view-tabs, .notice { margin-left: 12px; margin-right: 12px; }
+  .home { padding-left: calc(12px + env(safe-area-inset-left)); padding-right: calc(12px + env(safe-area-inset-right)); }
+  .doors { grid-template-columns: minmax(0, 1fr); }
+  .view-tabs [role=tab] .icon, .seg [role=tab] .icon { display: none; }
   .seg [role=tab] { gap: 6px; padding: 0 4px; font-size: 0.9375rem; line-height: 1.15; }
-  .seg [role=tab] .icon { display: none; }
   /* The style's name keeps its room (16px, or iOS zooms on focus): the count gives way to the chevron. */
   .style-select select { padding: 0 36px 0 12px; }
   .style-count { right: 12px; gap: 0; font-size: 0; }
-  .line { flex-wrap: wrap; }
-  .line-time { width: 100%; flex-direction: row; align-items: baseline; gap: 10px; }
-  .line-go { display: none; }
-  .day-num { min-width: 0; padding: 0 1px; }
+  .event-card { padding-left: 14px; padding-right: 12px; }
+  .event-head .share-circle { display: none; }
+  .day-num { min-width: 0; padding: 0 2px; }
   .month-head { gap: 4px; }
-  .month-title { font-size: 1.375rem; }
+  .month-title { font-size: 1.25rem; }
+  .contact { grid-template-columns: minmax(0, 1fr); row-gap: 0; padding-top: 6px; }
+  .contact-value { min-height: 40px; }
 }
 
-/* Zoomed-in phones (200% on a 320–390px screen, or a very large default text size): the panel's
-   date stacks, and the send button drops its icon so its two lines fit (259px at 16px). */
+/* Zoomed-in phones (200% on a 320–390px screen, or a very large default text size): the send button
+   drops its icon so its two lines fit (259px at 16px). */
 @media (max-width: 16.1875em) {
   .bench-head { gap: 8px; padding-right: 4px; }
-  .bench-date-visual { flex-direction: column; align-items: flex-start; gap: 2px; }
-  .bench-num { min-width: 0; }
   .actions .btn { padding: 0 8px; font-size: 0.9375rem; }
   .actions .btn-accent .icon { display: none; }
+  .meta-time .circled { margin-left: 4px; margin-right: 8px; }
 }
 
 /* ---------- Forced colours (Windows high contrast) ---------- */
 
 @media (forced-colors: active) {
-  .sector-mark, .cell-mark, .week-bar, .badge.is-next { forced-color-adjust: none; }
-  .view-tabs [aria-selected=true], .seg [aria-selected=true] { border-bottom: 4px solid CanvasText; }
-  .line.is-selected, .day.is-selected { outline: 2px solid Highlight; outline-offset: -2px; }
-  .day.is-today .day-num { border: 2px solid CanvasText; }
-  .chip[aria-pressed=true] { border: 2px solid Highlight; }
-  .site-tab[aria-current=page] { border-bottom: 4px solid CanvasText; }
+  .site-head { background: Canvas; }
+  .band, .dot, .cell-mark, .week-bar::before, .astro { forced-color-adjust: none; }
+  .hand { stroke: Highlight; }
+  .view-tabs [aria-selected=true], .seg [aria-selected=true], .chip[aria-pressed=true], .org-pill.is-active .org-pill-face { outline: 2px solid Highlight; outline-offset: -2px; }
+  .event-card.is-selected, .day.is-selected, .day.is-selected .day-num { outline: 2px solid Highlight; outline-offset: -2px; }
+  .nav-link[aria-current='page'] { text-decoration: underline; text-underline-offset: 4px; }
+  .day.is-off .day-num { text-decoration: underline dotted; }
+  .week-bar { border: 1px solid CanvasText; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { transition-duration: 0s !important; scroll-behavior: auto !important; }
+  *, *::before, *::after { transition-duration: 0s !important; animation: none !important; scroll-behavior: auto !important; }
 }
