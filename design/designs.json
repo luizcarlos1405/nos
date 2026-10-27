@@ -4,6 +4,7 @@
       "title": "Marca e componentes",
       "designs": [
         { "file": "marca-nos.html", "title": "Marca NOS (provisória)", "width": 860, "height": 441 },
+        { "file": "marca-propostas.html", "title": "Marca · 5 propostas (escolhida: 01)", "width": 1480, "height": 2320 },
         { "file": "componentes.html", "title": "Componentes", "width": 860, "height": 1342 },
         { "file": "navegacao.html", "title": "Navegação", "width": 1520, "height": 746 }
       ]
