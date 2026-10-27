@@ -1,58 +1,65 @@
-// Flyers: 1080 × 1350 PNGs in a tear-off calendar look (the urucum header card, day sheets with
-// their binding strip and perforation, Barlow), kept from the site's previous world until the flyers
-// get their own redesign; the colours follow css/theme.css. Three layouts to pick from, plus the
-// cancellation notice that every cancelled activity gets. Each layout turns an activity into a
-// detached DOM node styled by css/flyers.css (.fl--<id>).
+// Flyers: 1080 × 1350 PNGs in the site's world, Céu · Terra. Each flyer is a landscape: the sky of
+// the hour the activity starts (js/sky.js's hours: amanhecer 5–9h, dia 9–16h, entardecer 16–19h,
+// noite 19–5h; the day's sky when there is no time) in flat bands down to the woven band, the
+// horizon, and the land below it (the clay; terra roxa under the night sky). The sky carries each
+// flyer's idea (the day, the month, the title, the cancellation) with the sun rising behind the band,
+// or the small moon among the stars, drawn round by the hand's urucum loop; the land carries the
+// activity (what it is, who organizes it, where) and NOS's signature. Three layouts to pick from,
+// plus the cancellation notice that every cancelled activity gets. Each layout turns an activity into
+// a detached DOM node styled by css/flyers.css (.fl--<id>, data-sky for the hour).
 //
-// Everything that depends on the text is planned here, without measuring the DOM: the glyph
-// widths of the self-hosted fonts (below) break each text into lines, each layout picks its sizes
-// from those lines, and the text is set in exactly those lines, one block per line that never
-// wraps, at whole-pixel sizes. So the preview and the exported PNG are always the same picture.
-// The fixed measures each layout plans with mirror css/flyers.css: change them together.
-// Uses the global `htmlToImage` (js/vendor/html-to-image.js) for the export.
+// Everything that depends on the text is planned here, without measuring the DOM: the glyph widths
+// of the self-hosted fonts (below) break each text into lines, each layout picks its sizes and places
+// its blocks from those lines, and every text is set in exactly those lines, one block per line that
+// never wraps, at whole-pixel sizes. So the preview and the exported PNG are always the same picture.
+// The fixed measures each layout plans with (line heights, gaps, a row's slot) mirror
+// css/flyers.css: change them together. Uses the global `htmlToImage` (js/vendor/html-to-image.js)
+// for the export.
 
-import { APP_FULL_NAME, APP_NAME, CITY } from './config.js';
-import { capitalize, dateKey, dayKeys, formatDayMonth, formatTimeRange, formatTinyDate, monthName, slugify, weekdayName } from './events.js';
+import { APP_NAME, CITY, SITE_URL } from './config.js';
+import { capitalize, dateKey, dayKeys, formatDayMonth, formatTime, monthName, orgFullName, slugify, weekdayName } from './events.js';
 import { holidayOn, isRedLetter } from './holidays.js';
 import { paintSector } from './colors.js';
-import { brandMark, icon } from './icons.js';
+import { HAND, brandMark, icon } from './icons.js';
+import { skyPeriod } from './sky.js';
 
 export const FLYER_WIDTH = 1080;
 export const FLYER_HEIGHT = 1350;
 
 const HOME = CITY.split('/')[0];
-const FOOTER_LINE = `Agenda das organizações de ${HOME}`;
-const NBSP = '\u00a0';
+const SITE = SITE_URL.replace(/^https?:\/\//, '').replace(/\/$/, '');
+const FOOTER_LINE = 'Agenda das organizações';
+const NBSP = ' ';
 
 // ---------- Text metrics ----------
 
-// Advance widths in thousandths of an em, measured from fonts/barlow*.woff2 with canvas at 1000px,
-// kerning off: the printable ASCII range (space to tilde), then the signs of EXTRA_SIGNS.
-// An accented letter counts as its base letter (as wide or a little wider). Kerning is left out:
-// it makes real titles up to 1% narrower (7% in contrived capitals like "AVATAR VOLTA"), so the
-// estimates run wide, the safe side; the 3% margin of FIT covers the rare pair that kerns wider.
+// Advance widths in thousandths of an em, measured in Chromium by .impeccable/flyer-metrics.html
+// from the self-hosted fonts as css/flyers.css sets them, at 1000px with kerning off: Bricolage
+// Grotesque (`display-*`, its optical size pinned at 96) and Inter (`text-*`), at the weights in
+// their names. The printable ASCII range (space to tilde), then the signs of EXTRA_SIGNS. An accented
+// letter counts as its base letter (as wide or a little wider). Kerning is left out: it makes real
+// text a little narrower, so the estimates run wide, the safe side; the 3% margin of FIT covers the
+// rare pair that kerns wider. After changing a font, a weight or the optical size, measure again.
 const ADVANCES = {
-  'barlow-500': [200, 328, 297, 669, 563, 839, 675, 145, 291, 291, 398, 495, 264, 400, 275, 426, 566, 352, 544, 524, 570, 523, 523, 481, 527, 525, 348, 312, 495, 495, 495, 482, 823, 630, 624, 607, 618, 598, 565, 613, 645, 260, 579, 616, 570, 715, 673, 622, 593, 582, 613, 588, 574, 641, 601, 878, 604, 585, 551, 393, 426, 393, 458, 498, 209, 517, 553, 526, 553, 536, 367, 543, 542, 255, 248, 512, 235, 826, 542, 555, 558, 558, 371, 487, 369, 538, 491, 743, 499, 476, 451, 329, 179, 329, 513],
-  'barlow-600': [200, 335, 325, 677, 567, 833, 688, 155, 316, 316, 398, 491, 265, 404, 273, 447, 568, 353, 551, 531, 585, 530, 529, 488, 533, 527, 355, 314, 491, 491, 491, 500, 821, 648, 622, 608, 618, 592, 563, 613, 637, 262, 581, 620, 571, 715, 669, 621, 595, 587, 613, 591, 579, 636, 610, 878, 616, 599, 554, 403, 447, 403, 465, 509, 219, 522, 559, 531, 559, 541, 376, 549, 544, 255, 251, 522, 239, 829, 544, 556, 563, 563, 376, 493, 374, 541, 504, 761, 516, 489, 455, 350, 190, 350, 522],
-  'barlow-700': [200, 344, 359, 687, 572, 825, 705, 168, 347, 347, 399, 486, 265, 409, 270, 473, 570, 354, 560, 540, 605, 539, 537, 496, 541, 531, 364, 316, 486, 486, 486, 521, 819, 671, 620, 608, 618, 584, 560, 612, 628, 263, 583, 626, 572, 715, 665, 621, 597, 593, 614, 595, 585, 629, 622, 877, 631, 617, 557, 416, 473, 416, 473, 523, 233, 528, 566, 537, 566, 546, 387, 556, 547, 255, 254, 533, 244, 835, 547, 557, 568, 568, 383, 502, 380, 545, 520, 783, 538, 504, 460, 376, 203, 376, 534],
-  'condensed-600': [200, 269, 306, 606, 434, 772, 581, 152, 279, 279, 361, 439, 199, 325, 211, 386, 450, 274, 425, 426, 459, 428, 429, 392, 434, 423, 252, 218, 439, 439, 439, 413, 759, 456, 462, 457, 472, 435, 415, 462, 477, 224, 443, 477, 415, 538, 507, 467, 457, 455, 461, 434, 452, 478, 471, 665, 460, 456, 406, 330, 386, 330, 413, 405, 206, 434, 437, 422, 437, 426, 291, 431, 439, 215, 211, 433, 199, 665, 439, 432, 441, 441, 313, 398, 282, 438, 415, 592, 417, 403, 368, 319, 171, 319, 480],
-  'condensed-700': [200, 279, 346, 616, 444, 766, 603, 170, 311, 311, 361, 438, 211, 331, 223, 415, 453, 284, 438, 436, 484, 439, 440, 407, 440, 435, 275, 232, 438, 438, 438, 437, 759, 482, 470, 464, 476, 438, 421, 467, 480, 230, 452, 491, 426, 548, 514, 473, 465, 461, 471, 444, 468, 479, 488, 689, 475, 474, 412, 345, 415, 345, 422, 421, 220, 446, 445, 434, 445, 436, 298, 441, 447, 219, 217, 449, 209, 675, 447, 442, 448, 448, 324, 412, 291, 447, 436, 613, 439, 423, 373, 344, 186, 344, 490],
-  'condensed-800': [200, 289, 385, 626, 454, 761, 624, 188, 343, 343, 362, 437, 223, 337, 235, 444, 456, 294, 451, 446, 508, 450, 451, 422, 446, 446, 298, 246, 437, 437, 437, 462, 760, 508, 477, 470, 480, 441, 427, 473, 483, 235, 462, 505, 437, 558, 522, 479, 474, 467, 481, 454, 485, 480, 506, 707, 490, 492, 419, 360, 444, 360, 432, 437, 234, 457, 453, 445, 453, 446, 305, 451, 455, 223, 223, 465, 219, 685, 455, 452, 456, 456, 336, 426, 299, 455, 456, 635, 462, 442, 377, 370, 201, 370, 500],
+  'display-800': [203, 268, 340, 613, 575, 948, 697, 174, 303, 303, 457, 486, 193, 313, 246, 349, 594, 310, 551, 565, 607, 565, 592, 498, 608, 603, 250, 235, 486, 486, 486, 396, 936, 659, 608, 631, 621, 540, 510, 649, 637, 243, 323, 623, 460, 822, 694, 661, 586, 659, 615, 585, 516, 627, 632, 915, 623, 595, 550, 295, 349, 295, 530, 527, 283, 543, 576, 539, 576, 537, 376, 549, 562, 234, 244, 541, 234, 860, 562, 567, 574, 574, 400, 517, 368, 557, 530, 799, 543, 539, 483, 321, 218, 321, 486],
+  'display-700': [206, 252, 318, 603, 571, 936, 690, 165, 291, 292, 435, 486, 179, 309, 223, 342, 594, 294, 545, 562, 595, 560, 592, 489, 605, 599, 227, 216, 486, 486, 486, 397, 916, 646, 601, 629, 618, 537, 509, 648, 633, 231, 317, 613, 457, 809, 684, 660, 579, 658, 607, 581, 512, 625, 623, 909, 608, 582, 545, 289, 342, 289, 525, 547, 283, 533, 568, 534, 568, 533, 364, 548, 553, 222, 230, 529, 222, 850, 553, 564, 566, 566, 386, 510, 358, 548, 525, 791, 529, 533, 473, 322, 210, 324, 486],
+  'text-700': [237, 338, 552, 649, 655, 1016, 672, 339, 377, 377, 559, 679, 334, 468, 334, 388, 674, 431, 630, 646, 676, 622, 649, 582, 651, 649, 334, 343, 679, 679, 679, 560, 1016, 747, 662, 740, 722, 607, 587, 751, 747, 281, 584, 719, 565, 932, 762, 771, 648, 777, 657, 655, 667, 732, 747, 1038, 738, 731, 664, 377, 388, 377, 487, 476, 365, 581, 630, 588, 630, 596, 398, 632, 623, 271, 271, 580, 271, 913, 623, 613, 630, 630, 407, 560, 366, 623, 600, 850, 580, 602, 573, 469, 372, 469, 679],
+  'text-600': [252, 321, 523, 644, 650, 1004, 663, 326, 373, 373, 540, 673, 319, 465, 319, 379, 660, 423, 623, 636, 666, 612, 640, 576, 640, 640, 319, 329, 673, 673, 673, 543, 999, 728, 659, 737, 722, 605, 588, 749, 746, 277, 580, 703, 565, 922, 759, 769, 645, 773, 652, 650, 660, 736, 728, 1020, 720, 713, 652, 373, 379, 373, 481, 469, 351, 574, 624, 583, 624, 591, 389, 626, 612, 262, 262, 569, 262, 900, 612, 609, 624, 624, 397, 549, 353, 612, 587, 839, 569, 588, 566, 455, 359, 455, 673],
+  'text-500': [267, 304, 494, 639, 646, 993, 653, 313, 369, 369, 521, 667, 303, 462, 303, 370, 646, 415, 616, 627, 656, 603, 630, 571, 629, 630, 303, 315, 667, 667, 667, 527, 982, 709, 657, 733, 722, 603, 589, 748, 745, 272, 575, 688, 565, 913, 756, 767, 642, 769, 648, 646, 653, 740, 709, 1003, 701, 696, 641, 369, 370, 369, 477, 463, 337, 568, 618, 577, 618, 587, 379, 620, 602, 252, 252, 559, 252, 888, 602, 604, 618, 618, 387, 539, 340, 602, 575, 829, 557, 575, 559, 440, 346, 440, 667],
 };
-const EXTRA_SIGNS = 'ªº–—…“”‘’·•°«»×÷±²³¹½¼¾§©®™€£¢¥¿¡µ¶″‹›¨´¸¯¬¦\u00a0\u202f\u2009\u200a\u2007';
+const EXTRA_SIGNS = 'ªº–—…“”‘’·•°«»×÷±²³¹½¼¾§©®™€£¢¥¿¡µ¶″‹›¨´¸¯¬¦     ';
 const EXTRA_ADVANCES = {
-  'barlow-500': [326, 358, 460, 676, 815, 301, 301, 163, 163, 219, 311, 379, 529, 529, 430, 495, 495, 332, 323, 188, 798, 813, 907, 468, 850, 449, 662, 635, 609, 526, 687, 482, 328, 548, 594, 352, 353, 383, 360, 209, 151, 278, 495, 179, 200, 100, 200, 63, 566],
-  'barlow-600': [327, 358, 467, 668, 831, 329, 329, 181, 181, 226, 314, 378, 520, 520, 437, 491, 491, 337, 323, 190, 800, 819, 911, 479, 835, 447, 665, 635, 610, 531, 687, 500, 335, 549, 608, 373, 345, 368, 375, 219, 159, 285, 491, 190, 200, 100, 200, 63, 568],
-  'barlow-700': [330, 356, 476, 659, 851, 363, 363, 204, 204, 235, 317, 376, 509, 509, 446, 486, 486, 343, 324, 194, 802, 826, 916, 494, 817, 445, 670, 634, 613, 537, 686, 521, 344, 551, 625, 401, 335, 347, 394, 233, 169, 294, 486, 203, 200, 100, 200, 63, 570],
-  'condensed-600': [286, 290, 377, 593, 679, 316, 316, 165, 165, 215, 302, 359, 463, 463, 389, 439, 439, 258, 275, 153, 682, 697, 771, 419, 807, 435, 532, 495, 512, 422, 528, 413, 269, 443, 498, 349, 298, 311, 346, 206, 140, 391, 439, 171, 200, 100, 200, 63, 450],
-  'condensed-700': [292, 295, 380, 593, 709, 352, 352, 188, 188, 225, 306, 359, 459, 459, 399, 438, 438, 266, 282, 157, 691, 716, 793, 437, 791, 434, 542, 500, 517, 434, 531, 437, 279, 450, 514, 380, 292, 300, 369, 220, 151, 335, 438, 186, 200, 100, 200, 63, 453],
-  'condensed-800': [298, 301, 383, 593, 739, 389, 389, 211, 211, 235, 310, 359, 454, 454, 409, 437, 437, 273, 289, 161, 701, 735, 815, 454, 776, 433, 552, 505, 522, 445, 534, 462, 289, 458, 530, 410, 285, 290, 391, 234, 162, 280, 437, 201, 200, 100, 200, 63, 456],
+  'display-800': [350, 408, 500, 775, 757, 382, 382, 193, 193, 246, 349, 342, 466, 466, 486, 486, 486, 408, 400, 244, 851, 844, 980, 518, 914, 673, 944, 680, 687, 539, 583, 386, 268, 542, 649, 349, 269, 269, 434, 283, 318, 332, 486, 218, 203, 102, 100, 63, 594],
+  'display-700': [343, 395, 491, 762, 710, 351, 351, 179, 179, 223, 316, 336, 442, 442, 486, 486, 486, 396, 391, 233, 815, 804, 944, 512, 896, 658, 926, 677, 686, 534, 570, 388, 252, 536, 629, 327, 254, 254, 407, 283, 306, 324, 486, 210, 206, 103, 102, 63, 594],
+  'text-700': [464, 490, 500, 1000, 1002, 540, 532, 311, 311, 334, 474, 459, 660, 660, 679, 679, 679, 460, 472, 333, 881, 846, 920, 568, 914, 662, 640, 685, 639, 588, 570, 560, 338, 628, 599, 547, 431, 431, 623, 365, 364, 439, 679, 339, 237, 118, 157, 63, 674],
+  'text-600': [460, 487, 500, 1000, 956, 507, 501, 294, 294, 319, 503, 458, 634, 634, 673, 673, 673, 454, 463, 324, 870, 831, 907, 568, 914, 664, 630, 679, 629, 583, 563, 543, 321, 614, 600, 512, 416, 416, 612, 351, 332, 452, 673, 316, 252, 126, 166, 63, 660],
+  'text-500': [457, 485, 500, 1000, 910, 474, 471, 277, 277, 303, 533, 457, 608, 608, 667, 667, 667, 448, 455, 314, 858, 817, 895, 568, 914, 665, 621, 672, 620, 577, 557, 527, 304, 600, 601, 478, 400, 400, 602, 337, 300, 465, 667, 293, 267, 133, 173, 63, 646],
 };
 const EXTRA_INDEX = new Map([...EXTRA_SIGNS].map((sign, i) => [sign, i]));
 // Drawn with no width of their own: combining accents (over their letter), zero-width spaces and
 // joiners, the soft hyphen, variation selectors, the keycap mark and the skin tones and tags
 // inside an emoji.
-const ZERO_WIDTH = /[\u0300-\u036f\u00ad\u200b-\u200f\u2060\u20e3\ufe00-\ufe0f\u{1f3fb}-\u{1f3ff}\u{e0020}-\u{e007f}]/u;
+const ZERO_WIDTH = /[̀-ͯ­​-‏⁠⃣︀-️\u{1f3fb}-\u{1f3ff}\u{e0020}-\u{e007f}]/u;
 const PICTOGRAPH = /\p{Extended_Pictographic}/u;
 const FLAG_HALF = /\p{Regional_Indicator}/u;
 // Colour emoji are 1.25em wide (Noto Color Emoji, measured): counted a little wider. Any other
@@ -60,13 +67,27 @@ const FLAG_HALF = /\p{Regional_Indicator}/u;
 const EMOJI = 1300;
 const UNKNOWN = 1000;
 
+// Where the glyphs sit in a line box, in em, measured with the advances: a line box `lh` em tall has
+// its baseline lh / 2 + `base` below its top (the font's ascent and descent, centred in the box);
+// figures and capitals rise `cap` above the baseline, accented letters up to `accent`, and
+// descenders fall `descent` below it.
+const DISPLAY = { base: 0.33, cap: 0.688, accent: 0.75, descent: 0.2 };
+
 // Lines are filled up to this share of their box, a margin for rounding in the browser.
 const FIT = 0.97;
 
-const TITLE_FONT = { face: 'barlow-700', track: -0.013 };
-const ORG_FONT = { face: 'barlow-600' };
-const PLACE_FONT = { face: 'barlow-500' };
-const TAG_FONT = { face: 'condensed-700', size: 34, track: 0.015 };
+// The faces. Bricolage Grotesque is NOS's voice: the numerals, the dates, the times, the month,
+// "Cancelada". Inter is what the organizations announce: titles, names, places, the reason.
+const NUMERAL = { face: 'display-800', track: -0.03 };
+const VOICE = { face: 'display-800', track: -0.02 };
+const VOICE_SOFT = { face: 'display-700', track: -0.01 };
+const TITLE = { face: 'text-700', track: -0.02 };
+const NAME_FACE = 'text-700';
+const FULL_FACE = 'text-500';
+const PLACE = { face: 'text-500' };
+
+// Line heights, as css/flyers.css sets them: titles, rows of facts, the when of the month, the reason.
+const LH = { title: 1.06, row: 1.25, when: 1.2, reason: 1.3 };
 
 const advanceCache = new Map();
 
@@ -81,7 +102,7 @@ function advance(text, face) {
     if (ZERO_WIDTH.test(sign)) return;
     const code = sign.codePointAt(0);
     // Shown as an emoji: a pictograph the fonts lack, or any sign asked to (U+FE0F, a keycap).
-    if (signs[i + 1] === '\ufe0f' || signs[i + 1] === '\u20e3' || (PICTOGRAPH.test(sign) && !EXTRA_INDEX.has(sign))) units += EMOJI;
+    if (signs[i + 1] === '️' || signs[i + 1] === '⃣' || (PICTOGRAPH.test(sign) && !EXTRA_INDEX.has(sign))) units += EMOJI;
     else if (code >= 32 && code < 127) units += ascii[code - 32];
     else if (EXTRA_INDEX.has(sign)) units += extra[EXTRA_INDEX.get(sign)];
     else units += FLAG_HALF.test(sign) ? EMOJI / 2 : UNKNOWN;
@@ -104,6 +125,14 @@ function sizeToWidth(text, font, width, max, min) {
 
 // ---------- Line planning ----------
 
+// A paragraph is a string in one face, or runs in several faces at one size: [{ text, face, kind }]
+// (an organization's name in 700 before its full name in 500, "Motivo:" before the reason). The
+// planned lines of runs are lists of segments { text, kind }.
+const runsOf = (text, font) => (typeof text === 'string' ? [{ text, face: font.face, kind: '' }] : text);
+
+// The space between two words: the widest of the paragraph's faces, the safe side.
+const spaceOf = (text, font) => Math.max(...runsOf(text, font).map((run) => textWidth(' ', { ...font, face: run.face })));
+
 // Spaces are the break points; a no-break space keeps its neighbours together.
 const words = (text) => text.trim().split(/[ \t\r\n]+/).filter(Boolean);
 
@@ -114,7 +143,7 @@ function breakPoints(word) {
   const pieces = [];
   let piece = '';
   signs.forEach((sign, i) => {
-    if (piece && PICTOGRAPH.test(sign) && signs[i - 1] !== '\u200d' && !/[/-]$/.test(piece)) {
+    if (piece && PICTOGRAPH.test(sign) && signs[i - 1] !== '‍' && !/[/-]$/.test(piece)) {
       pieces.push(piece);
       piece = '';
     }
@@ -143,25 +172,40 @@ function splitLetters(piece, font, limit) {
   return [...parts, part];
 }
 
-// The text as break units { text, width, glued } (glued: no space before it, the rest of a word).
-// A word wider than the line breaks at its break points; with `force`, a piece still too wide
-// breaks between letters, the last resort once no smaller size is left to try.
+// The text as break units { text, width, glued, kind } (glued: no space before it, the rest of a
+// word). A word wider than the line breaks at its break points; with `force`, a piece still too
+// wide breaks between letters, the last resort once no smaller size is left to try.
 function unitsOf(text, font, limit, force = false) {
   const units = [];
-  for (const word of words(text)) {
-    const pieces = textWidth(word, font) > limit ? breakPoints(word) : [word];
-    pieces.forEach((piece, i) => {
-      let glued = i > 0;
-      for (const part of force && textWidth(piece, font) > limit ? splitLetters(piece, font, limit) : [piece]) {
-        units.push({ text: part, width: textWidth(part, font), glued });
-        glued = true;
-      }
-    });
+  for (const run of runsOf(text, font)) {
+    const face = { ...font, face: run.face };
+    for (const word of words(run.text)) {
+      const pieces = textWidth(word, face) > limit ? breakPoints(word) : [word];
+      pieces.forEach((piece, i) => {
+        let glued = i > 0;
+        for (const part of force && textWidth(piece, face) > limit ? splitLetters(piece, face, limit) : [piece]) {
+          units.push({ text: part, width: textWidth(part, face), glued, kind: run.kind });
+          glued = true;
+        }
+      });
+    }
   }
   return units;
 }
 
 const joinUnits = (units) => units.map((unit, i) => (i > 0 && !unit.glued ? ' ' : '') + unit.text).join('');
+
+// A line of runs as segments, one per change of kind.
+function segmentsOf(units) {
+  const segments = [];
+  units.forEach((unit, i) => {
+    const text = (i > 0 && !unit.glued ? ' ' : '') + unit.text;
+    const last = segments[segments.length - 1];
+    if (last && last.kind === unit.kind) last.text += text;
+    else segments.push({ text, kind: unit.kind });
+  });
+  return segments;
+}
 
 // Short words that read badly at the end of a line ("Caminhada Ecológica de / Dourados"), the
 // shorter the worse: "para a / Aldeia" hurts more than "de / Dourados", which hurts more than
@@ -170,7 +214,7 @@ const WEAK = new Set('a à ao aos as às o os e é de da do das dos em no na nos
 const isWeak = (word) => WEAK.has(word.toLocaleLowerCase('pt-BR'));
 const weakness = (word) => (!isWeak(word) ? 0 : word.length === 1 ? 1 : word.length <= 3 ? 0.6 : 0.3);
 // Emoji alone on a line read as stray as short words alone ("FESTA DA PRIMAVERA / 🌸🎉 / …").
-const EMOJI_ONLY = /^(?:\p{Extended_Pictographic}|[\u200d\ufe0f\u20e3\u{1f3fb}-\u{1f3ff}])+$/u;
+const EMOJI_ONLY = /^(?:\p{Extended_Pictographic}|[‍️⃣\u{1f3fb}-\u{1f3ff}])+$/u;
 const isFiller = (word) => isWeak(word) || EMOJI_ONLY.test(word);
 
 // What a line break costs, against 100 for a line left empty: after a short word (times its
@@ -182,8 +226,7 @@ const COST = { weakEnd: 60, weakLine: 200, inWord: 60, clause: -10 };
 const CLAUSE_END = /[,;:.!?–—-]$/;
 
 // Greedy fill, as a browser breaks: the fewest lines. Returns [start, end) unit ranges.
-function fill(units, font, limit) {
-  const space = textWidth(' ', font);
+function fill(units, space, limit) {
   const ranges = [];
   let start = 0;
   let used = 0;
@@ -204,10 +247,9 @@ function fill(units, font, limit) {
 // The units in exactly `count` lines, evened out: the least sum of squared slack (every line, as
 // text-wrap: balance does, or all but the last when `ragged`), plus the cost of the breaks that
 // read badly. Returns [start, end) unit ranges.
-function evenLines(units, font, limit, count, ragged) {
+function evenLines(units, space, limit, count, ragged) {
   const n = units.length;
   if (count <= 1 || n <= 1) return [[0, n]];
-  const space = textWidth(' ', font);
   const edge = [0];
   const weak = [0];
   const ends = units.map((unit) => (unit.glued ? 0 : weakness(unit.text)));
@@ -242,7 +284,7 @@ function evenLines(units, font, limit, count, ragged) {
       }
     }
   }
-  if (best[count][n] === Infinity) return fill(units, font, limit);
+  if (best[count][n] === Infinity) return fill(units, space, limit);
   const ranges = [];
   for (let k = count, j = n; k > 0; k--) {
     ranges.unshift([from[k][j], j]);
@@ -252,21 +294,22 @@ function evenLines(units, font, limit, count, ragged) {
 }
 
 // The text in the fewest lines no wider than `width` (less the FIT margin): evened out (titles,
-// rows), `ragged` (the first lines kept full, as a struck title in the design) or `greedy` (a
-// paragraph, filled as a browser would).
+// rows), `ragged` (the first lines kept full) or `greedy` (a paragraph, filled as a browser would).
+// Lines of a string are strings; lines of runs are segments.
 function planLines(text, font, width, { ragged = false, greedy = false, force = false } = {}) {
   const limit = width * FIT;
   const units = unitsOf(text, font, limit, force);
   if (!units.length) return [];
-  const filled = fill(units, font, limit);
-  const ranges = greedy ? filled : evenLines(units, font, limit, filled.length, ragged);
-  return ranges.map(([i, j]) => joinUnits(units.slice(i, j)));
+  const space = spaceOf(text, font);
+  const filled = fill(units, space, limit);
+  const ranges = greedy ? filled : evenLines(units, space, limit, filled.length, ragged);
+  return ranges.map(([i, j]) => (typeof text === 'string' ? joinUnits(units.slice(i, j)) : segmentsOf(units.slice(i, j))));
 }
 
 // How many lines the text takes, at the fewest.
 function lineCount(text, font, width, force = false) {
   const limit = width * FIT;
-  return fill(unitsOf(text, font, limit, force), font, limit).length;
+  return fill(unitsOf(text, font, limit, force), spaceOf(text, font), limit).length;
 }
 
 // True when every word fits on a line by itself (links and compounds may break after / and -).
@@ -291,11 +334,12 @@ function badBreaks(lines) {
   };
 }
 
-// Runaway text cut to `maxLines` with an ellipsis (and `tail` after it: the city after a place).
-// It ends at the last clause that fits (before ; , a dash or a parenthesis) unless that keeps less
-// than half of what ending at the last word that fits keeps; failing both, between letters.
-function cut(text, font, width, maxLines, tail = '', force = false) {
-  const fits = (t) => lineCount(t, font, width, force) <= maxLines;
+// Runaway text cut to `maxLines` with an ellipsis (and `tail` after it: the city after a place;
+// `wrap` puts the text back in its paragraph: the reason after "Motivo:"). It ends at the last
+// clause that fits (before ; , a dash or a parenthesis) unless that keeps less than half of what
+// ending at the last word that fits keeps; failing both, between letters.
+function cut(text, font, width, maxLines, { tail = '', force = false, wrap = (t) => t } = {}) {
+  const fits = (t) => lineCount(wrap(t), font, width, force) <= maxLines;
   if (fits(text + tail)) return text + tail;
   const close = (head) => `${head.replace(/[\s,;:.·–—-]+$/u, '')}…${tail}`;
   const list = words(text);
@@ -314,7 +358,7 @@ function cut(text, font, width, maxLines, tail = '', force = false) {
   if (byClause && byClause.length * 2 >= byWord.length) return close(byClause);
   if (byWord) return close(byWord);
   // Not even the first word fits: a place gives way to its city, anything else is cut in the word.
-  if (tail) return cut(tail.replace(/^,\s*/, ''), font, width, maxLines, '', force);
+  if (tail) return cut(tail.replace(/^,\s*/, ''), font, width, maxLines, { force, wrap });
   let head = list[0] || '';
   while ([...head].length > 1 && !fits(close(head))) head = [...head].slice(0, -1).join('');
   return close(head);
@@ -336,29 +380,18 @@ function pickSize(text, font, width, steps, { floor, tail = '', ragged = false }
   while (size > (floor ?? last) && !wordsFit(text + tail, { ...font, size }, width)) size -= 2;
   const sized = { ...font, size };
   const force = !wordsFit(text + tail, sized, width);
-  const shown = cut(text, sized, width, maxLines, tail, force);
+  const shown = cut(text, sized, width, maxLines, { tail, force });
   return { text: shown, size, font: sized, lines: planLines(shown, sized, width, { ragged, force }) };
 }
 
 // Text at a set size in at most `maxLines`: cut when longer, a word too wide broken between letters.
 function setLines(text, font, width, maxLines) {
   const force = !wordsFit(text, font, width);
-  return planLines(cut(text, font, width, maxLines, '', force), font, width, { force });
-}
-
-// A time ("11h", "19h às 22h"): one line as large as `width` allows, up to `max`. A raw text from
-// the sheet ("manhã, tarde e noite") that would need less than `min` goes in lines at `min`, cut
-// to `maxLines`; css/flyers.css opens their line height (.is-lines). Returns { size, lines, multi }.
-function fitTime(text, font, width, max, min, maxLines) {
-  const one = sizeToWidth(text, font, width, max, 1);
-  if (one >= min) return { size: one, lines: [text], multi: false };
-  const lines = setLines(text, { ...font, size: min }, width, maxLines);
-  return { size: min, lines, multi: lines.length > 1 };
+  return planLines(cut(text, font, width, maxLines, { force }), font, width, { force });
 }
 
 // ---------- Facts ----------
 
-const upper = (text) => text.toLocaleUpperCase('pt-BR');
 const sum = (values) => values.reduce((a, b) => a + b, 0);
 const between = (from, to, t) => from + (to - from) * t;
 
@@ -369,11 +402,26 @@ const tidy = (text) => text
   .replace(/ ([–—-]) /g, `${NBSP}$1 `)
   .replace(/(^|[\s(])(R|Av|Al|Pç|Rod|Dr|Dra|Prof|Profa|Sr|Sra|Sto|Sta|Vl|Jd|Pq)\. (?=\S)/g, `$1$2.${NBSP}`);
 
-// "sexta", "sábado": the weekday without "-feira".
+// "sexta", "sábado": the weekday without "-feira"; "sex", "sáb".
 const weekdayShort = (date) => weekdayName(date).split('-')[0];
+const weekdayTiny = (date) => weekdayName(date).slice(0, 3);
 
-// "19h às 22h" that never breaks before "às" or the end time.
-const unbrokenTime = (ev) => (ev.time != null && ev.endTime != null ? formatTimeRange(ev).replace(/ /g, NBSP) : formatTimeRange(ev));
+// The sky of the hour the activity starts (js/sky.js's hours); the day's when there is no time.
+function skyOf(ev) {
+  if (ev.time == null) return 'day';
+  return skyPeriod(new Date(2000, 0, 1, Math.floor(ev.time / 60), ev.time % 60));
+}
+
+// The time as the flyers write it: the start, and the end apart ("19h30", "às 22h30"); an end
+// alone ("até 12h"); a text from the sheet that isn't a time, as it is. Empty when there is none.
+function timeParts(ev) {
+  const start = ev.time != null ? formatTime(ev.time) : ev.timeRaw.trim();
+  const end = ev.endTime != null ? formatTime(ev.endTime) : ev.endTimeRaw.trim();
+  if (start && end) return { start, end: `às${NBSP}${end}` };
+  if (end) return { start: `até${NBSP}${end}`, end: '' };
+  return { start, end: '' };
+}
+const NO_TIME = 'Horário a confirmar';
 
 const hasPlace = (ev) => Boolean(ev.local || ev.city);
 const orgNames = (ev) => (ev.orgs.length ? ev.orgs : ev.org ? [ev.org] : []);
@@ -386,25 +434,65 @@ function fitPlace(ev, font, width, steps, floor) {
   return pickSize(local || ev.city, font, width, steps, { floor });
 }
 
-// "A", "A e B", "A, B e C"; naming fewer, "A, B e mais 2". Short names ("DCE UFGD") never break.
+// Short names ("DCE UFGD") never break.
+const keepName = (name) => (name.length <= 16 ? name.replace(/ /g, NBSP) : tidy(name));
+
+// "A", "A e B", "A, B e C"; naming fewer, "A, B e mais 2".
 function listOrgs(names, shown = names.length) {
-  const list = names.map((name) => (name.length <= 16 ? name.replace(/ /g, NBSP) : tidy(name)));
+  const list = names.map(keepName);
   if (shown < list.length) return `${list.slice(0, shown).join(', ')} e mais${NBSP}${list.length - shown}`;
   return list.length > 1 ? `${list.slice(0, -1).join(', ')} e ${list[list.length - 1]}` : list[0];
 }
 
-// The organizations, naming as many as fit (at most `maxShown`, then "e mais N"), each count tried
-// at every step ([size, maxLines]) before a name is dropped. Returns what pickSize returns.
-function fitOrgs(names, font, width, steps, maxShown, floor) {
-  for (let shown = Math.min(maxShown, names.length); shown >= 1; shown--) {
-    const text = listOrgs(names, shown);
-    for (const [size, maxLines] of steps) {
-      const sized = { ...font, size };
-      const lines = fitLines(text, sized, width, maxLines);
-      if (lines) return { text, size, font: sized, lines };
+// The organizations as runs: each name (700, ink) with its full name where ORG_NAMES knows it (500,
+// soft): "SIMTED · Sindicato Municipal…" for one, "SIMTED (Sindicato…) e ADUF Dourados
+// (Associação…)" for several. `fulls`: how many of the known full names to give, from the first.
+function orgRuns(names, shown, fulls) {
+  const runs = [];
+  const add = (text, kind) => {
+    const face = kind === 'name' ? NAME_FACE : FULL_FACE;
+    const last = runs[runs.length - 1];
+    if (last && last.kind === kind) last.text += ` ${text}`;
+    else runs.push({ text, face, kind });
+  };
+  const list = names.slice(0, shown);
+  const more = names.length - shown;
+  let given = 0;
+  list.forEach((name, i) => {
+    if (i > 0 && i === list.length - 1 && !more) add('e', 'sep');
+    const full = given < fulls ? orgFullName(name) : '';
+    if (full) given++;
+    const comma = i < list.length - 1 && !(i === list.length - 2 && !more) ? ',' : '';
+    if (!full) add(keepName(name) + comma, 'name');
+    else if (names.length === 1) {
+      add(keepName(name), 'name');
+      add(`· ${tidy(full)}`, 'full');
+    } else {
+      add(keepName(name), 'name');
+      add(`(${tidy(full)})${comma}`, 'full');
+    }
+  });
+  if (more) add(`e mais${NBSP}${more}`, 'sep');
+  return runs;
+}
+
+// The organizations, naming as many as fit (at most four, then "e mais N"), each count tried with
+// every full name, then the first one's only, then none, at every step ([size, maxLines]) before a
+// name is dropped. Returns what pickSize returns, its lines as segments.
+function fitOrgs(names, width, steps, floor) {
+  for (let shown = Math.min(4, names.length); shown >= 1; shown--) {
+    const known = names.slice(0, shown).filter(orgFullName).length;
+    for (const fulls of known > 1 ? [Infinity, 1, 0] : known ? [1, 0] : [0]) {
+      const runs = orgRuns(names, shown, fulls);
+      for (const [size, maxLines] of steps) {
+        const font = { face: NAME_FACE, size };
+        const lines = fitLines(runs, font, width, maxLines);
+        if (lines) return { text: runs, size, font, lines };
+      }
     }
   }
-  return pickSize(listOrgs(names, 1), font, width, steps.slice(-1), { floor });
+  const fit = pickSize(listOrgs(names, 1), { face: NAME_FACE }, width, steps.slice(-1), { floor });
+  return { ...fit, lines: fit.lines.map((text) => [{ text, kind: 'name' }]) };
 }
 
 // ---------- DOM helpers ----------
@@ -433,335 +521,561 @@ function sized(node, size) {
   return node;
 }
 
+// Set at planned coordinates on the flyer (css/flyers.css: .fl-at is absolute).
+function at(node, box) {
+  node.classList.add('fl-at');
+  for (const [side, value] of Object.entries(box)) if (value != null) node.style[side] = px(value);
+  return node;
+}
+
+// One planned line: a string, a node, or segments ({ text, kind }: a kind gets its span, .fl-<kind>).
+function lineNode(line) {
+  if (!Array.isArray(line)) return h('span', 'fl-line', line);
+  return h('span', 'fl-line', line.map((part) => (part instanceof Node || typeof part === 'string' ? part : part.kind ? h('span', `fl-${part.kind}`, part.text) : part.text)));
+}
+
 // Text set in the lines planned for it: one block per line that never wraps (css/flyers.css).
-// A line is a string or a list of children. The spaces between the blocks draw nothing; they
-// only keep the node's text readable ("ALMOÇO DOS EDUCADORES", not "ALMOÇO DOSEDUCADORES").
+// The spaces between the blocks draw nothing; they only keep the node's text readable.
 function lined(tag, className, lines, size) {
   const node = h(tag, className);
   lines.forEach((line, i) => {
     if (i > 0) node.append(' ');
-    node.append(h('span', 'fl-line', line));
+    node.append(lineNode(line));
   });
   return size ? sized(node, size) : node;
 }
 
-// The header card: the mark beside "NOS Dourados" and the full name.
-const masthead = () =>
-  h('div', 'fl-mast', fromHtml(brandMark(APP_NAME)), h('div', 'fl-mast-text', h('div', 'fl-mast-name', CITY), h('div', 'fl-mast-full', APP_FULL_NAME)));
+// Lines of NOS's voice on the sky, placed by the baseline of the first (the next ones `lh` em apart).
+function voice(className, lines, size, { left, right, baseline, lh = 1 }) {
+  const node = lined('div', className, lines, size);
+  node.style.lineHeight = String(lh);
+  return at(node, { left, right, top: baseline - (lh / 2 + DISPLAY.base) * size });
+}
 
-const footer = () => h('div', 'fl-foot', FOOTER_LINE);
+// ---------- The world: sky, band, land ----------
 
-// Top of a sheet: the binding strip and the perforation.
-const sheetTop = () => [h('div', 'fl-binding'), h('div', 'fl-perf')];
+const SIDE = 72; // the margins at the left and right
+const WIDTH = FLYER_WIDTH - 2 * SIDE;
+const BAND = 64; // the woven band, the horizon (.fl-band)
+const SLOT = 52; // a row's dot or icon: its slot 38 and the gap 14 (.fl-row-mark)
+const ROW_WIDTH = WIDTH - SLOT;
+const ROW_GAP = 14; // between the rows (.fl-rows)
+const LAND_TOP = 50; // the band → the land's first line box (.fl-land)
+const SIGN_SPACE = 40 + 64 + 46; // the air over the signature, the signature, its margin to the foot (.fl-sign)
 
-// A row of facts: a fixed slot with the icon (or the sector square), then the text in its planned
-// lines. `fit` comes from fitPlace, fitOrgs or pickSize.
+// The tops of sky bands 5 … 2 above the horizon, as shares of the sky's height (band 1 takes the
+// rest): thinner near the horizon, as the pages' sky.
+const BAND_TOPS = [0.075, 0.17, 0.29, 0.44];
+
+// The sky over [0, horizon): five flat bands. `edges`: the tops of bands 2 … 5, from BAND_TOPS
+// unless a layout sets them (the month's weeks).
+function skyNode(horizon, edges = [...BAND_TOPS].reverse().map((share) => Math.round(horizon * (1 - share)))) {
+  const sky = h('div', 'fl-sky');
+  sky.style.height = px(horizon);
+  const tops = [0, ...edges, horizon];
+  for (let i = 0; i < 5; i++) {
+    const band = h('div', `fl-sky-band is-${i + 1}`);
+    band.style.top = px(tops[i]);
+    band.style.height = px(tops[i + 1] - tops[i]);
+    sky.append(band);
+  }
+  return sky;
+}
+
+// The sun or the moon (HAND.astro): the hand's loop around a disc of radius `r` centred at (x, y),
+// a little off register; the pen grows with it. css/flyers.css paints it from the sky's roles.
+function astroNode(x, y, r) {
+  const { viewBox, disc, d } = HAND.astro;
+  const box = (r * 120) / disc.r;
+  const node = fromHtml(`<svg class="fl-astro" viewBox="${viewBox}" aria-hidden="true"><circle cx="${disc.cx}" cy="${disc.cy}" r="${disc.r}"/><path vector-effect="non-scaling-stroke" d="${d}"/></svg>`);
+  node.style.left = px(x - (disc.cx / 120) * box);
+  node.style.top = px(y - (disc.cy / 120) * box);
+  node.style.width = px(box);
+  node.style.height = px(box);
+  node.style.setProperty('--pen', px(Math.max(3, box * 0.011)));
+  return node;
+}
+
+// Where the sun stands at each hour: the share of its disc above the horizon, rising at dawn,
+// high by day, setting at dusk.
+const SUN_UP = { dawn: 0.38, day: 0.5, dusk: 0.32 };
+
+// The night's stars: a fixed field (the same every time), spread over `area` and kept off the
+// boxes in `avoid` (the moon, the text), about one star per 9000px².
+const STAR_FIELD = (() => {
+  let seed = 11;
+  const random = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  return Array.from({ length: 80 }, () => ({ x: random(), y: random(), r: 1.6 + random() * 2.2 }));
+})();
+
+function starsNode(area, avoid = []) {
+  const width = area.right - area.left;
+  const height = area.bottom - area.top;
+  if (width <= 0 || height <= 0) return null;
+  const count = Math.max(6, Math.min(STAR_FIELD.length, Math.round((width * height) / 9000)));
+  const clear = (x, y) => avoid.every((box) => x < box.left - 20 || x > box.right + 20 || y < box.top - 20 || y > box.bottom + 20);
+  const dots = STAR_FIELD.slice(0, count)
+    .map(({ x, y, r }) => ({ x: area.left + x * width, y: area.top + y * height, r }))
+    .filter(({ x, y }) => clear(x, y));
+  return fromHtml(`<svg class="fl-stars" viewBox="0 0 ${FLYER_WIDTH} ${area.bottom}" width="${FLYER_WIDTH}" height="${area.bottom}" aria-hidden="true">${dots.map(({ x, y, r }) => `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}"/>`).join('')}</svg>`);
+}
+
+const bandNode = (horizon) => at(h('div', 'fl-band'), { top: horizon });
+
+// The land under the band: the activity's blocks in a column from its top.
+const landNode = (horizon, ...blocks) => at(h('div', 'fl-land', ...blocks), { top: horizon + BAND });
+
+// NOS's signature at the foot of the land: the mark beside the city, the agenda and its address.
+const signature = () =>
+  h('div', 'fl-sign',
+    h('div', 'fl-sign-brand', fromHtml(brandMark(APP_NAME)), h('span', 'fl-sign-city', HOME)),
+    h('div', 'fl-sign-text', h('span', null, FOOTER_LINE), SITE && h('span', 'fl-sign-site', SITE)));
+
+// A row of facts: a slot with the group's dot or the place's icon, then the text in its planned
+// lines. `fit` comes from fitOrgs, fitPlace or pickSize.
 function row(kind, mark, fit) {
   return sized(h('div', `fl-row is-${kind}`, h('span', 'fl-row-mark', mark), lined('span', 'fl-row-text', fit.lines)), fit.size);
 }
-const placeRow = (ev, fit) => row('place', fromHtml(icon(ev.online ? 'globe' : 'pin', 'fl-icon')), fit);
-const orgRow = (fit) => row('org', h('span', 'fl-square'), fit);
+const placeRow = (ev, fit) => fit && row('place', fromHtml(icon(ev.online ? 'globe' : 'pin', 'fl-icon')), fit);
+const orgRow = (fit) => fit && row('org', h('span', 'fl-dot'), fit);
+const rowsNode = (...rows) => (rows.some(Boolean) ? h('div', 'fl-rows', ...rows) : null);
 
-// ---------- 1. Day sheet ("Folha do dia") ----------
-// The day's sheet torn off the pad: the numeral fills the head, the activity is written below.
-
-const DAY = {
-  inner: 1009, // sheet inside its borders: 1350 − header 194 − wall 40 − footer 103 − 4
-  chrome: 46, // binding 12 + perforation 32 + rule 2
-  width: 860, // body: sheet 956 − 2 × 48
-  rowWidth: 808, // row text: body − slot 36 − gap 16
-};
-
-function dayFlyer(ev) {
-  const date = ev.date;
-  const names = orgNames(ev);
-  const length = ev.title.length;
-  const tier = length <= 28 ? 78 : length <= 56 ? 66 : 56;
-  const title = pickSize(tidy(ev.title), TITLE_FONT, DAY.width, [[78, 3], [66, 3], [56, 3], [48, 3], [44, 3]].filter(([s]) => s <= tier), { floor: 32 });
-  const org = names.length ? fitOrgs(names, ORG_FONT, DAY.rowWidth, [[40, 2]], names.length, 32) : null;
-  const where = hasPlace(ev) ? fitPlace(ev, PLACE_FONT, DAY.rowWidth, [[38, 2], [34, 3]], 28) : null;
-  const type = ev.type ? setLines(ev.type, TAG_FONT, DAY.width - 32, 1)[0] : '';
-
-  // The body is written first; the head takes the rest of the sheet.
-  const rows = [org, where].filter(Boolean).map((fit) => fit.lines.length * fit.size * 1.2);
-  let meta = sum(rows) + 14 * Math.max(0, rows.length - 1);
-  if (type) meta += (rows.length ? 24 : 0) + 53;
-  const body = 44 + title.lines.length * title.size * 1.08 + (meta ? 36 + meta : 0) + 48;
-  const heavy = length >= 57 || org?.lines.length > 1 || where?.lines.length > 1;
-  const room = DAY.inner - DAY.chrome - body;
-  // The head needs about its numeral size: the 0.8em numeral, its bottom padding and some air.
-  const numeral = Math.max(260, Math.min(heavy ? 400 : 460, Math.floor(room / 20) * 20));
-  const k = numeral / 460;
-  const scaled = (n) => Math.round(n * k);
-
-  // The numeral, days 1–9 with a leading zero ("09") as on the cancellation notice, and the
-  // column beside it: weekday, month and holiday on top, the time at the bottom.
-  const day = String(date.getDate()).padStart(2, '0');
-  const column = DAY.width - textWidth(day, { face: 'condensed-800', size: numeral, track: -0.013 }) - 40 * k;
-  const holiday = holidayOn(date);
-  const holidayFont = { face: 'barlow-600', size: scaled(34) };
-  const holidayName = holiday ? setLines(lineCount(holiday.name, holidayFont, column) > 1 ? holiday.short : holiday.name, holidayFont, column, 1)[0] : '';
-  const until = ev.endDate ? `até ${formatTinyDate(ev.endDate)}` : '';
-  const timeText = formatTimeRange(ev);
-  let time = null;
-  if (timeText) {
-    const top = (32 + 70 + 8 + 44) * k + (holidayName ? 8 * k + holidayFont.size * 1.2 : 0);
-    const free = 368 * k - top - 28 * k - (until ? 56 * k : 0); // 28k of air between the groups
-    // One line as large as the column and the room allow, up to 120k; a raw text from the sheet
-    // that would need less than 44k goes in lines at 44k.
-    const max = Math.max(scaled(44), Math.min(scaled(120), Math.floor(free / 0.8)));
-    time = fitTime(timeText, { face: 'condensed-800', track: -0.008 }, column, max, scaled(44), Math.max(1, Math.floor(free / scaled(44))));
-  }
-
-  const head = h('div', `dy-head${isRedLetter(date) ? ' is-red' : ''}`,
-    sized(h('div', 'dy-num', day), numeral),
-    h('div', 'dy-col',
-      h('div', 'dy-date',
-        sized(h('div', 'dy-weekday', upper(weekdayShort(date))), scaled(70)),
-        sized(h('div', 'dy-month', `${upper(monthName(date.getMonth()))} ${date.getFullYear()}`), scaled(40)),
-        holidayName && sized(h('div', 'dy-holiday', holidayName), holidayFont.size)),
-      (until || time) && h('div', 'dy-when',
-        until && sized(h('div', 'dy-until', until), scaled(48)),
-        time && lined('div', `dy-time${time.multi ? ' is-lines' : ''}`, time.lines, time.size))));
-  head.style.setProperty('--k', k.toFixed(4));
-
-  const sheetBody = h('div', 'dy-body',
-    lined('div', 'dy-title', title.lines, title.size),
-    meta > 0 && h('div', 'dy-meta',
-      (org || where) && h('div', 'dy-rows', org && orgRow(org), where && placeRow(ev, where)),
-      type && h('div', 'fl-tag', type)));
-
-  return [masthead(), h('div', 'dy-wall', h('div', 'fl-sheet', sheetTop(), head, sheetBody)), footer()];
+const linesHeight = (fit, lh) => (fit ? fit.lines.length * fit.size * lh : 0);
+function rowsHeight(...fits) {
+  const parts = fits.filter(Boolean);
+  return sum(parts.map((fit) => linesHeight(fit, LH.row))) + ROW_GAP * Math.max(0, parts.length - 1);
 }
 
-// ---------- 2. Month calendar ("Calendário do mês") ----------
-// The month page of the wall calendar with the day circled by hand, the activity written under it.
+const titleNode = (title, className = 'fl-title') => lined('div', className, title.lines, title.size);
+
+// ---------- 1. Folha do dia ----------
+// The day is the hero: its numeral stands on the horizon in front of the rising sun (under the
+// small moon at night), the weekday, the month and the time beside it on the sky; the land says
+// what it is, who organizes it and where.
+
+const DAY = {
+  air: 40, // the numeral's baseline above the band
+  topAir: 104, // least sky over the numeral, by day…
+  moonAir: 236, // …and under the moon, at night
+  maxNumeral: 600,
+  minNumeral: 280,
+  colGap: 40, // the column ↔ the numeral
+  colMin: 320, // the column's least width
+  colTop: 60, // the column may climb this high when the numeral is too short for it
+  titleGap: 30, // the title → the rows (.fl--day .fl-rows)
+};
+
+// Tighter and tighter land, until the sky holds a numeral of DAY.minNumeral.
+const DAY_STEPS = [
+  { title: [[84, 2], [76, 3], [68, 3]], rows: [[40, 2], [36, 3]] },
+  { title: [[72, 2], [64, 3], [56, 3]], rows: [[36, 2], [34, 3]] },
+  { title: [[60, 2], [52, 3], [46, 3]], rows: [[34, 2], [32, 3]] },
+  { title: [[48, 3], [42, 3]], rows: [[32, 2], [30, 2]] },
+];
+
+// The column beside the numeral, scaled by k from the 560px numeral: the weekday and the month
+// (and a holiday) from the numeral's top, the time (or "Horário a confirmar") on its baseline.
+// Returns its nodes and the boxes it takes, or null when it can't fit.
+function dayColumn(ev, k, width, capTop, baseline, timeScale) {
+  const date = ev.date;
+  const fit = (text, font, max, min) => sizeToWidth(text, font, width, Math.round(max * k), Math.round(min * k));
+  const weekday = capitalize(weekdayShort(date));
+  const month = monthName(date.getMonth());
+  const sw = fit(weekday, VOICE, 100, 40);
+  const sm = fit(month, VOICE_SOFT, 58, 28);
+  const holiday = holidayOn(date);
+  const sh = Math.round(40 * k);
+  const holidayFont = { ...VOICE_SOFT, size: sh };
+  const holidayLines = holiday ? setLines(lineCount(holiday.name, holidayFont, width) > 2 ? holiday.short : holiday.name, holidayFont, width, 2) : [];
+
+  // The bottom group, up from the baseline: the time (its end apart), or the words for no time;
+  // over them "até 24/10" for a period.
+  const { start, end } = timeParts(ev);
+  const bottom = [];
+  let y = baseline;
+  if (start) {
+    const se = end ? fit(end, VOICE_SOFT, 60 * timeScale, 26) : 0;
+    if (end) {
+      bottom.unshift({ cls: 'dy-end', lines: [end], size: se, baseline: y });
+      y -= DISPLAY.accent * se + 0.32 * se;
+    }
+    const maxStart = 180 * timeScale;
+    let st = fit(start, VOICE, maxStart, 1);
+    let startLines = [start];
+    if (st < Math.round(56 * k)) {
+      // A text from the sheet ("manhã, tarde e noite"): in lines at a readable size.
+      st = Math.round(52 * k);
+      startLines = setLines(start, { ...VOICE, size: st }, width, 3);
+    }
+    startLines.slice().reverse().forEach((line, i) => {
+      bottom.unshift({ cls: 'dy-time', lines: [line], size: st, baseline: y - i * 1.04 * st });
+    });
+    y -= (startLines.length - 1) * 1.04 * st + DISPLAY.accent * st;
+  } else {
+    const sc = Math.round(48 * k);
+    const lines = setLines(NO_TIME, { ...VOICE_SOFT, size: sc }, width, 2);
+    lines.slice().reverse().forEach((line, i) => bottom.unshift({ cls: 'dy-tbc', lines: [line], size: sc, baseline: y - i * 1.1 * sc }));
+    y -= (lines.length - 1) * 1.1 * sc + DISPLAY.accent * sc;
+  }
+  if (ev.endDate) {
+    const su = fit(`até ${formatDayMonth(ev.endDate)}`, VOICE_SOFT, 46, 26);
+    const ub = y - 0.3 * su - DISPLAY.descent * su;
+    bottom.unshift({ cls: 'dy-until', lines: [`até${NBSP}${formatDayMonth(ev.endDate)}`], size: su, baseline: ub });
+    y = ub - DISPLAY.accent * su;
+  }
+  const bottomTop = y;
+
+  // The top group, down from the numeral's top; it climbs when it would run into the bottom one.
+  const top = [{ cls: 'dy-weekday', lines: [weekday], size: sw, rise: DISPLAY.cap * sw }];
+  top.push({ cls: 'dy-month', lines: [month], size: sm, rise: 0.22 * sw + 0.92 * sm });
+  holidayLines.forEach((line, i) => top.push({ cls: 'dy-holiday', lines: [line], size: sh, rise: (i ? 1.18 : 0.28 * sm / sh + 0.92) * sh }));
+  let b = 0;
+  for (const item of top) item.offset = b += item.rise;
+  const last = top[top.length - 1];
+  const height = last.offset + DISPLAY.descent * last.size;
+  const climb = Math.max(0, capTop + height + 28 - bottomTop);
+  const start0 = capTop - climb;
+  if (start0 < DAY.colTop) return null;
+  for (const item of top) item.baseline = start0 + item.offset;
+  return { items: [...top, ...bottom], top: start0, bottom: baseline + DISPLAY.descent * sw };
+}
+
+function dayFlyer(ev, sky) {
+  const date = ev.date;
+  const night = sky === 'night';
+  const names = orgNames(ev);
+  const tier = ev.title.length <= 28 ? 84 : ev.title.length <= 56 ? 76 : 64;
+  const topAir = night ? DAY.moonAir : DAY.topAir;
+
+  let plan;
+  for (const step of DAY_STEPS) {
+    const steps = step.title.filter(([s]) => s <= tier);
+    const title = pickSize(tidy(ev.title), TITLE, WIDTH, steps.length ? steps : step.title.slice(-1), { floor: 32 });
+    const org = names.length ? fitOrgs(names, ROW_WIDTH, step.rows, 26) : null;
+    const where = hasPlace(ev) ? fitPlace(ev, PLACE, ROW_WIDTH, step.rows, 26) : null;
+    const rows = rowsHeight(org, where);
+    const land = LAND_TOP + linesHeight(title, LH.title) + (rows ? DAY.titleGap + rows : 0) + SIGN_SPACE;
+    const horizon = Math.round(FLYER_HEIGHT - BAND - land);
+    plan = { title, org, where, horizon };
+    if ((horizon - DAY.air - topAir) / DISPLAY.cap >= DAY.minNumeral) break;
+  }
+  const { title, org, where, horizon } = plan;
+
+  // The numeral: as tall as the sky allows, leaving the column its width; then smaller while the
+  // column doesn't fit beside it (its time a little smaller first).
+  const baseline = horizon - DAY.air;
+  const day = String(date.getDate());
+  const numeralWidth = (size) => textWidth(day, { ...NUMERAL, size });
+  let size = Math.max(DAY.minNumeral, Math.min(DAY.maxNumeral, Math.floor((baseline - topAir) / DISPLAY.cap)));
+  while (size > DAY.minNumeral && numeralWidth(size) > WIDTH - DAY.colGap - DAY.colMin) size -= 4;
+  let column = null;
+  for (; !column; size -= 8) {
+    const width = WIDTH - numeralWidth(size) - DAY.colGap;
+    for (const scale of [1, 0.85, 0.72, 0.6]) {
+      column = dayColumn(ev, size / 560, width, baseline - DISPLAY.cap * size, baseline, scale);
+      if (column) break;
+    }
+    if (size - 8 < DAY.minNumeral) break;
+  }
+  if (!column) size += 8;
+  const width = WIDTH - numeralWidth(size) - DAY.colGap;
+  column ??= dayColumn(ev, size / 560, width, baseline - DISPLAY.cap * size, baseline, 0.6) || { items: [], top: baseline };
+  const capTop = baseline - DISPLAY.cap * size;
+
+  const skyEl = skyNode(horizon);
+  const nw = numeralWidth(size);
+  if (night) {
+    const r = Math.round(size * 0.11);
+    const moon = { x: FLYER_WIDTH - SIDE - r - 6, y: Math.max(56 + r, capTop - r - 56), r };
+    const moonBox = { left: moon.x - r * 1.25, right: moon.x + r * 1.25, top: moon.y - r * 1.25, bottom: moon.y + r * 1.25 };
+    const textBox = { left: SIDE, right: SIDE + width, top: column.top - 20, bottom: baseline };
+    skyEl.append(starsNode({ left: 36, right: FLYER_WIDTH - 36, top: 28, bottom: Math.min(capTop, column.top) - 24 }, [moonBox, textBox]) || '', astroNode(moon.x, moon.y, r));
+  } else {
+    // The sun rises behind the band at the right, running off the edge, the numeral in front of it.
+    const r = Math.round(size * 0.62);
+    const x = FLYER_WIDTH - SIDE - nw / 2 + r * 0.32;
+    skyEl.append(astroNode(x, horizon - SUN_UP[sky] * 2 * r + r, r));
+  }
+
+  const numeral = voice('dy-num', [day], size, { right: SIDE, baseline, lh: 0.75 });
+  const items = column.items.map((item) => voice(item.cls, item.lines, item.size, { left: SIDE, baseline: item.baseline }));
+
+  return [
+    skyEl,
+    numeral,
+    ...items,
+    bandNode(horizon),
+    landNode(horizon, titleNode(title), rowsNode(orgRow(org), placeRow(ev, where))),
+    signature(),
+  ];
+}
+
+// ---------- 2. Agenda do mês ----------
+// The month on the sky: its weeks are the sky's bands, the first under the month's name and the last
+// on the horizon, and the activity's day is the sun (the moon, for an evening) drawn round by the
+// hand, the other days of a period underlined; the land says what, when, who and where.
 
 const MONTH = {
-  room: 965, // sheet + info: 1350 − header 162 − footer 103 − content padding 76 − gap 44
-  sheet: 245, // sheet parts that don't stretch: borders 4, binding 12, perforation 32, month 111, weekday row 50, paddings 36
-  width: 960,
-  rowWidth: 908, // 960 − slot 36 − gap 16
+  top: 50, // the sky's top → the month's line box
+  name: 104, // the month's name (Bricolage 800; .mo-name)
+  headsGap: 22, // the name's line box → the weekday heads' line box
+  heads: 26, // the weekday heads (Inter 600 in capitals, line box 1.2; .mo-heads)
+  weeksGap: 8, // the heads → the first week
+  air: 12, // the last week → the band
+  whenGap: 14, // the title → the when (.mo-when)
+  rowsGap: 28, // the when → the rows (.fl--month .fl-rows)
+  minWeek: { 4: 96, 5: 84, 6: 72 }, // least height of a week, by the weeks in the month
 };
+
+// Tighter and tighter land, until the weeks keep a readable height.
+const MONTH_STEPS = [
+  { title: [[76, 2], [68, 3]], line: 44, rows: [[38, 2], [34, 3]] },
+  { title: [[68, 2], [60, 3]], line: 40, rows: [[36, 2], [32, 3]] },
+  { title: [[60, 2], [52, 3]], line: 38, rows: [[34, 2], [30, 3]] },
+  { title: [[52, 3], [44, 3]], line: 36, rows: [[32, 2], [30, 2]] },
+  { title: [[44, 3], [40, 3]], line: 34, rows: [[30, 2], [30, 1]] },
+  { title: [[40, 2]], line: 32, rows: [[28, 1]] },
+];
 
 const WEEK_HEAD = ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB'];
 
-// Tighter and tighter info blocks, until the weeks keep a readable height (the title's own size
-// also follows its length). Each row may take a third line at a smaller size before anything is
-// cut; then the organizations give way (fewer names) before the place, which says where to go.
-const MONTH_STEPS = [
-  { title: 76, line: 40, place: [[38, 2], [34, 3]], org: [[40, 2], [36, 3]] },
-  { title: 64, line: 40, place: [[38, 2], [34, 3]], org: [[40, 2], [36, 3]] },
-  { title: 64, line: 36, place: [[34, 2], [32, 3]], org: [[36, 2], [34, 3]] },
-  { title: 52, line: 36, place: [[34, 2], [32, 3]], org: [[36, 2], [34, 3]] },
-  { title: 52, line: 34, place: [[32, 3]], org: [[34, 3]] },
-  { title: 44, line: 32, place: [[30, 3]], org: [[32, 3]] },
-  { title: 44, line: 32, place: [[30, 3]], org: [[32, 2]] },
-  { title: 44, line: 32, place: [[30, 3]], org: [[32, 1]] },
-  { title: 44, line: 32, place: [[30, 2]], org: [[32, 1]] },
-  { title: 44, line: 32, place: [[30, 1]], org: [[32, 1]] },
-];
-
-// "Sexta, 20 de novembro, 19h" or "De sexta, 16 de outubro a sábado, 24 de outubro", each date
-// in one piece ("sábado, 24 de outubro"), the time range too.
+// "Sexta, 20 de novembro, 14h às 22h" or "De sexta, 16 de outubro a sábado, 24 de outubro, 19h",
+// each date in one piece ("sábado, 24 de outubro"), the time too; "horário a confirmar" without one.
 function longWhen(ev) {
   const day = (d) => `${weekdayShort(d)}, ${d.getDate()} de ${monthName(d.getMonth())}`.replace(/ /g, NBSP);
   const when = ev.endDate ? `De ${day(ev.date)} a ${day(ev.endDate)}` : capitalize(day(ev.date));
-  const time = unbrokenTime(ev);
-  return time ? `${when}, ${time}` : when;
+  const { start, end } = timeParts(ev);
+  // A time stays in one piece; a text from the sheet that isn't one breaks as text.
+  const time = !start ? 'horário a confirmar' : ev.time != null ? [start, end].filter(Boolean).join(' ').replace(/ /g, NBSP) : [start, end].filter(Boolean).join(' ');
+  return `${when}, ${time}`;
 }
 
 // The date lines, then " · " and the holiday on the last one, or the holiday on a line of its own
-// (no dot) when it doesn't fit there. Returns [{ text, holiday }].
+// when it doesn't fit there. Returns lines of segments.
 function whenLines(ev, holiday, font, width) {
-  const lines = planLines(longWhen(ev), font, width).map((text) => ({ text, holiday: '' }));
+  const lines = planLines(longWhen(ev), font, width).map((text) => [{ text, kind: '' }]);
   if (!holiday) return lines;
   const name = textWidth(holiday.name, font) <= width * FIT ? holiday.name : holiday.short;
   const last = lines[lines.length - 1];
-  if (textWidth(`${last.text} · ${name}`, font) <= width * FIT) last.holiday = name;
-  else lines.push({ text: '', holiday: name });
+  if (textWidth(`${last[0].text} · ${name}`, font) <= width * FIT) last.push({ text: ' · ', kind: '' }, { text: name, kind: 'holiday' });
+  else lines.push([{ text: name, kind: 'holiday' }]);
   return lines;
 }
 
-function monthFlyer(ev) {
+function monthFlyer(ev, sky) {
   const date = ev.date;
+  const night = sky === 'night';
   const year = date.getFullYear();
   const month = date.getMonth();
   const offset = new Date(year, month, 1).getDay();
   const days = new Date(year, month + 1, 0).getDate();
   const weeks = Math.ceil((offset + days) / 7);
-
   const names = orgNames(ev);
   const holiday = holidayOn(date);
-  const length = ev.title.length;
-  const tier = length <= 28 ? 76 : length <= 56 ? 64 : 52;
-  const minRow = weeks > 5 ? 58 : 66;
+  const tier = ev.title.length <= 28 ? 76 : ev.title.length <= 56 ? 68 : 60;
+  const weeksTop = MONTH.top + MONTH.name + MONTH.headsGap + MONTH.heads * 1.2 + MONTH.weeksGap;
 
   let plan;
   for (const step of MONTH_STEPS) {
-    const top = Math.min(tier, step.title);
-    const title = pickSize(tidy(ev.title), TITLE_FONT, MONTH.width, [[76, 3], [64, 3], [52, 3], [44, 3]].filter(([s]) => s <= top), { floor: 32 });
-    const when = whenLines(ev, holiday, { face: 'barlow-600', size: step.line }, MONTH.width);
-    const where = hasPlace(ev) ? fitPlace(ev, PLACE_FONT, MONTH.rowWidth, step.place, 28) : null;
-    const org = names.length ? fitOrgs(names, ORG_FONT, MONTH.rowWidth, step.org, names.length, 28) : null;
-    const rows = [where, org].filter(Boolean).map((fit) => fit.lines.length * fit.size * 1.2);
-    const info = title.lines.length * title.size * 1.08 + 12 + when.length * step.line * 1.25 + (rows.length ? 28 + sum(rows) + 14 * (rows.length - 1) : 0);
-    const rowHeight = (MONTH.room - info - MONTH.sheet) / weeks;
-    plan = { step, title, when, where, org, rowHeight };
-    if (rowHeight >= minRow) break;
+    const steps = step.title.filter(([s]) => s <= tier);
+    const title = pickSize(tidy(ev.title), TITLE, WIDTH, steps.length ? steps : step.title.slice(-1), { floor: 32 });
+    const when = whenLines(ev, holiday, { ...VOICE, size: step.line }, WIDTH);
+    const org = names.length ? fitOrgs(names, ROW_WIDTH, step.rows, 26) : null;
+    const where = hasPlace(ev) ? fitPlace(ev, PLACE, ROW_WIDTH, step.rows, 26) : null;
+    const rows = rowsHeight(org, where);
+    const land = LAND_TOP + linesHeight(title, LH.title) + MONTH.whenGap + when.length * step.line * LH.when + (rows ? MONTH.rowsGap + rows : 0) + SIGN_SPACE;
+    const horizon = Math.round(FLYER_HEIGHT - BAND - land);
+    const week = (horizon - MONTH.air - weeksTop) / weeks;
+    plan = { step, title, when, org, where, horizon, week };
+    if (week >= MONTH.minWeek[weeks]) break;
   }
+  const { step, title, when, org, where, horizon, week } = plan;
 
-  // Numerals and the hand-drawn ring follow the height the weeks end up with.
-  const numeral = Math.min(weeks > 5 ? 48 : 54, Math.floor(plan.rowHeight * 0.66));
-  const ringHeight = Math.max(52, Math.min(92, plan.rowHeight + 3));
+  // The weeks' rows are the sky's bands: band 5 the last week (down to the horizon), band 4 the one
+  // before, …, band 1 the month's name, its heads and any first weeks.
+  const rowTop = (i) => weeksTop + i * week;
+  const edges = [4, 3, 2, 1].map((back) => Math.round(rowTop(Math.max(0, weeks - back))));
+  const skyEl = skyNode(horizon, edges);
+
+  const cell = WIDTH / 7;
+  const numeral = Math.min(60, Math.round(week * 0.5));
   const covered = new Set(dayKeys(ev));
-
-  const cells = [];
-  for (let i = 0; i < weeks * 7; i++) {
-    const n = i - offset + 1;
-    if (n < 1 || n > days) {
-      cells.push(h('span', 'mo-day'));
-      continue;
-    }
+  const marks = [];
+  const nums = [];
+  for (let n = 1; n <= days; n++) {
+    const i = offset + n - 1;
     const d = new Date(year, month, n);
     const key = dateKey(d);
-    const cell = h('span', `mo-day${isRedLetter(d) ? ' is-red' : ''}`, h('span', 'mo-num', String(n)));
+    const x = SIDE + (i % 7) * cell;
+    const y = rowTop(Math.floor(i / 7));
+    const cx = x + cell / 2;
+    const cy = y + week / 2;
     if (key === ev.dateKey) {
-      const ring = h('span', 'mo-ring');
-      ring.style.width = px(ringHeight * (160 / 92));
-      ring.style.height = px(ringHeight);
-      cell.append(ring);
+      skyEl.append(astroNode(cx, cy, Math.min(cell * 0.4, week * 0.5)));
     } else if (covered.has(key)) {
-      cell.append(h('span', 'mo-underline'));
+      const line = fromHtml(`<svg class="fl-hand mo-under" viewBox="${HAND.underline.viewBox}" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="${HAND.underline.d}"/></svg>`);
+      marks.push(at(line, { left: cx - cell * 0.3, top: cy + numeral * 0.42, width: cell * 0.6, height: numeral * 0.2 }));
     }
-    cells.push(cell);
+    // Sundays and holidays, the days off, in the soft ink.
+    const kind = key === ev.dateKey ? ' is-day' : isRedLetter(d) ? ' is-off' : '';
+    const num = at(sized(h('span', `mo-num${kind}`, String(n)), numeral), { left: x, top: cy - numeral / 2, width: cell, height: numeral });
+    nums.push(num);
   }
 
-  const grid = h('div', 'mo-grid',
-    h('div', 'mo-weekdays', WEEK_HEAD.map((label) => h('span', null, label))),
-    h('div', 'mo-weeks', cells));
-  grid.style.setProperty('--num', `${numeral}px`);
-  grid.style.setProperty('--weeks', String(weeks));
+  const nameText = capitalize(monthName(month));
+  const nameNode = voice('mo-name', [nameText], MONTH.name, { left: SIDE, baseline: MONTH.top + (0.5 + DISPLAY.base) * MONTH.name });
+  const yearSize = Math.round(MONTH.name * 0.46);
+  const nameWidth = textWidth(nameText, { ...VOICE, size: MONTH.name });
+  const yearNode = voice('mo-year', [String(year)], yearSize, { left: SIDE + nameWidth + 22, baseline: MONTH.top + (0.5 + DISPLAY.base) * MONTH.name });
+  const heads = at(h('div', 'mo-heads', WEEK_HEAD.map((label) => h('span', null, label))), { left: SIDE, top: MONTH.top + MONTH.name + MONTH.headsGap, width: WIDTH });
+  if (night) {
+    const right = SIDE + nameWidth + 22 + textWidth(String(year), { ...VOICE_SOFT, size: yearSize });
+    skyEl.append(starsNode({ left: right + 40, right: FLYER_WIDTH - 36, top: 24, bottom: MONTH.top + MONTH.name + MONTH.headsGap - 6 }) || '');
+  }
 
-  const { step, title, when, where, org } = plan;
-  const whenNode = lined('p', 'mo-when', when.map((line) => (line.holiday ? [line.text && `${line.text} · `, h('span', 'mo-holiday', line.holiday)] : line.text)), step.line);
-  const info = h('div', 'mo-info',
-    h('div', 'mo-titles', lined('div', 'mo-title', title.lines, title.size), whenNode),
-    (where || org) && h('div', 'mo-rows', where && placeRow(ev, where), org && orgRow(org)));
-
-  const sheet = h('div', 'fl-sheet', sheetTop(),
-    h('div', 'mo-head', h('div', 'mo-month', `${upper(monthName(month))} ${year}`)),
-    grid);
-
-  return [masthead(), h('div', 'mo-content', sheet, info), footer()];
+  const whenNode = lined('div', 'mo-when', when, step.line);
+  return [
+    skyEl,
+    nameNode,
+    yearNode,
+    heads,
+    ...marks,
+    ...nums,
+    bandNode(horizon),
+    landNode(horizon, titleNode(title), whenNode, rowsNode(orgRow(org), placeRow(ev, where))),
+    signature(),
+  ];
 }
 
-// ---------- 3. Poster ("Cartaz") ----------
-// A street poster: the title as large as the space above the band allows, the date on a small
-// sheet pinned beside the place and the organizations.
+// ---------- 3. Cartaz ----------
+// A poster: the title as large as the sky allows, the sun rising behind the band at the right (the
+// small moon high among the stars at night); on the land, the date circled by hand with the time,
+// then who organizes it and where.
 
 const POSTER = {
-  width: 920, // 1080 − 2 × 80
-  height: 1190, // 1350 − 2 × 80
-  gap: 40, // least space between the title and the band
-  sheetText: 292, // date sheet 340 − 2 × 24
-  rowWidth: 466, // details 524 − slot 44 − gap 14
-  details: 99, // the details column besides its rows: the signature 75 and 24 of air above it
+  top: 76, // the sky's top → the title's first line box, by day…
+  topNight: 228, // …and under the moon, at night
+  air: 52, // the title's last line box → the band, at night
+  sunRoom: 160, // by day, the least sky kept under the title for the sun to rise in
+  sun: 320, // the sun's radius
+  whenGap: 30, // the when → the rows (.fl--poster .fl-rows)
+  loop: { x: 0.4, top: -0.02, height: 1.42 }, // the hand's loop around the date, in em of its line
 };
 
-// The steps of the place and organization rows: 44px while a row takes at most two lines, then
-// 36px and 32px in more lines.
-const POSTER_ROWS = [[44, 2], [36, 5], [32, 6]];
-const POSTER_ROW_FONT = { face: 'barlow-600' };
+// Tighter and tighter land, until the title keeps a poster's size.
+const POSTER_STEPS = [
+  { when: 84, rows: [[40, 2], [36, 3]] },
+  { when: 76, rows: [[36, 2], [32, 3]] },
+  { when: 68, rows: [[32, 2], [30, 3]] },
+  { when: 60, rows: [[30, 2], [28, 2]] },
+];
 
-function posterFlyer(ev) {
-  const date = ev.date;
-  const timeText = formatTimeRange(ev);
-  const until = ev.endDate ? `até ${formatDayMonth(ev.endDate)}` : '';
-  const time = timeText ? fitTime(timeText, { face: 'condensed-800' }, POSTER.sheetText, 84, 48, 3) : null;
-  const typeFont = { face: 'condensed-600', size: 34 };
-  const typeLines = ev.type ? setLines(ev.type, typeFont, POSTER.sheetText, 2) : [];
-  // Without a time there is no bottom block: the type goes under the month.
-  const typeOnDay = typeLines.length > 0 && !time;
+// The when: "sáb 31/10" circled, then the time ("21h", "19h30 às 22h30") or "horário a confirmar";
+// a period goes on to its last day ("sex 16/10" circled, "a sáb 24/10, 19h"). What follows the
+// date sits beside it while it fits, else on the next line. Returns the lines' heights and builder.
+function posterWhen(ev, size) {
+  const tiny = (d) => `${weekdayTiny(d)}${NBSP}${formatDayMonth(d)}`;
+  const date = tiny(ev.date);
+  const { start, end } = timeParts(ev);
+  const time = start ? [start, end].filter(Boolean).join(' ') : '';
+  const rest = [ev.endDate && `a ${tiny(ev.endDate)}`, time].filter(Boolean).join(', ');
+  const soft = !time && !ev.endDate;
+  const restText = soft ? 'horário a confirmar' : rest;
+  const restFont = soft ? { ...VOICE_SOFT, size: Math.round(size * 0.6) } : { ...VOICE, size };
+  const dateWidth = textWidth(date, { ...VOICE, size });
+  const loopPad = POSTER.loop.x * size;
+  const beside = WIDTH - dateWidth - loopPad - 0.22 * size;
+  const restLines = textWidth(restText, restFont) <= beside * FIT ? [restText] : null;
+  const under = restLines ? null : setLines(restText, restFont, WIDTH, 2);
+  const holiday = holidayOn(ev.date);
+  const holidaySize = Math.round(size * 0.4);
+  const height = size * 1.3 + (under ? (0.2 + under.length * 1.1) * restFont.size : 0) + (holiday ? (0.3 + 1.4) * holidaySize : 0);
+  return { date, dateWidth, restLines, under, restFont, soft, holiday, holidaySize, height };
+}
 
-  let sheet = 14 + 28 + 171.4 + 4 + 48.4 + 4 + 48.4 + 24 + (until ? 43.1 : 0) + (typeOnDay ? 4 + typeLines.length * 39.1 : 0);
-  if (time) sheet += 1 + 18 + time.lines.length * time.size * (time.multi ? 1 : 0.92) + (typeLines.length ? 2 + typeLines.length * 39.1 : 0) + 26;
+function posterWhenNode(when, size) {
+  const { date, dateWidth, restLines, under, restFont, soft, holiday, holidaySize } = when;
+  const loop = fromHtml(`<svg class="fl-hand po-loop" viewBox="${HAND.loop.viewBox}" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="${HAND.loop.d}"/></svg>`);
+  // Around the glyphs, which stand between 0.23em and 1.18em of the 1.3em line (the descenders).
+  loop.style.left = px(-POSTER.loop.x * size);
+  loop.style.top = px(POSTER.loop.top * size);
+  loop.style.width = px(dateWidth + 2 * POSTER.loop.x * size);
+  loop.style.height = px(POSTER.loop.height * size);
+  const dateNode = h('span', 'po-date', date, loop);
+  const rest = restLines && sized(h('span', `po-rest${soft ? ' is-soft' : ''}`, restLines[0]), restFont.size);
+  if (rest) rest.style.marginLeft = px(POSTER.loop.x * size + 0.22 * size); // clear of the loop
+  const first = h('div', 'po-when-line', dateNode, rest);
+  return sized(h('div', 'po-when',
+    first,
+    under && lined('div', `po-under${soft ? ' is-soft' : ''}`, under, restFont.size),
+    holiday && sized(h('div', 'po-holiday', holiday.name), holidaySize)), size);
+}
 
-  // The rows take what the details column has beside the sheet, each at its largest step that
-  // leaves room for the other: first as many organizations as fit (more than three name two,
-  // "A, B e mais 2"), then the larger place, then the larger organizations. Only when even the
-  // smallest steps run over does the band grow, leaving the title less room, and only past that
-  // is the place cut, its city kept.
+function posterFlyer(ev, sky) {
+  const night = sky === 'night';
   const names = orgNames(ev);
-  const place = [tidy(ev.local), ev.city].filter(Boolean).join(', ');
-  const free = sheet - POSTER.details;
-  const fitRow = (text, [size, maxLines]) => {
-    const font = { ...POSTER_ROW_FONT, size };
-    const lines = fitLines(text, font, POSTER.rowWidth, maxLines);
-    return lines && { text, size, font, lines };
-  };
-  const rowsHeight = (...fits) => {
-    const parts = fits.filter(Boolean);
-    return sum(parts.map((fit) => fit.lines.length * fit.size * 1.2)) + 20 * Math.max(0, parts.length - 1);
-  };
-  const placeFits = place ? POSTER_ROWS.map((step) => fitRow(place, step)).filter(Boolean) : [null];
-  let rows = null;
-  let grown = null; // over even at the smallest steps: the band grows by as little as it can
-  for (let shown = Math.min(names.length, names.length > 3 ? 2 : 3); shown >= (names.length ? 1 : 0) && !rows && placeFits.length; shown--) {
-    const orgFits = shown ? POSTER_ROWS.map((step) => fitRow(listOrgs(names, shown), step)).filter(Boolean) : [null];
-    if (!orgFits.length) continue;
-    for (const where of placeFits) {
-      for (const org of orgFits) if (!rows && rowsHeight(where, org) <= free) rows = { where, org };
-    }
-    grown ??= { where: placeFits[placeFits.length - 1], org: orgFits[orgFits.length - 1] };
-  }
-  rows ??= grown ?? {
-    where: placeFits.length ? placeFits[placeFits.length - 1] : fitPlace(ev, POSTER_ROW_FONT, POSTER.rowWidth, POSTER_ROWS.slice(-1), 24),
-    org: names.length ? fitOrgs(names, ORG_FONT, POSTER.rowWidth, POSTER_ROWS.slice(-1), 1, 24) : null,
-  };
-  const { where, org } = rows;
-  const band = Math.max(sheet, rowsHeight(where, org) + POSTER.details);
+  const top = night ? POSTER.topNight : POSTER.top;
+  const measured = tidy(ev.title);
 
-  // The title: of the sizes from 200px down to 64px whose lines fit above the band with no word
-  // broken, the largest, marked down for lines that read badly (a short word ending a line, a line
-  // of short words or emoji alone): "CAMINHADA / ECOLÓGICA / DE / DOURADOS" gives way to
-  // "… / DE DOURADOS".
-  const measured = upper(tidy(ev.title));
-  const room = POSTER.height - band - POSTER.gap;
+  let plan;
+  for (const step of POSTER_STEPS) {
+    const when = posterWhen(ev, step.when);
+    const org = names.length ? fitOrgs(names, ROW_WIDTH, step.rows, 26) : null;
+    const where = hasPlace(ev) ? fitPlace(ev, PLACE, ROW_WIDTH, step.rows, 26) : null;
+    const rows = rowsHeight(org, where);
+    const land = LAND_TOP + when.height + (rows ? POSTER.whenGap + rows : 0) + SIGN_SPACE;
+    const horizon = Math.round(FLYER_HEIGHT - BAND - land);
+    plan = { step, when, org, where, horizon };
+    if (horizon - (night ? POSTER.air : POSTER.sunRoom) - top >= 2 * 1.02 * 96) break;
+  }
+  const { step, when, org, where, horizon } = plan;
+
+  // The title: of the sizes from 168px down to 56px whose lines fit the sky with no word broken,
+  // the largest, marked down for lines that read badly (a short word ending a line, a line of short
+  // words or emoji alone). By day it hangs from the top and the sun rises under it; at night it
+  // stands on the horizon under the moon.
+  const room = horizon - (night ? POSTER.air : POSTER.sunRoom) - top;
   let title = null;
-  for (let size = 200; size >= 64; size -= 4) {
-    const font = { face: 'condensed-800', size };
-    if (!wordsFit(measured, font, POSTER.width)) continue;
-    const lines = planLines(measured, font, POSTER.width);
-    if (lines.length * size * 0.95 > room) continue;
+  for (let size = 168; size >= 56; size -= 4) {
+    const font = { ...TITLE, size };
+    if (!wordsFit(measured, font, WIDTH)) continue;
+    const lines = planLines(measured, font, WIDTH);
+    if (lines.length * size * 1.02 > room) continue;
     const { weakEnds, weakLines } = badBreaks(lines);
     const score = size * (1 - 0.1 * weakEnds - 0.3 * weakLines);
     if (!title || score > title.score) title = { size, lines, score };
   }
   if (!title) {
-    // Too long even at 64px: cut to the lines that fit (a word too wide breaks between letters).
-    const font = { face: 'condensed-800', size: 64 };
-    const force = !wordsFit(measured, font, POSTER.width);
-    const text = cut(measured, font, POSTER.width, Math.max(1, Math.floor(room / (64 * 0.95))), '', force);
-    title = { size: 64, lines: planLines(text, font, POSTER.width, { force }) };
+    // Too long even at 56px: cut to the lines that fit (a word too wide breaks between letters).
+    const font = { ...TITLE, size: 56 };
+    const force = !wordsFit(measured, font, WIDTH);
+    const text = cut(measured, font, WIDTH, Math.max(1, Math.floor(room / (56 * 1.02))), { force });
+    title = { size: 56, lines: planLines(text, font, WIDTH, { force }) };
   }
 
-  const typeNode = typeLines.length > 0 && lined('div', 'po-type', typeLines);
-  const dateSheet = h('div', 'po-sheet',
-    sheetTop(),
-    h('div', 'po-day',
-      h('div', 'po-num', String(date.getDate()).padStart(2, '0')),
-      h('div', 'po-weekday', upper(weekdayShort(date))),
-      h('div', 'po-month', upper(monthName(date.getMonth()))),
-      until && h('div', 'po-until', until),
-      typeOnDay && typeNode),
-    time && h('div', 'po-when', lined('div', `po-time${time.multi ? ' is-lines' : ''}`, time.lines, time.size), typeNode));
+  const skyEl = skyNode(horizon);
+  const titleHeight = title.lines.length * title.size * 1.02;
+  if (night) {
+    const r = 64;
+    const moon = { x: FLYER_WIDTH - SIDE - r - 10, y: 56 + r + 18 };
+    const stars = { left: 36, right: FLYER_WIDTH - 36, top: 28, bottom: horizon - POSTER.air - titleHeight - 24 };
+    skyEl.append(starsNode(stars, [{ left: moon.x - r * 1.3, right: moon.x + r * 1.3, top: moon.y - r * 1.3, bottom: moon.y + r * 1.3 }]) || '', astroNode(moon.x, moon.y, r));
+  }
+  if (!night) {
+    // As much of the sun as the sky under the title holds, up to its hour's height.
+    const r = POSTER.sun;
+    const up = Math.max(POSTER.sunRoom - 28, Math.min(SUN_UP[sky] * 2 * r, horizon - top - titleHeight - 28));
+    skyEl.append(astroNode(FLYER_WIDTH - r * 0.62, horizon - up + r, r));
+  }
+  const titleEl = at(lined('div', 'po-title', title.lines, title.size), { left: SIDE, top: night ? horizon - POSTER.air - titleHeight : top, width: WIDTH });
 
-  const detailsCol = h('div', 'po-details',
-    h('div', 'po-info', where && placeRow(ev, where), org && orgRow(org)),
-    h('div', 'po-sign', fromHtml(brandMark(APP_NAME)), h('div', 'po-sign-text', h('div', 'po-sign-name', CITY), h('div', 'po-sign-line', FOOTER_LINE))));
-
-  return [lined('div', 'po-title', title.lines, title.size), h('div', 'po-band', dateSheet, detailsCol)];
+  return [
+    skyEl,
+    titleEl,
+    bandNode(horizon),
+    landNode(horizon, posterWhenNode(when, step.when), rowsNode(orgRow(org), placeRow(ev, where))),
+    signature(),
+  ];
 }
 
 // The styles to pick from, in the picker's order. `id` names the root class (.fl--<id>) and is
@@ -769,126 +1083,88 @@ function posterFlyer(ev) {
 // it; `name` is what the picker shows.
 export const FLYER_STYLES = [
   { id: 'day', slug: 'folha', name: 'Folha do dia', render: dayFlyer },
-  { id: 'month', slug: 'mes', name: 'Calendário do mês', render: monthFlyer },
+  { id: 'month', slug: 'mes', name: 'Agenda do mês', render: monthFlyer },
   { id: 'poster', slug: 'cartaz', name: 'Cartaz', render: posterFlyer },
 ];
 
-// ---------- Cancellation notice ("Aviso de cancelamento") ----------
-// Not one of the styles: every cancelled activity gets this notice, whatever style is picked.
-// The day sheet struck out under a CANCELADA stamp, the reason, then the activity crossed out.
+// ---------- Aviso de cancelamento ----------
+// Not one of the styles: every cancelled activity gets this notice, whatever style is picked. The
+// sky of its hour, without its sun or moon, says "Cancelada" over the date and time the hand struck
+// out; the land gives the reason, then the activity struck through: what, who and where.
 
 const NOTICE = {
-  room: 1012, // 1350 − header 164 − body padding 44 − footer 102 − 28 of air above the footer
-  width: 920,
-  rowWidth: 870, // 920 − slot 36 − gap 14
-  sheet: 918, // the sheet inside its borders, where the stamp is placed
-  head: 838, // the row under the numeral: 918 − 2 × 40
+  minSky: 400,
+  air: 58, // the struck date's last baseline → the band
+  whenGap: 30, // "Cancelada" → the struck date
+  reasonGap: 36, // the reason → the record (.nt-record)
+  recordGap: 14, // the struck title → its rows
 };
-const TURN = (8 * Math.PI) / 180; // the stamp's tilt
 
-function noticeFlyer(ev) {
-  const date = ev.date;
-  const timeText = formatTimeRange(ev);
-  const until = ev.endDate ? upper(`até ${formatDayMonth(ev.endDate)}`) : '';
-  const typeInDate = Boolean(ev.type && !timeText);
-  const reason = tidy(ev.cancelReason);
+function noticeFlyer(ev, sky) {
   const names = orgNames(ev);
-  const numeral = String(date.getDate()).padStart(2, '0');
-  const weekday = upper(weekdayName(date));
-  const month = `${upper(monthName(date.getMonth()))} ${date.getFullYear()}`;
-  const reasonStart = reason.length > 180 ? 34 : 40; // 34px once the reason runs long
+  const reason = tidy(ev.cancelReason);
+  const label = { text: 'Motivo:', face: NAME_FACE, kind: 'label' };
+  const reasonRuns = (text) => [label, { text, face: FULL_FACE, kind: '' }];
+  const reasonStart = reason.length > 180 ? 36 : 40;
 
-  // The squeeze t goes from 0 (the design's sizes) to 1 (compact): the day sheet and its stamp
-  // scale by k, the text steps down with them. The least squeeze that fits wins.
+  // The squeeze t goes from 0 (the design's sizes) to 1 (compact): the reason, the record and the
+  // date step down together, and the sky gives way down to NOTICE.minSky. The least that fits wins.
   let plan;
   for (let i = 0; i <= 20; i++) {
     const t = i / 20;
-    const k = between(1, 0.62, t);
-    const scaled = (n) => Math.round(n * k);
-    // The row under the numeral: the date (one line each, never wrapping), then with a time a rule
-    // and the time over the type, in what the date leaves of the row.
-    const dateFont = (size, track) => ({ face: 'condensed-700', size: scaled(size), track });
-    const typeFont = { face: 'condensed-600', size: scaled(32) };
-    const typeLine = (width) => setLines(ev.type, typeFont, width, 1)[0];
-    const typeDate = typeInDate ? typeLine(NOTICE.head) : '';
-    const dateWidth = Math.max(textWidth(weekday, dateFont(56, 0.054)), textWidth(month, dateFont(36, 0.056)), until ? textWidth(until, dateFont(36, 0.056)) : 0, typeDate ? textWidth(typeDate, typeFont) : 0);
-    const dateCol = scaled(56) * 1.05 + 2 + scaled(36) * 1.1 + (until ? 2 + scaled(36) * 1.1 : 0) + (typeDate ? 2 + typeFont.size * 1.2 : 0);
-    let time = null;
-    let typeTime = '';
-    let timeCol = 0;
-    if (timeText) {
-      const timeWidth = NOTICE.head - dateWidth - 2 * 32 * k - 1;
-      time = fitTime(timeText, { face: 'condensed-800' }, timeWidth, scaled(64), scaled(40), 2);
-      typeTime = ev.type ? typeLine(timeWidth) : '';
-      timeCol = Math.max(88 * k, time.lines.length * time.size * (time.multi ? 1 : 0.95) + (typeTime ? 2 + typeFont.size * 1.2 : 0));
-    }
-    const sheet = 2 + 10 + 28 + 0.84 * scaled(290) + (52 + 30) * k + Math.max(dateCol, timeCol);
+    const whenSize = Math.round(between(60, 44, t));
+    const whenFont = { ...VOICE_SOFT, size: whenSize };
+    const whenText = longWhen(ev);
+    const when = planLines(whenText, whenFont, WIDTH);
+    const wordSize = sizeToWidth('Cancelada', VOICE, WIDTH, Math.round(between(220, 170, t)), 120);
+    const sky0 = 56 + wordSize * (DISPLAY.cap + DISPLAY.descent) + NOTICE.whenGap + DISPLAY.accent * whenSize + (when.length - 1) * whenSize * 1.12 + NOTICE.air;
 
     const reasonSize = Math.round(between(reasonStart, 30, t));
-    const rowSize = Math.round(between(36, 32, t));
-    // Two lines each, until the organizations and then the place go down to one.
-    const orgLines = t < 0.55 ? 2 : 1;
-    const placeLines = t < 0.85 ? 2 : 1;
-    // The title: 64px in two lines, 52px from three (both shrinking with the squeeze), its first
-    // lines kept full as in the design; the reason below fills its lines as a paragraph.
-    const title = pickSize(tidy(ev.title), { face: 'barlow-700' }, NOTICE.width, [[Math.round(between(64, 44, t)), 2], [Math.round(between(52, 44, t)), 3]], { floor: 32, ragged: true });
-    const where = hasPlace(ev) ? fitPlace(ev, PLACE_FONT, NOTICE.rowWidth, [[rowSize, placeLines]], 28) : null;
-    const org = names.length ? fitOrgs(names, ORG_FONT, NOTICE.rowWidth, [[rowSize, orgLines]], names.length, 28) : null;
-    const record = title.lines.length * title.size * 1.08 + (where ? 14 + where.lines.length * where.size * 1.28 : 0) + (org ? 14 + org.lines.length * org.size * 1.28 : 0);
-    const font = { face: 'barlow-500', size: reasonSize };
-    const lineHeight = reasonSize * 1.3;
-    const free = NOTICE.room - sheet - 36 - record - (reason ? 36 + lineHeight + 4 : 0);
-    const force = Boolean(reason) && !wordsFit(reason, font, NOTICE.width);
-    let reasonLines = reason ? planLines(reason, font, NOTICE.width, { greedy: true, force }) : [];
-    plan = { k, scaled, typeDate, time, typeTime, typeFont, font, reasonLines, title, where, org };
-    if (reason ? reasonLines.length * lineHeight <= free : free >= 0) break;
+    const rowSize = Math.round(between(36, 30, t));
+    const title = pickSize(tidy(ev.title), { ...TITLE, track: 0 }, WIDTH, [[Math.round(between(56, 42, t)), 2], [Math.round(between(48, 40, t)), 3]], { floor: 30, ragged: true });
+    const org = names.length ? fitOrgs(names, ROW_WIDTH, [[rowSize, t < 0.55 ? 2 : 1]], 26) : null;
+    const where = hasPlace(ev) ? fitPlace(ev, PLACE, ROW_WIDTH, [[rowSize, t < 0.85 ? 2 : 1]], 26) : null;
+    const record = linesHeight(title, LH.title) + (org || where ? NOTICE.recordGap + rowsHeight(org, where) : 0);
+    const font = { face: FULL_FACE, size: reasonSize };
+    const fixed = LAND_TOP + record + SIGN_SPACE + (reason ? NOTICE.reasonGap : 0);
+    const free = FLYER_HEIGHT - BAND - Math.max(NOTICE.minSky, Math.ceil(sky0)) - fixed;
+    const force = Boolean(reason) && !wordsFit(reason, font, WIDTH);
+    let reasonLines = reason ? planLines(reasonRuns(reason), font, WIDTH, { greedy: true, force }) : [];
+    plan = { t, when, whenSize, wordSize, title, org, where, record, font, reasonLines, fixed };
+    const need = reasonLines.length * reasonSize * LH.reason;
+    if (need <= free) break;
     // Fully squeezed and still too long: the reason is cut to the lines left.
     if (i === 20 && reason) {
-      const shown = cut(reason, font, NOTICE.width, Math.max(1, Math.floor(free / lineHeight)), '', force);
-      reasonLines = planLines(shown, font, NOTICE.width, { greedy: true, force });
-      plan.reasonLines = reasonLines;
+      const keep = Math.max(1, Math.floor(free / (reasonSize * LH.reason)));
+      const shown = cut(reason, font, WIDTH, keep, { force, wrap: reasonRuns });
+      plan.reasonLines = planLines(reasonRuns(shown), font, WIDTH, { greedy: true, force });
     }
   }
-  const { k, scaled, typeDate, time, typeTime, typeFont, title, where, org } = plan;
+  const { when, whenSize, wordSize, title, org, where, font, reasonLines, fixed } = plan;
+  const land = fixed + reasonLines.length * font.size * LH.reason;
+  const horizon = Math.round(FLYER_HEIGHT - BAND - land);
 
-  // The stamp sits over the right digit and the empty right half, never on the weekday row, and
-  // never past the sheet's right edge (a wide "4" would push it there).
-  const numeralSize = scaled(290);
-  const numeralWidth = textWidth(numeral, { face: 'condensed-800', size: numeralSize, track: -0.01 });
-  const stampSize = scaled(140);
-  const stampWidth = textWidth('CANCELADA', { face: 'condensed-800', size: stampSize, track: 0.057 }) + stampSize * (0.164 + 0.221 + 2 * 0.0714);
-  const stampHeight = stampSize * (0.965 + 0.15 + 2 * 0.0714);
-  const reach = stampWidth * Math.cos(TURN) + stampHeight * Math.sin(TURN); // from its left edge to its rightmost corner
-  const stamp = sized(h('div', 'nt-stamp', 'CANCELADA'), stampSize);
-  stamp.style.left = px(Math.min(40 + numeralWidth * 0.44 - 5, NOTICE.sheet - reach - 6));
-  stamp.style.top = px(38 + 116 * k - 5);
+  // On the sky, up from the horizon: the struck date and time, then "Cancelada".
+  const lastBaseline = horizon - NOTICE.air;
+  const whenItems = when.map((line, i) => {
+    const node = voice('nt-when', [line], whenSize, { left: SIDE, baseline: lastBaseline - (when.length - 1 - i) * whenSize * 1.12 });
+    node.firstElementChild.append(fromHtml(`<svg class="fl-hand nt-strike" viewBox="${HAND.underline.viewBox}" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="${HAND.underline.d}"/></svg>`));
+    return node;
+  });
+  const firstTop = lastBaseline - (when.length - 1) * whenSize * 1.12 - DISPLAY.accent * whenSize;
+  const word = voice('nt-word', ['Cancelada'], wordSize, { left: SIDE, baseline: firstTop - NOTICE.whenGap - DISPLAY.descent * wordSize });
 
-  const typeNode = (text) => text && sized(h('div', 'nt-type', text), typeFont.size);
-  const head = h('div', 'nt-head',
-    sized(h('div', 'nt-num', numeral, h('span', 'nt-strike')), numeralSize),
-    h('div', 'nt-row',
-      h('div', 'nt-date',
-        sized(h('div', 'nt-weekday', weekday), scaled(56)),
-        sized(h('div', 'nt-month', month), scaled(36)),
-        until && sized(h('div', 'nt-month', until), scaled(36)),
-        typeNode(typeDate)),
-      time && h('span', 'nt-rule'),
-      time && h('div', 'nt-time-col',
-        lined('div', `nt-time${time.multi ? ' is-lines' : ''}`, time.lines.map((line) => [line, h('span', 'nt-strike')]), time.size),
-        typeNode(typeTime))));
-
-  const sheet = h('div', 'nt-sheet', h('div', 'nt-binding'), h('div', 'nt-perf'), head, stamp);
-  sheet.style.setProperty('--k', k.toFixed(4));
-
-  const body = h('div', 'nt-body',
-    sheet,
-    plan.reasonLines.length > 0 && sized(h('div', 'nt-reason', h('div', 'nt-reason-label', 'Motivo:'), lined('p', 'nt-reason-text', plan.reasonLines)), plan.font.size),
-    h('div', 'nt-record',
-      lined('div', 'nt-title', title.lines, title.size),
-      where && placeRow(ev, where),
-      org && orgRow(org)));
-
-  return [masthead(), body, h('div', 'nt-foot', h('div', 'nt-foot-rule'), h('div', 'nt-foot-line', FOOTER_LINE))];
+  const recordRows = rowsNode(orgRow(org), placeRow(ev, where));
+  return [
+    skyNode(horizon),
+    word,
+    ...whenItems,
+    bandNode(horizon),
+    landNode(horizon,
+      reasonLines.length > 0 && lined('p', 'nt-reason', reasonLines, font.size),
+      h('div', 'nt-record', titleNode(title, 'fl-title nt-title'), recordRows)),
+    signature(),
+  ];
 }
 
 export const NOTICE_STYLE = { id: 'notice', slug: 'cancelada', name: 'Aviso de cancelamento', render: noticeFlyer };
@@ -900,8 +1176,11 @@ const styleFor = (event, styleId) =>
 // skips it (aria-hidden), and it holds no headings of its own.
 export function renderFlyer(event, styleId = FLYER_STYLES[0].id) {
   const style = styleFor(event, styleId);
-  const node = h('div', `fl fl--${style.id}`, style.render(event));
+  const sky = skyOf(event);
+  const node = h('div', `fl fl--${style.id}`, style.render(event, sky));
+  node.dataset.sky = sky;
   node.setAttribute('aria-hidden', 'true');
+  if (event.cancelled) node.classList.add('is-cancelled');
   paintSector(node, event.sector);
   return node;
 }

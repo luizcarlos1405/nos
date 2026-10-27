@@ -1,24 +1,25 @@
-/* Flyers — 1080 × 1350, exported as PNG (js/flyer.js). A tear-off calendar at poster size (the
-   site's previous world, kept while the flyers wait for their own redesign): the urucum header card,
-   day sheets on the clay with their binding strip and perforation, Barlow.
-   Colours only through the roles of css/theme.css, always the light theme's (the flyer is a picture to
-   send, whatever the page's theme: css/theme.css declares the light roles on .fl too); the sector
-   colour arrives as --sector. Barlow through --font-flyer and --font-flyer-display, never the site's
-   fonts: js/flyer.js measures Barlow.
-   js/flyer.js plans every text (sizes and line breaks) with the fixed measures below and sets
-   the sizes that depend on the text inline, in whole pixels: keep both files in step.
+/* Flyers — 1080 × 1350, exported as PNG (js/flyer.js), in the site's world, Céu · Terra: the sky of
+   the hour the activity starts in flat bands, the woven band as the horizon, the land below.
+   Colours only through the roles of css/theme.css, which declares the flyers' own on .fl: the light
+   theme's land under the dawn, day and dusk skies, the dark theme's terra roxa under the night sky
+   (data-sky on .fl, set by js/flyer.js), whatever the page's theme and hour: a flyer is a picture to
+   send. The group's colour arrives as --sector.
+   Type: Bricolage Grotesque, NOS's voice, with its optical size pinned at 96, and Inter, what the
+   organizations announce: the faces js/flyer.js measured (.impeccable/flyer-metrics.html). In px,
+   never rem: the canvas is fixed.
+   js/flyer.js plans every text (sizes, line breaks, where the sky's blocks stand) with the fixed
+   measures below and sets what depends on the text inline, in whole pixels: keep both files in step.
    Every rule is scoped under the flyer, so page styles can't reach into it. */
 
 .fl {
   position: relative;
-  display: flex;
-  flex-direction: column;
   width: 1080px;
   height: 1350px;
   overflow: hidden;
   background: var(--role-ground);
   color: var(--role-ink);
-  font: 500 16px/1.2 var(--font-flyer);
+  font: 500 16px/1.2 var(--font-ui);
+  font-variation-settings: 'opsz' 96; /* Bricolage's optical size, as measured (Inter has no such axis) */
   -webkit-font-smoothing: antialiased;
 }
 .fl, .fl *, .fl *::before, .fl *::after { box-sizing: border-box; }
@@ -26,310 +27,102 @@
 
 /* ---------- Shared parts ---------- */
 
+/* Blocks placed by js/flyer.js at planned coordinates. */
+.fl .fl-at { position: absolute; }
+
 /* Text set in the lines js/flyer.js planned: one block per line, which never wraps, so the
    browser can't break it any other way (the plan keeps every line inside its box). */
 .fl .fl-line { display: block; white-space: nowrap; }
 
-/* The header card: the mark beside the city and the full name. */
-.fl .fl-mast {
-  flex: none;
-  display: flex;
-  align-items: center;
-  gap: 28px;
-  height: 194px;
-  padding: 0 60px;
-  background: var(--role-header);
-  color: var(--role-on-header);
-}
-.fl .fl-mast .mark { font-size: 42px; }
-.fl .fl-mast-text { display: flex; flex-direction: column; gap: 6px; }
-.fl .fl-mast-name { font: 800 62px/1 var(--font-flyer-display); }
-.fl .fl-mast-full { font: 500 28px/1.2 var(--font-flyer); }
+/* The sky: five flat bands (heights inline), the stars and the astro, clipped at the horizon. */
+.fl .fl-sky { position: absolute; left: 0; right: 0; top: 0; overflow: hidden; }
+.fl .fl-sky-band { position: absolute; left: 0; right: 0; }
+.fl .fl-sky-band.is-1 { background: var(--role-sky-1); }
+.fl .fl-sky-band.is-2 { background: var(--role-sky-2); }
+.fl .fl-sky-band.is-3 { background: var(--role-sky-3); }
+.fl .fl-sky-band.is-4 { background: var(--role-sky-4); }
+.fl .fl-sky-band.is-5 { background: var(--role-sky-5); }
+.fl .fl-stars { position: absolute; left: 0; top: 0; fill: var(--role-star); }
+/* The sun or the moon: the disc, and the hand's loop around it (its pen, --pen, set inline). */
+.fl .fl-astro { position: absolute; overflow: visible; }
+.fl .fl-astro circle { fill: var(--role-astro); }
+.fl .fl-astro path { fill: none; stroke: var(--role-sky-hand); stroke-width: var(--pen); stroke-linecap: round; stroke-linejoin: round; }
 
-/* A sheet of the pad: paper, binding strip, a row of perforation dots (drawn on the paper). */
-.fl .fl-sheet {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  background: var(--role-card);
-  border: 2px solid var(--role-line);
-  border-radius: 4px 4px 12px 12px;
-  overflow: hidden;
-}
-.fl .fl-binding { flex: none; height: 12px; background: var(--role-binding); }
-.fl .fl-perf {
-  flex: none;
-  height: 32px;
-  padding: 0 22px; /* first dot 36px from the sheet's edge, one every 24px */
-  background: radial-gradient(circle, var(--role-line) 4px, var(--role-card) 4.5px) 0 0 / 24px 32px repeat-x content-box;
-}
+/* The hand's other marks: on the sky in the sky's hand, on the land in urucum. */
+.fl .fl-hand { position: absolute; overflow: visible; fill: none; stroke: var(--role-sky-hand); stroke-width: 6px; stroke-linecap: round; stroke-linejoin: round; }
 
-/* Rows of facts: a fixed slot for the icon or the sector square, then the text. The row's
+/* The horizon: the woven band (provisional art), full-bleed. */
+.fl .fl-band { left: 0; right: 0; height: 64px; background: url(../assets/faixa.svg) 0 50% / auto 100% repeat-x; }
+
+/* NOS's voice on the sky (line heights inline, from the plan). */
+.fl :is(.dy-num, .dy-weekday, .dy-time, .mo-name, .mo-num, .nt-word) { font-family: var(--font-display); font-weight: 800; letter-spacing: -0.02em; color: var(--role-sky-ink); white-space: nowrap; }
+.fl :is(.dy-month, .dy-holiday, .dy-until, .dy-end, .dy-tbc, .mo-year, .nt-when) { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.01em; color: var(--role-sky-ink-soft); white-space: nowrap; }
+
+/* The land: the activity's blocks in a column under the band. */
+.fl .fl-land { left: 72px; right: 72px; display: flex; flex-direction: column; padding-top: 50px; }
+.fl .fl-title { font: 700 16px/1.06 var(--font-ui); letter-spacing: -0.02em; }
+
+/* Rows of facts: a slot for the group's dot or the place's icon, then the text. The row's
    font-size (set inline) sizes the slot's height, so the mark sits on the first line. */
-.fl .fl-row { display: flex; align-items: flex-start; gap: 16px; line-height: 1.2; }
-.fl .fl-row-mark { flex: none; display: grid; place-items: center; width: 36px; height: 1.2em; }
+.fl .fl-rows { display: flex; flex-direction: column; gap: 14px; }
+.fl .fl-row { display: flex; align-items: flex-start; line-height: 1.25; }
+.fl .fl-row-mark { flex: none; display: grid; place-items: center; width: 38px; height: 1.25em; margin-right: 14px; }
 .fl .fl-row-text { flex: 1; min-width: 0; }
-.fl .fl-row.is-org { font-weight: 600; }
-.fl .fl-row.is-place { font-weight: 500; color: var(--role-ink-soft); }
-.fl .fl-icon { display: block; width: 0.95em; height: 0.95em; }
-.fl .fl-square { display: block; width: 0.7em; height: 0.7em; border-radius: 4px; background: var(--sector); }
+.fl .fl-row.is-org { font-weight: 500; }
+.fl .fl-name { font-weight: 700; }
+.fl .fl-full { color: var(--role-ink-soft); }
+.fl .fl-dot { display: block; width: 0.6em; height: 0.6em; border-radius: 50%; background: var(--sector, var(--role-no-sector)); }
+.fl .fl-icon { display: block; width: 0.92em; height: 0.92em; color: var(--role-ink-soft); }
 
-.fl .fl-tag {
-  padding: 6px 16px;
-  border-radius: 6px;
-  background: var(--role-ink);
-  color: var(--role-on-ink);
-  font: 700 34px/1.2 var(--font-flyer-display);
-  letter-spacing: 0.015em;
-  white-space: nowrap;
-}
+/* NOS's signature at the foot: the mark beside the city, the agenda and its address. */
+.fl .fl-sign { position: absolute; left: 72px; right: 72px; bottom: 46px; height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 32px; }
+.fl .fl-sign-brand { display: flex; align-items: center; gap: 14px; }
+.fl .mark { display: block; width: 3.807em; height: 2.3em; overflow: visible; font-size: 20px; }
+.fl .mark-letters { fill: currentColor; }
+.fl .mark-loop { fill: var(--role-mark-loop); }
+.fl .fl-sign-city { font: 750 40px/1 var(--font-display); letter-spacing: -0.02em; }
+.fl .fl-sign-text { display: flex; flex-direction: column; align-items: flex-end; font: 500 26px/1.25 var(--font-ui); color: var(--role-ink-soft); white-space: nowrap; }
+.fl .fl-sign-site { font-weight: 600; color: var(--role-ink); }
 
-.fl .fl-foot {
-  flex: none;
-  padding: 28px 60px 44px;
-  font: 500 26px/1.2 var(--font-flyer);
-  color: var(--role-ink-soft);
-}
+/* ---------- 1. Folha do dia ---------- */
 
-/* ---------- 1. Day sheet ("Folha do dia") ---------- */
+.fl--day .fl-rows { margin-top: 30px; }
 
-.fl--day .dy-wall { flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 40px 60px 0; }
+/* ---------- 2. Agenda do mês ---------- */
 
-/* The head takes what the body leaves. --k (set inline) scales its boxes from the 460px
-   numeral; the type sizes come inline and the tracking follows them in em. */
-.fl--day .dy-head {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  align-items: center;
-  gap: calc(40px * var(--k));
-  padding: 0 48px calc(58px * var(--k)); /* the numeral's glyphs sit low in their box */
-}
-.fl--day .dy-num { flex: none; font: 800 460px/0.8 var(--font-flyer-display); letter-spacing: -0.013em; }
-.fl--day .dy-col {
-  flex: 1;
-  min-width: 0;
-  height: calc(368px * var(--k));
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding-top: calc(32px * var(--k));
-}
-.fl--day .dy-date, .fl--day .dy-until { white-space: nowrap; } /* one line each, sized to the column */
-.fl--day .dy-weekday { font: 800 70px/1 var(--font-flyer-display); letter-spacing: 0.03em; }
-.fl--day .dy-month { margin-top: 0.2em; font: 700 40px/1.1 var(--font-flyer-display); letter-spacing: 0.075em; }
-.fl--day .dy-holiday { margin-top: 0.24em; font: 600 34px/1.2 var(--font-flyer); color: var(--role-red-letter); }
-.fl--day .dy-when { display: flex; flex-direction: column; gap: calc(8px * var(--k)); }
-.fl--day .dy-until { font: 700 48px/1 var(--font-flyer-display); }
-.fl--day .dy-time { font: 800 120px/0.8 var(--font-flyer-display); letter-spacing: -0.008em; }
-.fl--day .dy-time.is-lines { line-height: 1; } /* a raw text from the sheet in lines: room for accents */
-.fl--day .dy-head.is-red .dy-num, .fl--day .dy-head.is-red .dy-weekday { color: var(--role-red-letter); }
+/* The weekday heads, in the site's month voice: Inter capitals. */
+.fl--month .mo-heads { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); font: 600 26px/1.2 var(--font-ui); letter-spacing: 0.08em; text-align: center; color: var(--role-sky-ink-soft); }
+.fl--month .mo-num { display: block; line-height: 1; text-align: center; }
+.fl--month .mo-num.is-day { color: var(--role-on-astro); }
+.fl--month .mo-num.is-off { font-weight: 700; color: var(--role-sky-ink-soft); }
+.fl--month .mo-under { stroke-width: 5px; }
+.fl--month .mo-when { margin-top: 14px; font: 800 16px/1.2 var(--font-display); letter-spacing: -0.02em; }
+.fl--month .fl-holiday { color: var(--role-ink-soft); }
+.fl--month .fl-rows { margin-top: 28px; }
 
-.fl--day .dy-body {
-  flex: none;
-  display: flex;
-  flex-direction: column;
-  gap: 36px;
-  padding: 44px 48px 48px;
-  border-top: 2px solid var(--role-line);
-}
-.fl--day .dy-title { font: 700 78px/1.08 var(--font-flyer); letter-spacing: -0.013em; }
-.fl--day .dy-meta { display: flex; flex-direction: column; align-items: flex-start; gap: 24px; }
-.fl--day .dy-rows { display: flex; flex-direction: column; gap: 14px; align-self: stretch; }
+/* ---------- 3. Cartaz ---------- */
 
-/* ---------- 2. Month calendar ("Calendário do mês") ---------- */
+.fl--poster .po-title { font: 700 16px/1.02 var(--font-ui); letter-spacing: -0.02em; color: var(--role-sky-ink); }
+/* The when: the date circled by hand (in urucum on the land), the time beside it or under it. */
+.fl--poster .po-when { font-family: var(--font-display); font-weight: 800; letter-spacing: -0.02em; }
+.fl--poster .po-when-line { display: flex; align-items: baseline; height: 1.3em; line-height: 1.3; white-space: nowrap; }
+.fl--poster .po-date { position: relative; }
+.fl--poster .po-loop { stroke: var(--role-hand); stroke-width: 7px; }
+.fl--poster :is(.po-rest, .po-under).is-soft { font-weight: 700; letter-spacing: -0.01em; color: var(--role-ink-soft); }
+.fl--poster .po-under { margin-top: 0.2em; line-height: 1.1; }
+.fl--poster .po-holiday { margin-top: 0.3em; font: 600 16px/1.4 var(--font-ui); letter-spacing: 0; color: var(--role-ink-soft); }
+.fl--poster .fl-rows { margin-top: 30px; }
 
-.fl--month .fl-mast { height: 162px; }
-.fl--month .mo-content { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 44px; padding: 40px 60px 36px; }
+/* ---------- Aviso de cancelamento ---------- */
 
-.fl--month .mo-head { flex: none; padding: 8px 40px 20px; }
-.fl--month .mo-month { font: 800 92px/0.9 var(--font-flyer-display); letter-spacing: 1px; }
-
-/* --weeks rows share the height left; --num is the numeral size picked for it. */
-.fl--month .mo-grid { flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 0 40px 28px; }
-.fl--month .mo-weekdays {
-  flex: none;
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  padding-bottom: 14px;
-  border-bottom: 2px solid var(--role-line);
-  font: 700 30px/1.2 var(--font-flyer-display);
-  letter-spacing: 2px;
-  text-align: center;
-  color: var(--role-ink-soft);
-}
-.fl--month .mo-weekdays span:first-child { color: var(--role-red-letter); }
-.fl--month .mo-weeks {
-  flex: 1;
-  min-height: 0;
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  grid-template-rows: repeat(var(--weeks), minmax(0, 1fr));
-  padding-top: 8px;
-}
-.fl--month .mo-day { position: relative; display: grid; place-items: center; font: 700 var(--num)/1 var(--font-flyer-display); }
-.fl--month .mo-day.is-red { color: var(--role-red-letter); }
-.fl--month .mo-num { position: relative; }
-
-/* The day circled by hand, and a stroke under the other days a long activity covers. */
-.fl--month .mo-ring {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  border: 8px solid var(--role-alert);
-  border-radius: 50%;
-  transform: translate(-50%, -50%) rotate(-7deg);
-}
-.fl--month .mo-underline {
-  position: absolute;
-  left: 50%;
-  top: calc(50% + 0.48em);
-  width: 1.3em;
-  height: 6px;
-  border-radius: 3px;
-  background: var(--role-alert);
-  transform: translateX(-50%) rotate(-2deg);
-}
-
-.fl--month .mo-info { flex: none; display: flex; flex-direction: column; gap: 28px; }
-.fl--month .mo-titles { display: flex; flex-direction: column; gap: 12px; }
-.fl--month .mo-title { font: 700 76px/1.08 var(--font-flyer); letter-spacing: -0.013em; }
-.fl--month .mo-when { font: 600 40px/1.25 var(--font-flyer); }
-.fl--month .mo-holiday { white-space: nowrap; color: var(--role-red-letter); }
-.fl--month .mo-rows { display: flex; flex-direction: column; gap: 14px; }
-
-/* ---------- 3. Poster ("Cartaz") ---------- */
-
-.fl--poster {
-  justify-content: space-between;
-  padding: 80px;
-  background: var(--role-header);
-  color: var(--role-on-header);
-}
-.fl--poster .po-title { font: 800 168px/0.95 var(--font-flyer-display); } /* set in capitals by js/flyer.js */
-
-.fl--poster .po-band { flex: none; display: flex; gap: 56px; }
-
-.fl--poster .po-sheet {
-  flex: none;
-  width: 340px;
-  display: flex;
-  flex-direction: column;
-  background: var(--role-card);
-  color: var(--role-ink);
-  border-radius: 4px 4px 6px 6px;
-  overflow: hidden;
-}
-.fl--poster .po-sheet .fl-binding { height: 14px; background: var(--role-ink); }
-.fl--poster .po-sheet .fl-perf {
-  height: 28px;
-  padding: 0 14px;
-  background: radial-gradient(circle, var(--role-ink-faded) 3px, var(--role-card) 3.5px) 0 0 / 22px 28px repeat-x content-box;
-}
-.fl--poster .po-day { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 0 24px 24px; text-align: center; }
-.fl--poster .po-num { font: 800 204px/0.84 var(--font-flyer-display); letter-spacing: -2px; }
-.fl--poster .po-weekday, .fl--poster .po-month { font: 700 44px/1.1 var(--font-flyer-display); letter-spacing: 2.6px; }
-.fl--poster .po-weekday { color: var(--role-red-letter); }
-.fl--poster .po-until, .fl--poster .po-type { font: 600 34px/1.15 var(--font-flyer-display); color: var(--role-ink-soft); }
-.fl--poster .po-when {
-  margin-top: auto; /* the sheet may stretch with a tall details column */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  padding: 18px 24px 26px;
-  border-top: 1px solid var(--role-line);
-  text-align: center;
-}
-.fl--poster .po-time { font: 800 84px/0.92 var(--font-flyer-display); }
-.fl--poster .po-time.is-lines { line-height: 1; }
-
-.fl--poster .po-details { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; }
-.fl--poster .po-info { display: flex; flex-direction: column; gap: 20px; }
-.fl--poster .po-info .fl-row { gap: 14px; font-weight: 600; color: var(--role-on-header); }
-.fl--poster .po-info .fl-row-mark { width: 44px; }
-.fl--poster .po-info .fl-square { width: 26px; height: 26px; border-radius: 3px; box-shadow: 0 0 0 3px var(--role-on-header); }
-
-.fl--poster .po-sign { display: flex; align-items: center; justify-content: flex-end; gap: 18px; }
-.fl--poster .po-sign .mark { font-size: 30px; }
-.fl--poster .po-sign-text { display: flex; flex-direction: column; gap: 4px; }
-.fl--poster .po-sign-name { font: 800 36px/1.05 var(--font-flyer-display); }
-.fl--poster .po-sign-line { font: 500 24px/1.25 var(--font-flyer); }
-
-/* ---------- Cancellation notice ("Aviso de cancelamento") ---------- */
-
-.fl--notice .fl-mast { height: 164px; gap: 26px; padding: 0 80px; }
-.fl--notice .fl-mast .mark { font-size: 40px; }
-.fl--notice .fl-mast-name { font-size: 56px; }
-
-.fl--notice .nt-body { flex: none; display: flex; flex-direction: column; gap: 36px; padding: 44px 80px 0; }
-
-/* --k (set inline) scales the sheet's boxes from the 290px numeral; the type sizes come inline
-   and everything drawn on the type (tracking, strikes, the stamp) follows them in em. */
-.fl--notice .nt-sheet {
-  position: relative;
-  flex: none;
-  background: var(--role-card);
-  border: 1px solid var(--role-line);
-  border-radius: 4px 4px 6px 6px;
-  overflow: hidden;
-}
-.fl--notice .nt-binding { height: 10px; background: var(--role-binding); }
-.fl--notice .nt-perf {
-  height: 28px;
-  padding: 0 17px;
-  background: radial-gradient(circle, var(--role-ink-faded) 3px, var(--role-card) 3.5px) 0 1px / 25px 28px repeat-x content-box;
-}
-.fl--notice .nt-head { display: flex; flex-direction: column; align-items: flex-start; gap: calc(52px * var(--k)); padding: 0 40px calc(30px * var(--k)); }
-.fl--notice .nt-num { position: relative; font: 800 290px/0.84 var(--font-flyer-display); letter-spacing: -0.01em; }
-.fl--notice .nt-strike { position: absolute; left: 0; right: 0; background: var(--role-alert); }
-.fl--notice .nt-num .nt-strike { top: 0.448em; height: 0.0414em; }
-
-.fl--notice .nt-row { display: flex; align-items: center; gap: calc(32px * var(--k)); }
-/* The date keeps its lines whole; js/flyer.js gives the time what it leaves of the row. */
-.fl--notice .nt-date { flex: none; display: flex; flex-direction: column; gap: 2px; white-space: nowrap; }
-.fl--notice .nt-weekday { font: 700 56px/1.05 var(--font-flyer-display); letter-spacing: 0.054em; }
-.fl--notice .nt-month { font: 700 36px/1.1 var(--font-flyer-display); letter-spacing: 0.056em; color: var(--role-ink-soft); }
-.fl--notice .nt-rule { flex: none; align-self: stretch; width: 1px; min-height: calc(88px * var(--k)); background: var(--role-line); }
-.fl--notice .nt-time-col { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
-.fl--notice .nt-time { font: 800 64px/0.95 var(--font-flyer-display); }
-.fl--notice .nt-time.is-lines { line-height: 1; }
-/* Each line of the time struck on its own, as wide as its text. */
-.fl--notice .nt-time .fl-line { position: relative; width: fit-content; }
-.fl--notice .nt-time .nt-strike { top: 0.48em; height: 0.078em; }
-.fl--notice .nt-time.is-lines .nt-strike { top: 0.5em; }
-.fl--notice .nt-type { font: 600 32px/1.2 var(--font-flyer-display); color: var(--role-ink-soft); white-space: nowrap; }
-
-/* The rubber stamp, placed by js/flyer.js over the right digit, clear of the weekday row. */
-.fl--notice .nt-stamp {
-  position: absolute;
-  padding: 0 0.164em 0.15em 0.221em;
-  border: 0.0714em solid var(--role-alert);
-  border-radius: 0.0714em;
-  color: var(--role-alert);
-  font: 800 140px/0.965 var(--font-flyer-display);
-  letter-spacing: 0.057em;
-  white-space: nowrap;
-  transform: rotate(-8deg);
-  transform-origin: 0 0;
-}
-
-.fl--notice .nt-reason { display: flex; flex-direction: column; gap: 4px; font-size: 40px; line-height: 1.3; }
-.fl--notice .nt-reason-label { font-weight: 700; }
-.fl--notice .nt-reason-text { font-weight: 500; }
-
-.fl--notice .nt-record { display: flex; flex-direction: column; gap: 14px; color: var(--role-ink-soft); }
-.fl--notice .nt-title {
-  font: 700 64px/1.08 var(--font-flyer);
-  text-decoration: line-through;
-  text-decoration-thickness: 0.08em;
-}
-.fl--notice .nt-record .fl-row { gap: 14px; line-height: 1.28; }
-.fl--notice .nt-record .fl-row.is-org { color: var(--role-ink-soft); }
-.fl--notice .nt-record .fl-row-mark { height: 1.28em; }
-.fl--notice .nt-record .fl-square { width: 22px; height: 22px; border-radius: 3px; }
-
-.fl--notice .nt-foot { margin-top: auto; flex: none; display: flex; flex-direction: column; gap: 18px; padding: 0 80px 48px; }
-.fl--notice .nt-foot-rule { height: 1px; background: var(--role-line); }
-.fl--notice .nt-foot-line { font: 500 28px/1.25 var(--font-flyer); color: var(--role-ink-soft); }
+/* The date and time, struck by the hand. */
+.fl--notice .nt-when .fl-line { position: relative; }
+.fl--notice .nt-strike { left: -0.12em; top: 0.44em; width: calc(100% + 0.24em); height: 0.18em; }
+.fl--notice .nt-reason { font: 500 16px/1.3 var(--font-ui); }
+.fl--notice .fl-label { font-weight: 700; }
+.fl--notice .nt-record { margin-top: 36px; color: var(--role-ink-soft); }
+.fl--notice .nt-record .fl-rows { margin-top: 14px; }
+.fl--notice .nt-title { letter-spacing: 0; text-decoration: line-through; text-decoration-thickness: 0.08em; }
+.fl--notice .fl-row.is-org .fl-name { font-weight: 600; }
+/* A cancelled activity keeps its group's colour as an outline, as on the site. */
+.fl--notice .fl-dot { background: none; box-shadow: inset 0 0 0 0.12em var(--sector, var(--role-no-sector)); }

@@ -140,7 +140,8 @@
 }
 
 /* ---------- 2. Roles: the light theme ---------- */
-/* The flyers (.fl) always print in it, whatever the page's theme: they are pictures to send. */
+/* The flyers (.fl) print in it under the dawn, day and dusk skies, whatever the page's theme: they
+   are pictures to send. Under the night sky they print in the dark theme (below). */
 
 :root, .fl {
   color-scheme: light;
@@ -195,19 +196,12 @@
   /* The WhatsApp preview */
   --role-chat: var(--color-clay-fill);
   --role-bubble: var(--color-clay-card);
-
-  /* The flyers' folhinha (css/flyers.css): the mast and the sheets' binding in urucum, Sundays and
-     holidays in urucum text, the cancellation stamp and the hand ring in urucum. */
-  --role-header: var(--color-urucum);
-  --role-on-header: var(--color-white);
-  --role-binding: var(--color-urucum);
-  --role-red-letter: var(--color-urucum-text);
-  --role-alert: var(--color-urucum);
 }
 
 /* ---------- The dark theme ---------- */
+/* Also the land of a flyer under the night sky (.fl[data-sky='night']): terra roxa. */
 
-:root[data-scheme='dark'] {
+:root[data-scheme='dark'], .fl[data-sky='night'] {
   color-scheme: dark;
 
   --role-ground: var(--color-terra-roxa);
@@ -258,9 +252,11 @@
 
 /* ---------- The sky at this hour ---------- */
 /* Five flat bands from the top (1) to the horizon (5), the ink that reads on all of them, the
-   astro's loop (the hand that draws the sun or the moon) and what shines in it. Day is the default. */
+   astro's loop (the hand that draws the sun or the moon) and what shines in it. Day is the default.
+   A flyer (.fl) takes the sky of the hour its activity starts (data-sky, set by js/flyer.js; the
+   day's when there is no time), whatever the page's hour or theme. */
 
-:root {
+:root, .fl {
   --role-sky-1: var(--color-day-1);
   --role-sky-2: var(--color-day-2);
   --role-sky-3: var(--color-day-3);
@@ -271,9 +267,10 @@
   --role-sky-hand: var(--color-urucum);
   --role-sky-wash: color-mix(in srgb, var(--color-ink) 9%, transparent);
   --role-astro: var(--color-sun);
+  --role-on-astro: var(--color-ink);          /* a flyer's day numeral on the sun or the moon */
   --role-star: var(--color-star);
 }
-:root[data-sky='dawn'] {
+:root[data-sky='dawn'], .fl[data-sky='dawn'] {
   --role-sky-1: var(--color-dawn-1);
   --role-sky-2: var(--color-dawn-2);
   --role-sky-3: var(--color-dawn-3);
@@ -281,7 +278,7 @@
   --role-sky-5: var(--color-dawn-5);
   --role-sky-ink-soft: var(--color-dawn-ink-soft);
 }
-:root[data-sky='dusk'] {
+:root[data-sky='dusk'], .fl[data-sky='dusk'] {
   --role-sky-1: var(--color-dusk-1);
   --role-sky-2: var(--color-dusk-2);
   --role-sky-3: var(--color-dusk-3);
@@ -290,7 +287,7 @@
   --role-sky-ink-soft: var(--color-dusk-ink-soft);
 }
 /* After the others: the dark theme's sky is the night whatever the hour. */
-:root[data-sky='night'], :root[data-scheme='dark'] {
+:root[data-sky='night'], :root[data-scheme='dark'], .fl[data-sky='night'] {
   --role-sky-1: var(--color-night-1);
   --role-sky-2: var(--color-night-2);
   --role-sky-3: var(--color-night-3);
