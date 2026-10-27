@@ -93,7 +93,8 @@ initPage();
 renderToday();
 if (location.protocol !== 'file:') {
   renderNext().catch((err) => console.warn('Agenda:', err));
-  renderBusinesses().catch((err) => console.warn('Comércio:', err));
+  // Comércio is paused while the businesses are collected and organized: its door says "Em breve"
+  // (index.html). Calling renderBusinesses() here again brings the businesses back.
 }
 
 // The installed app opens here and may resume the next day: reprint today and the next activities.

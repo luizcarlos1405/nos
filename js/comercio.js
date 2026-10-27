@@ -313,5 +313,6 @@ if (formUrl) {
   $('join').hidden = false;
 }
 
-if (location.protocol !== 'file:') load();
+// Paused while the businesses are collected and organized: comercio.html shows "Em breve" where the
+// phone book goes. Calling load() here again brings the list back.
 registerWorker();
