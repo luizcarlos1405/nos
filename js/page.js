@@ -1,4 +1,4 @@
-// What the three pages share: Início (index.html, js/home.js), Agenda (calendario.html, js/app.js)
+// What the three pages share: Início (index.html, js/home.js), Agenda (agenda.html, js/app.js)
 // and Comércio (comercio.html, js/comercio.js). The header on the sky, small DOM helpers, notices,
 // reading a published sheet, and the offline worker.
 

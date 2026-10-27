@@ -104,7 +104,7 @@ function renderNext(next, upcoming) {
   send.rel = 'noopener';
   send.innerHTML = `${icon('message')}<span>Compartilhar no WhatsApp</span>`;
   const open = el('a', 'btn btn-line', 'Ver na agenda');
-  open.href = 'calendario.html';
+  open.href = 'agenda.html';
   actions.append(send, open);
 
   const parts = [head, title, facts, actions];
@@ -124,7 +124,7 @@ function renderNext(next, upcoming) {
     }
     const ahead = events.filter((ev) => !ev.cancelled && lastDayKey(ev) >= dateKey(today)).length;
     const more = el('a', 'more');
-    more.href = 'calendario.html';
+    more.href = 'agenda.html';
     more.innerHTML = `<span>Ver ${ahead > 1 ? `as ${agendaSummary(events, today)}` : 'a agenda'}</span>${icon('arrow-right')}`;
     box.append(heading, list, more);
     parts.push(box);

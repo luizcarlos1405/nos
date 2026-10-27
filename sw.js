@@ -33,13 +33,15 @@ const HOME = absolute('./');
 
 // App shell, cached on install so the first visit already works offline: on that visit the page
 // isn't controlled by this worker yet, so only what is listed here gets saved. That is the three
-// pages (index.html as './', calendario.html, comercio.html) and everything they load: the manifest
+// pages (index.html as './', agenda.html, comercio.html), the agenda's old address (calendario.html, which
+// forwards to agenda.html) and everything they load: the manifest
 // and its icons, the favicons, the three stylesheets with the fonts they declare and the woven band
 // (assets/faixa.svg), every module reached from js/home.js, js/app.js and js/comercio.js, and the
 // vendored image library (which also fetches the fonts again to embed them in the flyer PNG). Later
 // visits also save at runtime anything missing here, but keep this list in step with those files.
 const SHELL = [
   './',
+  'agenda.html',
   'calendario.html',
   'comercio.html',
   'manifest.webmanifest',

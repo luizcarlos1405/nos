@@ -1,13 +1,13 @@
 ---
 version: 1
-slug: "calendario-html"
-primary_target: "calendario.html"
+slug: "agenda-html"
+primary_target: "agenda.html"
 related_targets: []
 ---
 
-# Surface: Agenda (calendario.html)
+# Surface: Agenda (agenda.html)
 
-Scope: the agenda of the organizations (the page was called Calendário; the approved design names it Agenda; the address stays calendario.html): the list view and the month view, filters by group and organization, past days on request, the activity panel (WhatsApp message + flyer), and the 1080×1350 flyer PNGs. Visitor mode: **Operate**. Phone-first; desktop is the production bench. Responsive at every width in between. Only current features.
+Scope: the agenda of the organizations (the page was called Calendário and lived at calendario.html until 2026-10-27; that address now forwards here): the list view and the month view, filters by group and organization, past days on request, the activity panel (WhatsApp message + flyer), and the 1080×1350 flyer PNGs. Visitor mode: **Operate**. Phone-first; desktop is the production bench. Responsive at every width in between. Only current features.
 
 Audience/job: militants of Dourados' movements find what the other organizations are doing and forward it to their WhatsApp groups in two taps; people from the city find an activity, understand who organizes it, what it is and where, and show up.
 

@@ -17,7 +17,7 @@ const HOME_CHROMIUM = '/home/luizcarlos1405/.nix-profile/bin/chromium';
 const { chromium } = require(process.env.PLAYWRIGHT_CORE || local('playwright-core') || '/home/luizcarlos1405/.local/lib/node_modules/@playwright/cli/node_modules/playwright-core');
 const out = '.impeccable/review';
 const base = process.env.URL || 'http://localhost:8765/';
-const url = `${base}calendario.html`;
+const url = `${base}agenda.html`;
 (async () => {
   fs.mkdirSync(out, { recursive: true });
   const browser = await chromium.launch({ executablePath: process.env.CHROMIUM || (fs.existsSync(HOME_CHROMIUM) ? HOME_CHROMIUM : undefined) });

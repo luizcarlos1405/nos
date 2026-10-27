@@ -2,7 +2,7 @@
 //   node assets/render.cjs            all of them
 //   node assets/render.cjs icons      only the icons and favicons (assets/icon.html)
 //   node assets/render.cjs og         only the link preview (assets/og-image.html)
-//   node assets/render.cjs shots      only the manifest screenshots (the site itself: calendario.html
+//   node assets/render.cjs shots      only the manifest screenshots (the site itself: agenda.html
 //                                     and comercio.html, in the light theme)
 // It serves the project folder itself, on a free local port. Needs Playwright and a Chromium:
 // `npm i --no-save playwright-core && npx playwright-core install chromium` in the project folder,
@@ -144,7 +144,7 @@ async function renderOg(browser, base) {
 
 async function renderShots(browser, base) {
   fs.mkdirSync(SHOTS, { recursive: true });
-  const open = async (options, file = 'calendario.html', ready = '.event-card') => {
+  const open = async (options, file = 'agenda.html', ready = '.event-card') => {
     const context = await browser.newContext({ ...options, colorScheme: 'light', reducedMotion: 'reduce', serviceWorkers: 'block' });
     const page = await context.newPage();
     await page.clock.install({ time: new Date(SHOT_DAY) });

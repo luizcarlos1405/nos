@@ -1,4 +1,4 @@
-// Builds WhatsApp-ready messages: an activity's (Calendário) and a business's (Comércio, "Indicar
+// Builds WhatsApp-ready messages: an activity's (Agenda) and a business's (Comércio, "Indicar
 // no WhatsApp"). WhatsApp formatting: *bold*, _italic_. Lines for empty fields are left out.
 
 import { APP_NAME, CITY, HOME_CITY, SITE_URL } from './config.js';
@@ -6,7 +6,7 @@ import { formatDateRange, formatTimeRange, matchKey } from './events.js';
 
 // Closing lines added to every message, with the address of the page they come from — change them
 // freely (or set to '' to remove).
-export const CLOSING_LINE = `📅 Mais atividades na agenda do ${APP_NAME} ${HOME_CITY}${SITE_URL ? `: ${SITE_URL}/calendario.html` : ''}`;
+export const CLOSING_LINE = `📅 Mais atividades na agenda do ${APP_NAME} ${HOME_CITY}${SITE_URL ? `: ${SITE_URL}/agenda.html` : ''}`;
 export const COMMERCE_CLOSING_LINE = `🛍️ Mais negócios da rede no ${APP_NAME} ${HOME_CITY}${SITE_URL ? `: ${SITE_URL}/comercio.html` : ''}`;
 
 // Where the activity happens, as the message header names it.

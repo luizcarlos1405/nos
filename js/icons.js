@@ -64,7 +64,7 @@ export function brandMark(word, className = 'mark') {
 // the next activity (two drawings, so neighbours don't look stamped), and a short stroke underlines
 // today. They stretch to the box they mark (preserveAspectRatio none) while the pen keeps its width.
 // `astro` is the same hand drawing the sun or the moon: a disc and the loop around it, a little off
-// register like a screen print; the pages print it on the sky (index.html, calendario.html, comercio.html).
+// register like a screen print; the pages print it on the sky (index.html, agenda.html, comercio.html).
 export const HAND = {
   loop: { viewBox: '0 0 120 60', d: 'M84 7C62 2 28 4 12 15C1 23 2 41 22 50C42 59 88 58 108 46C122 37 119 17 98 9C84 4 66 4 47 9' },
   loopAlt: { viewBox: '0 0 120 60', d: 'M20 15C40 4 86 1 106 13C121 22 117 44 94 52C68 61 24 59 9 45C-2 34 6 15 30 9C46 5 66 5 80 8' },

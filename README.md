@@ -5,7 +5,7 @@ A agenda das organizações e movimentos de Dourados/MS e o comércio da rede, e
 O site tem três páginas, cada uma um arquivo HTML:
 
 - **Início** (`index.html`): o bom-dia (ou boa-tarde, boa-noite) sob o céu desta hora, a próxima atividade pousada na faixa, pronta para mandar no WhatsApp, e uma porta para cada página.
-- **Agenda** (`calendario.html`): as atividades das organizações, em lista de dias ou no mês. Até 26/10/2026 era o `index.html`; até 27/10/2026 se chamava Calendário.
+- **Agenda** (`agenda.html`): as atividades das organizações, em lista de dias ou no mês. Até 26/10/2026 era o `index.html`; até 27/10/2026 se chamava Calendário e ficava em `calendario.html`, endereço que agora leva para `agenda.html` (assim os links já compartilhados continuam funcionando).
 - **Comércio** (`comercio.html`): os negócios que se cadastraram pelo formulário da rede, de A a Z. **Em pausa desde 27/10/2026**: a página e a porta do Início dizem "Em breve" enquanto as informações são coletadas e organizadas.
 
 No celular, a barra no pé da tela leva de uma página à outra; no computador, os links ficam no alto, sobre o céu. A marca NOS leva ao Início. São links comuns, então funcionam em qualquer hospedagem estática.
@@ -105,7 +105,7 @@ O navegador não deixa ler os CSVs abrindo as páginas direto do arquivo (`file:
 python3 -m http.server 8000
 ```
 
-e acesse <http://localhost:8000> (o Início; a agenda está em `/calendario.html` e o comércio em `/comercio.html`). Para ver o tema escuro ou outra hora do céu sem mexer no relógio, acrescente `?tema=escuro` (ou `claro`) e `?ceu=amanhecer` (ou `dia`, `entardecer`, `noite`) ao endereço.
+e acesse <http://localhost:8000> (o Início; a agenda está em `/agenda.html` e o comércio em `/comercio.html`). Para ver o tema escuro ou outra hora do céu sem mexer no relógio, acrescente `?tema=escuro` (ou `claro`) e `?ceu=amanhecer` (ou `dia`, `entardecer`, `noite`) ao endereço.
 
 ## Publicando
 
@@ -113,8 +113,8 @@ Qualquer hospedagem estática serve (GitHub Pages, Netlify, Cloudflare Pages…)
 
 O site está em https://nos.dourados.social (GitHub Pages, domínio no arquivo `CNAME`). Se o endereço mudar:
 
-- troque `SITE_URL` em `js/config.js` (ele entra no fim de cada mensagem de WhatsApp, com o nome da página: `calendario.html`, `comercio.html`);
-- no `<head>` das três páginas (`index.html`, `calendario.html`, `comercio.html`), troque o endereço nas tags da prévia do link (`canonical`, `og:url`, `og:image`…). Os endereços precisam ser completos: sem eles, o WhatsApp e as redes mostram a prévia só com título e descrição, sem a imagem `assets/og-image.png`.
+- troque `SITE_URL` em `js/config.js` (ele entra no fim de cada mensagem de WhatsApp, com o nome da página: `agenda.html`, `comercio.html`);
+- no `<head>` das três páginas (`index.html`, `agenda.html`, `comercio.html`), troque o endereço nas tags da prévia do link (`canonical`, `og:url`, `og:image`…). Os endereços precisam ser completos: sem eles, o WhatsApp e as redes mostram a prévia só com título e descrição, sem a imagem `assets/og-image.png`.
 
 ## Funcionando sem internet e instalando como app
 
@@ -159,7 +159,8 @@ As cores, fontes e cantos vêm das variáveis do `css/theme.css` (as direções 
 
 ```
 index.html          o Início
-calendario.html     a agenda
+agenda.html         a agenda
+calendario.html     o endereço antigo da agenda (leva para agenda.html)
 comercio.html       o comércio
 css/theme.css       cores (paleta e papéis, claro e escuro, o céu de cada hora), fontes e cantos
 css/style.css       estilos do site
