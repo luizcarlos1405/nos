@@ -19,7 +19,7 @@ const DRAG_SLOP = 4;       // screen px a press can move and still be a click
 const DOUBLE_MS = 350;
 const POLL_MS = 1000;
 // Every design links these, so a change to one reloads them all (designs.json is watched too).
-const SHARED = ['../css/theme.css', 'assets/design.css', 'assets/components.css', 'assets/icons.svg'];
+const SHARED = ['../css/theme.css', 'assets/design.css', 'assets/icons.svg'];
 // Watching the files is for a local server; a published copy only reloads on demand.
 const LIVE = ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
 

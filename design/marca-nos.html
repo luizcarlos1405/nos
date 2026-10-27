@@ -6,59 +6,57 @@
 <title>Marca NOS</title>
 <link rel="stylesheet" href="../css/theme.css">
 <link rel="stylesheet" href="assets/design.css">
-<link rel="stylesheet" href="assets/components.css">
 <style>
-.marca-nos { display: flex; flex-direction: column; align-items: flex-start; gap: 32px; padding: 40px; width: 860px; background: var(--color-surface); }
-.board-title { flex-shrink: 0; font-family: var(--font-display); font-size: 32px; font-weight: 800; white-space: nowrap; color: var(--color-ink); }
-.board-note { align-self: stretch; flex-shrink: 0; font-family: var(--font-ui); font-size: 16px; font-weight: 500; line-height: 1.4; color: var(--color-muted); }
-.hero { display: flex; align-items: center; gap: 24px; align-self: stretch; flex-shrink: 0; }
-.hero-paper, .hero-red { display: grid; place-items: center; flex: 1 1 0; height: 240px; border-radius: 6px; }
-.hero-paper { background: var(--color-surface); outline: 1px solid var(--color-seam); outline-offset: -1px; }
-.hero-red { background: var(--color-brand); }
-/* On paper the letters print in ink and the O is circled in red; on the red card all of it is white. */
-.on-paper { color: var(--color-ink); --mark-loop: var(--color-brand); }
+/* The mark in the Céu · Terra world: on the land and on the night sky, the site's lockup on the sky of
+   the day and of the night, and the icons and link preview the site ships. Colours from the palette of
+   css/theme.css. */
+.marca-nos { display: flex; flex-direction: column; align-items: flex-start; gap: 32px; padding: 40px; width: 860px; background: var(--color-clay); color: var(--color-ink); }
+.board-title { font-family: var(--font-display); font-size: 34px; font-weight: 800; letter-spacing: -0.02em; white-space: nowrap; }
+.board-note { align-self: stretch; font-family: var(--font-ui); font-size: 16px; line-height: 1.5; color: var(--color-ink-soft); text-wrap: pretty; }
+.nos-mark { display: block; flex-shrink: 0; overflow: visible; }
+.hero { display: flex; align-items: center; gap: 24px; align-self: stretch; }
+.hero-land, .hero-night { display: grid; place-items: center; flex: 1 1 0; height: 240px; border-radius: 18px; }
+.hero-land { background: var(--color-clay-card); box-shadow: 0 1px 2px color-mix(in srgb, var(--color-earth-shadow) 8%, transparent), 0 6px 16px color-mix(in srgb, var(--color-earth-shadow) 7%, transparent); }
+.hero-night { background: var(--color-night-1); }
 .hero .nos-mark { width: 228px; height: 138px; }
-.lockups { display: flex; align-items: center; gap: 24px; flex-shrink: 0; }
-.lockup-cabecalho-vermelho { display: flex; align-items: center; gap: 12px; padding: 14px 20px; flex-shrink: 0; background: var(--color-brand); border-radius: 6px; }
-.lockup-text { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; flex-shrink: 0; }
-.city { flex-shrink: 0; font-family: var(--font-display); font-size: 24px; font-weight: 800; line-height: 1.05; white-space: nowrap; color: var(--color-on-ink); }
-.full-name { flex-shrink: 0; font-family: var(--font-ui); font-size: 14px; font-weight: 500; line-height: 1.2; white-space: nowrap; color: var(--color-on-ink); }
-.lockup-fundo-claro { display: flex; align-items: center; gap: 12px; padding: 14px 20px; flex-shrink: 0; background: var(--color-ground); border-radius: 6px; }
-.city-2 { flex-shrink: 0; font-family: var(--font-display); font-size: 24px; font-weight: 800; line-height: 1.05; white-space: nowrap; color: var(--color-ink); }
-.full-name-2 { flex-shrink: 0; font-family: var(--font-ui); font-size: 14px; font-weight: 500; line-height: 1.2; white-space: nowrap; color: var(--color-muted); }
-.assets { display: flex; align-items: flex-end; gap: 28px; flex-shrink: 0; }
-.asset { display: flex; flex-direction: column; align-items: center; gap: 8px; flex-shrink: 0; }
-.asset-label { flex-shrink: 0; font-family: var(--font-ui); font-size: 13px; font-weight: 500; white-space: nowrap; color: var(--color-muted); }
-.app-icon { display: block; width: 132px; height: 132px; flex-shrink: 0; filter: drop-shadow(0 1px 2px #1C1C1E33); }
-.favicons { display: flex; align-items: flex-end; gap: 14px; padding: 12px 14px; flex-shrink: 0; background: #DEE1E6; border-radius: 8px; }
-.preview { display: block; width: 440px; height: 231px; flex-shrink: 0; border-radius: 6px; }
+/* On the land the letters are ink and the loop urucum; on the night sky, moonlit letters and the night's urucum. */
+.on-land { color: var(--color-ink); --mark-loop: var(--color-urucum); }
+.on-night { color: var(--color-moonlit); --mark-loop: var(--color-urucum-night); }
+.lockups { display: flex; align-items: center; gap: 24px; }
+.lockup { display: flex; align-items: flex-start; gap: 7px; padding: 18px 22px 16px; border-radius: 14px; }
+.lockup .nos-mark { width: 46px; height: 28px; }
+.lockup-day { background: var(--color-day-1); }
+.lockup-night { background: var(--color-night-1); }
+.place { margin-top: 2px; font-family: var(--font-display); font-size: 22px; line-height: 28px; font-weight: 750; letter-spacing: -0.02em; white-space: nowrap; }
+.lockup-day .place { color: var(--color-ink); }
+.lockup-night .place { color: var(--color-moonlit); }
+.assets { display: flex; align-items: flex-end; gap: 28px; }
+.asset { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.asset-label { font-family: var(--font-ui); font-size: 13px; font-weight: 500; white-space: nowrap; color: var(--color-ink-soft); }
+.app-icon { display: block; width: 132px; height: 132px; filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--color-earth-shadow) 25%, transparent)); }
+.favicons { display: flex; align-items: flex-end; gap: 14px; padding: 12px 14px; background: var(--color-clay-card); border-radius: 10px; }
+.preview { display: block; width: 440px; height: 231px; border-radius: 10px; }
 </style>
 </head>
 <body>
-<!-- Marca NOS: the mark chosen on 2026-10-27 (proposal 01 of marca-propostas.html). The drawing is
-     assets/icons.svg#marca-nos, the same paths as MARK in js/icons.js; the icon, favicons and link
-     preview are the PNGs the site ships (rendered by assets/render.cjs). -->
+<!-- Marca NOS: the mark chosen on 2026-10-27 (proposal 01 of marca-propostas.html), in the Céu · Terra
+     world. The drawing is assets/icons.svg#marca-nos, the same paths as MARK in js/icons.js; the icon,
+     favicons and link preview are the PNGs the site ships (rendered by assets/render.cjs). -->
 <div class="marca-nos">
   <span class="board-title">Marca NOS</span>
-  <span class="board-note">NOS com o O circulado à mão, como se marca uma data na folhinha: as letras impressas em Barlow Condensed e o círculo de caneta. No papel, letras em grafite e círculo vermelho; no cartão vermelho, tudo branco.</span>
+  <span class="board-note">NOS com o O circulado à mão: as letras desenhadas a partir da Barlow Condensed e o laço de caneta, que no céu desenha o sol. Na terra, letras em tinta e laço de urucum; no céu da noite, letras claras e o urucum da noite. No site, a marca vem com o nome da cidade em Bricolage, sobre o céu desta hora; no ícone do app, o O é o sol.</span>
   <div class="hero">
-    <div class="hero-paper"><svg class="nos-mark on-paper" aria-hidden="true"><use href="assets/icons.svg#marca-nos"/></svg></div>
-    <div class="hero-red"><svg class="nos-mark" aria-hidden="true"><use href="assets/icons.svg#marca-nos"/></svg></div>
+    <div class="hero-land"><svg class="nos-mark on-land" aria-hidden="true"><use href="assets/icons.svg#marca-nos"/></svg></div>
+    <div class="hero-night"><svg class="nos-mark on-night" aria-hidden="true"><use href="assets/icons.svg#marca-nos"/></svg></div>
   </div>
   <div class="lockups">
-    <div class="lockup-cabecalho-vermelho">
-      <svg class="nos-mark" aria-hidden="true"><use href="assets/icons.svg#marca-nos"/></svg>
-      <div class="lockup-text">
-        <span class="city">Dourados/MS</span>
-        <span class="full-name">Núcleo de Organização Social</span>
-      </div>
+    <div class="lockup lockup-day">
+      <svg class="nos-mark on-land" aria-hidden="true"><use href="assets/icons.svg#marca-nos"/></svg>
+      <span class="place">Dourados</span>
     </div>
-    <div class="lockup-fundo-claro">
-      <svg class="nos-mark on-paper" aria-hidden="true"><use href="assets/icons.svg#marca-nos"/></svg>
-      <div class="lockup-text">
-        <span class="city-2">Dourados/MS</span>
-        <span class="full-name-2">Núcleo de Organização Social</span>
-      </div>
+    <div class="lockup lockup-night">
+      <svg class="nos-mark on-night" aria-hidden="true"><use href="assets/icons.svg#marca-nos"/></svg>
+      <span class="place">Dourados</span>
     </div>
   </div>
   <div class="assets">
