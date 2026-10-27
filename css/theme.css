@@ -214,7 +214,7 @@
   --role-card: var(--color-terra-roxa-card);
   --role-card-hover: var(--color-terra-roxa-card-hover);
   --role-card-border: var(--color-terra-roxa-line);
-  --role-card-shadow: none;
+  --role-card-shadow: 0 0 0 0 transparent; /* not `none`: style.css adds rings to it in lists */
   --role-sheet-shadow: 0 -8px 28px color-mix(in srgb, var(--color-night-shade) 60%, transparent);
   --role-fill: var(--color-terra-roxa-fill);
   --role-line: var(--color-terra-roxa-line);
