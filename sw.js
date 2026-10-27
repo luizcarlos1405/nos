@@ -74,12 +74,6 @@ const SHELL = [
   'js/vendor/html-to-image.js',
   'fonts/bricolage-grotesque.woff2',
   'fonts/inter.woff2',
-  'fonts/barlow-500.woff2',
-  'fonts/barlow-600.woff2',
-  'fonts/barlow-700.woff2',
-  'fonts/barlow-condensed-600.woff2',
-  'fonts/barlow-condensed-700.woff2',
-  'fonts/barlow-condensed-800.woff2',
 ];
 
 const isCSV = (url) => CSV_URLS.includes(absolute(url));
