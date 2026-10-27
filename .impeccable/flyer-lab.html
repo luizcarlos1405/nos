@@ -177,10 +177,14 @@
     // inside the flyer; the sky's text on the sky (under the top, over the band) and the land's under
     // the band and over the signature; no two blocks of text running into each other; a planned line
     // no wider than its box; the hand's marks inside the flyer; and every text against what lies
-    // under it (the sky's bands, the sun or the moon, the land) at 4.5:1 or more.
+    // under it (the sky's bands, the sun or the moon, the land) at 4.5:1 or more; and no edge
+    // between the sky's bands within 0.15em (8px to 22px) of a sky line's baseline, x-height line or
+    // cap line, where the text would seem to stand on it or hang from it.
     const BLOCKS = '.dy-num, .dy-weekday, .dy-month, .dy-holiday, .dy-until, .dy-time, .dy-end, .dy-tbc, .mo-name, .mo-year, .mo-heads, .mo-num, .po-title, .nt-word, .nt-when, .fl-land .fl-title, .mo-when, .po-when-line, .po-under, .po-holiday, .fl-row, .nt-reason, .fl-sign-brand, .fl-sign-text';
     const BOXED = '.fl-land .fl-title, .fl-row-text, .mo-when, .nt-reason, .po-title';
     const MIN_CONTRAST = 4.5;
+    // Capitals and lowercase in em, measured from the rendered ink at the flyers' optical size.
+    const LINES_OF = { display: { cap: 0.66, x: 0.528 }, text: { cap: 0.728, x: 0.546 } };
     const BAND_HEIGHT = 64;
 
     const canvas = document.createElement('canvas').getContext('2d');
@@ -287,9 +291,30 @@
         const r = local(el.getBoundingClientRect());
         const content = { left: r.left + parseFloat(style.paddingLeft), right: r.right - parseFloat(style.paddingRight), top: -Infinity, bottom: Infinity };
         for (const line of el.querySelectorAll('.fl-line')) {
-          const range = document.createRange();
-          range.selectNodeContents(line);
-          if (!inside(local(range.getBoundingClientRect()), content)) problems.push(`line runs past its box: "${line.textContent.slice(0, 30)}"`);
+          // The line's text only: a hand's stroke across it may run a little past its ends.
+          const boxes = textNodes(line).map((t) => {
+            const range = document.createRange();
+            range.selectNodeContents(t);
+            return local(range.getBoundingClientRect());
+          });
+          if (boxes.some((box) => !inside(box, content))) problems.push(`line runs past its box: "${line.textContent.slice(0, 30)}"`);
+        }
+      }
+      const edges = [...node.querySelectorAll('.fl-sky-band')].slice(1).map((band) => local(band.getBoundingClientRect()).top);
+      for (const text of textNodes(node)) {
+        const el = text.parentElement;
+        if (el.closest('.fl-land, .fl-sign')) continue;
+        const style = getComputedStyle(el);
+        const size = parseFloat(style.fontSize);
+        const lines = LINES_OF[/Bricolage/.test(style.fontFamily) ? 'display' : 'text'];
+        const m = metrics(el, 'x');
+        const range = document.createRange();
+        range.selectNodeContents(text);
+        for (const r of [...range.getClientRects()].filter((rect) => rect.width > 0)) {
+          const baseline = (r.top - frame.top) / s + m.ascent;
+          const ys = /^[\d\s]+$/.test(text.textContent) ? [baseline, baseline - lines.cap * size] : [baseline, baseline - lines.x * size, baseline - lines.cap * size];
+          const pad = Math.max(8, Math.min(22, 0.15 * size)) - 1;
+          if (edges.some((edge) => ys.some((y) => Math.abs(edge - y) < pad))) problems.push(`a band edge grazes "${text.textContent.trim().slice(0, 24)}"`);
         }
       }
       for (const mark of node.querySelectorAll('.fl-hand')) {
