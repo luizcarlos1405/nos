@@ -1844,7 +1844,7 @@
       },
       {
         "name": "The Sky of the Hour Rule",
-        "body": "A flyer's sky is the hour its activity starts, never the hour it is made, and the day's when there is no time. Its text uses the sky's inks only, and the edges between its bands keep clear of the text's lines: never grazing a baseline, an x-height or a cap line.",
+        "body": "A flyer's sky is the hour its activity starts, never the hour it is made, and the day's when there is no time. Its text uses the sky's inks only, and the edges between its bands never cross a line of text (only display type from 120px, which they must cross, keeps just its cap line, x-height and foot clear) nor squeeze between two lines of a block.",
         "section": "components"
       },
       {
