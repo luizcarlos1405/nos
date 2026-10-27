@@ -31,3 +31,4 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 - The list is paused until the businesses are collected and organized (revert commit 29dcdeb to bring it back).
 - The form's public link (COMMERCE_FORM_URL) is still empty, so the invitation stays hidden.
 - `Categoria` is filled by the NOS team, not asked by the form.
+- A plain `git revert 29dcdeb` no longer applies over the redesign: CLAUDE.md ("Comércio's pause") lists the four edits that bring the list back; the list is already styled in the new world.

@@ -29,3 +29,6 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 - The woven band is provisional art: the real one must be made with artists of the Reserva Indígena de Dourados (see design/faixa-pesquisa.html).
 - Comércio is paused ("Em breve") until the businesses are collected and organized.
 - Name and mark are provisional (NOS = Núcleo de Organização Social).
+- Built on 2026-10-27. The light theme's other hours were derived in the build, in Terra's register, and wait for the user's eye: dia #6FAEE3 #9DCAEE #CDE2EE #F1E3CF #F6D2A2, entardecer #8C99D6 #B8A2D4 #EAABAA #F5A275 #F7C460; the light theme's noite is the dark theme's night sky over the clay.
+- The agenda's door: its count and, on phones, a live line ("Depois, sáb 31/10, 21h: Baile dos Educadores – Festa Tropical"); on the desk "Também na agenda" carries what comes next, so the door keeps its count alone.
+- Comércio's door when the list returns: the count of businesses (renderCommerceDoor in js/home.js) and its own text in index.html.

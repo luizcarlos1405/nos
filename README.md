@@ -4,18 +4,20 @@ A agenda das organizações e movimentos de Dourados/MS e o comércio da rede, e
 
 O site tem três páginas, cada uma um arquivo HTML:
 
-- **Início** (`index.html`): uma frase e duas portas, a folha de hoje com as próximas atividades e a primeira folha da lista de negócios.
-- **Calendário** (`calendario.html`): a agenda. Até 26/10/2026 era o `index.html`.
-- **Comércio** (`comercio.html`): os negócios que se cadastraram pelo formulário da rede, como uma caderneta de telefones de A a Z.
+- **Início** (`index.html`): o bom-dia (ou boa-tarde, boa-noite) sob o céu desta hora, a próxima atividade pousada na faixa, pronta para mandar no WhatsApp, e uma porta para cada página.
+- **Agenda** (`calendario.html`): as atividades das organizações, em lista de dias ou no mês. Até 26/10/2026 era o `index.html`; até 27/10/2026 se chamava Calendário.
+- **Comércio** (`comercio.html`): os negócios que se cadastraram pelo formulário da rede, de A a Z. **Em pausa desde 27/10/2026**: a página e a porta do Início dizem "Em breve" enquanto as informações são coletadas e organizadas.
 
-As abas no pé do cartão vermelho levam de uma página à outra; a marca NOS leva ao Início. São links comuns, então funcionam em qualquer hospedagem estática.
+No celular, a barra no pé da tela leva de uma página à outra; no computador, os links ficam no alto, sobre o céu. A marca NOS leva ao Início. São links comuns, então funcionam em qualquer hospedagem estática.
 
-Cada dia da agenda é uma folha de folhinha. Cada atividade mostra quem organiza, onde e quando, e de onde veio a informação. Para cada atividade o site gera:
+O visual é o "Céu · Terra": no alto, o céu de Dourados desta hora (amanhecer, dia, entardecer ou noite), em faixas de cor; uma faixa tecida faz o horizonte; embaixo, a terra (barro claro de dia, terra roxa à noite). O site tem tema claro e escuro: segue o do celular e tem um botão para trocar. A faixa é arte provisória, feita só da técnica do trançado: a definitiva vai ser criada, assinada e paga a artistas da Reserva Indígena de Dourados (veja `design/faixa-pesquisa.html`).
+
+Cada atividade mostra quem organiza, onde e quando, e de onde veio a informação; a próxima tem o horário circulado à mão. Para cada atividade o site gera:
 
 - **Mensagem de WhatsApp** pronta para colar (com negrito, emojis e só os campos preenchidos);
 - **Panfleto em PNG** (1080 × 1350 px) em três estilos (Folha do dia, Calendário do mês e Cartaz). Atividade cancelada vira um aviso de cancelamento.
 
-Sem build, sem dependências para instalar: HTML, CSS e JavaScript puro. Nasceu de uma cópia do [Calendário de Luta](https://github.com/luizcarlos1405/calendario), do qual só manteve as cores.
+Sem build, sem dependências para instalar: HTML, CSS e JavaScript puro. Nasceu de uma cópia do [Calendário de Luta](https://github.com/luizcarlos1405/calendario).
 
 ## Editando a agenda
 
@@ -103,7 +105,7 @@ O navegador não deixa ler os CSVs abrindo as páginas direto do arquivo (`file:
 python3 -m http.server 8000
 ```
 
-e acesse <http://localhost:8000> (o Início; o calendário está em `/calendario.html` e o comércio em `/comercio.html`).
+e acesse <http://localhost:8000> (o Início; a agenda está em `/calendario.html` e o comércio em `/comercio.html`). Para ver o tema escuro ou outra hora do céu sem mexer no relógio, acrescente `?tema=escuro` (ou `claro`) e `?ceu=amanhecer` (ou `dia`, `entardecer`, `noite`) ao endereço.
 
 ## Publicando
 
@@ -135,30 +137,31 @@ Tudo que costuma mudar fica em `js/config.js`:
 - `CITY` / `HOME_CITY`: a cidade da agenda; atividades com `Cidade` vazia ou igual a ela são "daqui".
 - `SITE_URL`: endereço do site, colocado no fim das mensagens.
 - `SECTOR_SERIES`: a cor fixa de cada setor sugerido.
-- `EXTRA_HOLIDAYS`: feriados locais, impressos em vermelho como os nacionais (`js/holidays.js`).
+- `EXTRA_HOLIDAYS`: feriados locais, marcados como os nacionais (`js/holidays.js`).
 - `ORG_NAMES`: nomes por extenso das organizações.
 
-**Cores e temas.** Todas as cores do site e dos panfletos ficam em `css/theme.css`, em duas camadas: a paleta (as cores) e os papéis (para que serve cada cor: cabeçalho, papel, tinta, destaque, próxima atividade, setores…). O resto do CSS só usa os papéis. Para experimentar outro tema, copie o bloco de exemplo no fim do `theme.css`, dê um nome e mude as cores. Para ver sem editar nada, abra o site com `?tema=<nome>` no fim do endereço (por exemplo `http://localhost:8000/?tema=exemplo`). Para adotar o tema, coloque `data-theme="<nome>"` na tag `<html>` das três páginas (`index.html`, `calendario.html`, `comercio.html`); troque à mão a cor do `<meta name="theme-color">` das três (a barra do navegador no celular) e `theme_color`/`background_color` no `manifest.webmanifest`, que não leem variáveis; e refaça ícones, prévia do link e capturas com `node assets/render.cjs`, que usa o tema do `index.html`.
+**Cores, tema claro e escuro, o céu.** Todas as cores do site e dos panfletos ficam em `css/theme.css`, em duas camadas: a paleta (as cores: barro, terra roxa, urucum, ipê-rosa, as faixas do céu de cada hora, as cores dos grupos) e os papéis (para que serve cada cor: o chão, os cartões, a tinta, o destaque, o céu…). O resto do CSS só usa os papéis. O tema escuro troca os papéis, não a paleta. Os panfletos saem sempre no tema claro. As cores do `<meta name="theme-color">` das três páginas e `theme_color`/`background_color` no `manifest.webmanifest` não leem variáveis: se mudar o céu do dia ou o barro, troque-as à mão e refaça ícones, prévia do link e capturas com `node assets/render.cjs`.
 
 Outros textos:
 
 - Frase final das mensagens de WhatsApp: `CLOSING_LINE` (atividades) e `COMMERCE_CLOSING_LINE` (negócios indicados) em `js/whatsapp.js` (usam `APP_NAME`, `HOME_CITY` e `SITE_URL`).
 - Para trocar o nome do site, além de `APP_NAME`/`APP_FULL_NAME`, mude o `<title>`, a descrição e as tags `og:` no `<head>` das três páginas e o `<h1>` escondido logo abaixo do `<body>`; o nome do app instalável fica no `manifest.webmanifest` e no `apple-mobile-web-app-title` das páginas. A marca é um desenho de NOS (`MARK` em `js/icons.js`): com outro nome, o site escreve a palavra no lugar dela até que se desenhe uma marca nova. Depois refaça os ícones e a prévia com `node assets/render.cjs`.
-- Estilos de panfleto: lista `FLYER_STYLES` em `js/flyer.js`, com o visual em `css/flyers.css`.
+- Estilos de panfleto: lista `FLYER_STYLES` em `js/flyer.js`, com o visual em `css/flyers.css`. Eles ainda têm o desenho de folhinha do visual anterior, com as cores novas; um panfleto no mundo Céu · Terra fica para depois.
+- A faixa do horizonte é a imagem `assets/faixa.svg` (provisória). Quando a faixa das artistas da Reserva chegar, ela entra no lugar desse arquivo e o crédito no rodapé das três páginas muda junto.
 
 ## Design
 
-O design da interface e dos panfletos está na pasta `design/`, em HTML, um arquivo por tela: a marca (e as cinco propostas de onde ela saiu), componentes, navegação, Início, as telas do calendário e do comércio no celular e no desktop, os quatro panfletos e as primeiras direções visuais. Para ver todos lado a lado, como numa página do Figma, sirva a pasta do projeto (`python3 -m http.server 8000`) e abra `http://localhost:8000/design/`: arraste ou role para andar, Ctrl + rolagem ou pinça para dar zoom, clique duas vezes num design para enquadrá-lo; `?` mostra os atalhos. Rodando no próprio computador, a página acompanha os arquivos: salvou, atualizou.
+O design está na pasta `design/`, em HTML, um arquivo por tela: a direção Céu · Terra aprovada (que o site segue), as outras direções da rodada (Pipas, guardada para depois, e a base Céu), a pesquisa da faixa, a marca (e as cinco propostas de onde ela saiu) e os quatro panfletos. Para ver todos lado a lado, como numa página do Figma, sirva a pasta do projeto (`python3 -m http.server 8000`) e abra `http://localhost:8000/design/`: arraste ou role para andar, Ctrl + rolagem ou pinça para dar zoom, clique duas vezes num design para enquadrá-lo; `?` mostra os atalhos. Rodando no próprio computador, a página acompanha os arquivos: salvou, atualizou.
 
-As cores, fontes e cantos vêm das variáveis do `css/theme.css`, e os componentes repetidos (filtros, selos, botões, folha do dia, linha de atividade) ficam em `design/assets/components.css`. Para acrescentar um design, copie o arquivo mais parecido, edite e inclua uma linha em `design/designs.json`. Uma proposta nova fica num arquivo próprio, ao lado do design atual, até ser aprovada.
+As cores, fontes e cantos vêm das variáveis do `css/theme.css` (as direções da rodada têm cada uma sua folha de estilo em `design/assets/`). Para acrescentar um design, copie o arquivo mais parecido, edite e inclua uma linha em `design/designs.json`. Uma proposta nova fica num arquivo próprio, ao lado do design atual, até ser aprovada.
 
 ## Estrutura
 
 ```
 index.html          o Início
-calendario.html     o calendário
+calendario.html     a agenda
 comercio.html       o comércio
-css/theme.css       cores (paleta e papéis), fontes e cantos
+css/theme.css       cores (paleta e papéis, claro e escuro, o céu de cada hora), fontes e cantos
 css/style.css       estilos do site
 css/flyers.css      os estilos de panfleto
 manifest.webmanifest  o app instalável: nome, cores, ícones e capturas de tela
@@ -167,21 +170,23 @@ assets/icon.html    origem dos ícones do app e do navegador
 assets/og-image.html  origem da prévia do link
 assets/render.cjs   gera ícones, prévia do link e capturas de tela (e anota em cada PNG de onde ele vem)
 assets/icons/       ícones e favicons
+assets/faixa.svg    a faixa do horizonte (arte provisória)
 assets/screenshots/ capturas de tela do app instalável
-fonts/              fontes Barlow, hospedadas no próprio site (licença em fonts/OFL.txt)
+fonts/              fontes hospedadas no próprio site: Bricolage Grotesque e Inter (o site), Barlow (os panfletos); licenças em fonts/OFL-*.txt
 js/config.js        configurações (planilhas, nome, cidade, endereço do site, setores, feriados locais, nomes das organizações, categorias do comércio)
 js/page.js          o que as três páginas compartilham (cabeçalho, avisos, leitura das planilhas, modo sem internet)
+js/sky.js           o céu desta hora e o tema claro ou escuro
 js/home.js          o Início
-js/app.js           carrega a agenda e liga a interface do calendário
+js/app.js           carrega a agenda e liga a interface da agenda
 js/comercio.js      a página do comércio
 js/businesses.js    lê as respostas do formulário (números, Instagram, links)
-js/agenda.js        a agenda: uma folha por dia
-js/month.js         a página do mês
+js/agenda.js        a lista: os dias e as atividades
+js/month.js         o mês
 js/flyer.js         estilos de panfleto e exportação PNG
 js/whatsapp.js      montador das mensagens de WhatsApp (atividade e negócio)
 js/colors.js        cores dos setores
 js/holidays.js      feriados nacionais
-js/icons.js         ícones e o desenho da marca NOS
+js/icons.js         ícones, o desenho da marca NOS e os traços à mão
 js/csv.js           leitor de CSV
 js/events.js        normaliza linhas, datas e horários
 js/vendor/          html-to-image, que gera o PNG (licença ao lado)
@@ -194,7 +199,7 @@ design/             o design: uma página HTML por tela, e design/index.html, qu
 
 - `CLAUDE.md`: arquitetura, regras do código e decisões (em inglês, como todo o código).
 - `PRODUCT.md`: para quem é o site e o que ele precisa fazer.
-- `DESIGN.md` e `.impeccable/design.json`: o sistema visual ("Folhinha"); os desenhos estão em `design/`.
+- `DESIGN.md` e `.impeccable/design.json`: o sistema visual ("Céu · Terra"); os desenhos estão em `design/`.
 - `.impeccable/`: o resumo da direção visual, o laboratório de panfletos (`flyer-lab.html`) e o script de capturas para revisão (`capture.cjs`).
 - `.claude/`: a skill [Impeccable](https://github.com/pbakaus/impeccable) para o Claude Code (Apache-2.0; licença e origem em `.claude/skills/impeccable/`), e `.mcp.json`, o MCP da Namecheap para quando o site tiver domínio.
 
