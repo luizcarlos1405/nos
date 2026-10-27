@@ -21,7 +21,7 @@
     {
       "name": "Agenda",
       "description": "As atividades das organizações e movimentos de Dourados",
-      "url": "calendario.html",
+      "url": "agenda.html",
       "icons": [{ "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     },
     {

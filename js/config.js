@@ -27,7 +27,7 @@ export const CITY = 'Dourados/MS';
 export const HOME_CITY = 'Dourados';
 
 // Public address of the site, added to the end of every WhatsApp message (with the page's file:
-// calendario.html, comercio.html). The og:url/og:image/canonical tags of the three pages use the
+// agenda.html, comercio.html). The og:url/og:image/canonical tags of the three pages use the
 // same address.
 export const SITE_URL = 'https://nos.dourados.social';
 

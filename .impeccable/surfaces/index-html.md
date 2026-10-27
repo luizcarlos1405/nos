@@ -7,7 +7,7 @@ related_targets: []
 
 # Surface: Início (index.html)
 
-Scope: the home of NOS Dourados: the greeting under the sky of this hour, the next activity resting on the horizon, and a door to each page that exists today (the agenda, calendario.html; Comércio, comercio.html, paused with "Em breve" since 2026-10-27). Visitor mode: **Operate** (a hub: pick where to go). Phone-first. Only current features: no doors, links or counts for sections that don't exist yet (Mutirões, Notícias, Mapa, Organizações come later).
+Scope: the home of NOS Dourados: the greeting under the sky of this hour, the next activity resting on the horizon, and a door to each page that exists today (the agenda, agenda.html; Comércio, comercio.html, paused with "Em breve" since 2026-10-27). Visitor mode: **Operate** (a hub: pick where to go). Phone-first. Only current features: no doors, links or counts for sections that don't exist yet (Mutirões, Notícias, Mapa, Organizações come later).
 
 Audience/job: someone opening nos.dourados.social (a shared link, the installed app) understands in one look that NOS holds the organizations' agenda (and soon the network's businesses), sees what comes next, sends it to WhatsApp, and reaches either page in one tap.
 
