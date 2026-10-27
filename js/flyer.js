@@ -70,8 +70,8 @@ const UNKNOWN = 1000;
 // Where the glyphs sit in a line box, in em, measured in Chromium with the optical size pinned as
 // above: a line box `lh` em tall has its baseline lh / 2 + `base` below its top (the font's ascent
 // and descent, centred in the box); flat capitals and figures rise `cap` above the baseline, the
-// lowercase `x`, accented letters up to `accent`, and descenders fall `descent` below it.
-const DISPLAY = { base: 0.33, cap: 0.66, x: 0.528, accent: 0.75, descent: 0.2 };
+// lowercase `x`, accented letters up to `accent`, and descenders (and parentheses) fall `descent` below it.
+const DISPLAY = { base: 0.33, cap: 0.66, x: 0.528, accent: 0.75, descent: 0.24 };
 const TEXT = { base: 0.3635, cap: 0.728, x: 0.546, accent: 0.78, descent: 0.22 };
 
 // Lines are filled up to this share of their box, a margin for rounding in the browser.
@@ -334,13 +334,14 @@ function fitLines(text, font, width, maxLines, layout = {}) {
 }
 
 // How badly planned lines read: lines ending in a short word (summing their weakness), lines of
-// nothing but short words or emoji, a first line of one word over a longer title.
+// nothing but short words or emoji, and lines of a single word in a title of more than three.
 function badBreaks(lines) {
   const split = lines.map((line) => line.split(/[ \u00a0]/));
+  const many = sum(split.map((list) => list.length)) > 3;
   return {
     weakEnds: sum(split.slice(0, -1).map((list) => weakness(list[list.length - 1]))),
     weakLines: lines.length > 1 ? split.filter((list) => list.every(isFiller)).length : 0,
-    loneFirst: lines.length > 2 && split[0].length === 1 && sum(split.map((list) => list.length)) > 3 ? 1 : 0,
+    oneWord: many && lines.length > 1 ? split.filter((list) => list.length === 1).length : 0,
   };
 }
 
@@ -599,29 +600,55 @@ function skyNode(horizon, edges = [...BAND_TOPS].reverse().map((share) => Math.r
   return sky;
 }
 
-// The sky's band edges kept clear of its type: an edge near a line's baseline, x-height or cap line
-// reads as the text standing on it or hanging from it, so it moves to the nearest place clear of all
-// of them (the bands kept in order, at least MIN_BAND tall). `lines`: [{ baseline, size, metrics,
-// digits }] (figures have no x-height line).
+// The sky's band edges kept clear of its type. An edge across a line of text splits its letters
+// between two colours and, near their tops or their feet, reads as the text standing on it or hanging
+// from it. So no edge crosses a line of text, from its capitals to its descenders with a margin of
+// 0.15em (8px to 22px); display type of GIANT size and up (the numeral, the time, a poster's title,
+// "Cancelada"), which the bands must cross, only keeps its cap line, its x-height line and its foot
+// clear. An edge that would cross moves to the nearest clear place, the bands kept in order and at
+// least MIN_BAND tall. `lines`: [{ baseline, size, metrics, digits }] (figures have no x-height).
 const MIN_BAND = 18;
+const GIANT = 120;
 function clearEdges(horizon, lines, edges = [...BAND_TOPS].reverse().map((share) => Math.round(horizon * (1 - share)))) {
   const near = lines.flatMap(({ baseline, size, metrics = DISPLAY, digits = false }) => {
     const pad = Math.max(8, Math.min(22, 0.15 * size));
-    const ys = digits ? [baseline, baseline - metrics.cap * size] : [baseline, baseline - metrics.x * size, baseline - metrics.cap * size];
-    return ys.map((y) => [y - pad, y + pad]);
+    const top = baseline - metrics.cap * size;
+    const foot = [baseline - pad, baseline + (digits ? pad : Math.max(pad, metrics.descent * size + 6))];
+    if (size < GIANT) return [[top - pad, foot[1]]];
+    const x = baseline - metrics.x * size;
+    return [[top - pad, top + pad], ...(digits ? [] : [[x - pad, x + pad]]), foot];
   });
-  const clear = (y) => near.every(([a, b]) => y <= a || y >= b);
-  const out = [...edges];
-  out.forEach((edge, i) => {
-    if (clear(edge)) return;
-    const low = (i ? out[i - 1] : 0) + MIN_BAND;
-    const high = (i < out.length - 1 ? out[i + 1] : horizon) - MIN_BAND;
-    for (let d = 1; d <= 120; d++) {
-      if (edge - d >= low && clear(edge - d)) return void (out[i] = edge - d);
-      if (edge + d <= high && clear(edge + d)) return void (out[i] = edge + d);
+  // Zones closer than MIN_BAND merge: an edge never squeezes between two lines of a block.
+  const zones = near.sort((p, q) => p[0] - q[0]).reduce((list, zone) => {
+    const last = list[list.length - 1];
+    if (last && zone[0] - last[1] < MIN_BAND) last[1] = Math.max(last[1], zone[1]);
+    else list.push([...zone]);
+    return list;
+  }, []);
+  const clear = (y) => zones.every(([a, b]) => y <= a || y >= b);
+  // Placed from the top down, and from the bottom up: the order that leaves fewer edges crossing
+  // (then the one that moves them less) wins.
+  const place = (order) => {
+    const out = [...edges];
+    const done = new Set();
+    for (const i of order) {
+      const above = [...done].filter((j) => j < i);
+      const below = [...done].filter((j) => j > i);
+      const low = above.length ? out[Math.max(...above)] + MIN_BAND * (i - Math.max(...above)) : MIN_BAND * (i + 1);
+      const high = below.length ? out[Math.min(...below)] - MIN_BAND * (Math.min(...below) - i) : horizon - MIN_BAND * (out.length - i);
+      const start = Math.max(low, Math.min(high, edges[i]));
+      out[i] = start;
+      for (let d = 0; start - d >= low || start + d <= high; d++) {
+        if (start - d >= low && clear(start - d)) { out[i] = start - d; break; }
+        if (start + d <= high && clear(start + d)) { out[i] = start + d; break; }
+      }
+      done.add(i);
     }
-  });
-  return out;
+    return { out, crossing: out.filter((y) => !clear(y)).length, moved: sum(out.map((y, i) => Math.abs(y - edges[i]))) };
+  };
+  const indices = edges.map((_, i) => i);
+  const [best] = [place(indices), place([...indices].reverse())].sort((a, b) => a.crossing - b.crossing || a.moved - b.moved);
+  return best.out;
 }
 
 // The sun or the moon (HAND.astro): the hand's loop around a disc of radius `r` centred at (x, y),
@@ -1089,9 +1116,10 @@ function posterFlyer(ev, sky) {
   const { step, when, org, where, horizon } = plan;
 
   // The title: of the sizes from 168px down to 56px whose lines fit the sky with no word broken,
-  // the largest, marked down for lines that read badly (a short word ending a line, a line of short
-  // words or emoji alone). By day it hangs from the top and the sun rises under it; at night it
-  // stands on the horizon under the moon.
+  // the largest, marked down for lines that read badly (a line of a single word, a line of short
+  // words or emoji alone); and a line ending in a short word only when no size avoids one ("Baile /
+  // dos Educadores –" over "Baile dos / Educadores –"). By day it hangs from the top and the sun
+  // rises under it; at night it stands on the horizon under the moon.
   const room = horizon - (night ? POSTER.air : POSTER.sunRoom) - top;
   let title = null;
   for (let size = 168; size >= 56; size -= 4) {
@@ -1099,9 +1127,10 @@ function posterFlyer(ev, sky) {
     if (!wordsFit(measured, font, WIDTH)) continue;
     const lines = planLines(measured, font, WIDTH, { spare: Math.floor(room / (size * 1.02)) });
     if (lines.length * size * 1.02 > room) continue;
-    const { weakEnds, weakLines, loneFirst } = badBreaks(lines);
-    const score = size * (1 - 0.2 * weakEnds - 0.3 * weakLines - 0.12 * loneFirst);
-    if (!title || score > title.score) title = { size, lines, score };
+    const { weakEnds, weakLines, oneWord } = badBreaks(lines);
+    const clean = weakEnds === 0;
+    const score = size * (1 - 0.5 * weakEnds - 0.3 * weakLines - 0.25 * oneWord);
+    if (!title || (clean && !title.clean) || (clean === title.clean && score > title.score)) title = { size, lines, score, clean };
   }
   if (!title) {
     // Too long even at 56px: cut to the lines that fit (a word too wide breaks between letters).

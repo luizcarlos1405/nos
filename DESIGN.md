@@ -496,7 +496,7 @@ The 1080 by 1350 PNG flyers ("Folha do dia", "Agenda do mês", "Cartaz", and "Av
 - **Aviso de cancelamento:** "Cancelada" (Bricolage 800, up to 220px) on the sky of the activity's hour without its sun or moon (the stars stay at night), over the date and time the hand struck out. On the land, the title struck by an urucum stroke, "Motivo:" and the reason, then who and where in the soft ink, the group's dot as an outline.
 - **The land, on every flyer:** the title (Inter 700, -0.02em); the organizations, the group's dot before each name in 700 with its full name in 500 and soft ink where it is known; the place after a pin (a globe online), with its city outside Dourados; a holiday's name; and the signature at the foot: the NOS mark, "Dourados", "Agenda das organizações" and the site's address. No type, logos or slogans: only the activity's own fields.
 
-**The Sky of the Hour Rule.** A flyer's sky is the hour its activity starts, never the hour it is made, and the day's when there is no time. Its text uses the sky's inks only, and the edges between its bands keep clear of the text's lines: never grazing a baseline, an x-height or a cap line.
+**The Sky of the Hour Rule.** A flyer's sky is the hour its activity starts, never the hour it is made, and the day's when there is no time. Its text uses the sky's inks only, and the edges between its bands never cross a line of text (only display type from 120px, which they must cross, keeps just its cap line, x-height and foot clear) nor squeeze between two lines of a block.
 
 ## Do's and Don'ts
 

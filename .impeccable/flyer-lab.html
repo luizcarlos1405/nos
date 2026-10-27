@@ -178,8 +178,8 @@
     // the band and over the signature; no two blocks of text running into each other; a planned line
     // no wider than its box; the hand's marks inside the flyer; and every text against what lies
     // under it (the sky's bands, the sun or the moon, the land) at 4.5:1 or more; and no edge
-    // between the sky's bands within 0.15em (8px to 22px) of a sky line's baseline, x-height line or
-    // cap line, where the text would seem to stand on it or hang from it.
+    // between the sky's bands across a sky line, from its capitals to its baseline with 0.15em (8px to
+    // 22px) to spare (a giant numeral only keeps its top and foot clear).
     const BLOCKS = '.dy-num, .dy-weekday, .dy-month, .dy-holiday, .dy-until, .dy-time, .dy-end, .dy-tbc, .mo-name, .mo-year, .mo-heads, .mo-num, .po-title, .nt-word, .nt-when, .fl-land .fl-title, .mo-when, .po-when-line, .po-under, .po-holiday, .fl-row, .nt-reason, .fl-sign-brand, .fl-sign-text';
     const BOXED = '.fl-land .fl-title, .fl-row-text, .mo-when, .nt-reason, .po-title';
     const MIN_CONTRAST = 4.5;
@@ -307,14 +307,22 @@
         const style = getComputedStyle(el);
         const size = parseFloat(style.fontSize);
         const lines = LINES_OF[/Bricolage/.test(style.fontFamily) ? 'display' : 'text'];
-        const m = metrics(el, 'x');
+        const m = metrics(el, text.textContent);
         const range = document.createRange();
         range.selectNodeContents(text);
         for (const r of [...range.getClientRects()].filter((rect) => rect.width > 0)) {
           const baseline = (r.top - frame.top) / s + m.ascent;
-          const ys = /^[\d\s]+$/.test(text.textContent) ? [baseline, baseline - lines.cap * size] : [baseline, baseline - lines.x * size, baseline - lines.cap * size];
+          // Text under 120px keeps its whole body clear (capitals to descenders, 0.15em to spare);
+          // display type from 120px keeps its cap line, x-height line (figures have none) and foot.
           const pad = Math.max(8, Math.min(22, 0.15 * size)) - 1;
-          if (edges.some((edge) => ys.some((y) => Math.abs(edge - y) < pad))) problems.push(`a band edge grazes "${text.textContent.trim().slice(0, 24)}"`);
+          const top = baseline - lines.cap * size;
+          const digits = /^[\d\s]+$/.test(text.textContent);
+          const foot = baseline + (digits ? pad : Math.max(pad, m.inkDown + 4));
+          const x = baseline - lines.x * size;
+          const hit = (edge) => (size < 120
+            ? edge > top - pad && edge < foot
+            : Math.abs(edge - top) < pad || (!digits && Math.abs(edge - x) < pad) || (edge > baseline - pad && edge < foot));
+          if (edges.some(hit)) problems.push(`a band edge crosses "${text.textContent.trim().slice(0, 24)}"`);
         }
       }
       for (const mark of node.querySelectorAll('.fl-hand')) {
