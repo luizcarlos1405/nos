@@ -132,10 +132,21 @@ function renderNext(next, upcoming) {
   card.replaceChildren(...parts);
 }
 
+// The agenda's door: what is ahead, and what comes after the next one ("Depois, sáb 31/10, 21h: …"); its description
+// stays only while there is nothing to list.
+function renderDoor(upcoming) {
+  $('door-agenda-line').textContent = agendaSummary(events, today);
+  const after = upcoming[1];
+  const line = $('door-agenda-next');
+  line.hidden = !after;
+  if (after) line.textContent = `Depois, ${[shortDate(after.date), timeOf(after)].filter(Boolean).join(', ')}: ${after.title}`;
+  $('door-agenda-text').hidden = upcoming.length > 0;
+}
+
 function render() {
   const upcoming = upcomingEvents(events, today);
   renderNext(upcoming[0] || null, upcoming);
-  $('door-agenda-line').textContent = agendaSummary(events, today);
+  renderDoor(upcoming);
 }
 
 async function load() {

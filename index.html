@@ -135,7 +135,10 @@
         <a class="door door--agenda" href="calendario.html">
           <span class="door-head"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M8 2v4M16 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/></svg><span class="door-name">Agenda</span></span>
           <span class="door-line" id="door-agenda-line">As atividades das organizações</span>
-          <span class="door-text">Assembleias, atos, feiras e encontros, com mensagem e panfleto prontos para o WhatsApp.</span>
+          <!-- The live line: what comes after the next activity (js/home.js; phones only, the desk lists it
+               under "Também na agenda"). The text under it stays only while there is nothing to show. -->
+          <span class="door-next" id="door-agenda-next" hidden></span>
+          <span class="door-text" id="door-agenda-text">Assembleias, atos, feiras e encontros, com mensagem e panfleto prontos para o WhatsApp.</span>
           <span class="door-more">Abrir a agenda<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
         </a>
         <!-- Comércio is paused while the businesses are collected and organized: "Em breve" and the reason

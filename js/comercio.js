@@ -150,8 +150,6 @@ function businessItem(biz) {
   card.id = biz.id;
   card.setAttribute('aria-labelledby', `${biz.id}-name`);
 
-  if (biz.category) card.append(el('p', 'biz-category tag', biz.category));
-
   const main = el('div', 'biz-main');
   const name = el('h3', 'biz-name', biz.name);
   name.id = `${biz.id}-name`;
@@ -167,6 +165,7 @@ function businessItem(biz) {
     offer.append(breakable(biz.offer));
     main.append(offer);
   }
+  if (biz.category) main.append(el('p', 'biz-category tag', biz.category));
   card.append(main);
 
   // "Indicar": the business, ready to send to a WhatsApp group. A glyph on phones, written out on the desk.

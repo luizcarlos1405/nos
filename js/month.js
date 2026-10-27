@@ -61,7 +61,7 @@ function renderItem(ev) {
   item.append(el('span', 'cell-mark'));
   const text = el('span', 'cell-item-text');
   const time = startTime(ev) || (ev.endTime != null || ev.endTimeRaw ? formatTimeRange(ev) : '');
-  if (time) text.append(el('span', 'cell-item-time', time));
+  if (time) text.append(el('span', 'cell-item-time', time), ' ');
   text.append(document.createTextNode(ev.title));
   item.append(text);
   return item;

@@ -587,7 +587,8 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .event-card:hover { background: var(--role-card-hover); }
   .event-card:hover .event-title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 }
-.event-card.is-selected { box-shadow: 0 0 0 2px var(--role-ink), var(--role-card-shadow); }
+/* The activity open in the panel: a quiet soft-ink ring (the strong ring is focus's). */
+.event-card.is-selected { box-shadow: 0 0 0 1.5px var(--role-ink-soft), var(--role-card-shadow); }
 .event-card.is-selected:focus-visible { outline-offset: 4px; }
 .event-head { display: flex; align-items: center; gap: 8px; }
 .event-title { flex: 1 1 0; min-width: 0; font-size: 1.0625rem; line-height: 1.3; font-weight: 600; letter-spacing: -0.01em; text-wrap: pretty; }
@@ -704,8 +705,9 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   font-variant-numeric: tabular-nums;
 }
 .day.is-past .day-num { color: var(--role-ink-soft); }
-.day.is-outside .day-num { color: color-mix(in srgb, var(--role-ink-soft) 72%, var(--role-card)); }
-.day.is-selected .day-num { background: var(--role-ink); color: var(--role-on-ink); }
+/* The neighbouring months' days: soft ink (4.5:1 still) and a lighter weight set them apart. */
+.day.is-outside .day-num { color: var(--role-ink-soft); font-weight: 500; }
+.day.is-selected .day-num { box-shadow: inset 0 0 0 1.5px var(--role-ink-soft); }
 /* Today underlined by hand; the next activity's day circled. */
 .day-num > .hand--underline { left: 18%; bottom: 1px; width: 64%; height: 7px; }
 .day-num > .hand--loop { left: -6px; top: -5px; width: calc(100% + 12px); height: calc(100% + 10px); }
@@ -999,26 +1001,27 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   grid-template-columns: minmax(0, 1fr) 44px;
   column-gap: 8px;
   align-items: start;
-  padding: 14px 10px 8px 16px;
+  padding: 16px 10px 8px 16px;
   border: 1px solid var(--role-card-border);
   border-radius: var(--radius-card);
   background: var(--role-card);
   box-shadow: var(--role-card-shadow);
 }
-.biz-category { grid-column: 1 / -1; grid-row: 1; justify-self: start; margin-bottom: 8px; }
-.biz-main { grid-column: 1; grid-row: 2; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; min-width: 0; }
+.biz-main { grid-column: 1; grid-row: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; min-width: 0; }
+/* The category, as a quiet tag after the offer (the chips filter by it). */
+.biz-main > .biz-category { margin-top: 4px; }
 .biz-main > * { max-width: 100%; }
 .biz-name { font: 750 1.25rem/1.2 var(--font-display); letter-spacing: -0.015em; overflow-wrap: anywhere; }
 .biz-subtitle { font-size: 0.9375rem; font-weight: 500; line-height: 1.3; color: var(--role-ink-soft); }
 .biz-city .city-tag { margin: 0; }
 .biz-main > .biz-offer { margin-top: 2px; font-size: 0.9375rem; line-height: 1.45; overflow-wrap: break-word; text-wrap: pretty; }
 /* "Indicar no WhatsApp": the share circle on phones (its name in aria-label), written out from 760px. */
-.biz-share { grid-column: 2; grid-row: 2; display: grid; place-items: center; width: 44px; height: 44px; margin-top: -6px; border-radius: 50%; color: var(--role-ink); text-decoration: none; }
+.biz-share { grid-column: 2; grid-row: 1; display: grid; place-items: center; width: 44px; height: 44px; margin-top: -8px; border-radius: 50%; color: var(--role-ink); text-decoration: none; }
 .biz-share .icon { width: 20px; height: 20px; }
 .biz-share-text { display: none; }
 @media (hover: hover) { .biz-share:hover, .contact-call:hover { background: var(--role-wash); } .contact-value:hover { text-decoration-thickness: 2px; } }
 
-.biz-contacts { grid-column: 1 / -1; grid-row: 3; margin: 8px 0 0; border-top: 1px solid var(--role-line); }
+.biz-contacts { grid-column: 1 / -1; grid-row: 2; margin: 8px 0 0; border-top: 1px solid var(--role-line); }
 .contact { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); column-gap: 10px; align-items: center; min-height: 44px; }
 .contact + .contact { border-top: 1px solid var(--role-line); }
 .contact dt { font-size: 0.8125rem; font-weight: 500; color: var(--role-ink-soft); }
@@ -1119,7 +1122,9 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
 .door-name { font: 700 1.125rem/1.33 var(--font-display); letter-spacing: -0.02em; }
 /* Secondary text on the door's tint: its hue mixed into the ink, never a grey. */
 .door-line { font-size: 0.875rem; line-height: 1.36; font-weight: 600; color: var(--role-ink); text-wrap: pretty; }
-.door-text { font-size: 0.8125rem; line-height: 1.4; color: color-mix(in srgb, var(--door-text) 55%, var(--role-ink)); text-wrap: pretty; }
+.door-text, .door-next { font-size: 0.8125rem; line-height: 1.4; color: color-mix(in srgb, var(--door-text) 55%, var(--role-ink)); text-wrap: pretty; }
+/* The live line (its date first): three lines at most. */
+.door-next { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
 .door-more { display: none; }
 
 /* ---------- Wider phones and tablets ---------- */
@@ -1244,16 +1249,16 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .door-name { font-size: 1.1875rem; }
   .door-line { margin-top: 4px; font-size: 1.125rem; line-height: 1.4; letter-spacing: -0.012em; }
   .door-text { font-size: 0.9375rem; line-height: 1.45; }
+  .door-next { display: none; } /* "Também na agenda" lists it */
   .door-more { display: inline-flex; align-items: center; gap: 4px; min-height: 32px; margin-top: 4px; color: var(--door-text); font-weight: 600; }
   .door-more .icon { width: 18px; height: 18px; }
 
   /* Comércio: each business is a row from here, the contacts in their own column. */
   .biz { grid-template-columns: minmax(0, 1fr) minmax(15rem, 19rem); column-gap: 20px; padding: 16px 16px 12px 20px; }
-  .biz-category { grid-column: 1; }
-  .biz-main { grid-column: 1; grid-row: 2; }
+  .biz-main { grid-column: 1; grid-row: 1; }
   .biz-share {
     grid-column: 1;
-    grid-row: 3;
+    grid-row: 2;
     justify-self: start;
     display: inline-flex;
     align-items: center;
@@ -1268,7 +1273,7 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   }
   .biz-share .icon { width: 18px; height: 18px; }
   .biz-share-text { display: inline; }
-  .biz-contacts { grid-column: 2; grid-row: 1 / span 3; margin: 0; border-top: 0; }
+  .biz-contacts { grid-column: 2; grid-row: 1 / span 2; margin: 0; border-top: 0; }
   .contact { grid-template-columns: 5.25rem minmax(0, 1fr); min-height: 40px; }
   .contact-value { min-height: 40px; }
   .contact-call { width: 40px; height: 40px; }
@@ -1292,20 +1297,19 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
 
   .notice { margin: 0 0 16px; }
   .view-tabs { margin: 0; }
-  /* The chips wrap beside the organization select, not under it. */
-  .filters {
-    display: grid;
-    grid-template-columns: auto auto minmax(0, 1fr);
-    align-items: start;
-    column-gap: 8px;
-    overflow: visible;
-    padding: 12px 0 4px;
-    -webkit-mask-image: none;
-    mask-image: none;
-  }
-  .filters-divider { margin-top: 10px; }
+  /* The chips wrap on the desk instead of scrolling. */
+  .filters { overflow: visible; -webkit-mask-image: none; mask-image: none; }
   .chips { flex-wrap: wrap; column-gap: 8px; row-gap: 0; }
   .view { padding: 0; }
+  /* The agenda: the organization beside Lista | Mês, the groups' chips under both, from the left edge
+     (the filters' box steps aside so its pill and chips join the column's grid). */
+  .page-agenda .pad-col { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: 12px; }
+  .page-agenda .pad-col > .notice, .page-agenda .pad-col > .view { grid-column: 1 / -1; }
+  .page-agenda .view-tabs { width: 26.25rem; max-width: none; }
+  .page-agenda .filters { display: contents; }
+  .page-agenda .filters-divider { display: none; }
+  .page-agenda .org-pill { grid-column: 2; justify-self: start; }
+  .page-agenda .chips { grid-column: 1 / -1; padding-top: 8px; }
   .event-card { padding: 16px 18px 17px 20px; }
 
   .sheet-backdrop { display: none; }
@@ -1391,10 +1395,9 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
     padding: 6px 0 8px;
   }
   .day + .day { border-left: 1px solid var(--role-line); }
-  .day.is-selected { box-shadow: inset 0 0 0 2px var(--role-ink); }
+  .day.is-selected { box-shadow: inset 0 0 0 1.5px var(--role-ink-soft); }
   .day.is-selected:focus-visible { outline-offset: -6px; }
-  .day.is-selected .day-num { background: none; color: inherit; }
-  .day.is-selected.is-past .day-num { color: var(--role-ink-soft); }
+  .day.is-selected .day-num { box-shadow: none; }
   .day-top { flex-direction: row; flex-wrap: wrap; align-content: flex-start; align-items: center; gap: 2px 6px; min-height: 2rem; padding: 0 6px; }
   .day-num { min-width: 2rem; }
   /* A holiday's name on its own line under the numeral, two lines at most. Its whole week makes room
@@ -1416,9 +1419,11 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .week.has-holiday .day { min-height: max(calc(9.6rem + 2px), calc(22px + 5.1rem + var(--week-lanes, 0) * (1.25rem + 2px))); }
   /* One-day entries start under the bars that cross that day (and only those). */
   .day-items { flex-direction: column; flex-wrap: nowrap; align-items: stretch; gap: 2px; margin-top: calc(var(--lanes, 0) * (1.25rem + 2px)); padding: 0; }
-  .cell-item { display: flex; align-items: center; gap: 6px; min-width: 0; padding: 0 8px; font-size: 0.8125rem; line-height: 1.3; text-align: left; }
-  .cell-item-text { display: block; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .cell-item-time { margin-right: 4px; font-weight: 700; }
+  /* Each entry on three lines at most, so the month reads without opening every day. */
+  .cell-item { display: flex; align-items: flex-start; gap: 6px; min-width: 0; padding: 0 8px; font-size: 0.8125rem; line-height: 1.3; text-align: left; }
+  .cell-item .cell-mark { margin-top: 0.4em; }
+  .cell-item-text { display: -webkit-box; min-width: 0; overflow: hidden; overflow-wrap: break-word; hyphens: auto; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
+  .cell-item-time { font-weight: 700; }
   .day.is-past .cell-item-text { color: var(--role-ink-soft); }
   .cell-item.is-cancelled .cell-item-text { color: var(--role-ink-soft); text-decoration: line-through; }
   .day-more { padding: 0 8px; font: 600 0.75rem/1.3 var(--font-ui); text-align: left; }
