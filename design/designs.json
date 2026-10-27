@@ -1,7 +1,7 @@
 {
   "sections": [
     {
-      "title": "Céu · Terra (aprovada, 27/10)",
+      "title": "Céu · Terra (aprovada em 27/10; construída: é o site)",
       "designs": [
         { "file": "direcao-ceu-terra-quadro.html", "title": "Céu · Terra · Quadro", "width": 1200, "height": 1598 },
         { "file": "direcao-ceu-terra-celular-inicio.html", "title": "Céu · Terra · Celular · Início · claro", "width": 390, "height": 844 },
@@ -38,69 +38,19 @@
       ]
     },
     {
-      "title": "Marca e componentes",
+      "title": "Marca",
       "designs": [
-        { "file": "marca-nos.html", "title": "Marca NOS", "width": 860, "height": 860 },
-        { "file": "marca-propostas.html", "title": "Marca · 5 propostas (escolhida: 01)", "width": 1480, "height": 2320 },
-        { "file": "componentes.html", "title": "Componentes", "width": 860, "height": 1342 },
-        { "file": "navegacao.html", "title": "Navegação", "width": 1520, "height": 746 }
+        { "file": "marca-nos.html", "title": "Marca NOS", "width": 860, "height": 904 },
+        { "file": "marca-propostas.html", "title": "Marca · 5 propostas (escolhida: 01)", "width": 1480, "height": 2320 }
       ]
     },
     {
-      "title": "Início",
-      "designs": [
-        { "file": "celular-inicio.html", "title": "Celular · Início", "width": 390, "height": 844 },
-        { "file": "desktop-inicio.html", "title": "Desktop · Início", "width": 1440, "height": 900 }
-      ]
-    },
-    {
-      "title": "Calendário · celular",
-      "designs": [
-        { "file": "celular-agenda.html", "title": "Celular · Agenda", "width": 390, "height": 844 },
-        { "file": "celular-mes.html", "title": "Celular · Mês", "width": 390, "height": 844 },
-        { "file": "celular-atividade-mensagem.html", "title": "Celular · Atividade · Mensagem", "width": 390, "height": 844 },
-        { "file": "celular-atividade-panfleto.html", "title": "Celular · Atividade · Panfleto", "width": 390, "height": 844 },
-        { "file": "celular-dias-anteriores.html", "title": "Celular · Dias anteriores", "width": 390, "height": 844 },
-        { "file": "celular-filtro-sem-resultado.html", "title": "Celular · Filtro sem resultado", "width": 390, "height": 844 }
-      ]
-    },
-    {
-      "title": "Calendário · desktop",
-      "designs": [
-        { "file": "desktop-agenda.html", "title": "Desktop · Agenda", "width": 1440, "height": 900 },
-        { "file": "desktop-mes.html", "title": "Desktop · Mês", "width": 1440, "height": 900 }
-      ]
-    },
-    {
-      "title": "Comércio · celular",
-      "designs": [
-        { "file": "celular-comercio.html", "title": "Celular · Comércio", "width": 390, "height": 844 },
-        { "file": "celular-comercio-busca.html", "title": "Celular · Comércio · Busca", "width": 390, "height": 844 },
-        { "file": "celular-comercio-sem-resultado.html", "title": "Celular · Comércio · Busca sem resultado", "width": 390, "height": 844 },
-        { "file": "celular-comercio-fim.html", "title": "Celular · Comércio · Fim da lista", "width": 390, "height": 844 }
-      ]
-    },
-    {
-      "title": "Comércio · desktop",
-      "designs": [
-        { "file": "desktop-comercio.html", "title": "Desktop · Comércio", "width": 1440, "height": 900 }
-      ]
-    },
-    {
-      "title": "Panfletos",
+      "title": "Panfletos (o layout de antes, com a paleta nova)",
       "designs": [
         { "file": "panfleto-folha-do-dia.html", "title": "Panfleto · Folha do dia", "width": 1080, "height": 1350 },
         { "file": "panfleto-calendario-do-mes.html", "title": "Panfleto · Calendário do mês", "width": 1080, "height": 1350 },
         { "file": "panfleto-cartaz.html", "title": "Panfleto · Cartaz", "width": 1080, "height": 1350 },
         { "file": "panfleto-aviso-de-cancelamento.html", "title": "Panfleto · Aviso de cancelamento", "width": 1080, "height": 1350 }
-      ]
-    },
-    {
-      "title": "Direções visuais (exploração inicial, 26/10: escolhida a Folhinha)",
-      "designs": [
-        { "file": "direcao-a-faixa.html", "title": "A · Faixa", "width": 390, "height": 844 },
-        { "file": "direcao-b-folhinha.html", "title": "B · Folhinha", "width": 390, "height": 844 },
-        { "file": "direcao-c-destaque.html", "title": "C · Destaque", "width": 390, "height": 844 }
       ]
     }
   ]
