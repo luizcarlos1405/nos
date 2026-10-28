@@ -4,58 +4,44 @@
     {
       "title": "Céu · Terra (aprovada em 27/10; construída: é o site)",
       "designs": [
-        { "file": "direcao-ceu-terra-quadro.html", "title": "Céu · Terra · Quadro", "width": 1200, "height": 1598 },
-        { "file": "direcao-ceu-terra-celular-inicio.html", "title": "Céu · Terra · Celular · Início · claro", "width": 390, "height": 844 },
-        { "file": "direcao-ceu-terra-celular-inicio.html?tema=escuro", "title": "Céu · Terra · Celular · Início · escuro", "width": 390, "height": 844 },
-        { "file": "direcao-ceu-terra-celular-agenda.html", "title": "Céu · Terra · Celular · Agenda · claro", "width": 390, "height": 844 },
-        { "file": "direcao-ceu-terra-celular-agenda.html?tema=escuro", "title": "Céu · Terra · Celular · Agenda · escuro", "width": 390, "height": 844 },
-        { "file": "direcao-ceu-terra-desktop-inicio.html", "title": "Céu · Terra · Desktop · Início · claro", "width": 1440, "height": 900 },
-        { "file": "direcao-ceu-terra-desktop-inicio.html?tema=escuro", "title": "Céu · Terra · Desktop · Início · escuro", "width": 1440, "height": 900 }
+        "direcao-ceu-terra-quadro.html",
+        "direcao-ceu-terra-celular-inicio.html",
+        "direcao-ceu-terra-celular-agenda.html",
+        "direcao-ceu-terra-desktop-inicio.html"
       ]
     },
     {
       "title": "Céu · Pipas (guardada para depois)",
       "designs": [
-        { "file": "direcao-ceu-pipas-quadro.html", "title": "Céu · Pipas · Quadro", "width": 1200, "height": 1592 },
-        { "file": "direcao-ceu-pipas-celular-inicio.html", "title": "Céu · Pipas · Celular · Início · claro", "width": 390, "height": 844 },
-        { "file": "direcao-ceu-pipas-celular-inicio.html?tema=escuro", "title": "Céu · Pipas · Celular · Início · escuro", "width": 390, "height": 844 },
-        { "file": "direcao-ceu-pipas-celular-agenda.html", "title": "Céu · Pipas · Celular · Agenda · claro", "width": 390, "height": 844 },
-        { "file": "direcao-ceu-pipas-celular-agenda.html?tema=escuro", "title": "Céu · Pipas · Celular · Agenda · escuro", "width": 390, "height": 844 },
-        { "file": "direcao-ceu-pipas-desktop-inicio.html", "title": "Céu · Pipas · Desktop · Início · claro", "width": 1440, "height": 900 },
-        { "file": "direcao-ceu-pipas-desktop-inicio.html?tema=escuro", "title": "Céu · Pipas · Desktop · Início · escuro", "width": 1440, "height": 900 }
+        "direcao-ceu-pipas-quadro.html",
+        "direcao-ceu-pipas-celular-inicio.html",
+        "direcao-ceu-pipas-celular-agenda.html",
+        "direcao-ceu-pipas-desktop-inicio.html"
       ]
     },
     {
       "title": "Céu · a base, e a pesquisa da faixa",
       "designs": [
-        { "file": "direcao-trama-ceu-quadro.html", "title": "D3 · Céu · Quadro", "width": 1200, "height": 1669 },
-        { "file": "direcao-trama-ceu-celular-inicio.html", "title": "D3 · Céu · Celular · Início · claro", "width": 390, "height": 844 },
-        { "file": "direcao-trama-ceu-celular-inicio.html?tema=escuro", "title": "D3 · Céu · Celular · Início · escuro", "width": 390, "height": 844 },
-        { "file": "direcao-trama-ceu-celular-agenda.html", "title": "D3 · Céu · Celular · Agenda · claro", "width": 390, "height": 844 },
-        { "file": "direcao-trama-ceu-celular-agenda.html?tema=escuro", "title": "D3 · Céu · Celular · Agenda · escuro", "width": 390, "height": 844 },
-        { "file": "direcao-trama-ceu-desktop-inicio.html", "title": "D3 · Céu · Desktop · Início · claro", "width": 1440, "height": 900 },
-        { "file": "direcao-trama-ceu-desktop-inicio.html?tema=escuro", "title": "D3 · Céu · Desktop · Início · escuro", "width": 1440, "height": 900 },
-        { "file": "faixa-pesquisa.html", "title": "A faixa · pesquisa", "width": 1200, "height": 1828 }
+        "direcao-trama-ceu-quadro.html",
+        "direcao-trama-ceu-celular-inicio.html",
+        "direcao-trama-ceu-celular-agenda.html",
+        "direcao-trama-ceu-desktop-inicio.html",
+        "faixa-pesquisa.html"
       ]
     },
     {
       "title": "Marca",
       "designs": [
-        { "file": "marca-nos.html", "title": "Marca NOS", "width": 860, "height": 904 }
+        "marca-nos.html"
       ]
     },
     {
       "title": "Panfletos (Céu · Terra: o céu da hora de cada atividade)",
       "designs": [
-        { "file": "panfleto-folha-do-dia.html", "title": "Panfleto · Folha do dia · dia", "width": 1080, "height": 1350 },
-        { "file": "panfleto-folha-do-dia.html?atividade=oficina", "title": "Panfleto · Folha do dia · amanhecer", "width": 1080, "height": 1350 },
-        { "file": "panfleto-folha-do-dia.html?atividade=baile", "title": "Panfleto · Folha do dia · noite", "width": 1080, "height": 1350 },
-        { "file": "panfleto-agenda-do-mes.html", "title": "Panfleto · Agenda do mês · dia", "width": 1080, "height": 1350 },
-        { "file": "panfleto-agenda-do-mes.html?atividade=baile", "title": "Panfleto · Agenda do mês · noite", "width": 1080, "height": 1350 },
-        { "file": "panfleto-cartaz.html", "title": "Panfleto · Cartaz · dia", "width": 1080, "height": 1350 },
-        { "file": "panfleto-cartaz.html?atividade=forum", "title": "Panfleto · Cartaz · entardecer", "width": 1080, "height": 1350 },
-        { "file": "panfleto-cartaz.html?atividade=baile", "title": "Panfleto · Cartaz · noite", "width": 1080, "height": 1350 },
-        { "file": "panfleto-aviso-de-cancelamento.html", "title": "Panfleto · Aviso de cancelamento", "width": 1080, "height": 1350 }
+        "panfleto-folha-do-dia.html",
+        "panfleto-agenda-do-mes.html",
+        "panfleto-cartaz.html",
+        "panfleto-aviso-de-cancelamento.html"
       ]
     }
   ]
