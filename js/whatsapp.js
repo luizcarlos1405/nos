@@ -77,7 +77,7 @@ export function buildBusinessMessage(biz) {
   for (const link of biz.links) reach.push(`🔗 ${link.label}: ${link.href}`);
   if (biz.contactNote) reach.push(`📞 Contato: ${biz.contactNote}`);
   if (biz.otherNote) reach.push(`🔗 Outras redes: ${biz.otherNote}`);
-  reach.push(`📍 ${biz.city || CITY}`);
+  reach.push(`📍 ${biz.address ? `${biz.address}, ` : ''}${biz.city || CITY}`);
   blocks.push(reach);
 
   if (COMMERCE_CLOSING_LINE) blocks.push([COMMERCE_CLOSING_LINE]);

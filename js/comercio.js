@@ -187,6 +187,7 @@ function businessItem(biz) {
   }
   if (biz.contactNote) contacts.append(contact('Contato', textValue(biz.contactNote)));
   if (biz.otherNote) contacts.append(contact('Outras redes', textValue(biz.otherNote)));
+  if (biz.address) contacts.append(contact('Endereço', linkValue(biz.addressHref, biz.address, `Endereço no mapa: ${biz.address}`)));
   if (contacts.childNodes.length) card.append(contacts);
 
   item.append(card);
