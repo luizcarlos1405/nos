@@ -3,8 +3,8 @@
      assets/design.css        this file
      (a direction's own stylesheet, e.g. assets/direcao-ceu-terra.css, where it has one)
    and keeps its own layout in a <style> block. Each design is one artboard at its real size
-   (390 wide for phones, 1440 for desktop, 1080×1350 for flyers): the explorer (index.html)
-   shows it in a frame of that size. */
+   (390 wide for phones, 1440 for desktop, 1080×1350 for flyers): htmlboard shows it in a frame
+   of the size designs.json gives it. */
 
 *, ::before, ::after { box-sizing: border-box; }
 
