@@ -1,8 +1,8 @@
 // Início (index.html): the greeting of this hour on the sky, the next activity resting on the band
 // (its date circled by hand, a link to send it to WhatsApp and, from 760px, "Ver na agenda" and what
-// else comes), then a door to each page. The agenda's door says how much is ahead; Comércio's says
-// "Em breve" while its list is paused. Without the agenda's sheet (offline with nothing saved, a
-// broken link) the card says so and the doors stay.
+// else comes), then a door to each page. The agenda's door says how much is ahead; Comércio's how
+// many businesses there are. Without the agenda's sheet (offline with nothing saved, a broken link)
+// the card says so and the doors stay.
 
 import { COMMERCE_CSV_URL, CSV_URL } from './config.js';
 import { agendaSummary, buildEvents, capitalize, dateKey, formatDayMonth, formatTimeRange, lastDayKey, monthName, orgFullName, relativeDay, startTime, upcomingEvents, weekdayName } from './events.js';
@@ -162,7 +162,7 @@ async function load() {
   }
 }
 
-// Comércio's door when its list returns: how many businesses there are.
+// Comércio's door: how many businesses there are.
 async function renderCommerceDoor() {
   const { headers, records, lines } = await readSheet(COMMERCE_CSV_URL);
   const { businesses } = buildBusinesses(headers, records, lines);
@@ -171,10 +171,10 @@ async function renderCommerceDoor() {
 
 initPage();
 renderHello();
-if (location.protocol !== 'file:') load();
-// Comércio is paused while the businesses are collected and organized: its door says "Em breve" and
-// why (index.html), and this page doesn't read its sheet. When the list returns, call
-// renderCommerceDoor().catch(…) here and give the door its own text again.
+if (location.protocol !== 'file:') {
+  load();
+  renderCommerceDoor().catch((err) => console.warn('Comércio:', err));
+}
 
 // "Now" moves: the greeting follows the hour, the date the day, and the card the next activity (an
 // activity stays next until an hour after it starts). After a long absence the sheet is read again.

@@ -1,7 +1,7 @@
 // Comércio (comercio.html): the network's businesses from A to Z, a heading per letter and a card per
 // business. Reads the registration form's answers (COMMERCE_CSV_URL, through js/businesses.js),
 // filters them by search and category, and prints each business with its ways to be reached and a
-// ready "Indicar no WhatsApp" message. Paused for now: see the end of this file.
+// ready "Indicar no WhatsApp" message.
 
 import { COMMERCE_CSV_URL, COMMERCE_FORM_URL } from './config.js';
 import { buildBusinesses, categoriesOf, matchesSearch } from './businesses.js';
@@ -312,8 +312,5 @@ if (formUrl) {
   $('join').hidden = false;
 }
 
-// Paused while the businesses are collected and organized: comercio.html shows "Em breve" where the
-// list goes. To bring the list back: call load() here again (as `if (location.protocol !== 'file:')
-// load();`), put the "Carregando o comércio…" placeholder back in #lista in comercio.html, and on the
-// home call renderCommerceDoor() (js/home.js) and give Comércio's door its own text in index.html.
+if (location.protocol !== 'file:') load();
 registerWorker();
