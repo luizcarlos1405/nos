@@ -5,7 +5,7 @@
 // social?", and drops the answers that only say yes or no. Nothing is invented: what can't be
 // read is shown as the business wrote it.
 
-import { COMMERCE_CATEGORIES, HOME_CITY } from './config.js';
+import { CITY, COMMERCE_CATEGORIES, HOME_CITY } from './config.js';
 import { isChecked, isHidden, matchKey, normalizeKey, slugify } from './events.js';
 
 // The form's questions, matched by a word they contain (accents and case don't count), checked in
@@ -19,6 +19,7 @@ const COLUMNS = [
   ['instagram', /instagram/],
   ['other', /site|rede social|redes sociais|outras redes|other/],
   ['category', /categoria|ramo|segmento|setor|category/],
+  ['address', /endereco|address/],
   ['city', /cidade|municipio|city/],
   ['offer', /oferece|produto|servico|descricao|o que|offer|description/],
   ['name', /nome|empresa|negocio|name/],
@@ -79,7 +80,8 @@ const STATES = new Set(['ac', 'al', 'ap', 'am', 'ba', 'ce', 'df', 'es', 'go', 'm
 const SMALL_WORDS = new Set(['de', 'da', 'do', 'das', 'dos', 'e']);
 
 // "Fátima do sul - ms" → "Fátima do Sul"; the home city (with or without its state) → '' (here).
-// Another state stays written after the city: "Ponta Porã" in MS, "Guaíra/PR" outside it.
+// Another state stays written after the city: "Ponta Porã" in MS, "Guaíra/PR" outside it. Several
+// cities ("Dourados- Ponta Porã") are joined with "e"; a state alone ("MS") stays as the state.
 function cityOf(raw) {
   let text = (raw || '').replace(/\s+/g, ' ').trim();
   let state = '';
@@ -87,11 +89,17 @@ function cityOf(raw) {
   if (match && STATES.has(match[2].toLowerCase())) {
     text = match[1].replace(/[\s/,–-]+$/, '');
     state = match[2].toUpperCase();
+  } else if (STATES.has(text.replace(/\.$/, '').toLowerCase())) {
+    return text.replace(/\.$/, '').toUpperCase();
   }
-  if (!text || matchKey(text) === matchKey(HOME_CITY)) return '';
-  const name = text.toLowerCase().split(' ').map((word, i) => (i > 0 && SMALL_WORDS.has(word) ? word : capitalize(word))).join(' ');
+  const cities = text.split(/\s*[/,–-]\s*|\s+e\s+/).filter(Boolean);
+  if (!cities.length || cities.every((city) => matchKey(city) === matchKey(HOME_CITY))) return '';
+  const name = cities.map((city) => city.toLowerCase().split(' ').map((word, i) => (i > 0 && SMALL_WORDS.has(word) ? word : capitalize(word))).join(' ')).join(' e ');
   return state && state !== 'MS' ? `${name}/${state}` : name;
 }
+
+// A street address as a Google Maps search, in the business's city (or Dourados/MS).
+const mapsUrl = (address, city) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${address}, ${city || CITY}`)}`;
 
 // ---------- Phones ----------
 
@@ -261,6 +269,7 @@ export function buildBusinesses(headers, records, lines = []) {
     const category = CATEGORY_NAMES.get(matchKey(get(record, 'category'))) || get(record, 'category').replace(/\s+/g, ' ');
     const offer = calmCase(get(record, 'offer'));
     const city = cityOf(get(record, 'city'));
+    const address = get(record, 'address').replace(/\s+/g, ' ');
 
     businesses.push({
       id: n === 1 ? base : `${base}-${n}`,
@@ -278,7 +287,9 @@ export function buildBusinesses(headers, records, lines = []) {
       links,
       contactNote,
       otherNote,
-      search: plain([name, subtitle, category, offer, city, instagram, instagramNote, contactNote, otherNote].join(' ')),
+      address,
+      addressHref: address ? mapsUrl(address, city) : '',
+      search: plain([name, subtitle, category, offer, city, address, instagram, instagramNote, contactNote, otherNote].join(' ')),
     });
   });
 
