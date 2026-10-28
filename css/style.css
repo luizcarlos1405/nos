@@ -921,33 +921,7 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
 
 /* ---------- Comércio ---------- */
 
-/* Paused: "Em breve" on the land, in Comércio's ipê-rosa. */
-.soon {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-  margin-top: 16px;
-  padding: 24px 22px 26px;
-  border-radius: var(--radius-card);
-  background: var(--role-commerce-tint);
-  color: var(--role-ink);
-}
-.soon-icon {
-  display: grid;
-  place-items: center;
-  width: 56px;
-  height: 56px;
-  margin-bottom: 6px;
-  border-radius: 50%;
-  background: var(--role-card);
-  color: var(--role-commerce-text);
-}
-.soon-icon .icon { width: 28px; height: 28px; }
-.soon-title { font: 800 2rem/1.05 var(--font-display); letter-spacing: -0.025em; }
-.soon-text { max-width: 34ch; font-size: 1.0625rem; line-height: 1.45; color: color-mix(in srgb, var(--role-commerce-text) 55%, var(--role-ink)); text-wrap: pretty; }
-
-/* The list (when it returns): search, count and category chips over the letters. On phones:
+/* The list: search, count and category chips over the letters. On phones:
    search, chips, count; on the desk the count sits beside the search. */
 .biz-tools { display: grid; grid-template-areas: 'search' 'chips' 'count'; padding-top: 14px; }
 .search { grid-area: search; position: relative; display: flex; align-items: center; margin: 0 16px; }
@@ -1349,9 +1323,6 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .biz-count, .biz-tools:has(.filters[hidden]) .biz-count { padding: 0; }
   .biz-tools .filters { display: block; padding: 12px 0 4px; }
   .biz-tools .filters[hidden] { display: none; }
-  .soon { margin-top: 0; padding: 36px 36px 38px; }
-  .soon-title { font-size: 2.75rem; }
-  .soon-text { font-size: 1.1875rem; }
   .side { position: sticky; top: 24px; padding: 0; }
   .side-card { padding: 24px 24px 26px; }
   .join { margin: 20px -24px 0; padding: 20px 24px 0; }
