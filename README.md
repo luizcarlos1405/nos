@@ -151,7 +151,7 @@ Outros textos:
 
 ## Design
 
-O design está na pasta `design/`, em HTML, um arquivo por tela: a direção Céu · Terra aprovada (que o site segue), as outras direções da rodada (Pipas, guardada para depois, e a base Céu), a pesquisa da faixa, a marca (e as cinco propostas de onde ela saiu) e os quatro panfletos. Para ver todos lado a lado, como numa página do Figma, sirva a pasta do projeto (`python3 -m http.server 8000`) e abra `http://localhost:8000/design/`: arraste ou role para andar, Ctrl + rolagem ou pinça para dar zoom, clique duas vezes num design para enquadrá-lo; `?` mostra os atalhos. Rodando no próprio computador, a página acompanha os arquivos: salvou, atualizou. A mesma tela também abre com o [htmlboard](https://github.com/luizcarlos1405/htmlboard), o pacote npm que nasceu deste explorador: na pasta do projeto, `npx htmlboard design --root .` e abra `http://localhost:3000`.
+O design está na pasta `design/`, em HTML, um arquivo por tela: a direção Céu · Terra aprovada (que o site segue), as outras direções da rodada (Pipas, guardada para depois, e a base Céu), a pesquisa da faixa, a marca (e as cinco propostas de onde ela saiu) e os quatro panfletos. Para ver todos lado a lado, como numa página do Figma, use o [htmlboard](https://github.com/luizcarlos1405/htmlboard) (precisa do Node.js): na pasta do projeto, rode `npx htmlboard design --root .` e abra `http://localhost:3000`. Espaço + arrastar ou rolar para andar, Ctrl + rolagem para dar zoom, `F` enquadra tudo, um clique na lista lateral centraliza um design; `?` mostra os atalhos. A tela acompanha os arquivos: salvou, atualizou.
 
 As cores, fontes e cantos vêm das variáveis do `css/theme.css` (as direções da rodada têm cada uma sua folha de estilo em `design/assets/`). Para acrescentar um design, copie o arquivo mais parecido, edite e inclua uma linha em `design/designs.json`. Uma proposta nova fica num arquivo próprio, ao lado do design atual, até ser aprovada.
 
@@ -193,7 +193,7 @@ js/events.js        normaliza linhas, datas e horários
 js/vendor/          html-to-image, que gera o PNG (licença ao lado)
 data/agenda.csv     a agenda provisória
 data/comercio.csv   as respostas do formulário de cadastro (26/10/2026), com a categoria
-design/             o design: uma página HTML por tela, e design/index.html, que mostra todas
+design/             o design: uma página HTML por tela, listadas em design/designs.json
 ```
 
 ## Desenvolvimento
