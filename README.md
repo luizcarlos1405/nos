@@ -6,7 +6,7 @@ O site tem três páginas, cada uma um arquivo HTML:
 
 - **Início** (`index.html`): o bom-dia (ou boa-tarde, boa-noite) sob o céu desta hora, a próxima atividade pousada na faixa, pronta para mandar no WhatsApp, e uma porta para cada página.
 - **Agenda** (`agenda.html`): as atividades das organizações, em lista de dias ou no mês. Até 26/10/2026 era o `index.html`; até 27/10/2026 se chamava Calendário e ficava em `calendario.html`, endereço que agora leva para `agenda.html` (assim os links já compartilhados continuam funcionando).
-- **Comércio** (`comercio.html`): os negócios que se cadastraram pelo formulário da rede, de A a Z. **Em pausa desde 27/10/2026**: a página e a porta do Início dizem "Em breve" enquanto as informações são coletadas e organizadas.
+- **Comércio** (`comercio.html`): os negócios que se cadastraram pelo formulário da rede, de A a Z.
 
 No celular, a barra no pé da tela leva de uma página à outra; no computador, os links ficam no alto, sobre o céu. A marca NOS leva ao Início. São links comuns, então funcionam em qualquer hospedagem estática.
 

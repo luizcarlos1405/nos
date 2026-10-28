@@ -260,11 +260,6 @@ components:
     textColor: "{colors.moonlit}"
     rounded: "{rounded.card}"
     padding: "12px 12px 14px 14px"
-  soon-panel:
-    backgroundColor: "{colors.ipe-rosa-tint}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.card}"
-    padding: "24px 22px 26px"
   nav-bar:
     backgroundColor: "{colors.clay-card}"
     textColor: "{colors.ink-soft}"
@@ -318,7 +313,7 @@ A palette taken from the place: clay and terra roxa for the land, urucum and ip�
 ### Secondary
 - **Ipê-Rosa** (#C03A73): Comércio's colour of the landscape and the named source of its shades; the site paints only the deep and tint shades below.
 - **Deep Ipê-Rosa** (#A12E5F): Comércio's icons, and the colour mixed into the text of its panel and door.
-- **Ipê-Rosa Tint** (#F3C8DA): Comércio's door and its "Em breve" panel (ink on it: 11.73:1).
+- **Ipê-Rosa Tint** (#F3C8DA): Comércio's door (ink on it: 11.73:1).
 - **Night Ipê-Rosa** (#F58AB3) and **Night Ipê-Rosa Tint** (#522036): the same two jobs at night.
 
 ### Tertiary
@@ -366,7 +361,7 @@ The eight groups of the organizations, one series each, by day and lighter at ni
 
 ### Hierarchy
 - **Display** (Bricolage 800, 3.25rem, line-height 0.923, -0.03em): the greeting on the home's sky, "Bom dia, Dourados", on two lines on phones; 4rem/1 on one line from 760px, 4.75rem/1.05 from 1100px, 2.625rem on narrow screens.
-- **Headline** (Bricolage 800, 1.875rem, 1.13, -0.025em): the page's name on the sky ("Agenda", "Comércio"); 2.5rem/1.1 from 760px. The same weight sets "Em breve" (2rem/1.05; 2.75rem on the desk), the month's title (1.5rem/1.1; 1.75rem from 1280px) and Comércio's letters (1.75rem/1).
+- **Headline** (Bricolage 800, 1.875rem, 1.13, -0.025em): the page's name on the sky ("Agenda", "Comércio"); 2.5rem/1.1 from 760px. The same weight sets the month's title (1.5rem/1.1; 1.75rem from 1280px) and Comércio's letters (1.75rem/1).
 - **Date** (Bricolage 800, 1.25rem, 1.2, -0.015em, tabular figures): the dates in NOS's voice, such as the home's circled date (1.4375rem from 760px).
 - **Title** (Bricolage 750, 1.1875rem, 1.26, -0.015em, tabular figures): the day heads ("Hoje · terça, 27/10"). At 750 too: the panel's day (1.25rem/1.2), business names (1.25rem/1.2), the information card's title (1.375rem/1.2), empty-state titles (1.1875rem/1.3), the month's numerals (1.0625rem/1) and "Dourados" beside the mark (1.375rem/1.27). At 700: the doors' names (1.125rem/1.33, -0.02em) and "Também na agenda".
 - **Activity Lead** (Inter 700, 1.375rem, 1.25, -0.015em): an activity's title in the panel; 1.875rem/1.2 on the home's desk card.
@@ -400,7 +395,7 @@ Phone first: one column of cards on the land under a short sky. Gutters are 16px
 
 ## Elevation & Depth
 
-A hybrid that changes with the light. By day, cards rest on the clay with a soft two-layer shadow tinted from the earth, never grey; at night the shadow goes and a 1px terra roxa line draws the card's edge, so the dark theme has no shadows on the land. Only the bottom sheet, lifted over its scrim, keeps a shadow at night. Flat colour panels (the doors, "Em breve") carry no shadow: the colour is the card. State shows as a ring, never a lift: nothing moves up on hover.
+A hybrid that changes with the light. By day, cards rest on the clay with a soft two-layer shadow tinted from the earth, never grey; at night the shadow goes and a 1px terra roxa line draws the card's edge, so the dark theme has no shadows on the land. Only the bottom sheet, lifted over its scrim, keeps a shadow at night. Flat colour panels (the doors) carry no shadow: the colour is the card. State shows as a ring, never a lift: nothing moves up on hover.
 
 ### Shadow Vocabulary
 - **Day rest** (`box-shadow: 0 1px 2px color-mix(in srgb, #4A2212 8%, transparent), 0 6px 16px color-mix(in srgb, #4A2212 7%, transparent)`): activity cards, the month, the home's next card, the desk panel, business and information cards, the message bubble.
@@ -471,7 +466,7 @@ The horizon: `assets/faixa.svg` repeated sideways, full-bleed under the sky. It 
 ### Doors (signature)
 The home's way into each page: a flat 18px card in the page's landscape tint (Agenda Urucum or Ipê-Rosa Tint; the night tints in the dark theme), with a 22px icon in the page's deep colour, the page's name in Bricolage 700, its live line in ink at 600, and secondary text that mixes 55% of the page's deep colour into the ink. Hover deepens the tint with 12% of that colour. Two side by side on phones (one column on narrow screens), stacked at the right on the desk.
 
-**The Landscape Doors Rule.** A page shows its landscape colour only as its door's tint and on its own panel ("Em breve"), with its deep shade for icons and mixed text; secondary text on a tint is the hue mixed into the ink, never a grey.
+**The Landscape Doors Rule.** A page shows its landscape colour only as its door's tint, with its deep shade for icons and mixed text; secondary text on a tint is the hue mixed into the ink, never a grey.
 
 ### The Activity Panel
 A bottom sheet under 1100px (24px top corners, a grabber, the sheet shadow over the scrim; it drags down and closes with Back), centred at 560px from 600px, and a sticky 380px card on the desk (420px from 1280px). Its head gives the day in Bricolage 750 and the time at 600 with "a próxima"; the title is the Activity Lead; the facts are 44px rows (30px on the desk) with 18px soft icons, the organization with a 10px dot and its full name. Mensagem | Panfleto stick to its top; the message shows as WhatsApp will (a bubble on the chat fill), the flyer in a 6px-rounded frame. The action bar stays at its foot: the primary button and an outlined one.
@@ -480,7 +475,7 @@ A bottom sheet under 1100px (24px top corners, a grabber, the sheet shadow over 
 A card of week rows, Sunday first, under a Bricolage 800 title between 44px round arrows. Sundays and holidays are shaded in the fill as days off; the numerals are Bricolage 750; today's is underlined by hand, the next activity's circled, the chosen day ringed in soft ink. On phones one-day activities are 6px group dots and multi-day ones 4px bars in lanes at the week's foot (outlines when cancelled). From 1280px the month becomes a wall calendar: each day writes its entries (dot, time at 700, title; three lines at most, 0.8125rem), holidays are named under the numeral, and the bars are tinted with 22% of the group's colour over the card, with the group's dot and the title in ink.
 
 ### Comércio
-Paused, it shows "Em breve": a flat Ipê-Rosa Tint panel (18px), a 56px circle in the card colour holding the store icon in Deep Ipê-Rosa, "Em breve" in Bricolage 800 and a sentence at 1.0625rem in the ipê-mixed ink, held to 34ch, beside an information card whose icons are Deep Ipê-Rosa. The list's code stays styled for its return: business cards with the name in Bricolage 750, the offer, a quiet category tag, and labelled contact rows with the numbers at 700 in tabular figures.
+The list beside an information card whose icons are Deep Ipê-Rosa: business cards with the name in Bricolage 750, the offer, a quiet category tag, and labelled contact rows with the numbers at 700 in tabular figures.
 
 ### Icons
 Lucide (ISC) drawings on a 24px grid with a 2px round stroke in `currentColor`, inline SVG: 16px in meta rows, 18px in buttons, chips and facts, 20px by default, 22px in the header, the phone bar and the doors. No glyphs or emoji as interface icons (the emoji in the WhatsApp message preview are the message's text, as it will be sent).
