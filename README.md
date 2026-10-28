@@ -153,7 +153,7 @@ Outros textos:
 
 O design está na pasta `design/`, em HTML, um arquivo por tela: a direção Céu · Terra aprovada (que o site segue), as outras direções da rodada (Pipas, guardada para depois, e a base Céu), a pesquisa da faixa, a marca (e as cinco propostas de onde ela saiu) e os quatro panfletos. Para ver todos lado a lado, como numa página do Figma, use o [htmlboard](https://github.com/luizcarlos1405/htmlboard) (precisa do Node.js): na pasta do projeto, rode `npx htmlboard design --root .` e abra `http://localhost:3000`. Arraste ou role para andar, Ctrl + rolagem (ou pinça) para dar zoom, clique duas vezes num design para enquadrá-lo; `/` busca e `?` mostra os atalhos. A tela acompanha os arquivos: salvou, atualizou.
 
-As cores, fontes e cantos vêm das variáveis do `css/theme.css` (as direções da rodada têm cada uma sua folha de estilo em `design/assets/`). Para acrescentar um design, copie o arquivo mais parecido, edite e inclua uma linha em `design/designs.json`. Uma proposta nova fica num arquivo próprio, ao lado do design atual, até ser aprovada.
+As cores, fontes e cantos vêm das variáveis do `css/theme.css` (as direções da rodada têm cada uma sua folha de estilo em `design/assets/`). Para acrescentar um design, copie o arquivo mais parecido, edite (o tamanho vai na tag `<meta name="htmlboard">` do próprio arquivo) e inclua o nome do arquivo na seção certa de `design/designs.json`. Uma proposta nova fica num arquivo próprio, ao lado do design atual, até ser aprovada.
 
 ## Estrutura
 
@@ -193,7 +193,7 @@ js/events.js        normaliza linhas, datas e horários
 js/vendor/          html-to-image, que gera o PNG (licença ao lado)
 data/agenda.csv     a agenda provisória
 data/comercio.csv   as respostas do formulário de cadastro (26/10/2026), com a categoria
-design/             o design: uma página HTML por tela, listadas em design/designs.json
+design/             o design: uma página HTML por tela, agrupadas em design/designs.json
 ```
 
 ## Desenvolvimento
