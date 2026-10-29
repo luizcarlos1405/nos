@@ -15,7 +15,7 @@ export const COMMERCE_FORM_URL = '';
 
 // Suggested categories of the "Categoria" column, in the order of the chips; others follow in
 // alphabetical order. Free text: any name the sheet uses becomes a chip.
-export const COMMERCE_CATEGORIES = ['Comida', 'Serviços', 'Celular e informática', 'Beleza', 'Arte e presentes', 'Embalagens'];
+export const COMMERCE_CATEGORIES = ['Comida', 'Serviços', 'Celular e informática', 'Beleza', 'Arte e presentes', 'Casa', 'Embalagens'];
 
 // Provisional name: NOS = Núcleo de Organização Social.
 export const APP_NAME = 'NOS';
