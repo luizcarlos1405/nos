@@ -2,6 +2,17 @@
   "title": "NOS Dourados · Designs",
   "sections": [
     {
+      "title": "Salvar na agenda (proposta de 31/10: uma atividade ou todas, na agenda de cada pessoa)",
+      "designs": [
+        "agenda-salvar-quadro.html",
+        "agenda-salvar-celular-lista.html",
+        "agenda-salvar-celular-opcoes.html",
+        "agenda-salvar-celular-painel.html",
+        "agenda-salvar-celular-todas.html",
+        "agenda-salvar-desktop.html"
+      ]
+    },
+    {
       "title": "Céu · Terra (aprovada em 27/10; construída: é o site)",
       "designs": [
         "direcao-ceu-terra-quadro.html",
