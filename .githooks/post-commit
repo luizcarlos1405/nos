@@ -1,0 +1,9 @@
+#!/bin/sh
+# After a commit of named files only ("git commit <file>"), git commits a temporary index: the
+# agenda.ics that pre-commit added there is in the commit and in the working tree, but git's own
+# index keeps the old one, which a later commit would bring back. Put the committed one there too.
+root=$(git rev-parse --show-toplevel)
+if git diff --quiet HEAD -- "$root/agenda.ics" 2>/dev/null && ! git diff --cached --quiet HEAD -- "$root/agenda.ics" 2>/dev/null; then
+  git add -- "$root/agenda.ics"
+fi
+exit 0
