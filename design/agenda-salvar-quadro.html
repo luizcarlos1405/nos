@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pt-BR" data-scheme="light" data-sky="day">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Salvar na agenda · Quadro</title>
+<meta name="htmlboard" content="width=1200, height=1380">
+<link rel="stylesheet" href="../css/theme.css">
+<link rel="stylesheet" href="assets/design.css">
+<style>
+/* The proposal on one board: what the person does, what happens on each device, and what the site
+   can't do. The screens are the artboards beside it. */
+.board { width: 1200px; padding: 56px 64px 64px; background: var(--color-clay); color: var(--color-ink); }
+.board h1 { margin: 0; font: 800 3rem/1.05 var(--font-display); letter-spacing: -0.03em; }
+.board .lead { max-width: 60ch; margin: 14px 0 0; font-size: 1.125rem; line-height: 1.5; color: var(--color-ink-soft); }
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 36px; }
+.col { padding: 26px 28px 24px; border-radius: var(--radius-card); background: var(--color-clay-card); box-shadow: 0 1px 2px color-mix(in srgb, var(--color-earth-shadow) 8%, transparent), 0 6px 16px color-mix(in srgb, var(--color-earth-shadow) 7%, transparent); }
+.col-head { display: flex; align-items: center; gap: 12px; }
+.col-head .glyph { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--color-clay-fill); }
+.col-head svg { width: 22px; height: 22px; }
+.col h2 { margin: 0; font: 750 1.625rem/1.15 var(--font-display); letter-spacing: -0.02em; }
+.col .where { margin: 12px 0 0; font-size: 1rem; line-height: 1.5; }
+.col h3 { margin: 22px 0 8px; font: 700 1.0625rem/1.3 var(--font-display); letter-spacing: -0.01em; }
+.rows { margin: 0; padding: 0; list-style: none; }
+.rows li { display: grid; grid-template-columns: 8.5rem 1fr; gap: 14px; padding: 10px 0; border-top: 1px solid var(--color-clay-line); font-size: 0.9375rem; line-height: 1.45; }
+.rows li:first-child { border-top: 0; }
+.rows b { font-weight: 600; }
+.limits { margin-top: 24px; padding: 24px 28px; border: 1px solid var(--color-clay-line); border-radius: var(--radius-card); }
+.limits h2 { margin: 0 0 6px; font: 750 1.375rem/1.2 var(--font-display); letter-spacing: -0.015em; }
+.limits ul { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 32px; margin: 10px 0 0; padding-left: 18px; font-size: 0.9375rem; line-height: 1.5; }
+.limits li::marker { color: var(--color-ink-soft); }
+</style>
+</head>
+<body>
+<!-- Salvar na agenda: the proposal of 31/10/2026 in words. One activity → the person's calendar opens
+     already filled in, they confirm; all of them → a calendar their app keeps up to date (a
+     subscription). The artboards beside it are the screens; this board is what happens after a tap. -->
+<div class="board">
+  <h1>Salvar na agenda</h1>
+  <p class="lead">Proposta de 31/10: cada atividade, ou todas de uma vez, na agenda do celular ou do computador de quem usa o site. A pessoa escolhe a agenda e confirma lá; o site só preenche.</p>
+
+  <div class="cols">
+    <section class="col">
+      <div class="col-head"><span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 18h6"/><path d="M16 2v3"/><path d="M19 15v6"/><path d="M21 11.5V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8.3"/><path d="M3 9h18"/><path d="M8 2v3"/></svg></span><h2>Uma atividade</h2></div>
+      <p class="where">No círculo de agenda de cada cartão (ao lado do compartilhar) e em “Salvar na minha agenda”, no painel. Abre as opções: a agenda mais provável do aparelho vem primeiro, as outras embaixo.</p>
+      <h3>O que acontece depois do toque</h3>
+      <ul class="rows">
+        <li><b>Android</b><span>O app do Google Agenda abre com título, dia, horário, local e descrição preenchidos. É só tocar em Salvar.</span></li>
+        <li><b>iPhone</b><span>O iPhone mostra a atividade e pede para confirmar; ela vai para o app Calendário.</span></li>
+        <li><b>Computador</b><span>O Google Agenda (ou o Outlook) abre numa aba nova, preenchido. No Mac, “Apple” abre o Calendário.</span></li>
+        <li><b>Outro app</b><span>Baixa o arquivo da atividade (.ics), que quase toda agenda abre.</span></li>
+      </ul>
+      <h3>Detalhes</h3>
+      <ul class="rows">
+        <li><b>Sem horário</b><span>Entra como dia inteiro (“Horário a confirmar” vai na descrição).</span></li>
+        <li><b>Sem término</b><span>Uma hora de duração, como as próprias agendas fazem.</span></li>
+        <li><b>Escondido</b><span>Em atividades que já passaram e nas canceladas.</span></li>
+      </ul>
+    </section>
+
+    <section class="col">
+      <div class="col-head"><span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 10v4h4"/><path d="m11 14 1.535-1.605a5 5 0 0 1 8 1.5"/><path d="M16 2v3"/><path d="m21 18-1.535 1.605a5 5 0 0 1-8-1.5"/><path d="M21 22v-4h-4"/><path d="M21 8.517V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3.517"/><path d="M3 9h4"/><path d="M8 2v3"/></svg></span><h2>Todas as atividades</h2></div>
+      <p class="where">“Salvar tudo na agenda”, acima da lista, e no fim das opções de cada atividade. Não é uma cópia: é uma agenda “NOS Dourados” que o app da pessoa mantém em dia sozinho (uma assinatura).</p>
+      <h3>O que acontece depois do toque</h3>
+      <ul class="rows">
+        <li><b>iPhone e Mac</b><span>Um toque: o aparelho pergunta se quer assinar, a pessoa confirma.</span></li>
+        <li><b>Google Agenda</b><span>No computador, um clique e confirmar. No celular o Google não deixa: mandamos o link para o WhatsApp da própria pessoa (ou ela copia) para abrir no computador; depois aparece no celular também.</span></li>
+        <li><b>Outlook e outros</b><span>O Outlook abre e pergunta; nos outros apps, a pessoa cola o endereço da agenda.</span></li>
+      </ul>
+      <h3>Por que assinatura</h3>
+      <ul class="rows">
+        <li><b>Sem duplicar</b><span>A agenda assinada nunca repete atividades, por mais que o site mude.</span></li>
+        <li><b>Em dia</b><span>Atividades novas aparecem; mudanças e cancelamentos também. O iPhone atualiza no intervalo que a pessoa escolhe; o Google, algumas vezes por dia.</span></li>
+        <li><b>Sai fácil</b><span>Remover a agenda “NOS Dourados” tira tudo de uma vez.</span></li>
+      </ul>
+    </section>
+  </div>
+
+  <section class="limits">
+    <h2>O que o site não consegue</h2>
+    <ul>
+      <li>Ver a agenda da pessoa (nenhum site consegue sem pedir acesso à conta). Por isso não dá para pular as atividades que ela já salvou uma por uma: essas podem aparecer duas vezes, e as opções avisam.</li>
+      <li>Dentro do navegador do Instagram, ou no Chrome do iPhone, o Calendário do iPhone não abre. Nesses casos as opções pedem para abrir o link no Safari (o Google Agenda funciona em qualquer lugar).</li>
+      <li>Confirmar que a pessoa salvou: a escolha termina na agenda dela, que pede a confirmação.</li>
+      <li>“Salvar tudo na agenda” precisa de um arquivo da agenda publicado no site (agenda.ics), refeito a cada mudança da planilha. Uma atividade não precisa de nada novo: tudo acontece no navegador.</li>
+    </ul>
+  </section>
+</div>
+</body>
+</html>

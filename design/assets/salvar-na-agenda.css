@@ -1,0 +1,167 @@
+/* Salvar na agenda (proposta de 31/10/2026): the new pieces drawn over the site's own stylesheets
+   (../css/theme.css + ../css/style.css), so every artboard of this proposal is the built agenda plus
+   them. Everything about the person's own calendar shares one look: a tonal circle or pill
+   (--role-fill) with a calendar glyph, the family of the cards' share circle; pressed, it fills with
+   ink, like a chosen chip. Colours only from the theme (roles; the popover's shadow from the palette,
+   as a role would give it). */
+
+/* The artboards take their state from the URL: ?tema=escuro, ?aparelho=iphone|iphone-app,
+   ?aberto=todas. A block meant for one device or state is hidden on the others. */
+:root:not([data-aparelho='android']) .only-android,
+:root:not([data-aparelho='iphone']) .only-iphone,
+:root:not([data-aparelho='iphone-app']) .only-iphone-app,
+:root[data-aparelho='android'] .not-android,
+:root[data-aberto='todas'] .only-event,
+:root:not([data-aberto='todas']) .only-all { display: none !important; }
+
+/* ---------- On each card: the calendar circle beside the share circle ---------- */
+/* (In the build the circle is its own button, laid over the card's; the card still opens the panel.) */
+.event-actions { display: flex; flex: none; gap: 6px; }
+.cal-circle {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--role-fill);
+  color: var(--role-ink);
+}
+.cal-circle .icon { width: 20px; height: 20px; }
+.cal-circle.is-pressed { background: var(--role-ink); color: var(--role-on-ink); }
+
+/* ---------- Pills: "Salvar na minha agenda" (panel) and "Salvar tudo na agenda" (above the list) ---------- */
+.save-pill,
+.all-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 16px 0 12px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--role-fill);
+  color: var(--role-ink);
+  font: 600 0.9375rem/1.2 var(--font-ui);
+  white-space: nowrap;
+}
+.save-pill .icon,
+.all-pill .icon { width: 18px; height: 18px; }
+.save-pill.is-pressed,
+.all-pill.is-pressed { background: var(--role-ink); color: var(--role-on-ink); }
+.all-short { display: none; }
+
+/* The panel's head: the day, the time, then the pill on its own line. */
+.bench-head.has-save { flex-wrap: wrap; row-gap: 10px; }
+.bench-head.has-save .bench-date { flex: 1 1 0; }
+.bench-save-row { order: 3; display: flex; flex-basis: 100%; }
+
+/* Above the list (and the month), under the filters. */
+.all-row { display: flex; margin: 4px 16px 0; }
+
+@media (min-width: 600px) {
+  .all-row { margin-left: 24px; margin-right: 24px; }
+}
+/* The desk: at the right of Lista | Mês and the organization, in fewer words. */
+@media (min-width: 1100px) {
+  .page-agenda .pad-col { grid-template-columns: auto minmax(0, 1fr) auto; }
+  .page-agenda .view-tabs { grid-column: 1; grid-row: 1; }
+  .page-agenda .org-pill { grid-column: 2; grid-row: 1; }
+  .page-agenda .chips { grid-row: 2; }
+  .all-row { grid-column: 3; grid-row: 1; justify-self: end; margin: 0; }
+  .all-long { display: none; }
+  .all-short { display: inline; }
+}
+
+/* ---------- The options: a bottom sheet on phones, a popover on the desk ---------- */
+.cal-scrim { position: fixed; inset: 0; z-index: 40; background: var(--role-scrim); }
+
+.cal-sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 41;
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px max(14px, env(safe-area-inset-bottom));
+  border: 1px solid var(--role-card-border);
+  border-bottom: 0;
+  border-radius: var(--radius-sheet) var(--radius-sheet) 0 0;
+  background: var(--role-card);
+  box-shadow: var(--role-sheet-shadow);
+}
+.cal-sheet .grabber { margin-bottom: 2px; }
+
+/* The popover floats over the panel: a soft drop by day, the night line (and a dark drop) at night. */
+.cal-pop {
+  position: absolute;
+  z-index: 41;
+  width: 360px;
+  padding: 16px 18px 6px;
+  border: 1px solid var(--role-card-border);
+  border-radius: var(--radius-card);
+  background: var(--role-card);
+  box-shadow:
+    0 2px 6px color-mix(in srgb, var(--color-earth-shadow) 10%, transparent),
+    0 16px 40px color-mix(in srgb, var(--color-earth-shadow) 18%, transparent);
+}
+:root[data-scheme='dark'] .cal-pop { border-color: var(--role-line); box-shadow: 0 16px 40px color-mix(in srgb, var(--color-night-shade) 70%, transparent); }
+
+.cal-head { display: flex; align-items: center; gap: 8px; min-height: 44px; margin-right: -8px; }
+.cal-pop .cal-head { min-height: 0; margin: 0 0 10px; }
+.cal-title { flex: 1 1 auto; min-width: 0; font: 750 1.25rem/1.2 var(--font-display); letter-spacing: -0.015em; text-wrap: balance; }
+.cal-head .icon-button .icon { width: 22px; height: 22px; }
+
+/* The activity being saved (in the sheet; on the desk the panel beside the popover shows it). */
+.cal-event { display: flex; flex-direction: column; gap: 3px; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--role-line); }
+.cal-event-title { font-size: 1rem; line-height: 1.3; font-weight: 600; letter-spacing: -0.01em; text-wrap: pretty; }
+.cal-event .meta-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cal-event .meta-when { font-weight: 600; color: var(--role-ink); font-variant-numeric: tabular-nums; }
+.cal-event .meta-when .icon { color: var(--role-ink-soft); }
+
+.cal-lead { margin: 0 0 16px; font-size: 0.9375rem; line-height: 1.5; text-wrap: pretty; }
+
+/* The calendar this device most likely uses comes first, as the primary button. */
+.cal-go { width: 100%; min-height: 48px; }
+.cal-go .icon { width: 20px; height: 20px; }
+.cal-note { margin: 8px 8px 0; text-align: center; font-size: 0.875rem; line-height: 1.4; color: var(--role-ink-soft); text-wrap: balance; }
+
+/* The others, as rows. */
+.cal-more { margin: 18px 0 2px; font-size: 0.875rem; line-height: 1.35; color: var(--role-ink-soft); }
+.cal-options { margin: 0; padding: 0; list-style: none; }
+.cal-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 7px 4px 7px 0;
+  color: var(--role-ink);
+  text-decoration: none;
+}
+.cal-options li + li .cal-option { border-top: 1px solid var(--role-line); }
+.cal-option-text { display: flex; flex: 1 1 auto; flex-direction: column; gap: 1px; min-width: 0; }
+.cal-option-name { font-size: 1rem; line-height: 1.3; font-weight: 600; }
+.cal-option-hint { font-size: 0.875rem; line-height: 1.35; color: var(--role-ink-soft); text-wrap: pretty; }
+.cal-option > .icon { width: 20px; height: 20px; color: var(--role-ink-soft); }
+.cal-pop .cal-option { min-height: 52px; }
+
+/* Under a single activity's options: "Salvar tudo na agenda", set apart by its glyph and a line. */
+.cal-all { display: flex; align-items: center; gap: 12px; margin-top: 8px; padding: 12px 4px 4px 0; border-top: 1px solid var(--role-line); color: var(--role-ink); text-decoration: none; }
+.cal-all .cal-all-icon { display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: 50%; background: var(--role-fill); }
+.cal-all .cal-all-icon .icon { width: 20px; height: 20px; }
+.cal-all > .icon { width: 20px; height: 20px; color: var(--role-ink-soft); }
+.cal-pop .cal-all { padding-bottom: 10px; }
+
+/* A calendar that can't be reached from here (Google's subscriptions on a phone; the iPhone's own
+   calendar inside Instagram): what to do instead, and the buttons to do it. */
+.cal-away-head { display: flex; align-items: center; gap: 10px; }
+.cal-away-head .icon { width: 22px; height: 22px; color: var(--role-ink-soft); }
+.cal-away-title { font-size: 1rem; line-height: 1.3; font-weight: 600; }
+.cal-away-text { margin: 6px 0 12px; font-size: 0.9375rem; line-height: 1.45; text-wrap: pretty; }
+.cal-away-actions { display: grid; gap: 8px; }
+.cal-away-actions .btn { width: 100%; min-height: 48px; }
+
+.cal-foot { margin: 14px 0 0; padding-top: 12px; border-top: 1px solid var(--role-line); font-size: 0.8125rem; line-height: 1.45; color: var(--role-ink-soft); text-wrap: pretty; }
+.cal-foot p + p { margin-top: 6px; }
+.cal-pop .cal-foot { margin-bottom: 10px; }
