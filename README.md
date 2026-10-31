@@ -17,6 +17,8 @@ Cada atividade mostra quem organiza, onde e quando, e de onde veio a informaçã
 - **Mensagem de WhatsApp** pronta para colar (com negrito, emojis e só os campos preenchidos);
 - **Panfleto em PNG** (1080 × 1350 px) em três estilos (Folha do dia, Agenda do mês e Cartaz), com o céu da hora da atividade. Atividade cancelada vira um aviso de cancelamento.
 
+E cada pessoa pode **salvar na própria agenda** (o círculo de agenda em cada cartão, ou "Salvar na minha agenda" no painel): o Google Agenda já preenchido no Android e no computador, a tela de "adicionar ao Calendário" no iPhone, o Outlook ou um arquivo .ics. **"Salvar tudo na agenda"** assina a agenda inteira (o arquivo `agenda.ics`, publicado junto com o site): ela aparece como "NOS Dourados" na agenda da pessoa e se atualiza sozinha, sem repetir atividades. No iPhone e no Mac é um toque; no Google Agenda só dá pelo computador (regra do Google), então no Android o site manda o link para o WhatsApp da própria pessoa abrir no computador.
+
 Sem build, sem dependências para instalar: HTML, CSS e JavaScript puro. Nasceu de uma cópia do [Calendário de Luta](https://github.com/luizcarlos1405/calendario).
 
 ## Editando a agenda
@@ -111,6 +113,21 @@ e acesse <http://localhost:8000> (o Início; a agenda está em `/agenda.html` e 
 
 Qualquer hospedagem estática serve (GitHub Pages, Netlify, Cloudflare Pages…): é só publicar a pasta inteira. No GitHub Pages: em *Settings → Pages*, escolha *Deploy from a branch*, o ramo `main` e a pasta `/ (root)`; o site fica em `https://<usuário>.github.io/<repositório>/` (ele funciona dentro de uma subpasta como essa).
 
+### A agenda assinada (`agenda.ics`)
+
+"Salvar tudo na agenda" assina o arquivo `agenda.ics`, na raiz do site. Os apps de agenda (Google, iPhone, Outlook) buscam esse arquivo sozinhos, de tempos em tempos, então ele precisa estar publicado junto com o site. Ele é gerado a partir da agenda e fica no repositório; um *hook* do git o refaz a cada commit, a partir do que vai no commit, e o põe no mesmo commit. Quem muda o `data/agenda.csv` não precisa lembrar de nada.
+
+Num clone novo, ative os hooks uma vez (eles estão em `.githooks/`):
+
+```sh
+git config core.hooksPath .githooks
+```
+
+- `node tools/agenda-ics.mjs --check` diz se o `agenda.ics` está em dia; `node tools/agenda-ics.mjs` o refaz na mão. Os dois precisam do Node 22 ou mais novo, como o hook.
+- Não edite o `agenda.ics` à mão. Num conflito de merge nele, resolva o CSV e refaça o arquivo em vez de juntar os textos.
+- Se a agenda tiver um erro que impeça o site de lê-la (falta a coluna `Título` ou `Dia`), o commit é recusado, com a explicação.
+- Quando a agenda passar a vir da planilha do Google (`CSV_URL`), um commit não acompanha mais as edições da planilha: o hook deixa o arquivo como está e avisa. Aí o `agenda.ics` precisa ser refeito por uma tarefa agendada (por exemplo, uma GitHub Action de hora em hora).
+
 O site está em https://nos.dourados.social (GitHub Pages, domínio no arquivo `CNAME`). Se o endereço mudar:
 
 - troque `SITE_URL` em `js/config.js` (ele entra no fim de cada mensagem de WhatsApp, com o nome da página: `agenda.html`, `comercio.html`);
@@ -136,6 +153,8 @@ Tudo que costuma mudar fica em `js/config.js`:
 - `APP_NAME` / `APP_FULL_NAME`: o nome (NOS) e o nome por extenso.
 - `CITY` / `HOME_CITY`: a cidade da agenda; atividades com `Cidade` vazia ou igual a ela são "daqui".
 - `SITE_URL`: endereço do site, colocado no fim das mensagens.
+- `TIME_ZONE`: o fuso da agenda (Dourados), para os horários na agenda de cada pessoa.
+- `FEED_FILE`: o nome do arquivo da agenda assinada (`agenda.ics`).
 - `SECTOR_SERIES`: a cor fixa de cada setor sugerido.
 - `EXTRA_HOLIDAYS`: feriados locais, marcados como os nacionais (`js/holidays.js`).
 - `ORG_NAMES`: nomes por extenso das organizações.
@@ -175,7 +194,7 @@ assets/faixa.svg    a faixa do horizonte (arte provisória)
 assets/screenshots/ capturas de tela do app instalável
 fonts/              fontes hospedadas no próprio site: Bricolage Grotesque e Inter (o site e os panfletos); licenças em fonts/OFL-*.txt (a da Barlow fica pela marca, desenhada a partir dela)
 js/config.js        configurações (planilhas, nome, cidade, endereço do site, setores, feriados locais, nomes das organizações, categorias do comércio)
-js/page.js          o que as três páginas compartilham (cabeçalho, avisos, leitura das planilhas, modo sem internet)
+js/page.js          o que as três páginas compartilham (cabeçalho, avisos, área de transferência, leitura das planilhas, modo sem internet)
 js/sky.js           o céu desta hora e o tema claro ou escuro
 js/home.js          o Início
 js/app.js           carrega a agenda e liga a interface da agenda
@@ -184,6 +203,11 @@ js/businesses.js    lê as respostas do formulário (números, Instagram, links)
 js/agenda.js        a lista: os dias e as atividades
 js/month.js         o mês
 js/flyer.js         estilos de panfleto e exportação PNG
+js/save-menu.js     "Salvar na minha agenda" e "Salvar tudo na agenda": as opções de cada aparelho
+js/ics.js           a atividade como arquivo de agenda (.ics) e nos formulários do Google Agenda e do Outlook; a agenda inteira para assinar
+tools/agenda-ics.mjs  gera o agenda.ics a partir da planilha (--check: ele está em dia?)
+agenda.ics          a agenda assinada por "Salvar tudo na agenda" (gerado: não edite à mão)
+.githooks/          refazem o agenda.ics a cada commit (ative com git config core.hooksPath .githooks)
 js/whatsapp.js      montador das mensagens de WhatsApp (atividade e negócio)
 js/colors.js        cores dos setores
 js/holidays.js      feriados nacionais

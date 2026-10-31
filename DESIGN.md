@@ -187,6 +187,18 @@ components:
     textColor: "{colors.ink}"
     rounded: "{rounded.circle}"
     size: "40px"
+  save-circle:
+    backgroundColor: "{colors.clay-fill}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.circle}"
+    size: "40px"
+  save-pill:
+    backgroundColor: "{colors.clay-fill}"
+    textColor: "{colors.ink}"
+    typography: "{typography.button}"
+    rounded: "{rounded.pill}"
+    padding: "0 16px 0 12px"
+    height: "40px"
   chip:
     backgroundColor: "{colors.clay-card}"
     textColor: "{colors.ink}"
@@ -401,6 +413,7 @@ A hybrid that changes with the light. By day, cards rest on the clay with a soft
 - **Day rest** (`box-shadow: 0 1px 2px color-mix(in srgb, #4A2212 8%, transparent), 0 6px 16px color-mix(in srgb, #4A2212 7%, transparent)`): activity cards, the month, the home's next card, the desk panel, business and information cards, the message bubble.
 - **Night rest** (`box-shadow: 0 0 0 0 transparent; border: 1px solid #4A2F28`): the same surfaces at night.
 - **Sheet** (`box-shadow: 0 -8px 28px color-mix(in srgb, #4A2212 18%, transparent)`; at night `0 -8px 28px color-mix(in srgb, #0E0706 60%, transparent)`): the bottom sheet, over a scrim of the ink at 50% (Night Shade at 70%).
+- **Popover** (`box-shadow: 0 2px 6px color-mix(in srgb, #4A2212 10%, transparent), 0 16px 40px color-mix(in srgb, #4A2212 18%, transparent)`; at night the 1px line and `0 16px 40px color-mix(in srgb, #0E0706 70%, transparent)`): the desk's calendar options, floating over the list or the panel (`--role-pop-shadow`).
 - **Selection ring** (`box-shadow: 0 0 0 1.5px` in the soft ink, added to the rest shadow; inset on the month's chosen day): the activity open in the panel, the chosen day.
 - **Focus ring** (`outline: 2px solid` Deep Urucum, `outline-offset: 2px`; Night Urucum in the dark theme; the sky's ink on the sky): every focusable element.
 
@@ -443,7 +456,7 @@ Lista | Mês and Mensagem | Panfleto: a pill of two equal 42px segments on the c
 - **Shadow Strategy:** the day rest by day, the 1px line at night (see Elevation & Depth).
 - **Border:** transparent by day, Terra Roxa Line at night; empty days and empty states are flat and outlined in the line colour instead.
 - **Internal Padding:** 14px 14px 15px 16px for an activity card on phones, 16px 18px 17px 20px on the desk; 20px to 28px on larger containers.
-- **The activity card:** the whole card is the button that opens the panel. Its title (Activity) sits beside a 40px share circle; under it come the time (600, tabular), the organization with its group's dot and full name, and the place, each a meta row with a 16px soft icon. The next activity's time is circled by hand, with "a próxima" in Deep Urucum beside it. A cancelled one is struck through in soft ink under an ink "Cancelada" tag.
+- **The activity card:** the card opens the panel (its title is the button, stretched over the card, so the focus ring draws around the whole card). Its title (Activity) sits beside a 40px calendar circle ("Salvar na minha agenda", a button of its own) and the 40px share circle; under it come the time (600, tabular), the organization with its group's dot and full name, and the place, each a meta row with a 16px soft icon. The next activity's time is circled by hand, with "a próxima" in Deep Urucum beside it. A cancelled one is struck through in soft ink under an ink "Cancelada" tag.
 
 ### Inputs / Fields
 - **Style:** the search field is a 48px pill on the card colour with a 1px line, a soft search icon inside its left edge and a 44px round clear button at its right; Inter 400 at 1rem (16px, so iOS doesn't zoom), 500 once typed; the placeholder in soft ink.
@@ -469,7 +482,10 @@ The home's way into each page: a flat 18px card in the page's landscape tint (Ag
 **The Landscape Doors Rule.** A page shows its landscape colour only as its door's tint, with its deep shade for icons and mixed text; secondary text on a tint is the hue mixed into the ink, never a grey.
 
 ### The Activity Panel
-A bottom sheet under 1100px (24px top corners, a grabber, the sheet shadow over the scrim; it drags down and closes with Back), centred at 560px from 600px, and a sticky 380px card on the desk (420px from 1280px). Its head gives the day in Bricolage 750 and the time at 600 with "a próxima"; the title is the Activity Lead; the facts are 44px rows (30px on the desk) with 18px soft icons, the organization with a 10px dot and its full name. Mensagem | Panfleto stick to its top; the message shows as WhatsApp will (a bubble on the chat fill), the flyer in a 6px-rounded frame. The action bar stays at its foot: the primary button and an outlined one.
+A bottom sheet under 1100px (24px top corners, a grabber, the sheet shadow over the scrim; it drags down and closes with Back), centred at 560px from 600px, and a sticky 380px card on the desk (420px from 1280px). Its head gives the day in Bricolage 750 and the time at 600 with "a próxima", and under them the tonal pill "Salvar na minha agenda"; the title is the Activity Lead; the facts are 44px rows (30px on the desk) with 18px soft icons, the organization with a 10px dot and its full name. Mensagem | Panfleto stick to its top; the message shows as WhatsApp will (a bubble on the chat fill), the flyer in a 6px-rounded frame. The action bar stays at its foot: the primary button and an outlined one.
+
+### Salvar na agenda
+Everything about the person's own calendar shares one look: the share circle's tonal fill with a calendar glyph (calendar-plus for one activity, calendar-sync for the whole agenda), filled with ink while its options are open, like a chosen chip. The 40px circle on each card, the 40px tonal pill "Salvar na minha agenda" in the panel's head, and "Salvar tudo na agenda" above the list ("Salvar tudo" at the right of the filters from 1280px). The options are a bottom sheet on phones (24px top corners, grabber, scrim) and an 18px popover on the desk (no scrim): the head in Bricolage 750, the activity being saved, the device's likely calendar as the primary button with a soft line on what happens next, the other calendars as 56px rows (name 600, hint in soft ink, a trailing glyph for what the row does: chevron, external link, download, copy), and "Salvar tudo na agenda" set apart by its tonal circle and a line. A calendar that can't be reached from here (Google's subscriptions on a phone, the iPhone's calendar outside Safari) is a block with a soft glyph, what to do instead, and full-width buttons; nothing is boxed inside the sheet.
 
 ### The Month
 A card of week rows, Sunday first, under a Bricolage 800 title between 44px round arrows. Sundays and holidays are shaded in the fill as days off; the numerals are Bricolage 750; today's is underlined by hand, the next activity's circled, the chosen day ringed in soft ink. On phones one-day activities are 6px group dots and multi-day ones 4px bars in lanes at the week's foot (outlines when cancelled). From 1280px the month becomes a wall calendar: each day writes its entries (dot, time at 700, title; three lines at most, 0.8125rem), holidays are named under the numeral, and the bars are tinted with 22% of the group's colour over the card, with the group's dot and the title in ink.
