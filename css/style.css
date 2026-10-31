@@ -477,6 +477,40 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
 }
 .share-circle .icon { width: 20px; height: 20px; }
 
+/* The person's own calendar (js/save-menu.js): on each card a tonal circle beside the share mark, in
+   the panel "Salvar na minha agenda" under the day and the time, above the list "Salvar tudo na
+   agenda". While their options are open they fill with ink, like a chosen chip. */
+.save-circle,
+.save-pill {
+  position: relative;
+  z-index: 1;
+  border: 0;
+  background: var(--role-fill);
+  color: var(--role-ink);
+  transition: background 0.15s, color 0.15s;
+}
+.save-circle { display: grid; place-items: center; flex: none; width: 40px; height: 40px; padding: 0; border-radius: 50%; }
+.save-circle .icon { width: 20px; height: 20px; }
+.save-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 16px 0 12px;
+  border-radius: var(--radius-pill);
+  font: 600 0.9375rem/1.2 var(--font-ui);
+  white-space: nowrap;
+}
+.save-pill .icon { width: 18px; height: 18px; }
+/* 44px to tap, around the 40px drawing. */
+.save-circle::before, .save-pill::before { content: ''; position: absolute; inset: -2px; border-radius: inherit; }
+.save-circle[aria-expanded='true'], .save-pill[aria-expanded='true'] { background: var(--role-ink); color: var(--role-on-ink); }
+@media (hover: hover) {
+  .save-circle:not([aria-expanded='true']):hover, .save-pill:not([aria-expanded='true']):hover { background: var(--role-line); }
+}
+.save-all { display: flex; margin: 4px 16px 0; }
+.save-all-short { display: none; }
+
 /* Labels */
 .tag {
   display: inline-flex;
@@ -568,9 +602,11 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
 
 .cards { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; }
 
-/* One activity: the title first (beside the share mark), then when, who and where. The whole card is
-   the button that opens it in the panel. */
+/* One activity: the title first (beside the calendar circle and the share mark), then when, who and
+   where. The title is the button that opens it in the panel, stretched over the whole card; the
+   calendar circle is a button of its own on top (js/agenda.js renderCard). */
 .event-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -589,9 +625,15 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
 }
 /* The activity open in the panel: a quiet soft-ink ring (the strong ring is focus's). */
 .event-card.is-selected { box-shadow: 0 0 0 1.5px var(--role-ink-soft), var(--role-card-shadow); }
-.event-card.is-selected:focus-visible { outline-offset: 4px; }
 .event-head { display: flex; align-items: center; gap: 8px; }
-.event-title { flex: 1 1 0; min-width: 0; font-size: 1.0625rem; line-height: 1.3; font-weight: 600; letter-spacing: -0.01em; text-wrap: pretty; }
+.event-open { flex: 1 1 0; min-width: 0; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; }
+.event-open::after { content: ''; position: absolute; inset: 0; border-radius: var(--radius-card); }
+/* Focus rings the whole card, not the title. */
+.event-open:focus-visible { outline: none; }
+.event-open:focus-visible::after { outline: 2px solid var(--role-focus); outline-offset: 2px; }
+.event-card.is-selected .event-open:focus-visible::after { outline-offset: 4px; }
+.event-title { display: block; font-size: 1.0625rem; line-height: 1.3; font-weight: 600; letter-spacing: -0.01em; text-wrap: pretty; }
+.event-actions { display: flex; flex: none; gap: 6px; }
 .event-meta { display: flex; flex-direction: column; gap: 4px; margin-top: 6px; }
 .event-card > .tag-cancelled { align-self: flex-start; margin-bottom: 8px; }
 .event-reason { margin-top: 4px; font-size: 0.875rem; line-height: 1.36; color: var(--role-ink); }
@@ -784,8 +826,9 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
 
 .bench-head {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 12px;
+  gap: 10px 12px;
   padding: 6px 8px 12px 16px;
   border-bottom: 1px solid var(--role-line);
 }
@@ -796,6 +839,7 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
 .bench-when { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 12px; font-size: 0.9375rem; line-height: 1.3; font-weight: 600; font-variant-numeric: tabular-nums; }
 .bench-date.is-struck .bench-day, .bench-date.is-struck .bench-time { color: var(--role-ink-soft); text-decoration: line-through; }
 .bench-close .icon { width: 22px; height: 22px; }
+.bench-save { order: 3; display: flex; flex-basis: 100%; }
 
 /* scroll-padding-top: what focus scrolls into view lands under the format bar (76px tall when it
    sticks to the top), not behind it. */
@@ -918,6 +962,93 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .actions .btn-line { width: 48px; padding: 0; }
   .actions .btn-line span { display: none; }
 }
+
+/* ---------- Salvar na agenda: the options (js/save-menu.js) ---------- */
+/* A <dialog>: a bottom sheet on phones (as the panel's, with its grabber and drag), a popover under
+   its button on the desk (placed by save-menu.js). The calendar the device most likely uses comes
+   first, as the primary button; the others are rows; a calendar that can't be reached from here says
+   what to do instead. */
+.save-menu {
+  position: fixed;
+  inset: auto 0 0;
+  width: 100%;
+  max-width: none;
+  max-height: calc(100dvh - 48px - env(safe-area-inset-top));
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border: 1px solid var(--role-card-border);
+  border-bottom: 0;
+  border-radius: var(--radius-sheet) var(--radius-sheet) 0 0;
+  background: var(--role-card);
+  color: var(--role-ink);
+  box-shadow: var(--role-sheet-shadow);
+  transform: translateY(var(--drag, 0px));
+}
+.save-menu::backdrop { background: var(--role-scrim); }
+.save-menu:focus { outline: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .save-menu[open]:not(.is-dragging) { transition: transform 0.3s var(--ease); }
+  @starting-style { .save-menu[open] { transform: translateY(100%); } }
+}
+.save-menu-body { display: flex; flex-direction: column; padding: 0 16px max(14px, env(safe-area-inset-bottom)); }
+.save-menu .grabber { margin-bottom: 2px; }
+.save-menu .grabber, .save-head { touch-action: none; }
+.save-head { display: flex; align-items: center; gap: 8px; min-height: 44px; margin-right: -8px; }
+.save-title { flex: 1 1 auto; min-width: 0; font: 750 1.25rem/1.2 var(--font-display); letter-spacing: -0.015em; text-wrap: balance; }
+.save-close .icon { width: 22px; height: 22px; }
+
+/* What is being saved. */
+.save-event { display: flex; flex-direction: column; gap: 3px; margin: 2px 0 16px; padding-bottom: 16px; border-bottom: 1px solid var(--role-line); }
+.save-event-title { font-size: 1rem; line-height: 1.3; font-weight: 600; letter-spacing: -0.01em; text-wrap: pretty; }
+.save-event .meta-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.save-event .meta-when { font-weight: 600; color: var(--role-ink); font-variant-numeric: tabular-nums; }
+.save-event .meta-when .icon { color: var(--role-ink-soft); }
+.save-lead { margin: 2px 0 16px; font-size: 0.9375rem; line-height: 1.5; text-wrap: pretty; }
+
+.save-go { width: 100%; min-height: 48px; }
+.save-go .icon { width: 20px; height: 20px; }
+.save-note { margin: 8px 8px 0; text-align: center; font-size: 0.875rem; line-height: 1.4; color: var(--role-ink-soft); text-wrap: balance; }
+
+.save-more { margin: 18px 0 2px; font-size: 0.875rem; line-height: 1.35; color: var(--role-ink-soft); }
+.save-options { margin: 0; padding: 0; list-style: none; }
+.save-option, .save-all-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  border: 0;
+  background: none;
+  color: var(--role-ink);
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+}
+.save-option { min-height: 56px; padding: 7px 4px 7px 0; }
+.save-options li + li .save-option { border-top: 1px solid var(--role-line); }
+.save-option:focus-visible, .save-all-link:focus-visible { outline-offset: -2px; border-radius: var(--radius-sm); }
+.save-option-text { display: flex; flex: 1 1 auto; flex-direction: column; gap: 1px; min-width: 0; }
+.save-option-name { font-size: 1rem; line-height: 1.3; font-weight: 600; }
+.save-option-hint { font-size: 0.875rem; line-height: 1.35; color: var(--role-ink-soft); text-wrap: pretty; }
+.save-option > .icon, .save-all-link > .icon { width: 20px; height: 20px; color: var(--role-ink-soft); }
+@media (hover: hover) {
+  .save-option:hover .save-option-name, .save-all-link:hover .save-option-name { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+}
+/* Under a single activity's options, "Salvar tudo na agenda", set apart by its circle and a line. */
+.save-all-link { margin-top: 8px; padding: 12px 4px 4px 0; border-top: 1px solid var(--role-line); }
+.save-all-icon { display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: 50%; background: var(--role-fill); }
+.save-all-icon .icon { width: 20px; height: 20px; }
+
+.save-away-head { display: flex; align-items: center; gap: 10px; }
+.save-away-head .icon { width: 22px; height: 22px; color: var(--role-ink-soft); }
+.save-away-title { font-size: 1rem; line-height: 1.3; font-weight: 600; }
+.save-away-text { margin: 6px 0 12px; font-size: 0.9375rem; line-height: 1.45; text-wrap: pretty; }
+.save-away-actions { display: grid; gap: 8px; }
+.save-away-actions .btn { width: 100%; min-height: 48px; }
+
+.save-foot { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--role-line); font-size: 0.8125rem; line-height: 1.45; color: var(--role-ink-soft); text-wrap: pretty; }
+.save-foot p + p { margin-top: 6px; }
 
 /* ---------- Comércio ---------- */
 
@@ -1113,6 +1244,8 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .home { padding-left: calc(24px + env(safe-area-inset-left)); padding-right: calc(24px + env(safe-area-inset-right)); }
   .site-foot { padding-left: calc(24px + env(safe-area-inset-left)); padding-right: calc(24px + env(safe-area-inset-right)); }
   .bench { left: 50%; right: auto; width: min(560px, 100%); translate: -50% 0; }
+  .save-menu { left: 50%; right: auto; width: min(560px, 100%); translate: -50% 0; }
+  .save-all { margin-left: 24px; margin-right: 24px; }
   .day { min-height: 66px; }
   .view-tabs { max-width: 420px; }
 }
@@ -1284,6 +1417,31 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .page-agenda .filters-divider { display: none; }
   .page-agenda .org-pill { grid-column: 2; justify-self: start; }
   .page-agenda .chips { grid-column: 1 / -1; padding-top: 8px; }
+  /* Dense packing lets "Salvar tudo" take the free cell of the first row from 1280px. */
+  .page-agenda .pad-col { grid-auto-flow: row dense; }
+  .page-agenda .org-pill { min-width: 0; max-width: 100%; }
+  .page-agenda .org-pill-face { min-width: 0; max-width: min(15rem, 100%); }
+  .save-all { grid-column: 1 / -1; margin: 10px 0 0; }
+
+  .save-menu {
+    inset: auto;
+    width: 360px;
+    max-height: calc(100vh - 32px);
+    translate: none;
+    transform: none;
+    transition: none;
+    border-bottom: 1px solid var(--role-card-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--role-pop-shadow);
+  }
+  .save-menu[open]:not(.is-dragging) { transition: none; }
+  .save-menu::backdrop { background: transparent; }
+  .save-menu-body { padding: 16px 18px 6px; }
+  .save-menu .grabber, .save-close { display: none; }
+  .save-head { min-height: 0; margin: 0 0 10px; }
+  .save-option { min-height: 52px; }
+  .save-all-link { padding-bottom: 10px; }
+  .save-foot { margin-bottom: 10px; }
   .event-card { padding: 16px 18px 17px 20px; }
 
   .sheet-backdrop { display: none; }
@@ -1351,6 +1509,12 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
 
 @media (min-width: 1280px) {
   .shell { grid-template-columns: minmax(0, 1fr) 420px; }
+  /* "Salvar tudo" at the right of Lista | Mês and the organization, in fewer words (its name stays
+     in aria-label). */
+  .page-agenda .pad-col { grid-template-columns: auto minmax(0, 1fr) auto; }
+  .save-all { grid-column: 3; justify-self: end; margin: 0; }
+  .save-all-long { display: none; }
+  .save-all-short { display: inline; }
 
   /* The month grows into a wall calendar with the titles written in. */
   .month-head { grid-template-columns: 44px minmax(12.5rem, max-content) 44px 1fr; margin-top: 18px; }
@@ -1451,6 +1615,7 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .style-count { right: 12px; gap: 0; font-size: 0; }
   .event-card { padding-left: 14px; padding-right: 12px; }
   .event-head .share-circle { display: none; }
+  .save-all { margin-left: 12px; margin-right: 12px; }
   .day-num { min-width: 0; padding: 0 2px; }
   .month-head { gap: 4px; }
   .month-title { font-size: 1.25rem; }
@@ -1475,6 +1640,9 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .hand { stroke: Highlight; }
   .view-tabs [aria-selected=true], .seg [aria-selected=true], .chip[aria-pressed=true], .org-pill.is-active .org-pill-face { outline: 2px solid Highlight; outline-offset: -2px; }
   .event-card.is-selected, .day.is-selected, .day.is-selected .day-num { outline: 2px solid Highlight; outline-offset: -2px; }
+  .save-circle, .save-pill { border: 1px solid ButtonText; }
+  .save-circle[aria-expanded='true'], .save-pill[aria-expanded='true'] { outline: 2px solid Highlight; outline-offset: -2px; }
+  .save-menu { border: 1px solid CanvasText; }
   .nav-link[aria-current='page'] { text-decoration: underline; text-underline-offset: 4px; }
   .day.is-off .day-num { text-decoration: underline dotted; }
   .week-bar { border: 1px solid CanvasText; }

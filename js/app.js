@@ -1,12 +1,13 @@
 import { CSV_URL } from './config.js';
-import { agendaSummary, buildEvents, capitalize, dateKey, findNextEvent, formatDateRange, formatLongDate, formatLongDateRange, formatTimeRange, matchKey, monthName, orgFullName } from './events.js';
+import { agendaSummary, buildEvents, capitalize, dateKey, findNextEvent, formatDateRange, formatLongDate, formatLongDateRange, formatTimeRange, lastDayKey, matchKey, monthName, orgFullName } from './events.js';
 import { assignSectorColors, paintSector, sectorRank, sectorsOf } from './colors.js';
 import { buildWhatsAppMessage, previewHtml, whatsAppShareUrl } from './whatsapp.js';
 import { FLYER_STYLES, FLYER_WIDTH, canShareFiles, downloadFlyer, flyerFilename, renderFlyer, shareFlyer } from './flyer.js';
 import { renderAgenda, upcomingLabel } from './agenda.js';
 import { renderMonth } from './month.js';
+import { initSaveMenu, openSaveMenu } from './save-menu.js';
 import { icon } from './icons.js';
-import { $, announce, el, escapeHtml, initPage, readSheet, registerWorker, safeUrl, showNotice, showOffline } from './page.js';
+import { $, announce, copyText, el, escapeHtml, initPage, readSheet, registerWorker, safeUrl, showNotice, showOffline } from './page.js';
 
 // From this width the agenda and the activity panel sit side by side; below it the panel is a
 // bottom sheet. Keep in sync with the 1100px media queries in css/style.css.
@@ -116,6 +117,31 @@ async function start() {
   renderTabs();
   renderView();
   renderBench();
+  openFromAddress();
+}
+
+// An address naming an activity (agenda.html#ev-…: a calendar entry's link, "Copiar o link da
+// atividade") opens it in the panel; #salvar-tudo opens "Salvar tudo na agenda" (the link sent to be
+// opened on a computer, or in Safari).
+function openFromAddress() {
+  const target = decodeURIComponent(location.hash.slice(1));
+  if (target === 'salvar-tudo' && state.events.length) {
+    openSaveMenu({ all: true }, $('save-all'));
+    return;
+  }
+  const ev = target.startsWith('ev-') ? findEvent(target) : null;
+  if (!ev) return;
+  if (!matches(ev)) {
+    state.sectors.clear();
+    state.org = '';
+    renderFilters();
+  }
+  if (lastDayKey(ev) < todayKey) state.showPast = true;
+  state.year = ev.date.getFullYear();
+  state.month = ev.date.getMonth();
+  state.selectedDay = ev.dateKey;
+  select(ev);
+  document.querySelector(`.event-card[data-id="${CSS.escape(ev.id)}"]`)?.scrollIntoView({ block: 'center' });
 }
 
 // Coming back to a tab left open for a while: read the spreadsheet again, keeping filters and
@@ -176,6 +202,7 @@ function rerender(render) {
 function renderFilters() {
   const bar = $('filters');
   bar.hidden = state.events.length === 0;
+  $('save-all-row').hidden = state.events.length === 0;
 
   // Organization: a native select dressed as a pill, so phones get their own picker.
   // Options carry the full name, so people outside the movements know who is who.
@@ -278,6 +305,7 @@ function renderView() {
   const nextId = findNext(events)?.id ?? null;
   lastNextId = nextId;
   const onSelect = (ev) => select(ev, { trigger: document.activeElement });
+  const onSave = (ev, button) => openSaveMenu({ ev }, button);
 
   if (!state.events.length) {
     container.replaceChildren(el('p', 'placeholder', $('notice').hidden ? 'A agenda está vazia.' : ''));
@@ -294,6 +322,7 @@ function renderView() {
       filtered: filtered(),
       filterLabel: filterLabel(),
       onSelect,
+      onSave,
       onClearFilters: clearFilters,
       onTogglePast: () => {
         state.showPast = !state.showPast;
@@ -311,6 +340,7 @@ function renderView() {
       focusDay: state.focusDay,
       selectedId: state.selectedId,
       onSelect,
+      onSave,
       onPrev: () => shiftMonth(-1),
       onNext: () => shiftMonth(1),
       onToday: () => {
@@ -482,6 +512,7 @@ function renderBench() {
 
   paintSector(bench, ev.sector);
   renderBenchDate(ev);
+  $('bench-save').hidden = ev.cancelled || lastDayKey(ev) < todayKey;
   $('bench-title').textContent = ev.title;
   $('bench-title').classList.toggle('is-struck', ev.cancelled);
 
@@ -669,7 +700,7 @@ function hideSheet() {
   document.body.classList.remove('sheet-open');
   $('sheet-backdrop').hidden = true;
   setModal(false);
-  const target = returnFocus && document.contains(returnFocus) ? returnFocus : document.querySelector(`.event-card[data-id="${state.selectedId}"]`);
+  const target = returnFocus && document.contains(returnFocus) ? returnFocus : document.querySelector(`.event-card[data-id="${state.selectedId}"] .event-open`);
   target?.focus({ preventScroll: true });
 }
 
@@ -707,30 +738,6 @@ function wireSheetDrag() {
 }
 
 // ---------- Buttons ----------
-
-// Returns whether the text reached the clipboard.
-async function copyText(text) {
-  try {
-    await navigator.clipboard.writeText(text);
-    return true;
-  } catch {
-    const ta = document.createElement('textarea');
-    ta.value = text;
-    ta.setAttribute('readonly', '');
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.append(ta);
-    ta.select();
-    let copied = false;
-    try {
-      copied = document.execCommand('copy');
-    } catch {
-      copied = false;
-    }
-    ta.remove();
-    return copied;
-  }
-}
 
 // The label also goes to aria-label: on narrow phones the second action shows only its icon.
 function setButton(button, iconName, label) {
@@ -798,6 +805,12 @@ resetCopy();
 resetShare();
 resetDownload();
 $('bench-close').innerHTML = icon('close');
+$('save-pill').innerHTML = `${icon('calendar-plus')}<span>Salvar na minha agenda</span>`;
+$('save-all').innerHTML = `${icon('calendar-sync')}<span class="save-all-long">Salvar tudo na agenda</span><span class="save-all-short" aria-hidden="true">Salvar tudo</span>`;
+initSaveMenu();
+$('save-pill').addEventListener('click', () => openSaveMenu({ ev: findEvent(state.selectedId) }, $('save-pill')));
+$('save-all').addEventListener('click', () => openSaveMenu({ all: true }, $('save-all')));
+addEventListener('hashchange', openFromAddress);
 $('share-btn').hidden = !canShareFiles();
 // Without native sharing the download is the only action, so it takes the lead.
 if ($('share-btn').hidden) $('download-btn').classList.replace('btn-line', 'btn-accent');
@@ -852,7 +865,8 @@ $('share-btn').addEventListener('click', () =>
 $('bench-close').addEventListener('click', closeSheet);
 $('sheet-backdrop').addEventListener('click', closeSheet);
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeSheet();
+  // Escape inside the calendar options closes only them (the dialog handles it).
+  if (e.key === 'Escape' && !e.target.closest?.('dialog[open]')) closeSheet();
 });
 wireSheetDrag();
 

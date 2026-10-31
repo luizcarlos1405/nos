@@ -77,7 +77,7 @@ const navButton = (iconName, label, focus, onClick) => {
   return button;
 };
 
-export function renderMonth(container, { year, month, events, today, selectedDay, focusDay, selectedId, nextId, onPrev, onNext, onToday, onDay, onMove, onSelect }) {
+export function renderMonth(container, { year, month, events, today, selectedDay, focusDay, selectedId, nextId, onPrev, onNext, onToday, onDay, onMove, onSelect, onSave }) {
   container.replaceChildren();
   const todayKey = dateKey(today);
 
@@ -216,7 +216,7 @@ export function renderMonth(container, { year, month, events, today, selectedDay
 
   // The chosen day, listed under the month, when that day is on this month's page.
   if (selectedDay && inMonth(selectedDay)) {
-    const day = renderDay(selectedDay, byDay.get(selectedDay) || [], { today, nextId, selectedId, onSelect });
+    const day = renderDay(selectedDay, byDay.get(selectedDay) || [], { today, nextId, selectedId, onSelect, onSave });
     day.classList.add('month-day');
     container.append(day);
   }

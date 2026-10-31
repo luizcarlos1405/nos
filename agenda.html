@@ -111,6 +111,12 @@
         <div class="chips" id="sector-chips" role="group" aria-label="Filtrar por grupo"></div>
       </div>
 
+      <!-- The whole agenda as a calendar in the person's own (js/save-menu.js). On the desk it sits at
+           the right of Lista | Mês and the organization, in fewer words. -->
+      <div class="save-all" id="save-all-row" hidden>
+        <button type="button" class="save-pill" id="save-all" aria-label="Salvar tudo na agenda" aria-haspopup="dialog" aria-expanded="false"></button>
+      </div>
+
       <div id="view" class="view" role="tabpanel" tabindex="-1">
         <p class="placeholder">Carregando a agenda…</p>
       </div>
@@ -128,6 +134,9 @@
         <div class="bench-head">
           <div class="bench-date" id="bench-date"></div>
           <button type="button" class="icon-button bench-close" id="bench-close" aria-label="Fechar"></button>
+          <div class="bench-save" id="bench-save" hidden>
+            <button type="button" class="save-pill" id="save-pill" aria-haspopup="dialog" aria-expanded="false"></button>
+          </div>
         </div>
 
         <div class="bench-scroll" id="bench-scroll">
@@ -179,6 +188,13 @@
       </div>
     </aside>
   </div>
+
+  <!-- "Salvar na minha agenda" and "Salvar tudo na agenda": the options (js/save-menu.js), a bottom
+       sheet on phones and a popover under its button on the desk. Outside #main, which the panel's
+       sheet makes inert. -->
+  <dialog class="save-menu" id="save-menu" aria-labelledby="save-menu-title">
+    <div class="save-menu-body" id="save-menu-body"></div>
+  </dialog>
 
   <footer class="site-foot">
     <p id="app-full-name">NOS Dourados · Núcleo de Organização Social</p>
