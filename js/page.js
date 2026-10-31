@@ -71,6 +71,31 @@ export function announce(text) {
   });
 }
 
+// Returns whether the text reached the clipboard (the panel's message, the agenda's addresses).
+export async function copyText(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    // Inside an open <dialog> only the dialog can take focus, so the fallback lives there.
+    (document.querySelector('dialog[open]') || document.body).append(ta);
+    ta.select();
+    let copied = false;
+    try {
+      copied = document.execCommand('copy');
+    } catch {
+      copied = false;
+    }
+    ta.remove();
+    return copied;
+  }
+}
+
 // ---------- Sheets ----------
 
 // A published sheet, fresh. Offline, sw.js answers with the copy it saved; where the browser doesn't

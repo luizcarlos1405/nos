@@ -65,33 +65,62 @@ export function placeRow(ev) {
   return metaRow('meta-place', ev.online ? 'globe' : 'pin', place);
 }
 
-// One activity as a card: the whole card is the button that opens it in the panel. `shownOn` is the
-// key of the day it is listed under.
-export function renderCard(ev, { shownOn, todayKey, nextId, selectedId, onSelect }) {
-  const card = el('button', 'event-card');
-  card.type = 'button';
+// One activity as a card. Its title is the button that opens it in the panel, stretched over the
+// whole card (the share mark included); the calendar circle beside the share mark is a button of its
+// own, laid over it ("Salvar na minha agenda", while the activity hasn't ended and isn't cancelled).
+// `shownOn` is the key of the day it is listed under.
+export function renderCard(ev, { shownOn, todayKey, nextId, selectedId, onSelect, onSave }) {
+  const card = el('div', 'event-card');
   card.dataset.id = ev.id;
-  card.dataset.focus = `line:${ev.id}`;
   paintSector(card, ev.sector);
+  const open = el('button', 'event-open');
+  open.type = 'button';
+  open.dataset.focus = `line:${ev.id}`;
   if (ev.id === selectedId) {
     card.classList.add('is-selected');
-    card.setAttribute('aria-current', 'true');
+    open.setAttribute('aria-current', 'true');
   }
+  // What the button reads after the title: cancelled and why, then when, who and where.
+  const described = [];
   if (ev.cancelled) {
     card.classList.add('is-cancelled');
-    card.append(el('span', 'tag tag-cancelled', 'Cancelada'));
+    const tag = el('span', 'tag tag-cancelled', 'Cancelada');
+    tag.id = `tag-${ev.id}`;
+    described.push(tag.id);
+    card.append(tag);
   }
 
   const head = el('span', 'event-head');
-  head.append(el('span', 'event-title', ev.title));
+  open.append(el('span', 'event-title', ev.title));
+  const actions = el('span', 'event-actions');
+  if (onSave && !ev.cancelled && lastDayKey(ev) >= todayKey) {
+    const save = el('button', 'save-circle');
+    save.type = 'button';
+    save.dataset.focus = `save:${ev.id}`;
+    save.setAttribute('aria-label', `Salvar na minha agenda: ${ev.title}`);
+    save.setAttribute('aria-haspopup', 'dialog');
+    save.setAttribute('aria-expanded', 'false');
+    save.innerHTML = icon('calendar-plus');
+    save.addEventListener('click', () => onSave(ev, save));
+    actions.append(save);
+  }
   const share = el('span', 'share-circle');
   share.setAttribute('aria-hidden', 'true');
   share.innerHTML = icon('share');
-  head.append(share);
+  actions.append(share);
+  head.append(open, actions);
   card.append(head);
-  if (ev.cancelled && ev.cancelReason) card.append(el('span', 'event-reason', `Motivo: ${ev.cancelReason}`));
+  if (ev.cancelled && ev.cancelReason) {
+    const reason = el('span', 'event-reason', `Motivo: ${ev.cancelReason}`);
+    reason.id = `reason-${ev.id}`;
+    described.push(reason.id);
+    card.append(reason);
+  }
 
   const meta = el('span', 'event-meta');
+  meta.id = `meta-${ev.id}`;
+  described.push(meta.id);
+  open.setAttribute('aria-describedby', described.join(' '));
   // "a próxima" only on the day it starts.
   meta.append(timeRow(ev, ev.id === nextId && ev.dateKey === shownOn));
   if (ev.org) meta.append(orgRow(ev));
@@ -99,7 +128,7 @@ export function renderCard(ev, { shownOn, todayKey, nextId, selectedId, onSelect
   if (ev.endDate) meta.append(metaRow('meta-range', 'calendar-range', rangeText(ev, shownOn, todayKey)));
   card.append(meta);
 
-  card.addEventListener('click', () => onSelect(ev));
+  open.addEventListener('click', () => onSelect(ev));
   return card;
 }
 
@@ -115,7 +144,7 @@ function dayOrder(dayEvents, key) {
 // One day: "Hoje · terça, 27/10" (Hoje underlined by hand), "Sábado, 31/10", a holiday's name and
 // tag; then its cards, or a quiet line when nothing is on (a holiday between listed days is its head
 // alone: `holidayLine`).
-export function renderDay(key, dayEvents, { today, nextId, selectedId, onSelect, holidayLine = false }) {
+export function renderDay(key, dayEvents, { today, nextId, selectedId, onSelect, onSave, holidayLine = false }) {
   const todayKey = dateKey(today);
   const date = dateFromKey(key);
   const holiday = holidayOn(date);
@@ -155,7 +184,7 @@ export function renderDay(key, dayEvents, { today, nextId, selectedId, onSelect,
     const list = el('ul', 'cards');
     for (const ev of dayOrder(dayEvents, key)) {
       const item = el('li');
-      item.append(renderCard(ev, { shownOn: key, todayKey, nextId, selectedId, onSelect }));
+      item.append(renderCard(ev, { shownOn: key, todayKey, nextId, selectedId, onSelect, onSave }));
       list.append(item);
     }
     day.append(list);
@@ -180,7 +209,7 @@ export function groupByShownDay(events, todayKey) {
   return byDay;
 }
 
-export function renderAgenda(container, { events, today, nextId, selectedId, showPast, filtered, onSelect, onTogglePast, onClearFilters, filterLabel }) {
+export function renderAgenda(container, { events, today, nextId, selectedId, showPast, filtered, onSelect, onSave, onTogglePast, onClearFilters, filterLabel }) {
   container.replaceChildren(el('h2', 'sr-only', 'Lista de atividades'));
   const todayKey = dateKey(today);
   const upcoming = events.filter((ev) => lastDayKey(ev) >= todayKey);
@@ -218,7 +247,7 @@ export function renderAgenda(container, { events, today, nextId, selectedId, sho
     if (!keys.has(dateKey(d)) && holidayOn(d)) holidays.add(dateKey(d));
   }
   for (const key of [...keys, ...holidays].sort()) {
-    days.append(renderDay(key, byDay.get(key) || [], { today, nextId, selectedId, onSelect, holidayLine: holidays.has(key) }));
+    days.append(renderDay(key, byDay.get(key) || [], { today, nextId, selectedId, onSelect, onSave, holidayLine: holidays.has(key) }));
   }
   container.append(days);
 }

@@ -31,6 +31,15 @@ export const HOME_CITY = 'Dourados';
 // same address.
 export const SITE_URL = 'https://nos.dourados.social';
 
+// The agenda's time zone (Dourados: UTC−4, no daylight saving): the hours an activity takes in the
+// person's own calendar ("Salvar na minha agenda").
+export const TIME_ZONE = 'America/Campo_Grande';
+
+// The whole agenda as a calendar people subscribe to ("Salvar tudo na agenda"), published at
+// SITE_URL/FEED_FILE. tools/agenda-ics.mjs writes it from CSV_URL, and the deploy
+// (.github/workflows/pages.yml) runs it every time the site is published.
+export const FEED_FILE = 'agenda.ics';
+
 // Local holidays printed in red besides the national ones (js/holidays.js),
 // e.g. { month: 6, day: 24, name: 'São João', short: 'São João' }.
 export const EXTRA_HOLIDAYS = [];
