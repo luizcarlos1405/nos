@@ -1,0 +1,37 @@
+#!/bin/sh
+# Rebuilds agenda.ics, the calendar "Salvar tudo na agenda" subscribes people to, from what is being
+# committed (the staged agenda CSV and the staged js/ and tools/ files, never unstaged edits), and
+# adds it to the commit, so the published feed can't fall behind the agenda. A commit that doesn't
+# change the agenda leaves the file as it is (the same agenda always gives the same file).
+#
+# Git runs it once the clone points at this folder (worktrees share the setting):
+#   git config core.hooksPath .githooks
+set -e
+
+if ! command -v node >/dev/null 2>&1; then
+  echo "pre-commit: Node 22 or newer is needed to rebuild agenda.ics (tools/agenda-ics.mjs); nothing was committed." >&2
+  exit 1
+fi
+
+root=$(git rev-parse --show-toplevel)
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT
+
+# The staged files the feed is made from, as they will be committed.
+git ls-files -z -- js tools data | git checkout-index -z --stdin --prefix="$tmp/"
+
+if ! node "$tmp/tools/agenda-ics.mjs" "$tmp/agenda.ics" --local-only >"$tmp/log" 2>&1; then
+  cat "$tmp/log" >&2
+  echo "pre-commit: agenda.ics could not be rebuilt (see above); nothing was committed." >&2
+  exit 1
+fi
+# No file: CSV_URL is a published sheet, which a commit can't follow (the builder said so).
+[ -f "$tmp/agenda.ics" ] || { cat "$tmp/log"; exit 0; }
+
+if ! cmp -s "$tmp/agenda.ics" "$root/agenda.ics"; then
+  cp "$tmp/agenda.ics" "$root/agenda.ics"
+fi
+if ! git diff --quiet -- "$root/agenda.ics" 2>/dev/null || ! git ls-files --error-unmatch -- "$root/agenda.ics" >/dev/null 2>&1; then
+  git add -- "$root/agenda.ics"
+  echo "pre-commit: agenda.ics rebuilt from the agenda and added to this commit."
+fi
