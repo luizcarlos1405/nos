@@ -73,8 +73,13 @@ function renderNext(next, upcoming) {
   share.innerHTML = icon('share');
   head.append(when, share);
 
-  const title = el('h2', 'next-title', next.title);
+  // The title opens the activity in the agenda; under 760px its link covers the whole card.
+  const eventUrl = `agenda.html#${encodeURIComponent(next.id)}`;
+  const title = el('h2', 'next-title');
   title.id = 'next-title';
+  const titleLink = el('a', 'next-link', next.title);
+  titleLink.href = eventUrl;
+  title.append(titleLink);
 
   const facts = el('div', 'next-facts');
   facts.append(metaRow('meta-time', 'clock', time || 'Horário a confirmar'));
@@ -104,7 +109,7 @@ function renderNext(next, upcoming) {
   send.rel = 'noopener';
   send.innerHTML = `${icon('message')}<span>Compartilhar no WhatsApp</span>`;
   const open = el('a', 'btn btn-line', 'Ver na agenda');
-  open.href = 'agenda.html';
+  open.href = eventUrl;
   actions.append(send, open);
 
   const parts = [head, title, facts, actions];
