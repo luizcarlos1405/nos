@@ -1595,7 +1595,7 @@
       {
         "name": "short-desk",
         "value": "min-width: 1100px and max-height: 850px",
-        "purpose": "Flyer mode also folds the organization and the hint."
+        "purpose": "Flyer mode also folds the hint (the details sit under the flyer)."
       }
     ],
     "roleMap": {
