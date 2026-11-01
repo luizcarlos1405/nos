@@ -773,22 +773,21 @@ BEGIN:VEVENT
 UID:ev-2026-11-07-22-feira-das-pulgas-e-v-festival-de-musica-indigena@nos.d
  ourados.social
 DTSTAMP:19700101T000000Z
-DTSTART;VALUE=DATE:20261107
-DTEND;VALUE=DATE:20261108
+DTSTART:20261107T210000Z
+DTEND:20261108T020000Z
 SUMMARY:22ª Feira das Pulgas e V Festival de Música Indígena
-DESCRIPTION:Organização: Casulo\nTipo: Feira\nHorário a confirmar\n\nFei
- ra com expositores de arte\, brechós\, botânica\, gastronomia\, produtos
-  artesanais\, sebos\, tattoo\, piercing e pets\, junto com o V Festival de
-  Música Indígena\, para aproximar as comunidades indígenas e não indí
- genas de Dourados. As atrações musicais ainda serão divulgadas.\n\nCont
- ato: WhatsApp (67) 99870-0269\nFonte: https://www.instagram.com/casulodour
- ados/p/DfAKqnVxD5_/\n\nNa agenda do NOS Dourados: https://nos.dourados.soc
- ial/agenda.html#ev-2026-11-07-22-feira-das-pulgas-e-v-festival-de-musica-i
- ndigena
+DESCRIPTION:Organização: Casulo\nTipo: Feira\n\nFeira com expositores de 
+ arte\, brechós\, botânica\, gastronomia\, produtos artesanais\, sebos\, 
+ tattoo\, piercing e pets\, junto com o V Festival de Música Indígena\, p
+ ara aproximar as comunidades indígenas e não indígenas de Dourados. As 
+ atrações musicais ainda serão divulgadas.\n\nContato: WhatsApp (67) 998
+ 70-0269\nFonte: https://www.instagram.com/casulodourados/p/DfAKqnVxD5_/\n\
+ nNa agenda do NOS Dourados: https://nos.dourados.social/agenda.html#ev-202
+ 6-11-07-22-feira-das-pulgas-e-v-festival-de-musica-indigena
 URL:https://nos.dourados.social/agenda.html#ev-2026-11-07-22-feira-das-pulg
  as-e-v-festival-de-musica-indigena
 STATUS:CONFIRMED
-TRANSP:TRANSPARENT
+TRANSP:OPAQUE
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-11-14-batalha-da-50-edicao-especial-do-projeto-50-em-cena@nos.d
