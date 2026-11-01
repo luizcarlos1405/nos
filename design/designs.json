@@ -2,6 +2,13 @@
   "title": "NOS Dourados · Designs",
   "sections": [
     {
+      "title": "Panfleto com os dados (proposta de 01/11: contato, post de origem e o resto embaixo do panfleto)",
+      "designs": [
+        "agenda-panfleto-dados-celular.html",
+        "agenda-panfleto-dados-desktop.html"
+      ]
+    },
+    {
       "title": "Salvar na agenda (proposta de 31/10: uma atividade ou todas, na agenda de cada pessoa)",
       "designs": [
         "agenda-salvar-quadro.html",
