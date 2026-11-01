@@ -2,7 +2,7 @@
   "title": "NOS Dourados · Designs",
   "sections": [
     {
-      "title": "Panfleto com os dados (proposta de 01/11: contato, post de origem e o resto embaixo do panfleto)",
+      "title": "Panfleto com os dados (proposta de 01/11: os mesmos dados da aba Mensagem, acima das abas)",
       "designs": [
         "agenda-panfleto-dados-celular.html",
         "agenda-panfleto-dados-desktop.html"
