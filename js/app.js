@@ -553,8 +553,6 @@ function renderBench() {
   }
   $('bench-desc').textContent = ev.description;
   $('bench-desc').hidden = !ev.description;
-  // Nothing to tell (no fact, no description): no "Sobre a atividade" under the flyer either.
-  $('bench-details').hidden = !facts.children.length && !ev.description;
 
   const message = buildWhatsAppMessage(ev);
   $('bubble').innerHTML = previewHtml(message);
@@ -612,10 +610,8 @@ $('style-next').innerHTML = icon('right');
 $('style-prev').addEventListener('click', () => stepFlyerStyle(-1));
 $('style-next').addEventListener('click', () => stepFlyerStyle(1));
 
-// Mensagem or Panfleto. The activity's details (#bench-details: the facts and the description) sit
-// above the tabs on Mensagem and move under the flyer on Panfleto, so the title, the style picker,
-// the preview and the buttons still fit together, and the contact and the source post are one
-// scroll down. They move only when they aren't in place yet, so a re-render leaves them be.
+// Mensagem or Panfleto. The activity's details (the facts and the description) sit above the tabs
+// on both and don't depend on the tab.
 function showPanel(name) {
   activePanel = name;
   $('bench').dataset.panel = name;
@@ -624,9 +620,6 @@ function showPanel(name) {
     tab.setAttribute('aria-selected', String(active));
     tab.tabIndex = active ? 0 : -1;
   });
-  const details = $('bench-details');
-  if (name === 'flyer' && details.parentElement !== $('panel-flyer')) $('panel-flyer').append(details);
-  if (name === 'message' && details.nextElementSibling !== $('seg-bar')) $('seg-bar').before(details);
   $('panel-message').hidden = name !== 'message';
   $('panel-flyer').hidden = name !== 'flyer';
   $('actions-message').hidden = name !== 'message';
@@ -634,16 +627,9 @@ function showPanel(name) {
   if (name === 'flyer') requestAnimationFrame(scaleFlyer);
 }
 
-// The panel starts at its top; on short screens flyer mode starts at the format bar instead, so
-// the preview gets the room (the 699px media query in style.css sizes it for that).
+// The panel starts at its top on both tabs, with the activity's details in view.
 function settleScroll() {
-  const scroll = $('bench-scroll');
-  scroll.scrollTop = 0;
-  if (activePanel !== 'flyer' || window.innerHeight >= 700) return;
-  const bar = $('seg-bar').getBoundingClientRect().top - scroll.getBoundingClientRect().top;
-  // Only when the panel is long enough to bring the bar to the top: stopping short would cut the
-  // title in half (phones on their side, where the preview stands beside the bar).
-  if (scroll.scrollHeight - scroll.clientHeight >= bar) scroll.scrollTop = bar;
+  $('bench-scroll').scrollTop = 0;
 }
 
 function scaleFlyer() {
