@@ -627,9 +627,22 @@ function showPanel(name) {
   if (name === 'flyer') requestAnimationFrame(scaleFlyer);
 }
 
-// The panel starts at its top on both tabs, with the activity's details in view.
+// An activity opens at the panel's top, with its details in view.
 function settleScroll() {
   $('bench-scroll').scrollTop = 0;
+}
+
+// A tab picked: the panel scrolls down until the chosen tab's content starts right under the
+// stuck tab bar, and never up, so whoever is already down there stays put.
+function revealPanel() {
+  const scroll = $('bench-scroll');
+  const bar = $('seg-bar');
+  const panel = $(activePanel === 'flyer' ? 'panel-flyer' : 'panel-message');
+  const panelTop = panel.getBoundingClientRect().top - scroll.getBoundingClientRect().top + scroll.scrollTop;
+  // Where the stuck bar ends: its sticky top (-16px) from the scroller's padding edge, plus its height.
+  const barEnd = parseFloat(getComputedStyle(scroll).paddingTop) + parseFloat(getComputedStyle(bar).top) + bar.offsetHeight;
+  const target = Math.min(panelTop - barEnd, scroll.scrollHeight - scroll.clientHeight);
+  if (target > scroll.scrollTop) scroll.scrollTo({ top: target, behavior: scrollBehavior() });
 }
 
 function scaleFlyer() {
@@ -775,7 +788,7 @@ wireTabs('.view-tabs [role=tab]', (tab) => {
 });
 wireTabs('.seg [role=tab]', (tab) => {
   showPanel(tab.dataset.panel);
-  settleScroll();
+  revealPanel();
 });
 
 $('org-select').addEventListener('change', (e) => {
