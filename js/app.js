@@ -553,6 +553,8 @@ function renderBench() {
   }
   $('bench-desc').textContent = ev.description;
   $('bench-desc').hidden = !ev.description;
+  // Nothing to tell (no fact, no description): no "Sobre a atividade" under the flyer either.
+  $('bench-details').hidden = !facts.children.length && !ev.description;
 
   const message = buildWhatsAppMessage(ev);
   $('bubble').innerHTML = previewHtml(message);
@@ -610,8 +612,10 @@ $('style-next').innerHTML = icon('right');
 $('style-prev').addEventListener('click', () => stepFlyerStyle(-1));
 $('style-next').addEventListener('click', () => stepFlyerStyle(1));
 
-// Mensagem or Panfleto. In flyer mode the panel folds the facts and the description away, so the
-// title, the style picker, the preview and the buttons fit together without scrolling.
+// Mensagem or Panfleto. The activity's details (#bench-details: the facts and the description) sit
+// above the tabs on Mensagem and move under the flyer on Panfleto, so the title, the style picker,
+// the preview and the buttons still fit together, and the contact and the source post are one
+// scroll down. They move only when they aren't in place yet, so a re-render leaves them be.
 function showPanel(name) {
   activePanel = name;
   $('bench').dataset.panel = name;
@@ -620,6 +624,9 @@ function showPanel(name) {
     tab.setAttribute('aria-selected', String(active));
     tab.tabIndex = active ? 0 : -1;
   });
+  const details = $('bench-details');
+  if (name === 'flyer' && details.parentElement !== $('panel-flyer')) $('panel-flyer').append(details);
+  if (name === 'message' && details.nextElementSibling !== $('seg-bar')) $('seg-bar').before(details);
   $('panel-message').hidden = name !== 'message';
   $('panel-flyer').hidden = name !== 'flyer';
   $('actions-message').hidden = name !== 'message';
