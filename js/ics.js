@@ -4,7 +4,7 @@
 // (FEED_FILE) with this same code.
 
 import { APP_NAME, CITY, FEED_FILE, HOME_CITY, SITE_URL, TIME_ZONE } from './config.js';
-import { formatTimeRange, matchKey, orgFullName } from './events.js';
+import { awaitsTime, formatTimeRange, matchKey, orgFullName } from './events.js';
 
 export const CALENDAR_NAME = `${APP_NAME} ${HOME_CITY}`;
 
@@ -75,7 +75,8 @@ export function eventNotes(ev) {
     lines.push(`${ev.orgs.length > 1 ? 'Organizações' : 'Organização'}: ${names.join(', ')}`);
   }
   if (ev.type) lines.push(`Tipo: ${ev.type}`);
-  if (eventSpan(ev).allDay) lines.push(formatTimeRange(ev) ? `Horário: ${formatTimeRange(ev)}` : 'Horário a confirmar');
+  if (eventSpan(ev).allDay && formatTimeRange(ev)) lines.push(`Horário: ${formatTimeRange(ev)}`);
+  else if (eventSpan(ev).allDay && awaitsTime(ev)) lines.push('Horário a confirmar');
   if (ev.description && !ev.cancelled) lines.push('', ev.description);
   const reach = [];
   if (ev.contact) reach.push(`Contato: ${ev.contact}`);

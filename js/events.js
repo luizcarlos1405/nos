@@ -1,6 +1,6 @@
 // Turns raw CSV records into normalized event objects and formats dates/times in pt-BR.
 
-import { HOME_CITY, ORG_NAMES } from './config.js';
+import { HOME_CITY, ORG_NAMES, UNTIMED_TYPES } from './config.js';
 
 // Spreadsheet headers, matched without accents, case or spacing ("Horário de término" → horario_de_termino).
 // The official headers are the first of each list; the rest are accepted variations
@@ -116,6 +116,14 @@ export function formatTimeRange(event) {
   if (start && end) return `${start} às ${end}`;
   if (end) return `até ${end}`;
   return start || '';
+}
+
+// Whether an activity without a time says "Horário a confirmar". A period of several days doesn't,
+// nor do deadlines, enrolment periods and campaigns (UNTIMED_TYPES): they show no time at all.
+export function awaitsTime(event) {
+  if (formatTimeRange(event) || event.endDate) return false;
+  const type = matchKey(event.type);
+  return !UNTIMED_TYPES.some((t) => matchKey(t) === type);
 }
 
 export const weekdayName = (date) => WEEKDAYS[date.getDay()];

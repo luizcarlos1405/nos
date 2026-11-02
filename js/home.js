@@ -5,7 +5,7 @@
 // the card says so and the doors stay.
 
 import { COMMERCE_CSV_URL, CSV_URL } from './config.js';
-import { agendaSummary, buildEvents, capitalize, dateKey, formatDayMonth, formatTimeRange, lastDayKey, monthName, orgFullName, relativeDay, startTime, upcomingEvents, weekdayName } from './events.js';
+import { agendaSummary, awaitsTime, buildEvents, capitalize, dateKey, formatDayMonth, formatTimeRange, lastDayKey, monthName, orgFullName, relativeDay, upcomingEvents, weekdayName } from './events.js';
 import { assignSectorColors, paintSector, sectorsOf } from './colors.js';
 import { buildBusinesses } from './businesses.js';
 import { placeRow } from './agenda.js';
@@ -31,7 +31,7 @@ function renderHello() {
 
 // "sáb 31/10"
 const shortDate = (date) => `${weekdayName(date).slice(0, 3)} ${formatDayMonth(date)}`;
-const timeOf = (ev) => (startTime(ev) || ev.endTime != null || ev.endTimeRaw ? formatTimeRange(ev) : '');
+const timeOf = (ev) => formatTimeRange(ev);
 
 function metaRow(className, iconName, content) {
   const row = el('p', `meta ${className}`);
@@ -57,13 +57,16 @@ function renderNext(next, upcoming) {
   const message = buildWhatsAppMessage(next);
   const shareUrl = whatsAppShareUrl(message);
   const time = timeOf(next);
+  // No time reads "horário a confirmar", except for a deadline or a period (awaitsTime): nothing.
+  const pending = !time && awaitsTime(next);
   const relative = relativeDay(next.date, today);
 
   const head = el('div', 'next-head');
   const when = el('p', 'next-when');
   const date = el('span', 'circled date-big', shortDate(next.date));
   date.insertAdjacentHTML('beforeend', handMark('loop'));
-  when.append(date, el('span', 'next-time', time || 'horário a confirmar'));
+  when.append(date);
+  if (time || pending) when.append(el('span', 'next-time', time || 'horário a confirmar'));
   when.append(el('span', 'next-label', ['hoje', 'amanhã'].includes(relative) ? `a próxima, ${relative}` : 'a próxima'));
   const share = el('a', 'share-button');
   share.href = shareUrl;
@@ -82,7 +85,7 @@ function renderNext(next, upcoming) {
   title.append(titleLink);
 
   const facts = el('div', 'next-facts');
-  facts.append(metaRow('meta-time', 'clock', time || 'Horário a confirmar'));
+  if (time || pending) facts.append(metaRow('meta-time', 'clock', time || 'Horário a confirmar'));
   if (next.org) {
     const org = el('p', 'meta meta-org');
     org.append(el('span', 'dot'));

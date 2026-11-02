@@ -1,5 +1,5 @@
 import { CSV_URL } from './config.js';
-import { agendaSummary, buildEvents, capitalize, dateKey, findNextEvent, formatDateRange, formatLongDate, formatLongDateRange, formatTimeRange, lastDayKey, matchKey, monthName, orgFullName } from './events.js';
+import { agendaSummary, awaitsTime, buildEvents, capitalize, dateKey, findNextEvent, formatDateRange, formatLongDate, formatLongDateRange, formatTimeRange, lastDayKey, matchKey, monthName, orgFullName } from './events.js';
 import { assignSectorColors, paintSector, sectorRank, sectorsOf } from './colors.js';
 import { buildWhatsAppMessage, previewHtml, whatsAppShareUrl } from './whatsapp.js';
 import { FLYER_STYLES, FLYER_WIDTH, canShareFiles, downloadFlyer, flyerFilename, renderFlyer, shareFlyer } from './flyer.js';
@@ -485,15 +485,17 @@ function renderBenchDate(ev) {
   box.classList.toggle('is-struck', ev.cancelled);
   const year = ev.date.getFullYear() !== today.getFullYear() ? ` de ${ev.date.getFullYear()}` : '';
   const time = formatTimeRange(ev);
+  // No time reads "Horário a confirmar", except for a deadline or a period (awaitsTime): nothing.
+  const pending = !time && awaitsTime(ev);
   const visual = el('span', 'bench-date-visual');
   visual.setAttribute('aria-hidden', 'true');
   visual.append(el('span', 'bench-day', `${ev.endDate ? formatDateRange(ev) : formatLongDate(ev.date).replace('-feira', '')}${year}`));
   const when = el('span', 'bench-when');
-  when.append(el('span', 'bench-time', time || 'Horário a confirmar'));
+  if (time || pending) when.append(el('span', 'bench-time', time || 'Horário a confirmar'));
   const isNext = ev.id === lastNextId;
   if (isNext) when.append(el('span', 'next-label', 'a próxima'));
   visual.append(when);
-  const spoken = `${formatLongDateRange(ev)}${year}, ${time || 'horário a confirmar'}${ev.cancelled ? ', cancelada' : ''}${isNext ? ', a próxima atividade' : ''}.`;
+  const spoken = `${formatLongDateRange(ev)}${year}${time || pending ? `, ${time || 'horário a confirmar'}` : ''}${ev.cancelled ? ', cancelada' : ''}${isNext ? ', a próxima atividade' : ''}.`;
   box.append(visual, el('span', 'sr-only', spoken));
 }
 

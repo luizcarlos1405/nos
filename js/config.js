@@ -40,6 +40,12 @@ export const TIME_ZONE = 'America/Campo_Grande';
 // (.github/workflows/pages.yml) runs it every time the site is published.
 export const FEED_FILE = 'agenda.ics';
 
+// Types ("Tipo" column) that have no time of their own: a deadline, an enrolment or consultation
+// period, a collection campaign. Without a time they show none, where any other one-day activity
+// reads "Horário a confirmar" (a period of several days never does). Accents, case and punctuation
+// don't matter.
+export const UNTIMED_TYPES = ['Prazo', 'Campanha'];
+
 // Local holidays printed in red besides the national ones (js/holidays.js),
 // e.g. { month: 6, day: 24, name: 'São João', short: 'São João' }.
 export const EXTRA_HOLIDAYS = [];
