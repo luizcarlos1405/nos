@@ -4,7 +4,7 @@
 // this device most likely uses comes first; the person confirms in their own calendar.
 
 import { APP_NAME, HOME_CITY, SITE_URL } from './config.js';
-import { formatDateRange, formatTimeRange } from './events.js';
+import { awaitsTime, formatDateRange, formatTimeRange } from './events.js';
 import { androidIntent, buildCalendar, eventPage, googleEventUrl, googleSubscribeUrl, icsFilename, outlookEventUrl, outlookSubscribeUrl, feedUrl, webcalUrl } from './ics.js';
 import { icon } from './icons.js';
 import { whatsAppShareUrl } from './whatsapp.js';
@@ -126,7 +126,8 @@ function summary(ev) {
   box.append(el('p', 'save-event-title', ev.title));
   const when = el('span', 'meta meta-when');
   when.innerHTML = icon('clock');
-  when.append(el('span', 'meta-text', `${formatDateRange(ev).replace('-feira', '')} · ${formatTimeRange(ev) || 'Horário a confirmar'}`));
+  const time = formatTimeRange(ev) || (awaitsTime(ev) ? 'Horário a confirmar' : '');
+  when.append(el('span', 'meta-text', [formatDateRange(ev).replace('-feira', ''), time].filter(Boolean).join(' · ')));
   box.append(when);
   const place = ev.city && ev.local ? `${ev.local}, ${ev.city}` : ev.local || ev.city;
   if (place) {

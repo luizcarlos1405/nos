@@ -17,7 +17,7 @@
 // for the export.
 
 import { APP_NAME, CITY, SITE_URL } from './config.js';
-import { capitalize, dateKey, dayKeys, formatDayMonth, formatTime, monthName, orgFullName, slugify, weekdayName } from './events.js';
+import { awaitsTime, capitalize, dateKey, dayKeys, formatDayMonth, formatTime, monthName, orgFullName, slugify, weekdayName } from './events.js';
 import { holidayOn, isRedLetter } from './holidays.js';
 import { paintSector } from './colors.js';
 import { HAND, brandMark, icon } from './icons.js';
@@ -779,8 +779,9 @@ function fitTitle(text, steps, last) {
 }
 
 // The column beside the numeral, scaled by k from the 560px numeral: the weekday and the month from
-// the numeral's top (their capitals on its line), the time (or "Horário a confirmar") on its
-// baseline. Returns its lines, or null when the two groups would meet.
+// the numeral's top (their capitals on its line), the time (or "Horário a confirmar", but nothing
+// for a deadline or a period: awaitsTime) on its baseline. Returns its lines, or null when the two
+// groups would meet.
 function dayColumn(ev, k, width, capTop, baseline, timeScale) {
   const date = ev.date;
   const fit = (text, font, max, min) => sizeToWidth(text, font, width, Math.round(max * k), Math.round(min * k));
@@ -815,7 +816,7 @@ function dayColumn(ev, k, width, capTop, baseline, timeScale) {
       bottom.unshift({ cls: 'dy-time', lines: [line], size: st, baseline: y - i * 1.04 * st });
     });
     y -= (startLines.length - 1) * 1.04 * st + DISPLAY.accent * st;
-  } else {
+  } else if (awaitsTime(ev)) {
     const sc = Math.round(48 * k);
     const lines = setLines(NO_TIME, { ...VOICE_SOFT, size: sc }, width, 2);
     lines.slice().reverse().forEach((line, i) => bottom.unshift({ cls: 'dy-tbc', lines: [line], size: sc, baseline: y - i * 1.1 * sc }));
@@ -942,14 +943,15 @@ const MONTH_STEPS = [
 const WEEK_HEAD = ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB'];
 
 // "Sexta, 20 de novembro, 14h às 22h" or "De sexta, 16 de outubro a sábado, 24 de outubro, 19h",
-// each date in one piece ("sábado, 24 de outubro"), the time too; "horário a confirmar" without one.
+// each date in one piece ("sábado, 24 de outubro"), the time too; "horário a confirmar" without one,
+// unless none is awaited (a deadline or a period: awaitsTime).
 function longWhen(ev) {
   const day = (d) => `${weekdayShort(d)}, ${d.getDate()} de ${monthName(d.getMonth())}`.replace(/ /g, NBSP);
   const when = ev.endDate ? `De ${day(ev.date)} a ${day(ev.endDate)}` : capitalize(day(ev.date));
   const { start, end } = timeParts(ev);
   // A time stays in one piece; a text from the sheet that isn't one breaks as text.
-  const time = !start ? 'horário a confirmar' : ev.time != null ? [start, end].filter(Boolean).join(' ').replace(/ /g, NBSP) : [start, end].filter(Boolean).join(' ');
-  return `${when}, ${time}`;
+  const time = !start ? (awaitsTime(ev) ? 'horário a confirmar' : '') : ev.time != null ? [start, end].filter(Boolean).join(' ').replace(/ /g, NBSP) : [start, end].filter(Boolean).join(' ');
+  return time ? `${when}, ${time}` : when;
 }
 
 // The date lines, then " · " and the holiday on the last one, or the holiday on a line of its own
@@ -1074,7 +1076,8 @@ const POSTER_STEPS = [
   { when: 60, rows: [[30, 2], [28, 2]] },
 ];
 
-// The when: "sáb 31/10" circled, then the time ("21h", "19h30 às 22h30") or "horário a confirmar";
+// The when: "sáb 31/10" circled, then the time ("21h", "19h30 às 22h30") or "horário a confirmar"
+// (nothing for a deadline: awaitsTime);
 // a period goes on to its last day ("sex 16/10" circled, "a sáb 24/10, 19h"). What follows the
 // date sits beside it while it fits, else on the next line. Returns the lines' heights and builder.
 function posterWhen(ev, size) {
@@ -1083,14 +1086,14 @@ function posterWhen(ev, size) {
   const { start, end } = timeParts(ev);
   const time = start ? [start, end].filter(Boolean).join(' ') : '';
   const rest = [ev.endDate && `a ${tiny(ev.endDate)}`, time].filter(Boolean).join(', ');
-  const soft = !time && !ev.endDate;
+  const soft = !time && awaitsTime(ev);
   const restText = soft ? 'horário a confirmar' : rest;
   const restFont = soft ? { ...VOICE_SOFT, size: Math.round(size * 0.6) } : { ...VOICE, size };
   const dateWidth = textWidth(date, { ...VOICE, size });
   const loopPad = POSTER.loop.x * size;
   const beside = WIDTH - dateWidth - loopPad - 0.22 * size;
-  const restLines = textWidth(restText, restFont) <= beside * FIT ? [restText] : null;
-  const under = restLines ? null : setLines(restText, restFont, WIDTH, 2);
+  const restLines = restText && textWidth(restText, restFont) <= beside * FIT ? [restText] : null;
+  const under = restLines || !restText ? null : setLines(restText, restFont, WIDTH, 2);
   const holiday = holidayOn(ev.date);
   const holidaySize = Math.round(size * 0.4);
   const height = size * 1.3 + (under ? (0.2 + under.length * 1.1) * restFont.size : 0) + (holiday ? (0.3 + 1.4) * holidaySize : 0);

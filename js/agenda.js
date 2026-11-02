@@ -2,7 +2,7 @@
 // there, underlined by hand; the next activity's time is circled ("a próxima"). Past days stay hidden
 // until asked for.
 
-import { capitalize, dateFromKey, dateKey, formatDayMonth, formatLongDate, formatTimeRange, formatTinyDate, lastDayKey, orgFullName, relativeDay, startTime, weekdayName } from './events.js';
+import { awaitsTime, capitalize, dateFromKey, dateKey, formatDayMonth, formatLongDate, formatTimeRange, formatTinyDate, lastDayKey, orgFullName, relativeDay, weekdayName } from './events.js';
 import { holidayOn } from './holidays.js';
 import { paintSector } from './colors.js';
 import { handMark, icon } from './icons.js';
@@ -29,12 +29,16 @@ function metaRow(className, iconName, content) {
 }
 
 // When: the time (its range, "até 12h", or "Horário a confirmar"), circled by hand on the next
-// activity's own day. The type stays in the panel and the message.
+// activity's own day; none for a deadline or a period without one (awaitsTime), where the next
+// activity keeps only "a próxima". The type stays in the panel and the message.
 function timeRow(ev, isNext) {
+  const text = formatTimeRange(ev) || (awaitsTime(ev) ? 'Horário a confirmar' : '');
+  if (!text && !isNext) return null;
   const row = el('span', 'meta meta-time');
   row.insertAdjacentHTML('beforeend', icon('clock'));
-  const text = startTime(ev) || ev.endTime != null || ev.endTimeRaw ? formatTimeRange(ev) : 'Horário a confirmar';
-  if (isNext) {
+  if (!text) {
+    row.append(el('span', 'next-label', 'a próxima'));
+  } else if (isNext) {
     const circled = el('span', 'circled meta-text', text);
     circled.insertAdjacentHTML('beforeend', handMark('loopAlt'));
     row.append(circled, el('span', 'next-label', 'a próxima'));
@@ -122,7 +126,8 @@ export function renderCard(ev, { shownOn, todayKey, nextId, selectedId, onSelect
   described.push(meta.id);
   open.setAttribute('aria-describedby', described.join(' '));
   // "a próxima" only on the day it starts.
-  meta.append(timeRow(ev, ev.id === nextId && ev.dateKey === shownOn));
+  const time = timeRow(ev, ev.id === nextId && ev.dateKey === shownOn);
+  if (time) meta.append(time);
   if (ev.org) meta.append(orgRow(ev));
   if (ev.local || ev.city) meta.append(placeRow(ev));
   if (ev.endDate) meta.append(metaRow('meta-range', 'calendar-range', rangeText(ev, shownOn, todayKey)));
