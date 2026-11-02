@@ -728,21 +728,26 @@ BEGIN:VEVENT
 UID:ev-2026-11-04-eleicao-da-direcao-e-do-conselho-fiscal-do-simted@nos.dou
  rados.social
 DTSTAMP:19700101T000000Z
-DTSTART;VALUE=DATE:20261104
-DTEND;VALUE=DATE:20261105
+DTSTART:20261104T120000Z
+DTEND:20261104T220000Z
 SUMMARY:Eleição da Direção e do Conselho Fiscal do SIMTED
+LOCATION:Sede do SIMTED (Rua Maria da Glória\, 670\, Vila Industrial) e ur
+ nas itinerantes nas escolas e CEIMs\, Dourados/MS
 DESCRIPTION:Organização: SIMTED (Sindicato Municipal dos Trabalhadores e 
- Trabalhadoras em Educação de Dourados)\nTipo: Eleição\nHorário a conf
- irmar\n\nEleição sindical que escolhe a Direção e o Conselho Fiscal do
-  SIMTED para o triênio 2027–2030. Os eleitos representarão o magistér
- io e o administrativo educacional das redes municipal e estadual de Dourad
- os.\n\nFonte: https://www.instagram.com/simteddourados/p/DdcHh2eIxTG/\n\nN
- a agenda do NOS Dourados: https://nos.dourados.social/agenda.html#ev-2026-
- 11-04-eleicao-da-direcao-e-do-conselho-fiscal-do-simted
+ Trabalhadoras em Educação de Dourados)\nTipo: Eleição\n\nEleição sin
+ dical que escolhe a Direção e o Conselho Fiscal do SIMTED para o triêni
+ o 2027–2030. Os eleitos representarão o magistério e o administrativo 
+ educacional das redes municipal e estadual de Dourados. Votam os filiados 
+ em dia com o sindicato: urnas itinerantes passam pelas escolas e CEIMs no 
+ horário de funcionamento de cada uma\, e a urna fixa na sede do SIMTED at
+ ende sobretudo aposentados\, servidores cedidos e quem estiver em trânsit
+ o.\n\nFonte: https://www.instagram.com/simteddourados/p/DfF_Oh9IRGm/\n\nNa
+  agenda do NOS Dourados: https://nos.dourados.social/agenda.html#ev-2026-1
+ 1-04-eleicao-da-direcao-e-do-conselho-fiscal-do-simted
 URL:https://nos.dourados.social/agenda.html#ev-2026-11-04-eleicao-da-direca
  o-e-do-conselho-fiscal-do-simted
 STATUS:CONFIRMED
-TRANSP:TRANSPARENT
+TRANSP:OPAQUE
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-11-05-13-conferencia-municipal-dos-direitos-da-crianca-e-do-ado
@@ -752,20 +757,74 @@ DTSTART;VALUE=DATE:20261105
 DTEND;VALUE=DATE:20261107
 SUMMARY:13ª Conferência Municipal dos Direitos da Criança e do Adolescen
  te
-LOCATION:Pestalozzi de Dourados
-DESCRIPTION:Organizações: Secretaria Municipal de Assistência Social (SE
- MAS)\, CMDCA\nTipo: Conferência\n\nConferência municipal sobre os direit
- os de crianças e adolescentes\, com o tema "Fortalecendo o Sistema de Gar
- antia de Direitos da Criança e do Adolescente e a Democracia Participativ
- a". Crianças e adolescentes do SCFV e de OSCs parceiras da SEMAS a prepar
- aram numa pré-conferência em 19/10.\n\nFonte: https://www.instagram.com/
- semasdourados/p/Dew8CFyFVth/\n\nNa agenda do NOS Dourados: https://nos.dou
- rados.social/agenda.html#ev-2026-11-05-13-conferencia-municipal-dos-direit
- os-da-crianca-e-do-adoles
+LOCATION:Associação Pestalozzi de Dourados
+DESCRIPTION:Organizações: CMDCA\, Secretaria Municipal de Assistência So
+ cial (SEMAS)\nTipo: Conferência\nHorário: 18h30\n\nConferência municipa
+ l sobre os direitos de crianças e adolescentes\, com o tema "Fortalecendo
+  o Sistema de Garantia de Direitos da Criança e do Adolescente e a Democr
+ acia Participativa". É aberta a representantes do poder público\, organi
+ zações da sociedade civil\, profissionais da rede de proteção\, crian
+ ças\, adolescentes e demais interessados\, com inscrição pelo link. Qui
+ nta\, 05/11: credenciamento às 18h30\, abertura às 19h e palestra magna 
+ às 20h\, com o advogado e professor Robson Moraes dos Santos\, até as 22
+ h. Sexta\, 06/11: credenciamento às 7h\, grupos de trabalho por eixos tem
+ áticos\, plenária das propostas e eleição dos delegados\, com almoço 
+ no local\, até as 17h. As propostas aprovadas seguem para as etapas estad
+ ual e nacional.\n\nLink: https://forms.gle/ayWbQeG3cuni25F1A\nFonte: https
+ ://www.folhadedourados.com.br/dourados-abre-inscricoes-para-conferencia-do
+ s-direitos-da-crianca-e-do-adolescente/\n\nNa agenda do NOS Dourados: http
+ s://nos.dourados.social/agenda.html#ev-2026-11-05-13-conferencia-municipal
+ -dos-direitos-da-crianca-e-do-adoles
 URL:https://nos.dourados.social/agenda.html#ev-2026-11-05-13-conferencia-mu
  nicipal-dos-direitos-da-crianca-e-do-adoles
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-06-oficina-de-realness-com-princess-kiara-de-la@nos.dourados
+ .social
+DTSTAMP:19700101T000000Z
+DTSTART:20261106T220000Z
+DTEND:20261106T230000Z
+SUMMARY:Oficina de Realness com Princess Kiara De Lá
+LOCATION:Casa da Cultura UEMS – Espaço Guaraoby (Rua Monte Alegre\, 1955
+ \, Vila Progresso)\, Dourados/MS
+DESCRIPTION:Organizações: House of Bombshell\, House De Lá\, Coletiva Mo
+ vimentú\nTipo: Oficina\n\nVivência de Realness\, categoria da cultura Ba
+ llroom\, com a Princess Kiara De Lá\, da Internacional Femme Queen House 
+ of De Lá: multiartista e produtora cultural de Ladário\, uma das fundado
+ ras da Coletiva Movimentú\, que trouxe os estudos de Realness para Mato G
+ rosso do Sul. Primeira atividade formativa do Grande Natal das Bombshells\
+ , da House of Bombshell. Aberta a todes\, especialmente às pessoas trans.
+ \n\nFonte: https://www.instagram.com/asbombshells/p/DfH_oesNpcw/\n\nNa age
+ nda do NOS Dourados: https://nos.dourados.social/agenda.html#ev-2026-11-06
+ -oficina-de-realness-com-princess-kiara-de-la
+URL:https://nos.dourados.social/agenda.html#ev-2026-11-06-oficina-de-realne
+ ss-com-princess-kiara-de-la
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-07-oficina-de-vogue-femme-com-prince-ennio-sherman@nos.doura
+ dos.social
+DTSTAMP:19700101T000000Z
+DTSTART:20261107T120000Z
+DTEND:20261107T130000Z
+SUMMARY:Oficina de Vogue Femme com Prince Ennio Sherman
+LOCATION:Casa da Cultura UEMS – Espaço Guaraoby (Rua Monte Alegre\, 1955
+ \, Vila Progresso)\, Dourados/MS
+DESCRIPTION:Organizações: House of Bombshell\, Casa Sherman\nTipo: Oficin
+ a\n\nOficina de Vogue Femme com o Prince Ennio Sherman\, artista e pesquis
+ ador do corpo da cena Ballroom de Campo Grande\, fundador do Coletivo Foco
+  y Cunt e Overall Prince da Excelente Casa Sherman. Faz parte da programa
+ ção do Grande Natal das Bombshells\, da House of Bombshell.\n\nFonte: ht
+ tps://www.instagram.com/asbombshells/p/DfNrBcfPnnn/\n\nNa agenda do NOS Do
+ urados: https://nos.dourados.social/agenda.html#ev-2026-11-07-oficina-de-v
+ ogue-femme-com-prince-ennio-sherman
+URL:https://nos.dourados.social/agenda.html#ev-2026-11-07-oficina-de-vogue-
+ femme-com-prince-ennio-sherman
+STATUS:CONFIRMED
+TRANSP:OPAQUE
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-11-07-22-feira-das-pulgas-e-v-festival-de-musica-indigena@nos.d
@@ -855,16 +914,22 @@ DTSTAMP:19700101T000000Z
 DTSTART;VALUE=DATE:20261204
 DTEND;VALUE=DATE:20261206
 SUMMARY:6º Festival Nacional Malungo Capoeira
-LOCATION:SIMTED\, Dourados/MS
+LOCATION:SIMTED – Rua Maria da Glória\, 670\, Vila Industrial\, Dourados
+ /MS
 DESCRIPTION:Organizações: Instituto Cultural Malungo\, Projeto Gingar par
- a Educar\nTipo: Festival\n\nFestival de capoeira e cultura afro-brasileira
-  do Instituto Cultural Malungo (Mestre Macaúba) e do Projeto Gingar para 
- Educar\, com oficinas\, roda de capoeira\, samba de roda\, batizado e troc
- a de graduação. As inscrições são limitadas e feitas pelo Even3.\n\nL
- ink: https://www.even3.com.br/vi-festival-nacional-malungo-capoeira-801438
- /\nFonte: https://www.instagram.com/projetogingarparaeducar/p/DfDSRQjKAcn/
- \n\nNa agenda do NOS Dourados: https://nos.dourados.social/agenda.html#ev-
- 2026-12-04-6-festival-nacional-malungo-capoeira
+ a Educar\nTipo: Festival\nHorário: 18h\n\nFestival de capoeira e cultura 
+ afro-brasileira do Instituto Cultural Malungo (Mestre Macaúba) e do Proje
+ to Gingar para Educar. Sexta\, 04/12: credenciamento às 18h e abertura co
+ m roda de capoeira e samba de roda\, das 19h às 22h. Sábado\, 05/12: ofi
+ cinas das 8h às 12h (Capoeira Angola com o Contramestre Anastácio\, de T
+ rês Lagoas\, e Maculelê com o Mestre Chupim\, do Paraná) e das 14h às 
+ 15h30 (samba de roda com a Mestra Lissandra\, do Paraná)\; a partir das 1
+ 6h\, batizado e troca de graduação\, com encerramento às 20h. As inscri
+ ções são limitadas e feitas pelo Even3.\n\nLink: https://www.even3.com.
+ br/vi-festival-nacional-malungo-capoeira-801438/\nFonte: https://www.insta
+ gram.com/projetogingarparaeducar/p/DfDSRQjKAcn/\n\nNa agenda do NOS Dourad
+ os: https://nos.dourados.social/agenda.html#ev-2026-12-04-6-festival-nacio
+ nal-malungo-capoeira
 URL:https://nos.dourados.social/agenda.html#ev-2026-12-04-6-festival-nacion
  al-malungo-capoeira
 STATUS:CONFIRMED
@@ -873,21 +938,25 @@ END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-12-05-grande-natal-das-bombshells@nos.dourados.social
 DTSTAMP:19700101T000000Z
-DTSTART;VALUE=DATE:20261205
-DTEND;VALUE=DATE:20261206
+DTSTART:20261205T210000Z
+DTEND:20261205T220000Z
 SUMMARY:Grande Natal das Bombshells
+LOCATION:Casulo – Rua Reinaldo Bianchi\, 398\, Parque Alvorada\, Dourados
+ /MS
 DESCRIPTION:Organizações: House of Bombshell\, Ballroom Dourados\nTipo: F
- esta\nHorário a confirmar\n\nCircuito natalino da cena ballroom com ofici
- nas\, arrecadação de alimentos para pessoas em situação de vulnerabili
- dade da comunidade ballroom e de brinquedos para crianças\, encerrado com
-  a primeira Kiki Ball da House of Bombshell.\n\nFonte: https://www.instagr
- am.com/asbombshells/reel/DfBJgzmPGXr/\n\nNa agenda do NOS Dourados: https:
- //nos.dourados.social/agenda.html#ev-2026-12-05-grande-natal-das-bombshell
- s
+ esta\n\nKiki Ball de Natal da House of Bombshell\, a primeira da House: um
+ a noite de competição\, expressão e celebração da cultura Ballroom\, 
+ com categorias\, performances\, looks e júri\, aberta à comunidade Ballr
+ oom e a quem quer conhecer essa cultura. Encerra o circuito natalino da Ho
+ use\, com oficinas e arrecadação de alimentos para pessoas em situação
+  de vulnerabilidade da comunidade Ballroom e de brinquedos para crianças\
+ ; na noite também se recebem doações.\n\nFonte: https://www.instagram.c
+ om/asbombshells/p/DfGeh4BDvY0/\n\nNa agenda do NOS Dourados: https://nos.d
+ ourados.social/agenda.html#ev-2026-12-05-grande-natal-das-bombshells
 URL:https://nos.dourados.social/agenda.html#ev-2026-12-05-grande-natal-das-
  bombshells
 STATUS:CONFIRMED
-TRANSP:TRANSPARENT
+TRANSP:OPAQUE
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-12-12-10-mostra-sucata-cultural-castelo-ra-tim-bum@nos.dourados
