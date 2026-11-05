@@ -7,9 +7,8 @@
 export const AGENDA_DIR = 'data/agenda/';
 
 // Where Comércio (comercio.html) reads the businesses from: the answers of the registration form,
-// as they are, plus an optional "Categoria" column kept by the NOS team. A local file or a public
-// spreadsheet published as CSV (Google Sheets: Arquivo → Compartilhar → Publicar na Web → formato
-// CSV, then paste the link here; the Google Form's answer sheet can be published that way).
+// as they are, copied into the file by the NOS team, plus an optional "Categoria" column they keep.
+// (No published Google Sheets: the site's CSVs are files of this repository.)
 export const COMMERCE_CSV_URL = 'data/comercio.csv';
 
 // The registration form's public link, for "Cadastrar meu negócio" on Comércio. Empty hides the

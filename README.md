@@ -54,7 +54,7 @@ Os arquivos seguem o formato brasileiro: colunas separadas por ponto e vírgula 
 | `Motivo Cancelamento` | não | Chuva, Remarcado, ou uma frase curta |
 | `Notas internas` | não | anotações da equipe; o site ignora esta coluna |
 
-**Setores.** O filtro do site usa a coluna `Setor`. Os setores sugeridos têm cor fixa: `Partidos`, `Academia e Movimento Estudantil`, `Rural, indígena, luta pela terra`, `Sindicatos`, `Terceiro Setor`, `Órgãos do Estado`, `Movimentos Sociais` e `Outros` (os mesmos oito grupos do levantamento das organizações). Maiúsculas, acentos e pontuação não contam. Dá para usar outro nome: ele pega emprestada a cor de um setor sugerido que não está na planilha. Na planilha do Google, vale criar uma lista suspensa (Dados → Validação de dados) com esses nomes.
+**Setores.** O filtro do site usa a coluna `Setor`. Os setores sugeridos têm cor fixa: `Partidos`, `Academia e Movimento Estudantil`, `Rural, indígena, luta pela terra`, `Sindicatos`, `Terceiro Setor`, `Órgãos do Estado`, `Movimentos Sociais` e `Outros` (os mesmos oito grupos do levantamento das organizações). Maiúsculas, acentos e pontuação não contam. Dá para usar outro nome: ele pega emprestada a cor de um setor sugerido que não está na agenda.
 
 **Organizações.** O filtro "Organização" lista todos os nomes da coluna `Organização`, agrupados pelo setor. Escreva sempre do mesmo jeito (`SINTEF`, não às vezes `Sintef`) para não aparecerem duas vezes. Use a coluna para quem organiza (movimentos, sindicatos, coletivos); parceiros institucionais (universidade, órgãos públicos) cabem melhor na `Descrição`. Para quem não conhece as siglas, o site mostra o nome por extenso das organizações listadas em `ORG_NAMES` (`js/config.js`): acrescente as novas lá, com o nome que a própria organização usa.
 
@@ -64,7 +64,7 @@ Os arquivos seguem o formato brasileiro: colunas separadas por ponto e vírgula 
 
 **Colunas `Cancelado` e `Motivo Cancelamento`:** marque `Cancelado` quando uma atividade não for mais acontecer. Ela continua no site com o carimbo "Cancelada" e o motivo, e deixa de ser a "próxima". A mensagem de WhatsApp e o panfleto viram um aviso de cancelamento, para avisar os grupos que já tinham sido convidados.
 
-**Notas internas.** O site ignora a coluna, mas quem tiver o link do CSV publicado consegue lê-la: não escreva nada que não possa ser público.
+**Notas internas.** O site ignora a coluna, mas os arquivos são publicados junto com o site e qualquer pessoa consegue lê-los: não escreva nada que não possa ser público.
 
 Ao salvar no Excel, use **"CSV UTF-8 (delimitado por vírgulas)"** ou **"CSV (separado por vírgulas)"**: o site entende os dois, com `;` ou `,` como separador, e não importa se os cabeçalhos estão com ou sem acento, em maiúsculas ou minúsculas.
 
@@ -74,13 +74,9 @@ Linhas visíveis sem título ou com data inválida (ou sem o ano) não entram no
 
 As linhas atuais (até 05/11/2026 num arquivo só, o `data/agenda.csv`) foram montadas a partir de um levantamento dos perfis públicos de Instagram das organizações (15/10/2026, mantido fora deste repositório), com foco em Dourados; cada linha guarda o link do post de origem na coluna `Fonte`. Algumas linhas estão ocultas (`Visível` desmarcado): atividades ainda sem data certa e atividades de outras cidades sem participação de organizações de Dourados. A coluna `Notas internas` diz o que ainda precisa ser confirmado em cada linha.
 
-### Usando uma planilha online
-
-Desde que a agenda passou a ser um arquivo por mês, uma planilha do Google publicada como CSV não entra mais só trocando um link: o site lê a pasta de meses. Para editar a agenda numa planilha, uma tarefa agendada (por exemplo, uma GitHub Action de hora em hora, com o GitHub Pages publicando por "GitHub Actions") teria que baixar a planilha publicada no lugar dos arquivos da pasta, como `sem-data.csv`, rodar `node tools/agenda-data.mjs --fix` (que separa as linhas nos meses e refaz o `index.json`), refazer o `agenda.ics` e publicar o site.
-
 ## Editando o comércio
 
-A página Comércio lê `data/comercio.csv` (link em `COMMERCE_CSV_URL`, no `js/config.js`): as respostas do formulário de cadastro, do jeito que o Google Formulários grava, mais uma coluna `Categoria` preenchida pela equipe. Para ler direto da planilha de respostas, publique a aba como CSV (Arquivo → Compartilhar → Publicar na Web) e troque o link em `COMMERCE_CSV_URL`.
+A página Comércio lê `data/comercio.csv` (link em `COMMERCE_CSV_URL`, no `js/config.js`): as respostas do formulário de cadastro, do jeito que o Google Formulários grava, mais uma coluna `Categoria` preenchida pela equipe. As respostas novas entram copiadas da planilha de respostas do formulário para esse arquivo (o site não lê planilhas do Google).
 
 | coluna (pergunta do formulário) | o que o site faz |
 |---|---|
@@ -94,7 +90,7 @@ A página Comércio lê `data/comercio.csv` (link em `COMMERCE_CSV_URL`, no `js/
 | `Podemos incluir sua empresa na nossa planilha e compartilhar suas informações com a rede?` | só aparece quem respondeu **Sim** |
 | `Categoria` | coluna da equipe, à direita das respostas: vira os filtros da página. Sugeridas, nesta ordem: Comida, Serviços, Celular e informática, Beleza, Arte e presentes, Embalagens (lista `COMMERCE_CATEGORIES`); outro nome também funciona |
 | `Visível` | coluna da equipe, opcional: desmarcada esconde o negócio |
-| `Notas internas` | coluna da equipe, opcional: o site ignora (mas ela fica pública no CSV publicado) |
+| `Notas internas` | coluna da equipe, opcional: o site ignora (mas ela fica pública, como o arquivo) |
 
 Os nomes das colunas não precisam ser exatos: o site procura uma palavra-chave em cada uma ("nome", "instagram", "contato", "oferece", "site", "incluir", "categoria"…). O Google Formulários continua gravando as respostas novas nas colunas dele quando há colunas extras à direita; quem chega sem categoria aparece em "Todos" até a equipe preencher.
 
