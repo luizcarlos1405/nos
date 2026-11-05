@@ -23,9 +23,15 @@ Sem build, sem dependências para instalar: HTML, CSS e JavaScript puro. Nasceu 
 
 ## Editando a agenda
 
-Por enquanto a agenda vem do arquivo `data/agenda.csv` (link em `CSV_URL`, no arquivo `js/config.js`). Depois ele pode ser trocado pelo link de uma planilha do Google publicada como CSV: aí é só editar a planilha que o site se atualiza.
+A agenda fica na pasta `data/agenda/` (`AGENDA_DIR`, no arquivo `js/config.js`), **um arquivo por mês**: o `2026-11.csv` tem as atividades que começam em novembro de 2026, pela coluna `Dia`. Assim o site baixa só os meses que mostra, e não a agenda inteira a cada visita.
 
-O arquivo segue o formato brasileiro: colunas separadas por ponto e vírgula (`;`), datas no formato dia/mês/ano e acentos em UTF-8. Ele abre direto no Excel, no LibreOffice e no Google Planilhas.
+- **Atividade nova:** vai no arquivo do mês do seu `Dia` (o primeiro dia). Uma atividade de vários dias fica no mês em que começa, mesmo que termine no outro. Se o mês ainda não tem arquivo, crie-o com a primeira linha (os nomes das colunas) copiada de outro mês: todos os arquivos têm as mesmas colunas, na mesma ordem.
+- **Mudou de data para outro mês:** a linha muda de arquivo.
+- **Ainda sem data:** fica em `sem-data.csv`, oculta (`Visível` desmarcado), até ganhar a data e ir para o mês dela.
+- **`index.json`:** a lista dos meses que o site lê, refeita sozinha a cada commit (veja "A agenda assinada", abaixo). Não edite à mão.
+- **Linha no arquivo errado:** o commit é recusado e diz para onde ela vai. `node tools/agenda-data.mjs --fix` muda as linhas de arquivo sozinho, do jeito que estão escritas; `node tools/agenda-data.mjs --check` só confere.
+
+Os arquivos seguem o formato brasileiro: colunas separadas por ponto e vírgula (`;`), datas no formato dia/mês/ano e acentos em UTF-8. Eles abrem direto no Excel, no LibreOffice e no Google Planilhas.
 
 | coluna | obrigatória | exemplo |
 |---|---|---|
@@ -62,18 +68,15 @@ O arquivo segue o formato brasileiro: colunas separadas por ponto e vírgula (`;
 
 Ao salvar no Excel, use **"CSV UTF-8 (delimitado por vírgulas)"** ou **"CSV (separado por vírgulas)"**: o site entende os dois, com `;` ou `,` como separador, e não importa se os cabeçalhos estão com ou sem acento, em maiúsculas ou minúsculas.
 
-Linhas sem título ou com data inválida (ou sem o ano) são ignoradas e aparecem num aviso no topo da página, com o número da linha na planilha.
+Linhas visíveis sem título ou com data inválida (ou sem o ano) não entram no commit: ele é recusado e diz qual linha, de qual arquivo, corrigir. Se mesmo assim uma chegar ao site, ela é ignorada e aparece num aviso no topo da página, com o arquivo e o número da linha ("2026-11.csv, linha 5").
 
-### O CSV provisório
+### De onde vieram as atividades
 
-O `data/agenda.csv` atual foi montado a partir de um levantamento dos perfis públicos de Instagram das organizações (15/10/2026, mantido fora deste repositório), com foco em Dourados; cada linha guarda o link do post de origem na coluna `Fonte`. Algumas linhas estão ocultas (`Visível` desmarcado): atividades ainda sem data certa e atividades de outras cidades sem participação de organizações de Dourados. A coluna `Notas internas` diz o que ainda precisa ser confirmado em cada linha.
+As linhas atuais (até 05/11/2026 num arquivo só, o `data/agenda.csv`) foram montadas a partir de um levantamento dos perfis públicos de Instagram das organizações (15/10/2026, mantido fora deste repositório), com foco em Dourados; cada linha guarda o link do post de origem na coluna `Fonte`. Algumas linhas estão ocultas (`Visível` desmarcado): atividades ainda sem data certa e atividades de outras cidades sem participação de organizações de Dourados. A coluna `Notas internas` diz o que ainda precisa ser confirmado em cada linha.
 
 ### Usando uma planilha online
 
-1. Na planilha: **Arquivo → Compartilhar → Publicar na Web**, escolha a aba e o formato **CSV (.csv)** e copie o link.
-2. Em `js/config.js`, troque o valor de `CSV_URL` por esse link.
-
-Assim, quem edita a planilha atualiza o site sem precisar publicar nada de novo (o Google pode levar alguns minutos para refletir as mudanças).
+Desde que a agenda passou a ser um arquivo por mês, uma planilha do Google publicada como CSV não entra mais só trocando um link: o site lê a pasta de meses. Para editar a agenda numa planilha, uma tarefa agendada (por exemplo, uma GitHub Action de hora em hora, com o GitHub Pages publicando por "GitHub Actions") teria que baixar a planilha publicada no lugar dos arquivos da pasta, como `sem-data.csv`, rodar `node tools/agenda-data.mjs --fix` (que separa as linhas nos meses e refaz o `index.json`), refazer o `agenda.ics` e publicar o site.
 
 ## Editando o comércio
 
@@ -115,7 +118,7 @@ Qualquer hospedagem estática serve (GitHub Pages, Netlify, Cloudflare Pages…)
 
 ### A agenda assinada (`agenda.ics`)
 
-"Salvar tudo na agenda" assina o arquivo `agenda.ics`, na raiz do site. Os apps de agenda (Google, iPhone, Outlook) buscam esse arquivo sozinhos, de tempos em tempos, então ele precisa estar publicado junto com o site. Ele é gerado a partir da agenda e fica no repositório; um *hook* do git o refaz a cada commit, a partir do que vai no commit, e o põe no mesmo commit. Quem muda o `data/agenda.csv` não precisa lembrar de nada.
+"Salvar tudo na agenda" assina o arquivo `agenda.ics`, na raiz do site. Os apps de agenda (Google, iPhone, Outlook) buscam esse arquivo sozinhos, de tempos em tempos, então ele precisa estar publicado junto com o site. Ele é gerado a partir da agenda (de todos os meses) e fica no repositório; um *hook* do git o refaz a cada commit, a partir do que vai no commit, e o põe no mesmo commit, junto com o `data/agenda/index.json`, a lista dos meses. O mesmo *hook* confere se cada linha está no arquivo do seu mês. Quem muda os arquivos de `data/agenda/` não precisa lembrar de mais nada.
 
 Num clone novo, ative os hooks uma vez (eles estão em `.githooks/`):
 
@@ -123,10 +126,9 @@ Num clone novo, ative os hooks uma vez (eles estão em `.githooks/`):
 git config core.hooksPath .githooks
 ```
 
-- `node tools/agenda-ics.mjs --check` diz se o `agenda.ics` está em dia; `node tools/agenda-ics.mjs` o refaz na mão. Os dois precisam do Node 22 ou mais novo, como o hook.
-- Não edite o `agenda.ics` à mão. Num conflito de merge nele, resolva o CSV e refaça o arquivo em vez de juntar os textos.
-- Se a agenda tiver um erro que impeça o site de lê-la (falta a coluna `Título` ou `Dia`), o commit é recusado, com a explicação.
-- Quando a agenda passar a vir da planilha do Google (`CSV_URL`), um commit não acompanha mais as edições da planilha: o hook deixa o arquivo como está e avisa. Aí o `agenda.ics` precisa ser refeito por uma tarefa agendada (por exemplo, uma GitHub Action de hora em hora).
+- `node tools/agenda-ics.mjs --check` diz se o `agenda.ics` está em dia, e `node tools/agenda-data.mjs --check` se as linhas estão nos meses certos e o `index.json` em dia; sem `--check`, os dois refazem os arquivos na mão. Precisam do Node 22 ou mais novo, como o hook.
+- Não edite o `agenda.ics` nem o `index.json` à mão. Num conflito de merge neles, resolva os arquivos dos meses e refaça os dois (`node tools/agenda-data.mjs && node tools/agenda-ics.mjs`) em vez de juntar os textos.
+- Se a agenda tiver um erro que impeça o site de lê-la (uma linha no mês errado, um arquivo sem a coluna `Título` ou `Dia`, colunas diferentes entre os meses, uma linha visível sem título ou sem data), o commit é recusado, com a explicação.
 
 O site está em https://nos.dourados.social (GitHub Pages, domínio no arquivo `CNAME`). Se o endereço mudar:
 
@@ -137,7 +139,7 @@ O site está em https://nos.dourados.social (GitHub Pages, domínio no arquivo `
 
 O site funciona sem internet e pode ser instalado como app no celular e no computador (PWA).
 
-- **Sem internet.** O service worker (`sw.js`) busca tudo primeiro na rede e só usa a cópia guardada quando a rede falha: quem está online vê as planilhas atuais e a versão publicada do site (com o cache normal do navegador, de alguns minutos). Já na primeira visita ele guarda o site inteiro (as três páginas e o que elas carregam, a lista `SHELL`, no `sw.js`), a agenda e a lista do comércio. Sem conexão, o site abre com a última cópia salva e avisa: "Sem conexão. Mostrando a agenda salva em…" (ou "a lista salva"). O panfleto também é gerado sem internet.
+- **Sem internet.** O service worker (`sw.js`) busca tudo primeiro na rede e só usa a cópia guardada quando a rede falha: quem está online vê as planilhas atuais e a versão publicada do site (com o cache normal do navegador, de alguns minutos). Já na primeira visita ele guarda o site inteiro (as três páginas e o que elas carregam, a lista `SHELL`, no `sw.js`), a agenda do mês passado em diante e a lista do comércio; os meses mais antigos ficam guardados depois de abertos uma vez. Sem conexão, o site abre com a última cópia salva e avisa: "Sem conexão. Mostrando a agenda salva em…" (ou "a lista salva"); um mês nunca aberto diz que não deu para carregá-lo. O panfleto também é gerado sem internet.
 - **Arquivos novos.** Se a página passar a carregar um arquivo novo (um módulo em `js/`, uma folha de estilo, uma fonte, um ícone), acrescente-o à lista `SHELL` do `sw.js`; senão ele só fica disponível sem internet a partir da segunda visita. Não é preciso mudar versão a cada publicação: cada resposta da rede atualiza a cópia.
 - **App instalável.** O `manifest.webmanifest` tem o nome, as cores, os ícones e as capturas de tela que aparecem na hora de instalar. O app abre com o celular em pé ou deitado.
 - **Ícones, prévia do link e capturas de tela** são gerados a partir de HTML: `assets/icon.html` (ícones do app e do navegador), `assets/og-image.html` (prévia do link, 1200 × 630) e o próprio site, num dia fixo (capturas). Depois de mudar o nome, a marca ou as cores, refaça tudo com `node assets/render.cjs` (ou só `icons`, `og` ou `shots`). Ele precisa do Playwright com um Chromium: na pasta do projeto, `npm i --no-save playwright-core` e `npx playwright-core install chromium` (ou aponte `PLAYWRIGHT_CORE` e `CHROMIUM` para os que você já tem).
@@ -146,7 +148,7 @@ O site funciona sem internet e pode ser instalado como app no celular e no compu
 
 Tudo que costuma mudar fica em `js/config.js`:
 
-- `CSV_URL`: de onde vem a agenda (arquivo local ou planilha publicada).
+- `AGENDA_DIR`: a pasta da agenda, um arquivo por mês (`data/agenda/`).
 - `COMMERCE_CSV_URL`: de onde vem o comércio (as respostas do formulário).
 - `COMMERCE_FORM_URL`: o link do formulário de cadastro, para o botão "Cadastrar meu negócio" (vazio esconde o convite).
 - `COMMERCE_CATEGORIES`: as categorias sugeridas, na ordem dos filtros.
@@ -195,6 +197,7 @@ assets/screenshots/ capturas de tela do app instalável
 fonts/              fontes hospedadas no próprio site: Bricolage Grotesque e Inter (o site e os panfletos); licenças em fonts/OFL-*.txt (a da Barlow fica pela marca, desenhada a partir dela)
 js/config.js        configurações (planilhas, nome, cidade, endereço do site, setores, feriados locais, nomes das organizações, categorias do comércio)
 js/page.js          o que as três páginas compartilham (cabeçalho, avisos, área de transferência, leitura das planilhas, modo sem internet)
+js/agenda-source.js lê a agenda mês a mês: o índice e só os meses que a página mostra
 js/sky.js           o céu desta hora e o tema claro ou escuro
 js/home.js          o Início
 js/app.js           carrega a agenda e liga a interface da agenda
@@ -205,9 +208,10 @@ js/month.js         o mês
 js/flyer.js         estilos de panfleto e exportação PNG
 js/save-menu.js     "Salvar na minha agenda" e "Salvar tudo na agenda": as opções de cada aparelho
 js/ics.js           a atividade como arquivo de agenda (.ics) e nos formulários do Google Agenda e do Outlook; a agenda inteira para assinar
-tools/agenda-ics.mjs  gera o agenda.ics a partir da planilha (--check: ele está em dia?)
+tools/agenda-data.mjs  confere os arquivos dos meses e gera o data/agenda/index.json (--check: tudo em dia?; --fix: põe cada linha no seu mês)
+tools/agenda-ics.mjs  gera o agenda.ics a partir de todos os meses (--check: ele está em dia?)
 agenda.ics          a agenda assinada por "Salvar tudo na agenda" (gerado: não edite à mão)
-.githooks/          refazem o agenda.ics a cada commit (ative com git config core.hooksPath .githooks)
+.githooks/          conferem os meses e refazem o index.json e o agenda.ics a cada commit (ative com git config core.hooksPath .githooks)
 js/whatsapp.js      montador das mensagens de WhatsApp (atividade e negócio)
 js/colors.js        cores dos setores
 js/holidays.js      feriados nacionais
@@ -215,7 +219,7 @@ js/icons.js         ícones, o desenho da marca NOS e os traços à mão
 js/csv.js           leitor de CSV
 js/events.js        normaliza linhas, datas e horários
 js/vendor/          html-to-image, que gera o PNG (licença ao lado)
-data/agenda.csv     a agenda provisória
+data/agenda/        a agenda: um arquivo por mês (AAAA-MM.csv), o sem-data.csv (rascunhos sem data) e o index.json (gerado)
 data/comercio.csv   as respostas do formulário de cadastro (26/10/2026), com a categoria
 design/             o design: uma página HTML por tela, agrupadas em design/designs.json
 ```
