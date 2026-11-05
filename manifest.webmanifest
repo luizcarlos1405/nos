@@ -2,7 +2,7 @@
   "id": "/nos-dourados",
   "name": "NOS Dourados",
   "short_name": "NOS Dourados",
-  "description": "A agenda das organizações e movimentos de Dourados/MS e o comércio da rede, em um só lugar, com mensagem e panfleto de cada atividade prontos para o WhatsApp.",
+  "description": "A agenda e as notícias das organizações e movimentos de Dourados/MS e o comércio da rede, em um só lugar, com mensagem e panfleto de cada atividade prontos para o WhatsApp.",
   "lang": "pt-BR",
   "dir": "ltr",
   "start_url": "./",
@@ -22,6 +22,12 @@
       "name": "Agenda",
       "description": "As atividades das organizações e movimentos de Dourados",
       "url": "agenda.html",
+      "icons": [{ "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Notícias",
+      "description": "O que as organizações e movimentos de Dourados estão vivendo",
+      "url": "noticias.html",
       "icons": [{ "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     },
     {

@@ -214,7 +214,7 @@ export function groupByShownDay(events, todayKey) {
   return byDay;
 }
 
-// The month before the ones read (js/agenda-source.js reads the agenda a month at a time), at the head
+// The month before the ones read (js/month-files.js reads the agenda a month at a time), at the head
 // of the past: "Ver atividades de setembro", "Carregando…", or a failure to try again. While it loads
 // it stays focusable (aria-disabled), so focus isn't lost.
 function renderOlder({ label, status }, onOlder) {

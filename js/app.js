@@ -1,5 +1,5 @@
 import { AGENDA_DIR } from './config.js';
-import { addMonths, firstDay, monthOf } from './agenda-source.js';
+import { addMonths, firstDay, monthOf } from './month-files.js';
 import { agendaSummary, awaitsTime, capitalize, dateKey, findNextEvent, formatDateRange, formatLongDate, formatLongDateRange, formatTimeRange, lastDayKey, matchKey, monthName, orgFullName } from './events.js';
 import { assignSectorColors, paintSector, sectorRank, sectorsOf } from './colors.js';
 import { buildWhatsAppMessage, previewHtml, whatsAppShareUrl } from './whatsapp.js';
@@ -32,7 +32,7 @@ const state = {
   focusDay: null, // the month grid's keyboard position
 };
 
-// The agenda's months (js/agenda-source.js): only the window read so far, from its first day on.
+// The agenda's months (js/month-files.js): only the window read so far, from its first day on.
 const agenda = agendaSource();
 
 const collator = new Intl.Collator('pt-BR', { sensitivity: 'base', numeric: true });

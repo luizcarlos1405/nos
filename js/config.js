@@ -3,8 +3,27 @@
 // Where the agenda is read from: a folder of the site with one CSV per month, AAAA-MM.csv, holding the
 // activities that start in that month (by "Dia"; drafts still without a date wait, hidden, in
 // sem-data.csv), and the index.json the pre-commit hook writes from them (tools/agenda-data.mjs). The
-// pages read only the months they show (js/agenda-source.js).
+// pages read only the months they show (js/month-files.js).
 export const AGENDA_DIR = 'data/agenda/';
+
+// Where the news (noticias.html) is read from: a folder like AGENDA_DIR, one CSV per month, AAAA-MM.csv,
+// with the news of that month (by "Data"; drafts still without a date wait, hidden, in sem-data.csv),
+// and its index.json, written by the same hook (tools/month-files.mjs). js/news.js reads the rows.
+export const NEWS_DIR = 'data/noticias/';
+
+// Every folder of month files the site has: the offline worker saves them (js/page.js registerWorker),
+// and the hook checks them and writes their index (tools/month-files.mjs, which also needs each one's
+// builder in tools/folders.mjs).
+export const MONTH_FOLDERS = [AGENDA_DIR, NEWS_DIR];
+
+// The kinds of news (the "Tipo" column), in the order of the chips, with the chips' plural. Another
+// kind written in the sheet still shows, its chip after these. Accents and case don't matter.
+export const NEWS_KINDS = [
+  { name: 'Conquista', plural: 'Conquistas' },
+  { name: 'Perda', plural: 'Perdas' },
+  { name: 'Alerta', plural: 'Alertas' },
+  { name: 'Informe', plural: 'Informes' },
+];
 
 // Where Comércio (comercio.html) reads the businesses from: the answers of the registration form,
 // as they are, copied into the file by the NOS team, plus an optional "Categoria" column they keep.
@@ -69,6 +88,9 @@ export const ORG_NAMES = {
   'UDAM': 'União Douradense de Associação de Moradores',
   'Aty Guasu': 'Grande Assembleia do Povo Guarani e Kaiowá',
   'UFGD': 'Universidade Federal da Grande Dourados',
+  'Kuñangue Aty Guasu': 'Grande Assembleia das Mulheres Kaiowá e Guarani',
+  'NEAB UFGD': 'Núcleo de Estudos Afro-Brasileiros da UFGD',
+  'DAC UFGD': 'Diretoria de Arte e Cultura da UFGD',
 };
 
 // Sector colours: each suggested "Setor" of the spreadsheet (the eight groups of the
