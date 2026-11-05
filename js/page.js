@@ -1,8 +1,9 @@
 // What the three pages share: Início (index.html, js/home.js), Agenda (agenda.html, js/app.js)
 // and Comércio (comercio.html, js/comercio.js). The header on the sky, small DOM helpers, notices,
-// reading a published sheet, and the offline worker.
+// reading the sheets (Comércio's, and the agenda's months), and the offline worker.
 
-import { APP_FULL_NAME, APP_NAME, CITY, COMMERCE_CSV_URL, CSV_URL } from './config.js';
+import { APP_FULL_NAME, APP_NAME, CITY, COMMERCE_CSV_URL } from './config.js';
+import { INDEX_FILE, agendaPath, createAgenda } from './agenda-source.js';
 import { decodeCSV, parseCSV } from './csv.js';
 import { formatShortDate, formatTime } from './events.js';
 import { brandMark, icon } from './icons.js';
@@ -112,22 +113,39 @@ async function fetchSheet(url) {
   }
 }
 
+const savedAtOf = (res) => {
+  const stamp = res.headers.get('X-Cached-At');
+  return stamp ? new Date(stamp) : null;
+};
+
 // Reads a sheet: { headers, records, lines } as parseCSV returns them, plus `savedAt`, the date of
 // the saved copy when the live sheet couldn't be reached (sw.js stamps its copies), else null.
 export async function readSheet(url) {
   const res = await fetchSheet(url);
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  const sheet = parseCSV(decodeCSV(await res.arrayBuffer()));
-  const stamp = res.headers.get('X-Cached-At');
-  return { ...sheet, savedAt: stamp ? new Date(stamp) : null };
+  if (!res.ok) throw new Error(`${url}: HTTP ${res.status}`);
+  return { ...parseCSV(decodeCSV(await res.arrayBuffer())), savedAt: savedAtOf(res) };
 }
+
+// Reads a JSON file the same way: { data, savedAt }.
+export async function readJSON(url) {
+  const res = await fetchSheet(url);
+  if (!res.ok) throw new Error(`${url}: HTTP ${res.status}`);
+  return { data: await res.json(), savedAt: savedAtOf(res) };
+}
+
+// The agenda of AGENDA_DIR, read a month at a time (js/agenda-source.js), with the readers above.
+export const agendaSource = () => createAgenda({
+  readIndex: () => readJSON(agendaPath(INDEX_FILE)),
+  readMonth: (file) => readSheet(agendaPath(file)),
+});
 
 // ---------- Offline ----------
 
 // Offline support (sw.js). The sheets' addresses go in the query string so the worker can save them
-// too. Every page registers the same address: a different one would replace the worker each time.
+// too: Comércio's sheet (`csv`) and the agenda's folder (`dir`, every file in it). Every page registers
+// the same address: a different one would replace the worker each time.
 export function registerWorker() {
   if (!('serviceWorker' in navigator) || location.protocol === 'file:') return;
-  const query = [CSV_URL, COMMERCE_CSV_URL].map((url) => `csv=${encodeURIComponent(url)}`).join('&');
+  const query = `csv=${encodeURIComponent(COMMERCE_CSV_URL)}&dir=${encodeURIComponent(agendaPath(''))}`;
   navigator.serviceWorker.register(`sw.js?${query}`).catch((err) => console.warn('Service worker:', err));
 }

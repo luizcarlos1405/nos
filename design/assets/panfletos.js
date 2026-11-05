@@ -1,5 +1,5 @@
-// The activities the flyer artboards (design/panfleto-*.html) are drawn with: real rows of
-// data/agenda.csv, copied here so the designs don't change when the sheet does, and read by the
+// The activities the flyer artboards (design/panfleto-*.html) are drawn with: real rows of the
+// agenda (data/agenda/), copied here so the designs don't change when the agenda does, and read by the
 // site's own code (js/csv.js, js/events.js), so they are what the agenda would show. Each artboard
 // draws its flyer with js/flyer.js; ?atividade=<key> picks the activity, and with it the sky of its
 // hour: caminhada and eleicao (no time: the day's sky), feira (a holiday, no time), oficina (8h,

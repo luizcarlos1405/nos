@@ -214,7 +214,28 @@ export function groupByShownDay(events, todayKey) {
   return byDay;
 }
 
-export function renderAgenda(container, { events, today, nextId, selectedId, showPast, filtered, onSelect, onSave, onTogglePast, onClearFilters, filterLabel }) {
+// The month before the ones read (js/agenda-source.js reads the agenda a month at a time), at the head
+// of the past: "Ver atividades de setembro", "Carregando…", or a failure to try again. While it loads
+// it stays focusable (aria-disabled), so focus isn't lost.
+function renderOlder({ label, status }, onOlder) {
+  const button = el('button', 'past-toggle past-more');
+  button.type = 'button';
+  button.dataset.focus = 'past-more';
+  if (status === 'loading') {
+    button.setAttribute('aria-disabled', 'true');
+    button.innerHTML = `${icon('history')}<span>Carregando as atividades de ${label}…</span>`;
+  } else if (status === 'failed') {
+    button.innerHTML = `${icon('alert')}<span>Não deu para carregar ${label}. Tentar de novo</span>`;
+  } else {
+    button.innerHTML = `${icon('history')}<span>Ver atividades de ${label}</span>`;
+  }
+  button.addEventListener('click', () => {
+    if (status !== 'loading') onOlder();
+  });
+  return button;
+}
+
+export function renderAgenda(container, { events, today, nextId, selectedId, showPast, filtered, onSelect, onSave, onTogglePast, onClearFilters, filterLabel, older = null, onOlder }) {
   container.replaceChildren(el('h2', 'sr-only', 'Lista de atividades'));
   const todayKey = dateKey(today);
   const upcoming = events.filter((ev) => lastDayKey(ev) >= todayKey);
@@ -222,26 +243,29 @@ export function renderAgenda(container, { events, today, nextId, selectedId, sho
 
   // With a filter on and nothing ahead, say so (and offer the past itself).
   if (filtered && !upcoming.length && !showPast) {
-    container.append(renderEmpty({ past, today, filterLabel, onTogglePast: past.length ? onTogglePast : null, onClearFilters }));
+    container.append(renderEmpty({ past, today, filterLabel, onTogglePast: past.length || older ? onTogglePast : null, onClearFilters }));
     return;
   }
 
   // With a filter on, say how many activities it leaves ahead.
   if (filtered) container.append(el('p', 'result-count', upcomingLabel(upcoming.length)));
 
-  if (past.length) {
+  // The past read so far; with nothing read behind today but older months in the agenda, the toggle
+  // goes to get them.
+  if (past.length || older) {
     const toggle = el('button', 'past-toggle');
     toggle.type = 'button';
     toggle.id = 'past-toggle';
     toggle.dataset.focus = 'past-toggle';
     toggle.setAttribute('aria-expanded', String(showPast));
-    const count = `${past.length} ${past.length === 1 ? 'atividade anterior' : 'atividades anteriores'}`;
+    const count = past.length ? `${past.length} ${past.length === 1 ? 'atividade anterior' : 'atividades anteriores'}` : 'atividades anteriores';
     toggle.innerHTML = `${icon(showPast ? 'down' : 'up')}<span>${showPast ? 'Ocultar' : 'Ver'} ${count}</span>`;
     toggle.addEventListener('click', onTogglePast);
     container.append(toggle);
   }
 
   const days = el('div', 'days');
+  if (showPast && older) days.append(renderOlder(older, onOlder));
   const byDay = groupByShownDay(showPast ? events : upcoming, todayKey);
   const keys = new Set(byDay.keys());
   keys.add(todayKey);

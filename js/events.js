@@ -44,7 +44,8 @@ export function matchKey(text) {
   return normalizeKey(text || '').replace(/[^a-z0-9]+/g, ' ').trim();
 }
 
-function buildColumnMap(headers) {
+// Which header holds each field ({ title: 'Título', day: 'Dia', … }), by COLUMN_ALIASES.
+export function buildColumnMap(headers) {
   const map = {};
   for (const header of headers) {
     const key = normalizeKey(header);

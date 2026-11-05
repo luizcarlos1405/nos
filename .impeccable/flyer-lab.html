@@ -53,6 +53,7 @@
 
   <script type="module">
     import { decodeCSV, parseCSV } from '../js/csv.js';
+    import { INDEX_FILE, agendaPath, indexMonths, mergeEvents, monthFile } from '../js/agenda-source.js';
     import { buildEvents, dateKey, normalizeKey } from '../js/events.js';
     import { assignSectorColors } from '../js/colors.js';
     import { SECTOR_SERIES } from '../js/config.js';
@@ -383,9 +384,13 @@
     }
 
     async function main() {
-      const res = await fetch('../data/agenda.csv', { cache: 'no-store' });
-      const { headers, records } = parseCSV(decodeCSV(await res.arrayBuffer()));
-      const { events } = buildEvents(headers, records);
+      // Every month of the agenda (js/agenda-source.js): the lab uses real activities, past ones too.
+      const read = (file) => fetch(`../${agendaPath(file)}`, { cache: 'no-store' });
+      const months = indexMonths(await (await read(INDEX_FILE)).json());
+      const events = mergeEvents(await Promise.all(months.map(async ({ month }) => {
+        const { headers, records } = parseCSV(decodeCSV(await (await read(monthFile(month))).arrayBuffer()));
+        return buildEvents(headers, records).events;
+      })));
       assignSectorColors(sectorsOf(events));
 
       const byTitle = (title) => events.find((ev) => ev.title === title);

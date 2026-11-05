@@ -20,12 +20,16 @@ function absolute(url) {
   }
 }
 
-// The spreadsheets' CSVs can live on another origin. Every page passes them in the query string
-// (registerWorker in js/page.js: CSV_URL, the agenda, and COMMERCE_CSV_URL, the businesses, both
-// from js/config.js, maybe relative like 'data/agenda.csv'). Request URLs are absolute, so these are too.
-const CSV_URLS = new URL(location.href).searchParams.getAll('csv').map(absolute).filter(Boolean);
+// The sheets. Every page passes them in the query string (registerWorker in js/page.js, from
+// js/config.js): `csv`, a CSV that can live on another origin (COMMERCE_CSV_URL, the businesses), and
+// `dir`, a folder whose every file is a sheet (AGENDA_DIR, the agenda: index.json and one CSV per month,
+// js/agenda-source.js). They may be relative, like 'data/agenda/'; request URLs are absolute, so these
+// are too.
+const params = new URL(location.href).searchParams;
+const CSV_URLS = params.getAll('csv').map(absolute).filter(Boolean);
+const SHEET_DIRS = params.getAll('dir').map(absolute).filter((dir) => dir && dir.endsWith('/'));
 
-// Set on saved CSV copies so the page can tell it's showing saved (possibly stale) data.
+// Set on saved sheet copies so the page can tell it's showing saved (possibly stale) data.
 const CACHED_AT_HEADER = 'X-Cached-At';
 
 // The saved home page: what an address of the app's folder that was never saved falls back to offline.
@@ -59,6 +63,7 @@ const SHELL = [
   'css/flyers.css',
   'js/app.js',
   'js/agenda.js',
+  'js/agenda-source.js',
   'js/businesses.js',
   'js/colors.js',
   'js/comercio.js',
@@ -80,7 +85,11 @@ const SHELL = [
   'fonts/inter.woff2',
 ];
 
-const isCSV = (url) => CSV_URLS.includes(absolute(url));
+const inSheetDir = (url) => SHEET_DIRS.some((dir) => url.startsWith(dir));
+const isSheet = (url) => {
+  const key = absolute(url);
+  return Boolean(key) && (CSV_URLS.includes(key) || inSheetDir(key));
+};
 
 // Cacheable = a complete, successful, readable response.
 const cacheable = (res) => res.ok && res.status !== 206 && (res.type === 'basic' || res.type === 'cors');
@@ -100,13 +109,13 @@ function keyFor(request) {
 }
 
 // Store a copy. A redirected response is saved as a plain one (a page refuses to be answered with a
-// redirected response, which the install's fetch of './' can get from some hosts), and CSV copies get
+// redirected response, which the install's fetch of './' can get from some hosts), and sheet copies get
 // stamped with the time they were saved.
 async function store(cache, key, res) {
-  const csv = isCSV(key);
-  if (!csv && !res.redirected) return cache.put(key, res);
+  const sheet = isSheet(key);
+  if (!sheet && !res.redirected) return cache.put(key, res);
   const headers = new Headers(res.headers);
-  if (csv) {
+  if (sheet) {
     headers.set(CACHED_AT_HEADER, new Date().toISOString());
     // For a CSV on another origin, browsers that apply CORS rules to the copy still let the page read the stamp.
     headers.set('Access-Control-Expose-Headers', CACHED_AT_HEADER);
@@ -115,21 +124,43 @@ async function store(cache, key, res) {
   return cache.put(key, new Response(body, { status: res.status, statusText: res.statusText, headers }));
 }
 
+// Saves one file for the install. Best effort: one missing file must not keep the worker from
+// installing, and what can't be fetched now keeps the copy an earlier worker saved under the same cache
+// name, if any. Returns the response saved (a copy), or null.
+async function save(cache, url) {
+  try {
+    const res = await fetch(url, { cache: 'no-cache', mode: isSheet(url) ? 'cors' : 'same-origin' });
+    if (!cacheable(res)) throw new Error(`HTTP ${res.status}`);
+    const copy = res.clone();
+    await store(cache, url, res);
+    return copy;
+  } catch (err) {
+    console.warn('[sw] could not save', url, err);
+    return null;
+  }
+}
+
+// The agenda's months the agenda page opens with, so the first visit already works offline: its
+// index.json, then every month whose activities reach the 1st of last month (js/app.js opens there;
+// js/agenda-source.js explains the index; the home needs less, from today on).
+async function saveAgenda(cache, dir) {
+  const res = await save(cache, new URL('index.json', dir).href);
+  const months = res ? await res.json().then((data) => data?.months, () => null) : null;
+  if (!Array.isArray(months)) return;
+  const now = new Date();
+  const from = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+  const first = `${from.getFullYear()}-${String(from.getMonth() + 1).padStart(2, '0')}-01`;
+  const wanted = months.filter((entry) => /^\d{4}-\d{2}$/.test(entry?.month) && typeof entry.until === 'string' && entry.until >= first);
+  await Promise.all(wanted.map((entry) => save(cache, new URL(`${entry.month}.csv`, dir).href)));
+}
+
 self.addEventListener('install', (event) => {
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE);
-    // Best effort: one missing file must not keep the worker from installing. What can't be fetched
-    // now keeps the copy an earlier worker saved under the same cache name, if any.
-    const urls = [...SHELL.map(absolute), ...CSV_URLS];
-    await Promise.all(urls.map(async (url) => {
-      try {
-        const res = await fetch(url, { cache: 'no-cache', mode: isCSV(url) ? 'cors' : 'same-origin' });
-        if (!cacheable(res)) throw new Error(`HTTP ${res.status}`);
-        await store(cache, url, res);
-      } catch (err) {
-        console.warn('[sw] could not save', url, err);
-      }
-    }));
+    await Promise.all([
+      ...[...SHELL.map(absolute), ...CSV_URLS].map((url) => save(cache, url)),
+      ...SHEET_DIRS.map((dir) => saveAgenda(cache, dir)),
+    ]);
     await self.skipWaiting();
   })());
 });
@@ -138,11 +169,12 @@ self.addEventListener('activate', (event) => {
   event.waitUntil((async () => {
     const keys = await caches.keys();
     await Promise.all(keys.filter((key) => key.startsWith(CACHE_PREFIX) && key !== CACHE).map((key) => caches.delete(key)));
-    // The cache keeps only what this worker lists: copies of files a deploy removed, or of a
-    // spreadsheet the site no longer reads, go.
+    // The cache keeps only what this worker lists, and the agenda's months read so far: copies of
+    // files a deploy removed, or of a spreadsheet the site no longer reads (data/agenda.csv, before the
+    // agenda was a month per file), go.
     const cache = await caches.open(CACHE);
     const keep = new Set([...SHELL.map(absolute), ...CSV_URLS]);
-    await Promise.all((await cache.keys()).filter((req) => !keep.has(req.url)).map((req) => cache.delete(req)));
+    await Promise.all((await cache.keys()).filter((req) => !keep.has(req.url) && !inSheetDir(req.url)).map((req) => cache.delete(req)));
     await self.clients.claim();
   })());
 });
@@ -153,7 +185,7 @@ self.addEventListener('fetch', (event) => {
   if (request.method !== 'GET' || request.headers.has('range')) return;
   const url = new URL(request.url);
   const sameOrigin = url.origin === location.origin;
-  if (!sameOrigin && !isCSV(request.url)) return;
+  if (!sameOrigin && !isSheet(request.url)) return;
   if (sameOrigin && url.pathname === location.pathname) return; // never serve sw.js itself
   event.respondWith(networkFirst(event, request));
 });

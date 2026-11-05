@@ -16,6 +16,13 @@ const MAX_ITEMS = 3;
 
 export const addDays = (date, n) => new Date(date.getFullYear(), date.getMonth(), date.getDate() + n);
 
+// The first day on the month's page: the Sunday of its first week (a grey day of the month before,
+// unless the 1st is a Sunday).
+export function monthGridStart(year, month) {
+  const first = new Date(year, month, 1);
+  return addDays(first, -first.getDay());
+}
+
 // The bars of one week: each multi-day activity clipped to the week, placed in the first free lane.
 function weekBars(events, weekStart) {
   const startKey = dateKey(weekStart);
@@ -77,7 +84,27 @@ const navButton = (iconName, label, focus, onClick) => {
   return button;
 };
 
-export function renderMonth(container, { year, month, events, today, selectedDay, focusDay, selectedId, nextId, onPrev, onNext, onToday, onDay, onMove, onSelect, onSave }) {
+// The month's own activities still on their way (a month before the ones read), or not read (no
+// connection): a line under the grid, in place of the chosen day.
+function renderStatus(status, month, onRetry) {
+  const box = el('div', 'empty-card month-status');
+  if (status === 'loading') {
+    box.innerHTML = icon('history');
+    box.append(el('span', null, `Carregando as atividades de ${monthName(month)}…`));
+  } else {
+    box.innerHTML = icon('alert');
+    box.append(el('span', null, `Não deu para carregar as atividades de ${monthName(month)}. Confira a conexão.`));
+    const retry = el('button', 'btn-text', 'Tentar de novo');
+    retry.type = 'button';
+    retry.dataset.focus = 'month:retry';
+    retry.addEventListener('click', onRetry);
+    box.append(retry);
+  }
+  return box;
+}
+
+// `status`: 'ready', or 'loading'/'failed' while the month's own days aren't read (renderStatus).
+export function renderMonth(container, { year, month, events, today, selectedDay, focusDay, selectedId, nextId, onPrev, onNext, onToday, onDay, onMove, onSelect, onSave, status = 'ready', onRetry }) {
   container.replaceChildren();
   const todayKey = dateKey(today);
 
@@ -110,7 +137,7 @@ export function renderMonth(container, { year, month, events, today, selectedDay
   }
 
   const first = new Date(year, month, 1);
-  const gridStart = addDays(first, -first.getDay()); // Sunday first
+  const gridStart = monthGridStart(year, month); // Sunday first
   const weeks = Math.ceil((first.getDay() + new Date(year, month + 1, 0).getDate()) / 7);
   const gridKeys = new Set(Array.from({ length: weeks * 7 }, (_, i) => dateKey(addDays(gridStart, i))));
   // The grid's one tab stop: the day being moved to, else the picked day, today or the 1st.
@@ -214,8 +241,11 @@ export function renderMonth(container, { year, month, events, today, selectedDay
   page.append(grid);
   container.append(page);
 
-  // The chosen day, listed under the month, when that day is on this month's page.
-  if (selectedDay && inMonth(selectedDay)) {
+  if (status !== 'ready') {
+    grid.setAttribute('aria-busy', String(status === 'loading'));
+    container.append(renderStatus(status, month, onRetry));
+  } else if (selectedDay && inMonth(selectedDay)) {
+    // The chosen day, listed under the month, when that day is on this month's page.
     const day = renderDay(selectedDay, byDay.get(selectedDay) || [], { today, nextId, selectedId, onSelect, onSave });
     day.classList.add('month-day');
     container.append(day);

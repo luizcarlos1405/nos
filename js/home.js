@@ -1,21 +1,24 @@
 // Início (index.html): the greeting of this hour on the sky, the next activity resting on the band
 // (its date circled by hand, a link to send it to WhatsApp and, from 760px, "Ver na agenda" and what
 // else comes), then a door to each page. The agenda's door says how much is ahead; Comércio's how
-// many businesses there are. Without the agenda's sheet (offline with nothing saved, a broken link)
-// the card says so and the doors stay.
+// many businesses there are. Without the agenda (offline with nothing saved, a broken link) the card
+// says so and the doors stay.
 
-import { COMMERCE_CSV_URL, CSV_URL } from './config.js';
-import { agendaSummary, awaitsTime, buildEvents, capitalize, dateKey, formatDayMonth, formatTimeRange, lastDayKey, monthName, orgFullName, relativeDay, upcomingEvents, weekdayName } from './events.js';
+import { COMMERCE_CSV_URL } from './config.js';
+import { agendaSummary, awaitsTime, capitalize, dateKey, formatDayMonth, formatTimeRange, lastDayKey, monthName, orgFullName, relativeDay, upcomingEvents, weekdayName } from './events.js';
 import { assignSectorColors, paintSector, sectorsOf } from './colors.js';
 import { buildBusinesses } from './businesses.js';
 import { placeRow } from './agenda.js';
 import { handMark, icon } from './icons.js';
 import { greeting } from './sky.js';
 import { buildWhatsAppMessage, whatsAppShareUrl } from './whatsapp.js';
-import { $, el, initPage, readSheet, registerWorker } from './page.js';
+import { $, agendaSource, el, initPage, readSheet, registerWorker } from './page.js';
 
 // What else comes, under the next one (from 760px).
 const LATER_COUNT = 3;
+
+// The agenda's months (js/agenda-source.js): only those with something from today on.
+const agenda = agendaSource();
 
 let today = new Date();
 let events = null;
@@ -159,8 +162,10 @@ function render() {
 
 async function load() {
   try {
-    const { headers, records, lines } = await readSheet(CSV_URL);
-    events = buildEvents(headers, records, lines).events;
+    // What is ahead: the months with an activity from today on. Later reads read them again.
+    if (events) await agenda.refresh(dateKey(today));
+    else await agenda.open(dateKey(today));
+    events = agenda.events;
     assignSectorColors(sectorsOf(events));
     render();
   } catch (err) {
