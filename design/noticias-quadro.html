@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="pt-BR" data-scheme="light" data-sky="day">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Notícias · Quadro</title>
+<meta name="description" content="A proposta da página Notícias em palavras: o que vira notícia, o que cada uma tem, de onde vem e como escrevemos.">
+<meta name="htmlboard" content="width=1200, height=1855">
+<link rel="stylesheet" href="../css/theme.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="assets/noticias.css">
+<link rel="stylesheet" href="assets/design.css">
+<style>
+/* The proposal on one board: what becomes news, what a story holds, where it comes from and how it is
+   written, and the page's colour. The screens are the artboards beside it. */
+.board { width: 1200px; padding: 56px 64px 64px; background: var(--color-clay); color: var(--color-ink); }
+.board h1 { margin: 0; font: 800 3rem/1.05 var(--font-display); letter-spacing: -0.03em; }
+.board .lead { max-width: 64ch; margin: 14px 0 0; font-size: 1.125rem; line-height: 1.5; color: var(--color-ink-soft); }
+.board h2 { margin: 0 0 14px; font: 750 1.5rem/1.15 var(--font-display); letter-spacing: -0.02em; }
+.box { padding: 26px 28px 24px; border-radius: var(--radius-card); background: var(--color-clay-card); box-shadow: 0 1px 2px color-mix(in srgb, var(--color-earth-shadow) 8%, transparent), 0 6px 16px color-mix(in srgb, var(--color-earth-shadow) 7%, transparent); }
+.kinds { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 36px; }
+.kind { display: flex; flex-direction: column; gap: 10px; padding: 22px 22px 20px; border-radius: var(--radius-card); background: var(--color-clay-card); box-shadow: 0 1px 2px color-mix(in srgb, var(--color-earth-shadow) 8%, transparent), 0 6px 16px color-mix(in srgb, var(--color-earth-shadow) 7%, transparent); }
+.kind .tag { height: 26px; padding: 0 10px; font-size: 0.9375rem; }
+.kind-text { font-size: 0.9375rem; line-height: 1.5; }
+.kind-ex { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--color-clay-line); font: 700 1rem/1.3 var(--font-display); letter-spacing: -0.01em; }
+.kind-ex span { display: block; margin-top: 6px; font: 400 0.8125rem/1.4 var(--font-ui); color: var(--color-ink-soft); }
+.cols { display: grid; grid-template-columns: 1.05fr 1fr; gap: 24px; margin-top: 24px; }
+.rows { margin: 0; padding: 0; list-style: none; }
+.rows li { display: grid; grid-template-columns: 9.5rem 1fr; gap: 14px; padding: 9px 0; border-top: 1px solid var(--color-clay-line); font-size: 0.9375rem; line-height: 1.45; }
+.rows li:first-child { border-top: 0; }
+.rows b { font-weight: 600; }
+.box .note { margin: 14px 0 0; font-size: 0.875rem; line-height: 1.5; color: var(--color-ink-soft); }
+.flow { margin: 0; padding: 0; list-style: none; counter-reset: step; }
+.step { position: relative; display: grid; grid-template-columns: 6.25rem 1fr; column-gap: 14px; padding: 10px 0; border-top: 1px solid var(--color-clay-line); font-size: 0.9375rem; line-height: 1.45; }
+.step:first-child { border-top: 0; }
+.step b { grid-column: 2; font-weight: 600; }
+.step > span:last-child { grid-column: 2; }
+.step .who { grid-row: 1 / span 2; align-self: start; justify-self: start; padding: 2px 10px; border-radius: var(--radius-pill); background: var(--color-clay-fill); font-size: 0.8125rem; font-weight: 600; }
+.step.is-equipe .who { background: var(--color-ipe-amarelo-tint); color: var(--color-ink); }
+.board code { font-size: 0.85em; }
+.rules { margin: 0; padding-left: 18px; font-size: 0.9375rem; line-height: 1.5; }
+.rules li + li { margin-top: 6px; }
+.rules li::marker { color: var(--color-ink-soft); }
+.colour { display: grid; grid-template-columns: 1fr 1.2fr; gap: 28px; align-items: center; }
+.colour p { font-size: 0.9375rem; line-height: 1.5; }
+.swatches { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 20px; }
+.swatch { display: grid; grid-template-columns: 40px 1fr; column-gap: 12px; align-items: center; }
+.swatch .chip-color { grid-row: 1 / span 2; width: 40px; height: 40px; border-radius: 50%; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-ink) 12%, transparent); }
+.swatch b { font-size: 0.9375rem; font-weight: 600; }
+.swatch span:last-child { font-size: 0.8125rem; color: var(--color-ink-soft); font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<!-- Notícias: the proposal of 05/11/2026 in words. The screens are the artboards beside it (the list and a
+     story open on a phone, the desk, and Início with the third door). The examples are real news from the
+     Instagram survey (../coleta-instagram/), each with its source post. -->
+<div class="board">
+  <h1>Notícias</h1>
+  <p class="lead">Uma página nova: o que as organizações de Dourados estão vivendo, escolhido pela equipe do NOS nos posts delas, com o link de cada post. Conquistas, perdas, alertas e informes, prontos para mandar no WhatsApp.</p>
+
+  <div class="kinds">
+      <div class="kind">
+        <p class="kind-name"><span class="tag">Conquista</span></p>
+        <p class="kind-text">O que a organização conquistou: uma reivindicação atendida, uma eleição, um direito ou um recurso garantido.</p>
+        <p class="kind-ex">“DCE UFGD consegue suspensão das aulas para estudantes votarem em suas cidades”<span>DCE UFGD, qui, 22/10</span></p>
+      </div>
+      <div class="kind">
+        <p class="kind-name"><span class="tag">Perda</span></p>
+        <p class="kind-text">O que ela perdeu ou sofreu: uma derrota, um corte, um fechamento, um despejo, uma violência.</p>
+        <p class="kind-ex">“Teia dos Povos lamenta a morte de sete Guarani em acidente na MS-180, em Iguatemi”<span>Teia dos Povos, sex, 14/08</span></p>
+      </div>
+      <div class="kind">
+        <p class="kind-name"><span class="tag">Alerta</span></p>
+        <p class="kind-text">Uma ameaça ou um risco que ela denuncia: um projeto, uma decisão, uma perseguição.</p>
+        <p class="kind-ex">“Aty Guasu e APIB denunciam onda de violência contra Guarani e Kaiowá depois da eleição”<span>Aty Guasu, qua, 28/10</span></p>
+      </div>
+      <div class="kind">
+        <p class="kind-name"><span class="tag">Informe</span></p>
+        <p class="kind-text">Um fato importante que não é vitória nem derrota: uma eleição marcada, uma direção nova, uma consulta pública.</p>
+        <p class="kind-ex">“NEAB/UFGD elege nova coordenação e anuncia os 20 anos do núcleo, em 2027”<span>NEAB UFGD, seg, 26/10</span></p>
+      </div>
+  </div>
+
+  <div class="cols">
+    <section class="box">
+      <h2>O que cada notícia tem</h2>
+      <ul class="rows"><li><b>Título</b><span>A manchete, escrita pela equipe: quem e o quê, em palavras simples.</span></li><li><b>Data</b><span>O dia do fato (ou do post, quando o fato não tem dia): dd/mm/aaaa.</span></li><li><b>Tipo</b><span>Conquista, Perda, Alerta ou Informe.</span></li><li><b>Organização</b><span>Quem viveu a notícia; mais de uma separadas por vírgula, a principal primeiro.</span></li><li><b>Setor</b><span>O grupo da organização (as oito cores da agenda).</span></li><li><b>Resumo</b><span>Uma ou duas frases: o cartão e a mensagem do WhatsApp.</span></li><li><b>Texto</b><span>Dois a quatro parágrafos curtos, com o que a organização disse atribuído a ela.</span></li><li><b>Fonte</b><span>O link do post de onde veio (o mesmo cuidado da agenda).</span></li><li><b>Atividade</b><span>Uma atividade da agenda ligada à notícia, se houver: aparece como “Na agenda”.</span></li><li><b>Destaque</b><span>Marcada, a notícia abre a página, maior.</span></li><li><b>Visível · Notas internas</b><span>Como na agenda: rascunho oculto, e as anotações da equipe.</span></li></ul>
+      <p class="note">As notícias ficam em <code>data/noticias/</code>, um arquivo por mês pela Data (como a agenda), e o commit confere cada linha.</p>
+    </section>
+    <div style="display: grid; gap: 24px; align-content: start;">
+      <section class="box">
+        <h2>De onde vêm</h2>
+        <ol class="flow"><li class="step is-automático"><span class="who">Automático</span><b>Ler os posts</b><span><code>ig.py checkup</code> já lê as legendas e o texto das imagens de cada perfil.</span></li><li class="step is-automático"><span class="who">Automático</span><b>Separar as candidatas</b><span>Ao atualizar os relatórios, o agente marca o que é notícia e grava as candidatas, cada uma com o post, em <code>checkup/&lt;dia&gt;/noticias/</code>.</span></li><li class="step is-equipe"><span class="who">Equipe</span><b>Escolher</b><span>Uma lista curta para marcar o que entra e acertar as manchetes. A escolha é de gente.</span></li><li class="step is-automático"><span class="who">Automático</span><b>Gravar e conferir</b><span>Um script grava as escolhidas em <code>data/noticias/AAAA-MM.csv</code> (um arquivo por mês, como a agenda); o commit confere os arquivos.</span></li><li class="step is-equipe"><span class="who">Equipe</span><b>Publicar</b><span>O push publica, como hoje.</span></li></ol>
+      </section>
+      <section class="box">
+        <h2>Como escrevemos</h2>
+        <ul class="rules"><li>Toda notícia vem de um post da organização, com o link junto. Nada suposto nem inventado.</li><li>O que é denúncia ou opinião vai atribuído: “segundo o SIMTED…”, “a Kuñangue denuncia…”.</li><li>Manchete simples: quem e o quê. Siglas com o nome por extenso, como na agenda.</li><li>Perdas e violência com respeito: sem sensacionalismo, nomes de vítimas só como a organização publicou.</li><li>Sem fotos nem logos das organizações: o site não usa imagens de terceiros; o post é o lugar delas.</li><li>Se uma organização pedir correção, a notícia é corrigida e a mudança fica em Notas internas.</li></ul>
+      </section>
+    </div>
+  </div>
+
+  <section class="box colour" style="margin-top: 24px;">
+    <div>
+      <h2>A cor da página: ipê-amarelo</h2>
+      <p>A Agenda é urucum, o Comércio ipê-rosa; as Notícias, o ipê-amarelo, que floresce na seca. Como nas outras páginas, a cor só aparece na porta do Início e nos ícones; o resto é a terra e o céu de sempre. Na barra do celular, Notícias entra entre Agenda e Comércio.</p>
+    </div>
+    <div class="swatches">
+        <div class="swatch"><span class="chip-color" style="background: var(--color-ipe-amarelo-tint)"></span><b>Porta, de dia</b><span>#F6DE9C · tinta 13,2:1</span></div>
+        <div class="swatch"><span class="chip-color" style="background: var(--color-ipe-amarelo-text)"></span><b>Ícones e texto</b><span>#7A5500 · 6,5:1 no cartão</span></div>
+        <div class="swatch"><span class="chip-color" style="background: var(--color-ipe-amarelo-night-tint)"></span><b>Porta, à noite</b><span>#413010 · texto 10,8:1</span></div>
+        <div class="swatch"><span class="chip-color" style="background: var(--color-ipe-amarelo-night)"></span><b>Ícones à noite</b><span>#F2C14E · 7,6:1 na porta</span></div>
+    </div>
+  </section>
+</div>
+</body>
+</html>
