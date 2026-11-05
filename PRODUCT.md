@@ -22,12 +22,13 @@ Two audiences, both phone-first:
 
 NOS Dourados (NOS = Núcleo de Organização Social; provisional name) is one permanent calendar of the activities of many organizations in Dourados/MS: assemblies, acts, plenaries, fairs, parties, trainings, deadlines. Each organization announces on its own channels (mostly Instagram); NOS gathers them in one place and turns any activity into ready-to-share material: a formatted WhatsApp message and a PNG flyer.
 
-Since 2026-10-26 the site has three pages: **Início** (`index.html`), the greeting of this hour, the next activity and a door to each page; **Agenda** (`agenda.html`; called Calendário and served at `calendario.html` until 2026-10-27, an address that now forwards to `agenda.html`), the calendar above, as a list of days or a month; and **Comércio** (`comercio.html`), the businesses that answered the network's registration form, A to Z, each with what it offers and its WhatsApp, phone, Instagram and links, and a ready message to recommend it in a WhatsApp group ("Indicar no WhatsApp"). Comércio was paused ("Em breve") from 2026-10-27 to 2026-10-28 while the businesses were collected and organized.
+The site has four pages (three since 2026-10-26, Notícias since 2026-11-05): **Início** (`index.html`), the greeting of this hour, the next activity and a door to each page; **Agenda** (`agenda.html`; called Calendário and served at `calendario.html` until 2026-10-27, an address that now forwards to `agenda.html`), the calendar above, as a list of days or a month; **Notícias** (`noticias.html`), what the organizations are living (wins, losses, alerts and reports, public-service alerts too), picked by the NOS team from their posts, each story with its source post, ready to send to WhatsApp; and **Comércio** (`comercio.html`), the businesses that answered the network's registration form, A to Z, each with what it offers and its WhatsApp, phone, Instagram and links, and a ready message to recommend it in a WhatsApp group ("Indicar no WhatsApp"). Comércio was paused ("Em breve") from 2026-10-27 to 2026-10-28 while the businesses were collected and organized.
 
 Success:
 - an activist goes from "what's on?" to "sent to my group" in a couple of taps;
 - someone from the city finds an activity, understands who organizes it, what it is and where it happens, and shows up;
-- someone looking for a cake, an electrician or a phone repair finds a business of the network and opens the conversation on WhatsApp in one tap.
+- someone looking for a cake, an electrician or a phone repair finds a business of the network and opens the conversation on WhatsApp in one tap;
+- someone from the network or the city learns what the organizations won, lost or are warning about, sees where it came from, and passes it on.
 
 ## Positioning
 
@@ -51,7 +52,8 @@ Not one movement's agenda: the shared calendar of many organizations in one city
 - Per activity: WhatsApp message (copy, open in WhatsApp via `wa.me`) and 1080×1350 PNG flyer in NOS styles; cancelled activities get a cancellation notice.
 - Saving to the person's own calendar (since 2026-10-31): one activity ("Salvar na minha agenda": Google Agenda's filled-in form, the iPhone's own calendar, Outlook or an .ics file, the device's likely calendar first) or the whole agenda ("Salvar tudo na agenda": a subscription to the published `agenda.ics`, which keeps itself up to date and never duplicates itself). The site can't see anyone's calendar: it fills the entry in and the person confirms. Google allows subscriptions only from a computer; an iPhone opens calendars only from Safari.
 - Comércio: search (every word typed, accents and case aside), category chips, a heading per letter; per business: its name, what it offers, its city when outside Dourados, WhatsApp (mobile numbers) with a call button, phone, Instagram, links (Google, Facebook, TikTok, site) and its own words where the form's free text can't be turned into a link; and "Indicar no WhatsApp". The form answers are free text: the site reads numbers, handles and links out of them and shows the rest as written, never inventing what is missing.
-- Navigation: one HTML file per page (Início, Agenda, Comércio), linked from the header on the sky (a bar along the foot of the screen on phones); it works on any static host (GitHub Pages). Only pages that exist get a link.
+- Notícias: one file per month in `data/noticias/` (like the agenda), each story with its headline (written by the team), day, kind (Conquista, Perda, Alerta, Informe), organizations, summary, story, source post and, when it has one, its activity in the agenda; the story the team leads with, then the weeks; filters by organization and kind; the last three months first, older ones on asking. Claims are attributed to whoever made them, and nothing goes in without its post.
+- Navigation: one HTML file per page (Início, Agenda, Notícias, Comércio), linked from the header on the sky (a bar along the foot of the screen on phones); it works on any static host (GitHub Pages). Only pages that exist get a link.
 - Types, sectors and organizations are free text: any styling per value must work for unknown values.
 - Invalid rows (no title / bad date) are skipped and reported in a notice; draft rows are skipped silently.
 - Theming: every color is a CSS custom property in two layers (palette and roles), with a light and a dark theme (the system's by default, a button to switch, the choice remembered) and a sky that follows the hour.
@@ -66,7 +68,7 @@ Not one movement's agenda: the shared calendar of many organizations in one city
 
 ## Evidence on Hand
 
-- The Instagram survey (21 reports about the organizations, 15/10/2026, kept outside this repository, next to the project folder as `../coleta-instagram/`): their recent and upcoming activities and the source post URLs. The agenda's rows (`data/agenda/`) are built from them.
+- The Instagram survey (21 reports about the organizations, 15/10/2026, kept outside this repository, next to the project folder as `../coleta-instagram/`): their recent and upcoming activities and the source post URLs. The agenda's rows (`data/agenda/`) and the first stories of Notícias (`data/noticias/`, quotes checked on 2026-11-05) are built from them.
 - The 17 answers of the registration form of 26/10/2026 (`data/comercio.csv`), with the category filled by the agent for the first build (to be checked by the NOS team).
 - No photos, no official visual identity. The domain is nos.dourados.social (GitHub Pages).
 
@@ -75,7 +77,7 @@ Not one movement's agenda: the shared calendar of many organizations in one city
 1. Share in two taps: the path from seeing an activity to sending it is the shortest thing in the app.
 2. Phone first; desktop is the production bench.
 3. The CSV files are the source of truth: updating the agenda or the list of businesses means editing a file and publishing, never touching the code.
-4. Every activity says who organizes it and where the information came from.
+4. Every activity and every story says who it is about and where the information came from.
 5. Dourados first: other cities are the exception and always labeled.
 
 ## Accessibility & Inclusion
