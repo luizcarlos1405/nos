@@ -53,10 +53,10 @@
 
   <script type="module">
     import { decodeCSV, parseCSV } from '../js/csv.js';
-    import { INDEX_FILE, agendaPath, indexMonths, mergeEvents, monthFile } from '../js/agenda-source.js';
+    import { INDEX_FILE, folderPath, indexMonths, mergeEvents, monthFile } from '../js/month-files.js';
     import { buildEvents, dateKey, normalizeKey } from '../js/events.js';
     import { assignSectorColors } from '../js/colors.js';
-    import { SECTOR_SERIES } from '../js/config.js';
+    import { AGENDA_DIR, SECTOR_SERIES } from '../js/config.js';
     import { FLYER_HEIGHT, FLYER_STYLES, FLYER_WIDTH, NOTICE_STYLE, downloadFlyer, flyerFilename, renderFlyer } from '../js/flyer.js';
 
     const params = new URLSearchParams(location.search);
@@ -384,8 +384,8 @@
     }
 
     async function main() {
-      // Every month of the agenda (js/agenda-source.js): the lab uses real activities, past ones too.
-      const read = (file) => fetch(`../${agendaPath(file)}`, { cache: 'no-store' });
+      // Every month of the agenda (js/month-files.js): the lab uses real activities, past ones too.
+      const read = (file) => fetch(`../${folderPath(AGENDA_DIR, file)}`, { cache: 'no-store' });
       const months = indexMonths(await (await read(INDEX_FILE)).json());
       const events = mergeEvents(await Promise.all(months.map(async ({ month }) => {
         const { headers, records } = parseCSV(decodeCSV(await (await read(monthFile(month))).arrayBuffer()));

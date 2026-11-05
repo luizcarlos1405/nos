@@ -2,8 +2,10 @@
 // and Comércio (comercio.html, js/comercio.js). The header on the sky, small DOM helpers, notices,
 // reading the sheets (Comércio's, and the agenda's months), and the offline worker.
 
-import { APP_FULL_NAME, APP_NAME, CITY, COMMERCE_CSV_URL } from './config.js';
-import { INDEX_FILE, agendaPath, createAgenda } from './agenda-source.js';
+import { AGENDA_DIR, APP_FULL_NAME, APP_NAME, CITY, COMMERCE_CSV_URL, MONTH_FOLDERS, NEWS_DIR } from './config.js';
+import { INDEX_FILE, createMonthFolder, folderPath } from './month-files.js';
+import { buildEvents } from './events.js';
+import { buildNews } from './news.js';
 import { decodeCSV, parseCSV } from './csv.js';
 import { formatShortDate, formatTime } from './events.js';
 import { brandMark, icon } from './icons.js';
@@ -133,19 +135,25 @@ export async function readJSON(url) {
   return { data: await res.json(), savedAt: savedAtOf(res) };
 }
 
-// The agenda of AGENDA_DIR, read a month at a time (js/agenda-source.js), with the readers above.
-export const agendaSource = () => createAgenda({
-  readIndex: () => readJSON(agendaPath(INDEX_FILE)),
-  readMonth: (file) => readSheet(agendaPath(file)),
+// A folder of month files read a month at a time (js/month-files.js), with the readers above and the
+// folder's builder: the agenda of AGENDA_DIR (js/events.js builds its rows), the news of NEWS_DIR
+// (js/news.js). A new folder of month files gets its reader the same way.
+export const monthlySource = (dir, build) => createMonthFolder({
+  readIndex: () => readJSON(folderPath(dir, INDEX_FILE)),
+  readMonth: (file) => readSheet(folderPath(dir, file)),
+  build,
 });
+export const agendaSource = () => monthlySource(AGENDA_DIR, buildEvents);
+export const newsSource = () => monthlySource(NEWS_DIR, buildNews);
 
 // ---------- Offline ----------
 
 // Offline support (sw.js). The sheets' addresses go in the query string so the worker can save them
-// too: Comércio's sheet (`csv`) and the agenda's folder (`dir`, every file in it). Every page registers
-// the same address: a different one would replace the worker each time.
+// too: Comércio's sheet (`csv`) and the folders of month files (`dir`, every file in them: MONTH_FOLDERS,
+// the agenda's and the news'). Every page registers the same address: a different one would replace the
+// worker.
 export function registerWorker() {
   if (!('serviceWorker' in navigator) || location.protocol === 'file:') return;
-  const query = `csv=${encodeURIComponent(COMMERCE_CSV_URL)}&dir=${encodeURIComponent(agendaPath(''))}`;
+  const query = [`csv=${encodeURIComponent(COMMERCE_CSV_URL)}`, ...MONTH_FOLDERS.map((dir) => `dir=${encodeURIComponent(folderPath(dir, ''))}`)].join('&');
   navigator.serviceWorker.register(`sw.js?${query}`).catch((err) => console.warn('Service worker:', err));
 }

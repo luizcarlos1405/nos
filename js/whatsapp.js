@@ -1,13 +1,15 @@
-// Builds WhatsApp-ready messages: an activity's (Agenda) and a business's (Comércio, "Indicar
-// no WhatsApp"). WhatsApp formatting: *bold*, _italic_. Lines for empty fields are left out.
+// Builds WhatsApp-ready messages: an activity's (Agenda), a story's (Notícias) and a business's
+// (Comércio, "Indicar no WhatsApp"). WhatsApp formatting: *bold*, _italic_. Lines for empty fields are
+// left out.
 
 import { APP_NAME, CITY, HOME_CITY, SITE_URL } from './config.js';
-import { formatDateRange, formatTimeRange, matchKey } from './events.js';
+import { formatDateRange, formatShortDate, formatTimeRange, matchKey } from './events.js';
 
 // Closing lines added to every message, with the address of the page they come from — change them
 // freely (or set to '' to remove).
 export const CLOSING_LINE = `📅 Mais atividades na agenda do ${APP_NAME} ${HOME_CITY}${SITE_URL ? `: ${SITE_URL}/agenda.html` : ''}`;
 export const COMMERCE_CLOSING_LINE = `🛍️ Mais negócios da rede no ${APP_NAME} ${HOME_CITY}${SITE_URL ? `: ${SITE_URL}/comercio.html` : ''}`;
+export const NEWS_CLOSING_LINE = `📰 Mais notícias das organizações no ${APP_NAME} ${HOME_CITY}${SITE_URL ? `: ${SITE_URL}/noticias.html` : ''}`;
 
 // Where the activity happens, as the message header names it.
 export function placeLabel(event) {
@@ -62,6 +64,21 @@ export function buildWhatsAppMessage(event) {
 
   if (CLOSING_LINE) blocks.push([CLOSING_LINE]);
 
+  return blocks.map((lines) => lines.join('\n')).join('\n\n');
+}
+
+// A story passed on to a group: its kind and the city, the headline and who, the summary, its day and
+// the post it came from.
+export function buildNewsMessage(news) {
+  const blocks = [[news.kind ? `📰 *${literal(news.kind.toUpperCase())}* · ${CITY}` : `📰 ${CITY}`]];
+  const head = [`*${literal(news.title)}*`];
+  if (news.org) head.push(`👥 ${news.org}`);
+  blocks.push(head);
+  if (news.summary) blocks.push([news.summary]);
+  const facts = [`📅 ${formatShortDate(news.date)}`];
+  if (news.source) facts.push(`📣 Fonte: ${news.source}`);
+  blocks.push(facts);
+  if (NEWS_CLOSING_LINE) blocks.push([NEWS_CLOSING_LINE]);
   return blocks.map((lines) => lines.join('\n')).join('\n\n');
 }
 

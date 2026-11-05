@@ -15,7 +15,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { FEED_FILE } from '../js/config.js';
 import { buildCalendar } from '../js/ics.js';
-import { AGENDA_PATH, allEvents, readAgenda } from './agenda-files.mjs';
+import { AGENDA, allEvents, readFolder } from './folders.mjs';
 
 const args = process.argv.slice(2);
 const check = args.includes('--check');
@@ -24,7 +24,7 @@ const out = args.find((arg) => !arg.startsWith('--')) || fileURLToPath(new URL(F
 
 let files;
 try {
-  ({ files } = await readAgenda(root));
+  ({ files } = await readFolder(root, AGENDA));
 } catch (err) {
   console.error(`agenda-ics: ${err.message} ${FEED_FILE} was not written.`);
   process.exit(1);
@@ -32,7 +32,7 @@ try {
 const months = files.filter((file) => file.month);
 const broken = months.filter((file) => file.missing.length);
 if (broken.length) {
-  for (const file of broken) console.error(`agenda-ics: ${AGENDA_PATH}${file.name} lacks the ${file.missing.join(' and ')} column${file.missing.length > 1 ? 's' : ''}.`);
+  for (const file of broken) console.error(`agenda-ics: ${AGENDA.path}${file.name} lacks the ${file.missing.join(' and ')} column${file.missing.length > 1 ? 's' : ''}.`);
   console.error(`agenda-ics: ${FEED_FILE} was not written.`);
   process.exit(1);
 }
@@ -42,7 +42,7 @@ const feed = buildCalendar(events, { feed: true, now: new Date(0) });
 if (check) {
   const current = await readFile(out, 'utf8').catch(() => '');
   if (current === feed) process.exit(0);
-  console.error(`agenda-ics: ${FEED_FILE} is out of date with ${AGENDA_PATH}. Rebuild it: node tools/agenda-ics.mjs`);
+  console.error(`agenda-ics: ${FEED_FILE} is out of date with ${AGENDA.path}. Rebuild it: node tools/agenda-ics.mjs`);
   process.exit(1);
 }
 await writeFile(out, feed);

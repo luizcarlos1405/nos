@@ -1,6 +1,7 @@
 # agenda.ics is generated (tools/agenda-ics.mjs, run by .githooks/pre-commit): never edit it by hand.
 # Its CRLF line endings are part of the format (RFC 5545), so git must keep its bytes as they are.
 agenda.ics -text linguist-generated=true
-# data/agenda/index.json is generated too (tools/agenda-data.mjs, run by .githooks/pre-commit), from the
-# agenda's month files: never edit it by hand.
+# The folders' index.json are generated too (tools/month-files.mjs, run by .githooks/pre-commit), from
+# their month files: never edit them by hand.
 data/agenda/index.json linguist-generated=true
+data/noticias/index.json linguist-generated=true

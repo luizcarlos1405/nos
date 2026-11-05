@@ -1,8 +1,8 @@
 // Início (index.html): the greeting of this hour on the sky, the next activity resting on the band
 // (its date circled by hand, a link to send it to WhatsApp and, from 760px, "Ver na agenda" and what
-// else comes), then a door to each page. The agenda's door says how much is ahead; Comércio's how
-// many businesses there are. Without the agenda (offline with nothing saved, a broken link) the card
-// says so and the doors stay.
+// else comes), then a door to each page. The agenda's door says how much is ahead; Notícias' gives the
+// latest headline; Comércio's how many businesses there are. Without the agenda (offline with nothing
+// saved, a broken link) the card says so and the doors stay.
 
 import { COMMERCE_CSV_URL } from './config.js';
 import { agendaSummary, awaitsTime, capitalize, dateKey, formatDayMonth, formatTimeRange, lastDayKey, monthName, orgFullName, relativeDay, upcomingEvents, weekdayName } from './events.js';
@@ -12,12 +12,14 @@ import { placeRow } from './agenda.js';
 import { handMark, icon } from './icons.js';
 import { greeting } from './sky.js';
 import { buildWhatsAppMessage, whatsAppShareUrl } from './whatsapp.js';
-import { $, agendaSource, el, initPage, readSheet, registerWorker } from './page.js';
+import { $, agendaSource, el, initPage, newsSource, readSheet, registerWorker } from './page.js';
+import { addMonths, firstDay, monthOf } from './month-files.js';
+import { leadStory, newsDay } from './news.js';
 
 // What else comes, under the next one (from 760px).
 const LATER_COUNT = 3;
 
-// The agenda's months (js/agenda-source.js): only those with something from today on.
+// The agenda's months (js/month-files.js): only those with something from today on.
 const agenda = agendaSource();
 
 let today = new Date();
@@ -175,6 +177,23 @@ async function load() {
   }
 }
 
+// Notícias' door: what the page leads with (the newest story marked "Destaque", else the newest), with
+// its day and who; the last two months are read (the news page opens on three). Without news it keeps
+// its description.
+async function renderNewsDoor() {
+  const news = newsSource();
+  await news.open(firstDay(addMonths(monthOf(dateKey(new Date())), -1)));
+  const latest = leadStory(news.events);
+  if (!latest) return;
+  $('door-news-line').textContent = latest.title;
+  const meta = $('door-news-meta');
+  const when = el('time', null, newsDay(latest.date));
+  when.dateTime = latest.dateKey;
+  meta.replaceChildren(when, latest.org ? ` · ${latest.org}` : '');
+  meta.hidden = false;
+  $('door-news-text').hidden = true;
+}
+
 // Comércio's door: how many businesses there are.
 async function renderCommerceDoor() {
   const { headers, records, lines } = await readSheet(COMMERCE_CSV_URL);
@@ -187,6 +206,7 @@ renderHello();
 if (location.protocol !== 'file:') {
   load();
   renderCommerceDoor().catch((err) => console.warn('Comércio:', err));
+  renderNewsDoor().catch((err) => console.warn('Notícias:', err));
 }
 
 // "Now" moves: the greeting follows the hour, the date the day, and the card the next activity (an

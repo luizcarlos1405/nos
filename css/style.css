@@ -183,7 +183,7 @@ code { font-size: 0.9em; background: var(--role-wash); padding: 1px 5px; border-
   right: 0;
   bottom: 0;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   padding: 6px max(4px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(4px, env(safe-area-inset-left));
   border-top: 1px solid var(--role-line);
   background: var(--role-card);
@@ -1164,6 +1164,74 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
 .join-text { margin-bottom: 8px; font-size: 0.9375rem; line-height: 1.4; color: var(--role-ink-soft); }
 .join .btn { width: 100%; }
 
+/* ---------- Notícias: what the organizations are living ---------- */
+/* The story the team leads with ("Destaque"), then the weeks, each with its stories as cards; a story
+   opens in the agenda's panel (.bench: a bottom sheet on phones, the column at right on the desk). The
+   filters are the agenda's: the organization, then the kinds as chips. */
+
+.news-tools { padding-top: 2px; }
+.news-list { display: flex; flex-direction: column; gap: 22px; padding-top: 14px; }
+.news-week-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px; }
+.news-week-name { font: 750 1.1875rem/1.26 var(--font-display); letter-spacing: -0.015em; }
+.news-week-count { font-size: 0.875rem; color: var(--role-ink-soft); font-variant-numeric: tabular-nums; }
+.news-more { align-self: flex-start; margin: -8px 0 0 -6px; text-align: left; }
+.news-more[aria-disabled='true'] { cursor: progress; }
+
+/* One story: the headline (NOS speaking, so Bricolage), what happened in a sentence or two, who, then
+   its kind as a quiet tag and its day. The headline is the button that opens it in the panel, stretched
+   over the card as an activity's title is; the share mark in the corner is a picture of the panel's main
+   action, out of the flow so a one-line headline keeps its summary close. */
+.news-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 14px 14px 14px 16px;
+  border: 1px solid var(--role-card-border);
+  border-radius: var(--radius-card);
+  background: var(--role-card);
+  box-shadow: var(--role-card-shadow);
+  color: var(--role-ink);
+  transition: background 0.15s, box-shadow 0.15s;
+}
+@media (hover: hover) {
+  .news-card:hover { background: var(--role-card-hover); }
+  .news-card:hover .news-title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+}
+.news-card.is-selected { box-shadow: 0 0 0 1.5px var(--role-ink-soft), var(--role-card-shadow); }
+.news-head { padding-right: 48px; }
+.news-h { font: inherit; }
+.news-open { display: block; width: 100%; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; }
+.news-open::after { content: ''; position: absolute; inset: 0; border-radius: var(--radius-card); }
+.news-open:focus-visible { outline: none; }
+.news-open:focus-visible::after { outline: 2px solid var(--role-focus); outline-offset: 2px; }
+.news-card.is-selected .news-open:focus-visible::after { outline-offset: 4px; }
+.news-title { display: block; font: 750 1.1875rem/1.22 var(--font-display); letter-spacing: -0.015em; text-wrap: pretty; }
+.news-head .share-circle { position: absolute; top: 12px; right: 12px; }
+.news-dek { margin-top: 6px; font-size: 0.9375rem; line-height: 1.5; text-wrap: pretty; }
+.news-card .meta-org { margin-top: 10px; }
+.news-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; margin-top: 10px; font-size: 0.875rem; line-height: 1.3; color: var(--role-ink-soft); font-variant-numeric: tabular-nums; }
+.news-foot time { font-weight: 600; }
+/* The lead: the same card, the headline larger and the summary at reading size. */
+.news-card.is-lead { padding: 18px 16px 16px 18px; }
+.news-card.is-lead .news-title { font-size: 1.375rem; font-weight: 800; line-height: 1.16; letter-spacing: -0.02em; text-wrap: balance; }
+.news-card.is-lead .news-dek { margin-top: 10px; font-size: 1rem; line-height: 1.5; }
+/* The activity a story leads to, a link of its own over the card's. */
+.news-agenda { position: relative; z-index: 1; display: flex; align-items: center; gap: 8px; align-self: flex-start; min-height: 40px; margin: 10px 0 0 -8px; padding: 0 12px 0 8px; border-radius: var(--radius-pill); background: var(--role-fill); color: var(--role-ink); font-size: 0.9375rem; font-weight: 600; line-height: 1.25; text-decoration: none; font-variant-numeric: tabular-nums; }
+.news-agenda::before { content: ''; position: absolute; inset: -2px 0; border-radius: inherit; }
+.news-agenda .icon { width: 18px; height: 18px; color: var(--role-ink-soft); }
+@media (hover: hover) { .news-agenda:hover { background: var(--role-line); } }
+
+/* The story in the panel: its day and kind in the head, then the headline, the summary as the lead, who
+   and where it came from, the story, and the message as WhatsApp will show it. */
+.story-kind { display: flex; }
+.story-title { margin: 0 0 10px; font: 800 1.5rem/1.14 var(--font-display); letter-spacing: -0.022em; text-wrap: balance; }
+.story-lead { margin: 0 0 6px; font-size: 1.0625rem; font-weight: 500; line-height: 1.5; text-wrap: pretty; }
+.story-body { margin: 4px 0 18px; }
+.story-body p { font-size: 1rem; line-height: 1.6; text-wrap: pretty; }
+.story-body p + p { margin-top: 12px; }
+.story-section { margin: 0 0 10px; font: 700 1.0625rem/1.3 var(--font-display); letter-spacing: -0.01em; }
+.fact .fact-sub { display: block; font-size: 0.875rem; font-weight: 400; color: var(--role-ink-soft); font-variant-numeric: tabular-nums; }
+
 /* ---------- Início: the next activity on the horizon, then a door to each page ---------- */
 
 .home { max-width: 1344px; margin: 0 auto; padding: 0 calc(16px + env(safe-area-inset-right)) 0 calc(16px + env(safe-area-inset-left)); }
@@ -1237,6 +1305,14 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   transition: background 0.15s;
 }
 .door--commerce { --door-tint: var(--role-commerce-tint); --door-text: var(--role-commerce-text); }
+/* Notícias' door: the latest headline is its live line, so on phones it takes the whole row, after
+   Agenda and Comércio (dense packing fills the first row); on the desk the doors stack in page order. */
+.door--news { --door-tint: var(--role-news-tint); --door-text: var(--role-news-text); grid-column: 1 / -1; }
+.doors { grid-auto-flow: row dense; }
+.door--news .door-line { font: 700 1.0625rem/1.3 var(--font-display); letter-spacing: -0.012em; }
+/* Its day and who, under the headline: the hue mixed into the ink, as the doors' secondary text. */
+.door-meta { font-size: 0.8125rem; line-height: 1.4; font-weight: 500; color: color-mix(in srgb, var(--door-text) 55%, var(--role-ink)); font-variant-numeric: tabular-nums; }
+.door-meta time { font-weight: 600; }
 @media (hover: hover) { .door:hover { background: color-mix(in srgb, var(--door-tint) 88%, var(--door-text)); } }
 .door-head { display: flex; align-items: center; gap: 8px; }
 .door-head .icon { width: 22px; height: 22px; color: var(--door-text); }
@@ -1381,6 +1457,17 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .door-next { display: none; } /* "Também na agenda" lists it */
   .door-more { display: inline-flex; align-items: center; gap: 4px; min-height: 32px; margin-top: 4px; color: var(--door-text); font-weight: 600; }
   .door-more .icon { width: 18px; height: 18px; }
+  .door--news .door-line { font-size: 1.25rem; line-height: 1.3; }
+  .door-meta { font-size: 0.9375rem; }
+
+  /* Notícias: roomier cards, the lead's headline at the page names' size. */
+  .news-card { padding: 16px 18px 16px 20px; }
+  .news-head { padding-right: 52px; }
+  .news-head .share-circle { top: 14px; right: 14px; }
+  .news-dek { max-width: 68ch; }
+  .news-card.is-lead { padding: 22px 22px 20px 24px; }
+  .news-card.is-lead .news-title { font-size: 1.875rem; line-height: 1.12; }
+  .news-card.is-lead .news-dek { max-width: 62ch; font-size: 1.0625rem; }
 
   /* Comércio: each business is a row from here, the contacts in their own column. */
   .biz { grid-template-columns: minmax(0, 1fr) minmax(15rem, 19rem); column-gap: 20px; padding: 16px 16px 12px 20px; }
@@ -1524,6 +1611,11 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .home-grid { display: grid; grid-template-columns: minmax(0, 1fr) 380px; align-items: start; gap: 24px 32px; }
   .next-card { padding: 24px 28px 20px; }
   .doors { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .door--news { grid-column: auto; }
+
+  /* Notícias: the filters and the list in the left column, the story in the panel at right. */
+  .news-tools.filters { padding: 0 0 2px; }
+  .news-list { padding-top: 18px; }
 }
 
 @media (min-width: 1280px) {
@@ -1634,6 +1726,8 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .style-count { right: 12px; gap: 0; font-size: 0; }
   .event-card { padding-left: 14px; padding-right: 12px; }
   .event-head .share-circle { display: none; }
+  .news-head { padding-right: 0; }
+  .news-head .share-circle { display: none; }
   .save-all { margin-left: 12px; margin-right: 12px; }
   .day-num { min-width: 0; padding: 0 2px; }
   .month-head { gap: 4px; }

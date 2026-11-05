@@ -73,6 +73,14 @@
   --color-ipe-rosa-night: #F58AB3;
   --color-ipe-rosa-night-tint: #522036;
 
+  /* Ipê-amarelo: Notícias' colour, the tree that flowers in the dry season. Ink on the tint 13.2:1, the
+     deep shade 6.5:1 on the cards; at night moonlit on the tint 10.8:1, the bright shade on it 7.6:1. */
+  --color-ipe-amarelo: #E0A40A;
+  --color-ipe-amarelo-text: #7A5500;
+  --color-ipe-amarelo-tint: #F6DE9C;
+  --color-ipe-amarelo-night: #F2C14E;
+  --color-ipe-amarelo-night-tint: #413010;
+
   /* O céu, in flat bands counted from the top (1) down to the horizon (5), at each hour. */
   --color-dawn-1: #93C1E6;           /* amanhecer, 5–9h: morning blue warming to rose, apricot and gold */
   --color-dawn-2: #BED6E8;
@@ -173,6 +181,9 @@
   --role-commerce: var(--color-ipe-rosa);
   --role-commerce-text: var(--color-ipe-rosa-text);
   --role-commerce-tint: var(--color-ipe-rosa-tint);
+  --role-news: var(--color-ipe-amarelo);
+  --role-news-text: var(--color-ipe-amarelo-text);
+  --role-news-tint: var(--color-ipe-amarelo-tint);
 
   /* The groups: js/colors.js picks one per sector and sets it as --sector on the node. */
   --role-series-1: var(--color-group-1);
@@ -227,6 +238,9 @@
   --role-commerce: var(--color-ipe-rosa-night);
   --role-commerce-text: var(--color-ipe-rosa-night);
   --role-commerce-tint: var(--color-ipe-rosa-night-tint);
+  --role-news: var(--color-ipe-amarelo-night);
+  --role-news-text: var(--color-ipe-amarelo-night);
+  --role-news-tint: var(--color-ipe-amarelo-night-tint);
 
   --role-series-1: var(--color-group-night-1);
   --role-series-2: var(--color-group-night-2);

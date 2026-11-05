@@ -23,7 +23,7 @@ function absolute(url) {
 // The sheets. Every page passes them in the query string (registerWorker in js/page.js, from
 // js/config.js): `csv`, a CSV that can live on another origin (COMMERCE_CSV_URL, the businesses), and
 // `dir`, a folder whose every file is a sheet (AGENDA_DIR, the agenda: index.json and one CSV per month,
-// js/agenda-source.js). They may be relative, like 'data/agenda/'; request URLs are absolute, so these
+// js/month-files.js). They may be relative, like 'data/agenda/'; request URLs are absolute, so these
 // are too.
 const params = new URL(location.href).searchParams;
 const CSV_URLS = params.getAll('csv').map(absolute).filter(Boolean);
@@ -36,11 +36,11 @@ const CACHED_AT_HEADER = 'X-Cached-At';
 const HOME = absolute('./');
 
 // App shell, cached on install so the first visit already works offline: on that visit the page
-// isn't controlled by this worker yet, so only what is listed here gets saved. That is the three
-// pages (index.html as './', agenda.html, comercio.html), the agenda's old address (calendario.html, which
+// isn't controlled by this worker yet, so only what is listed here gets saved. That is the four
+// pages (index.html as './', agenda.html, noticias.html, comercio.html), the agenda's old address (calendario.html, which
 // forwards to agenda.html) and everything they load: the manifest
 // and its icons, the favicons, the three stylesheets with the fonts they declare and the woven band
-// (assets/faixa.svg), every module reached from js/home.js, js/app.js and js/comercio.js, and the
+// (assets/faixa.svg), every module reached from js/home.js, js/app.js, js/noticias.js and js/comercio.js, and the
 // vendored image library (which also fetches the fonts again to embed them in the flyer PNG). Later
 // visits also save at runtime anything missing here, but keep this list in step with those files.
 const SHELL = [
@@ -48,6 +48,7 @@ const SHELL = [
   'agenda.html',
   'calendario.html',
   'comercio.html',
+  'noticias.html',
   'manifest.webmanifest',
   'assets/icons/icon-192.png',
   'assets/icons/icon-512.png',
@@ -63,7 +64,7 @@ const SHELL = [
   'css/flyers.css',
   'js/app.js',
   'js/agenda.js',
-  'js/agenda-source.js',
+  'js/month-files.js',
   'js/businesses.js',
   'js/colors.js',
   'js/comercio.js',
@@ -76,6 +77,8 @@ const SHELL = [
   'js/icons.js',
   'js/ics.js',
   'js/month.js',
+  'js/news.js',
+  'js/noticias.js',
   'js/page.js',
   'js/save-menu.js',
   'js/sky.js',
@@ -140,15 +143,16 @@ async function save(cache, url) {
   }
 }
 
-// The agenda's months the agenda page opens with, so the first visit already works offline: its
-// index.json, then every month whose activities reach the 1st of last month (js/app.js opens there;
-// js/agenda-source.js explains the index; the home needs less, from today on).
-async function saveAgenda(cache, dir) {
+// The months a folder's page opens with, so the first visit already works offline: its index.json, then
+// every month whose rows reach the 1st of the month before last (the news opens there, js/noticias.js;
+// the agenda from the 1st of last month, js/app.js, and the home from today, so they need less;
+// js/month-files.js explains the index).
+async function saveMonths(cache, dir) {
   const res = await save(cache, new URL('index.json', dir).href);
   const months = res ? await res.json().then((data) => data?.months, () => null) : null;
   if (!Array.isArray(months)) return;
   const now = new Date();
-  const from = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+  const from = new Date(now.getFullYear(), now.getMonth() - 2, 1);
   const first = `${from.getFullYear()}-${String(from.getMonth() + 1).padStart(2, '0')}-01`;
   const wanted = months.filter((entry) => /^\d{4}-\d{2}$/.test(entry?.month) && typeof entry.until === 'string' && entry.until >= first);
   await Promise.all(wanted.map((entry) => save(cache, new URL(`${entry.month}.csv`, dir).href)));
@@ -159,7 +163,7 @@ self.addEventListener('install', (event) => {
     const cache = await caches.open(CACHE);
     await Promise.all([
       ...[...SHELL.map(absolute), ...CSV_URLS].map((url) => save(cache, url)),
-      ...SHEET_DIRS.map((dir) => saveAgenda(cache, dir)),
+      ...SHEET_DIRS.map((dir) => saveMonths(cache, dir)),
     ]);
     await self.skipWaiting();
   })());
