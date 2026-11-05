@@ -580,6 +580,9 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   font-weight: 600;
 }
 .past-toggle .icon { width: 18px; height: 18px; }
+/* The month before the ones read, at the head of the past (js/agenda.js renderOlder). */
+.past-more { align-self: flex-start; margin: 0 0 0 -6px; text-align: left; }
+.past-more[aria-disabled='true'] { cursor: progress; }
 .result-count { margin: 0; padding: 14px 0 0; font-size: 0.9375rem; color: var(--role-ink-soft); }
 .result-count + .past-toggle { margin-top: 2px; }
 @media (hover: hover) {
@@ -784,6 +787,10 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
 
 /* The chosen day, printed under the month as in the list. */
 .month-day { margin-top: 18px; }
+/* Or, while the month's own activities are on their way (or couldn't be read), a line saying so. */
+.month-status { flex-wrap: wrap; margin-top: 18px; }
+.month-status > span { flex: 1 1 14rem; }
+.month-status .btn-text { margin: -6px -6px -6px 0; }
 
 /* ---------- The activity panel ("bench") ---------- */
 /* A bottom sheet on phones and tablets (a modal dialog with Back, js/app.js setModal), the persistent

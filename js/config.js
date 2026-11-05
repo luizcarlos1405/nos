@@ -1,12 +1,15 @@
 // Site settings — the only file most people need to touch.
 
-// Where the agenda is read from. Can be a local file or a public spreadsheet published as CSV
-// (Google Sheets: Arquivo → Compartilhar → Publicar na Web → formato CSV, then paste the link here).
-export const CSV_URL = 'data/agenda.csv';
+// Where the agenda is read from: a folder of the site with one CSV per month, AAAA-MM.csv, holding the
+// activities that start in that month (by "Dia"; drafts still without a date wait, hidden, in
+// sem-data.csv), and the index.json the pre-commit hook writes from them (tools/agenda-data.mjs). The
+// pages read only the months they show (js/agenda-source.js).
+export const AGENDA_DIR = 'data/agenda/';
 
 // Where Comércio (comercio.html) reads the businesses from: the answers of the registration form,
-// as they are, plus an optional "Categoria" column kept by the NOS team. Same formats as CSV_URL
-// (the Google Form's answer sheet can be published as CSV the same way).
+// as they are, plus an optional "Categoria" column kept by the NOS team. A local file or a public
+// spreadsheet published as CSV (Google Sheets: Arquivo → Compartilhar → Publicar na Web → formato
+// CSV, then paste the link here; the Google Form's answer sheet can be published that way).
 export const COMMERCE_CSV_URL = 'data/comercio.csv';
 
 // The registration form's public link, for "Cadastrar meu negócio" on Comércio. Empty hides the
@@ -36,8 +39,8 @@ export const SITE_URL = 'https://nos.dourados.social';
 export const TIME_ZONE = 'America/Campo_Grande';
 
 // The whole agenda as a calendar people subscribe to ("Salvar tudo na agenda"), published at
-// SITE_URL/FEED_FILE. tools/agenda-ics.mjs writes it from CSV_URL, and the deploy
-// (.github/workflows/pages.yml) runs it every time the site is published.
+// SITE_URL/FEED_FILE. tools/agenda-ics.mjs writes it from every month of AGENDA_DIR, and the
+// pre-commit hook runs it on every commit (.githooks/pre-commit).
 export const FEED_FILE = 'agenda.ics';
 
 // Types ("Tipo" column) that have no time of their own: a deadline, an enrolment or consultation

@@ -1,9 +1,13 @@
 #!/bin/sh
-# After a commit of named files only ("git commit <file>"), git commits a temporary index: the
-# agenda.ics that pre-commit added there is in the commit and in the working tree, but git's own
-# index keeps the old one, which a later commit would bring back. Put the committed one there too.
+# After a commit of named files only ("git commit <file>"), git commits a temporary index: the files
+# pre-commit added there (the agenda's index.json and agenda.ics) are in the commit and in the working
+# tree, but git's own index keeps the old ones, which a later commit would bring back. Put the
+# committed ones there too.
 root=$(git rev-parse --show-toplevel)
-if git diff --quiet HEAD -- "$root/agenda.ics" 2>/dev/null && ! git diff --cached --quiet HEAD -- "$root/agenda.ics" 2>/dev/null; then
-  git add -- "$root/agenda.ics"
-fi
+index=$(cd "$root" && node --input-type=module -e "import { AGENDA_DIR } from './js/config.js'; console.log(AGENDA_DIR.replace(/\/?$/, '/') + 'index.json');" 2>/dev/null) || index=data/agenda/index.json
+for file in "$index" agenda.ics; do
+  if git diff --quiet HEAD -- "$root/$file" 2>/dev/null && ! git diff --cached --quiet HEAD -- "$root/$file" 2>/dev/null; then
+    git add -- "$root/$file"
+  fi
+done
 exit 0

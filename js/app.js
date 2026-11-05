@@ -1,13 +1,14 @@
-import { CSV_URL } from './config.js';
-import { agendaSummary, awaitsTime, buildEvents, capitalize, dateKey, findNextEvent, formatDateRange, formatLongDate, formatLongDateRange, formatTimeRange, lastDayKey, matchKey, monthName, orgFullName } from './events.js';
+import { AGENDA_DIR } from './config.js';
+import { addMonths, firstDay, monthOf } from './agenda-source.js';
+import { agendaSummary, awaitsTime, capitalize, dateKey, findNextEvent, formatDateRange, formatLongDate, formatLongDateRange, formatTimeRange, lastDayKey, matchKey, monthName, orgFullName } from './events.js';
 import { assignSectorColors, paintSector, sectorRank, sectorsOf } from './colors.js';
 import { buildWhatsAppMessage, previewHtml, whatsAppShareUrl } from './whatsapp.js';
 import { FLYER_STYLES, FLYER_WIDTH, canShareFiles, downloadFlyer, flyerFilename, renderFlyer, shareFlyer } from './flyer.js';
 import { renderAgenda, upcomingLabel } from './agenda.js';
-import { renderMonth } from './month.js';
+import { monthGridStart, renderMonth } from './month.js';
 import { initSaveMenu, openSaveMenu } from './save-menu.js';
 import { icon } from './icons.js';
-import { $, announce, copyText, el, escapeHtml, initPage, readSheet, registerWorker, safeUrl, showNotice, showOffline } from './page.js';
+import { $, agendaSource, announce, copyText, el, escapeHtml, initPage, registerWorker, safeUrl, showNotice, showOffline } from './page.js';
 
 // From this width the agenda and the activity panel sit side by side; below it the panel is a
 // bottom sheet. Keep in sync with the 1100px media queries in css/style.css.
@@ -30,6 +31,9 @@ const state = {
   selectedDay: todayKey,
   focusDay: null, // the month grid's keyboard position
 };
+
+// The agenda's months (js/agenda-source.js): only the window read so far, from its first day on.
+const agenda = agendaSource();
 
 const collator = new Intl.Collator('pt-BR', { sensitivity: 'base', numeric: true });
 const scrollBehavior = () => (reducedMotion.matches ? 'auto' : 'smooth');
@@ -75,30 +79,133 @@ const findEvent = (id) => state.events.find((ev) => ev.id === id) || null;
 // The next activity from "now" (see findNextEvent in js/events.js).
 const findNext = (events) => findNextEvent(events, today);
 
-// Fetches and reads the spreadsheet. Returns false when nothing could be read. With keepOnError
-// (a tab coming back after a long while) a failure leaves the agenda on screen as it was, quietly.
-async function fetchAgenda({ keepOnError = false } = {}) {
+// The agenda opens from the 1st of last month: this month's page is whole (the grey days of its first
+// week included) and "Ver N atividades anteriores" has a month behind it. sw.js saves the same months
+// on the first visit.
+const openingDay = () => firstDay(addMonths(monthOf(todayKey), -1));
+
+// Reads the agenda: the index and the months from the opening day on, or with `again` the whole window
+// once more (a tab coming back after a long while: a failure then leaves the agenda on screen as it
+// was, quietly). Returns false when nothing could be read.
+async function fetchAgenda({ again = false } = {}) {
   try {
-    const { headers, records, lines, savedAt } = await readSheet(CSV_URL);
-    const { events, invalid, warnings, missing } = buildEvents(headers, records, lines);
-    if (missing.length) {
-      if (keepOnError) return false;
-      showNotice(`<strong>A planilha não tem ${missing.length === 1 ? 'a coluna' : 'as colunas'} ${missing.map((m) => `“${m}”`).join(' e ')}.</strong> Confira se o link em <code>CSV_URL</code> é o da agenda publicada como CSV (<code>${escapeHtml(CSV_URL)}</code>) e se a primeira linha tem os nomes das colunas.`, 'error');
-      return false;
-    }
-    $('notice').hidden = true;
-    state.events = events;
-    assignSectorColors(sectorsOf(events));
-    renderSummary();
-    showProblems(invalid, warnings);
-    // Set only on sw.js's saved copy, i.e. the live spreadsheet couldn't be reached.
-    if (savedAt) showOffline(savedAt, 'a agenda salva');
+    if (again) await agenda.refresh(openingDay());
+    else await agenda.open(openingDay());
+    useAgenda();
     return true;
   } catch (err) {
     console.error(err);
-    if (keepOnError) return false;
-    showNotice(`<strong>Não foi possível carregar a agenda.</strong> Confira a conexão e recarregue a página. Se o problema continuar, avise quem cuida da planilha (<code>${escapeHtml(CSV_URL)}</code>).`, 'error');
+    if (again) return false;
+    showNotice(`<strong>Não foi possível carregar a agenda.</strong> Confira a conexão e recarregue a página. Se o problema continuar, avise quem cuida da agenda (<code>${escapeHtml(AGENDA_DIR)}</code>).`, 'error');
     return false;
+  }
+}
+
+// What was read goes on screen: the activities, their groups' colours, the top line, and the notices
+// (rows to fix; a saved copy, i.e. the site couldn't be reached).
+function useAgenda() {
+  state.events = agenda.events;
+  assignSectorColors(sectorsOf(state.events));
+  renderSummary();
+  $('notice').hidden = true;
+  const { invalid, warnings, missing } = agenda.problems();
+  showProblems(invalid, warnings, missing);
+  const savedAt = agenda.savedAt();
+  if (savedAt) showOffline(savedAt, 'a agenda salva');
+}
+
+// ---------- Going back in time ----------
+
+// An earlier month in the month view, "Ver atividades de setembro" in the list, the address of an old
+// activity: the window's first day moves back, reading the months that needs. Each first day asked
+// for is read once; meanwhile its state ('loading', then 'failed' if it couldn't be read) is what the
+// views show, until it is asked for again (backJobs.delete).
+const backJobs = new Map();
+
+// Returns 'ready' when the window already starts on `day` or before (or moved there at once: nothing
+// left to read), else the state of its reading. `onRead` runs once the months arrive.
+function goBack(day, onRead) {
+  if (day >= agenda.since) return 'ready';
+  if (backJobs.has(day)) return backJobs.get(day);
+  const job = agenda.extend(day);
+  if (!job) {
+    useAgenda();
+    renderFilters(); // the days now shown may bring organizations and groups
+    return 'ready';
+  }
+  backJobs.set(day, 'loading');
+  job.then(() => {
+    backJobs.delete(day);
+    useAgenda();
+    onRead();
+  }, (err) => {
+    console.error(err);
+    backJobs.set(day, 'failed');
+    rerender(renderView);
+    announce('Não foi possível carregar as atividades anteriores. Confira a conexão.');
+  });
+  return 'loading';
+}
+
+const pad2 = (n) => String(n).padStart(2, '0');
+const shownMonth = () => `${state.year}-${pad2(state.month + 1)}`;
+
+// "setembro", or "dezembro de 2025" in another year.
+function monthLabel(month) {
+  const [y, m] = month.split('-').map(Number);
+  return `${monthName(m - 1)}${y !== today.getFullYear() ? ` de ${y}` : ''}`;
+}
+
+const pastCount = () => visibleEvents().filter((ev) => lastDayKey(ev) < todayKey).length;
+
+function refreshAll() {
+  rerender(() => {
+    renderFilters();
+    renderView();
+    renderBench();
+  });
+}
+
+// The month on screen is whole once the window reaches its grid's first day (the grey days of the
+// month before included). Until then it is read, and drawn again when it arrives: 'loading' (or
+// 'failed') only while the month's own days wait; its grey days fill in when they come.
+function monthReadiness() {
+  const status = goBack(dateKey(monthGridStart(state.year, state.month)), () => {
+    // Turned to a month that was still on its way: its first day with activities is picked now.
+    if (state.view === 'month' && !state.selectedDay) state.selectedDay = visibleEvents().find((ev) => ev.dateKey.startsWith(shownMonth()))?.dateKey ?? null;
+    refreshAll();
+  });
+  return status !== 'ready' && firstDay(shownMonth()) >= agenda.since ? 'ready' : status;
+}
+
+function retryMonth() {
+  backJobs.delete(dateKey(monthGridStart(state.year, state.month)));
+  rerender(renderView);
+}
+
+// "Ver atividades de setembro": the month before the window, added to the list's past.
+function loadOlder() {
+  const month = agenda.older();
+  if (!month) return;
+  const day = firstDay(month);
+  if (backJobs.get(day) === 'loading') return;
+  backJobs.delete(day); // a month that failed is tried again
+  const before = pastCount();
+  const told = () => {
+    const added = pastCount() - before;
+    announce(added
+      ? `${added} ${added === 1 ? 'atividade anterior' : 'atividades anteriores'}, de ${monthLabel(month)}`
+      : `Nenhuma atividade ${filtered() ? `${filterLabel()} ` : ''}em ${monthLabel(month)}`);
+  };
+  const status = goBack(day, () => {
+    refreshAll();
+    told();
+  });
+  if (status === 'ready') {
+    refreshAll();
+    told();
+  } else {
+    rerender(renderView);
   }
 }
 
@@ -122,14 +229,29 @@ async function start() {
 
 // An address naming an activity (agenda.html#ev-…: a calendar entry's link, "Copiar o link da
 // atividade") opens it in the panel; #salvar-tudo opens "Salvar tudo na agenda" (the link sent to be
-// opened on a computer, or in Safari).
-function openFromAddress() {
+// opened on a computer, or in Safari). An activity from before the window is read first: its id
+// starts with its first day, so its month is known.
+async function openFromAddress() {
   const target = decodeURIComponent(location.hash.slice(1));
   if (target === 'salvar-tudo' && state.events.length) {
     openSaveMenu({ all: true }, $('save-all'));
     return;
   }
-  const ev = target.startsWith('ev-') ? findEvent(target) : null;
+  if (!target.startsWith('ev-')) return;
+  let ev = findEvent(target);
+  const day = /^ev-(\d{4}-\d{2}-\d{2})-/.exec(target)?.[1];
+  if (!ev && day && day < agenda.since && agenda.has(monthOf(day))) {
+    try {
+      await agenda.extend(firstDay(monthOf(day)));
+    } catch (err) {
+      console.error(err);
+      showNotice('<strong>Não foi possível abrir a atividade do link.</strong> Confira a conexão e recarregue a página.');
+      return;
+    }
+    useAgenda();
+    renderFilters();
+    ev = findEvent(target);
+  }
   if (!ev) return;
   if (!matches(ev)) {
     state.sectors.clear();
@@ -144,10 +266,11 @@ function openFromAddress() {
   document.querySelector(`.event-card[data-id="${CSS.escape(ev.id)}"]`)?.scrollIntoView({ block: 'center' });
 }
 
-// Coming back to a tab left open for a while: read the spreadsheet again, keeping filters and
-// selection while they still exist. If the sheet can't be read, the agenda stays as it was.
+// Coming back to a tab left open for a while: read the agenda again (the months read so far), keeping
+// filters and selection while they still exist. If it can't be read, the agenda stays as it was.
 async function reload() {
-  if (await fetchAgenda({ keepOnError: true })) {
+  backJobs.clear(); // a month that couldn't be read is tried again
+  if (await fetchAgenda({ again: true })) {
     const orgs = new Set(state.events.flatMap((ev) => ev.orgs.map(matchKey)));
     if (state.org && !orgs.has(state.org)) state.org = '';
     const sectors = new Set(state.events.map((ev) => matchKey(ev.sector)));
@@ -170,15 +293,21 @@ function renderSummary() {
 
 // ---------- Notices ----------
 
-// Spreadsheet problems: one summary line for visitors, the row list folded for whoever edits the sheet.
-function showProblems(invalid, warnings) {
-  if (!invalid.length && !warnings.length) return;
+// Problems in the agenda's files (the pre-commit hook refuses them, so they only come from a file
+// that skipped it): one summary line for visitors, the rows folded for whoever edits the agenda, each
+// with its month's file ("2026-11.csv, linha 5").
+function showProblems(invalid, warnings, missing) {
+  if (!invalid.length && !warnings.length && !missing.length) return;
   const summary = [];
-  if (invalid.length) summary.push(invalid.length === 1 ? '1 linha da planilha ficou de fora' : `${invalid.length} linhas da planilha ficaram de fora`);
+  if (missing.length) summary.push(missing.length === 1 ? '1 mês da agenda não pôde ser lido' : `${missing.length} meses da agenda não puderam ser lidos`);
+  if (invalid.length) summary.push(invalid.length === 1 ? '1 linha da agenda ficou de fora' : `${invalid.length} linhas da agenda ficaram de fora`);
   if (warnings.length) summary.push(warnings.length === 1 ? '1 atividade aparece só no primeiro dia' : `${warnings.length} atividades aparecem só no primeiro dia`);
+  const columns = (list) => `${list.length === 1 ? 'a coluna' : 'as colunas'} ${list.map((c) => `“${escapeHtml(c)}”`).join(' e ')}`;
+  const where = (r) => `${escapeHtml(r.file)}, linha ${r.line}`;
   const items = [
-    ...invalid.map((r) => `<li>Linha ${r.line}: “${escapeHtml(r.title)}”, dia “${escapeHtml(r.day)}”: falta o título ou a data completa (17/10/2026).</li>`),
-    ...warnings.map((r) => `<li>Linha ${r.line}: “${escapeHtml(r.title)}”, dia final “${escapeHtml(r.value)}”: não é uma data depois do dia.</li>`),
+    ...missing.map((r) => `<li>${escapeHtml(r.file)}: a primeira linha não tem ${columns(r.columns)}.</li>`),
+    ...invalid.map((r) => `<li>${where(r)}: “${escapeHtml(r.title)}”, dia “${escapeHtml(r.day)}”: falta o título ou a data completa (17/10/2026).</li>`),
+    ...warnings.map((r) => `<li>${where(r)}: “${escapeHtml(r.title)}”, dia final “${escapeHtml(r.value)}”: não é uma data depois do dia.</li>`),
   ].join('');
   showNotice(`<p><strong>${summary.join(' e ')}.</strong></p><details><summary>Ver as linhas para corrigir</summary><ul>${items}</ul></details>`);
 }
@@ -187,7 +316,7 @@ function showProblems(invalid, warnings) {
 
 // Views are rebuilt with replaceChildren(), which drops keyboard focus. Every focusable node that
 // can be rebuilt carries data-focus; after a render, focus moves to its new twin.
-const FOCUS_FALLBACK = { 'month:today': 'month:title', 'clear-filters': 'chip:all' };
+const FOCUS_FALLBACK = { 'month:today': 'month:title', 'month:retry': 'month:title', 'clear-filters': 'chip:all', 'past-more': 'past-toggle' };
 const findFocus = (key) => document.querySelector(`[data-focus="${CSS.escape(key)}"]`);
 
 function rerender(render) {
@@ -301,13 +430,17 @@ let lastNextId = null;
 
 function renderView() {
   const container = $('view');
+  // First, as it can move the window at once (and with it state.events).
+  const monthStatus = state.view === 'month' && agenda.since != null ? monthReadiness() : 'ready';
   const events = visibleEvents();
   const nextId = findNext(events)?.id ?? null;
   lastNextId = nextId;
   const onSelect = (ev) => select(ev, { trigger: document.activeElement });
   const onSave = (ev, button) => openSaveMenu({ ev }, button);
+  // The month before the window, for the list's "Ver atividades de setembro".
+  const olderMonth = agenda.older();
 
-  if (!state.events.length) {
+  if (!state.events.length && !olderMonth && monthStatus === 'ready') {
     container.replaceChildren(el('p', 'placeholder', $('notice').hidden ? 'A agenda está vazia.' : ''));
     return;
   }
@@ -327,7 +460,11 @@ function renderView() {
       onTogglePast: () => {
         state.showPast = !state.showPast;
         rerender(renderView);
+        // Nothing read behind today yet (for these filters): bring the month before.
+        if (state.showPast && !pastCount()) loadOlder();
       },
+      older: olderMonth ? { label: monthLabel(olderMonth), status: backJobs.get(firstDay(olderMonth)) || 'idle' } : null,
+      onOlder: loadOlder,
     });
   } else {
     renderMonth(container, {
@@ -353,6 +490,8 @@ function renderView() {
       },
       onDay: (key, dayEvents) => pickDay(key, dayEvents),
       onMove: (key) => moveFocusDay(key),
+      status: monthStatus,
+      onRetry: retryMonth,
     });
   }
 }

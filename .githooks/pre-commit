@@ -1,15 +1,20 @@
 #!/bin/sh
-# Rebuilds agenda.ics, the calendar "Salvar tudo na agenda" subscribes people to, from what is being
-# committed (the staged agenda CSV and the staged js/ and tools/ files, never unstaged edits), and
-# adds it to the commit, so the published feed can't fall behind the agenda. A commit that doesn't
-# change the agenda leaves the file as it is (the same agenda always gives the same file).
+# Checks the agenda's month files and rebuilds the two files made from them, from what is being
+# committed (the staged files of data/, js/ and tools/, never unstaged edits), and adds them to the
+# commit, so they can't fall behind the agenda:
+#   - the agenda's index.json (data/agenda/, AGENDA_DIR in js/config.js), the months the pages read,
+#     by tools/agenda-data.mjs;
+#   - agenda.ics, the calendar "Salvar tudo na agenda" subscribes people to, by tools/agenda-ics.mjs.
+# A commit that doesn't change the agenda leaves them as they are (the same agenda always gives the same
+# files). A row in another file than its Dia's month, or one the site couldn't read, stops the commit
+# with the reason; node tools/agenda-data.mjs --fix moves rows to the file they belong in.
 #
 # Git runs it once the clone points at this folder (worktrees share the setting):
 #   git config core.hooksPath .githooks
 set -e
 
 if ! command -v node >/dev/null 2>&1; then
-  echo "pre-commit: Node 22 or newer is needed to rebuild agenda.ics (tools/agenda-ics.mjs); nothing was committed." >&2
+  echo "pre-commit: Node 22 or newer is needed to check the agenda and rebuild its index and agenda.ics (tools/); nothing was committed." >&2
   exit 1
 fi
 
@@ -17,21 +22,30 @@ root=$(git rev-parse --show-toplevel)
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
 
-# The staged files the feed is made from, as they will be committed.
+# The staged files the generated ones are made from, as they will be committed.
 git ls-files -z -- js tools data | git checkout-index -z --stdin --prefix="$tmp/"
 
-if ! node "$tmp/tools/agenda-ics.mjs" "$tmp/agenda.ics" --local-only >"$tmp/log" 2>&1; then
+if ! node "$tmp/tools/agenda-data.mjs" >"$tmp/log" 2>&1; then
+  cat "$tmp/log" >&2
+  echo "pre-commit: the agenda's files need a fix (see above); nothing was committed." >&2
+  exit 1
+fi
+if ! node "$tmp/tools/agenda-ics.mjs" "$tmp/agenda.ics" >"$tmp/log" 2>&1; then
   cat "$tmp/log" >&2
   echo "pre-commit: agenda.ics could not be rebuilt (see above); nothing was committed." >&2
   exit 1
 fi
-# No file: CSV_URL is a published sheet, which a commit can't follow (the builder said so).
-[ -f "$tmp/agenda.ics" ] || { cat "$tmp/log"; exit 0; }
 
-if ! cmp -s "$tmp/agenda.ics" "$root/agenda.ics"; then
-  cp "$tmp/agenda.ics" "$root/agenda.ics"
-fi
-if ! git diff --quiet -- "$root/agenda.ics" 2>/dev/null || ! git ls-files --error-unmatch -- "$root/agenda.ics" >/dev/null 2>&1; then
-  git add -- "$root/agenda.ics"
-  echo "pre-commit: agenda.ics rebuilt from the agenda and added to this commit."
-fi
+# Where the index is (AGENDA_DIR, as the staged js/config.js says).
+index=$(cd "$tmp" && node --input-type=module -e "import { AGENDA_DIR } from './js/config.js'; console.log(AGENDA_DIR.replace(/\/?$/, '/') + 'index.json');")
+
+for file in "$index" agenda.ics; do
+  if ! cmp -s "$tmp/$file" "$root/$file"; then
+    mkdir -p "$(dirname "$root/$file")"
+    cp "$tmp/$file" "$root/$file"
+  fi
+  if ! git diff --quiet -- "$root/$file" 2>/dev/null || ! git ls-files --error-unmatch -- "$root/$file" >/dev/null 2>&1; then
+    git add -- "$root/$file"
+    echo "pre-commit: $file rebuilt from the agenda and added to this commit."
+  fi
+done

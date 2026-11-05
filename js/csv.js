@@ -2,7 +2,7 @@
 // Handles quoted fields (commas, line breaks, "" escapes), a UTF-8 BOM,
 // and auto-detects "," or ";" (pt-BR spreadsheet exports use ";").
 
-function detectDelimiter(text) {
+export function detectDelimiter(text) {
   const firstLine = text.split(/\r?\n/, 1)[0] || '';
   const commas = (firstLine.match(/,/g) || []).length;
   const semicolons = (firstLine.match(/;/g) || []).length;
