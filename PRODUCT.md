@@ -35,7 +35,7 @@ Not one movement's agenda: the shared calendar of many organizations in one city
 
 ## Operating Context
 
-- Data comes from a CSV: `data/agenda.csv` during development; later a public Google Sheet published as CSV (`CSV_URL` in `js/config.js`). Editing the sheet updates the site.
+- Data comes from CSV files committed with the site: the agenda is one file per month in `data/agenda/` (`AGENDA_DIR` in `js/config.js`), and a page reads only the months it shows, so a visit stays light however long the agenda grows. Editing a month's file and pushing updates the site; a public Google Sheet would need a scheduled job that splits it into the months.
 - Rows are curated by the NOS team from the organizations' own posts; the first batch came from a survey of the organizations' public Instagram profiles (15/10/2026, kept outside this repository). Each row keeps the link to its source post.
 - Focus is the city of Dourados. Occasionally an activity elsewhere in Mato Grosso do Sul appears (the Grande Dourados region, or a march in Campo Grande with buses from Dourados); it is always labeled with its city.
 - Comércio reads the answers of a Google Form (one row per business: name, city, Instagram, what it offers, how to contact, other networks, and the consent "Podemos incluir sua empresa na nossa planilha e compartilhar suas informações com a rede?"), during development from `data/comercio.csv`, later the published answer sheet (`COMMERCE_CSV_URL`). Only businesses that answered yes to the consent are shown. The NOS team adds a `Categoria` column (and may add `Visível`) to the right of the answers; the first batch came from 17 answers on 26/10/2026.
@@ -66,7 +66,7 @@ Not one movement's agenda: the shared calendar of many organizations in one city
 
 ## Evidence on Hand
 
-- The Instagram survey (21 reports about the organizations, 15/10/2026, kept outside this repository, next to the project folder as `../coleta-instagram/`): their recent and upcoming activities and the source post URLs. The provisional `data/agenda.csv` is built from them.
+- The Instagram survey (21 reports about the organizations, 15/10/2026, kept outside this repository, next to the project folder as `../coleta-instagram/`): their recent and upcoming activities and the source post URLs. The agenda's rows (`data/agenda/`) are built from them.
 - The 17 answers of the registration form of 26/10/2026 (`data/comercio.csv`), with the category filled by the agent for the first build (to be checked by the NOS team).
 - No photos, no official visual identity. The domain is nos.dourados.social (GitHub Pages).
 
