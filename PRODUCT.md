@@ -35,10 +35,10 @@ Not one movement's agenda: the shared calendar of many organizations in one city
 
 ## Operating Context
 
-- Data comes from CSV files committed with the site: the agenda is one file per month in `data/agenda/` (`AGENDA_DIR` in `js/config.js`), and a page reads only the months it shows, so a visit stays light however long the agenda grows. Editing a month's file and pushing updates the site; a public Google Sheet would need a scheduled job that splits it into the months.
+- Data comes from CSV files committed with the site: the agenda is one file per month in `data/agenda/` (`AGENDA_DIR` in `js/config.js`), and a page reads only the months it shows, so a visit stays light however long the agenda grows. Editing a month's file and pushing updates the site; Google Sheets were dropped on 2026-11-05 (editing the files is simpler).
 - Rows are curated by the NOS team from the organizations' own posts; the first batch came from a survey of the organizations' public Instagram profiles (15/10/2026, kept outside this repository). Each row keeps the link to its source post.
 - Focus is the city of Dourados. Occasionally an activity elsewhere in Mato Grosso do Sul appears (the Grande Dourados region, or a march in Campo Grande with buses from Dourados); it is always labeled with its city.
-- Comércio reads the answers of a Google Form (one row per business: name, city, Instagram, what it offers, how to contact, other networks, and the consent "Podemos incluir sua empresa na nossa planilha e compartilhar suas informações com a rede?"), during development from `data/comercio.csv`, later the published answer sheet (`COMMERCE_CSV_URL`). Only businesses that answered yes to the consent are shown. The NOS team adds a `Categoria` column (and may add `Visível`) to the right of the answers; the first batch came from 17 answers on 26/10/2026.
+- Comércio reads the answers of a Google Form (one row per business: name, city, Instagram, what it offers, how to contact, other networks, and the consent "Podemos incluir sua empresa na nossa planilha e compartilhar suas informações com a rede?"), copied by the team into `data/comercio.csv` (`COMMERCE_CSV_URL`). Only businesses that answered yes to the consent are shown. The NOS team adds a `Categoria` column (and may add `Visível`) to the right of the answers; the first batch came from 17 answers on 26/10/2026.
 - Permanent, not a campaign: no countdown, no election end date.
 - Used on mid-range Android phones, often outdoors, and shared through WhatsApp.
 - Development (code, identifiers, comments) is in English; content and UI are in Brazilian Portuguese.
@@ -74,7 +74,7 @@ Not one movement's agenda: the shared calendar of many organizations in one city
 
 1. Share in two taps: the path from seeing an activity to sending it is the shortest thing in the app.
 2. Phone first; desktop is the production bench.
-3. The spreadsheets are the source of truth; nobody touches code to update the agenda or the list of businesses.
+3. The CSV files are the source of truth: updating the agenda or the list of businesses means editing a file and publishing, never touching the code.
 4. Every activity says who organizes it and where the information came from.
 5. Dourados first: other cities are the exception and always labeled.
 
