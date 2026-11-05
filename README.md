@@ -2,10 +2,11 @@
 
 A agenda das organizações e movimentos de Dourados/MS e o comércio da rede, em um só lugar. NOS = Núcleo de Organização Social (nome provisório).
 
-O site tem três páginas, cada uma um arquivo HTML:
+O site tem quatro páginas, cada uma um arquivo HTML:
 
 - **Início** (`index.html`): o bom-dia (ou boa-tarde, boa-noite) sob o céu desta hora, a próxima atividade pousada na faixa, pronta para mandar no WhatsApp, e uma porta para cada página.
 - **Agenda** (`agenda.html`): as atividades das organizações, em lista de dias ou no mês. Até 26/10/2026 era o `index.html`; até 27/10/2026 se chamava Calendário e ficava em `calendario.html`, endereço que agora leva para `agenda.html` (assim os links já compartilhados continuam funcionando).
+- **Notícias** (`noticias.html`): o que as organizações estão vivendo (conquistas, perdas, alertas e informes, também os de serviço público), escolhido pela equipe nos posts delas, com o link de cada post.
 - **Comércio** (`comercio.html`): os negócios que se cadastraram pelo formulário da rede, de A a Z.
 
 No celular, a barra no pé da tela leva de uma página à outra; no computador, os links ficam no alto, sobre o céu. A marca NOS leva ao Início. São links comuns, então funcionam em qualquer hospedagem estática.
@@ -29,7 +30,7 @@ A agenda fica na pasta `data/agenda/` (`AGENDA_DIR`, no arquivo `js/config.js`),
 - **Mudou de data para outro mês:** a linha muda de arquivo.
 - **Ainda sem data:** fica em `sem-data.csv`, oculta (`Visível` desmarcado), até ganhar a data e ir para o mês dela.
 - **`index.json`:** a lista dos meses que o site lê, refeita sozinha a cada commit (veja "A agenda assinada", abaixo). Não edite à mão.
-- **Linha no arquivo errado:** o commit é recusado e diz para onde ela vai. `node tools/agenda-data.mjs --fix` muda as linhas de arquivo sozinho, do jeito que estão escritas; `node tools/agenda-data.mjs --check` só confere.
+- **Linha no arquivo errado:** o commit é recusado e diz para onde ela vai. `node tools/month-files.mjs --fix` muda as linhas de arquivo sozinho, do jeito que estão escritas; `node tools/month-files.mjs --check` só confere (os dois valem para a agenda e para as notícias).
 
 Os arquivos seguem o formato brasileiro: colunas separadas por ponto e vírgula (`;`), datas no formato dia/mês/ano e acentos em UTF-8. Eles abrem direto no Excel, no LibreOffice e no Google Planilhas.
 
@@ -73,6 +74,27 @@ Linhas visíveis sem título ou com data inválida (ou sem o ano) não entram no
 ### De onde vieram as atividades
 
 As linhas atuais (até 05/11/2026 num arquivo só, o `data/agenda.csv`) foram montadas a partir de um levantamento dos perfis públicos de Instagram das organizações (15/10/2026, mantido fora deste repositório), com foco em Dourados; cada linha guarda o link do post de origem na coluna `Fonte`. Algumas linhas estão ocultas (`Visível` desmarcado): atividades ainda sem data certa e atividades de outras cidades sem participação de organizações de Dourados. A coluna `Notas internas` diz o que ainda precisa ser confirmado em cada linha.
+
+## Editando as notícias
+
+As notícias ficam em `data/noticias/` (`NEWS_DIR`), do mesmo jeito que a agenda: **um arquivo por mês**, pela coluna `Data` (o `2026-10.csv` tem as notícias de outubro de 2026), rascunhos sem data no `sem-data.csv`, e o `index.json` refeito sozinho a cada commit. O commit confere se cada notícia está no mês da sua `Data`, como faz com a agenda, e `node tools/month-files.mjs --fix` muda as linhas de arquivo.
+
+| coluna | obrigatória | o que é |
+|---|---|---|
+| `Título` | sim | a manchete, escrita pela equipe: quem e o quê, em palavras simples |
+| `Data` | sim | o dia do fato (ou do post, quando o fato não tem dia): `28/10/2026` |
+| `Tipo` | não | `Conquista`, `Perda`, `Alerta` ou `Informe` (os filtros da página; outro tipo também aparece) |
+| `Organização` | não | quem viveu a notícia; mais de uma separadas por vírgula, a principal primeiro |
+| `Setor` | não | o grupo da organização, os mesmos da agenda (a cor do ponto) |
+| `Resumo` | não | uma ou duas frases: o cartão, o começo da notícia aberta e a mensagem do WhatsApp |
+| `Texto` | não | a notícia, em parágrafos separados por uma linha em branco; o que é denúncia ou opinião vai atribuído ("segundo o SIMTED…") |
+| `Fonte` | não | o link do post de onde veio |
+| `Atividade` | não | o código de uma atividade da agenda ligada à notícia (o fim do link dela, `ev-2026-11-07-…`): aparece como "Na agenda" |
+| `Destaque` | não | marcada, a notícia abre a página, maior, e aparece na porta do Início |
+| `Visível` | não | desmarcada = rascunho, não aparece |
+| `Notas internas` | não | anotações da equipe (de qual relatório veio, o que falta confirmar); o arquivo é público |
+
+Toda notícia vem de um post da organização (ou de um órgão público), com o link junto; nada suposto nem inventado. As primeiras 15 vieram dos relatórios do levantamento, com as citações conferidas.
 
 ## Editando o comércio
 
@@ -122,20 +144,20 @@ Num clone novo, ative os hooks uma vez (eles estão em `.githooks/`):
 git config core.hooksPath .githooks
 ```
 
-- `node tools/agenda-ics.mjs --check` diz se o `agenda.ics` está em dia, e `node tools/agenda-data.mjs --check` se as linhas estão nos meses certos e o `index.json` em dia; sem `--check`, os dois refazem os arquivos na mão. Precisam do Node 22 ou mais novo, como o hook.
-- Não edite o `agenda.ics` nem o `index.json` à mão. Num conflito de merge neles, resolva os arquivos dos meses e refaça os dois (`node tools/agenda-data.mjs && node tools/agenda-ics.mjs`) em vez de juntar os textos.
+- `node tools/agenda-ics.mjs --check` diz se o `agenda.ics` está em dia, e `node tools/month-files.mjs --check` se as linhas (da agenda e das notícias) estão nos meses certos e os `index.json` em dia; sem `--check`, os dois refazem os arquivos na mão. Precisam do Node 22 ou mais novo, como o hook.
+- Não edite o `agenda.ics` nem o `index.json` à mão. Num conflito de merge neles, resolva os arquivos dos meses e refaça os dois (`node tools/month-files.mjs && node tools/agenda-ics.mjs`) em vez de juntar os textos.
 - Se a agenda tiver um erro que impeça o site de lê-la (uma linha no mês errado, um arquivo sem a coluna `Título` ou `Dia`, colunas diferentes entre os meses, uma linha visível sem título ou sem data), o commit é recusado, com a explicação.
 
 O site está em https://nos.dourados.social (GitHub Pages, domínio no arquivo `CNAME`). Se o endereço mudar:
 
 - troque `SITE_URL` em `js/config.js` (ele entra no fim de cada mensagem de WhatsApp, com o nome da página: `agenda.html`, `comercio.html`);
-- no `<head>` das três páginas (`index.html`, `agenda.html`, `comercio.html`), troque o endereço nas tags da prévia do link (`canonical`, `og:url`, `og:image`…). Os endereços precisam ser completos: sem eles, o WhatsApp e as redes mostram a prévia só com título e descrição, sem a imagem `assets/og-image.png`.
+- no `<head>` das quatro páginas (`index.html`, `agenda.html`, `noticias.html`, `comercio.html`), troque o endereço nas tags da prévia do link (`canonical`, `og:url`, `og:image`…). Os endereços precisam ser completos: sem eles, o WhatsApp e as redes mostram a prévia só com título e descrição, sem a imagem `assets/og-image.png`.
 
 ## Funcionando sem internet e instalando como app
 
 O site funciona sem internet e pode ser instalado como app no celular e no computador (PWA).
 
-- **Sem internet.** O service worker (`sw.js`) busca tudo primeiro na rede e só usa a cópia guardada quando a rede falha: quem está online vê as planilhas atuais e a versão publicada do site (com o cache normal do navegador, de alguns minutos). Já na primeira visita ele guarda o site inteiro (as três páginas e o que elas carregam, a lista `SHELL`, no `sw.js`), a agenda do mês passado em diante e a lista do comércio; os meses mais antigos ficam guardados depois de abertos uma vez. Sem conexão, o site abre com a última cópia salva e avisa: "Sem conexão. Mostrando a agenda salva em…" (ou "a lista salva"); um mês nunca aberto diz que não deu para carregá-lo. O panfleto também é gerado sem internet.
+- **Sem internet.** O service worker (`sw.js`) busca tudo primeiro na rede e só usa a cópia guardada quando a rede falha: quem está online vê as planilhas atuais e a versão publicada do site (com o cache normal do navegador, de alguns minutos). Já na primeira visita ele guarda o site inteiro (as quatro páginas e o que elas carregam, a lista `SHELL`, no `sw.js`), a agenda e as notícias dos últimos meses e a lista do comércio; os meses mais antigos ficam guardados depois de abertos uma vez. Sem conexão, o site abre com a última cópia salva e avisa: "Sem conexão. Mostrando a agenda salva em…" (ou "a lista salva"); um mês nunca aberto diz que não deu para carregá-lo. O panfleto também é gerado sem internet.
 - **Arquivos novos.** Se a página passar a carregar um arquivo novo (um módulo em `js/`, uma folha de estilo, uma fonte, um ícone), acrescente-o à lista `SHELL` do `sw.js`; senão ele só fica disponível sem internet a partir da segunda visita. Não é preciso mudar versão a cada publicação: cada resposta da rede atualiza a cópia.
 - **App instalável.** O `manifest.webmanifest` tem o nome, as cores, os ícones e as capturas de tela que aparecem na hora de instalar. O app abre com o celular em pé ou deitado.
 - **Ícones, prévia do link e capturas de tela** são gerados a partir de HTML: `assets/icon.html` (ícones do app e do navegador), `assets/og-image.html` (prévia do link, 1200 × 630) e o próprio site, num dia fixo (capturas). Depois de mudar o nome, a marca ou as cores, refaça tudo com `node assets/render.cjs` (ou só `icons`, `og` ou `shots`). Ele precisa do Playwright com um Chromium: na pasta do projeto, `npm i --no-save playwright-core` e `npx playwright-core install chromium` (ou aponte `PLAYWRIGHT_CORE` e `CHROMIUM` para os que você já tem).
@@ -145,6 +167,7 @@ O site funciona sem internet e pode ser instalado como app no celular e no compu
 Tudo que costuma mudar fica em `js/config.js`:
 
 - `AGENDA_DIR`: a pasta da agenda, um arquivo por mês (`data/agenda/`).
+- `NEWS_DIR` e `NEWS_KINDS`: a pasta das notícias (`data/noticias/`) e os tipos de notícia, na ordem dos filtros.
 - `COMMERCE_CSV_URL`: de onde vem o comércio (as respostas do formulário).
 - `COMMERCE_FORM_URL`: o link do formulário de cadastro, para o botão "Cadastrar meu negócio" (vazio esconde o convite).
 - `COMMERCE_CATEGORIES`: as categorias sugeridas, na ordem dos filtros.
@@ -157,14 +180,14 @@ Tudo que costuma mudar fica em `js/config.js`:
 - `EXTRA_HOLIDAYS`: feriados locais, marcados como os nacionais (`js/holidays.js`).
 - `ORG_NAMES`: nomes por extenso das organizações.
 
-**Cores, tema claro e escuro, o céu.** Todas as cores do site e dos panfletos ficam em `css/theme.css`, em duas camadas: a paleta (as cores: barro, terra roxa, urucum, ipê-rosa, as faixas do céu de cada hora, as cores dos grupos) e os papéis (para que serve cada cor: o chão, os cartões, a tinta, o destaque, o céu…). O resto do CSS só usa os papéis. O tema escuro troca os papéis, não a paleta. Os panfletos não seguem o tema da página: cada um tem o céu da hora da atividade (amanhecer, dia, entardecer ou noite; sem horário, o dia), com o barro embaixo, ou a terra roxa à noite. As cores do `<meta name="theme-color">` das três páginas e `theme_color`/`background_color` no `manifest.webmanifest` não leem variáveis: se mudar o céu do dia ou o barro, troque-as à mão e refaça ícones, prévia do link e capturas com `node assets/render.cjs`.
+**Cores, tema claro e escuro, o céu.** Todas as cores do site e dos panfletos ficam em `css/theme.css`, em duas camadas: a paleta (as cores: barro, terra roxa, urucum, ipê-rosa, ipê-amarelo, as faixas do céu de cada hora, as cores dos grupos) e os papéis (para que serve cada cor: o chão, os cartões, a tinta, o destaque, o céu…). O resto do CSS só usa os papéis. O tema escuro troca os papéis, não a paleta. Os panfletos não seguem o tema da página: cada um tem o céu da hora da atividade (amanhecer, dia, entardecer ou noite; sem horário, o dia), com o barro embaixo, ou a terra roxa à noite. As cores do `<meta name="theme-color">` das quatro páginas e `theme_color`/`background_color` no `manifest.webmanifest` não leem variáveis: se mudar o céu do dia ou o barro, troque-as à mão e refaça ícones, prévia do link e capturas com `node assets/render.cjs`.
 
 Outros textos:
 
 - Frase final das mensagens de WhatsApp: `CLOSING_LINE` (atividades) e `COMMERCE_CLOSING_LINE` (negócios indicados) em `js/whatsapp.js` (usam `APP_NAME`, `HOME_CITY` e `SITE_URL`).
-- Para trocar o nome do site, além de `APP_NAME`/`APP_FULL_NAME`, mude o `<title>`, a descrição e as tags `og:` no `<head>` das três páginas e o `<h1>` escondido logo abaixo do `<body>`; o nome do app instalável fica no `manifest.webmanifest` e no `apple-mobile-web-app-title` das páginas. A marca é um desenho de NOS (`MARK` em `js/icons.js`): com outro nome, o site escreve a palavra no lugar dela até que se desenhe uma marca nova. Depois refaça os ícones e a prévia com `node assets/render.cjs`.
+- Para trocar o nome do site, além de `APP_NAME`/`APP_FULL_NAME`, mude o `<title>`, a descrição e as tags `og:` no `<head>` das quatro páginas e o `<h1>` escondido logo abaixo do `<body>`; o nome do app instalável fica no `manifest.webmanifest` e no `apple-mobile-web-app-title` das páginas. A marca é um desenho de NOS (`MARK` em `js/icons.js`): com outro nome, o site escreve a palavra no lugar dela até que se desenhe uma marca nova. Depois refaça os ícones e a prévia com `node assets/render.cjs`.
 - Estilos de panfleto: lista `FLYER_STYLES` em `js/flyer.js`, com o visual em `css/flyers.css`. Cada panfleto é uma paisagem do mundo Céu · Terra: o céu da hora da atividade, a faixa no horizonte e a terra com a atividade. O `js/flyer.js` planeja as quebras de linha pelas larguras medidas das fontes; se trocar fonte ou peso, meça de novo com `.impeccable/flyer-metrics.html`.
-- A faixa do horizonte é a imagem `assets/faixa.svg` (provisória). Quando a faixa das artistas da Reserva chegar, ela entra no lugar desse arquivo e o crédito no rodapé das três páginas muda junto.
+- A faixa do horizonte é a imagem `assets/faixa.svg` (provisória). Quando a faixa das artistas da Reserva chegar, ela entra no lugar desse arquivo e o crédito no rodapé das quatro páginas muda junto.
 
 ## Design
 
@@ -178,6 +201,7 @@ As cores, fontes e cantos vêm das variáveis do `css/theme.css` (as direções 
 index.html          o Início
 agenda.html         a agenda
 calendario.html     o endereço antigo da agenda (leva para agenda.html)
+noticias.html       as notícias
 comercio.html       o comércio
 css/theme.css       cores (paleta e papéis, claro e escuro, o céu de cada hora), fontes e cantos
 css/style.css       estilos do site
@@ -192,11 +216,13 @@ assets/faixa.svg    a faixa do horizonte (arte provisória)
 assets/screenshots/ capturas de tela do app instalável
 fonts/              fontes hospedadas no próprio site: Bricolage Grotesque e Inter (o site e os panfletos); licenças em fonts/OFL-*.txt (a da Barlow fica pela marca, desenhada a partir dela)
 js/config.js        configurações (planilhas, nome, cidade, endereço do site, setores, feriados locais, nomes das organizações, categorias do comércio)
-js/page.js          o que as três páginas compartilham (cabeçalho, avisos, área de transferência, leitura das planilhas, modo sem internet)
-js/agenda-source.js lê a agenda mês a mês: o índice e só os meses que a página mostra
+js/page.js          o que as quatro páginas compartilham (cabeçalho, avisos, área de transferência, leitura das planilhas, modo sem internet)
+js/month-files.js   lê uma pasta de arquivos por mês (a agenda, as notícias): o índice e só os meses que a página mostra
 js/sky.js           o céu desta hora e o tema claro ou escuro
 js/home.js          o Início
 js/app.js           carrega a agenda e liga a interface da agenda
+js/noticias.js      a página das notícias
+js/news.js          lê as linhas das notícias
 js/comercio.js      a página do comércio
 js/businesses.js    lê as respostas do formulário (números, Instagram, links)
 js/agenda.js        a lista: os dias e as atividades
@@ -204,11 +230,12 @@ js/month.js         o mês
 js/flyer.js         estilos de panfleto e exportação PNG
 js/save-menu.js     "Salvar na minha agenda" e "Salvar tudo na agenda": as opções de cada aparelho
 js/ics.js           a atividade como arquivo de agenda (.ics) e nos formulários do Google Agenda e do Outlook; a agenda inteira para assinar
-tools/agenda-data.mjs  confere os arquivos dos meses e gera o data/agenda/index.json (--check: tudo em dia?; --fix: põe cada linha no seu mês)
+tools/month-files.mjs  confere os arquivos por mês (agenda e notícias) e gera o index.json de cada pasta (--check: tudo em dia?; --fix: põe cada linha no seu mês)
+tools/folders.mjs   as pastas de arquivos por mês e como ler cada uma
 tools/agenda-ics.mjs  gera o agenda.ics a partir de todos os meses (--check: ele está em dia?)
 agenda.ics          a agenda assinada por "Salvar tudo na agenda" (gerado: não edite à mão)
-.githooks/          conferem os meses e refazem o index.json e o agenda.ics a cada commit (ative com git config core.hooksPath .githooks)
-js/whatsapp.js      montador das mensagens de WhatsApp (atividade e negócio)
+.githooks/          conferem os meses e refazem os index.json e o agenda.ics a cada commit (ative com git config core.hooksPath .githooks)
+js/whatsapp.js      montador das mensagens de WhatsApp (atividade, notícia e negócio)
 js/colors.js        cores dos setores
 js/holidays.js      feriados nacionais
 js/icons.js         ícones, o desenho da marca NOS e os traços à mão
@@ -216,6 +243,7 @@ js/csv.js           leitor de CSV
 js/events.js        normaliza linhas, datas e horários
 js/vendor/          html-to-image, que gera o PNG (licença ao lado)
 data/agenda/        a agenda: um arquivo por mês (AAAA-MM.csv), o sem-data.csv (rascunhos sem data) e o index.json (gerado)
+data/noticias/      as notícias, do mesmo jeito
 data/comercio.csv   as respostas do formulário de cadastro (26/10/2026), com a categoria
 design/             o design: uma página HTML por tela, agrupadas em design/designs.json
 ```

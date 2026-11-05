@@ -36,6 +36,12 @@ colors:
   ipe-rosa-tint: "#F3C8DA"
   ipe-rosa-night: "#F58AB3"
   ipe-rosa-night-tint: "#522036"
+  # Ipê-amarelo, Notícias' colour
+  ipe-amarelo: "#E0A40A"
+  ipe-amarelo-text: "#7A5500"
+  ipe-amarelo-tint: "#F6DE9C"
+  ipe-amarelo-night: "#F2C14E"
+  ipe-amarelo-night-tint: "#413010"
   # The sky, five bands from the top (1) to the horizon (5), at each hour
   dawn-1: "#93C1E6"
   dawn-2: "#BED6E8"
@@ -272,6 +278,16 @@ components:
     textColor: "{colors.moonlit}"
     rounded: "{rounded.card}"
     padding: "12px 12px 14px 14px"
+  door-news:
+    backgroundColor: "{colors.ipe-amarelo-tint}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.card}"
+    padding: "12px 12px 14px 14px"
+  door-news-night:
+    backgroundColor: "{colors.ipe-amarelo-night-tint}"
+    textColor: "{colors.moonlit}"
+    rounded: "{rounded.card}"
+    padding: "12px 12px 14px 14px"
   nav-bar:
     backgroundColor: "{colors.clay-card}"
     textColor: "{colors.ink-soft}"
@@ -327,6 +343,10 @@ A palette taken from the place: clay and terra roxa for the land, urucum and ip�
 - **Deep Ipê-Rosa** (#A12E5F): Comércio's icons, and the colour mixed into the text of its panel and door.
 - **Ipê-Rosa Tint** (#F3C8DA): Comércio's door (ink on it: 11.73:1).
 - **Night Ipê-Rosa** (#F58AB3) and **Night Ipê-Rosa Tint** (#522036): the same two jobs at night.
+- **Ipê-Amarelo** (#E0A40A): Notícias' colour of the landscape, the tree that flowers in the dry season; the named source of its shades, not painted itself.
+- **Deep Ipê-Amarelo** (#7A5500): Notícias' icons, and the colour mixed into the text of its door (6.52:1 on cards, 5.35:1 on clay).
+- **Ipê-Amarelo Tint** (#F6DE9C): Notícias' door (ink on it: 13.2:1).
+- **Night Ipê-Amarelo** (#F2C14E) and **Night Ipê-Amarelo Tint** (#413010): the same two jobs at night (moonlit on the tint 10.8:1, the night shade on it 7.6:1).
 
 ### Tertiary
 The sky: five bands from the top (1) to the horizon (5) at each hour, and what shines in it.
@@ -383,7 +403,7 @@ The eight groups of the organizations, one series each, by day and lighter at ni
 - **Button** (Inter 600, 0.9375rem, 1.2): buttons. Chips and segments are 500 at 0.9375rem (600 when chosen), the phone bar's labels and the tags 500 at 0.8125rem, and the month's weekday heads 600 at 0.75rem with 0.04em tracking in capitals, the site's only uppercase.
 
 ### Named Rules
-**The Two Voices Rule.** Bricolage Grotesque is NOS speaking: the greeting, dates, page titles, day heads and the headings that file things (doors, letters, businesses). Inter is what the organizations announce and every control: an activity's title is the organization's own words and is never set in Bricolage.
+**The Two Voices Rule.** Bricolage Grotesque is NOS speaking: the greeting, dates, page titles, day heads, the headings that file things (doors, letters, businesses) and the news headlines, which the team writes (750 on the cards, 800 for the lead and in the panel). Inter is what the organizations announce and every control: an activity's title is the organization's own words and is never set in Bricolage, and in a story what an organization said stays in Inter, attributed.
 
 **The Tabular Dates Rule.** Every date, time and count is set with tabular figures, so days and hours line up down a list.
 
@@ -464,7 +484,7 @@ Lista | Mês and Mensagem | Panfleto: a pill of two equal 42px segments on the c
 - **Selects:** native selects under pill faces (the organization filter; the flyer's style picker, with its count and a drawn chevron), so phones get their own pickers.
 
 ### Navigation
-- **Phones (under 760px):** a bar fixed along the foot of the screen, on the card colour with a 1px top line: three equal links, a 22px icon over a 0.8125rem label in soft ink; the open page in Deep Urucum at 600, its icon in a 56 by 32px Urucum Tint pill; hover shows the fill pill.
+- **Phones (under 760px):** a bar fixed along the foot of the screen, on the card colour with a 1px top line: four equal links (Início, Agenda, Notícias, Comércio), a 22px icon over a 0.8125rem label in soft ink; the open page in Deep Urucum at 600, its icon in a 56 by 32px Urucum Tint pill; hover shows the fill pill.
 - **From 760px:** the links sit on the sky beside the mark in a 68px bar, 1rem labels in the sky's soft ink; the open page in the sky's ink with a 3px urucum underline 12px below it (the sky's hand); hover is the sky's wash pill.
 - **The brand and the theme button:** the NOS mark with "Dourados" in Bricolage 750, its letters in the sky's ink and its O in the sky's hand (on phones, shown on the home only); a 44px round theme button (a moon in the light theme, a sun in the dark) that flips light and dark.
 
@@ -477,7 +497,7 @@ The horizon: `assets/faixa.svg` repeated sideways, full-bleed under the sky. It 
 **The Real Band Rule.** The provisional band may only be replaced by the real one: made, signed and paid for by artists of the Reserva Indígena de Dourados (Kaiowá, Guarani Ñandeva and Terena), with their visible credit in place of the provisional one. Never imitate or adapt anyone's grafismo in the meantime, and never draw a new "Indigenous" pattern to fill the band.
 
 ### Doors (signature)
-The home's way into each page: a flat 18px card in the page's landscape tint (Agenda Urucum or Ipê-Rosa Tint; the night tints in the dark theme), with a 22px icon in the page's deep colour, the page's name in Bricolage 700, its live line in ink at 600, and secondary text that mixes 55% of the page's deep colour into the ink. Hover deepens the tint with 12% of that colour. Two side by side on phones (one column on narrow screens), stacked at the right on the desk.
+The home's way into each page: a flat 18px card in the page's landscape tint (Agenda Urucum, Ipê-Amarelo Tint or Ipê-Rosa Tint; the night tints in the dark theme), with a 22px icon in the page's deep colour, the page's name in Bricolage 700, its live line in ink at 600, and secondary text that mixes 55% of the page's deep colour into the ink. Hover deepens the tint with 12% of that colour. Agenda and Comércio side by side on phones and Notícias under them across the row, its live line the headline the page leads with in Bricolage 700 (1.0625rem; 1.25rem from 760px) with its day and who (one column on narrow screens); the three stacked at the right on the desk, in the pages' order.
 
 **The Landscape Doors Rule.** A page shows its landscape colour only as its door's tint, with its deep shade for icons and mixed text; secondary text on a tint is the hue mixed into the ink, never a grey.
 
@@ -489,6 +509,9 @@ Everything about the person's own calendar shares one look: the share circle's t
 
 ### The Month
 A card of week rows, Sunday first, under a Bricolage 800 title between 44px round arrows. Sundays and holidays are shaded in the fill as days off; the numerals are Bricolage 750; today's is underlined by hand, the next activity's circled, the chosen day ringed in soft ink. On phones one-day activities are 6px group dots and multi-day ones 4px bars in lanes at the week's foot (outlines when cancelled). From 1280px the month becomes a wall calendar: each day writes its entries (dot, time at 700, title; three lines at most, 0.8125rem), holidays are named under the numeral, and the bars are tinted with 22% of the group's colour over the card, with the group's dot and the title in ink.
+
+### Notícias
+The stories on the land under the hour's sky, as the agenda's activities are: the one the team leads with first (the card with the headline at Bricolage 800, 1.375rem on phones and 1.875rem from 760px, the summary at 1rem), then the weeks under day-head-like heads ("Esta semana", "Semana passada", the month) with a quiet count. A story's card: the headline in Bricolage 750 (1.1875rem), the share mark in its corner out of the flow, the summary (0.9375rem), the organization with its group's dot, then its kind as the quiet tag and its day in tabular 600; "Na agenda: sáb, 07/11" as a tonal pill when it leads to an activity. The kind is never a kicker above the headline, and wins and losses look the same: the headline carries the weight. A story opens in the activity panel (the same sheet and column): the day in Bricolage 750 with the kind under it, the headline (Bricolage 800, 1.5rem), the summary as the lead (1.0625rem 500), the facts (who, "Ver o post de origem", "Na agenda"), the story at 1rem/1.6, and the WhatsApp message as a bubble over the action bar. No photos: the post is where the images are.
 
 ### Comércio
 The list beside an information card whose icons are Deep Ipê-Rosa: business cards with the name in Bricolage 750, the offer, a quiet category tag, and labelled contact rows with the numbers at 700 in tabular figures.
@@ -514,7 +537,7 @@ The 1080 by 1350 PNG flyers ("Folha do dia", "Agenda do mês", "Cartaz", and "Av
 ### Do:
 - **Do** take every colour from a role (`--role-*` in `css/theme.css`); the only literals in the stylesheets are `transparent`, `currentColor`, the band's image and system colours under forced colours.
 - **Do** finish every new surface in both themes and under all four skies, with any text on the sky in the sky's ink or soft ink (4.5:1 or more on every band).
-- **Do** keep urucum for the hand, the primary button and the open page; give a new page its own colour of the landscape as a door tint, with its deep shade for icons and mixed text.
+- **Do** keep urucum for the hand, the primary button and the open page; give a new page its own colour of the landscape as a door tint, with its deep shade for icons and mixed text (Comércio ipê-rosa, Notícias ipê-amarelo).
 - **Do** show a group as its dot beside its name, so colour is never the only carrier of meaning.
 - **Do** circle the next activity and underline today with the hand marks, and nothing else on the site; on a flyer the hand circles the activity's date or day and strikes out what was cancelled.
 - **Do** set dates in Bricolage 800 with tabular figures, headings at 700–750, and what the organizations announce in Inter.
