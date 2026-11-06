@@ -847,6 +847,27 @@ STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
 BEGIN:VEVENT
+UID:ev-2026-11-11-ms-sem-racismo-em-dourados-adesao-ao-sinapir@nos.dourados
+ .social
+DTSTAMP:19700101T000000Z
+DTSTART:20261111T230000Z
+DTEND:20261112T000000Z
+SUMMARY:MS sem Racismo em Dourados: adesão ao SINAPIR
+LOCATION:Câmara Municipal de Dourados – Sala A-7 – Av. Marcelino Pires
+ \, 3600\, Jardim Paulista
+DESCRIPTION:Organizações: Secretaria de Estado da Cidadania (SEC)\, Gover
+ no de MS\nTipo: Palestra\n\nAdesão de Dourados ao SINAPIR (Sistema Nacion
+ al de Promoção da Igualdade Racial)\, dentro do programa MS sem Racismo\
+ , com palestra magna do professor pós-doutor Alfa Oumar Diallo\, natural 
+ do Senegal\, professor e pesquisador da UFGD.\n\nNa agenda do NOS Dourados
+ : https://nos.dourados.social/agenda.html#ev-2026-11-11-ms-sem-racismo-em-
+ dourados-adesao-ao-sinapir
+URL:https://nos.dourados.social/agenda.html#ev-2026-11-11-ms-sem-racismo-em
+ -dourados-adesao-ao-sinapir
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
 UID:ev-2026-11-14-batalha-da-50-edicao-especial-do-projeto-50-em-cena@nos.d
  ourados.social
 DTSTAMP:19700101T000000Z
