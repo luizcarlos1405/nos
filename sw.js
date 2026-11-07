@@ -72,6 +72,7 @@ const SHELL = [
   'js/csv.js',
   'js/events.js',
   'js/flyer.js',
+  'js/head.js',
   'js/holidays.js',
   'js/home.js',
   'js/icons.js',
