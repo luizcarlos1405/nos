@@ -26,6 +26,7 @@ FORM: Céu · Terra, chosen by the user on 2026-10-27 after four rounds: round 1
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 
 ## Unresolved
+- The header stays at the top while the page scrolls (built 2026-11-06, waiting for the user's approval): DESIGN.md, The Sky Stays Rule; artboards design/topo-fixo-*.html.
 - The woven band is provisional art: the real one must be made with artists of the Reserva Indígena de Dourados (see design/faixa-pesquisa.html).
 - Comércio is paused ("Em breve") until the businesses are collected and organized.
 - Name and mark are provisional (NOS = Núcleo de Organização Social).

@@ -28,6 +28,7 @@ FORM: Céu · Terra (see the Início brief), applied to Comércio's existing (pa
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 
 ## Unresolved
+- The header stays at the top while the page scrolls (built 2026-11-06, waiting for the user's approval): DESIGN.md, The Sky Stays Rule; artboards design/topo-fixo-*.html.
 - The list is paused until the businesses are collected and organized (revert commit 29dcdeb to bring it back).
 - The form's public link (COMMERCE_FORM_URL) is still empty, so the invitation stays hidden.
 - `Categoria` is filled by the NOS team, not asked by the form.
