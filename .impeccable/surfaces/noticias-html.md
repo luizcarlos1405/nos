@@ -28,6 +28,7 @@ FORM: the approved artboards design/noticias-*.html and design/inicio-noticias-*
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, DESIGN.md, and the artboards kept as the reference.
 
 ## Unresolved
+- The header stays at the top while the page scrolls (built 2026-11-06, waiting for the user's approval): DESIGN.md, The Sky Stays Rule; artboards design/topo-fixo-*.html.
 - Built on 2026-11-05 with 15 stories taken from the survey reports (quotes checked); new stories wait for the team's next scan (the flow is on the board: candidates in `checkup/<day>/noticias/`, the team chooses, a script writes them, the commit checks them). No merge script for the news yet.
 - Decided in the build where the artboards were silent: the lead is the newest story marked Destaque among those the filters leave (none marked: no lead card); Início's door shows the same story (else the newest of the last two months); a day's stories keep the order the file has them; the window is the last three months; the kinds' chips are the kinds read, in NEWS_KINDS' order; the "Na agenda" link appears only when the activity is found in its month's agenda file.
 - No share image (a flyer for a story) yet: the message is the share.

@@ -219,6 +219,7 @@ js/config.js        configurações (planilhas, nome, cidade, endereço do site,
 js/page.js          o que as quatro páginas compartilham (cabeçalho, avisos, área de transferência, leitura das planilhas, modo sem internet)
 js/month-files.js   lê uma pasta de arquivos por mês (a agenda, as notícias): o índice e só os meses que a página mostra
 js/sky.js           o céu desta hora e o tema claro ou escuro
+js/head.js          o topo que fica na tela quando a página rola (e dobra no computador e no Início)
 js/home.js          o Início
 js/app.js           carrega a agenda e liga a interface da agenda
 js/noticias.js      a página das notícias

@@ -1950,6 +1950,11 @@
         "section": "layout"
       },
       {
+        "name": "The Sky Stays Rule",
+        "body": "The sky stays at the top of the screen, down to the band, while the land scrolls under it (built 2026-11-06, waiting for the user's approval). Where the header is short (the inner pages on phones) it stays whole; where it is tall (from 760px, and the home) it folds: the page's name and line, or the greeting, the date and at night the home's moon, fade out over the first 16px of scroll, and the header slides up under its bar (the mark, the links, the theme button) until only the bar is left with 22px of sky under it, the last bands and the rising sun or the moon, over the band. The desk's panels stick under it; focus and links land below it; under 500px tall it scrolls away.",
+        "section": "layout"
+      },
+      {
         "name": "The Calm Desk Rule",
         "body": "The desk adds a column, never a dashboard: the agenda's list or month beside its panel, the home's next activity beside its two doors, Comércio's list beside its information card.",
         "section": "layout"
@@ -2004,7 +2009,7 @@
       "Don't put shadows on the land in the dark theme, use hard offset shadows, or lift elements on hover.",
       "Don't use the strong urucum ring for selection or the quiet ring for focus.",
       "Don't fetch fonts from Google Fonts, or set an activity's title in Bricolage, on the site or on a flyer.",
-      "Don't add motion beyond the home's rising sun (1.6s, off under reduced motion); state changes are 0.15s colour transitions and the sheet's 0.3s slide.",
+      "Don't add motion beyond the home's rising sun (1.6s, off under reduced motion); state changes are 0.15s colour transitions and the sheet's 0.3s slide. The header's fold is not motion of its own: it is the scroll, and the page's name fades over the first 16px of it, under reduced motion too.",
       "Don't bring the Folhinha's devices to the site (the red header card, bindings, perforations, a yellow \"Próxima\") or the old campaign interface (the metro line to election day, the countdown, the slogan); nothing should read as a startup, a city hall or an election campaign.",
       "Don't invent logos, photos, slogans, ratings or prices for the organizations or the businesses."
     ]
