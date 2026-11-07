@@ -2,6 +2,18 @@
   "title": "NOS Dourados · Designs",
   "sections": [
     {
+      "title": "Topo fixo (construído em 06/11, para aprovar: o céu fica no topo enquanto a página rola, até a faixa)",
+      "designs": [
+        "topo-fixo-quadro.html",
+        "topo-fixo-celular-agenda.html",
+        "topo-fixo-celular-comercio.html",
+        "topo-fixo-celular-inicio.html",
+        "topo-fixo-desktop-agenda.html",
+        "topo-fixo-desktop-noticias.html",
+        "topo-fixo-desktop-inicio.html"
+      ]
+    },
+    {
       "title": "Notícias (aprovada e construída em 05/11: o que as organizações estão vivendo, escolhido nos posts delas)",
       "designs": [
         "noticias-quadro.html",
