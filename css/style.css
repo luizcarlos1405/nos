@@ -70,7 +70,8 @@ code { font-size: 0.9em; background: var(--role-wash); padding: 1px 5px; border-
 /* ---------- O céu: the header on the sky of this hour ---------- */
 /* Flat bands counted up from the horizon (--h5 … --h2 are the tops of bands 5 to 2; band 1 takes the
    rest). Each page sets the heights; the colours come from the hour (css/theme.css). The sun (or, at
-   night, the small moon among the stars) is one drawing, placed by --sun-* and --moon-*. */
+   night, the small moon among the stars) is one drawing, placed by --sun-* and --moon-*. The header
+   sticks to the top of the screen ("The header sticks", below). */
 
 .site-head {
   --h5: 9px;
@@ -133,6 +134,10 @@ code { font-size: 0.9em; background: var(--role-wash); padding: 1px 5px; border-
   margin: 0 auto;
   padding: 0 6px 36px 16px;
 }
+/* The bar (the mark, the links, the theme button) is what stays on screen when the header folds. Where
+   the header sticks whole (the inner pages on phones) it steps aside: the page's name and the theme
+   button share the grid above. */
+.site-bar { display: contents; }
 
 .brand {
   grid-area: brand;
@@ -232,9 +237,10 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   --moon-bottom: auto;
   --moon-loop: 2.5px;
 }
-.site-head--home .site-head-inner { grid-template-areas: 'brand toggle' 'hello hello'; padding-bottom: 0; }
+/* The home folds on phones too: its bar (the mark and the theme button), then the greeting. */
+.site-head--home .site-head-inner { display: flex; flex-direction: column; align-items: stretch; padding-bottom: 0; }
+.site-head--home .site-bar { display: flex; align-items: center; justify-content: space-between; column-gap: 8px; }
 .site-head--home .brand { display: flex; }
-.site-head--home .theme-toggle { align-self: center; }
 /* The sun rises a little when the home opens: the one moving thing. */
 @media (prefers-reduced-motion: no-preference) {
   .site-head--home .astro { animation: rise 1.6s var(--ease) both; }
@@ -243,10 +249,56 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
 
 /* ---------- A faixa: the woven band, the horizon ---------- */
 /* Provisional art (assets/faixa.svg), full-bleed under the sky. It is an artwork: it doesn't change
-   with the theme. The credit sits in the footer. */
+   with the theme. The credit sits in the footer. The header draws it too, under its box (its ::after,
+   below), so the band sticks with the sky; at rest that copy lies exactly on div.band, which keeps the
+   band's room in the page. Both take their height from --band-h. */
 
-.band { height: 16px; background: url(../assets/faixa.svg) 0 50% / auto 100% repeat-x; }
-.band--home { height: 40px; }
+.band, .site-head { --band-h: 16px; }
+.band--home, .site-head--home { --band-h: 40px; }
+.band, .site-head::after { height: var(--band-h); background: url(../assets/faixa.svg) 0 50% / auto 100% repeat-x; }
+
+/* ---------- The header sticks ---------- */
+/* The sky stays at the top of the screen, down to the band, while the land scrolls under it. Where the
+   header is short (the inner pages on phones: the page's name beside the theme button, 112px with the
+   band) it sticks whole. Where it is tall (from 760px, and the home) it folds: as the page leaves its
+   top, what sits under the bar (the page's name and line, or the greeting and the date) fades out
+   within the first 16px, and the header scrolls up under its bar, which stays, until only the bar is
+   left with --head-keep of sky under it (the last bands, the rising sun), over the band. js/head.js
+   measures --fold (the header's height under the bar, less what it keeps: it sticks at top: -fold)
+   and --head-stuck (what stays on screen with the band: the desk's panels stick under it, and focus
+   scrolls clear of it). Nothing moves but the scroll, and the page's height never changes. The fade
+   has no time of its own, it follows the scroll, so it stays under reduced motion (hence !important
+   over the rule at the end); without scroll timelines js/head.js marks the scrolled page and it goes
+   at once. Short screens (phones on their side) keep their room: there the header scrolls away as
+   before. The home's band takes over from the page's only once the header has folded all the way,
+   because at rest the next activity rests on it, in front. */
+
+@keyframes fold-away { to { opacity: 0; } }
+@keyframes band-holds { from { opacity: 0; } to { opacity: 1; } }
+
+@media (min-height: 501px) {
+  html { scroll-padding-top: calc(var(--head-stuck, 0px) + 8px); }
+  .site-head { position: sticky; top: calc(-1 * var(--fold, 0px)); z-index: 12; }
+  .site-head::after { content: ''; position: absolute; left: 0; right: 0; top: 100%; }
+  .site-head--home::after { opacity: 0; }
+  .site-head--home .site-bar { position: sticky; top: env(safe-area-inset-top); }
+  /* What folds on the home: the greeting and the date, and at night the moon, small and high in the
+     sky, which goes with them so the top of the screen never cuts it (the sun, big, runs off the
+     edges as it always does). */
+  @supports (animation-timeline: scroll()) {
+    .site-head--home .hello,
+    :root:is([data-sky='night'], [data-scheme='dark']) .site-head--home .astro { animation: fold-away linear both !important; animation-timeline: scroll(root) !important; animation-range: 0 16px !important; }
+    @media (prefers-reduced-motion: no-preference) {
+      :root:is([data-sky='night'], [data-scheme='dark']) .site-head--home .astro { animation: rise 1.6s var(--ease) both, fold-away linear both !important; animation-timeline: auto, scroll(root) !important; animation-range: normal, 0 16px !important; }
+    }
+    .site-head--home::after { animation: band-holds step-end both !important; animation-timeline: scroll(root) !important; animation-range: 0 var(--fold, 200vh) !important; }
+  }
+  @supports not (animation-timeline: scroll()) {
+    :root[data-scrolled] .site-head--home .hello,
+    :root[data-scrolled]:is([data-sky='night'], [data-scheme='dark']) .site-head--home .astro { opacity: 0; }
+    :root[data-stuck] .site-head--home::after { opacity: 1; }
+  }
+}
 
 .site-foot {
   max-width: 1344px;
@@ -1360,18 +1412,22 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
     --moon-bottom: 12px;
     --moon-loop: 2px;
   }
+  /* The bar, then the page's name or the greeting with the sky under it: the bar sticks inside this
+     column while the rest folds (the sky's 44px are the name's padding, so they fold too). */
   .site-head-inner {
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    grid-template-areas: 'brand nav toggle' 'title title title';
-    column-gap: 24px;
-    padding: 0 18px 44px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0 18px 0 24px;
   }
-  .brand { display: flex; align-self: center; }
+  .site-head .site-bar { display: flex; align-items: center; column-gap: 24px; }
+  .brand { display: flex; }
   .site-nav {
     position: static;
     z-index: auto;
-    grid-area: nav;
     display: flex;
+    flex: 1;
+    min-width: 0;
     gap: 2px;
     min-height: 68px;
     align-items: center;
@@ -1388,10 +1444,22 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   @media (hover: hover) {
     .nav-link:not([aria-current='page']):hover { background: var(--role-sky-wash); color: var(--role-sky-ink); }
   }
-  .page-title { flex-direction: row; flex-wrap: wrap; justify-content: flex-start; align-items: baseline; column-gap: 16px; min-height: 0; padding: 4px 0 2px; }
+  .page-title { flex-direction: row; flex-wrap: wrap; justify-content: flex-start; align-items: baseline; column-gap: 16px; min-height: 0; padding: 4px 0 46px; }
   .page-name { font-size: 2.5rem; line-height: 1.1; }
   .page-sub { font-size: 1rem; }
-  .band { height: 18px; }
+  .band, .site-head { --band-h: 18px; }
+  /* Folded, the bar keeps 22px of sky under it: its links stay on the top band, the open page's stroke
+     clear of the band's selvage, the last bands and the rising sun under them (js/head.js). */
+  .site-head { --head-keep: 22px; }
+  @media (min-height: 501px) {
+    .site-bar { position: sticky; top: env(safe-area-inset-top); }
+    @supports (animation-timeline: scroll()) {
+      .site-head .page-title { animation: fold-away linear both !important; animation-timeline: scroll(root) !important; animation-range: 0 16px !important; }
+    }
+    @supports not (animation-timeline: scroll()) {
+      :root[data-scrolled] .site-head .page-title { opacity: 0; }
+    }
+  }
 
   .site-head--home {
     --h5: 16px;
@@ -1408,13 +1476,12 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
     --moon-bottom: auto;
     --moon-loop: 2.75px;
   }
-  .site-head--home .site-head-inner { grid-template-areas: 'brand nav toggle' 'hello hello hello'; }
   .hello { padding: 18px 0 40px; }
   .hello-title { font-size: 4rem; line-height: 1; }
   .hello-title br { display: none; }
   .hello-date { margin-top: 8px; font-size: 1.0625rem; line-height: 1.4; }
   .hello-year { display: inline; }
-  .band--home { height: 44px; }
+  .band--home, .site-head--home { --band-h: 44px; }
 
   /* The home's next activity with its two actions and what else comes, then the doors. */
   .next-card { padding: 22px 26px 20px; }
@@ -1554,15 +1621,16 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .event-card { padding: 16px 18px 17px 20px; }
 
   .sheet-backdrop { display: none; }
+  /* Under the stuck header (--head-stuck, js/head.js; 0 where it doesn't stick). */
   .bench {
     position: sticky;
-    top: 24px;
+    top: calc(var(--head-stuck, 0px) + 24px);
     left: auto;
     right: auto;
     bottom: auto;
     z-index: auto;
     width: auto;
-    max-height: calc(100vh - 48px);
+    max-height: calc(100vh - var(--head-stuck, 0px) - 48px);
     overflow: hidden;
     border-bottom: 1px solid var(--role-card-border);
     border-radius: var(--radius-card);
@@ -1578,7 +1646,7 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .bench-scroll { padding: 16px 20px 20px; }
   .seg-bar { margin: 0 -20px; padding: 16px 20px 14px; }
   .fact { min-height: 30px; padding: 2px 0; }
-  .flyer-frame { width: min(100%, calc((100vh - 600px) * 0.8)); }
+  .flyer-frame { width: min(100%, calc((100vh - var(--head-stuck, 0px) - 600px) * 0.8)); }
   .bench-actions { padding: 14px 20px; }
 
   /* Comércio: the information card takes the panel's place. */
@@ -1587,7 +1655,7 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .biz-count, .biz-tools:has(.filters[hidden]) .biz-count { padding: 0; }
   .biz-tools .filters { display: block; padding: 12px 0 4px; }
   .biz-tools .filters[hidden] { display: none; }
-  .side { position: sticky; top: 24px; padding: 0; }
+  .side { position: sticky; top: calc(var(--head-stuck, 0px) + 24px); padding: 0; }
   .side-card { padding: 24px 24px 26px; }
   .join { margin: 20px -24px 0; padding: 20px 24px 0; }
 
@@ -1702,7 +1770,7 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
    preview keeps a useful size. 850px is where the rule above reaches 200px. */
 @media (min-width: 1100px) and (max-height: 850px) {
   .bench[data-panel='flyer'] .hint { display: none; }
-  .flyer-frame { width: min(100%, calc((100vh - 520px) * 0.8)); min-width: min(180px, 100%); }
+  .flyer-frame { width: min(100%, calc((100vh - var(--head-stuck, 0px) - 520px) * 0.8)); min-width: min(180px, 100%); }
 }
 
 /* ---------- Very narrow screens (small phones, 200% zoom, or a large default text size) ---------- */
@@ -1749,7 +1817,7 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
 
 @media (forced-colors: active) {
   .site-head { background: Canvas; }
-  .band, .dot, .cell-mark, .week-bar::before, .astro { forced-color-adjust: none; }
+  .band, .site-head::after, .dot, .cell-mark, .week-bar::before, .astro { forced-color-adjust: none; }
   .hand { stroke: Highlight; }
   .view-tabs [aria-selected=true], .seg [aria-selected=true], .chip[aria-pressed=true], .org-pill.is-active .org-pill-face { outline: 2px solid Highlight; outline-offset: -2px; }
   .event-card.is-selected, .day.is-selected, .day.is-selected .day-num { outline: 2px solid Highlight; outline-offset: -2px; }

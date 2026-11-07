@@ -8,6 +8,7 @@ import { buildEvents } from './events.js';
 import { buildNews } from './news.js';
 import { decodeCSV, parseCSV } from './csv.js';
 import { formatShortDate, formatTime } from './events.js';
+import { initHead } from './head.js';
 import { brandMark, icon } from './icons.js';
 import { initSky } from './sky.js';
 
@@ -33,7 +34,8 @@ export function safeUrl(value) {
 
 // The header on the sky: the NOS mark and the city of js/config.js (each page keeps a static copy,
 // so the name shows without JS), the full name under the page, the page's name in the tab title, the
-// icons of [data-icon] nodes, and the sky and theme (js/sky.js).
+// icons of [data-icon] nodes, the sky and theme (js/sky.js), and the header sticking to the top of the
+// screen (js/head.js).
 export function initPage(pageName = '') {
   const place = CITY.split('/')[0];
   const site = `${APP_NAME} ${place}`;
@@ -44,6 +46,7 @@ export function initPage(pageName = '') {
   document.title = pageName ? `${pageName} · ${site}` : `${site} · ${APP_FULL_NAME}`;
   document.querySelectorAll('[data-icon]').forEach((node) => node.insertAdjacentHTML('afterbegin', icon(node.dataset.icon)));
   initSky();
+  initHead();
 }
 
 // ---------- Notices ----------
