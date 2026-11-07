@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="pt-BR" data-scheme="light" data-sky="day">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Topo fixo · Quadro</title>
+<meta name="description" content="O topo fixo em palavras: o que fica no topo quando a página rola, onde ele dobra, o que muda em volta e as alturas.">
+<meta name="htmlboard" content="width=1200, height=1453">
+<link rel="stylesheet" href="../css/theme.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="assets/design.css">
+<style>
+/* The sticky header on one board: what stays when the page scrolls, where it folds, what changes around
+   it, and the heights. The screens are the artboards beside it, the site's own pages scrolled. */
+.board { width: 1200px; padding: 56px 64px 64px; background: var(--color-clay); color: var(--color-ink); }
+.board h1 { margin: 0; font: 800 3rem/1.05 var(--font-display); letter-spacing: -0.03em; }
+.board .lead { max-width: 66ch; margin: 14px 0 0; font-size: 1.125rem; line-height: 1.5; color: var(--color-ink-soft); }
+.board h2 { margin: 0 0 12px; font: 750 1.5rem/1.15 var(--font-display); letter-spacing: -0.02em; }
+.box { padding: 26px 28px 24px; border-radius: var(--radius-card); background: var(--color-clay-card); box-shadow: 0 1px 2px color-mix(in srgb, var(--color-earth-shadow) 8%, transparent), 0 6px 16px color-mix(in srgb, var(--color-earth-shadow) 7%, transparent); }
+.box p { margin: 0; font-size: 0.9375rem; line-height: 1.55; }
+.box p + p { margin-top: 10px; }
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 36px; }
+.cols-wide { grid-template-columns: 1.1fr 1fr; margin-top: 24px; }
+.rules { margin: 0; padding-left: 18px; font-size: 0.9375rem; line-height: 1.5; }
+.rules li + li { margin-top: 8px; }
+.rules li::marker { color: var(--color-ink-soft); }
+.heights { width: 100%; border-collapse: collapse; font-size: 0.9375rem; line-height: 1.4; font-variant-numeric: tabular-nums; }
+.heights th { padding: 0 0 8px; font-weight: 600; text-align: left; color: var(--color-ink-soft); }
+.heights th + th, .heights td + td { text-align: right; }
+.heights td { padding: 9px 0; border-top: 1px solid var(--color-clay-line); }
+.heights td:last-child { font-weight: 700; }
+.box .note { margin-top: 14px; font-size: 0.875rem; line-height: 1.5; color: var(--color-ink-soft); }
+.decided { margin-top: 24px; }
+.decided .rules { columns: 2; column-gap: 40px; }
+.decided .rules li { break-inside: avoid; }
+/* The fold in three steps, drawn small: the header at rest, folding, folded over the land. */
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 18px; }
+.step { overflow: hidden; border-radius: var(--radius); background: var(--color-clay); box-shadow: inset 0 0 0 1px var(--color-clay-line); }
+.step-sky { position: relative; background: linear-gradient(to top, var(--color-day-5) 0 6px, var(--color-day-4) 0 12px, var(--color-day-3) 0 18px, var(--color-day-2) 0 24px, var(--color-day-1) 0); }
+.step-sky::after { content: ''; position: absolute; right: 12%; bottom: -26px; width: 52px; height: 52px; border-radius: 50%; border: 2px solid var(--color-urucum); background: var(--color-sun); background-clip: padding-box; clip-path: inset(-2px -2px 26px -2px); }
+.step-bar { display: flex; align-items: center; gap: 8px; height: 22px; padding: 0 10px; font: 750 0.6875rem/1 var(--font-display); }
+.step-bar i { width: 22px; height: 4px; border-radius: 2px; background: color-mix(in srgb, var(--color-ink) 45%, transparent); }
+.step-title { height: 22px; padding: 2px 10px 0; font: 800 0.9375rem/1 var(--font-display); }
+.step-band { height: 8px; background: url(../assets/faixa.svg) 0 50% / auto 100% repeat-x; }
+.step-land { height: 54px; padding: 8px 10px; }
+.step-land span { display: block; height: 14px; margin-bottom: 6px; border-radius: 4px; background: var(--color-clay-card); }
+.step-cap { padding: 8px 12px 10px; font-size: 0.8125rem; line-height: 1.35; color: var(--color-ink-soft); background: var(--color-clay-card); }
+.step.is-fading .step-title { opacity: 0.35; }
+.step.is-folded .step-sky { padding-bottom: 10px; }
+</style>
+</head>
+<body>
+<!-- The sticky header of 06/11/2026 in words. The screens are the artboards beside it: the site's own pages,
+     rendered on 06/11 at 10:30 and scrolled (each also at its top and in the dark theme). -->
+<div class="board">
+  <h1>Topo fixo</h1>
+  <p class="lead">O céu fica no topo enquanto a página rola, até a faixa: as páginas, o nome da página, o sol ou a lua e o botão do tema não somem mais. Construído em 06/11 nas quatro páginas e ainda não publicado: é para você aprovar antes de ir ao ar.</p>
+
+  <div class="cols">
+    <section class="box">
+      <h2>No celular</h2>
+      <p>Na Agenda, nas Notícias e no Comércio o topo já é baixo, então ele fica inteiro: o nome da página com a sua linha («12 atividades até 13/12»), o botão do tema, o sol ou a lua, e a faixa embaixo. A lista passa por baixo da faixa.</p>
+      <p>As páginas continuam na barra do pé da tela, como antes.</p>
+    </section>
+    <section class="box">
+      <h2>No computador, e no Início</h2>
+      <p>Onde o topo é alto, ele dobra. Quando a página começa a rolar, o nome da página (no Início, a saudação e a data) some nos primeiros 16px, e o topo sobe por baixo da barra (a marca, as páginas, o botão do tema), que fica.</p>
+      <p>Ele para com um pouco de céu sob a barra: as últimas faixas do horizonte e o sol nascendo (à noite, a lua e as estrelas), sobre a faixa. À noite, a lua do Início, que fica alta no céu, vai junto com a saudação.</p>
+    </section>
+  </div>
+
+  <div class="steps" aria-hidden="true">
+    <div class="step">
+      <div class="step-sky"><div class="step-bar">NOS Dourados <i></i><i></i><i></i></div><div class="step-title">Agenda</div><div style="height:30px"></div></div>
+      <div class="step-band"></div><div class="step-land"><span></span><span></span></div>
+      <p class="step-cap">Parado: como hoje.</p>
+    </div>
+    <div class="step is-fading">
+      <div class="step-sky"><div class="step-bar">NOS Dourados <i></i><i></i><i></i></div><div class="step-title">Agenda</div><div style="height:14px"></div></div>
+      <div class="step-band"></div><div class="step-land"><span></span><span></span></div>
+      <p class="step-cap">Começou a rolar: o nome some, o topo sobe.</p>
+    </div>
+    <div class="step is-folded">
+      <div class="step-sky"><div class="step-bar">NOS Dourados <i></i><i></i><i></i></div><div style="height:24px"></div></div>
+      <div class="step-band"></div><div class="step-land"><span></span><span></span></div>
+      <p class="step-cap">Dobrado: a barra, um pouco de céu e a faixa ficam; a página passa por baixo.</p>
+    </div>
+  </div>
+
+  <div class="cols cols-wide">
+    <section class="box">
+      <h2>O que muda em volta</h2>
+      <ul class="rules">
+        <li>O painel da atividade (Agenda e Notícias) e o cartão do Comércio grudam logo abaixo do topo, não mais no alto da tela.</li>
+        <li>O que o teclado foca e a atividade aberta por um link aparecem abaixo do topo, nunca escondidos por ele.</li>
+        <li>O panfleto no painel fica um pouco menor: 200px de largura num computador de 1440×900 (eram 240), 180px num notebook de 1366×768 (eram 198), 298px num de 1920×1080 (eram 384).</li>
+        <li>Celular deitado (tela com menos de 500px de altura): o topo rola como antes, para sobrar espaço para a lista.</li>
+        <li>Nada se mexe sozinho: a dobra é a própria rolagem, então vale também para quem pede menos movimento no aparelho. Nos navegadores que ainda não ligam efeitos à rolagem (o Firefox), o nome some de uma vez quando a página rola.</li>
+      </ul>
+    </section>
+    <section class="box">
+      <h2>As alturas</h2>
+      <table class="heights">
+        <thead><tr><th>Página</th><th>Parado</th><th>Rolando</th></tr></thead>
+        <tbody>
+          <tr><td>Agenda, Notícias, Comércio · celular</td><td>112px</td><td>112px</td></tr>
+          <tr><td>Agenda, Notícias, Comércio · computador</td><td>180px</td><td>108px</td></tr>
+          <tr><td>Início · celular</td><td>238px</td><td>até 90px</td></tr>
+          <tr><td>Início · computador</td><td>320px</td><td>até 134px</td></tr>
+        </tbody>
+      </table>
+      <p class="note">Com a faixa. O Início é curto: num celular comum ele não rola o bastante para dobrar inteiro, e fica no meio do caminho (a barra, o sol e a faixa grossa), como no artboard.</p>
+    </section>
+  </div>
+
+  <section class="box decided">
+    <h2>Decidido na construção, para você confirmar</h2>
+    <ul class="rules">
+      <li>Dobrado, a barra guarda 22px de céu embaixo: os links ficam na faixa de cima do céu, como parado, e o traço da página aberta não encosta na borda vermelha da faixa.</li>
+      <li>No celular o topo não dobra: já é baixo, e o nome da página é a única coisa que diz onde você está.</li>
+      <li>A faixa grossa do Início continua embaixo da próxima atividade enquanto o topo dobra, e só vira a faixa do topo quando ele dobra inteiro.</li>
+      <li>Duas estrelas mudaram um pouco de lugar: dobrado, uma caía em cima de «Comércio».</li>
+    </ul>
+  </section>
+</div>
+</body>
+</html>
