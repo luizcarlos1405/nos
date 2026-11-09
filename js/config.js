@@ -91,6 +91,10 @@ export const ORG_NAMES = {
   'Kuñangue Aty Guasu': 'Grande Assembleia das Mulheres Kaiowá e Guarani',
   'NEAB UFGD': 'Núcleo de Estudos Afro-Brasileiros da UFGD',
   'DAC UFGD': 'Diretoria de Arte e Cultura da UFGD',
+  'LADIP': 'Liga Acadêmica de Direitos dos Povos Indígenas e Políticos da UFGD',
+  'ADUEMS': 'Sindicato dos Docentes da UEMS',
+  'DCE UEMS': 'Diretório Central dos e das Estudantes da UEMS',
+  'Seeb Dourados': 'Sindicato dos Bancários e Trabalhadores do Ramo Financeiro de Dourados e Região',
 };
 
 // Sector colours: each suggested "Setor" of the spreadsheet (the eight groups of the
