@@ -96,6 +96,32 @@ As notícias ficam em `data/noticias/` (`NEWS_DIR`), do mesmo jeito que a agenda
 
 Toda notícia vem de um post da organização (ou de um órgão público), com o link junto; nada suposto nem inventado. As primeiras 15 vieram dos relatórios do levantamento, com as citações conferidas.
 
+## Varredura do Instagram
+
+A agenda e as notícias saem dos posts das páginas listadas em `tools/instagram/pages.json`. Para ler o que há de novo:
+
+```sh
+python3 tools/instagram/scan.py
+```
+
+O script abre uma janela do navegador e passa por todas as páginas da lista, uma a uma, lendo só o que saiu desde a última varredura de cada uma: data, legenda, coautores, local, lembrete de evento, todas as imagens de cada post e o texto escrito nelas. Vai devagar de propósito, para o Instagram não bloquear. Na primeira vez, ou se o Instagram pedir, entre na sua conta na janela que abriu: o script espera e continua sozinho. Deixe a janela aberta até ele terminar; ela fecha sozinha. Precisa do `playwright-cli` (`npm i -g @playwright/cli`) e do `tesseract` com o português.
+
+**O que ele guarda.** Tudo vai para `tools/instagram/dumps/<dia-hora>/`, fora do git: um `README.md` com o resumo, um arquivo por página e as imagens em `img/`. Daí é só pedir a um agente (ou ler você mesmo) para transformar o que interessa em atividades e notícias. Se a varredura parar no meio, rode de novo: cada página continua de onde parou.
+
+**A lista.** São as páginas que acompanhamos: todas as organizações do levantamento que têm Instagram, tenham ou não aparecido na agenda ou nas notícias, mais as que a equipe acrescentar. Em `pages.json`, cada página é uma linha:
+
+| campo | o que é |
+|---|---|
+| `handle` | o @ da página, sem a arroba |
+| `name` | o nome da organização como aparece na agenda (coluna `Organização`) |
+| `sector` | o setor dela, um dos oito da agenda |
+| `lastScan` | a última varredura; o script preenche. Também aceita só a data (`2026-11-01`) |
+| `lastPost` | o código do post mais novo que a última varredura viu; o script preenche |
+
+Para **acrescentar** uma página, adicione uma linha com `handle`, `name` e `sector`: sem `lastScan`, a primeira leitura pega os últimos `newPageDays` dias (em `settings`, no começo do arquivo, junto de `maxPostsPerPage`, o máximo de posts novos lidos por página). Para **parar** de ler uma, apague a linha. `python3 tools/instagram/scan.py simteddourados` lê só essa página.
+
+Depois da varredura o `pages.json` fica alterado, com as datas novas: faça o commit dele junto com as atividades.
+
 ## Editando o comércio
 
 A página Comércio lê `data/comercio.csv` (link em `COMMERCE_CSV_URL`, no `js/config.js`): as respostas do formulário de cadastro, do jeito que o Google Formulários grava, mais uma coluna `Categoria` preenchida pela equipe. As respostas novas entram copiadas da planilha de respostas do formulário para esse arquivo (o site não lê planilhas do Google).
@@ -234,6 +260,7 @@ js/ics.js           a atividade como arquivo de agenda (.ics) e nos formulários
 tools/month-files.mjs  confere os arquivos por mês (agenda e notícias) e gera o index.json de cada pasta (--check: tudo em dia?; --fix: põe cada linha no seu mês)
 tools/folders.mjs   as pastas de arquivos por mês e como ler cada uma
 tools/agenda-ics.mjs  gera o agenda.ics a partir de todos os meses (--check: ele está em dia?)
+tools/instagram/    a varredura do Instagram: a lista de páginas (pages.json), o script (scan.py) e o que ele leu (dumps/, fora do git)
 agenda.ics          a agenda assinada por "Salvar tudo na agenda" (gerado: não edite à mão)
 .githooks/          conferem os meses e refazem os index.json e o agenda.ics a cada commit (ative com git config core.hooksPath .githooks)
 js/whatsapp.js      montador das mensagens de WhatsApp (atividade, notícia e negócio)
