@@ -810,20 +810,17 @@ UID:ev-2026-11-07-oficina-de-vogue-femme-com-prince-ennio-sherman@nos.doura
 DTSTAMP:19700101T000000Z
 DTSTART:20261107T120000Z
 DTEND:20261107T130000Z
-SUMMARY:Oficina de Vogue Femme com Prince Ennio Sherman
+SUMMARY:Cancelada: Oficina de Vogue Femme com Prince Ennio Sherman
 LOCATION:Casa da Cultura UEMS – Espaço Guaraoby (Rua Monte Alegre\, 1955
  \, Vila Progresso)\, Dourados/MS
-DESCRIPTION:Organizações: House of Bombshell\, Casa Sherman\nTipo: Oficin
- a\n\nOficina de Vogue Femme com o Prince Ennio Sherman\, artista e pesquis
- ador do corpo da cena Ballroom de Campo Grande\, fundador do Coletivo Foco
-  y Cunt e Overall Prince da Excelente Casa Sherman. Faz parte da programa
- ção do Grande Natal das Bombshells\, da House of Bombshell.\n\nFonte: ht
- tps://www.instagram.com/asbombshells/p/DfNrBcfPnnn/\n\nNa agenda do NOS Do
- urados: https://nos.dourados.social/agenda.html#ev-2026-11-07-oficina-de-v
- ogue-femme-com-prince-ennio-sherman
+DESCRIPTION:Atividade cancelada. Motivo: Imprevisto do oficineiro\n\nOrgani
+ zações: House of Bombshell\, Casa Sherman\nTipo: Oficina\n\nFonte: https
+ ://www.instagram.com/asbombshells/p/DfNrBcfPnnn/\n\nNa agenda do NOS Doura
+ dos: https://nos.dourados.social/agenda.html#ev-2026-11-07-oficina-de-vogu
+ e-femme-com-prince-ennio-sherman
 URL:https://nos.dourados.social/agenda.html#ev-2026-11-07-oficina-de-vogue-
  femme-com-prince-ennio-sherman
-STATUS:CONFIRMED
+STATUS:CANCELLED
 TRANSP:OPAQUE
 END:VEVENT
 BEGIN:VEVENT
@@ -843,6 +840,27 @@ DESCRIPTION:Organização: Casulo\nTipo: Feira\n\nFeira com expositores de
  6-11-07-22-feira-das-pulgas-e-v-festival-de-musica-indigena
 URL:https://nos.dourados.social/agenda.html#ev-2026-11-07-22-feira-das-pulg
  as-e-v-festival-de-musica-indigena
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-11-cine-ballroom-salao-de-baile-this-is-ballroom@nos.dourado
+ s.social
+DTSTAMP:19700101T000000Z
+DTSTART:20261111T170000Z
+DTEND:20261111T180000Z
+SUMMARY:Cine Ballroom: Salão de Baile – This Is Ballroom
+LOCATION:UEMS – Cidade Universitária\, Bloco E\, Sala 3\, Dourados/MS
+DESCRIPTION:Organização: House of Bombshell\nTipo: Cultura\n\nEdição es
+ pecial do Cine Ballroom\, no circuito O Grande Natal das Bombshells: exibi
+ ção do documentário “Salão de Baile: This Is Ballroom”\, sobre a c
+ ultura Ballroom brasileira\, seguida de conversa com Mother Bionda Bombshe
+ ll sobre a trajetória da Ballroom em Mato Grosso do Sul. Atividade gratui
+ ta e com certificado.\n\nFonte: https://www.instagram.com/asbombshells/p/D
+ fgA60duytE/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/agen
+ da.html#ev-2026-11-11-cine-ballroom-salao-de-baile-this-is-ballroom
+URL:https://nos.dourados.social/agenda.html#ev-2026-11-11-cine-ballroom-sal
+ ao-de-baile-this-is-ballroom
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -868,24 +886,123 @@ STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
 BEGIN:VEVENT
+UID:ev-2026-11-13-festa-da-vitoria-em-dourados@nos.dourados.social
+DTSTAMP:19700101T000000Z
+DTSTART;VALUE=DATE:20261113
+DTEND;VALUE=DATE:20261114
+SUMMARY:Festa da Vitória em Dourados
+DESCRIPTION:Organização: PT Dourados\nTipo: Festa\nHorário a confirmar\n
+ \nComemoração da vitória do presidente Lula\, convocada pelo PT Dourado
+ s e pelo Time do Lula Dourados. Horário e local ainda não divulgados.\n\
+ nFonte: https://www.instagram.com/timedoluladourados/p/DfS29ABvl2h/\n\nNa 
+ agenda do NOS Dourados: https://nos.dourados.social/agenda.html#ev-2026-11
+ -13-festa-da-vitoria-em-dourados
+URL:https://nos.dourados.social/agenda.html#ev-2026-11-13-festa-da-vitoria-
+ em-dourados
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-14-dia-de-vivencia-em-agroecologia-e-contra-os-agrotoxicos@n
+ os.dourados.social
+DTSTAMP:19700101T000000Z
+DTSTART:20261114T110000Z
+DTEND:20261114T200000Z
+SUMMARY:Dia de vivência em agroecologia e contra os agrotóxicos
+LOCATION:Tekoha Guyra Kambi’y (saída da biblioteca da UFGD)\, Dourados/M
+ S
+DESCRIPTION:Organização: MST (Movimento dos Trabalhadores Rurais Sem Terr
+ a)\nTipo: Formação\n\nDia de vivência em agroecologia e contra os agrot
+ óxicos no Tekoha Guyra Kambi’y. A saída é às 7h da biblioteca da UFG
+ D\, com retorno às 16h e refeição no local. É preciso se inscrever pel
+ o formulário\; levar água\, protetor solar\, pratos e talheres.\n\nLink:
+  https://forms.gle/yePvcpdXikWYPetV8\nFonte: https://www.instagram.com/mst
+ matogrossodosul/p/DfS3OvVz-GV/\n\nNa agenda do NOS Dourados: https://nos.d
+ ourados.social/agenda.html#ev-2026-11-14-dia-de-vivencia-em-agroecologia-e
+ -contra-os-agrotoxicos
+URL:https://nos.dourados.social/agenda.html#ev-2026-11-14-dia-de-vivencia-e
+ m-agroecologia-e-contra-os-agrotoxicos
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-14-feira-badaue-no-atelie@nos.dourados.social
+DTSTAMP:19700101T000000Z
+DTSTART;VALUE=DATE:20261114
+DTEND;VALUE=DATE:20261116
+SUMMARY:Feira Badauê no Ateliê
+LOCATION:Inspiratório Ateliê – Rua Pedro Rigotti\, 414\, Dourados/MS
+DESCRIPTION:Organização: Feira Badauê\nTipo: Feira\nHorário: 16h às 23
+ h\n\nEdição "Badauê no Ateliê" da feira de arte Badauê\, agora com se
+ de fixa no Inspiratório Ateliê.\n\nFonte: https://www.instagram.com/feir
+ abadaue/p/DfTLU-2tttI/\n\nNa agenda do NOS Dourados: https://nos.dourados.
+ social/agenda.html#ev-2026-11-14-feira-badaue-no-atelie
+URL:https://nos.dourados.social/agenda.html#ev-2026-11-14-feira-badaue-no-a
+ telie
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-14-feira-batuque-7-edicao@nos.dourados.social
+DTSTAMP:19700101T000000Z
+DTSTART:20261114T210000Z
+DTEND:20261114T220000Z
+SUMMARY:Feira Batuque – 7ª edição
+LOCATION:Centro de Convenções Antônio Tonani\, Dourados/MS
+DESCRIPTION:Organização: Feira Batuque\nTipo: Feira\n\nSétima edição d
+ o encontro mensal de música\, comida e arte da Feira Batuque\, com roda d
+ e samba do Grupo Não Tem Hora e expositores de artesanato\, artes visuais
+ \, moda\, brechós\, aromas\, produtos criativos e gastronomia.\n\nFonte: 
+ https://www.instagram.com/feira.batuque/p/DfUpRapNviI/\n\nNa agenda do NOS
+  Dourados: https://nos.dourados.social/agenda.html#ev-2026-11-14-feira-bat
+ uque-7-edicao
+URL:https://nos.dourados.social/agenda.html#ev-2026-11-14-feira-batuque-7-e
+ dicao
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
 UID:ev-2026-11-14-batalha-da-50-edicao-especial-do-projeto-50-em-cena@nos.d
  ourados.social
 DTSTAMP:19700101T000000Z
-DTSTART:20261114T230000Z
-DTEND:20261115T000000Z
+DTSTART:20261114T223000Z
+DTEND:20261114T233000Z
 SUMMARY:Batalha da 50: edição especial do projeto 50 em Cena
 LOCATION:Praça do Cinquentenário\, Dourados/MS
 DESCRIPTION:Organização: Batalha da Cinquenta\nTipo: Batalha\n\nEdição 
  especial da batalha de rima que encerra o projeto 50 em Cena\, com 16 MCs\
- , três pocket shows e premiação em dinheiro (R$ 800\, R$ 500 e R$ 300 p
- ara os três primeiros). O projeto tem incentivo do FIP\, da Prefeitura de
-  Dourados.\n\nFonte: https://www.instagram.com/batalhadocentrao/p/Demwbtmh
- YVo/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/agenda.html
- #ev-2026-11-14-batalha-da-50-edicao-especial-do-projeto-50-em-cena
+ , pocket shows de CS Ruero\, Menor DDS\, Clara Bonfim e MC Menani e premia
+ ção em dinheiro (R$ 800\, R$ 500 e R$ 300 para os três primeiros). Even
+ to gratuito\, com incentivo do FIP\, da Prefeitura de Dourados.\n\nFonte: 
+ https://www.instagram.com/batalhadacinquenta/p/DfVzLktG8eH/\n\nNa agenda d
+ o NOS Dourados: https://nos.dourados.social/agenda.html#ev-2026-11-14-bata
+ lha-da-50-edicao-especial-do-projeto-50-em-cena
 URL:https://nos.dourados.social/agenda.html#ev-2026-11-14-batalha-da-50-edi
  cao-especial-do-projeto-50-em-cena
 STATUS:CONFIRMED
 TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-15-fim-das-inscricoes-de-feirantes-da-feira-criativa-do-suca
+ ta-@nos.dourados.social
+DTSTAMP:19700101T000000Z
+DTSTART;VALUE=DATE:20261115
+DTEND;VALUE=DATE:20261116
+SUMMARY:Fim das inscrições de feirantes da Feira Criativa do Sucata Cultu
+ ral
+LOCATION:Online
+DESCRIPTION:Organização: Sucata Cultural\nTipo: Prazo\n\nÚltimo dia para
+  feirantes de artesanato\, brechó\, gastronomia\, acessórios e outros se
+ gmentos se inscreverem na Feira Criativa do Festival Multicultural Caminho
+ s da Arte. O formulário está no link da bio do Sucata Cultural.\n\nLink:
+  https://linktr.ee/sucataculturaloficial\nFonte: https://www.instagram.com
+ /sucatacultural/p/DfVg0MZRIGI/\n\nNa agenda do NOS Dourados: https://nos.d
+ ourados.social/agenda.html#ev-2026-11-15-fim-das-inscricoes-de-feirantes-d
+ a-feira-criativa-do-sucata-
+URL:https://nos.dourados.social/agenda.html#ev-2026-11-15-fim-das-inscricoe
+ s-de-feirantes-da-feira-criativa-do-sucata-
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-11-20-7-feira-afro-zumbi-vive@nos.dourados.social
@@ -930,6 +1047,66 @@ STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
+UID:ev-2026-11-20-27-congresso-do-dce-uems@nos.dourados.social
+DTSTAMP:19700101T000000Z
+DTSTART;VALUE=DATE:20261120
+DTEND;VALUE=DATE:20261123
+SUMMARY:27º Congresso do DCE UEMS
+LOCATION:UEMS – Unidade de Mundo Novo
+DESCRIPTION:Organização: DCE UEMS\nTipo: Congresso\n\nCongresso dos estud
+ antes da UEMS\, para construir políticas de permanência\, ensino de qual
+ idade e infraestrutura. A programação cultural tem Pool Party no dia 20 
+ e Halloween no dia 21. Inscrições pelo link na bio do DCE.\n\nLink: http
+ s://linktr.ee/dce.uems\nFonte: https://www.instagram.com/dceuems/reel/DfF_
+ ttoz0CG/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/agenda.
+ html#ev-2026-11-20-27-congresso-do-dce-uems
+URL:https://nos.dourados.social/agenda.html#ev-2026-11-20-27-congresso-do-d
+ ce-uems
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-27-roda-oficial-da-escola-matumbe-de-capoeira-angola@nos.dou
+ rados.social
+DTSTAMP:19700101T000000Z
+DTSTART:20261127T230000Z
+DTEND:20261128T000000Z
+SUMMARY:Roda Oficial da Escola Matumbé de Capoeira Angola
+LOCATION:Academia da Saúde – Parque do Lago\, Dourados/MS
+DESCRIPTION:Organização: Escola Matumbé Capoeira Angola\nTipo: Cultura\n
+ \nRoda oficial da Escola Matumbé\, aberta a capoeiristas de Dourados e a 
+ quem admira a Capoeira Angola. Uniforme: calça de cor clara e camiseta br
+ anca\, ou o uniforme oficial do grupo.\n\nFonte: https://www.instagram.com
+ /matumbe_ms/reel/DfeCUImM_H2/\n\nNa agenda do NOS Dourados: https://nos.do
+ urados.social/agenda.html#ev-2026-11-27-roda-oficial-da-escola-matumbe-de-
+ capoeira-angola
+URL:https://nos.dourados.social/agenda.html#ev-2026-11-27-roda-oficial-da-e
+ scola-matumbe-de-capoeira-angola
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-28-feira-criativa-do-festival-multicultural-caminhos-da-arte
+ @nos.dourados.social
+DTSTAMP:19700101T000000Z
+DTSTART;VALUE=DATE:20261128
+DTEND;VALUE=DATE:20261130
+SUMMARY:Feira Criativa do Festival Multicultural Caminhos da Arte
+LOCATION:Sucata Cultural – Rua Onofre Pereira de Matos\, 805\, Centro\, D
+ ourados/MS
+DESCRIPTION:Organização: Sucata Cultural\nTipo: Feira\n\nFeira criativa d
+ o Festival Multicultural Caminhos da Arte\, do Ponto de Cultura Sucata Cul
+ tural\, com artesanato\, brechós\, gastronomia\, acessórios e outros pro
+ dutos criativos.\n\nFonte: https://www.instagram.com/sucatacultural/p/DfVg
+ 0MZRIGI/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/agenda.
+ html#ev-2026-11-28-feira-criativa-do-festival-multicultural-caminhos-da-ar
+ te
+URL:https://nos.dourados.social/agenda.html#ev-2026-11-28-feira-criativa-do
+ -festival-multicultural-caminhos-da-arte
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
 UID:ev-2026-12-04-6-festival-nacional-malungo-capoeira@nos.dourados.social
 DTSTAMP:19700101T000000Z
 DTSTART;VALUE=DATE:20261204
@@ -957,10 +1134,29 @@ STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
+UID:ev-2026-12-05-plenaria-de-mulheres-do-pt-dourados@nos.dourados.social
+DTSTAMP:19700101T000000Z
+DTSTART:20261205T180000Z
+DTEND:20261205T210000Z
+SUMMARY:Plenária de Mulheres do PT Dourados
+LOCATION:Sede do PT Dourados – Rua dos Caiuás\, 727
+DESCRIPTION:Organização: PT Dourados\nTipo: Plenária\n\nPlenária das mu
+ lheres filiadas ao PT em Dourados\, com diálogos sobre a luta e a militâ
+ ncia e a recomposição da Secretaria de Mulheres do partido. Haverá ato 
+ de filiação para mulheres que queiram se somar.\n\nFonte: https://www.in
+ stagram.com/secmulheresptddos13/p/DfFtEfEPnMf/\n\nNa agenda do NOS Dourado
+ s: https://nos.dourados.social/agenda.html#ev-2026-12-05-plenaria-de-mulhe
+ res-do-pt-dourados
+URL:https://nos.dourados.social/agenda.html#ev-2026-12-05-plenaria-de-mulhe
+ res-do-pt-dourados
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
 UID:ev-2026-12-05-grande-natal-das-bombshells@nos.dourados.social
 DTSTAMP:19700101T000000Z
-DTSTART:20261205T210000Z
-DTEND:20261205T220000Z
+DTSTART:20261205T220000Z
+DTEND:20261205T230000Z
 SUMMARY:Grande Natal das Bombshells
 LOCATION:Casulo – Rua Reinaldo Bianchi\, 398\, Parque Alvorada\, Dourados
  /MS
