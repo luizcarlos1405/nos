@@ -19,8 +19,12 @@ CLAUDE.local.md
 **/.impeccable/hook.cache.json
 **/.impeccable/hook.pending.json
 
+# What the Instagram scan reads (tools/instagram/scan.py): working material, turned into agenda and news rows
+tools/instagram/dumps/
+
 # Tooling and OS
 node_modules/
+__pycache__/
 *.log
 .env*
 .DS_Store
