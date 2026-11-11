@@ -2,6 +2,38 @@
   "title": "NOS Dourados · Designs",
   "sections": [
     {
+      "title": "Mapa (proposta de 11/11: três ideias para a página do mapa cultural e dos movimentos; a primeira versão traz a capoeira do COMAFRO)",
+      "designs": [
+        "mapa-quadro.html",
+        "mapa-vivo.html"
+      ]
+    },
+    {
+      "title": "Mapa · A · Cartaz: a cidade inteira com os lugares numerados, e o mapa que vira cartaz",
+      "designs": [
+        "mapa-a-celular.html",
+        "mapa-a-celular-lugar.html",
+        "mapa-a-desktop.html",
+        "mapa-a-cartaz.html"
+      ]
+    },
+    {
+      "title": "Mapa · B · Hoje: o mapa da hora, quem treina hoje e a que horas",
+      "designs": [
+        "mapa-b-celular.html",
+        "mapa-b-celular-lugar.html",
+        "mapa-b-desktop.html"
+      ]
+    },
+    {
+      "title": "Mapa · C · Camadas: cada assunto uma camada que acende e apaga",
+      "designs": [
+        "mapa-c-celular.html",
+        "mapa-c-celular-lugar.html",
+        "mapa-c-desktop.html"
+      ]
+    },
+    {
       "title": "Topo fixo (construído em 06/11, para aprovar: o céu fica no topo enquanto a página rola, até a faixa)",
       "designs": [
         "topo-fixo-quadro.html",

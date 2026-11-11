@@ -1,0 +1,279 @@
+/* Mapa (proposal of 11/11/2026): the page of the city's map, three ideas (Cartaz, Hoje, Camadas).
+   Linked after ../css/theme.css and ../css/style.css, like the Notícias proposal's own stylesheet: the
+   colours it adds (the map's paint and the page's colour of the landscape, erva-mate) live here until
+   one idea is approved and built, then move to css/theme.css. */
+
+:root {
+  /* Erva-mate: the Mapa's colour of the landscape, the green of the tereré. Ink on the tint 13.4:1,
+     the deep shade 6.4:1 on the cards and 5.3:1 on the clay; at night moonlit on the tint 11.2:1, the
+     bright shade on it 7.8:1. */
+  --color-erva-mate: #6E8B2E;
+  --color-erva-mate-text: #4A651A;
+  --color-erva-mate-tint: #DCE6B9;
+  --color-erva-mate-night: #B5D46A;
+  --color-erva-mate-night-tint: #2C3414;
+
+  /* The map's paint (assets/mapa-estilo.js reads the roles below): the land, the built city, the
+     green, the water, the roads, the labels. By day and at night. */
+  --color-map-city: #F8EEE5;         /* the clay lightened toward the cards */
+  --color-map-green: #CED5C4;        /* the clay with 15% of the groups' green */
+  --color-map-water: #AED2EE;        /* the day sky's second band, a little lighter */
+  --color-map-building: #EEDCD0;
+  --color-map-indigena: #F5E7DC;     /* inhabited land: between the clay and the city */
+  --color-map-indigena-line: #B5A095; /* its boundary: the soft ink at 45% on the clay (MapLibre reads no color-mix) */
+  --color-map-night-city: #2E1A16;
+  --color-map-night-green: #2A2E23;
+  --color-map-night-road: #5E3E34;
+  --color-map-night-street: #4A2F28;
+  --color-map-night-building: #36201B;
+  --color-map-night-indigena: #2A1714;
+
+  --role-mapa: var(--color-erva-mate);
+  --role-mapa-text: var(--color-erva-mate-text);
+  --role-mapa-tint: var(--color-erva-mate-tint);
+
+  --role-map-land: var(--color-clay);
+  --role-map-city: var(--color-map-city);
+  --role-map-green: var(--color-map-green);
+  --role-map-water: var(--color-map-water);
+  --role-map-river: var(--color-day-2);
+  --role-map-road: var(--color-clay-card);
+  --role-map-road-casing: var(--color-clay-line);
+  --role-map-street: var(--color-clay-card);
+  --role-map-building: var(--color-map-building);
+  --role-map-label: var(--color-ink-soft);
+  --role-map-label-strong: var(--color-ink);
+  --role-map-halo: var(--color-map-city);
+  --role-map-indigena: var(--color-map-indigena);
+  --role-map-indigena-line: var(--color-map-indigena-line);
+
+  /* The points: ink by day, moonlit at night, with a ring of the card's colour. */
+  --role-pin: var(--color-ink);
+  --role-on-pin: var(--color-clay-card);
+  --role-pin-ring: var(--color-clay-card);
+  --role-pin-quiet: color-mix(in srgb, var(--color-ink-soft) 55%, var(--color-clay));
+  --role-pin-shadow: 0 1px 2px color-mix(in srgb, var(--color-earth-shadow) 22%, transparent), 0 3px 8px color-mix(in srgb, var(--color-earth-shadow) 16%, transparent);
+}
+
+:root[data-scheme='dark'] {
+  --role-mapa: var(--color-erva-mate-night);
+  --role-mapa-text: var(--color-erva-mate-night);
+  --role-mapa-tint: var(--color-erva-mate-night-tint);
+
+  --role-map-land: var(--color-terra-roxa);
+  --role-map-city: var(--color-map-night-city);
+  --role-map-green: var(--color-map-night-green);
+  --role-map-water: var(--color-night-4);
+  --role-map-river: var(--color-night-5);
+  --role-map-road: var(--color-map-night-road);
+  --role-map-road-casing: var(--color-night-shade);
+  --role-map-indigena: var(--color-map-night-indigena);
+  --role-map-indigena-line: var(--color-terra-roxa-faded);
+  --role-map-street: var(--color-map-night-street);
+  --role-map-building: var(--color-map-night-building);
+  --role-map-label: var(--color-moonlit-soft);
+  --role-map-label-strong: var(--color-moonlit);
+  --role-map-halo: var(--color-terra-roxa);
+
+  --role-pin: var(--color-moonlit);
+  --role-on-pin: var(--color-terra-roxa);
+  --role-pin-ring: var(--color-terra-roxa);
+  --role-pin-quiet: color-mix(in srgb, var(--color-moonlit-soft) 50%, var(--color-terra-roxa));
+  --role-pin-shadow: 0 0 0 1px color-mix(in srgb, var(--color-night-shade) 50%, transparent);
+}
+
+/* ---------- The page: sky, band, and the map filling the land ---------- */
+/* The map is the land below the horizon: it fills the screen from the band down to the bar at the
+   foot (phones) or to the bottom (desk). The page doesn't scroll; the lists scroll inside their sheet
+   or panel. */
+.page-mapa { overflow: hidden; height: 100vh; }
+/* Five pages in the phone's bar now. */
+.page-mapa .site-nav { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.map-stage { position: fixed; left: 0; right: 0; top: var(--stage-top, 112px); bottom: 64px; overflow: hidden; background: var(--role-map-land); }
+.map-view { position: absolute; left: 0; top: 0; }
+.map-img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.map-img.is-escuro, :root[data-scheme='dark'] .map-img.is-claro { display: none; }
+:root[data-scheme='dark'] .map-img.is-escuro { display: block; }
+@media (min-width: 760px) {
+  .map-stage { bottom: 0; }
+}
+
+/* The map's own controls: round buttons and pills on the card's colour, floating over the land. */
+.map-tools { position: absolute; z-index: 3; display: flex; flex-direction: column; gap: 10px; }
+.map-btn { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--role-card-border); border-radius: 50%;
+  background: var(--role-card); color: var(--role-ink); box-shadow: var(--role-card-shadow); }
+.map-btn .icon { width: 20px; height: 20px; }
+.map-zoom { display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--role-card-border); border-radius: var(--radius-pill);
+  background: var(--role-card); box-shadow: var(--role-card-shadow); }
+.map-zoom .map-btn { border: 0; border-radius: 0; box-shadow: none; background: none; }
+.map-zoom .map-btn + .map-btn { border-top: 1px solid var(--role-line); }
+.map-pill { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 15px 0 12px; border: 1px solid var(--role-card-border);
+  border-radius: var(--radius-pill); background: var(--role-card); color: var(--role-ink); box-shadow: var(--role-card-shadow);
+  font: 600 0.875rem/1.2 var(--font-ui); white-space: nowrap; text-decoration: none; }
+.map-pill .icon { width: 18px; height: 18px; }
+.map-credit { position: absolute; z-index: 2; right: 8px; bottom: 6px; padding: 1px 6px; border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--role-card) 80%, transparent); color: var(--role-ink-soft); font-size: 0.75rem; line-height: 1.4; }
+
+/* ---------- The points ---------- */
+/* Ink on the land by day, moonlit at night, ringed in the card's colour so they stand off the streets.
+   A category is a drawing (the berimbau, the microphone, the basket), never a colour of its own: the
+   eight colours already belong to the organizations' groups, and Comércio's categories carry none. */
+.pin { position: absolute; z-index: 2; display: grid; place-items: center; translate: -50% -50%; color: var(--role-on-pin); }
+.pin[hidden] { display: none; }
+.pin .icon { width: 17px; height: 17px; }
+.pin-dot { width: 30px; height: 30px; border-radius: 50%; background: var(--role-pin); box-shadow: 0 0 0 2px var(--role-pin-ring), var(--role-pin-shadow); }
+.pin-num { width: 26px; height: 26px; border-radius: 50%; background: var(--role-pin); box-shadow: 0 0 0 2px var(--role-pin-ring), var(--role-pin-shadow);
+  font: 800 0.8125rem/1 var(--font-display); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+/* Points too close to tell apart on this zoom: one pill with their numbers (Cartaz) or their count. */
+.pin-nums { display: flex; height: 26px; padding: 0 3px; border-radius: var(--radius-pill); background: var(--role-pin);
+  box-shadow: 0 0 0 2px var(--role-pin-ring), var(--role-pin-shadow); font: 800 0.8125rem/26px var(--font-display); font-variant-numeric: tabular-nums; }
+.pin-nums span { min-width: 20px; padding: 0 3px; text-align: center; }
+.pin-nums span + span { box-shadow: inset 1px 0 color-mix(in srgb, var(--role-on-pin) 35%, transparent); }
+.pin-count { width: 34px; height: 34px; border-radius: 50%; background: var(--role-card); color: var(--role-ink);
+  box-shadow: 0 0 0 2.5px var(--role-pin), 0 0 0 5px var(--role-pin-ring), var(--role-pin-shadow); font: 800 0.9375rem/1 var(--font-display); font-variant-numeric: tabular-nums; }
+/* Not today (Hoje): a quiet dot, so the day's places lead. */
+.pin-quiet { width: 10px; height: 10px; border-radius: 50%; background: var(--role-pin-quiet); box-shadow: 0 0 0 1.5px var(--role-pin-ring); }
+/* Today (Hoje): the drawing and the time, in NOS's voice. */
+.pin-time { display: flex; align-items: center; gap: 5px; height: 30px; padding: 0 11px 0 6px; border-radius: var(--radius-pill); background: var(--role-pin);
+  box-shadow: 0 0 0 2px var(--role-pin-ring), var(--role-pin-shadow); font: 800 0.875rem/1 var(--font-display); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pin-time .icon { width: 18px; height: 18px; }
+/* The next one is circled by hand, as on the agenda. */
+.pin .hand { left: -12px; top: -9px; width: calc(100% + 24px); height: calc(100% + 18px); }
+/* The place that is open: a drop that stands on its point. */
+.pin-drop { translate: -50% -100%; width: 42px; height: 50px; }
+.pin-drop svg.drop { position: absolute; inset: 0; width: 42px; height: 50px; overflow: visible; filter: drop-shadow(0 2px 3px color-mix(in srgb, var(--color-earth-shadow) 25%, transparent)); }
+.pin-drop svg.drop path { fill: var(--role-pin); stroke: var(--role-pin-ring); stroke-width: 2.5px; }
+.pin-drop > span { position: relative; display: grid; place-items: center; height: 38px; font: 800 1rem/1 var(--font-display); font-variant-numeric: tabular-nums; }
+.pin-drop > span .icon { width: 20px; height: 20px; }
+:root[data-scheme='dark'] .pin-drop svg.drop { filter: none; }
+
+/* A number in the legend: the pin itself. */
+.num { display: inline-grid; place-items: center; flex: none; width: 26px; height: 26px; border-radius: 50%; background: var(--role-pin); color: var(--role-on-pin);
+  font: 800 0.8125rem/1 var(--font-display); font-variant-numeric: tabular-nums; }
+.glyph { display: inline-grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--role-pin); color: var(--role-on-pin); }
+.glyph .icon { width: 16px; height: 16px; }
+
+/* ---------- Sheets (phones) and panels (desk) ---------- */
+.map-sheet { position: fixed; z-index: 6; left: 0; right: 0; bottom: 64px; display: flex; flex-direction: column; border: 1px solid var(--role-card-border); border-bottom: 0;
+  border-radius: var(--radius-sheet) var(--radius-sheet) 0 0; background: var(--role-card); color: var(--role-ink); box-shadow: var(--role-sheet-shadow); }
+.map-sheet .grabber { margin-bottom: 4px; }
+.map-panel { position: absolute; z-index: 6; top: 24px; bottom: 24px; display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--role-card-border);
+  border-radius: var(--radius-card); background: var(--role-card); color: var(--role-ink); box-shadow: var(--role-card-shadow); }
+.sheet-head { display: flex; align-items: center; gap: 10px; padding: 4px 8px 10px 16px; }
+.sheet-title { flex: 1; min-width: 0; margin: 0; font: 750 1.1875rem/1.25 var(--font-display); letter-spacing: -0.015em; }
+.sheet-title small { display: block; margin-top: 1px; font: 500 0.875rem/1.35 var(--font-ui); letter-spacing: 0; color: var(--role-ink-soft); }
+.sheet-scroll { flex: 1; min-height: 0; overflow: hidden; padding: 0 16px 16px; }
+.sheet-chips { display: flex; gap: 8px; padding: 0 16px 6px; overflow: hidden; -webkit-mask-image: linear-gradient(to right, var(--role-ink) calc(100% - 24px), transparent); mask-image: linear-gradient(to right, var(--role-ink) calc(100% - 24px), transparent); }
+.chip .glyph-sm { display: grid; place-items: center; width: 18px; height: 18px; }
+.chip .glyph-sm .icon { width: 18px; height: 18px; }
+.chip-n { margin-left: 2px; color: var(--role-ink-soft); font-weight: 500; font-variant-numeric: tabular-nums; }
+.chip[aria-pressed=true] .chip-n { color: color-mix(in srgb, var(--role-on-ink) 75%, transparent); }
+
+/* The legend: the numbered places, north to south. */
+.legend { margin: 0; padding: 0; list-style: none; }
+.legend-row { display: grid; grid-template-columns: 26px minmax(0, 1fr); column-gap: 12px; padding: 10px 0 11px; border-top: 1px solid var(--role-line); }
+.legend-row:first-child { border-top: 0; }
+.legend-row .num { margin-top: 1px; }
+.legend-group { font: 600 0.9375rem/1.3 var(--font-ui); }
+.legend-place { margin-top: 1px; font-size: 0.875rem; line-height: 1.35; color: var(--role-ink-soft); }
+.legend-time { margin-top: 3px; font-size: 0.8125rem; line-height: 1.35; font-weight: 600; font-variant-numeric: tabular-nums; }
+.legend-row.is-open { margin: 0 -10px; padding-inline: 10px; border-radius: var(--radius); box-shadow: 0 0 0 1.5px var(--role-ink-soft); border-top-color: transparent; }
+.legend-row.is-open + .legend-row { border-top-color: transparent; }
+.credit { display: flex; gap: 10px; margin-top: 6px; padding-top: 12px; border-top: 1px solid var(--role-line); font-size: 0.8125rem; line-height: 1.45; color: var(--role-ink-soft); }
+.credit .icon { flex: none; width: 16px; height: 16px; margin-top: 2px; }
+.credit b { color: var(--role-ink); font-weight: 600; }
+
+/* A place, open: who, where, when, how to reach them. */
+.place-kicker { display: flex; align-items: center; gap: 8px; font-size: 0.875rem; font-weight: 600; color: var(--role-ink-soft); }
+.place-title { margin: 6px 0 2px; font: 750 1.375rem/1.2 var(--font-display); letter-spacing: -0.02em; text-wrap: balance; }
+.place-who { font-size: 0.9375rem; line-height: 1.35; color: var(--role-ink-soft); }
+.times { margin: 12px 0 4px; padding: 12px 14px 13px; border-radius: var(--radius); background: var(--role-fill); }
+.times-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font: 750 1rem/1.25 var(--font-display); letter-spacing: -0.01em; }
+.times-head .icon { width: 18px; height: 18px; color: var(--role-ink-soft); }
+.times ul { margin: 0; padding: 0; list-style: none; }
+.times li { padding: 3px 0; font-size: 0.9375rem; line-height: 1.4; font-variant-numeric: tabular-nums; }
+.times li b { font-weight: 600; }
+.times li.is-today { font-weight: 600; }
+.sheet-actions { display: flex; gap: 8px; padding: 12px 16px 14px; border-top: 1px solid var(--role-line); background: var(--role-card); }
+.sheet-actions .btn { flex: 1; min-height: 48px; padding: 0 12px; white-space: nowrap; }
+.sheet-actions .btn-line { flex: 0 1 auto; }
+.fact-sub { display: block; font-size: 0.8125rem; color: var(--role-ink-soft); }
+.place-note { display: flex; gap: 10px; margin: 8px 0 0; font-size: 0.8125rem; line-height: 1.45; color: var(--role-ink-soft); }
+.place-note .icon { flex: none; width: 16px; height: 16px; margin-top: 2px; }
+
+/* ---------- Hoje: the days of the week, the day's places by time ---------- */
+.week { position: relative; z-index: 5; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 2px;
+  padding: 8px 8px 9px; background: var(--role-card); border-bottom: 1px solid var(--role-line); }
+.wday { position: relative; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 0 7px; border: 0; border-radius: var(--radius);
+  background: none; color: var(--role-ink); font: inherit; }
+.wday-name { font: 600 0.75rem/1 var(--font-ui); letter-spacing: 0.04em; text-transform: uppercase; color: var(--role-ink-soft); }
+.wday-num { position: relative; font: 750 1.125rem/1.1 var(--font-display); font-variant-numeric: tabular-nums; }
+.wday-num .hand { left: -3px; bottom: -6px; width: calc(100% + 6px); height: 7px; }
+.wday-dots { display: flex; gap: 2px; height: 5px; }
+.wday-dots i { width: 4px; height: 4px; border-radius: 50%; background: currentColor; opacity: 0.55; }
+.wday[aria-pressed=true] { background: var(--role-ink); color: var(--role-on-ink); }
+.wday[aria-pressed=true] .wday-name { color: color-mix(in srgb, var(--role-on-ink) 72%, transparent); }
+.wday[aria-pressed=true] .wday-dots i { opacity: 0.8; }
+.day-list-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 0 0 10px; }
+.day-list-head h2 { margin: 0; font: 750 1.1875rem/1.26 var(--font-display); letter-spacing: -0.015em; }
+.day-list-head span { font-size: 0.875rem; color: var(--role-ink-soft); font-variant-numeric: tabular-nums; }
+.train { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 14px; align-items: start; padding: 12px 14px 13px; border-radius: var(--radius-card);
+  background: var(--role-card); border: 1px solid var(--role-card-border); box-shadow: var(--role-card-shadow); }
+.train + .train { margin-top: 8px; }
+.train-when { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; min-width: 4.4rem; padding-top: 1px; }
+.train-time { font: 800 1.25rem/1.1 var(--font-display); letter-spacing: -0.015em; font-variant-numeric: tabular-nums; }
+.train-end { font-size: 0.8125rem; color: var(--role-ink-soft); font-variant-numeric: tabular-nums; }
+.train-group { font: 600 1rem/1.3 var(--font-ui); letter-spacing: -0.005em; }
+.train-meta { display: flex; align-items: flex-start; gap: 6px; margin-top: 3px; font-size: 0.875rem; line-height: 1.35; color: var(--role-ink-soft); }
+.train-meta .icon { flex: none; width: 15px; height: 15px; margin-top: 2px; }
+.train .next-label { display: block; margin-top: 2px; }
+.train.is-open { box-shadow: var(--role-card-shadow), 0 0 0 1.5px var(--role-ink-soft); }
+.more-days { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 10px; padding: 12px 14px; border: 1px solid var(--role-line);
+  border-radius: var(--radius-card); color: var(--role-ink); font-size: 0.9375rem; font-weight: 600; text-decoration: none; }
+.more-days span { font-weight: 400; color: var(--role-ink-soft); }
+.more-days .icon { flex: none; width: 18px; height: 18px; color: var(--role-ink-soft); }
+
+/* ---------- Camadas: the layers ---------- */
+.layers-row { position: absolute; z-index: 4; left: 0; right: 0; top: 0; display: flex; gap: 8px; padding: 10px 12px 10px 12px; overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, var(--role-ink) calc(100% - 28px), transparent); mask-image: linear-gradient(to right, var(--role-ink) calc(100% - 28px), transparent); }
+.layers-row .chip, .layers-row .map-pill { box-shadow: var(--role-card-shadow); }
+.layers-row .chip { height: 40px; margin: 0; border-color: var(--role-card-border); }
+.layers-row .chip[aria-pressed=true] { border-color: var(--role-ink); }
+.layer-list { margin: 0; padding: 0; list-style: none; }
+.layer { border-top: 1px solid var(--role-line); }
+.layer:first-child { border-top: 0; }
+.layer-head { display: grid; grid-template-columns: 22px 28px minmax(0, 1fr) auto; align-items: center; column-gap: 10px; min-height: 54px; }
+.check { display: grid; place-items: center; width: 22px; height: 22px; border: 1.5px solid var(--role-ink-soft); border-radius: 50%; color: var(--role-on-ink); }
+.check .icon { width: 14px; height: 14px; }
+.check.is-on { border-color: var(--role-ink); background: var(--role-ink); }
+.layer-name { font: 600 0.9375rem/1.3 var(--font-ui); }
+.layer-n { font-size: 0.875rem; color: var(--role-ink-soft); font-variant-numeric: tabular-nums; }
+.layer-sub { margin: -4px 0 10px 32px; padding: 0; list-style: none; }
+.layer-sub li { display: flex; justify-content: space-between; gap: 10px; padding: 5px 0 5px 28px; font-size: 0.875rem; line-height: 1.35; }
+.layer-sub li span:last-child { color: var(--role-ink-soft); font-variant-numeric: tabular-nums; }
+.layer-sub li.is-more a { font-weight: 600; color: var(--role-ink); }
+.layer-sub li.is-group-head { padding-left: 28px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--role-ink-soft); }
+.suggest { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border-radius: var(--radius); background: var(--role-mapa-tint); color: var(--role-ink); font-size: 0.875rem; line-height: 1.45; }
+.suggest .icon { flex: none; width: 20px; height: 20px; color: var(--role-mapa-text); margin-top: 1px; }
+.suggest b { display: block; font: 700 0.9375rem/1.3 var(--font-display); }
+.tag-layer { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 9px 0 4px; border-radius: var(--radius-pill); background: var(--role-fill); color: var(--role-ink);
+  font-size: 0.8125rem; font-weight: 600; }
+.tag-layer .glyph { width: 18px; height: 18px; }
+.tag-layer .glyph .icon { width: 12px; height: 12px; }
+
+/* Hoje on a phone: the week, a band of map, the day's list. */
+.map-stage--hoje { display: flex; flex-direction: column; }
+.b-map { position: relative; flex: none; height: 250px; overflow: hidden; border-bottom: 1px solid var(--role-line); }
+.b-list { flex: 1; min-height: 0; overflow: hidden; padding: 14px 16px 0; background: var(--role-ground); }
+.save-pill-map { display: inline-flex; align-items: center; gap: 8px; height: 40px; margin-top: 12px; padding: 0 16px 0 12px; border-radius: var(--radius-pill);
+  background: var(--role-fill); color: var(--role-ink); font: 600 0.9375rem/1.2 var(--font-ui); text-decoration: none; }
+.save-pill-map .icon { width: 18px; height: 18px; }
+
+/* Cartaz on the desk: the poster of the map, to send or download. */
+.poster-card { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 14px; align-items: start; margin: 0 12px 12px; padding: 12px; border-radius: var(--radius);
+  background: var(--role-fill); }
+.poster-thumb { display: block; width: 96px; height: 120px; border-radius: var(--radius-sm); box-shadow: 0 0 0 1px var(--role-line); object-fit: cover; }
+.poster-name { font: 750 1.0625rem/1.25 var(--font-display); letter-spacing: -0.015em; }
+.poster-sub { margin-top: 3px; font-size: 0.8125rem; line-height: 1.4; color: var(--role-ink-soft); }
+.poster-actions { display: flex; gap: 8px; margin-top: 10px; }
+.poster-actions .btn { min-height: 40px; padding: 0 14px; }
