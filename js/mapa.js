@@ -64,13 +64,15 @@ async function load() {
       failed.push(layer.name);
       return;
     }
-    const { places, invalid, stale, missing, savedAt: saved } = result.value;
+    const { places, invalid, stale, held, missing, savedAt: saved } = result.value;
     if (saved && (!savedAt || saved < savedAt)) savedAt = saved;
     if (missing.length) problems.push(`<li><code>${escapeHtml(layer.file)}</code>: falta a coluna ${missing.map((m) => `“${m}”`).join(' e ')}.</li>`);
     const why = { name: 'falta o nome', coords: 'faltam as coordenadas (latitude, longitude)', review: 'falta a data da última revisão (dd/mm/aaaa)' };
     for (const row of invalid) problems.push(`<li><code>${escapeHtml(layer.file)}</code>, linha ${row.line}: ${why[row.reason]}.</li>`);
     // Left out for want of a review (js/review.js): told to the team in the console, not to visitors.
     if (stale.length) console.info(`Mapa, ${layer.name}: ${stale.length} lugar(es) fora do mapa, sem revisão há mais de ${MAP_REVIEW_MONTHS} meses:`, stale.map((r) => `linha ${r.line}, ${r.name} (${dayText(r.reviewed)})`));
+    // Held until something is recorded (MAP_HELD in js/config.js): the team's, in the console too.
+    if (held.length) console.info(`Mapa, ${layer.name}: ${held.length} lugar(es) fora do mapa por enquanto:`, held.map((r) => `linha ${r.line}, ${r.name}: ${r.why}`));
     state.places.push(...places);
   });
   if (failed.length === MAP_LAYERS.length) {
@@ -107,7 +109,8 @@ function renderChips() {
     b.type = 'button';
     b.dataset.layer = layer.id;
     const n = state.places.filter((p) => p.layer === layer).length;
-    b.innerHTML = `<span class="chip-check" aria-hidden="true">${icon('check')}</span>${glyph(layer, 'chip-glyph')}${escapeHtml(layer.name)}<span class="chip-n">${n}</span>`;
+    // The layer's drawing stays in both states: it is the key to the points (the fill says it is on).
+    b.innerHTML = `${glyph(layer, 'chip-glyph')}${escapeHtml(layer.name)}<span class="chip-n">${n}</span>`;
     b.addEventListener('click', () => toggleLayer(layer.id));
     return b;
   }));
@@ -378,7 +381,10 @@ function drawClusters() {
     node.type = 'button';
     node.tabIndex = -1;
     node.setAttribute('aria-hidden', 'true');
-    node.innerHTML = `<span class="pin-count">${group.length}</span>`;
+    // Two places: both drawings, overlapping by half; from three up, their count.
+    node.innerHTML = group.length === 2
+      ? `<span class="pin-pair">${group.map((i) => i.place).sort((a, b) => a.lngLat[0] - b.lngLat[0] || byLayerThenName(a, b)).map((p) => `<span class="pin-dot">${icon(p.layer.icon)}</span>`).join('')}</span>`
+      : `<span class="pin-count">${group.length}</span>`;
     node.title = group.map((i) => i.place.name).join(', ');
     // A tap brings them apart; places that no zoom can part (one address) open the first one's card,
     // which names the others.
@@ -451,11 +457,9 @@ function factRow(iconName, label, main, sub = '') {
 
 function renderPlace(place) {
   const card = $('place');
-  $('place-layer').innerHTML = `${glyph(place.layer)}${escapeHtml(place.layer.one)}`;
   $('place-title').textContent = place.name;
-  const who = $('place-who');
-  who.textContent = place.who;
-  who.hidden = !place.who;
+  // Under the name: the layer's drawing and name, then who leads it ("Capoeira · Mestre Guerreiro").
+  $('place-meta').innerHTML = `${glyph(place.layer, 'glyph meta-glyph')}<span class="meta-layer">${escapeHtml(place.layer.one)}</span>${place.who ? `<span class="meta-who">${escapeHtml(place.who)}</span>` : ''}`;
 
   const times = $('place-times');
   times.hidden = !place.when.length;
@@ -552,7 +556,7 @@ function closePlace({ fromHistory = false } = {}) {
   if (back && document.contains(back) && back.offsetParent) back.focus();
 }
 
-// The panel as a sheet on phones: opened by "Lugares", closed by ✕, Escape, the scrim or Back.
+// The panel as a sheet on phones: opened by "Camadas", closed by ✕, Escape, the scrim or Back.
 function showSide() {
   document.body.classList.add('side-open');
   $('map-side').setAttribute('aria-modal', 'true');

@@ -1801,7 +1801,7 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
 .map-canvas .maplibregl-canvas:focus-visible { outline: 2px solid var(--role-focus); outline-offset: -2px; }
 .page-map .notice { position: fixed; z-index: 8; top: calc(var(--stage-top, 112px) + 62px); left: 12px; right: 12px; margin: 0; box-shadow: var(--role-card-shadow); }
 
-/* The layers over the map (phones): "Lugares" opens the panel, each chip turns a layer on and off. */
+/* The layers over the map (phones): "Camadas" opens the panel, each chip turns a layer on and off. */
 .layer-bar {
   position: absolute;
   z-index: 3;
@@ -1837,9 +1837,10 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
 }
 .map-pill .icon { width: 18px; height: 18px; }
 .map-chip { height: 40px; margin: 0; border-color: var(--role-card-border); box-shadow: var(--role-card-shadow); }
-.map-chip[aria-pressed=true] { border-color: var(--role-ink); }
-.map-chip[aria-pressed=true] .chip-glyph { display: none; }
+.map-chip[aria-pressed=true] { padding-left: 12px; border-color: var(--role-ink); }
+/* The drawing stays in both states (it is the key to the points); off, it fades with the chip. */
 .chip-glyph { display: flex; }
+.map-chip[aria-pressed=false] .chip-glyph { color: var(--role-ink-soft); }
 .chip-glyph .icon { width: 18px; height: 18px; }
 .chip-n { margin-left: 2px; color: var(--role-ink-soft); font-weight: 500; font-variant-numeric: tabular-nums; }
 .chip[aria-pressed=true] .chip-n { color: var(--role-on-ink); opacity: 0.75; }
@@ -1899,6 +1900,9 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
    the streets. A layer is a drawing (the berimbau, the microphone, the basket…), never a colour of its
    own: the eight colours belong to the organizations' groups, and Comércio's categories carry none. */
 .map-point { display: block; padding: 0; border: 0; background: none; color: var(--role-on-pin); cursor: pointer; }
+/* Every point and count takes a tap 44px wide, whatever its drawn size (MapLibre places the marker
+   absolutely, so this circle sits on it). */
+.map-point::before { content: ''; position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; border-radius: 50%; translate: -50% -50%; }
 .map-point.is-merged { display: none; }
 .pin-dot {
   display: grid;
@@ -1914,7 +1918,11 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .pin-dot { width: 26px; height: 26px; }
   .pin-dot .icon { width: 15px; height: 15px; }
 }
-/* Points of a layer too close to tell apart on this zoom: their count; a tap brings them apart. */
+/* Two places too close to tell apart on this zoom: both drawings, overlapping by half. */
+.pin-pair { display: flex; }
+.pin-pair .pin-dot + .pin-dot { margin-left: -15px; }
+@media (max-width: 759px) { .pin-pair .pin-dot + .pin-dot { margin-left: -13px; } }
+/* Three or more: their count. A tap brings them apart. */
 .pin-count {
   display: grid;
   place-items: center;
@@ -1955,7 +1963,8 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   bottom: 0;
   display: flex;
   flex-direction: column;
-  max-height: calc(100dvh - 48px - env(safe-area-inset-top));
+  /* From the band down: the sky and the page's line stay whole above the scrim. */
+  max-height: calc(100dvh - var(--stage-top, 112px));
   border: 1px solid var(--role-card-border);
   border-bottom: 0;
   border-radius: var(--radius-sheet) var(--radius-sheet) 0 0;
@@ -2062,14 +2071,18 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   box-shadow: var(--role-sheet-shadow);
 }
 .place-card .grabber { margin-bottom: 0; }
-.place-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 2px 8px 0 16px; }
-.tag-layer { display: inline-flex; align-items: center; gap: 7px; height: 28px; padding: 0 11px 0 4px; border-radius: var(--radius-pill); background: var(--role-fill); font-size: 0.8125rem; font-weight: 600; }
-.tag-layer .glyph { width: 22px; height: 22px; }
-.tag-layer .glyph .icon { width: 13px; height: 13px; }
+/* The head: the place's name and ✕. Under it, the layer's drawing and name and who leads it: no label
+   above the name. */
+.place-head { display: flex; align-items: flex-start; gap: 8px; padding: 2px 8px 0 16px; }
+.place-head .place-title { flex: 1; min-width: 0; padding-top: 9px; }
+.place-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin-top: 2px; font-size: 0.9375rem; line-height: 1.35; color: var(--role-ink-soft); }
+.meta-glyph { width: 24px; height: 24px; }
+.meta-glyph .icon { width: 14px; height: 14px; }
+.meta-layer { font-weight: 600; color: var(--role-ink); }
+.meta-who::before { content: '·'; margin-right: 8px; }
 .place-scroll { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 4px 16px 12px; }
 .place-title { font: 750 1.375rem/1.2 var(--font-display); letter-spacing: -0.02em; text-wrap: balance; }
 .place-title:focus { outline: none; }
-.place-who { margin-top: 2px; font-size: 0.9375rem; line-height: 1.35; color: var(--role-ink-soft); }
 .times { margin: 12px 0 4px; padding: 12px 14px 13px; border-radius: var(--radius); background: var(--role-fill); }
 .times-head { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; font: 750 1rem/1.25 var(--font-display); letter-spacing: -0.01em; }
 .times-head .icon { width: 18px; height: 18px; color: var(--role-ink-soft); }

@@ -62,6 +62,13 @@ export const MAP_LAYERS = [
   { id: 'poder-publico', name: 'Poder público', one: 'Poder público', file: 'data/mapa/poder-publico.csv', icon: 'landmark' },
 ];
 
+// Places kept off the Mapa, by id (js/places.js), until something is recorded: an aldeia, a retomada, a
+// terreiro, the quilombo, a camp or a home goes on the map only once its people's agreement is written
+// down (here, with who agreed). Removing a line puts the place back.
+export const MAP_HELD = {
+  'capoeira-centro-cultural-graos-aji-acao-dos-jovens-indigenas-de-dourados-ms': 'Na Aldeia Bororó, Reserva Indígena de Dourados: falta registrar a concordância da AJI (Ação dos Jovens Indígenas), por meio do COMAFRO.',
+};
+
 // Where "Falta algum lugar?" leads, on the Mapa (a form or a contact of the NOS team for places missing
 // from the map). Empty hides the invitation.
 export const MAP_SUGGEST_URL = '';

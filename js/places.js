@@ -7,7 +7,7 @@
 // Nome do Responsável, Horários de Treino, Telefone de Contato, Plus Code, Última revisão em, Mostrar
 // no Mapa.
 
-import { MAP_REVIEW_MONTHS } from './config.js';
+import { MAP_HELD, MAP_REVIEW_MONTHS } from './config.js';
 import { instagramUrl, phonesIn, readInstagram } from './businesses.js';
 import { isHidden, normalizeKey, slugify } from './events.js';
 import { isStale, reviewDay } from './review.js';
@@ -64,8 +64,10 @@ function bairroOfPlusCode(code) {
   return m && !/^-/.test(m[1]) ? m[1].trim() : '';
 }
 
-// The way schedules are typed ("Seg, Quar e Sex 19:30h-21h", "Dom 9:30h") read as the agenda writes
-// times: "Seg, Qua e Sex 19h30 às 21h", "Dom 9h30". Only these marks change; the words stay.
+// The way schedules are typed ("Seg, Quar e Sex 19:30h-21h", "Dom 9:30h", "Qui 19:30h-20:30h, Sab
+// 13h-14h") read as the agenda writes times: "Seg, Qua e Sex, 19h30 às 21h", "Dom, 9h30", "Qui, 19h30
+// às 20h30; Sáb, 13h às 14h". Only these marks change; the words stay.
+const WEEKDAY = '(?:Seg|Ter|Qua|Qui|Sex|Sáb|Dom)';
 export function tidyTimes(text) {
   return text
     .replace(/(\d{1,2}):(\d{2})\s*h?/g, (_, h, m) => `${Number(h)}h${m === '00' ? '' : m}`)
@@ -73,28 +75,45 @@ export function tidyTimes(text) {
     .replace(/(^|\s)às (\d{1,2}h\d{0,2}) às (\d{1,2}h\d{0,2})/g, '$1das $2 às $3')
     .replace(/\bQuar\b/g, 'Qua')
     .replace(/\bSext\b/g, 'Sex')
-    .replace(/\bSab\b/g, 'Sáb');
+    .replace(/\bSab\b/g, 'Sáb')
+    // Two days' times in a row: a semicolon between them, then a comma between each day and its time.
+    .replace(new RegExp(`(\\d{1,2}h\\d{0,2}),\\s+(?=${WEEKDAY}(?![\\p{L}]))`, 'gu'), '$1; ')
+    .replace(new RegExp(`(${WEEKDAY})\\s+(?=\\d{1,2}h|das\\s)`, 'gu'), '$1, ');
 }
 
-// Returns { places, invalid, stale, missing } for one layer's rows. Hidden rows (Visível or Mostrar no
-// Mapa false) are left out silently; rows without a name, without coordinates or without a review date
-// are reported (invalid: { line, reason: 'name' | 'coords' | 'review' }); a row whose last review is
-// older than MAP_REVIEW_MONTHS is left out and listed in `stale` ({ line, name, reviewed }), for the
-// team. `missing` names the required columns the sheet lacks.
+// Spellings fixed as the sheets are read, so COMAFRO's sheet stays as they keep it (and can be copied in
+// again): accents its typing lost. The same list goes to COMAFRO, to fix at the source. Whole words.
+const SPELLING = [
+  ['Associaçao De Capoeira Baiana', 'Associação de Capoeira Baiana'],
+  ['Abada', 'Abadá'],
+  ['Jardim Italia', 'Jardim Itália'],
+  ['JARDIM ITALIA', 'JARDIM ITÁLIA'],
+  ['Vila Sao Braz', 'Vila São Braz'],
+  ['Jardim Florida', 'Jardim Flórida'],
+].map(([from, to]) => [new RegExp(`(^|[^\\p{L}])${from}(?![\\p{L}])`, 'gu'), `$1${to}`]);
+const respell = (text) => SPELLING.reduce((t, [from, to]) => t.replace(from, to), text);
+
+// Returns { places, invalid, stale, held, missing } for one layer's rows. Hidden rows (Visível or
+// Mostrar no Mapa false) are left out silently; rows without a name, without coordinates or without a
+// review date are reported (invalid: { line, reason: 'name' | 'coords' | 'review' }); a row whose last
+// review is older than MAP_REVIEW_MONTHS is left out and listed in `stale` ({ line, name, reviewed }),
+// and a place of MAP_HELD in `held` ({ line, name, why }), for the team. `missing` names the required
+// columns the sheet lacks.
 export function buildPlaces(layer, headers, records, lines = [], now = new Date()) {
   const col = columnMap(headers);
   const missing = [['name', 'Nome'], ['coords', 'Coordenadas']].filter(([field]) => !col[field]).map(([, name]) => name);
-  if (missing.length) return { places: [], invalid: [], stale: [], missing };
+  if (missing.length) return { places: [], invalid: [], stale: [], held: [], missing };
   const get = (record, field) => (col[field] ? (record[col[field]] || '').trim() : '');
   const taken = new Map();
   const places = [];
   const invalid = [];
   const stale = [];
+  const held = [];
 
   records.forEach((record, index) => {
     if (isHidden(get(record, 'visible'))) return;
     const line = lines[index] ?? index + 2;
-    const name = get(record, 'name').replace(/\s+/g, ' ');
+    const name = respell(get(record, 'name').replace(/\s+/g, ' '));
     if (!name) return void invalid.push({ line, reason: 'name' });
     const lngLat = readCoords(get(record, 'coords'));
     if (!lngLat) return void invalid.push({ line, reason: 'coords' });
@@ -102,8 +121,8 @@ export function buildPlaces(layer, headers, records, lines = [], now = new Date(
     if (!reviewed) return void invalid.push({ line, reason: 'review' });
     if (isStale(reviewed, MAP_REVIEW_MONTHS, now)) return void stale.push({ line, name, reviewed });
 
-    const { street, bairro } = splitAddress(get(record, 'address'));
-    const place = get(record, 'place').replace(/\s+/g, ' ');
+    const { street, bairro } = splitAddress(respell(get(record, 'address')));
+    const place = respell(get(record, 'place').replace(/\s+/g, ' '));
     const contact = get(record, 'contact');
     const phones = phonesIn(contact);
     const instagram = readInstagram(get(record, 'instagram'));
@@ -116,15 +135,17 @@ export function buildPlaces(layer, headers, records, lines = [], now = new Date(
     const base = `${layer.id}-${tail || 'lugar'}`;
     const n = (taken.get(base) || 0) + 1;
     taken.set(base, n);
+    const id = n === 1 ? base : `${base}-${n}`;
+    if (MAP_HELD[id]) return void held.push({ line, name, why: MAP_HELD[id] });
 
     places.push({
-      id: n === 1 ? base : `${base}-${n}`,
+      id,
       layer,
       line,
       name,
       place: place && place !== name ? place : '',
       address: street,
-      bairro: get(record, 'bairro') || bairro || bairroOfPlusCode(get(record, 'plusCode')),
+      bairro: respell(get(record, 'bairro')) || bairro || respell(bairroOfPlusCode(get(record, 'plusCode'))),
       lngLat,
       when,
       who: get(record, 'who'),
@@ -139,5 +160,5 @@ export function buildPlaces(layer, headers, records, lines = [], now = new Date(
       reviewed,
     });
   });
-  return { places, invalid, stale, missing: [] };
+  return { places, invalid, stale, held, missing: [] };
 }
