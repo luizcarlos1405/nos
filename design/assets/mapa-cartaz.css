@@ -1,0 +1,36 @@
+/* Mapa, idea A (Cartaz): the poster of the map the page makes, 1080×1350 like the agenda's flyers (css/flyers.css):
+   the day sky in flat bands with the idea in Bricolage, the woven band as the horizon, the land as the map with the
+   numbered places, the legend in Inter, NOS's signature. In px: a fixed canvas, exported as it is drawn. */
+.poster { position: relative; display: flex; flex-direction: column; width: 1080px; height: 1350px; overflow: hidden;
+  background: var(--color-clay); color: var(--color-ink); font-family: var(--font-ui); }
+/* The sky's edges keep clear of the type, as the flyers' do (every band 40px or more, no edge within 20px of a
+   line): the kicker and the title in the top band, four bands of 42px under them down to the horizon. */
+.poster-sky { position: relative; flex: none; height: 366px; overflow: hidden; padding: 42px 64px 0;
+  background: linear-gradient(to top, var(--color-day-5) 0 42px, var(--color-day-4) 42px 84px, var(--color-day-3) 84px 125px, var(--color-day-2) 125px 166px, var(--color-day-1) 166px); }
+/* The sun rises behind the band at the right, as on the flyers: big, running off the edge. */
+.poster-astro { position: absolute; right: -96px; bottom: -232px; width: 420px; height: 420px; }
+.poster-astro svg { width: 100%; height: 100%; overflow: visible; }
+.poster-astro circle { fill: var(--color-sun); }
+.poster-astro path { fill: none; stroke: var(--color-urucum); stroke-width: 5px; stroke-linecap: round; }
+.poster-kicker { position: relative; font: 700 26px/1.1 var(--font-display); letter-spacing: -0.01em; color: var(--color-day-ink-soft); }
+.poster-title { position: relative; margin: 8px 0 0; font: 800 88px/1 var(--font-display); letter-spacing: -0.035em; font-variation-settings: 'opsz' 96; white-space: nowrap; }
+.poster-lead { position: relative; max-width: 700px; margin-top: 16px; font: 600 23px/1.3 var(--font-ui); color: var(--color-day-ink-soft); }
+.poster-band { flex: none; height: 64px; background: url(../../assets/faixa.svg) 0 50% / auto 100% repeat-x; }
+.poster-map { position: relative; flex: none; height: 504px; overflow: hidden; }
+.poster .pin-num, .poster .num { width: 40px; height: 40px; font-size: 20px; }
+.poster .pin-num { box-shadow: 0 0 0 3px var(--color-clay-card), 0 2px 6px color-mix(in srgb, var(--color-earth-shadow) 25%, transparent); }
+.poster .pin-nums { height: 40px; padding: 0 5px; font-size: 20px; line-height: 40px; box-shadow: 0 0 0 3px var(--color-clay-card), 0 2px 6px color-mix(in srgb, var(--color-earth-shadow) 25%, transparent); }
+.poster .pin-nums span { min-width: 30px; }
+.poster-legend { flex: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(6, auto); grid-auto-flow: column;
+  column-gap: 28px; row-gap: 9px; margin: 0; padding: 22px 56px 0; list-style: none; }
+.poster-legend li { display: grid; grid-template-columns: 34px minmax(0, 1fr); column-gap: 12px; align-items: start; }
+.poster-legend .num { width: 32px; height: 32px; font-size: 16px; }
+.poster-legend b { display: block; font: 700 16px/1.25 var(--font-ui); letter-spacing: -0.01em; }
+.poster-legend .where { display: block; font: 500 14px/1.3 var(--font-ui); color: var(--color-ink-soft); font-variant-numeric: tabular-nums; }
+.poster-sign { position: absolute; left: 56px; right: 56px; bottom: 22px; display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  padding-top: 14px; border-top: 2px solid var(--color-clay-line); font: 500 14px/1.3 var(--font-ui); color: var(--color-ink-soft); }
+.poster-sign > span { text-align: center; }
+.poster-sign > b { color: var(--color-ink); font: 700 18px/1.2 var(--font-ui); }
+.poster-mark { display: flex; align-items: center; gap: 10px; color: var(--color-ink); --mark-loop: var(--color-urucum); }
+.poster-mark .nos-mark { display: block; width: 66px; height: 40px; overflow: visible; }
+.poster-mark b { font: 750 26px/1 var(--font-display); letter-spacing: -0.02em; }

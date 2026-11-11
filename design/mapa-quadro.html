@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="pt-BR" data-scheme="light" data-sky="day">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mapa · Quadro</title>
+<meta name="description" content="A proposta da página Mapa em palavras: as três ideias (Cartaz, Hoje, Camadas), o que elas têm em comum, a cor da página, os dados e o que falta decidir.">
+<meta name="htmlboard" content="width=1200, height=2749">
+<link rel="stylesheet" href="../css/theme.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="assets/design.css">
+<link rel="stylesheet" href="assets/mapa.css">
+<style>
+/* The Mapa proposal on one board: the three ideas side by side, what they share, the page's colour, the
+   data and the open decisions. The screens are the artboards beside it. */
+.board { width: 1200px; padding: 56px 64px 64px; background: var(--color-clay); color: var(--color-ink); }
+.board h1 { margin: 0; font: 800 3rem/1.05 var(--font-display); letter-spacing: -0.03em; }
+.board .lead { max-width: 70ch; margin: 14px 0 0; font-size: 1.125rem; line-height: 1.5; color: var(--color-ink-soft); }
+.board h2 { margin: 0 0 14px; font: 750 1.5rem/1.15 var(--font-display); letter-spacing: -0.02em; }
+.board h3 { margin: 0; font: 750 1.375rem/1.15 var(--font-display); letter-spacing: -0.02em; }
+.board code { font-size: 0.85em; }
+.box { padding: 26px 28px 24px; border-radius: var(--radius-card); background: var(--color-clay-card);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--color-earth-shadow) 8%, transparent), 0 6px 16px color-mix(in srgb, var(--color-earth-shadow) 7%, transparent); }
+.section-title { margin: 44px 0 16px; font: 750 1.75rem/1.15 var(--font-display); letter-spacing: -0.02em; }
+.ideas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.idea { display: flex; flex-direction: column; gap: 14px; }
+.idea-head { display: flex; align-items: baseline; gap: 10px; }
+.idea-letter { display: grid; place-items: center; flex: none; width: 36px; height: 36px; border-radius: 50%; background: var(--color-ink); color: var(--color-clay-card);
+  font: 800 1.125rem/1 var(--font-display); translate: 0 6px; }
+.idea-thesis { margin: 2px 0 0; font: 600 1.0625rem/1.35 var(--font-ui); }
+.idea dl { margin: 0; }
+.idea dt { margin-top: 12px; font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--color-ink-soft); }
+.idea dd { margin: 3px 0 0; font-size: 0.9375rem; line-height: 1.5; }
+.idea .files { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--color-clay-line); font-size: 0.8125rem; line-height: 1.5; color: var(--color-ink-soft); }
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.rules { margin: 0; padding-left: 18px; font-size: 0.9375rem; line-height: 1.5; }
+.rules li + li { margin-top: 8px; }
+.rules li::marker { color: var(--color-ink-soft); }
+.rules b { font-weight: 600; }
+.paint { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 4px 0 16px; }
+.paint figure { margin: 0; }
+.paint img { display: block; width: 100%; height: 180px; object-fit: cover; object-position: 50% 30%; border-radius: var(--radius); }
+.paint figcaption { margin-top: 6px; font-size: 0.8125rem; color: var(--color-ink-soft); }
+.pins { display: flex; flex-wrap: wrap; align-items: center; gap: 18px 22px; margin: 6px 0 16px; padding: 16px 18px; border-radius: var(--radius); background: var(--color-clay); }
+.pins > span { display: inline-flex; align-items: center; gap: 10px; font-size: 0.875rem; }
+.pins .pin { position: relative; translate: none; }
+.colour { display: grid; grid-template-columns: 1fr 1.2fr; gap: 28px; align-items: center; }
+.colour p { font-size: 0.9375rem; line-height: 1.5; }
+.swatches { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 20px; }
+.swatch { display: grid; grid-template-columns: 40px 1fr; column-gap: 12px; align-items: center; }
+.swatch .chip-color { grid-row: 1 / span 2; width: 40px; height: 40px; border-radius: 50%; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-ink) 12%, transparent); }
+.swatch b { font-size: 0.9375rem; font-weight: 600; }
+.swatch span:last-child { font-size: 0.8125rem; color: var(--color-ink-soft); font-variant-numeric: tabular-nums; }
+.decide { margin: 0; padding: 0; list-style: none; counter-reset: q; }
+.decide li { position: relative; padding: 12px 0 12px 44px; border-top: 1px solid var(--color-clay-line); font-size: 0.9375rem; line-height: 1.5; counter-increment: q; }
+.decide li:first-child { border-top: 0; }
+.decide li::before { content: counter(q); position: absolute; left: 0; top: 10px; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%;
+  background: var(--color-clay-fill); font: 800 0.9375rem/1 var(--font-display); }
+.decide b { font-weight: 600; }
+.cols-csv { margin: 8px 0 0; padding: 12px 14px; border-radius: var(--radius); background: var(--color-clay); font-size: 0.8125rem; line-height: 1.55; }
+</style>
+</head>
+<!-- Mapa: the proposal of 11/11/2026 in words (the user asked for a Mapa page in NOS: the city's cultural and
+     social-movement map, filterable by subject; its first version ports the Mapa da Capoeira). Three ideas, dealt
+     from seven structures by the impeccable skill's surface roll (seed 9e880976): A · Cartaz, B · Hoje, C · Camadas.
+     The screens are the artboards beside it; the places are COMAFRO's sheet as mapacapoeira.org shows it on 11/11. -->
+<body>
+<div class="board">
+  <h1>Mapa</h1>
+  <p class="lead">Uma página nova no NOS: o mapa cultural e dos movimentos de Dourados, com filtro por assunto. A primeira versão traz o Mapa da Capoeira inteiro: os 18 lugares de treino de 11 grupos que o COMAFRO Dourados levantou e confere em cada grupo. Depois entram as batalhas de rima, as feiras e o que mais o levantamento das organizações encontrar. Abaixo, três ideias para a página; as telas estão ao lado, de dia e à noite.</p>
+
+  <h2 class="section-title">Três ideias</h2>
+  <div class="ideas">
+    <section class="box idea">
+      <div class="idea-head"><span class="idea-letter">A</span><div><h3>Cartaz</h3><p class="idea-thesis">O mapa como cartaz da cidade.</p></div></div>
+      <dl>
+        <dt>O que vem primeiro</dt><dd>A cidade inteira, com os lugares numerados de norte a sul. A lista é a legenda do mapa: o 6 no mapa é o 6 na lista.</dd>
+        <dt>Como filtra</dt><dd>Os assuntos são chips no alto da legenda (Capoeira, Batalhas de rima, Feiras). Pontos muito juntos viram um só, com os números deles.</dd>
+        <dt>O que ela tem de seu</dt><dd>O próprio mapa vira um cartaz de 1080 × 1350, irmão dos panfletos da agenda: o céu, a faixa, a cidade com os números e a legenda, pronto para o WhatsApp e o Instagram. O COMAFRO já divulga o mapa com artes para as redes.</dd>
+        <dt>Serve melhor para</dt><dd>Mostrar o tamanho da capoeira na cidade, de uma vez, e divulgar.</dd>
+        <dt>O risco</dt><dd>Com 50 ou 100 lugares, os números ficam longos; o cartaz vai precisar ser um por assunto.</dd>
+      </dl>
+      <p class="files">Telas: celular, um lugar aberto (o Casulo), computador e o cartaz.</p>
+    </section>
+    <section class="box idea">
+      <div class="idea-head"><span class="idea-letter">B</span><div><h3>Hoje</h3><p class="idea-thesis">O mapa da hora.</p></div></div>
+      <dl>
+        <dt>O que vem primeiro</dt><dd>O dia de hoje: quem treina hoje, a que horas e onde, em ordem de horário. A próxima vem circulada à mão, como na agenda.</dd>
+        <dt>Como filtra</dt><dd>Pelo dia da semana (cada dia diz quantos lugares tem) e pelos assuntos. Os lugares de outros dias ficam pequenos no mapa.</dd>
+        <dt>O que ela tem de seu</dt><dd>O mapa anda com o relógio, como o céu do NOS: no fim da tarde de quarta, “3 treinos hoje à noite”. Cada treino pode ir para a agenda da pessoa, toda semana (“Salvar o treino na minha agenda”).</dd>
+        <dt>Serve melhor para</dt><dd>Quem quer começar a treinar ou achar uma roda hoje. Também feiras e batalhas com dia certo (a Feira dos Ipês, às terças).</dd>
+        <dt>O risco</dt><dd>Pede os horários num formato fixo (dia e hora por linha). Quem combina pelo telefone, como a Abadá, fica fora dos dias.</dd>
+      </dl>
+      <p class="files">Telas: celular (no céu do entardecer), a próxima de hoje aberta e computador.</p>
+    </section>
+    <section class="box idea">
+      <div class="idea-head"><span class="idea-letter">C</span><div><h3>Camadas</h3><p class="idea-thesis">O atlas da cidade.</p></div></div>
+      <dl>
+        <dt>O que vem primeiro</dt><dd>O mapa com todos os assuntos acesos, cada lugar com o desenho do seu assunto: o berimbau, o microfone, a cesta.</dd>
+        <dt>Como filtra</dt><dd>Cada assunto é uma camada que acende e apaga. No computador a capoeira se abre por grupo (Camará, Grãos, Capoarti…).</dd>
+        <dt>O que ela tem de seu</dt><dd>Crescer é ligar uma camada nova: as batalhas e as feiras entram sem mudar a página. Um convite fixo: “Falta algum lugar?”.</dd>
+        <dt>Serve melhor para</dt><dd>Quando o mapa tiver muitos assuntos e a cidade cultural inteira couber nele.</dd>
+        <dt>O risco</dt><dd>É o jeito mais comum de mapa; com um assunto só, a primeira versão parece vazia.</dd>
+      </dl>
+      <p class="files">Telas: celular, um lugar aberto (a Capoeira Baiana) e computador com a Feira dos Ipês aberta.</p>
+    </section>
+  </div>
+
+  <h2 class="section-title">O que as três têm em comum</h2>
+  <div class="cols">
+    <section class="box">
+      <h2>O mapa, pintado no Céu · Terra</h2>
+      <div class="paint">
+        <figure><img src="assets/mapa/a-celular-lugar-claro.webp" alt=""><figcaption>De dia: o barro, as ruas da cor dos cartões, os parques em verde, a água da cor do céu.</figcaption></figure>
+        <figure><img src="assets/mapa/a-celular-lugar-escuro.webp" alt=""><figcaption>À noite: a terra roxa, a água da cor do céu da noite.</figcaption></figure>
+      </div>
+      <ul class="rules">
+        <li><b>Mapa de verdade</b>, do OpenStreetMap, pelos mapas livres do OpenFreeMap: sem chave, sem cadastro, sem limite de visitas. Abaixo da faixa, a terra é a cidade vista de cima.</li>
+        <li>A <b>Reserva Indígena de Dourados</b> aparece como terra habitada, com o limite e o nome. Os mapas prontos a pintam de verde, como reserva natural; aqui não.</li>
+        <li>Os nomes dos <b>bairros</b> ficam no mapa: é como se diz onde as coisas são em Dourados.</li>
+        <li>Para ver de perto: <code>mapa-vivo.html</code>, o mapa de verdade com os 18 lugares, aberto numa aba.</li>
+      </ul>
+    </section>
+    <section class="box">
+      <h2>Os pontos e cada lugar</h2>
+      <div class="pins">
+        <span><span class="pin pin-dot">
+          <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#berimbau"/></svg></span>Capoeira</span>
+        <span><span class="pin pin-dot"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#mic-vocal"/></svg></span>Batalha de rima</span>
+        <span><span class="pin pin-dot"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#shopping-basket"/></svg></span>Feira</span>
+        <span><span class="pin pin-num">6</span>Número (A)</span>
+        <span><span class="pin pin-time"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#berimbau"/></svg>19h</span>Hoje (B)</span>
+      </div>
+      <ul class="rules">
+        <li>O assunto é um <b>desenho</b>, não uma cor: as oito cores já são dos grupos das organizações, e as categorias do Comércio também não têm cor. O berimbau foi desenhado no traço dos ícones do site.</li>
+        <li>Cada lugar diz <b>o grupo, quem ensina, os treinos por turma</b>, o endereço, o WhatsApp ou o telefone e o Instagram, e “Conferido pelo COMAFRO em 12/08/2026”.</li>
+        <li><b>“Enviar no WhatsApp”</b> manda o lugar, os treinos e o link para um grupo, como uma atividade da agenda; <b>“Como chegar”</b> abre o mapa do celular.</li>
+        <li><b>A lista sempre junto</b>: quem não usa mapa (leitor de tela, internet fraca) tem tudo nela.</li>
+        <li>A barra ganha a quinta página: Início, Agenda, Notícias, <b>Mapa</b>, Comércio.</li>
+      </ul>
+    </section>
+  </div>
+
+  <section class="box colour" style="margin-top: 24px;">
+    <div>
+      <h2>A cor da página: erva-mate</h2>
+      <p>A Agenda é urucum, as Notícias ipê-amarelo, o Comércio ipê-rosa; o Mapa, a erva-mate do tereré, o verde que todo mundo em Dourados reconhece. Como nas outras páginas, a cor aparece na porta do Início, nos ícones e no convite “Falta algum lugar?”; o resto é a terra e o céu de sempre.</p>
+    </div>
+    <div class="swatches">
+      <div class="swatch"><span class="chip-color" style="background: var(--color-erva-mate-tint)"></span><b>Porta, de dia</b><span>#DCE6B9 · tinta 13,4:1</span></div>
+      <div class="swatch"><span class="chip-color" style="background: var(--color-erva-mate-text)"></span><b>Ícones e texto</b><span>#4A651A · 6,4:1 no cartão</span></div>
+      <div class="swatch"><span class="chip-color" style="background: var(--color-erva-mate-night-tint)"></span><b>Porta, à noite</b><span>#2C3414 · texto 11,2:1</span></div>
+      <div class="swatch"><span class="chip-color" style="background: var(--color-erva-mate-night)"></span><b>Ícones à noite</b><span>#B5D46A · 7,8:1 na porta</span></div>
+    </div>
+  </section>
+
+  <div class="cols" style="margin-top: 24px;">
+    <section class="box">
+      <h2>Os dados</h2>
+      <ul class="rules">
+        <li><b>A capoeira</b>: hoje a planilha do COMAFRO, publicada no Google, alimenta o mapacapoeira.org. No NOS, como a agenda e o Comércio, os dados ficariam num CSV do repositório (decidido em 05/11: sem planilhas do Google), copiado da planilha a cada revisão: <code>data/mapa/capoeira.csv</code>, com as colunas que ela já tem.</li>
+        <li><b>Cada assunto novo</b> é um CSV com as mesmas colunas:
+          <p class="cols-csv">Mostrar no Mapa · Grupo · Nome do Endereço · Endereço · Coordenadas · Nome do Responsável · Telefone de Contato · Instagram · Horários · Última revisão em · Fonte · Notas internas</p></li>
+        <li><b>Para a ideia Hoje</b>, os horários num formato fixo, um treino por trecho: <code>Seg 19h-20h; Qua 19h-20h; Infantil: Qui 19h30-20h30</code>. As outras duas leem o texto como ele está.</li>
+        <li><b>As batalhas e a feira</b> das telas são exemplos tirados do levantamento das organizações, com a fonte de cada um: a Batalha do Centrão na Praça Antônio João (a bio dela) e a Feira dos Ipês, toda terça das 17h às 22h, no Parque dos Ipês (o post de 19/10). Não entram na primeira versão.</li>
+      </ul>
+    </section>
+    <section class="box">
+      <h2>Para decidir</h2>
+      <ol class="decide">
+        <li><b>A ideia</b>: A, B, C, ou uma mistura (por exemplo, as Camadas com o “Hoje” e o cartaz).</li>
+        <li><b>O mapacapoeira.org</b>: continua sozinho, ou passa a abrir o Mapa do NOS na camada da capoeira?</li>
+        <li><b>Os dados da capoeira</b>: copiar a planilha do COMAFRO para o repositório a cada revisão, ou o NOS ler a planilha publicada (o que muda a decisão de 05/11)?</li>
+        <li><b>O crédito</b>: “Levantamento do COMAFRO Dourados” em cada lugar e na legenda; e o logo do COMAFRO na camada?</li>
+        <li><b>Lugares sensíveis</b>: aldeias, retomadas e acampamentos só entram no mapa com o consentimento das comunidades. Por ora, só o limite e o nome da Reserva, como em qualquer mapa da cidade.</li>
+        <li><b>O motor do mapa</b>: MapLibre, que pinta o mapa nas cores do NOS (210 KB comprimidos, e precisa de WebGL, que os celulares de hoje têm), ou Leaflet, o do mapacapoeira.org (42 KB), com o mapa padrão do OpenStreetMap, que não dá para pintar.</li>
+      </ol>
+    </section>
+  </div>
+</div>
+</body>
+</html>
