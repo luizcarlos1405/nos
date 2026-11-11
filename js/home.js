@@ -4,10 +4,11 @@
 // latest headline; Comércio's how many businesses there are. Without the agenda (offline with nothing
 // saved, a broken link) the card says so and the doors stay.
 
-import { COMMERCE_CSV_URL } from './config.js';
+import { COMMERCE_CSV_URL, MAP_LAYERS } from './config.js';
 import { agendaSummary, awaitsTime, capitalize, dateKey, formatDayMonth, formatTimeRange, lastDayKey, monthName, orgFullName, relativeDay, upcomingEvents, weekdayName } from './events.js';
 import { assignSectorColors, paintSector, sectorsOf } from './colors.js';
 import { buildBusinesses } from './businesses.js';
+import { buildPlaces } from './places.js';
 import { placeRow } from './agenda.js';
 import { handMark, icon } from './icons.js';
 import { greeting } from './sky.js';
@@ -201,11 +202,28 @@ async function renderCommerceDoor() {
   if (businesses.length) $('door-commerce-line').textContent = `${businesses.length} ${businesses.length === 1 ? 'negócio' : 'negócios'} da rede`;
 }
 
+// Mapa's door: how many places it shows (as the page counts them: reviewed, with coordinates) and the
+// drawings of its layers, the points of the map.
+async function renderMapDoor() {
+  const read = await Promise.allSettled(MAP_LAYERS.map(async (layer) => {
+    const { headers, records, lines } = await readSheet(layer.file);
+    return buildPlaces(layer, headers, records, lines).places.length;
+  }));
+  const counts = read.map((r) => (r.status === 'fulfilled' ? r.value : 0));
+  const total = counts.reduce((a, b) => a + b, 0);
+  if (!total || read.some((r) => r.status === 'rejected')) return;
+  $('door-map-line').textContent = `${total} ${total === 1 ? 'lugar' : 'lugares'} da cultura e dos movimentos`;
+  const glyphs = $('door-map-glyphs');
+  glyphs.innerHTML = MAP_LAYERS.filter((_, i) => counts[i]).map((layer) => `<span class="door-glyph">${icon(layer.icon)}</span>`).join('');
+  glyphs.hidden = false;
+}
+
 initPage();
 renderHello();
 if (location.protocol !== 'file:') {
   load();
   renderCommerceDoor().catch((err) => console.warn('Comércio:', err));
+  renderMapDoor().catch((err) => console.warn('Mapa:', err));
   renderNewsDoor().catch((err) => console.warn('Notícias:', err));
 }
 

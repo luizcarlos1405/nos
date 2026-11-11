@@ -48,6 +48,29 @@ export const COMMERCE_CATEGORIES = ['Comida', 'Serviços', 'Celular e informáti
 export const COMMERCE_REVIEW_MONTHS = 12;
 export const MAP_REVIEW_MONTHS = 12;
 
+// The Mapa (mapa.html): one CSV per layer, in this order on the chips and in the list. `icon` names the
+// layer's drawing (js/icons.js), the same on its points; `one`, a place of it ("Feira"); `credit`, who
+// surveys and checks the layer, said with its places. The capoeira layer is the Mapa da Capoeira's sheet
+// (COMAFRO Dourados) with its columns as they are; the other layers share the columns of js/places.js.
+export const MAP_LAYERS = [
+  { id: 'capoeira', name: 'Capoeira', one: 'Capoeira', file: 'data/mapa/capoeira.csv', icon: 'berimbau', credit: 'COMAFRO Dourados' },
+  { id: 'batalhas', name: 'Batalhas de rima', one: 'Batalha de rima', file: 'data/mapa/batalhas.csv', icon: 'mic-vocal' },
+  { id: 'feiras', name: 'Feiras', one: 'Feira', file: 'data/mapa/feiras.csv', icon: 'shopping-basket' },
+  { id: 'cultura', name: 'Espaços culturais', one: 'Espaço cultural', file: 'data/mapa/cultura.csv', icon: 'drama' },
+  { id: 'sindicatos', name: 'Sindicatos', one: 'Sindicato', file: 'data/mapa/sindicatos.csv', icon: 'megaphone' },
+  { id: 'universidades', name: 'Universidades', one: 'Universidade', file: 'data/mapa/universidades.csv', icon: 'graduation-cap' },
+  { id: 'poder-publico', name: 'Poder público', one: 'Poder público', file: 'data/mapa/poder-publico.csv', icon: 'landmark' },
+];
+
+// Where "Falta algum lugar?" leads, on the Mapa (a form or a contact of the NOS team for places missing
+// from the map). Empty hides the invitation.
+export const MAP_SUGGEST_URL = '';
+
+// The map's tiles: OpenStreetMap's data as free vector tiles from OpenFreeMap (no key, no limit on
+// views), and the letters of their labels. js/map-style.js paints them in the site's colours.
+export const MAP_TILES = 'https://tiles.openfreemap.org/planet';
+export const MAP_GLYPHS = 'https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf';
+
 // Provisional name: NOS = Núcleo de Organização Social.
 export const APP_NAME = 'NOS';
 export const APP_FULL_NAME = 'Núcleo de Organização Social';

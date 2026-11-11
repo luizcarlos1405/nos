@@ -1,8 +1,9 @@
-// What the three pages share: Início (index.html, js/home.js), Agenda (agenda.html, js/app.js)
-// and Comércio (comercio.html, js/comercio.js). The header on the sky, small DOM helpers, notices,
+// What the pages share: Início (index.html, js/home.js), Agenda (agenda.html, js/app.js), Notícias
+// (noticias.html, js/noticias.js), Mapa (mapa.html, js/mapa.js) and Comércio (comercio.html,
+// js/comercio.js). The header on the sky, small DOM helpers, notices,
 // reading the sheets (Comércio's, and the agenda's months), and the offline worker.
 
-import { AGENDA_DIR, APP_FULL_NAME, APP_NAME, CITY, COMMERCE_CSV_URL, MONTH_FOLDERS, NEWS_DIR } from './config.js';
+import { AGENDA_DIR, APP_FULL_NAME, APP_NAME, CITY, COMMERCE_CSV_URL, MAP_LAYERS, MONTH_FOLDERS, NEWS_DIR } from './config.js';
 import { INDEX_FILE, createMonthFolder, folderPath } from './month-files.js';
 import { buildEvents } from './events.js';
 import { buildNews } from './news.js';
@@ -152,11 +153,12 @@ export const newsSource = () => monthlySource(NEWS_DIR, buildNews);
 // ---------- Offline ----------
 
 // Offline support (sw.js). The sheets' addresses go in the query string so the worker can save them
-// too: Comércio's sheet (`csv`) and the folders of month files (`dir`, every file in them: MONTH_FOLDERS,
-// the agenda's and the news'). Every page registers the same address: a different one would replace the
-// worker.
+// too: Comércio's sheet and the Mapa's, one per layer (`csv`), and the folders of month files (`dir`,
+// every file in them: MONTH_FOLDERS, the agenda's and the news'). Every page registers the same
+// address: a different one would replace the worker.
 export function registerWorker() {
   if (!('serviceWorker' in navigator) || location.protocol === 'file:') return;
-  const query = [`csv=${encodeURIComponent(COMMERCE_CSV_URL)}`, ...MONTH_FOLDERS.map((dir) => `dir=${encodeURIComponent(folderPath(dir, ''))}`)].join('&');
+  const sheets = [COMMERCE_CSV_URL, ...MAP_LAYERS.map((layer) => layer.file)];
+  const query = [...sheets.map((url) => `csv=${encodeURIComponent(url)}`), ...MONTH_FOLDERS.map((dir) => `dir=${encodeURIComponent(folderPath(dir, ''))}`)].join('&');
   navigator.serviceWorker.register(`sw.js?${query}`).catch((err) => console.warn('Service worker:', err));
 }

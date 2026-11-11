@@ -21,7 +21,8 @@ function absolute(url) {
 }
 
 // The sheets. Every page passes them in the query string (registerWorker in js/page.js, from
-// js/config.js): `csv`, a CSV that can live on another origin (COMMERCE_CSV_URL, the businesses), and
+// js/config.js): `csv`, a CSV that can live on another origin (COMMERCE_CSV_URL, the businesses; the
+// Mapa's layers, MAP_LAYERS), and
 // `dir`, a folder whose every file is a sheet (AGENDA_DIR, the agenda: index.json and one CSV per month,
 // js/month-files.js). They may be relative, like 'data/agenda/'; request URLs are absolute, so these
 // are too.
@@ -36,18 +37,22 @@ const CACHED_AT_HEADER = 'X-Cached-At';
 const HOME = absolute('./');
 
 // App shell, cached on install so the first visit already works offline: on that visit the page
-// isn't controlled by this worker yet, so only what is listed here gets saved. That is the four
-// pages (index.html as './', agenda.html, noticias.html, comercio.html), the agenda's old address (calendario.html, which
-// forwards to agenda.html) and everything they load: the manifest
+// isn't controlled by this worker yet, so only what is listed here gets saved. That is the five
+// pages (index.html as './', agenda.html, noticias.html, mapa.html, comercio.html), the agenda's old address
+// (calendario.html, which forwards to agenda.html) and everything they load: the manifest
 // and its icons, the favicons, the three stylesheets with the fonts they declare and the woven band
-// (assets/faixa.svg), every module reached from js/home.js, js/app.js, js/noticias.js and js/comercio.js, and the
-// vendored image library (which also fetches the fonts again to embed them in the flyer PNG). Later
-// visits also save at runtime anything missing here, but keep this list in step with those files.
+// (assets/faixa.svg), every module reached from js/home.js, js/app.js, js/noticias.js, js/mapa.js and
+// js/comercio.js, and the vendored image library (which also fetches the fonts again to embed them in
+// the flyer PNG). Left out on purpose: MapLibre (js/vendor/maplibre-gl.js and .css, 210 KB compressed),
+// which only the Mapa uses and which draws nothing offline (the map's tiles come from another site);
+// offline the Mapa shows its list, and a visit online saves the library at runtime. Later visits also
+// save at runtime anything missing here, but keep this list in step with those files.
 const SHELL = [
   './',
   'agenda.html',
   'calendario.html',
   'comercio.html',
+  'mapa.html',
   'noticias.html',
   'manifest.webmanifest',
   'assets/icons/icon-192.png',
@@ -77,10 +82,14 @@ const SHELL = [
   'js/home.js',
   'js/icons.js',
   'js/ics.js',
+  'js/map-style.js',
+  'js/mapa.js',
   'js/month.js',
   'js/news.js',
   'js/noticias.js',
   'js/page.js',
+  'js/places.js',
+  'js/review.js',
   'js/save-menu.js',
   'js/sky.js',
   'js/whatsapp.js',
