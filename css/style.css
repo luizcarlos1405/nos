@@ -188,7 +188,7 @@ code { font-size: 0.9em; background: var(--role-wash); padding: 1px 5px; border-
   right: 0;
   bottom: 0;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   padding: 6px max(4px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(4px, env(safe-area-inset-left));
   border-top: 1px solid var(--role-line);
   background: var(--role-card);
@@ -1362,6 +1362,12 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
 .door--news { --door-tint: var(--role-news-tint); --door-text: var(--role-news-text); grid-column: 1 / -1; }
 .doors { grid-auto-flow: row dense; }
 .door--news .door-line { font: 700 1.0625rem/1.3 var(--font-display); letter-spacing: -0.012em; }
+/* Mapa's door: the whole row on phones too, after Notícias (four doors: two halves, two rows), with its
+   layers' drawings as the map draws its points. */
+.door--map { --door-tint: var(--role-map-tint); --door-text: var(--role-map-text); grid-column: 1 / -1; }
+.door-glyphs { display: flex; flex-wrap: wrap; gap: 6px; margin: 2px 0 2px; }
+.door-glyph { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--role-pin); color: var(--role-on-pin); }
+.door-glyph .icon { width: 16px; height: 16px; }
 /* Its day and who, under the headline: the hue mixed into the ink, as the doors' secondary text. */
 .door-meta { font-size: 0.8125rem; line-height: 1.4; font-weight: 500; color: color-mix(in srgb, var(--door-text) 55%, var(--role-ink)); font-variant-numeric: tabular-nums; }
 .door-meta time { font-weight: 600; }
@@ -1679,7 +1685,7 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .home-grid { display: grid; grid-template-columns: minmax(0, 1fr) 380px; align-items: start; gap: 24px 32px; }
   .next-card { padding: 24px 28px 20px; }
   .doors { grid-template-columns: minmax(0, 1fr); gap: 20px; }
-  .door--news { grid-column: auto; }
+  .door--news, .door--map { grid-column: auto; }
 
   /* Notícias: the filters and the list in the left column, the story in the panel at right. */
   .news-tools.filters { padding: 0 0 2px; }
@@ -1773,6 +1779,379 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .flyer-frame { width: min(100%, calc((100vh - var(--head-stuck, 0px) - 520px) * 0.8)); min-width: min(180px, 100%); }
 }
 
+/* ---------- Mapa: the city's map under the band, by layers ---------- */
+/* The land is the map (js/mapa.js, painted by js/map-style.js): it fills the screen from the band down to
+   the bar at the foot (phones) or to the bottom, and the page doesn't scroll; the lists scroll inside
+   their panel. Over the map: the layers as chips (phones), the map's buttons and its small print. The
+   panel (the layers and their places) is a sheet on phones and a rail at the left from 1100px; a place
+   opens in a card, a sheet on phones and a card at the right from 1100px. */
+
+.page-map { height: 100vh; height: 100dvh; overflow: hidden; }
+.map-stage {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: var(--stage-top, 112px);
+  bottom: calc(64px + env(safe-area-inset-bottom));
+  overflow: hidden;
+  background: var(--role-map-land);
+}
+/* Over MapLibre's own .maplibregl-map { position: relative }, loaded after this file. */
+.map-stage .map-canvas { position: absolute; inset: 0; }
+.map-canvas .maplibregl-canvas:focus-visible { outline: 2px solid var(--role-focus); outline-offset: -2px; }
+.page-map .notice { position: fixed; z-index: 8; top: calc(var(--stage-top, 112px) + 62px); left: 12px; right: 12px; margin: 0; box-shadow: var(--role-card-shadow); }
+
+/* The layers over the map (phones): "Lugares" opens the panel, each chip turns a layer on and off. */
+.layer-bar {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  gap: 8px;
+  padding: 10px 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  -webkit-mask-image: linear-gradient(to right, var(--role-ink) calc(100% - 28px), transparent);
+  mask-image: linear-gradient(to right, var(--role-ink) calc(100% - 28px), transparent);
+}
+.layer-bar::-webkit-scrollbar { display: none; }
+.layer-chips { display: flex; gap: 8px; }
+.map-pill {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 15px 0 12px;
+  border: 1px solid var(--role-card-border);
+  border-radius: var(--radius-pill);
+  background: var(--role-card);
+  color: var(--role-ink);
+  box-shadow: var(--role-card-shadow);
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.map-pill .icon { width: 18px; height: 18px; }
+.map-chip { height: 40px; margin: 0; border-color: var(--role-card-border); box-shadow: var(--role-card-shadow); }
+.map-chip[aria-pressed=true] { border-color: var(--role-ink); }
+.map-chip[aria-pressed=true] .chip-glyph { display: none; }
+.chip-glyph { display: flex; }
+.chip-glyph .icon { width: 18px; height: 18px; }
+.chip-n { margin-left: 2px; color: var(--role-ink-soft); font-weight: 500; font-variant-numeric: tabular-nums; }
+.chip[aria-pressed=true] .chip-n { color: var(--role-on-ink); opacity: 0.75; }
+@media (hover: hover) { .map-pill:hover { background: var(--role-card-hover); } }
+
+/* The map's own buttons: round, on the card's colour. Phones zoom with two fingers, so only "Onde
+   estou" shows there. */
+.map-tools { position: absolute; z-index: 3; right: 12px; bottom: 28px; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+.map-btn {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--role-card-border);
+  border-radius: 50%;
+  background: var(--role-card);
+  color: var(--role-ink);
+  box-shadow: var(--role-card-shadow);
+}
+.map-btn .icon { width: 20px; height: 20px; }
+.map-zoom { display: none; flex-direction: column; overflow: hidden; border: 1px solid var(--role-card-border); border-radius: var(--radius-pill); background: var(--role-card); box-shadow: var(--role-card-shadow); }
+.map-zoom .map-btn { border: 0; border-radius: 0; box-shadow: none; background: none; }
+.map-zoom .map-btn + .map-btn { border-top: 1px solid var(--role-line); }
+.map-zoom .map-btn:focus-visible { outline-offset: -3px; }
+@media (hover: hover) { .map-btn:hover { background: var(--role-card-hover); } }
+.map-credit {
+  position: absolute;
+  z-index: 2;
+  right: 6px;
+  bottom: 4px;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  background: var(--role-map-veil);
+  color: var(--role-ink-soft);
+  font-size: 0.6875rem;
+  line-height: 1.5;
+}
+.map-credit a { color: inherit; text-decoration: none; }
+.map-credit a:hover { text-decoration: underline; }
+.map-empty {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: 40%;
+  translate: -50% -50%;
+  max-width: 18rem;
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  background: var(--role-card);
+  box-shadow: var(--role-card-shadow);
+  font-size: 0.9375rem;
+  text-align: center;
+}
+
+/* The points: ink on the land by day, moonlit at night, ringed in the card's colour so they stand off
+   the streets. A layer is a drawing (the berimbau, the microphone, the basket…), never a colour of its
+   own: the eight colours belong to the organizations' groups, and Comércio's categories carry none. */
+.map-point { display: block; padding: 0; border: 0; background: none; color: var(--role-on-pin); cursor: pointer; }
+.map-point.is-merged { display: none; }
+.pin-dot {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--role-pin);
+  box-shadow: 0 0 0 2px var(--role-pin-ring), var(--role-pin-shadow);
+}
+.pin-dot .icon { width: 17px; height: 17px; }
+@media (max-width: 759px) {
+  .pin-dot { width: 26px; height: 26px; }
+  .pin-dot .icon { width: 15px; height: 15px; }
+}
+/* Points of a layer too close to tell apart on this zoom: their count; a tap brings them apart. */
+.pin-count {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--role-card);
+  color: var(--role-ink);
+  box-shadow: 0 0 0 2.5px var(--role-pin), 0 0 0 5px var(--role-pin-ring), var(--role-pin-shadow);
+  font: 800 0.9375rem/1 var(--font-display);
+  font-variant-numeric: tabular-nums;
+}
+/* The place that is open: a drop that stands on its point. */
+.pin-drop { position: relative; width: 42px; height: 50px; pointer-events: none; }
+.pin-drop .drop { position: absolute; inset: 0; width: 42px; height: 50px; overflow: visible; filter: var(--role-pin-drop); }
+.pin-drop .drop path { fill: var(--role-pin); stroke: var(--role-pin-ring); stroke-width: 2.5px; }
+.drop-glyph { position: absolute; left: 0; right: 0; top: 0; display: grid; place-items: center; height: 38px; color: var(--role-on-pin); }
+.drop-glyph .icon { width: 20px; height: 20px; }
+/* "Onde estou": the person, on this device only. */
+.map-you {
+  display: block;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--role-accent);
+  box-shadow: 0 0 0 3px var(--role-pin-ring), 0 0 0 9px var(--role-accent-tint);
+}
+
+/* ---------- The panel: the layers and their places ---------- */
+
+.side-scrim { position: fixed; inset: 0; z-index: 25; display: none; background: var(--role-scrim); }
+.side-open .side-scrim { display: block; }
+.map-side {
+  position: fixed;
+  z-index: 30;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100dvh - 48px - env(safe-area-inset-top));
+  border: 1px solid var(--role-card-border);
+  border-bottom: 0;
+  border-radius: var(--radius-sheet) var(--radius-sheet) 0 0;
+  background: var(--role-card);
+  box-shadow: var(--role-sheet-shadow);
+  transform: translateY(105%);
+  visibility: hidden;
+  transition: transform 0.3s var(--ease), visibility 0s linear 0.3s;
+}
+.side-open .map-side { transform: none; visibility: visible; transition: transform 0.3s var(--ease); }
+.map-side:focus { outline: none; }
+.side-head { position: relative; display: flex; align-items: flex-start; gap: 8px; padding: 18px 8px 10px 18px; border-bottom: 1px solid var(--role-line); }
+.side-head .grabber { position: absolute; left: 50%; top: 0; translate: -50% 0; margin: 8px 0 0; }
+.side-heading { flex: 1; min-width: 0; padding-top: 4px; }
+.side-title { font: 750 1.375rem/1.2 var(--font-display); letter-spacing: -0.02em; }
+.side-title:focus { outline: none; }
+.side-sub { margin-top: 2px; font-size: 0.875rem; line-height: 1.35; color: var(--role-ink-soft); }
+.side-scroll { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 4px 16px 0 18px; }
+
+.layer-list { margin: 0; padding: 0; list-style: none; }
+.layer { border-top: 1px solid var(--role-line); }
+.layer:first-child { border-top: 0; }
+.layer-empty { padding: 16px 0; color: var(--role-ink-soft); }
+.layer-head { display: flex; align-items: center; gap: 4px; }
+.layer-toggle {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 22px 28px minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 10px;
+  min-height: 54px;
+  padding: 4px 6px 4px 0;
+  border: 0;
+  background: none;
+  color: var(--role-ink);
+  text-align: left;
+}
+.check { display: grid; place-items: center; width: 22px; height: 22px; border: 1.5px solid var(--role-ink-soft); border-radius: 50%; color: var(--role-on-ink); }
+.check .icon { width: 14px; height: 14px; visibility: hidden; }
+.layer-toggle[aria-pressed=true] .check { border-color: var(--role-ink); background: var(--role-ink); }
+.layer-toggle[aria-pressed=true] .check .icon { visibility: visible; }
+.glyph { display: inline-grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--role-pin); color: var(--role-on-pin); }
+.glyph .icon { width: 16px; height: 16px; }
+.layer-toggle[aria-pressed=false] .glyph { background: var(--role-fill); color: var(--role-ink-soft); }
+.layer-name { font-size: 0.9375rem; line-height: 1.3; font-weight: 600; }
+.layer-n { font-size: 0.875rem; color: var(--role-ink-soft); font-variant-numeric: tabular-nums; }
+.layer-more .icon { width: 20px; height: 20px; transition: rotate 0.15s; }
+.layer-more[aria-expanded=true] .icon { rotate: 180deg; }
+.layer-places { margin: 0 0 10px; padding: 0 0 0 32px; list-style: none; }
+/* Without a map: each layer a heading over its places. */
+.layer-title { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; align-items: center; column-gap: 10px; min-height: 54px; padding-right: 6px; }
+.layer-title + .layer-places { padding-left: 28px; }
+.place-link {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  width: 100%;
+  min-height: 44px;
+  padding: 7px 10px 8px;
+  border: 0;
+  border-radius: var(--radius);
+  background: none;
+  color: var(--role-ink);
+  text-align: left;
+}
+.place-link-name { font-size: 0.9375rem; line-height: 1.3; font-weight: 600; }
+.place-link-where { font-size: 0.8125rem; line-height: 1.35; color: var(--role-ink-soft); }
+.place-link.is-open { box-shadow: inset 0 0 0 1.5px var(--role-ink-soft); }
+/* A name with several places: the name and its count, its places under it. */
+.place-group-name { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 9px 10px 1px; font-size: 0.9375rem; line-height: 1.3; font-weight: 600; }
+.place-group-n { flex: none; font-size: 0.8125rem; font-weight: 500; color: var(--role-ink-soft); }
+.place-group ul { margin: 0 0 4px; padding: 0 0 0 12px; list-style: none; }
+.place-group .place-link-name { font-weight: 500; }
+@media (hover: hover) {
+  .layer-toggle:hover .layer-name, .place-link:hover .place-link-name { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  .place-link:hover { background: var(--role-card-hover); }
+}
+/* "Falta algum lugar?": the page's colour of the landscape, erva-mate, as on Início's door. */
+.suggest { display: flex; align-items: flex-start; gap: 12px; margin: 10px 0 4px; padding: 14px 16px; border-radius: var(--radius); background: var(--role-map-tint); color: var(--role-ink); font-size: 0.875rem; line-height: 1.45; text-decoration: none; }
+.suggest .icon { flex: none; width: 20px; height: 20px; margin-top: 1px; color: var(--role-map-text); }
+.suggest b { display: block; font: 700 0.9375rem/1.3 var(--font-display); }
+@media (hover: hover) { .suggest:hover b { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; } }
+.map-about { display: flex; flex-direction: column; gap: 8px; margin: 6px 0 0; padding: 14px 0 0; border-top: 1px solid var(--role-line); font-size: 0.8125rem; line-height: 1.45; color: var(--role-ink-soft); }
+.map-about b { color: var(--role-ink); font-weight: 600; }
+.map-about a { font-weight: 600; color: var(--role-ink); }
+.map-side .site-foot { max-width: none; margin: 14px 0 0; padding: 14px 0 calc(18px + env(safe-area-inset-bottom)); border-top: 1px solid var(--role-line); font-size: 0.75rem; }
+
+/* ---------- A place ---------- */
+
+.place-card {
+  position: fixed;
+  z-index: 20;
+  left: 0;
+  right: 0;
+  bottom: calc(64px + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  max-height: min(64vh, calc(100dvh - var(--stage-top, 112px) - 120px));
+  border: 1px solid var(--role-card-border);
+  border-bottom: 0;
+  border-radius: var(--radius-sheet) var(--radius-sheet) 0 0;
+  background: var(--role-card);
+  box-shadow: var(--role-sheet-shadow);
+}
+.place-card .grabber { margin-bottom: 0; }
+.place-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 2px 8px 0 16px; }
+.tag-layer { display: inline-flex; align-items: center; gap: 7px; height: 28px; padding: 0 11px 0 4px; border-radius: var(--radius-pill); background: var(--role-fill); font-size: 0.8125rem; font-weight: 600; }
+.tag-layer .glyph { width: 22px; height: 22px; }
+.tag-layer .glyph .icon { width: 13px; height: 13px; }
+.place-scroll { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 4px 16px 12px; }
+.place-title { font: 750 1.375rem/1.2 var(--font-display); letter-spacing: -0.02em; text-wrap: balance; }
+.place-title:focus { outline: none; }
+.place-who { margin-top: 2px; font-size: 0.9375rem; line-height: 1.35; color: var(--role-ink-soft); }
+.times { margin: 12px 0 4px; padding: 12px 14px 13px; border-radius: var(--radius); background: var(--role-fill); }
+.times-head { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; font: 750 1rem/1.25 var(--font-display); letter-spacing: -0.01em; }
+.times-head .icon { width: 18px; height: 18px; color: var(--role-ink-soft); }
+.times ul { margin: 0; padding: 0; list-style: none; }
+.times li { padding: 3px 0; font-size: 0.9375rem; line-height: 1.4; font-variant-numeric: tabular-nums; }
+.times li b { font-weight: 600; }
+.place-text { margin: 10px 0 2px; font-size: 0.9375rem; line-height: 1.5; text-wrap: pretty; }
+.place-card .facts { margin: 6px 0 4px; }
+.fact-sub { display: block; font-size: 0.8125rem; color: var(--role-ink-soft); }
+.place-also { margin: 4px 0 10px; padding-top: 10px; border-top: 1px solid var(--role-line); }
+.place-also-head { margin-bottom: 2px; font-size: 0.8125rem; line-height: 1.35; font-weight: 600; color: var(--role-ink-soft); }
+.place-also ul { margin: 0; padding: 0; list-style: none; }
+.also-link { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 48px; padding: 6px 8px 6px 0; border: 0; background: none; color: var(--role-ink); text-align: left; }
+.also-text { display: flex; flex-direction: column; min-width: 0; }
+.also-name { font-size: 0.9375rem; line-height: 1.3; font-weight: 600; }
+.also-layer { font-size: 0.8125rem; line-height: 1.35; color: var(--role-ink-soft); }
+@media (hover: hover) { .also-link:hover .also-name { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; } }
+.place-review { display: flex; gap: 10px; margin: 6px 0 0; font-size: 0.8125rem; line-height: 1.45; color: var(--role-ink-soft); }
+.place-review .icon { flex: none; width: 16px; height: 16px; margin-top: 2px; }
+.place-review a { font-weight: 600; color: var(--role-ink); }
+.place-actions { display: flex; gap: 8px; padding: 12px 16px 14px; border-top: 1px solid var(--role-line); }
+.place-actions .btn { flex: 1; min-height: 48px; padding: 0 12px; white-space: nowrap; }
+.place-actions .btn-line { flex: 0 1 auto; }
+
+/* Without a map (no WebGL, MapLibre not loaded): the list is the page. */
+.no-map.page-map { height: auto; overflow: visible; }
+.no-map .map-stage, .no-map .side-close, .no-map .side-head .grabber, .no-map .side-scrim { display: none; }
+.no-map .map-side { position: static; width: auto; max-width: 44rem; max-height: none; margin: 0 auto; border: 0; border-radius: 0; box-shadow: none; background: none; transform: none; translate: none; visibility: visible; }
+.no-map.page-map .notice { position: static; max-width: none; margin: 14px max(16px, calc((100% - 44rem) / 2 + 18px)) 0; }
+
+@media (min-width: 600px) {
+  .map-side, .place-card { left: 50%; right: auto; width: 560px; translate: -50% 0; }
+}
+@media (min-width: 760px) {
+  .map-stage { bottom: 0; }
+  .place-card { bottom: 0; }
+  .map-zoom { display: flex; }
+}
+@media (min-width: 1100px) {
+  .layer-bar { display: none; }
+  .page-map .notice { top: calc(var(--stage-top, 180px) + 24px); left: 368px; right: auto; max-width: 34rem; }
+  .side-scrim { display: none !important; }
+  .map-side {
+    top: calc(var(--stage-top, 180px) + 24px);
+    bottom: 24px;
+    left: 24px;
+    right: auto;
+    z-index: 6;
+    width: 320px;
+    max-height: none;
+    border-bottom: 1px solid var(--role-card-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--role-card-shadow);
+    translate: none;
+    transform: none;
+    visibility: visible;
+    transition: none;
+  }
+  .side-close, .side-head .grabber { display: none; }
+  .side-head { padding: 18px 16px 10px 20px; }
+  .side-scroll { padding: 4px 16px 0 20px; }
+  .place-card {
+    top: calc(var(--stage-top, 180px) + 24px);
+    bottom: auto;
+    left: auto;
+    right: 24px;
+    z-index: 6;
+    width: 400px;
+    max-height: calc(100dvh - var(--stage-top, 180px) - 48px);
+    border-bottom: 1px solid var(--role-card-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--role-card-shadow);
+    translate: none;
+  }
+  .place-card .grabber { display: none; }
+  .place-head { padding: 14px 8px 0 20px; }
+  .place-scroll { padding: 6px 20px 12px; }
+  .place-actions { padding: 12px 20px 16px; }
+  .map-tools { right: 24px; bottom: 32px; }
+  .has-place .map-tools { right: 440px; }
+}
+
 /* ---------- Very narrow screens (small phones, 200% zoom, or a large default text size) ---------- */
 /* In em, so a larger default font size in the browser brings this layout in sooner (359px at 16px). */
 
@@ -1802,6 +2181,10 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .month-title { font-size: 1.25rem; }
   .contact { grid-template-columns: minmax(0, 1fr); row-gap: 0; padding-top: 6px; }
   .contact-value { min-height: 40px; }
+  .side-scroll { padding-left: 12px; padding-right: 12px; }
+  .place-actions { padding-left: 12px; padding-right: 12px; }
+  .place-actions .btn-line { width: 48px; padding: 0; font-size: 0; }
+  .place-actions .btn-line .icon { margin: 0; }
 }
 
 /* Zoomed-in phones (200% on a 320–390px screen, or a very large default text size): the send button
@@ -1826,6 +2209,8 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .save-menu { border: 1px solid CanvasText; }
   .nav-link[aria-current='page'] { text-decoration: underline; text-underline-offset: 4px; }
   .day.is-off .day-num { text-decoration: underline dotted; }
+  .pin-dot, .pin-count, .glyph, .check, .drop path { forced-color-adjust: none; }
+  .map-btn, .map-pill, .map-side, .place-card { border: 1px solid CanvasText; }
   .week-bar { border: 1px solid CanvasText; }
 }
 

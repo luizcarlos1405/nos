@@ -1,5 +1,5 @@
-// Builds WhatsApp-ready messages: an activity's (Agenda), a story's (Notícias) and a business's
-// (Comércio, "Indicar no WhatsApp"). WhatsApp formatting: *bold*, _italic_. Lines for empty fields are
+// Builds WhatsApp-ready messages: an activity's (Agenda), a story's (Notícias), a business's
+// (Comércio, "Indicar no WhatsApp") and a place's (Mapa). WhatsApp formatting: *bold*, _italic_. Lines for empty fields are
 // left out.
 
 import { APP_NAME, CITY, HOME_CITY, SITE_URL } from './config.js';
@@ -10,6 +10,8 @@ import { formatDateRange, formatShortDate, formatTimeRange, matchKey } from './e
 export const CLOSING_LINE = `📅 Mais atividades na agenda do ${APP_NAME} ${HOME_CITY}${SITE_URL ? `: ${SITE_URL}/agenda.html` : ''}`;
 export const COMMERCE_CLOSING_LINE = `🛍️ Mais negócios da rede no ${APP_NAME} ${HOME_CITY}${SITE_URL ? `: ${SITE_URL}/comercio.html` : ''}`;
 export const NEWS_CLOSING_LINE = `📰 Mais notícias das organizações no ${APP_NAME} ${HOME_CITY}${SITE_URL ? `: ${SITE_URL}/noticias.html` : ''}`;
+// The Mapa's: followed by the place's own address on the map (mapa.html#<id> opens it).
+export const MAP_CLOSING_LINE = `🗺️ No mapa do ${APP_NAME} ${HOME_CITY}`;
 
 // Where the activity happens, as the message header names it.
 export function placeLabel(event) {
@@ -98,6 +100,29 @@ export function buildBusinessMessage(biz) {
   blocks.push(reach);
 
   if (COMMERCE_CLOSING_LINE) blocks.push([COMMERCE_CLOSING_LINE]);
+  return blocks.map((lines) => lines.join('\n')).join('\n\n');
+}
+
+// Directions to a place, in the person's own maps app (Google Maps opens the app on phones).
+export const directionsUrl = (place) => `https://www.google.com/maps/dir/?api=1&destination=${place.lngLat[1].toFixed(6)},${place.lngLat[0].toFixed(6)}`;
+
+// A place of the Mapa passed on to a group: what and of which layer, where, when, who and how to reach it,
+// the way there and the place on the map.
+export function buildPlaceMessage(place) {
+  const blocks = [[`*${literal(place.name)}* · ${place.layer.one}`, place.place].filter(Boolean)];
+  const where = [`📍 ${[place.address, place.bairro].filter(Boolean).join(', ') || place.place || CITY}`];
+  for (const line of place.when) where.push(`🕖 ${line}`);
+  blocks.push(where);
+  if (place.description) blocks.push([place.description]);
+  const reach = [];
+  if (place.who) reach.push(`👤 ${place.who}`);
+  for (const phone of place.phones) reach.push(`${phone.mobile ? '💬 WhatsApp' : '📞 Telefone'}: ${phone.label}`);
+  if (place.contactNote) reach.push(`📞 Contato: ${place.contactNote}`);
+  if (place.instagram) reach.push(`📷 Instagram: ${place.instagramHref}`);
+  if (place.link) reach.push(`🔗 ${place.link}`);
+  reach.push(`🧭 Como chegar: ${directionsUrl(place)}`);
+  blocks.push(reach);
+  if (MAP_CLOSING_LINE) blocks.push([`${MAP_CLOSING_LINE}${SITE_URL ? `: ${SITE_URL}/mapa.html#${place.id}` : ''}`]);
   return blocks.map((lines) => lines.join('\n')).join('\n\n');
 }
 

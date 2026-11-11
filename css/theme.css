@@ -6,7 +6,7 @@
 
    Two layers:
    1. The palette: the raw colours, named for what they are (clay, terra roxa, urucum, the sky's
-      bands at each hour). Light and dark colours both live here; the palette never changes with the
+      bands at each hour, the map's paint). Light and dark colours both live here; the palette never changes with the
       theme. The designs in design/ use it directly.
    2. The roles: what each colour is for. css/style.css and css/flyers.css only use roles, never
       palette values or colour literals (`transparent` and `currentColor` aside).
@@ -80,6 +80,31 @@
   --color-ipe-amarelo-tint: #F6DE9C;
   --color-ipe-amarelo-night: #F2C14E;
   --color-ipe-amarelo-night-tint: #413010;
+
+  /* Erva-mate: the Mapa's colour, the green of the tereré. Ink on the tint 13.4:1, the deep shade 6.4:1
+     on the cards and 5.3:1 on the clay; at night moonlit on the tint 11.2:1, the bright shade on it 7.8:1. */
+  --color-erva-mate: #6E8B2E;
+  --color-erva-mate-text: #4A651A;
+  --color-erva-mate-tint: #DCE6B9;
+  --color-erva-mate-night: #B5D46A;
+  --color-erva-mate-night-tint: #2C3414;
+
+  /* The map's paint (js/map-style.js reads the --role-map-* roles below into MapLibre, which reads no CSS,
+     so these stay plain colours: no color-mix). The land is the page's land; the built city a lighter
+     shade of it; the parks the clay with 15% of the groups' green; the water the sky's blue. The
+     Indigenous lands are inhabited land, drawn with their boundary, never as a park. */
+  --color-map-city: #F8EEE5;
+  --color-map-green: #CED5C4;
+  --color-map-water: #AED2EE;
+  --color-map-building: #EEDCD0;
+  --color-map-indigena: #F5E7DC;
+  --color-map-indigena-line: #B5A095;   /* the soft ink at 45% on the clay */
+  --color-map-night-city: #2E1A16;
+  --color-map-night-green: #2A2E23;
+  --color-map-night-road: #5E3E34;
+  --color-map-night-street: #4A2F28;
+  --color-map-night-building: #36201B;
+  --color-map-night-indigena: #2A1714;
 
   /* O céu, in flat bands counted from the top (1) down to the horizon (5), at each hour. */
   --color-dawn-1: #93C1E6;           /* amanhecer, 5–9h: morning blue warming to rose, apricot and gold */
@@ -184,6 +209,31 @@
   --role-news: var(--color-ipe-amarelo);
   --role-news-text: var(--color-ipe-amarelo-text);
   --role-news-tint: var(--color-ipe-amarelo-tint);
+  --role-map: var(--color-erva-mate);
+  --role-map-text: var(--color-erva-mate-text);
+  --role-map-tint: var(--color-erva-mate-tint);
+
+  /* The map's paint (js/map-style.js) and its points: ink by day, ringed in the card's colour. */
+  --role-map-land: var(--color-clay);
+  --role-map-city: var(--color-map-city);
+  --role-map-green: var(--color-map-green);
+  --role-map-water: var(--color-map-water);
+  --role-map-river: var(--color-day-2);
+  --role-map-road: var(--color-clay-card);
+  --role-map-road-casing: var(--color-clay-line);
+  --role-map-street: var(--color-clay-card);
+  --role-map-building: var(--color-map-building);
+  --role-map-label: var(--color-ink-soft);
+  --role-map-label-strong: var(--color-ink);
+  --role-map-halo: var(--color-map-city);
+  --role-map-indigena: var(--color-map-indigena);
+  --role-map-indigena-line: var(--color-map-indigena-line);
+  --role-pin: var(--color-ink);
+  --role-on-pin: var(--color-clay-card);
+  --role-pin-ring: var(--color-clay-card);
+  --role-pin-shadow: 0 1px 2px color-mix(in srgb, var(--color-earth-shadow) 22%, transparent), 0 3px 8px color-mix(in srgb, var(--color-earth-shadow) 16%, transparent);
+  --role-pin-drop: drop-shadow(0 2px 3px color-mix(in srgb, var(--color-earth-shadow) 25%, transparent));
+  --role-map-veil: color-mix(in srgb, var(--color-clay-card) 82%, transparent); /* under the map's small print */
 
   /* The groups: js/colors.js picks one per sector and sets it as --sector on the node. */
   --role-series-1: var(--color-group-1);
@@ -241,6 +291,30 @@
   --role-news: var(--color-ipe-amarelo-night);
   --role-news-text: var(--color-ipe-amarelo-night);
   --role-news-tint: var(--color-ipe-amarelo-night-tint);
+  --role-map: var(--color-erva-mate-night);
+  --role-map-text: var(--color-erva-mate-night);
+  --role-map-tint: var(--color-erva-mate-night-tint);
+
+  --role-map-land: var(--color-terra-roxa);
+  --role-map-city: var(--color-map-night-city);
+  --role-map-green: var(--color-map-night-green);
+  --role-map-water: var(--color-night-4);
+  --role-map-river: var(--color-night-5);
+  --role-map-road: var(--color-map-night-road);
+  --role-map-road-casing: var(--color-night-shade);
+  --role-map-street: var(--color-map-night-street);
+  --role-map-building: var(--color-map-night-building);
+  --role-map-label: var(--color-moonlit-soft);
+  --role-map-label-strong: var(--color-moonlit);
+  --role-map-halo: var(--color-terra-roxa);
+  --role-map-indigena: var(--color-map-night-indigena);
+  --role-map-indigena-line: var(--color-terra-roxa-faded);
+  --role-pin: var(--color-moonlit);
+  --role-on-pin: var(--color-terra-roxa);
+  --role-pin-ring: var(--color-terra-roxa);
+  --role-pin-shadow: 0 0 0 1px color-mix(in srgb, var(--color-night-shade) 50%, transparent);
+  --role-pin-drop: none;
+  --role-map-veil: color-mix(in srgb, var(--color-terra-roxa-card) 82%, transparent);
 
   --role-series-1: var(--color-group-night-1);
   --role-series-2: var(--color-group-night-2);
