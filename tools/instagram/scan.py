@@ -435,7 +435,11 @@ def open_browser():
     BROWSER_PROFILE.mkdir(parents=True, exist_ok=True)
     out = pw('open', '--headed', '--browser', 'chromium', '--persistent', f'--profile={BROWSER_PROFILE}', 'https://www.instagram.com/')
     if not browser_is_open():
-        sys.exit('Não consegui abrir o navegador:\n' + out[-800:])
+        # The output ends with a stack trace; its "Error:" line says what went wrong.
+        error = next((line for line in out.splitlines() if line.startswith('Error:')), out[-800:].strip())
+        if 'install-browser' in error:  # an update of playwright-cli that needs a newer build of the browser
+            error += '\n\nO playwright-cli foi atualizado e precisa baixar o navegador dele. Rode\n    playwright-cli install-browser chromium --no-shell\ne depois a varredura de novo.'
+        sys.exit('Não consegui abrir o navegador:\n' + error)
     time.sleep(LOAD_WAIT)
     return True
 
