@@ -1918,10 +1918,11 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .pin-dot { width: 26px; height: 26px; }
   .pin-dot .icon { width: 15px; height: 15px; }
 }
-/* Two places too close to tell apart on this zoom: both drawings, overlapping by half. */
+/* Two places too close to tell apart on this zoom: both drawings, overlapping by a quarter (the one
+   underneath loses only its edge). */
 .pin-pair { display: flex; }
-.pin-pair .pin-dot + .pin-dot { margin-left: -15px; }
-@media (max-width: 759px) { .pin-pair .pin-dot + .pin-dot { margin-left: -13px; } }
+.pin-pair .pin-dot + .pin-dot { margin-left: -8px; }
+@media (max-width: 759px) { .pin-pair .pin-dot + .pin-dot { margin-left: -7px; } }
 /* Three or more: their count. A tap brings them apart. */
 .pin-count {
   display: grid;
