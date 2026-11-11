@@ -3,7 +3,7 @@
 // filters them by search and category, and prints each business with its ways to be reached and a
 // ready "Indicar no WhatsApp" message.
 
-import { COMMERCE_CSV_URL, COMMERCE_FORM_URL } from './config.js';
+import { COMMERCE_CSV_URL, COMMERCE_FORM_URL, COMMERCE_REVIEW_MONTHS } from './config.js';
 import { buildBusinesses, categoriesOf, matchesSearch } from './businesses.js';
 import { matchKey } from './events.js';
 import { icon } from './icons.js';
@@ -26,7 +26,7 @@ const chosenCategories = () => categoriesOf(state.businesses).filter((c) => stat
 async function load() {
   try {
     const { headers, records, lines, savedAt } = await readSheet(COMMERCE_CSV_URL);
-    const { businesses, invalid, missing } = buildBusinesses(headers, records, lines);
+    const { businesses, invalid, stale, missing } = buildBusinesses(headers, records, lines);
     if (missing.length) {
       showNotice(`<strong>A planilha não tem a coluna “${missing[0]}”.</strong> Confira se o link em <code>COMMERCE_CSV_URL</code> é o das respostas do formulário publicadas como CSV (<code>${escapeHtml(COMMERCE_CSV_URL)}</code>) e se a primeira linha tem os nomes das colunas.`, 'error');
       $('lista').replaceChildren();
@@ -34,8 +34,11 @@ async function load() {
     }
     state.businesses = businesses;
     $('page-sub').textContent = `${count(businesses.length)} da rede`;
+    // Left out for want of a review (js/review.js): told to the team in the console, not to visitors.
+    if (stale.length) console.info(`Comércio: ${stale.length} negócio(s) fora da lista, sem revisão há mais de ${COMMERCE_REVIEW_MONTHS} meses:`, stale.map((r) => `linha ${r.line}, ${r.name} (${r.reviewed.toLocaleDateString('pt-BR')})`));
     if (invalid.length) {
-      const rows = invalid.map((r) => `<li>Linha ${r.line}: falta o nome do negócio.</li>`).join('');
+      const why = { name: 'falta o nome do negócio', review: 'falta a data da última revisão (dd/mm/aaaa)' };
+      const rows = invalid.map((r) => `<li>Linha ${r.line}: ${why[r.reason]}.</li>`).join('');
       showNotice(`<p><strong>${invalid.length === 1 ? '1 linha da planilha ficou de fora' : `${invalid.length} linhas da planilha ficaram de fora`}.</strong></p><details><summary>Ver as linhas para corrigir</summary><ul>${rows}</ul></details>`);
     }
     // Set only on sw.js's saved copy, i.e. the live sheet couldn't be reached.

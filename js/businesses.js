@@ -5,8 +5,9 @@
 // social?", and drops the answers that only say yes or no. Nothing is invented: what can't be
 // read is shown as the business wrote it.
 
-import { CITY, COMMERCE_CATEGORIES, HOME_CITY } from './config.js';
+import { CITY, COMMERCE_CATEGORIES, COMMERCE_REVIEW_MONTHS, HOME_CITY } from './config.js';
 import { isChecked, isHidden, matchKey, normalizeKey, slugify } from './events.js';
+import { isStale, reviewDay } from './review.js';
 
 // The form's questions, matched by a word they contain (accents and case don't count), checked in
 // this order: "Como podemos entrar em contato?" must reach contact before "podemos" means
@@ -14,6 +15,8 @@ import { isChecked, isHidden, matchKey, normalizeKey, slugify } from './events.j
 const COLUMNS = [
   ['consent', /incluir|compartilh|autoriz|consent/],
   ['visible', /^(?:visivel|mostrar|publicar|visible)$/],
+  ['reviewed', /revis|review/],
+  ['stamp', /^carimbo|timestamp/],
   ['notes', /^notas/],
   ['contact', /contato|whats|telefone|celular|fone|contact|phone/],
   ['instagram', /instagram/],
@@ -119,7 +122,7 @@ function readPhone(run) {
   return null;
 }
 
-function phonesIn(text) {
+export function phonesIn(text) {
   const phones = [];
   for (const [run] of (text || '').matchAll(PHONE_RUN)) {
     const phone = readPhone(run);
@@ -135,7 +138,7 @@ const HANDLE = /^[a-z0-9._]{1,30}$/;
 // "@renatadeol", "apiarioboavistadouradosms", "https://www.instagram.com/arecosburger?vrfl=…".
 // Instagram names have no accents, so "Katiaboticário67" is read as katiaboticario67. A bare word
 // that answers the question instead of naming a profile ("Sim", "Instagram") is not a handle.
-function readInstagram(raw) {
+export function readInstagram(raw) {
   const text = (raw || '').trim();
   const url = text.match(/instagram\.com\/([^/?#\s]+)/i);
   const candidate = (url ? url[1] : text.replace(/^@/, '')).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
@@ -143,7 +146,7 @@ function readInstagram(raw) {
   return HANDLE.test(candidate) && /[a-z]/.test(candidate) ? candidate : null;
 }
 
-const instagramUrl = (handle) => `https://www.instagram.com/${handle}/`;
+export const instagramUrl = (handle) => `https://www.instagram.com/${handle}/`;
 
 const URLS = /(?:https?:\/\/|www\.)[^\s,;]+/gi;
 
@@ -206,17 +209,21 @@ export function matchesSearch(biz, query) {
 
 // ---------- Rows → businesses ----------
 
-// Returns { businesses, invalid, missing }. Rows without the business's consent ("Podemos incluir…?"
-// answered anything but yes) and rows marked not visible are left out silently; rows without a name
-// are reported (invalid: { line }). `missing` names the required column when the sheet lacks it.
-// Businesses come sorted by name, as the phone book prints them.
-export function buildBusinesses(headers, records, lines = []) {
+// Returns { businesses, invalid, stale, missing }. Rows without the business's consent ("Podemos
+// incluir…?" answered anything but yes) and rows marked not visible are left out silently; rows without
+// a name or without a review date are reported (invalid: { line, reason: 'name' | 'review' }). A row
+// whose last review ("Última revisão", else the form's own date) is older than COMMERCE_REVIEW_MONTHS
+// is left out too and listed in `stale` ({ line, name, reviewed }), for the team. `missing` names the
+// required column when the sheet lacks it. Businesses come sorted by name, as the phone book prints
+// them.
+export function buildBusinesses(headers, records, lines = [], now = new Date()) {
   const col = buildColumnMap(headers);
-  if (!col.name) return { businesses: [], invalid: [], missing: ['Nome da empresa ou negócio'] };
+  if (!col.name) return { businesses: [], invalid: [], stale: [], missing: ['Nome da empresa ou negócio'] };
   const get = (record, field) => (col[field] ? (record[col[field]] || '').trim() : '');
   const taken = new Map();
   const businesses = [];
   const invalid = [];
+  const stale = [];
 
   records.forEach((record, index) => {
     if (col.consent && !isChecked(get(record, 'consent'))) return;
@@ -224,7 +231,17 @@ export function buildBusinesses(headers, records, lines = []) {
     const line = lines[index] ?? index + 2;
     const rawName = get(record, 'name');
     if (!rawName) {
-      invalid.push({ line });
+      invalid.push({ line, reason: 'name' });
+      return;
+    }
+    // Confirmed when the business answered the form, or when the team last reviewed it.
+    const reviewed = reviewDay(get(record, 'reviewed')) || reviewDay(get(record, 'stamp'));
+    if (!reviewed) {
+      invalid.push({ line, reason: 'review' });
+      return;
+    }
+    if (isStale(reviewed, COMMERCE_REVIEW_MONTHS, now)) {
+      stale.push({ line, name: rawName, reviewed });
       return;
     }
 
@@ -289,10 +306,11 @@ export function buildBusinesses(headers, records, lines = []) {
       otherNote,
       address,
       addressHref: address ? mapsUrl(address, city) : '',
+      reviewed,
       search: plain([name, subtitle, category, offer, city, address, instagram, instagramNote, contactNote, otherNote].join(' ')),
     });
   });
 
   businesses.sort((a, b) => collator.compare(a.name, b.name) || a.line - b.line);
-  return { businesses, invalid, missing: [] };
+  return { businesses, invalid, stale, missing: [] };
 }

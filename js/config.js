@@ -38,6 +38,16 @@ export const COMMERCE_FORM_URL = '';
 // alphabetical order. Free text: any name the sheet uses becomes a chip.
 export const COMMERCE_CATEGORIES = ['Comida', 'Serviços', 'Celular e informática', 'Beleza', 'Arte e presentes', 'Casa', 'Embalagens'];
 
+// How long, in months, a row of Comércio or of the Mapa stays on the site without a review: the date in
+// its "Última revisão" column (for Comércio, the date the business answered the form when the column is
+// empty). Past that, the page leaves it out by itself (js/review.js) until someone confirms it with the
+// business or its source and writes the new date. A year: the cycle businesses, groups and their
+// schedules follow (classes restart, projects are funded by yearly calls), and the reviews of the
+// Mapa da Capoeira are spread over the year (six months would drop six of its 18 places at once). The
+// agenda and the news need none: their rows age by their own dates.
+export const COMMERCE_REVIEW_MONTHS = 12;
+export const MAP_REVIEW_MONTHS = 12;
+
 // Provisional name: NOS = Núcleo de Organização Social.
 export const APP_NAME = 'NOS';
 export const APP_FULL_NAME = 'Núcleo de Organização Social';
