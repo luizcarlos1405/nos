@@ -146,6 +146,8 @@ A camada da capoeira (`data/mapa/capoeira.csv`) é a planilha do Mapa da Capoeir
 
 As coordenadas de um endereço de Dourados saem do Cadastro de Endereços do Censo 2022 do IBGE (o script `scripts/coordenadas.py` da pasta do levantamento, fora deste repositório) ou do Google Maps (botão direito no lugar, e copiar os números). Aldeias, retomadas, terreiros, o quilombo, acampamentos e casas de pessoas só entram no mapa com a concordância de quem vive lá.
 
+A coluna `Instagram` é o perfil do próprio lugar: o de outra organização (o DCE numa universidade) vai só na `Fonte`. Para tirar um lugar do mapa sem mexer na planilha do COMAFRO, ponha o código dele (o que aparece depois do `#` no endereço, `mapa.html#…`) em `MAP_HELD` (`js/config.js`), com o motivo; o treino do Centro Cultural Grãos na AJI, na Aldeia Bororó, está lá até ficar registrado que a AJI concorda. Os acentos que a planilha do COMAFRO perdeu ("Jardim Italia") são corrigidos na leitura, pela lista `SPELLING` do `js/places.js`; vale mandar a lista para o COMAFRO corrigir na planilha deles.
+
 Lugares no mesmo endereço (um grupo que treina na sede de um sindicato) aparecem como um ponto só, e o cartão de cada um mostra os outros. Uma camada nova é um arquivo novo em `data/mapa/`, com as mesmas colunas, e uma linha em `MAP_LAYERS` (com o desenho dela em `js/icons.js`). Para mostrar o convite "Falta algum lugar?", coloque em `MAP_SUGGEST_URL` (`js/config.js`) o link de um formulário ou de um contato da equipe.
 
 ## Editando o comércio
@@ -227,6 +229,7 @@ Tudo que costuma mudar fica em `js/config.js`:
 - `COMMERCE_REVIEW_MONTHS` e `MAP_REVIEW_MONTHS`: quantos meses um negócio e um lugar do mapa ficam no site sem revisão (12).
 - `MAP_LAYERS`: as camadas do mapa, na ordem dos filtros, cada uma com seu arquivo e seu desenho.
 - `MAP_SUGGEST_URL`: o link do convite "Falta algum lugar?" (vazio esconde o convite).
+- `MAP_HELD`: lugares fora do mapa por enquanto, pelo código, com o motivo (uma aldeia sem a concordância registrada).
 - `MAP_TILES` / `MAP_GLYPHS`: de onde vêm o desenho do mapa e as letras dos nomes de ruas (OpenFreeMap, sem chave).
 - `APP_NAME` / `APP_FULL_NAME`: o nome (NOS) e o nome por extenso.
 - `CITY` / `HOME_CITY`: a cidade da agenda; atividades com `Cidade` vazia ou igual a ela são "daqui".
