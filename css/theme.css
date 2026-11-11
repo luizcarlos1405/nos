@@ -312,7 +312,7 @@
   --role-pin: var(--color-moonlit);
   --role-on-pin: var(--color-terra-roxa);
   --role-pin-ring: var(--color-terra-roxa);
-  --role-pin-shadow: 0 0 0 1px color-mix(in srgb, var(--color-night-shade) 50%, transparent);
+  --role-pin-shadow: 0 0 0 0 transparent; /* at night the points' ring is their edge; not `none`: it follows rings */
   --role-pin-drop: none;
   --role-map-veil: color-mix(in srgb, var(--color-terra-roxa-card) 82%, transparent);
 
