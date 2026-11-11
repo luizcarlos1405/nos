@@ -75,7 +75,7 @@ Not one movement's agenda: the shared calendar of many organizations in one city
 
 - The Instagram survey (21 reports about the organizations, 15/10/2026, kept outside this repository, next to the project folder as `../coleta-instagram/`): their recent and upcoming activities and the source post URLs. The agenda's rows (`data/agenda/`) and the first stories of Notícias (`data/noticias/`, quotes checked on 2026-11-05) are built from them.
 - The 17 answers of the registration form of 26/10/2026 (`data/comercio.csv`), with the category filled by the agent for the first build (to be checked by the NOS team).
-- COMAFRO Dourados' Mapa da Capoeira sheet (copied 2026-11-11: 20 rows, 18 of them shown, of 11 groups, each with its last review) and the places of the other layers, found in the survey with IBGE's CNEFE 2022 address file (`data/mapa/`).
+- COMAFRO Dourados' Mapa da Capoeira sheet (copied 2026-11-11: 20 rows of 11 groups, each with its last review; 17 shown, one held until the AJI's agreement to show its place in the Aldeia Bororó is recorded) and the places of the other layers, found in the survey with IBGE's CNEFE 2022 address file (`data/mapa/`).
 - No photos, no official visual identity. The domain is nos.dourados.social (GitHub Pages).
 
 ## Product Principles

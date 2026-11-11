@@ -381,7 +381,7 @@ function drawClusters() {
     node.type = 'button';
     node.tabIndex = -1;
     node.setAttribute('aria-hidden', 'true');
-    // Two places: both drawings, overlapping by half; from three up, their count.
+    // Two places: both drawings, overlapping by a quarter; from three up, their count.
     node.innerHTML = group.length === 2
       ? `<span class="pin-pair">${group.map((i) => i.place).sort((a, b) => a.lngLat[0] - b.lngLat[0] || byLayerThenName(a, b)).map((p) => `<span class="pin-dot">${icon(p.layer.icon)}</span>`).join('')}</span>`
       : `<span class="pin-count">${group.length}</span>`;
