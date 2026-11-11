@@ -16,8 +16,10 @@ import { $, announce, el, escapeHtml, initPage, readSheet, registerWorker, safeU
 // From 1100px the panel is a rail at the left and a place opens in a card at the right; below, both are
 // sheets over the map.
 const desk = matchMedia('(min-width: 1100px)');
-// Points closer than a point's size on screen merge into a count (30px, 26px on phones), as on the board.
-const clusterGap = () => (desk.matches ? 30 : 26);
+// Points closer than a point's size on screen merge (30px from 760px, 26px below: css/style.css), as on
+// the board.
+const wide = matchMedia('(min-width: 760px)');
+const clusterGap = () => (wide.matches ? 30 : 26);
 // The city's centre (Praça Antônio João): the map opens on the places around it, the far ones (the UFGD's
 // campus, 13 km out) a zoom away; on phones the city's core, its edges a pinch away.
 const CENTRE = [-54.811, -22.2285];
