@@ -66,6 +66,11 @@ function serve(root) {
         const webp = png.replace(/\.png$/, '.webp');
         execFileSync('magick', [png, '-quality', '86', '-define', 'webp:method=6', webp]);
         fs.unlinkSync(png);
+        // Where the photograph comes from, beside it (the impeccable skill's sidecar for formats without
+        // text chunks: `impeccable embed-prompt <file> --read` reads it, `--scan` finds files without one).
+        const theme = tema === 'claro' ? 'light theme' : 'dark theme';
+        const day = new Date().toISOString().slice(0, 10);
+        fs.writeFileSync(`${webp}.json`, `${JSON.stringify({ prompt: `Photograph of design/mapa-vivo.html at the view ${name} (${theme}), taken by node design/tools/mapa-render.cjs on ${day}: OpenFreeMap vector tiles (OpenStreetMap data, © OpenStreetMap contributors) painted in Céu · Terra by design/assets/mapa-estilo.js. Not generated.`, createdAt: new Date().toISOString() }, null, 2)}\n`);
         console.log(`${path.relative(ROOT, webp)}  ${v.w}×${v.h} @2x  z ${v.z}`);
       }
     }
