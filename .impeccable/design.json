@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-11T21:45:32Z",
+  "generatedAt": "2026-11-12T17:40:16Z",
   "title": "Design System: NOS Dourados",
   "extensions": {
     "colorMeta": {
@@ -471,25 +471,6 @@
           "oklch(95.0% 0.028 49.8)"
         ]
       },
-      "urucum-door": {
-        "role": "primary",
-        "displayName": "Agenda Urucum",
-        "canonical": "#F7CDB8",
-        "variable": "--color-urucum-door",
-        "roles": [
-          "--role-agenda-tint (light)"
-        ],
-        "tonalRamp": [
-          "oklch(15.0% 0.043 48.1)",
-          "oklch(26.4% 0.056 48.1)",
-          "oklch(37.9% 0.056 48.1)",
-          "oklch(49.3% 0.056 48.1)",
-          "oklch(60.7% 0.056 48.1)",
-          "oklch(72.1% 0.056 48.1)",
-          "oklch(83.6% 0.056 48.1)",
-          "oklch(95.0% 0.028 48.1)"
-        ]
-      },
       "urucum-night": {
         "role": "primary",
         "displayName": "Night Urucum",
@@ -554,7 +535,7 @@
           "oklch(83.6% 0.100 358.5)",
           "oklch(95.0% 0.027 358.5)"
         ],
-        "note": "Comércio's named landscape colour. Its only role (--role-commerce) is declared but not painted on the site; the site shows ipe-rosa-text and ipe-rosa-tint."
+        "note": "Comércio's named landscape colour. Its only role (--role-commerce) is declared but not painted on the site; the site shows ipe-rosa-text only (its tint's role, --role-commerce-tint, lost its last use with the home's doors on 2026-11-12)."
       },
       "ipe-rosa-text": {
         "role": "secondary",
@@ -573,25 +554,6 @@
           "oklch(72.1% 0.156 358.6)",
           "oklch(83.6% 0.100 358.6)",
           "oklch(95.0% 0.027 358.6)"
-        ]
-      },
-      "ipe-rosa-tint": {
-        "role": "secondary",
-        "displayName": "Ipê-Rosa Tint",
-        "canonical": "#F3C8DA",
-        "variable": "--color-ipe-rosa-tint",
-        "roles": [
-          "--role-commerce-tint (light)"
-        ],
-        "tonalRamp": [
-          "oklch(15.0% 0.054 351.2)",
-          "oklch(26.4% 0.054 351.2)",
-          "oklch(37.9% 0.054 351.2)",
-          "oklch(49.3% 0.054 351.2)",
-          "oklch(60.7% 0.054 351.2)",
-          "oklch(72.1% 0.054 351.2)",
-          "oklch(83.6% 0.054 351.2)",
-          "oklch(95.0% 0.029 351.2)"
         ]
       },
       "ipe-rosa-night": {
@@ -614,25 +576,6 @@
           "oklch(95.0% 0.028 356.5)"
         ]
       },
-      "ipe-rosa-night-tint": {
-        "role": "secondary",
-        "displayName": "Night Ipê-Rosa Tint",
-        "canonical": "#522036",
-        "variable": "--color-ipe-rosa-night-tint",
-        "roles": [
-          "--role-commerce-tint (dark)"
-        ],
-        "tonalRamp": [
-          "oklch(15.0% 0.063 354.9)",
-          "oklch(26.4% 0.080 354.9)",
-          "oklch(37.9% 0.080 354.9)",
-          "oklch(49.3% 0.080 354.9)",
-          "oklch(60.7% 0.080 354.9)",
-          "oklch(72.1% 0.080 354.9)",
-          "oklch(83.6% 0.080 354.9)",
-          "oklch(95.0% 0.028 354.9)"
-        ]
-      },
       "ipe-amarelo": {
         "role": "secondary",
         "displayName": "Ipê-Amarelo",
@@ -651,7 +594,7 @@
           "oklch(83.6% 0.154 81.8)",
           "oklch(95.0% 0.048 81.8)"
         ],
-        "note": "Notícias' named landscape colour (2026-11-05). Its only role (--role-news) is declared but not painted on the site; the site shows ipe-amarelo-text and ipe-amarelo-tint."
+        "note": "Notícias' named landscape colour (2026-11-05). Its only role (--role-news) is declared but not painted on the site; the site shows ipe-amarelo-text only (its tint's role, --role-news-tint, lost its last use with the home's doors on 2026-11-12)."
       },
       "ipe-amarelo-text": {
         "role": "secondary",
@@ -670,25 +613,6 @@
           "oklch(72.1% 0.099 79.4)",
           "oklch(83.6% 0.099 79.4)",
           "oklch(95.0% 0.045 79.4)"
-        ]
-      },
-      "ipe-amarelo-tint": {
-        "role": "secondary",
-        "displayName": "Ipê-Amarelo Tint",
-        "canonical": "#F6DE9C",
-        "variable": "--color-ipe-amarelo-tint",
-        "roles": [
-          "--role-news-tint (light)"
-        ],
-        "tonalRamp": [
-          "oklch(15.0% 0.031 90.4)",
-          "oklch(26.4% 0.054 90.4)",
-          "oklch(37.9% 0.077 90.4)",
-          "oklch(49.3% 0.088 90.4)",
-          "oklch(60.7% 0.088 90.4)",
-          "oklch(72.1% 0.088 90.4)",
-          "oklch(83.6% 0.088 90.4)",
-          "oklch(95.0% 0.064 90.4)"
         ]
       },
       "ipe-amarelo-night": {
@@ -711,25 +635,6 @@
           "oklch(95.0% 0.054 85.4)"
         ]
       },
-      "ipe-amarelo-night-tint": {
-        "role": "secondary",
-        "displayName": "Night Ipê-Amarelo Tint",
-        "canonical": "#413010",
-        "variable": "--color-ipe-amarelo-night-tint",
-        "roles": [
-          "--role-news-tint (dark)"
-        ],
-        "tonalRamp": [
-          "oklch(15.0% 0.031 80.6)",
-          "oklch(26.4% 0.053 80.6)",
-          "oklch(37.9% 0.053 80.6)",
-          "oklch(49.3% 0.053 80.6)",
-          "oklch(60.7% 0.053 80.6)",
-          "oklch(72.1% 0.053 80.6)",
-          "oklch(83.6% 0.053 80.6)",
-          "oklch(95.0% 0.047 80.6)"
-        ]
-      },
       "erva-mate": {
         "role": "secondary",
         "displayName": "Erva-Mate",
@@ -748,7 +653,7 @@
           "oklch(83.6% 0.124 124.9)",
           "oklch(95.0% 0.124 124.9)"
         ],
-        "note": "The Mapa's named landscape colour (2026-11-11), the green of the tereré. Its only role (--role-map) is declared but not painted on the site; the site shows erva-mate-text and erva-mate-tint."
+        "note": "The Mapa's named landscape colour (2026-11-11), the green of the tereré. Its only role (--role-map) is declared but not painted on the site; the site shows erva-mate-text and erva-mate-tint (the Mapa's invitation, the one landscape tint the site paints)."
       },
       "erva-mate-text": {
         "role": "secondary",
@@ -1883,51 +1788,99 @@
     },
     "typographyMeta": {
       "display": {
-        "displayName": "Display · the greeting",
-        "purpose": "The greeting on the home's sky (\"Bom dia, Dourados\"): two lines on phones, one from 760px.",
+        "displayName": "Display · the question",
+        "purpose": "The city's question on the home's sky (\"O que está acontecendo em Dourados?\"): three lines on phones (held to 9.5em), two from 760px (11.5em).",
         "steps": [
-          "3.25rem / 0.923 (phones)",
-          "4rem / 1 (760px)",
-          "4.75rem / 1.05 (1100px)",
-          "2.625rem (under 22.4375em)"
+          "2.75rem / 0.98 (phones)",
+          "4.25rem / 0.96 (760px: display-tablet)",
+          "4.75rem / 0.96 (1100px: display-desk)",
+          "2.375rem (under 22.4375em: display-narrow)"
         ]
+      },
+      "display-tablet": {
+        "displayName": "Display · tablet",
+        "purpose": "The home's question from 760px."
+      },
+      "display-desk": {
+        "displayName": "Display · desk",
+        "purpose": "The home's question from 1100px."
+      },
+      "display-narrow": {
+        "displayName": "Display · narrow",
+        "purpose": "The home's question under 22.4375em."
       },
       "headline": {
         "displayName": "Headline · the page on the sky",
-        "purpose": "The page's name on the sky; at 800 also \"Em breve\", the month's title and Comércio's letters.",
+        "purpose": "The page's name on the sky; at 800 also the month's title and Comércio's letters.",
         "steps": [
           "1.875rem / 1.13 (phones)",
           "2.5rem / 1.1 (760px)",
           "1.625rem (under 22.4375em)"
         ]
       },
+      "next-title": {
+        "displayName": "Next Title",
+        "purpose": "The title of the home's next activity, its answer to the question: the one activity title set in Bricolage (The Two Voices Rule).",
+        "steps": [
+          "2rem / 1.08 (phones)",
+          "3.25rem / 1.02 (1100px: next-title-desk)",
+          "1.75rem (under 22.4375em)"
+        ]
+      },
+      "next-title-desk": {
+        "displayName": "Next Title · desk",
+        "purpose": "The home's next activity's title from 1100px."
+      },
+      "row-name": {
+        "displayName": "Row Name",
+        "purpose": "A page's name on the home's rows (Notícias, Mapa, Comércio), in the page's deep shade beside its 26px drawing."
+      },
+      "statement": {
+        "displayName": "Statement",
+        "purpose": "Who NOS follows (\"O NOS acompanha o que 85 organizações de Dourados publicam\"); the same 800 sets \"Ver todas as N atividades\" in Deep Urucum (1.3125rem/1.15, -0.02em; 1.5rem from 1100px).",
+        "steps": [
+          "1.5rem / 1.15 (phones)",
+          "2rem / 1.12 (1100px)"
+        ]
+      },
       "date": {
         "displayName": "Date",
-        "purpose": "Dates in NOS's voice, with tabular figures: the home's circled date; the same 800 sets the map's counts (0.9375rem/1).",
+        "purpose": "Dates in NOS's voice, with tabular figures: the home's circled day (\"sex 13/11\"); the same 800 sets the map's counts (0.9375rem/1).",
         "steps": [
-          "1.25rem / 1.2 (phones)",
-          "1.4375rem (760px)"
+          "1.5rem / 1.1 (phones)",
+          "1.75rem (1100px)"
         ]
+      },
+      "row-lead": {
+        "displayName": "Row Lead",
+        "purpose": "What a page holds today, in ink on its home row: Notícias' lead headline, the Mapa's places, Comércio's businesses."
+      },
+      "heading": {
+        "displayName": "Heading",
+        "purpose": "The panel's day (tabular), the head of the calendar options and business names."
       },
       "title": {
         "displayName": "Title · day heads",
-        "purpose": "Day heads at 750 with tabular figures; 750 also for the panel's day, business names, empty-state titles, the month's numerals, the Mapa's place names, \"Camadas\" and a place's \"Treinos\"; 700 for the doors' names."
+        "purpose": "Day heads at 750 with tabular figures, and the home's \"A próxima atividade\" (1.2, -0.012em; 1.375rem from 1100px); 750 also for the information card's title, empty-state titles, the month's numerals, the Mapa's place names, \"Camadas\" and a place's \"Treinos\"; 700 for the Mapa invitation's heading."
       },
       "activity-lead": {
         "displayName": "Activity Lead",
         "purpose": "An activity's title in the panel (Inter: the organization's own words).",
         "steps": [
-          "1.375rem / 1.25 (panel)",
-          "1.875rem / 1.2 (home desk card)"
+          "1.375rem / 1.25 (panel)"
         ]
       },
       "activity": {
         "displayName": "Activity",
-        "purpose": "An activity's title on its card and on the home's phone card."
+        "purpose": "An activity's title on its card."
+      },
+      "facts-desk": {
+        "displayName": "Facts · desk",
+        "purpose": "The home's next activity's facts from 1100px (1.0625rem/1.4 below), in the soft ink."
       },
       "body": {
         "displayName": "Body",
-        "purpose": "Reading text; descriptions at 0.9375rem/1.5; hints held to 34–36ch."
+        "purpose": "Reading text; descriptions at 0.9375rem/1.5; hints held to 34–36ch. On the home the rows' meta and the groups at 1rem, and the line under the question in Inter 500 and the sky's soft ink (1rem/1.45; 1.25rem/1.4 from 760px; 1.3125rem from 1100px)."
       },
       "meta": {
         "displayName": "Meta",
@@ -1935,7 +1888,7 @@
       },
       "button": {
         "displayName": "Button",
-        "purpose": "Buttons; chips and segments 500 at 0.9375rem (600 chosen); tags and the phone bar 500 at 0.8125rem; month weekday heads 600 0.75rem 0.04em uppercase; the map's small print 0.6875rem, the smallest text."
+        "purpose": "Buttons (1.0625rem in the home's 52px pills); chips and segments 500 at 0.9375rem (600 chosen); tags and the phone bar 500 at 0.8125rem; month weekday heads 600 0.75rem 0.04em uppercase; the map's small print 0.6875rem, the smallest text."
       }
     },
     "shadows": [
@@ -1943,7 +1896,7 @@
         "name": "day-rest",
         "value": "0 1px 2px color-mix(in srgb, #4A2212 8%, transparent), 0 6px 16px color-mix(in srgb, #4A2212 7%, transparent)",
         "variable": "--role-card-shadow (light)",
-        "purpose": "Cards at rest by day: activity cards, the month, the home's next card, the desk panel, business and information cards, the message bubble."
+        "purpose": "Cards at rest by day: activity cards, the month, the desk panel, business and information cards, the message bubble."
       },
       {
         "name": "night-rest",
@@ -2003,12 +1956,17 @@
       {
         "name": "state",
         "value": "0.15s",
-        "purpose": "Background, colour, border and shadow changes on hover and state: buttons, chips, segments, cards, doors, the nav pill; the Mapa's layer chevron turns (rotate 180deg) in the same 0.15s."
+        "purpose": "Background, colour, border and shadow changes on hover and state: buttons, chips, segments, cards, the nav pill; the Mapa's layer chevron turns (rotate 180deg) in the same 0.15s."
       },
       {
         "name": "sheet",
         "value": "transform 0.3s var(--ease)",
         "purpose": "The bottom sheet slides up and away; while dragged it follows the finger with no transition; the Mapa's list sheet slides the same way."
+      },
+      {
+        "name": "arrow-step",
+        "value": "translate 0.2s var(--ease); on hover translate: 3px 0",
+        "purpose": "The home's arrows (\"Ver todas as N atividades\" and each page's row) step 3px to the right on hover; never up, no lift. Instant under prefers-reduced-motion."
       },
       {
         "name": "sun-rise",
@@ -2045,7 +2003,7 @@
       {
         "name": "narrow",
         "value": "max-width: 22.4375em",
-        "purpose": "359px at 16px (small phones, 200% zoom, large default fonts): 12px gutters, smaller greeting and page name, one column of doors; the Mapa's \"Como chegar\" becomes a 48px circle."
+        "purpose": "359px at 16px (small phones, 200% zoom, large default fonts): 12px gutters, a smaller page name, the home's question at 2.375rem and its next title at 1.75rem; the Mapa's \"Como chegar\" becomes a 48px circle."
       },
       {
         "name": "wide-phone",
@@ -2055,12 +2013,12 @@
       {
         "name": "tablet",
         "value": "760px",
-        "purpose": "The links on the sky (no bar at the foot), the page's name under them, the home's actions and \"Também na agenda\", Comércio's rows; the Mapa's map down to the screen's foot with its zoom buttons, its points 30px (26px below)."
+        "purpose": "The links on the sky (no bar at the foot), the page's name or the home's question under them; the home's \"Ver na agenda\" beside \"Mandar no WhatsApp\", only its next title a link; Comércio's rows; the Mapa's map down to the screen's foot with its zoom buttons, its points 30px (26px below)."
       },
       {
         "name": "desk",
         "value": "1100px",
-        "purpose": "Two columns: the agenda with its 380px panel, the home's calm desk, Comércio's information card; 32px gutters; the Mapa's 320px rail and 400px place card over the map."
+        "purpose": "Two columns: the agenda with its 380px panel, Comércio's information card; the home's next activity with its actions at the right and its three rows as columns, 48px apart; 32px gutters; the Mapa's 320px rail and 400px place card over the map."
       },
       {
         "name": "desk-wide",
@@ -2314,12 +2272,12 @@
       "css": ".ds-event { display: flex; flex-direction: column; width: 100%; max-width: 560px; padding: 14px 14px 15px 16px; border: 1px solid var(--role-card-border, transparent); border-radius: 18px; background: var(--role-card, #FFFBF7); box-shadow: var(--role-card-shadow, 0 1px 2px color-mix(in srgb, #4A2212 8%, transparent), 0 6px 16px color-mix(in srgb, #4A2212 7%, transparent)); color: var(--role-ink, #221714); font-family: var(--font-ui, 'Inter', system-ui, sans-serif); text-align: left; cursor: pointer; transition: background 0.15s, box-shadow 0.15s; } .ds-event:hover { background: var(--role-card-hover, #FFF4EC); } .ds-event:hover .ds-event-title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; } .ds-event:focus-visible { outline: 2px solid var(--role-focus, #A3360A); outline-offset: 2px; } .ds-event-head { display: flex; align-items: center; gap: 8px; } .ds-event-title { flex: 1 1 0; min-width: 0; font-size: 1.0625rem; line-height: 1.3; font-weight: 600; letter-spacing: -0.01em; } .ds-share { display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: 50%; background: var(--role-fill, #F4E4D9); color: var(--role-ink, #221714); } .ds-share .ds-icon { width: 20px; height: 20px; } .ds-event-meta { display: flex; flex-direction: column; gap: 4px; margin-top: 6px; } .ds-meta { display: flex; align-items: flex-start; gap: 6px; font-size: 0.875rem; line-height: 1.36; color: var(--role-ink-soft, #6A4E44); } .ds-meta .ds-icon { flex: none; width: 16px; height: 16px; margin-top: 1.5px; } .ds-meta b { font-weight: 600; color: var(--role-ink, #221714); } .ds-meta .ds-dot { margin: 5.5px 4px 0; } .ds-meta-time { flex-wrap: wrap; align-items: center; row-gap: 2px; font-size: 0.9375rem; line-height: 1.33; font-weight: 600; color: var(--role-ink, #221714); font-variant-numeric: tabular-nums; } .ds-meta-time .ds-icon { margin-top: 0; color: var(--role-ink-soft, #6A4E44); } .ds-circled { position: relative; display: inline-block; margin: 0 16px 0 11px; white-space: nowrap; } .ds-hand { position: absolute; left: -11px; top: -8px; width: calc(100% + 22px); height: calc(100% + 16px); overflow: visible; fill: none; stroke: var(--role-hand, #C2410C); stroke-width: 2.5px; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; } .ds-next { font-size: 0.875rem; line-height: 1.3; font-weight: 600; color: var(--role-accent-text, #A3360A); white-space: nowrap; } .ds-dot { display: inline-block; flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--sector, var(--role-no-sector, #6A4E44)); }"
     },
     {
-      "name": "Doors",
+      "name": "Início: the next activity and the rows",
       "kind": "custom",
-      "refersTo": "door-agenda",
-      "description": "The home's way into each page: flat cards in the page's landscape tint (Agenda urucum, Notícias ipê-amarelo, Mapa erva-mate, Comércio ipê-rosa), secondary text mixed from the hue into the ink. On phones Agenda and Comércio sit side by side, then Notícias and the Mapa each take the row under them (Notícias' live line the headline the page leads with; the Mapa's how many places, over its layers' drawings as small ink discs, as the map draws its points); on the desk the four stack in the pages' order.",
-      "html": "<nav class=\"ds-doors\" aria-label=\"Agenda, Comércio e Mapa\"><a class=\"ds-door\" href=\"#\"><span class=\"ds-door-head\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect width=\"18\" height=\"18\" x=\"3\" y=\"4\" rx=\"2\"/><path d=\"M8 2v4M16 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01\"/></svg><span class=\"ds-door-name\">Agenda</span></span><span class=\"ds-door-line\">4 atividades até 20/11</span><span class=\"ds-door-text\">Depois, sáb 31/10, 21h: Baile dos Educadores – Festa Tropical</span></a><a class=\"ds-door ds-door--commerce\" href=\"#\"><span class=\"ds-door-head\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5\"/><path d=\"M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244\"/><path d=\"M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05\"/></svg><span class=\"ds-door-name\">Comércio</span></span><span class=\"ds-door-line\">Em breve</span><span class=\"ds-door-text\">Estamos coletando as informações e organizando antes de mostrá-las aqui.</span></a><a class=\"ds-door ds-door--map\" href=\"#\"><span class=\"ds-door-head\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z\"/><path d=\"M15 5.764v15\"/><path d=\"M9 3.236v15\"/></svg><span class=\"ds-door-name\">Mapa</span></span><span class=\"ds-door-line\">43 lugares da cultura e dos movimentos</span><span class=\"ds-door-glyphs\" aria-hidden=\"true\"><span class=\"ds-door-glyph\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M19.5 2 4 17.5\"/><path d=\"M19.5 2Q15.9 13.9 4 17.5\"/><circle cx=\"9.8\" cy=\"18.3\" r=\"3.9\"/><circle cx=\"10.9\" cy=\"19.4\" r=\"1.4\"/></svg></span><span class=\"ds-door-glyph\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m11 7.601-5.994 8.19a1 1 0 0 0 .1 1.298l.817.818a1 1 0 0 0 1.314.087L15.09 12\"/><path d=\"M16.5 21.174C15.5 20.5 14.372 20 13 20c-2.058 0-3.928 2.356-6 2-2.072-.356-2.775-3.369-1.5-4.5\"/><circle cx=\"16\" cy=\"7\" r=\"5\"/></svg></span><span class=\"ds-door-glyph\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m15 11-1 9M19 11l-4-7M2 11h20M3.5 11l1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.7-7.4M4.5 15.5h15M5 11l4-7M9 11l1 9\"/></svg></span><span class=\"ds-door-glyph\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M10 11h.01M14 6h.01M18 6h.01M6.5 13.1h.01\"/><path d=\"M22 5c0 9-4 12-6 12s-6-3-6-12c0-2 2-3 6-3s6 1 6 3\"/><path d=\"M17.4 9.9c-.8.8-2 .8-2.8 0\"/><path d=\"M10.1 7.1C9 7.2 7.7 7.7 6 8.6c-3.5 2-4.7 3.9-3.7 5.6 4.5 7.8 9.5 8.4 11.2 7.4.9-.5 1.9-2.1 1.9-4.7\"/><path d=\"M9.1 16.5c.3-1.1 1.4-1.7 2.4-1.4\"/></svg></span><span class=\"ds-door-glyph\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m3 11 18-5v12L3 14v-3z\"/><path d=\"M11.6 16.8a3 3 0 1 1-5.8-1.6\"/></svg></span><span class=\"ds-door-glyph\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z\"/><path d=\"M22 10v6M6 12.5V16a6 3 0 0 0 12 0v-3.5\"/></svg></span><span class=\"ds-door-glyph\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 22h18M6 18v-7M10 18v-7M14 18v-7M18 18v-7\"/><path d=\"M12 2l8 5H4z\"/></svg></span></span><span class=\"ds-door-text\">Capoeira, batalhas de rima, feiras, espaços culturais, sindicatos, universidades e o poder público, no mapa da cidade, com o caminho até cada lugar.</span></a></nav>",
-      "css": ".ds-doors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; max-width: 390px; } .ds-door { --door-tint: var(--role-agenda-tint, #F7CDB8); --door-text: var(--role-agenda-text, #A3360A); display: flex; flex-direction: column; gap: 4px; min-width: 0; padding: 12px 12px 14px 14px; border-radius: 18px; background: var(--door-tint); color: var(--role-ink, #221714); font-family: var(--font-ui, 'Inter', system-ui, sans-serif); text-decoration: none; transition: background 0.15s; } .ds-door--commerce { --door-tint: var(--role-commerce-tint, #F3C8DA); --door-text: var(--role-commerce-text, #A12E5F); } .ds-door:hover { background: color-mix(in srgb, var(--door-tint) 88%, var(--door-text)); } .ds-door:focus-visible { outline: 2px solid var(--role-focus, #A3360A); outline-offset: 2px; } .ds-door-head { display: flex; align-items: center; gap: 8px; } .ds-door-head .ds-icon { width: 22px; height: 22px; color: var(--door-text); } .ds-door-name { font: 700 1.125rem/1.33 var(--font-display, 'Bricolage Grotesque', 'Inter', system-ui, sans-serif); letter-spacing: -0.02em; } .ds-door-line { font-size: 0.875rem; line-height: 1.36; font-weight: 600; } .ds-door-text { font-size: 0.8125rem; line-height: 1.4; color: color-mix(in srgb, var(--door-text) 55%, var(--role-ink, #221714)); } .ds-door--map { --door-tint: var(--role-map-tint, #DCE6B9); --door-text: var(--role-map-text, #4A651A); grid-column: 1 / -1; } .ds-door-glyphs { display: flex; flex-wrap: wrap; gap: 6px; margin: 2px 0; } .ds-door-glyph { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--role-pin, #221714); color: var(--role-on-pin, #FFFBF7); } .ds-door-glyph .ds-icon { width: 16px; height: 16px; }"
+      "refersTo": "row-name-map",
+      "description": "The home's land, set in type with no cards: \"A próxima atividade\", the day circled by the hand with \"amanhã\" in Deep Urucum, the title in Bricolage 800 (the one activity title in NOS's voice), the facts, the 52px \"Mandar no WhatsApp\" across the phone; \"Ver todas as N atividades\" in Deep Urucum; then the pages as rows between 1px clay-line rules, each name in its landscape colour's deep shade with its drawing and an arrow that steps 3px on hover, the Mapa's layers as 38px discs in the points' colours. The activity is the artboard's of 12/11 (no time or place yet); the rows show their texts before the sheets are read.",
+      "html": "<section class=\"ds-home\"><div class=\"ds-upcoming\"><h2 class=\"ds-up-label\">A próxima atividade</h2><p class=\"ds-up-when\"><time class=\"ds-circled\" datetime=\"2026-11-13\">sex 13/11<svg class=\"ds-hand\" viewBox=\"0 0 120 60\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path vector-effect=\"non-scaling-stroke\" d=\"M84 7C62 2 28 4 12 15C1 23 2 41 22 50C42 59 88 58 108 46C122 37 119 17 98 9C84 4 66 4 47 9\"/></svg></time><span class=\"ds-up-soon\">amanhã</span></p><h3 class=\"ds-up-title\"><a href=\"#\">Festa da Vitória em Dourados</a></h3><ul class=\"ds-up-facts\"><li><span class=\"ds-dot\" aria-hidden=\"true\"></span><span><b>PT Dourados</b></span></li><li><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M12 6v6l4 2\"/></svg><span>Horário e local a confirmar</span></li></ul><div class=\"ds-up-actions\"><a class=\"ds-btn ds-btn-accent\" href=\"#\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7.9 20A9 9 0 1 0 4 16.1L2 22Z\"/></svg><span>Mandar no WhatsApp</span></a></div></div><a class=\"ds-see-all\" href=\"#\">Ver todas as 16 atividades<svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></a><div class=\"ds-rows\"><article class=\"ds-row ds-row--map\"><h2 class=\"ds-row-name\"><a href=\"#\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z\"/><path d=\"M15 5.764v15\"/><path d=\"M9 3.236v15\"/></svg>Mapa</a><svg class=\"ds-icon ds-go\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></h2><p class=\"ds-row-lead\">Os lugares da cultura e dos movimentos</p><p class=\"ds-glyphs\"><span class=\"ds-glyph\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M19.5 2 4 17.5\"/><path d=\"M19.5 2Q15.9 13.9 4 17.5\"/><circle cx=\"9.8\" cy=\"18.3\" r=\"3.9\"/><circle cx=\"10.9\" cy=\"19.4\" r=\"1.4\"/></svg></span><span class=\"ds-glyph\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m11 7.601-5.994 8.19a1 1 0 0 0 .1 1.298l.817.818a1 1 0 0 0 1.314.087L15.09 12\"/><path d=\"M16.5 21.174C15.5 20.5 14.372 20 13 20c-2.058 0-3.928 2.356-6 2-2.072-.356-2.775-3.369-1.5-4.5\"/><circle cx=\"16\" cy=\"7\" r=\"5\"/></svg></span><span class=\"ds-glyph\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m15 11-1 9M19 11l-4-7M2 11h20M3.5 11l1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.7-7.4M4.5 15.5h15M5 11l4-7M9 11l1 9\"/></svg></span></p></article><article class=\"ds-row ds-row--commerce\"><h2 class=\"ds-row-name\"><a href=\"#\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5\"/><path d=\"M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244\"/><path d=\"M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05\"/></svg>Comércio</a><svg class=\"ds-icon ds-go\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></h2><p class=\"ds-row-lead\">Os negócios da rede</p><p class=\"ds-row-meta\">Comida, serviços, beleza, consertos e mais, cada negócio com o que oferece nas próprias palavras.</p></article></div></section>",
+      "css": ".ds-home { max-width: 390px; padding: 22px 16px 8px; background: var(--role-ground, #F2E3D7); color: var(--role-ink, #221714); font-family: var(--font-ui, 'Inter', system-ui, sans-serif); } .ds-upcoming { position: relative; } .ds-up-label { margin: 0; font: 750 1.1875rem/1.2 var(--font-display, 'Bricolage Grotesque', 'Inter', system-ui, sans-serif); letter-spacing: -0.012em; } .ds-up-when { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; margin: 16px 0 0; } .ds-circled { position: relative; display: inline-block; margin-left: 13px; white-space: nowrap; font: 800 1.5rem/1.1 var(--font-display, 'Bricolage Grotesque', 'Inter', system-ui, sans-serif); letter-spacing: -0.015em; font-variant-numeric: tabular-nums; } .ds-hand { position: absolute; left: -13px; top: -9px; width: calc(100% + 26px); height: calc(100% + 18px); overflow: visible; fill: none; stroke: var(--role-hand, #C2410C); stroke-width: 3px; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; } .ds-up-soon { font-size: 1.0625rem; line-height: 1.2; font-weight: 600; color: var(--role-accent-text, #A3360A); } .ds-up-title { margin: 14px 0 0; font: 800 2rem/1.08 var(--font-display, 'Bricolage Grotesque', 'Inter', system-ui, sans-serif); letter-spacing: -0.026em; text-wrap: balance; } .ds-up-title a { color: inherit; text-decoration: none; } .ds-up-title a::after { content: ''; position: absolute; inset: 0; } .ds-up-title a:focus-visible { outline: none; } .ds-upcoming:has(.ds-up-title a:focus-visible) { outline: 2px solid var(--role-focus, #A3360A); outline-offset: 6px; border-radius: 6px; } .ds-up-facts { display: grid; gap: 6px; margin: 12px 0 0; padding: 0; list-style: none; font-size: 1.0625rem; line-height: 1.4; color: var(--role-ink-soft, #6A4E44); } .ds-up-facts li { display: flex; align-items: flex-start; gap: 10px; } .ds-up-facts .ds-icon { flex: none; width: 18px; height: 18px; margin-top: 2px; } .ds-up-facts b { color: var(--role-ink, #221714); font-weight: 600; } .ds-dot { flex: none; width: 10px; height: 10px; margin: 6px 4px 0; border-radius: 50%; background: var(--role-series-6, #5E6A71); } .ds-up-actions { position: relative; display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; } .ds-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; padding: 0 24px; border: 1px solid transparent; border-radius: 999px; font: 600 1.0625rem/1.2 var(--font-ui, 'Inter', system-ui, sans-serif); text-decoration: none; transition: background 0.15s, color 0.15s, border-color 0.15s; } .ds-btn .ds-icon { width: 20px; height: 20px; } .ds-btn-accent { flex: 1 1 auto; background: var(--role-accent, #C2410C); color: var(--role-on-accent, #FFFFFF); } .ds-btn-accent:hover { background: var(--role-accent-hover, color-mix(in srgb, #C2410C 86%, #221714)); } .ds-btn:focus-visible { outline: 2px solid var(--role-focus, #A3360A); outline-offset: 2px; } .ds-see-all { display: inline-flex; align-items: center; gap: 10px; min-height: 52px; margin-top: 22px; font: 800 1.3125rem/1.15 var(--font-display, 'Bricolage Grotesque', 'Inter', system-ui, sans-serif); letter-spacing: -0.02em; color: var(--role-accent-text, #A3360A); text-decoration: none; font-variant-numeric: tabular-nums; } .ds-see-all .ds-icon, .ds-go { width: 24px; height: 24px; transition: translate 0.2s cubic-bezier(0.16, 1, 0.3, 1); } .ds-see-all:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.16em; } .ds-see-all:hover .ds-icon { translate: 3px 0; } .ds-see-all:focus-visible { outline: 2px solid var(--role-focus, #A3360A); outline-offset: 2px; border-radius: 6px; } .ds-rows { margin-top: 18px; } .ds-row { position: relative; padding: 20px 0 24px; border-top: 1px solid var(--role-line, #E9D5C8); } .ds-row--map { --page-text: var(--role-map-text, #4A651A); } .ds-row--commerce { --page-text: var(--role-commerce-text, #A12E5F); } .ds-row-name { display: flex; align-items: center; gap: 10px; margin: 0; font: 800 1.75rem/1.1 var(--font-display, 'Bricolage Grotesque', 'Inter', system-ui, sans-serif); letter-spacing: -0.025em; color: var(--page-text); } .ds-row-name a { display: inline-flex; align-items: center; gap: 10px; color: inherit; text-decoration: none; } .ds-row-name a::after { content: ''; position: absolute; inset: 0; } .ds-row-name a:focus-visible { outline: none; } .ds-row:has(a:focus-visible) { outline: 2px solid var(--role-focus, #A3360A); outline-offset: 4px; border-radius: 6px; } .ds-row-name .ds-icon { width: 26px; height: 26px; } .ds-row-name .ds-go { margin-left: auto; width: 24px; height: 24px; } .ds-row:hover .ds-go { translate: 3px 0; } .ds-row:hover .ds-row-lead { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.14em; } .ds-row-lead { margin: 10px 0 0; font: 750 1.3125rem/1.24 var(--font-display, 'Bricolage Grotesque', 'Inter', system-ui, sans-serif); letter-spacing: -0.016em; text-wrap: balance; } .ds-row-meta { margin: 8px 0 0; font-size: 1rem; line-height: 1.45; color: var(--role-ink-soft, #6A4E44); } .ds-glyphs { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 0; } .ds-glyph { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: var(--role-pin, #221714); color: var(--role-on-pin, #FFFBF7); } .ds-glyph .ds-icon { width: 20px; height: 20px; }"
     },
     {
       "name": "Sky Header and Band",
@@ -2354,7 +2312,7 @@
   ],
   "narrative": {
     "northStar": "Céu · Terra",
-    "overview": "NOS opens on the sky over Dourados at this hour and the land beneath it. Every page stacks the same three layers: the header is the sky of this hour, painted in five flat bands (amanhecer, dia, entardecer and noite by the clock in the light theme, always the night in the dark theme); the woven band under it is the horizon; below lies the land, light clay by day and terra roxa at night, where the activities, the doors and the businesses rest as clear rounded cards; on the Mapa the land is the city itself, drawn in the same clay and terra roxa. The sun, a disc inside an urucum loop drawn by hand, rises big from behind the band and runs off the edge; at night a small moon, about a fifth of the sun, sits high among the stars.\n\nThe hand is the system's signature. The same urucum pen that draws the sun's loop and the O of the NOS mark circles the next activity and underlines today: urucum is the one marking colour, and it marks rather than fills. Each page wears one colour of the landscape on its door and its own panel (Agenda urucum, Notícias ipê-amarelo, Mapa erva-mate, Comércio ipê-rosa); the organizations' eight groups are coloured dots, and the Mapa's layers are drawings, never colours. Bricolage Grotesque is NOS's voice (the greeting, dates, page titles, day heads) and Inter the reading text and the controls. The density is calm and phone-first: lists of cards with 44px targets on the phone, a production bench on the desk, never a dashboard.\n\nThe world refuses the hero banner over icon tiles, the dashboard, the grey list with thin dividers and coloured pills, the marketplace (carousels, banners, prices, ratings), the stock web map (its own colours, coloured category pins, popups), and the Folhinha's notepad and torn-off sheets; nothing of the old campaign interface (the metro line to election day, the countdown, the slogan) comes back, and nothing should read as a startup, a city hall or an election campaign. Light and dark are both finished themes. The approved artboards (`design/direcao-ceu-terra-*.html`) also draw sections and a search that were deliberately not built; where they and the build diverge, the build is the reference. The flyers carry the same world into a picture: the sky of the activity's hour over the band and the land (see Components).",
+    "overview": "NOS opens on the sky over Dourados at this hour and the land beneath it. Every page stacks the same three layers: the header is the sky of this hour, painted in five flat bands (amanhecer, dia, entardecer and noite by the clock in the light theme, always the night in the dark theme); the woven band under it is the horizon; below lies the land, light clay by day and terra roxa at night, where the activities, the stories and the businesses rest as clear rounded cards (the home sets its land in type, without cards); on the Mapa the land is the city itself, drawn in the same clay and terra roxa. The sun, a disc inside an urucum loop drawn by hand, rises big from behind the band and runs off the edge; at night a small moon, about a fifth of the sun, sits high among the stars.\n\nThe hand is the system's signature. The same urucum pen that draws the sun's loop and the O of the NOS mark circles the next activity and underlines today: urucum is the one marking colour, and it marks rather than fills. Each page has one colour of the landscape, whose deep shade names it on the home and colours its icons (Agenda urucum, Notícias ipê-amarelo, Mapa erva-mate, Comércio ipê-rosa); the organizations' eight groups are coloured dots, and the Mapa's layers are drawings, never colours. Bricolage Grotesque is NOS's voice (the home's question, dates, page titles, day heads) and Inter the reading text and the controls. The density is calm and phone-first: lists of cards with 44px targets on the phone, a production bench on the desk, never a dashboard.\n\nThe world refuses the hero banner over icon tiles, the dashboard, the grey list with thin dividers and coloured pills, the marketplace (carousels, banners, prices, ratings), the stock web map (its own colours, coloured category pins, popups), and the Folhinha's notepad and torn-off sheets; nothing of the old campaign interface (the metro line to election day, the countdown, the slogan) comes back, and nothing should read as a startup, a city hall or an election campaign. Light and dark are both finished themes. The approved artboards (`design/direcao-ceu-terra-*.html`) also draw sections and a search that were deliberately not built; where they and the build diverge, the build is the reference. The flyers carry the same world into a picture: the sky of the activity's hour over the band and the land (see Components).",
     "keyCharacteristics": [
       "Sky over land on every page, meeting at a woven horizon.",
       "The sky in flat bands by the hour: hard stops, never a soft gradient.",
@@ -2368,7 +2326,7 @@
     "rules": [
       {
         "name": "The One Marking Colour Rule",
-        "body": "Urucum marks; it never fills an area. At full strength it is only the hand (the loop around the next activity, the stroke under today, the sun's loop, the mark's O), the primary button, the open page and, on the Mapa, the person's own position; its tints may colour the Agenda's door, the phone bar's pill, selection, the error notice and that position's halo. If urucum covers a panel, a header or a card on the site, it is wrong.",
+        "body": "Urucum marks; it never fills an area. At full strength it is only the hand (the loop around the next activity, the stroke under today, the sun's loop, the mark's O), the primary button, the open page and, on the Mapa, the person's own position; its tint may colour the phone bar's pill, selection, the error notice and that position's halo. If urucum covers a panel, a header or a card on the site, it is wrong.",
         "section": "colors"
       },
       {
@@ -2378,7 +2336,7 @@
       },
       {
         "name": "The Dots, Never Shapes Rule",
-        "body": "A group is a coloured dot (8px; 6px in the phone month), a thin bar in the phone month, or a tinted bar with its dot on the desk month: never a shape, an icon, a filled card or a coloured pill, and never the only place the group is named (the chips and the panel say it in words). A cancelled activity keeps its group's colour as an outline.",
+        "body": "A group is a coloured dot (8px; 10px in the panel and on the home; 6px in the phone month), a thin bar in the phone month, or a tinted bar with its dot on the desk month: never a shape, an icon, a filled card or a coloured pill, and never the only place the group is named (the chips and the panel say it in words). A cancelled activity keeps its group's colour as an outline.",
         "section": "colors"
       },
       {
@@ -2388,7 +2346,7 @@
       },
       {
         "name": "The Two Voices Rule",
-        "body": "Bricolage Grotesque is NOS speaking: the greeting, dates, page titles, day heads, the headings that file things (doors, letters, businesses, places) and the news headlines, which the team writes (750 on the cards, 800 for the lead and in the panel). Inter is what the organizations announce and every control: an activity's title is the organization's own words and is never set in Bricolage, and in a story what an organization said stays in Inter, attributed.",
+        "body": "Bricolage Grotesque is NOS speaking: the home's question, dates, page titles, day heads, the headings that file things (the home's rows, letters, businesses, places) and the news headlines, which the team writes (750 on the cards, 800 for the lead and in the panel). Inter is what the organizations announce and every control: an activity's title is the organization's own words, set in Inter on its card, in the panel and on the flyers, and in a story what an organization said stays in Inter, attributed. The one exception is the home's next activity, typeset in Bricolage 800 as the answer to the city's question (Next Title; approved with the home on 2026-11-12): one activity, named as such, never a list or a card.",
         "section": "typography"
       },
       {
@@ -2408,17 +2366,17 @@
       },
       {
         "name": "The Horizon Rule",
-        "body": "Every page stacks the same three layers: the sky, the band (full-bleed; 16px under the inner pages' sky, 18px from 760px; 40px on the home, 44px from 760px), and the land. Only the home's next activity crosses the line: it rests on the band, the land rising 14px onto it.",
+        "body": "Every page stacks the same three layers: the sky, the band (full-bleed; 16px under the inner pages' sky, 18px from 760px; 40px on the home, 44px from 760px), and the land. Nothing crosses the line: the land, the home's next activity included, starts under the band.",
         "section": "layout"
       },
       {
         "name": "The Sky Stays Rule",
-        "body": "The sky stays at the top of the screen, down to the band, while the land scrolls under it (built 2026-11-06, waiting for the user's approval). Where the header is short (the inner pages on phones) it stays whole; where it is tall (from 760px, and the home) it folds: the page's name and line, or the greeting, the date and at night the home's moon, fade out over the first 16px of scroll, and the header slides up under its bar (the mark, the links, the theme button) until only the bar is left with 22px of sky under it, the last bands and the rising sun or the moon, over the band. The desk's panels stick under it; focus and links land below it; under 500px tall it scrolls away.",
+        "body": "(built 2026-11-06, waiting for the user's approval; artboards `design/topo-fixo-*.html`). The sky stays at the top of the screen, down to the band, while the land scrolls under it. Where the header is short (the inner pages on phones, 112px with the band) it stays whole. Where it is tall (from 760px, and the home) it folds: as the page leaves its top, the page's name and line (or the home's question and its line and, at night, the home's moon) fade out within the first 16px of scroll, and the header slides up under its bar (the mark, the links, the theme button), which stays, until only the bar is left with 22px of sky under it (so the links keep to the top band and the open page's stroke stays clear of the band's selvage), the last bands and the rising sun or the moon, over the band: 108px on the inner pages (180px at rest), 134px on the home with its thick band; on phones the home keeps only its bar over its band. The desk's panels stick under it, and whatever the keyboard or a link brings into view lands below it. Phones on their side (under 500px tall) keep their room: there the header scrolls away.",
         "section": "layout"
       },
       {
         "name": "The Calm Desk Rule",
-        "body": "The desk adds a column, never a dashboard: the agenda's list or month beside its panel, the home's next activity beside its doors, the Mapa's map between its rail and its place card, Comércio's list beside its information card.",
+        "body": "The desk adds a column, never a dashboard: the agenda's list or month beside its panel, the home's next activity with its actions at its right and its three pages as columns, the Mapa's map between its rail and its place card, Comércio's list beside its information card.",
         "section": "layout"
       },
       {
@@ -2433,7 +2391,7 @@
       },
       {
         "name": "The Hand Rule",
-        "body": "The only freehand forms are the hand's: two open pen loops (two drawings, so they don't look stamped) and a short underline on the land, in urucum at 2.5px with round caps that keep their width as they stretch to what they mark; the astro's loop on the sky, whose pen grows with the sun (3px to 6px); and the O of the mark. A loop circles only the next activity, the underline only today; never a perfect ring or a badge in their place.",
+        "body": "The only freehand forms are the hand's: two open pen loops (two drawings, so they don't look stamped) and a short underline on the land, in urucum at 2.5px (3px around the home's circled day) with round caps that keep their width as they stretch to what they mark; the astro's loop on the sky, whose pen grows with the sun (3px to 6px); and the O of the mark. A loop circles only the next activity, the underline only today; never a perfect ring or a badge in their place.",
         "section": "shapes"
       },
       {
@@ -2447,8 +2405,8 @@
         "section": "components"
       },
       {
-        "name": "The Landscape Doors Rule",
-        "body": "A page shows its landscape colour only as its door's tint, with its deep shade for icons and mixed text; secondary text on a tint is the hue mixed into the ink, never a grey. The one exception is the Mapa's invitation to send a missing place (\"Falta algum lugar?\", in its panel, shown only once `MAP_SUGGEST_URL` has a link): it is the page's own door for what is missing, so it wears the door's colours, a 12px block in the Erva-Mate Tint with its icon in the deep shade and its heading in Bricolage 700. Nothing else on a page takes its tint.",
+        "name": "The Landscape Shade Rule",
+        "body": "On the land a page's colour of the landscape is its deep shade: its name, drawing and arrow on the home's row, its icons on its own page (Comércio's information card). The one fill is the Mapa's invitation to send a missing place (\"Falta algum lugar?\", in its panel, shown only once `MAP_SUGGEST_URL` has a link): a 12px block in the Erva-Mate Tint with its icon in the deep shade and its heading in Bricolage 700. Nothing else on a page takes a tint of its colour.",
         "section": "components"
       },
       {
@@ -2461,10 +2419,10 @@
       "Do take every colour from a role (`--role-*` in `css/theme.css`); the only literals in the stylesheets are `transparent`, `currentColor`, the band's image and system colours under forced colours.",
       "Do paint the map only through its `--role-map-*` paint roles, each a plain palette colour (The Plain Paint Rule).",
       "Do finish every new surface in both themes and under all four skies, with any text on the sky in the sky's ink or soft ink (4.5:1 or more on every band).",
-      "Do keep urucum for the hand, the primary button, the open page and the person's position on the map; give a new page its own colour of the landscape as a door tint, with its deep shade for icons and mixed text (Comércio ipê-rosa, Notícias ipê-amarelo, Mapa erva-mate).",
+      "Do keep urucum for the hand, the primary button, the open page and the person's position on the map; give a new page its own colour of the landscape, its deep shade naming it on the home's row and colouring its icons (Comércio ipê-rosa, Notícias ipê-amarelo, Mapa erva-mate; The Landscape Shade Rule).",
       "Do show a group as its dot beside its name, so colour is never the only carrier of meaning.",
       "Do circle the next activity and underline today with the hand marks, and nothing else on the site; on a flyer the hand circles the activity's date or day and strikes out what was cancelled.",
-      "Do set dates in Bricolage 800 with tabular figures, headings at 700–750, and what the organizations announce in Inter.",
+      "Do set dates in Bricolage 800 with tabular figures, headings at 700–750, and what the organizations announce in Inter (the home's next activity aside: The Two Voices Rule).",
       "Do rest cards on the day shadow and the night line from the roles, and mark selection with the quiet soft-ink ring.",
       "Do keep every target at 44px or more (the 36px chips carry a 44px tap area, and every point, pair and count on the map a 44px tap circle) and size text in rem.",
       "Do credit the band as provisional in every footer while `assets/faixa.svg` is the provisional art."
@@ -2476,8 +2434,8 @@
       "Don't replace the band with an imitation or adaptation of any people's grafismo; the real band comes from artists of the Reserva Indígena de Dourados, signed, paid and credited.",
       "Don't put shadows on the land in the dark theme, use hard offset shadows, or lift elements on hover.",
       "Don't use the strong urucum ring for selection or the quiet ring for focus.",
-      "Don't fetch fonts from Google Fonts, or set an activity's title in Bricolage, on the site or on a flyer.",
-      "Don't add motion beyond the home's rising sun (1.6s, off under reduced motion); state changes are 0.15s colour transitions and the sheet's 0.3s slide. The header's fold is not motion of its own: it is the scroll, and the page's name fades over the first 16px of it, under reduced motion too. The Mapa's camera is the one exception, and it only answers a tap: it eases in 700ms to a place or to the person's position and fits a count's places in 600ms (MapLibre's own zoom buttons step in 500ms), all instant under reduced motion; its list's chevron turns in the same 0.15s as a state change.",
+      "Don't fetch fonts from Google Fonts, or set an activity's title in Bricolage on a card, in the panel or on a flyer (the home's next activity is the one exception).",
+      "Don't add motion beyond the home's rising sun (1.6s, off under reduced motion); state changes are 0.15s colour transitions, the sheet's 0.3s slide and, on the home, its arrows' 3px step to the right on hover (0.2s; instant under reduced motion). The header's fold is not motion of its own: it is the scroll, and the page's name (the home's question) fades over the first 16px of it, under reduced motion too. The Mapa's camera is the one exception, and it only answers a tap: it eases in 700ms to a place or to the person's position and fits a count's places in 600ms (MapLibre's own zoom buttons step in 500ms), all instant under reduced motion; its list's chevron turns in the same 0.15s as a state change.",
       "Don't bring the Folhinha's devices to the site (the red header card, bindings, perforations, a yellow \"Próxima\") or the old campaign interface (the metro line to election day, the countdown, the slogan); nothing should read as a startup, a city hall or an election campaign.",
       "Don't invent logos, photos, slogans, ratings or prices for the organizations or the businesses.",
       "Don't bring the stock web map to the Mapa (its own colours, coloured category pins, popups), or draw the Indigenous lands as parks (The Inhabited Land Rule)."
