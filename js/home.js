@@ -1,166 +1,124 @@
-// Início (index.html): the greeting of this hour on the sky, the next activity resting on the band
-// (its date circled by hand, a link to send it to WhatsApp and, from 760px, "Ver na agenda" and what
-// else comes), then a door to each page. The agenda's door says how much is ahead; Notícias' gives the
-// latest headline; Comércio's how many businesses there are. Without the agenda (offline with nothing
-// saved, a broken link) the card says so and the doors stay.
+// Início (index.html): the city's question on the sky of this hour ("O que está acontecendo em
+// Dourados?"), then on the land the very next activity, named as such (its day circled by hand, its title
+// a link to it in the agenda, who, when and where, "Mandar no WhatsApp" and, from 760px, "Ver na agenda"),
+// the link to the whole agenda with how much is ahead, and what the other pages hold today: Notícias' lead
+// story, the Mapa's places with its layers' drawings, Comércio's businesses and their categories. Who NOS
+// follows is static text in index.html. Without the agenda (offline with nothing saved, a broken link) the
+// next activity says so; each row keeps its own text until its sheet is read.
 
 import { COMMERCE_CSV_URL, MAP_LAYERS } from './config.js';
-import { agendaSummary, awaitsTime, capitalize, dateKey, formatDayMonth, formatTimeRange, lastDayKey, monthName, orgFullName, relativeDay, upcomingEvents, weekdayName } from './events.js';
+import { awaitsTime, dateKey, formatDayMonth, formatTimeRange, lastDayKey, orgFullName, relativeDay, upcomingEvents, weekdayName } from './events.js';
 import { assignSectorColors, paintSector, sectorsOf } from './colors.js';
-import { buildBusinesses } from './businesses.js';
+import { buildBusinesses, categoriesOf } from './businesses.js';
 import { buildPlaces } from './places.js';
-import { placeRow } from './agenda.js';
 import { handMark, icon } from './icons.js';
-import { greeting } from './sky.js';
 import { buildWhatsAppMessage, whatsAppShareUrl } from './whatsapp.js';
 import { $, agendaSource, el, initPage, newsSource, readSheet, registerWorker } from './page.js';
 import { addMonths, firstDay, monthOf } from './month-files.js';
-import { leadStory, newsDay } from './news.js';
-
-// What else comes, under the next one (from 760px).
-const LATER_COUNT = 3;
+import { leadStory } from './news.js';
 
 // The agenda's months (js/month-files.js): only those with something from today on.
 const agenda = agendaSource();
 
 let today = new Date();
 let events = null;
-let shownNext = undefined; // the id on the card, to redraw it only when it changes
+let shownNext = undefined; // the id on screen, to redraw only when it changes
 
-const plainWeekday = (date) => weekdayName(date).replace('-feira', '');
-
-// "Terça, 27 de outubro" (and the year from 760px).
-function renderHello() {
-  $('hello-word').textContent = greeting(today);
-  $('hello-date').replaceChildren(`${capitalize(plainWeekday(today))}, ${today.getDate()} de ${monthName(today.getMonth())}`, el('span', 'hello-year', ` de ${today.getFullYear()}`));
-}
-
-// "sáb 31/10"
+// "sex 13/11"
 const shortDate = (date) => `${weekdayName(date).slice(0, 3)} ${formatDayMonth(date)}`;
-const timeOf = (ev) => formatTimeRange(ev);
 
-function metaRow(className, iconName, content) {
-  const row = el('p', `meta ${className}`);
-  if (iconName) row.insertAdjacentHTML('beforeend', icon(iconName));
-  const text = el('span', 'meta-text');
+// One line of the next activity's facts: an icon and its text.
+function fact(iconName, content) {
+  const item = el('li');
+  item.insertAdjacentHTML('beforeend', icon(iconName));
+  const text = el('span');
   text.append(content);
-  row.append(text);
-  return row;
+  item.append(text);
+  return item;
 }
 
-// The next activity, resting on the band.
-function renderNext(next, upcoming) {
-  const card = $('next-card');
+// The section's heading stays; what follows it is the activity, or a line saying why there is none.
+function showStatus(text) {
+  $('upcoming').querySelector('.upcoming-actions')?.remove();
+  $('upcoming-body').replaceChildren($('upcoming-label'), el('p', 'upcoming-status', text));
+}
+
+// The very next activity.
+function renderNext(next) {
   shownNext = next?.id ?? null;
   if (!next) {
-    const title = el('h2', 'next-title', 'A próxima atividade');
-    title.id = 'next-title';
-    card.style.removeProperty('--sector');
-    card.replaceChildren(title, el('p', 'next-status', 'Nada marcado por enquanto. As atividades das organizações aparecem aqui assim que entram na agenda.'));
+    showStatus('Nada marcado por enquanto. As atividades das organizações aparecem aqui assim que entram na agenda.');
     return;
   }
-  paintSector(card, next.sector);
-  const message = buildWhatsAppMessage(next);
-  const shareUrl = whatsAppShareUrl(message);
-  const time = timeOf(next);
+  const time = formatTimeRange(next);
   // No time reads "horário a confirmar", except for a deadline or a period (awaitsTime): nothing.
   const pending = !time && awaitsTime(next);
   const relative = relativeDay(next.date, today);
-
-  const head = el('div', 'next-head');
-  const when = el('p', 'next-when');
-  const date = el('span', 'circled date-big', shortDate(next.date));
-  date.insertAdjacentHTML('beforeend', handMark('loop'));
-  when.append(date);
-  if (time || pending) when.append(el('span', 'next-time', time || 'horário a confirmar'));
-  when.append(el('span', 'next-label', ['hoje', 'amanhã'].includes(relative) ? `a próxima, ${relative}` : 'a próxima'));
-  const share = el('a', 'share-button');
-  share.href = shareUrl;
-  share.target = '_blank';
-  share.rel = 'noopener';
-  share.setAttribute('aria-label', `Compartilhar no WhatsApp: ${next.title}`);
-  share.innerHTML = icon('share');
-  head.append(when, share);
-
-  // The title opens the activity in the agenda; under 760px its link covers the whole card.
   const eventUrl = `agenda.html#${encodeURIComponent(next.id)}`;
-  const title = el('h2', 'next-title');
-  title.id = 'next-title';
-  const titleLink = el('a', 'next-link', next.title);
-  titleLink.href = eventUrl;
-  title.append(titleLink);
 
-  const facts = el('div', 'next-facts');
-  if (time || pending) facts.append(metaRow('meta-time', 'clock', time || 'Horário a confirmar'));
+  const when = el('p', 'upcoming-when');
+  const day = el('time', 'circled', shortDate(next.date));
+  day.dateTime = next.dateKey;
+  day.insertAdjacentHTML('beforeend', handMark('loop'));
+  when.append(day);
+  // Beside the day: "hoje" or "amanhã", and the time ("hoje, 18h30").
+  const soon = [relative === 'hoje' || relative === 'amanhã' ? relative : '', time].filter(Boolean).join(', ');
+  if (soon) when.append(el('span', 'upcoming-soon', soon));
+
+  // The title opens the activity in the agenda; under 760px its link covers the whole block.
+  const title = el('h3', 'upcoming-title');
+  const link = el('a', null, next.title);
+  link.href = eventUrl;
+  title.append(link);
+
+  const facts = el('ul', 'upcoming-facts');
   if (next.org) {
-    const org = el('p', 'meta meta-org');
+    const org = el('li', 'upcoming-org');
+    paintSector(org, next.sector);
     org.append(el('span', 'dot'));
-    const text = el('span', 'meta-text');
+    const text = el('span');
     text.append(el('b', null, next.org));
     const full = next.orgs.length === 1 ? orgFullName(next.orgs[0]) : '';
-    if (full) text.append(el('span', 'next-org-full', ` · ${full}`));
+    if (full) text.append(` · ${full}`);
     org.append(text);
     facts.append(org);
   }
-  if (next.local || next.city) {
-    const place = placeRow(next);
-    const row = el('p', place.className);
-    row.append(...place.childNodes);
-    facts.append(row);
+  // Where: another city than Dourados is always named first.
+  const place = document.createDocumentFragment();
+  if (next.city) place.append(el('span', 'city-tag', next.city));
+  if (next.local) place.append(next.local);
+  // The time is beside the day; without one, it is to be confirmed (and so is the place when it is missing too).
+  if (pending && !next.local && !next.city) facts.append(fact('clock', 'Horário e local a confirmar'));
+  else {
+    if (pending) facts.append(fact('clock', 'Horário a confirmar'));
+    if (next.local || next.city) facts.append(fact(next.online ? 'globe' : 'pin', place));
   }
-  if (next.endDate) facts.append(metaRow('meta-range', 'calendar-range', `Até ${weekdayName(next.endDate).slice(0, 3)}, ${formatDayMonth(next.endDate)}`));
+  if (next.endDate) facts.append(fact('calendar-range', `Até ${shortDate(next.endDate)}`));
 
-  // From 760px: the two actions, and what else comes.
-  const actions = el('div', 'next-actions');
+  $('upcoming-body').replaceChildren($('upcoming-label'), when, title, facts);
+
+  const actions = el('div', 'upcoming-actions');
   const send = el('a', 'btn btn-accent');
-  send.href = shareUrl;
+  send.href = whatsAppShareUrl(buildWhatsAppMessage(next));
   send.target = '_blank';
   send.rel = 'noopener';
-  send.innerHTML = `${icon('message')}<span>Compartilhar no WhatsApp</span>`;
+  send.innerHTML = `${icon('message')}<span>Mandar no WhatsApp</span>`;
   const open = el('a', 'btn btn-line', 'Ver na agenda');
   open.href = eventUrl;
   actions.append(send, open);
-
-  const parts = [head, title, facts, actions];
-  const later = upcoming.slice(1, 1 + LATER_COUNT);
-  if (later.length) {
-    const box = el('section', 'later');
-    box.setAttribute('aria-labelledby', 'later-title');
-    const heading = el('h3', 'later-title', 'Também na agenda');
-    heading.id = 'later-title';
-    const list = el('ul', 'later-list');
-    for (const ev of later) {
-      const item = el('li', 'later-item');
-      const at = el('time', null, [shortDate(ev.date), timeOf(ev)].filter(Boolean).join(', '));
-      at.dateTime = ev.dateKey;
-      item.append(at, el('span', null, ev.title), el('span', 'later-org', ev.orgs[0] || ''));
-      list.append(item);
-    }
-    const ahead = events.filter((ev) => !ev.cancelled && lastDayKey(ev) >= dateKey(today)).length;
-    const more = el('a', 'more');
-    more.href = 'agenda.html';
-    more.innerHTML = `<span>Ver ${ahead > 1 ? `as ${agendaSummary(events, today)}` : 'a agenda'}</span>${icon('arrow-right')}`;
-    box.append(heading, list, more);
-    parts.push(box);
-  }
-  card.replaceChildren(...parts);
+  $('upcoming').querySelector('.upcoming-actions')?.remove();
+  $('upcoming').append(actions);
 }
 
-// The agenda's door: what is ahead, and what comes after the next one ("Depois, sáb 31/10, 21h: …"); its description
-// stays only while there is nothing to list.
-function renderDoor(upcoming) {
-  $('door-agenda-line').textContent = agendaSummary(events, today);
-  const after = upcoming[1];
-  const line = $('door-agenda-next');
-  line.hidden = !after;
-  if (after) line.textContent = `Depois, ${[shortDate(after.date), timeOf(after)].filter(Boolean).join(', ')}: ${after.title}`;
-  $('door-agenda-text').hidden = upcoming.length > 0;
+// The whole agenda: how many activities are ahead (cancelled ones aside).
+function renderSeeAll() {
+  const ahead = events.filter((ev) => !ev.cancelled && lastDayKey(ev) >= dateKey(today)).length;
+  $('see-all-text').textContent = ahead > 1 ? `Ver todas as ${ahead} atividades` : 'Abrir a agenda';
 }
 
 function render() {
-  const upcoming = upcomingEvents(events, today);
-  renderNext(upcoming[0] || null, upcoming);
-  renderDoor(upcoming);
+  renderNext(upcomingEvents(events, today)[0] || null);
+  renderSeeAll();
 }
 
 async function load() {
@@ -174,37 +132,30 @@ async function load() {
   } catch (err) {
     console.warn('Agenda:', err);
     // A failed re-read keeps what is on screen.
-    if (!events) $('next-status').textContent = 'Não foi possível carregar a agenda agora. Confira a conexão e abra a agenda.';
+    if (!events) showStatus('Não foi possível carregar a agenda agora. Confira a conexão e abra a agenda.');
   }
 }
 
-// Notícias' door: what the page leads with (the newest story marked "Destaque", else the newest), with
-// its day and who; the last two months are read (the news page opens on three). Without news it keeps
+// Notícias: what the page leads with (the newest story marked "Destaque", else the newest), with its day,
+// kind and who; the last two months are read (the news page opens on three). Without news the row keeps
 // its description.
-async function renderNewsDoor() {
+async function renderNewsRow() {
   const news = newsSource();
   await news.open(firstDay(addMonths(monthOf(dateKey(new Date())), -1)));
-  const latest = leadStory(news.events);
-  if (!latest) return;
-  $('door-news-line').textContent = latest.title;
-  const meta = $('door-news-meta');
-  const when = el('time', null, newsDay(latest.date));
-  when.dateTime = latest.dateKey;
-  meta.replaceChildren(when, latest.org ? ` · ${latest.org}` : '');
+  const lead = leadStory(news.events);
+  if (!lead) return;
+  $('news-lead').textContent = lead.title;
+  const meta = $('news-meta');
+  const when = el('time', null, shortDate(lead.date));
+  when.dateTime = lead.dateKey;
+  meta.replaceChildren(when, ...[lead.kind, lead.org].filter(Boolean).map((part) => ` · ${part}`));
   meta.hidden = false;
-  $('door-news-text').hidden = true;
+  $('news-text').hidden = true;
 }
 
-// Comércio's door: how many businesses there are.
-async function renderCommerceDoor() {
-  const { headers, records, lines } = await readSheet(COMMERCE_CSV_URL);
-  const { businesses } = buildBusinesses(headers, records, lines);
-  if (businesses.length) $('door-commerce-line').textContent = `${businesses.length} ${businesses.length === 1 ? 'negócio' : 'negócios'} da rede`;
-}
-
-// Mapa's door: how many places it shows (as the page counts them: reviewed, with coordinates) and the
-// drawings of its layers, the points of the map.
-async function renderMapDoor() {
+// Mapa: how many places it shows (as the page counts them: reviewed, with coordinates) and the drawings
+// of its layers, the points of the map, each named for screen readers with its count.
+async function renderMapRow() {
   const read = await Promise.allSettled(MAP_LAYERS.map(async (layer) => {
     const { headers, records, lines } = await readSheet(layer.file);
     return buildPlaces(layer, headers, records, lines).places.length;
@@ -212,28 +163,43 @@ async function renderMapDoor() {
   const counts = read.map((r) => (r.status === 'fulfilled' ? r.value : 0));
   const total = counts.reduce((a, b) => a + b, 0);
   if (!total || read.some((r) => r.status === 'rejected')) return;
-  $('door-map-line').textContent = `${total} ${total === 1 ? 'lugar' : 'lugares'} da cultura e dos movimentos`;
-  const glyphs = $('door-map-glyphs');
-  glyphs.innerHTML = MAP_LAYERS.filter((_, i) => counts[i]).map((layer) => `<span class="door-glyph">${icon(layer.icon)}</span>`).join('');
+  $('map-lead').textContent = `${total} ${total === 1 ? 'lugar' : 'lugares'} da cultura e dos movimentos`;
+  const glyphs = $('map-glyphs');
+  glyphs.replaceChildren(...MAP_LAYERS.flatMap((layer, i) => {
+    if (!counts[i]) return [];
+    const glyph = el('span', 'home-glyph');
+    glyph.insertAdjacentHTML('beforeend', icon(layer.icon));
+    glyph.append(el('span', 'sr-only', `${layer.name}: ${counts[i]}`));
+    return [glyph];
+  }));
   glyphs.hidden = false;
+  $('map-text').hidden = true;
+}
+
+// Comércio: how many businesses there are, and their categories in the chips' order.
+async function renderCommerceRow() {
+  const { headers, records, lines } = await readSheet(COMMERCE_CSV_URL);
+  const { businesses } = buildBusinesses(headers, records, lines);
+  if (!businesses.length) return;
+  $('commerce-lead').textContent = `${businesses.length} ${businesses.length === 1 ? 'negócio' : 'negócios'} da rede`;
+  const categories = categoriesOf(businesses);
+  if (categories.length) $('commerce-meta').textContent = categories.join(' · ');
 }
 
 initPage();
-renderHello();
 if (location.protocol !== 'file:') {
   load();
-  renderCommerceDoor().catch((err) => console.warn('Comércio:', err));
-  renderMapDoor().catch((err) => console.warn('Mapa:', err));
-  renderNewsDoor().catch((err) => console.warn('Notícias:', err));
+  renderNewsRow().catch((err) => console.warn('Notícias:', err));
+  renderMapRow().catch((err) => console.warn('Mapa:', err));
+  renderCommerceRow().catch((err) => console.warn('Comércio:', err));
 }
 
-// "Now" moves: the greeting follows the hour, the date the day, and the card the next activity (an
-// activity stays next until an hour after it starts). After a long absence the sheet is read again.
+// "Now" moves: the next activity changes (an activity stays next until an hour after it starts) and so does
+// "hoje"/"amanhã" when the day turns. After a long absence the agenda is read again.
 let hiddenAt = null;
 function tick() {
   const dayTurned = dateKey(new Date()) !== dateKey(today);
   today = new Date();
-  renderHello();
   if (!events) return;
   const next = upcomingEvents(events, today)[0]?.id ?? null;
   if (dayTurned || next !== shownNext) render();

@@ -56,8 +56,8 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="NOS Dourados">
   <meta property="og:locale" content="pt_BR">
-  <meta property="og:title" content="NOS Dourados · a agenda e o comércio da rede em Dourados/MS">
-  <meta property="og:description" content="As atividades das organizações e movimentos de Dourados e os negócios da rede, em um só lugar.">
+  <meta property="og:title" content="NOS Dourados · O que está acontecendo em Dourados?">
+  <meta property="og:description" content="Eventos, cultura, notícias, o mapa dos lugares e o comércio local das organizações e movimentos de Dourados/MS, em um só lugar.">
   <meta name="twitter:card" content="summary_large_image">
   <!-- Absolute https URLs on the public address (the same one as SITE_URL in js/config.js): crawlers don't
        resolve relative ones, and without og:image every app shows a text-only preview. Keep
@@ -114,64 +114,70 @@
         </nav>
         <button class="icon-button theme-toggle" type="button" data-theme-toggle aria-pressed="false"><svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg><svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2m-7.07-17.07 1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg><span class="sr-only">Tema escuro</span></button>
       </div>
-      <div class="hello">
-        <p class="hello-title"><span id="hello-word">Bom dia</span>,<br> <span id="hello-place">Dourados</span></p>
-        <!-- The greeting of this hour before the first paint; js/home.js keeps it right. -->
-        <script>
-          (function (hour) { document.getElementById('hello-word').textContent = hour < 12 ? 'Bom dia' : hour < 18 ? 'Boa tarde' : 'Boa noite'; })(new Date().getHours());
-        </script>
-        <p class="hello-date" id="hello-date"></p>
+      <!-- The city's question, NOS's own words, then what the site holds: the sky carries nothing else
+           (the bands and the sun, or the moon, take its lower part). -->
+      <div class="ask">
+        <h1 class="ask-title">O que está acontecendo em Dourados?</h1>
+        <p class="ask-sub">Saiba mais sobre eventos, cultura, notícias, comércio local… e muito mais por vir.</p>
       </div>
     </div>
   </header>
   <div class="band band--home" aria-hidden="true"></div>
 
   <main class="home" id="main">
-    <h1 class="sr-only">NOS Dourados: a agenda e as notícias das organizações e movimentos de Dourados, o mapa dos seus lugares e o comércio da rede</h1>
+    <!-- The very next activity, named as such (js/home.js prints it from the agenda's month files): its day
+         circled by hand, its title (a link to it in the agenda), who, when and where, and the WhatsApp
+         message; from 760px also "Ver na agenda". Without the agenda (offline with nothing saved, a broken
+         link) it says so, and the rest of the page stays. -->
+    <section class="upcoming" id="upcoming" aria-labelledby="upcoming-label">
+      <div class="upcoming-body" id="upcoming-body">
+        <h2 class="upcoming-label" id="upcoming-label">A próxima atividade</h2>
+        <p class="upcoming-status">Carregando a agenda…</p>
+      </div>
+    </section>
+    <a class="see-all" id="see-all" href="agenda.html"><span id="see-all-text">Abrir a agenda</span><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
 
-    <div class="home-grid">
-      <!-- The next activity, resting on the band: js/home.js prints it from the agenda's sheet. Without
-           the sheet (offline with nothing saved, a broken link) it says so and the doors stay. -->
-      <article class="next-card" id="next-card" aria-labelledby="next-title">
-        <h2 class="next-title" id="next-title">A próxima atividade</h2>
-        <p class="next-status" id="next-status">Carregando a agenda…</p>
+    <!-- What the other pages hold today, as rows of type: each whole row is its link. The live lines come
+         from js/home.js; the texts under them stay only while there is nothing to show. -->
+    <section class="home-pages" aria-label="Também no NOS">
+      <article class="home-page home-page--news">
+        <h2 class="home-page-name"><a href="noticias.html"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 18h-5"/><path d="M18 14h-8"/><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"/><rect width="8" height="4" x="10" y="6" rx="1"/></svg>Notícias</a><svg class="icon home-page-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></h2>
+        <p class="home-page-lead" id="news-lead">O que as organizações estão vivendo</p>
+        <p class="home-page-meta" id="news-meta" hidden></p>
+        <p class="home-page-meta" id="news-text">Conquistas, perdas, alertas e informes das organizações de Dourados, com o post de onde veio cada notícia.</p>
       </article>
+      <article class="home-page home-page--map">
+        <h2 class="home-page-name"><a href="mapa.html"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/></svg>Mapa</a><svg class="icon home-page-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></h2>
+        <p class="home-page-lead" id="map-lead">Os lugares da cultura e dos movimentos</p>
+        <p class="home-glyphs" id="map-glyphs" hidden></p>
+        <p class="home-page-meta" id="map-text">Capoeira, batalhas de rima, feiras, espaços culturais, sindicatos, universidades e o poder público, com o caminho até cada lugar.</p>
+      </article>
+      <article class="home-page home-page--commerce">
+        <h2 class="home-page-name"><a href="comercio.html"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5"/><path d="M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244"/><path d="M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05"/></svg>Comércio</a><svg class="icon home-page-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></h2>
+        <p class="home-page-lead" id="commerce-lead">Os negócios da rede</p>
+        <p class="home-page-meta" id="commerce-meta">Comida, serviços, beleza, consertos e mais, cada negócio com o que oferece nas próprias palavras.</p>
+      </article>
+    </section>
 
-      <nav class="doors" aria-label="Agenda, Notícias, Mapa e Comércio">
-        <a class="door door--agenda" href="agenda.html">
-          <span class="door-head"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M8 2v4M16 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/></svg><span class="door-name">Agenda</span></span>
-          <span class="door-line" id="door-agenda-line">As atividades das organizações</span>
-          <!-- The live line: what comes after the next activity (js/home.js; phones only, the desk lists it
-               under "Também na agenda"). The text under it stays only while there is nothing to show. -->
-          <span class="door-next" id="door-agenda-next" hidden></span>
-          <span class="door-text" id="door-agenda-text">Assembleias, atos, feiras e encontros, com mensagem e panfleto prontos para o WhatsApp.</span>
-          <span class="door-more">Abrir a agenda<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-        </a>
-        <!-- Notícias: the latest headline is its live line, with its day and who (js/home.js). The text
-             under it stays only while there is nothing to show. -->
-        <a class="door door--news" href="noticias.html">
-          <span class="door-head"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 18h-5"/><path d="M18 14h-8"/><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"/><rect width="8" height="4" x="10" y="6" rx="1"/></svg><span class="door-name">Notícias</span></span>
-          <span class="door-line" id="door-news-line">O que as organizações estão vivendo</span>
-          <span class="door-meta" id="door-news-meta" hidden></span>
-          <span class="door-text" id="door-news-text">Conquistas, perdas, alertas e informes das organizações de Dourados, com o post de onde veio cada notícia.</span>
-          <span class="door-more">Ler as notícias<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-        </a>
-        <!-- Mapa: how many places it has, and its layers' drawings, as its points show them (js/home.js). -->
-        <a class="door door--map" href="mapa.html">
-          <span class="door-head"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/></svg><span class="door-name">Mapa</span></span>
-          <span class="door-line" id="door-map-line">Os lugares da cultura e dos movimentos</span>
-          <span class="door-glyphs" id="door-map-glyphs" aria-hidden="true" hidden></span>
-          <span class="door-text">Capoeira, batalhas de rima, feiras, espaços culturais, sindicatos, universidades e o poder público, no mapa da cidade, com o caminho até cada lugar.</span>
-          <span class="door-more">Abrir o mapa<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-        </a>
-        <a class="door door--commerce" href="comercio.html">
-          <span class="door-head"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5"/><path d="M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244"/><path d="M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05"/></svg><span class="door-name">Comércio</span></span>
-          <span class="door-line" id="door-commerce-line">Os negócios da rede</span>
-          <span class="door-text">Comida, serviços, consertos e mais, de Dourados e região. Fale direto com cada negócio pelo WhatsApp ou pelo Instagram.</span>
-          <span class="door-more">Ver o comércio<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-        </a>
-      </nav>
-    </div>
+    <!-- Who NOS follows, in its own voice. 85 is the count agreed with the Comitê (71 organizations of civil
+         society and 14 public bodies, 2026-11-09): change it here when the list changes. The dots are the
+         groups' colours (SECTOR_SERIES in js/config.js), as on the activities. -->
+    <section class="home-about" aria-labelledby="home-about-title">
+      <h2 class="home-about-title" id="home-about-title">O NOS acompanha o que 85 organizações de Dourados publicam</h2>
+      <div class="home-about-body">
+        <ul class="home-groups">
+          <li><span class="dot" aria-hidden="true" style="--sector: var(--role-series-3)"></span>movimentos sociais</li>
+          <li><span class="dot" aria-hidden="true" style="--sector: var(--role-series-1)"></span>sindicatos</li>
+          <li><span class="dot" aria-hidden="true" style="--sector: var(--role-series-2)"></span>terra, povos indígenas e quilombolas</li>
+          <li><span class="dot" aria-hidden="true" style="--sector: var(--role-series-4)"></span>estudantes e universidades</li>
+          <li><span class="dot" aria-hidden="true" style="--sector: var(--role-series-7)"></span>cultura, feiras e capoeira</li>
+          <li><span class="dot" aria-hidden="true" style="--sector: var(--role-series-8)"></span>terceiro setor</li>
+          <li><span class="dot" aria-hidden="true" style="--sector: var(--role-series-6)"></span>partidos</li>
+          <li><span class="dot" aria-hidden="true" style="--sector: var(--role-series-5)"></span>órgãos públicos</li>
+        </ul>
+        <p class="home-about-note">Não fala por elas: cada atividade diz quem convida e traz o post de onde veio.</p>
+      </div>
+    </section>
   </main>
 
   <footer class="site-foot">
