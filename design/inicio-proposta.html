@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="pt-BR" data-scheme="light" data-sky="day">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Início · Proposta</title>
+<meta name="description" content="A página inicial com a pergunta “O que está acontecendo em Dourados?”, a próxima atividade em destaque e, embaixo, as notícias, o mapa, o comércio e as organizações que o NOS acompanha.">
+<meta name="htmlboard" content="width=390, height=1941">
+<meta name="htmlboard:label" content="celular">
+<meta name="htmlboard:variant" content="width=390, height=844 · celular, primeira tela">
+<meta name="htmlboard:variant" content="?tema=escuro · celular, escuro">
+<meta name="htmlboard:variant" content="width=1440, height=1347 · computador">
+<meta name="htmlboard:variant" content="?tema=escuro width=1440, height=1347 · computador, escuro">
+<script>
+  // ?tema=escuro: the dark theme, always under the night sky (the site's rule); ?ceu=amanhecer|dia|entardecer|noite: another hour.
+  (function () {
+    var q = new URLSearchParams(location.search), root = document.documentElement;
+    var sky = { amanhecer: 'dawn', dia: 'day', entardecer: 'dusk', noite: 'night' }[q.get('ceu')];
+    if (sky) root.dataset.sky = sky;
+    if (q.get('tema') === 'escuro') { root.dataset.scheme = 'dark'; root.dataset.sky = 'night'; }
+  })();
+</script>
+<link rel="stylesheet" href="../css/theme.css">
+<link rel="stylesheet" href="../css/style.css">
+<style>
+  body { background: var(--role-ground); }
+
+  /* ---------- The sky: the question ---------- */
+  /* The sky holds one thing, the question, in NOS's voice; under it the line of what the site holds. The
+     bands and the sun take the lower part of the sky, clear of the text. The artboard doesn't fold the
+     header (that is js/head.js on the site). */
+  .site-head--q {
+    position: relative;
+    --h5: 16px;
+    --h4: 36px;
+    --h3: 62px;
+    --h2: 96px;
+    --sun-size: 330px;
+    --sun-right: -178px;
+    --sun-bottom: -196px;
+    --sun-loop: 5px;
+    --moon-size: 56px;
+    --moon-right: 30px;
+    --moon-top: calc(66px + env(safe-area-inset-top));
+    --moon-bottom: auto;
+    --moon-loop: 2.5px;
+  }
+  .site-head--q .site-bar { position: static; }
+  /* The night's stars where the site's home has them (their places are a share of this box). */
+  .site-head--q .stars { height: 202px; }
+  /* The stars that would sit against the bar's words or the question read as stray full stops (measured at
+     390 and 1440), so they stay out. */
+  .site-head--q .stars circle:is(:nth-child(7), :nth-child(8), :nth-child(9), :nth-child(11), :nth-child(12), :nth-child(13)) { display: none; }
+  .ask { padding: 14px 0 calc(var(--h2) + 14px); }
+  .ask-title { max-width: 9.5em; font: 800 2.75rem/0.98 var(--font-display); letter-spacing: -0.032em; text-wrap: balance; }
+  .ask-sub { max-width: 16.5rem; margin-top: 14px; font-size: 1.0625rem; line-height: 1.42; font-weight: 500; color: var(--role-sky-ink-soft); text-wrap: pretty; }
+
+  /* ---------- The land ---------- */
+  .land { padding: 26px calc(16px + env(safe-area-inset-right)) 0 calc(16px + env(safe-area-inset-left)); }
+  .i { width: 22px; height: 22px; flex: none; }
+  .i-sm { width: 18px; height: 18px; flex: none; }
+  .g-sindicatos { --sector: var(--role-series-1); }
+  .g-rural { --sector: var(--role-series-2); }
+  .g-movimentos { --sector: var(--role-series-3); }
+  .g-academia { --sector: var(--role-series-4); }
+  .g-estado { --sector: var(--role-series-5); }
+  .g-partidos { --sector: var(--role-series-6); }
+  .g-outros { --sector: var(--role-series-7); }
+  .g-terceiro { --sector: var(--role-series-8); }
+  .p-news { --page-text: var(--role-news-text); }
+  .p-map { --page-text: var(--role-map-text); }
+  .p-commerce { --page-text: var(--role-commerce-text); }
+
+  /* The next activity, the only one featured: said in words ("A próxima atividade"), its day circled by
+     the urucum hand, its title in NOS's voice, who and when, and the share. */
+  .upcoming { position: relative; }
+  .upcoming-label { font: 750 1.1875rem/1.2 var(--font-display); letter-spacing: -0.012em; }
+  .upcoming-when { display: flex; align-items: center; gap: 16px; margin-top: 16px; }
+  .upcoming-when .circled { margin-left: 13px; font: 800 1.5rem/1.1 var(--font-display); letter-spacing: -0.015em; font-variant-numeric: tabular-nums; }
+  .upcoming-when .circled > .hand { left: -13px; top: -9px; width: calc(100% + 26px); height: calc(100% + 18px); stroke-width: 3px; }
+  .upcoming-soon { font-size: 1.0625rem; line-height: 1.2; font-weight: 600; color: var(--role-accent-text); }
+  .upcoming-title { margin-top: 14px; font: 800 2rem/1.08 var(--font-display); letter-spacing: -0.026em; text-wrap: balance; }
+  .upcoming-title a { color: inherit; text-decoration: none; }
+  .upcoming-title a::after { content: ''; position: absolute; inset: 0; }
+  .upcoming-title a:focus-visible { outline: none; }
+  .upcoming:has(.upcoming-title a:focus-visible) { outline: 2px solid var(--role-focus); outline-offset: 6px; border-radius: var(--radius-sm); }
+  @media (hover: hover) { .upcoming-title a:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.12em; } }
+  .upcoming-facts { display: grid; gap: 6px; margin: 12px 0 0; padding: 0; list-style: none; font-size: 1.0625rem; line-height: 1.4; color: var(--role-ink-soft); }
+  .upcoming-facts li { display: flex; align-items: center; gap: 10px; }
+  .upcoming-facts .upcoming-org { color: var(--role-ink); font-weight: 600; }
+  .upcoming-facts .dot { width: 10px; height: 10px; margin: 0 4px; }
+  .upcoming-facts .i-sm { color: var(--role-ink-soft); }
+  .upcoming-actions { position: relative; display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+  .btn-big { min-height: 52px; padding: 0 24px; font-size: 1.0625rem; }
+  .btn-big .i { width: 20px; height: 20px; }
+  .upcoming-actions .btn-accent { flex: 1 1 auto; }
+  .upcoming-actions .btn-line { display: none; }
+
+  .see-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 52px;
+    margin-top: 22px;
+    font: 800 1.3125rem/1.15 var(--font-display);
+    letter-spacing: -0.02em;
+    color: var(--role-accent-text);
+    text-decoration: none;
+    font-variant-numeric: tabular-nums;
+  }
+  .see-all .i { width: 24px; height: 24px; transition: translate 0.2s var(--ease); }
+  @media (hover: hover) { .see-all:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.16em; } .see-all:hover .i { translate: 3px 0; } }
+
+  /* The other pages as rows of type: each name in its landscape's deep shade, then what it holds today.
+     The whole row is its link. */
+  .also { margin-top: 18px; }
+  .also-row { position: relative; padding: 20px 0 24px; border-top: 1px solid var(--role-line); }
+  .also-name { display: flex; align-items: center; gap: 10px; font: 800 1.75rem/1.1 var(--font-display); letter-spacing: -0.025em; color: var(--page-text); }
+  .also-name a { display: inline-flex; align-items: center; gap: 10px; color: inherit; text-decoration: none; }
+  .also-name a::after { content: ''; position: absolute; inset: 0; }
+  .also-name a:focus-visible { outline: none; }
+  .also-row:has(a:focus-visible) { outline: 2px solid var(--role-focus); outline-offset: 4px; border-radius: var(--radius-sm); }
+  .also-name .i { width: 26px; height: 26px; }
+  .also-name .go { width: 24px; height: 24px; margin-left: auto; transition: translate 0.2s var(--ease); }
+  @media (hover: hover) { .also-row:hover .go { translate: 3px 0; } .also-row:hover .also-lead { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.14em; } }
+  .also-lead { margin-top: 10px; font: 750 1.3125rem/1.24 var(--font-display); letter-spacing: -0.016em; text-wrap: balance; }
+  .also-meta { margin-top: 8px; font-size: 1rem; line-height: 1.45; color: var(--role-ink-soft); text-wrap: pretty; }
+  .also-meta time { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .layers { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 0; padding: 0; list-style: none; }
+  .glyph { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: var(--role-pin); color: var(--role-on-pin); }
+  .glyph .i { width: 20px; height: 20px; }
+
+  /* Who: what NOS follows, in its voice, and the eight groups as the dots the activities carry. */
+  .about { padding: 28px 0 8px; border-top: 1px solid var(--role-line); }
+  .about-title { font: 800 1.5rem/1.15 var(--font-display); letter-spacing: -0.022em; text-wrap: balance; }
+  .about-body { margin-top: 14px; }
+  .groups { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0; padding: 0; list-style: none; font-size: 1rem; line-height: 1.4; }
+  .groups li { display: inline-flex; align-items: center; gap: 8px; }
+  .groups .dot { width: 10px; height: 10px; }
+  .about-note { margin-top: 14px; font-size: 1rem; line-height: 1.5; color: var(--role-ink-soft); text-wrap: pretty; }
+
+  /* ---------- From 760px: the links on the sky, a wider question ---------- */
+  @media (min-width: 760px) {
+    .site-head--q {
+      --h5: 18px;
+      --h4: 42px;
+      --h3: 72px;
+      --h2: 112px;
+      --sun-size: 520px;
+      --sun-right: -40px;
+      --sun-bottom: -318px;
+      --sun-loop: 6px;
+      --moon-size: 78px;
+      --moon-right: 11%;
+      --moon-top: calc(100px + env(safe-area-inset-top));
+      --moon-loop: 3px;
+    }
+    .site-head--q .stars { height: 276px; }
+    .site-head--q .stars circle:nth-child(n) { display: inline; }
+    .site-head--q .stars circle:is(:nth-child(9), :nth-child(11), :nth-child(12), :nth-child(13)) { display: none; }
+    .ask { padding: 30px 0 calc(var(--h2) + 22px); }
+    .ask-title { max-width: 11.5em; font-size: 4.75rem; line-height: 0.96; }
+    .ask-sub { max-width: 33rem; margin-top: 20px; font-size: 1.3125rem; line-height: 1.4; }
+    .land { max-width: 1344px; margin: 0 auto; padding: 40px calc(32px + env(safe-area-inset-right)) 0 calc(32px + env(safe-area-inset-left)); }
+    .upcoming-actions .btn-accent { flex: none; }
+    .upcoming-actions .btn-line { display: inline-flex; }
+  }
+
+  /* ---------- From 1100px: the desk ---------- */
+  @media (min-width: 1100px) {
+    .upcoming { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; column-gap: 48px; }
+    .upcoming-label { font-size: 1.375rem; }
+    .upcoming-when .circled { font-size: 1.75rem; }
+    .upcoming-title { font-size: 3.25rem; line-height: 1.02; }
+    .upcoming-facts { margin-top: 14px; font-size: 1.125rem; }
+    .upcoming-actions { margin: 0 0 4px; }
+    .see-all { margin-top: 26px; font-size: 1.5rem; }
+    .also { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 48px; margin-top: 22px; }
+    .also-row { padding: 22px 0 28px; }
+    .about { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 16px 48px; align-items: start; margin-top: 12px; padding: 32px 0 12px; }
+    .about-title { font-size: 2rem; line-height: 1.12; }
+    .about-body { margin-top: 4px; }
+    .about-note { margin-top: 18px; }
+  }
+</style>
+</head>
+<body class="page-home">
+<!-- Início, the proposal of 12/11/2026 after the round of five (A to E, in git history: 06ef222). L's
+     feedback: a featured text, "O que está acontecendo em Dourados?"; under it a line like "Saiba mais sobre
+     eventos, cultura, notícias, comércio local… e muito mais por vir"; the very next activity at the top,
+     clearly labelled as the next one; no varal; the rest laid out as proposal D had it (Notícias, Mapa,
+     Comércio, and "O NOS acompanha o que 85 organizações de Dourados publicam"). One responsive page: the
+     phone is the file's own frame, the desk its 1440 variant. Content as the site has it on 12/11/2026: the
+     next activity, its WhatsApp message (js/whatsapp.js), the agenda's count (agendaSummary: 16 até
+     31/01/2027, the link says "Ver todas as 16 atividades"), the lead story, the Mapa's 47 places and the 28 businesses. On a phone the next activity's
+     whole block opens it in the agenda; from 760px "Ver na agenda" joins the WhatsApp button. -->
+  <a class="skip-link" href="#main">Pular para o conteúdo</a>
+  <header class="site-head site-head--home site-head--q">
+    <div class="sky-art" aria-hidden="true">
+      <svg class="astro" viewBox="0 0 120 120" focusable="false"><circle cx="58" cy="60" r="49"/><path vector-effect="non-scaling-stroke" d="M78 9C56 4 22 12 12 38C3 64 20 104 56 108C92 112 116 88 112 56C109 28 92 7 66 5.5C54 5 40 10 28 19"/></svg>
+      <svg class="stars" focusable="false"><circle cx="62%" cy="14%" r="1.2"/><circle cx="70%" cy="40%" r="1.4"/><circle cx="77%" cy="22%" r="1.1"/><circle cx="85%" cy="52%" r="1.6"/><circle cx="93%" cy="30%" r="1.2"/><circle cx="80%" cy="70%" r="1.5"/><circle cx="73%" cy="86%" r="1.2"/><circle cx="97%" cy="9%" r="1.1"/><circle cx="58%" cy="52%" r="1"/><circle cx="89%" cy="78%" r="1.3"/><circle cx="12%" cy="6%" r="1.1"/><circle cx="30%" cy="8%" r="1"/><circle cx="46%" cy="5%" r="1.2"/><circle cx="81%" cy="8%" r="1"/></svg>
+    </div>
+    <div class="site-head-inner">
+      <div class="site-bar">
+        <a class="brand" href="./" aria-current="page">
+          <span class="brand-mark" id="brand-mark"><svg class="mark" viewBox="0 -799 1493 902" aria-hidden="true" focusable="false"><path class="mark-letters" d="M300 -700H440Q445 -700 448.5 -696.5Q452 -693 452 -688V-12Q452 -7 448.5 -3.5Q445 0 440 0H281Q270 0 267 -10L168 -358Q167 -361 164.5 -361.5Q162 -362 162 -358L164 -12Q164 -7 160.5 -3.5Q157 0 152 0H12Q7 0 3.5 -3.5Q0 -7 0 -12V-688Q0 -693 3.5 -696.5Q7 -700 12 -700H169Q180 -700 183 -690L283 -340Q284 -337 286.5 -337Q289 -337 289 -341L288 -688Q288 -693 291.5 -696.5Q295 -700 300 -700ZM1084 -178V-209Q1084 -214 1087.5 -217.5Q1091 -221 1096 -221H1236Q1241 -221 1244.5 -217.5Q1248 -214 1248 -209V-186Q1248 -162 1259.5 -148Q1271 -134 1289 -134Q1307 -134 1318.5 -147.5Q1330 -161 1330 -182Q1330 -205 1312 -223.5Q1294 -242 1240 -281Q1190 -317 1158 -345.5Q1126 -374 1103 -416.5Q1080 -459 1080 -515Q1080 -572 1105.5 -616Q1131 -660 1177.5 -684Q1224 -708 1284 -708Q1345 -708 1391.5 -683.5Q1438 -659 1463.5 -614.5Q1489 -570 1489 -512V-488Q1489 -483 1485.5 -479.5Q1482 -476 1477 -476H1338Q1333 -476 1329.5 -479.5Q1326 -483 1326 -488V-516Q1326 -538 1314 -552Q1302 -566 1284 -566Q1266 -566 1255 -552Q1244 -538 1244 -515Q1244 -490 1261 -470Q1278 -450 1330 -412Q1393 -365 1425 -336Q1457 -307 1475 -271.5Q1493 -236 1493 -188Q1493 -98 1436.5 -45Q1380 8 1288 8Q1227 8 1181 -15.5Q1135 -39 1109.5 -81.5Q1084 -124 1084 -178Z"/><path class="mark-loop" d="M894 -663l-7 -8l-8 -8l-7 -8l-8 -8l-7 -7l-7 -8l-8 -8l-8 -7l-8 -7l-8 -6l-9 -6l-9 -6l-9 -5l-9 -4l-10 -3l-10 -3l-11 -2l-10 -1l-10 -1l-10 0l-11 0l-10 0l-11 1l-10 2l-10 2l-11 3l-10 4l-10 4l-10 4l-10 5l-9 6l-10 6l-9 7l-9 8l-8 8l-9 8l-8 9l-7 9l-8 10l-7 11l-7 10l-6 12l-6 11l-5 12l-6 12l-5 13l-4 13l-4 13l-4 13l-4 14l-3 14l-2 14l-2 15l-2 14l-2 15l-1 14l-1 15l0 15l0 15l0 15l1 15l1 15l1 15l2 15l2 15l2 15l2 15l3 15l4 14l3 15l4 14l4 14l4 15l5 14l5 13l5 14l6 13l5 14l6 13l7 13l6 12l7 12l7 13l7 11l8 12l8 11l8 11l8 11l9 10l9 10l9 9l9 9l9 9l10 8l10 8l10 8l10 7l11 6l10 6l11 5l11 5l11 4l11 4l12 3l11 3l12 2l11 1l12 0l11 0l12 0l11 -2l11 -2l11 -3l11 -3l11 -4l10 -4l11 -5l10 -6l9 -6l10 -6l9 -7l9 -8l9 -8l8 -8l8 -9l8 -9l8 -9l7 -10l7 -11l7 -10l6 -11l6 -12l6 -12l5 -12l6 -12l4 -13l5 -13l4 -13l4 -14l4 -13l3 -15l3 -14l3 -14l2 -15l2 -15l1 -15l1 -16l1 -15l1 -16l0 -15l-1 -16l-1 -16l-1 -16l-1 -16l-2 -16l-2 -16l-3 -16l-3 -15l-3 -16l-4 -16l-4 -15l-5 -15l-5 -15l-5 -15l-5 -15l-6 -14l-6 -14l-7 -14l-6 -14l-7 -13l-8 -13l-7 -12l-8 -12l-8 -12l-8 -12l-9 -11l-9 -10l-9 -10l-9 -10l-10 -9l-9 -8l-10 -9l-10 -7l-10 -8l-10 -7l-10 -6l-11 -6l-10 -5l-11 -5l-10 -4l-11 -4l-11 -4l-11 -3l-10 -2l-11 -2l-11 -2l-10 -1l-11 0l-11 0l-10 1l-10 1l-11 1l-10 3l-10 2l-10 4l-10 3l-9 4l-10 5l-9 5l-9 6l-9 6l-8 7l-9 7l-8 8l-8 8l-8 9l-7 9l-7 9l-7 10l-7 10l2 -2l3 -1l3 0l2 1l2 2l1 3l0 3l-1 3l7 -10l7 -10l7 -8l7 -9l8 -7l8 -7l8 -7l8 -5l9 -6l8 -4l9 -4l8 -4l9 -3l9 -2l9 -2l8 -1l9 -1l9 0l8 0l9 0l9 1l8 2l9 2l8 2l9 3l8 3l8 3l8 4l9 4l8 5l8 5l8 5l8 5l8 6l8 6l8 7l7 7l8 7l8 8l7 8l8 8l7 8l7 9l8 10l7 9l7 10l7 10l6 11l7 11l6 11l6 12l6 12l6 12l5 12l6 13l4 13l5 13l4 14l4 13l4 14l3 14l3 14l3 14l2 15l2 14l1 14l2 14l0 15l1 14l0 14l0 14l-1 14l-1 13l-1 14l-1 13l-2 13l-3 13l-2 13l-3 12l-3 12l-3 12l-4 12l-4 11l-4 11l-4 10l-5 10l-5 10l-5 9l-5 10l-5 8l-6 8l-6 8l-6 8l-5 7l-7 6l-6 7l-6 5l-6 6l-7 5l-6 4l-7 4l-6 4l-7 3l-6 3l-7 2l-6 2l-7 2l-7 1l-6 1l-7 1l-7 0l-6 -1l-7 0l-7 -1l-7 -1l-7 -2l-7 -2l-7 -3l-7 -3l-7 -3l-7 -4l-7 -4l-7 -5l-7 -5l-8 -6l-7 -6l-7 -6l-7 -7l-7 -7l-7 -7l-7 -8l-6 -9l-7 -8l-6 -9l-7 -10l-6 -9l-6 -10l-6 -10l-5 -11l-6 -10l-5 -11l-5 -12l-5 -11l-5 -12l-5 -11l-4 -12l-4 -13l-4 -12l-3 -12l-4 -13l-3 -13l-3 -12l-3 -13l-2 -13l-2 -13l-2 -13l-1 -13l-2 -13l-1 -13l-1 -13l0 -13l0 -13l0 -13l0 -13l1 -12l1 -13l2 -12l1 -12l2 -12l2 -11l3 -11l3 -11l3 -11l3 -10l4 -11l3 -9l4 -9l5 -9l4 -9l5 -8l5 -8l5 -7l5 -6l5 -7l5 -6l6 -5l5 -5l6 -5l6 -4l6 -4l5 -3l6 -4l6 -2l6 -3l7 -2l6 -1l6 -2l7 -1l6 0l6 -1l7 0l7 1l7 0l6 1l7 2l7 1l8 1l7 1l8 1l8 2l8 1l9 2l9 3l8 3l9 3l8 5l9 4l8 6l8 6l8 7l-3 -4l-1 -5l1 -6l2 -4l5 -3l5 -1l5 1z"/></svg></span>
+          <span class="sr-only" id="brand-name-sr">NOS </span>
+          <span class="brand-place" id="app-city">Dourados</span>
+          <span class="sr-only">(página inicial)</span>
+        </a>
+        <nav class="site-nav" aria-label="Páginas">
+          <a class="nav-link" href="./" aria-current="page"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span class="nav-label">Início</span></a>
+          <a class="nav-link" href="agenda.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M8 2v4M16 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/></svg></span><span class="nav-label">Agenda</span></a>
+          <a class="nav-link" href="noticias.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 18h-5"/><path d="M18 14h-8"/><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"/><rect width="8" height="4" x="10" y="6" rx="1"/></svg></span><span class="nav-label">Notícias</span></a>
+          <a class="nav-link" href="mapa.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/></svg></span><span class="nav-label">Mapa</span></a>
+          <a class="nav-link" href="comercio.html"><span class="nav-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5"/><path d="M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244"/><path d="M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05"/></svg></span><span class="nav-label">Comércio</span></a>
+        </nav>
+        <button class="icon-button theme-toggle" type="button" data-theme-toggle aria-pressed="false"><svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg><svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2m-7.07-17.07 1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg><span class="sr-only">Tema escuro</span></button>
+      </div>
+      <div class="ask">
+        <h1 class="ask-title">O que está acontecendo em Dourados?</h1>
+        <p class="ask-sub">Saiba mais sobre eventos, cultura, notícias, comércio local… e muito mais por vir.</p>
+      </div>
+    </div>
+  </header>
+  <div class="band band--home" aria-hidden="true"></div>
+  <main class="land" id="main">
+    <section class="upcoming" aria-labelledby="upcoming-label">
+      <div class="upcoming-body">
+        <h2 class="upcoming-label" id="upcoming-label">A próxima atividade</h2>
+        <p class="upcoming-when"><time class="circled" datetime="2026-11-13">sex 13/11<svg class="hand hand--loop" viewBox="0 0 120 60" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path vector-effect="non-scaling-stroke" d="M84 7C62 2 28 4 12 15C1 23 2 41 22 50C42 59 88 58 108 46C122 37 119 17 98 9C84 4 66 4 47 9"/></svg></time><span class="upcoming-soon">amanhã</span></p>
+        <h3 class="upcoming-title"><a href="agenda.html#ev-2026-11-13-festa-da-vitoria-em-dourados">Festa da Vitória em Dourados</a></h3>
+        <ul class="upcoming-facts">
+          <li class="upcoming-org"><span class="dot g-partidos" aria-hidden="true"></span>PT Dourados</li>
+          <li><svg class="i-sm" aria-hidden="true"><use href="assets/icons.svg#clock-3"/></svg>Horário e local a confirmar</li>
+        </ul>
+      </div>
+      <div class="upcoming-actions">
+        <a class="btn btn-accent btn-big" href="https://wa.me/?text=%F0%9F%9A%A9%20*FESTA*%20%C2%B7%20Dourados%2FMS%0A%0A*Festa%20da%20Vit%C3%B3ria%20em%20Dourados*%0A%F0%9F%91%A5%20PT%20Dourados%0A%0A%F0%9F%93%85%20*Sexta-feira%2C%2013%2F11*%0A%0AComemora%C3%A7%C3%A3o%20da%20vit%C3%B3ria%20do%20presidente%20Lula%2C%20convocada%20pelo%20PT%20Dourados%20e%20pelo%20Time%20do%20Lula%20Dourados.%20Hor%C3%A1rio%20e%20local%20ainda%20n%C3%A3o%20divulgados.%0A%0A%F0%9F%93%A3%20Fonte%3A%20https%3A%2F%2Fwww.instagram.com%2Ftimedoluladourados%2Fp%2FDfS29ABvl2h%2F%0A%0A%F0%9F%93%85%20Mais%20atividades%20na%20agenda%20do%20NOS%20Dourados%3A%20https%3A%2F%2Fnos.dourados.social%2Fagenda.html"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#message-circle"/></svg>Mandar no WhatsApp</a>
+        <a class="btn btn-line btn-big" href="agenda.html#ev-2026-11-13-festa-da-vitoria-em-dourados">Ver na agenda</a>
+      </div>
+    </section>
+
+    <a class="see-all" href="agenda.html">Ver todas as 16 atividades<svg class="i" aria-hidden="true"><use href="assets/icons.svg#arrow-right"/></svg></a>
+
+    <section class="also" aria-label="Também no NOS">
+      <article class="also-row p-news">
+        <h2 class="also-name"><a href="noticias.html"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#newspaper"/></svg>Notícias</a><svg class="go" aria-hidden="true"><use href="assets/icons.svg#arrow-right"/></svg></h2>
+        <p class="also-lead">Aty Guasu e APIB denunciam onda de violência contra Guarani e Kaiowá depois da eleição</p>
+        <p class="also-meta"><time datetime="2026-10-28">qua 28/10</time> · Alerta · Aty Guasu</p>
+      </article>
+      <article class="also-row p-map">
+        <h2 class="also-name"><a href="mapa.html"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#map"/></svg>Mapa</a><svg class="go" aria-hidden="true"><use href="assets/icons.svg#arrow-right"/></svg></h2>
+        <p class="also-lead">47 lugares da cultura e dos movimentos</p>
+        <ul class="layers" aria-label="Camadas do mapa">
+          <li><span class="glyph"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#berimbau"/></svg></span><span class="sr-only">Capoeira, 18</span></li>
+          <li><span class="glyph"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#mic-vocal"/></svg></span><span class="sr-only">Batalhas de rima, 2</span></li>
+          <li><span class="glyph"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#shopping-basket"/></svg></span><span class="sr-only">Feiras, 4</span></li>
+          <li><span class="glyph"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#drama"/></svg></span><span class="sr-only">Espaços culturais, 7</span></li>
+          <li><span class="glyph"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#megaphone"/></svg></span><span class="sr-only">Sindicatos, 5</span></li>
+          <li><span class="glyph"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#graduation-cap"/></svg></span><span class="sr-only">Universidades, 5</span></li>
+          <li><span class="glyph"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#landmark"/></svg></span><span class="sr-only">Poder público, 6</span></li>
+        </ul>
+      </article>
+      <article class="also-row p-commerce">
+        <h2 class="also-name"><a href="comercio.html"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#store"/></svg>Comércio</a><svg class="go" aria-hidden="true"><use href="assets/icons.svg#arrow-right"/></svg></h2>
+        <p class="also-lead">28 negócios da rede</p>
+        <p class="also-meta">Bolos e pães, mini salgados, espetinhos artesanais, comida asiática, tatuagem, aulas de reforço e mais, cada um com o que oferece nas próprias palavras.</p>
+      </article>
+    </section>
+
+    <section class="about" aria-labelledby="about-title">
+      <h2 class="about-title" id="about-title">O NOS acompanha o que 85 organizações de Dourados publicam</h2>
+      <div class="about-body">
+        <ul class="groups">
+          <li><span class="dot g-movimentos" aria-hidden="true"></span>movimentos sociais</li>
+          <li><span class="dot g-sindicatos" aria-hidden="true"></span>sindicatos</li>
+          <li><span class="dot g-rural" aria-hidden="true"></span>terra, povos indígenas e quilombolas</li>
+          <li><span class="dot g-academia" aria-hidden="true"></span>estudantes e universidades</li>
+          <li><span class="dot g-outros" aria-hidden="true"></span>cultura, feiras e capoeira</li>
+          <li><span class="dot g-terceiro" aria-hidden="true"></span>terceiro setor</li>
+          <li><span class="dot g-partidos" aria-hidden="true"></span>partidos</li>
+          <li><span class="dot g-estado" aria-hidden="true"></span>órgãos públicos</li>
+        </ul>
+        <p class="about-note">Não fala por elas: cada atividade diz quem convida e traz o post de onde veio.</p>
+      </div>
+    </section>
+  </main>
+  <footer class="site-foot">
+    <p id="app-full-name">NOS Dourados · Núcleo de Organização Social</p>
+    <p class="foot-credit">Faixa: arte provisória. A definitiva será criada e assinada por artistas da Reserva Indígena de Dourados.</p>
+  </footer>
+</body>
+</html>

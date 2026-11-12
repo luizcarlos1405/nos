@@ -31,8 +31,3 @@ __pycache__/
 Thumbs.db
 .vscode/
 .idea/
-
-# Photos of the organizations (from their own Instagram posts) that preview the home proposals of
-# 2026-11-12 (design/inicio-*.html). Publishing any of them needs that organization's permission, so
-# they stay out of the public repository.
-design/assets/fotos-exemplo/

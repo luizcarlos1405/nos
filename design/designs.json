@@ -2,44 +2,9 @@
   "title": "NOS Dourados · Designs",
   "sections": [
     {
-      "title": "Início · cinco propostas de 12/11 (uma página inicial que explica o NOS de relance: escolher uma, ou o que misturar, para a próxima rodada)",
+      "title": "Início · proposta de 12/11 (depois das cinco: “O que está acontecendo em Dourados?”, a próxima atividade em destaque e o resto como na D)",
       "designs": [
-        "inicio-quadro.html"
-      ]
-    },
-    {
-      "title": "Início · A · Line-up: as organizações da agenda num cartaz de festival",
-      "designs": [
-        "inicio-a-celular.html",
-        "inicio-a-desktop.html"
-      ]
-    },
-    {
-      "title": "Início · B · Quero…: uma frase grande que a pessoa completa",
-      "designs": [
-        "inicio-b-celular.html",
-        "inicio-b-desktop.html"
-      ]
-    },
-    {
-      "title": "Início · C · Retratos: as fotos das organizações como portas (fotos só nesta máquina, fora do git)",
-      "designs": [
-        "inicio-c-celular.html",
-        "inicio-c-desktop.html"
-      ]
-    },
-    {
-      "title": "Início · D · Varal: os panfletos das próximas atividades pendurados como cordel",
-      "designs": [
-        "inicio-d-celular.html",
-        "inicio-d-desktop.html"
-      ]
-    },
-    {
-      "title": "Início · E · Um dia: rolar a página é passar o dia em Dourados",
-      "designs": [
-        "inicio-e-celular.html",
-        "inicio-e-desktop.html"
+        "inicio-proposta.html"
       ]
     },
     {
