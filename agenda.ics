@@ -1200,4 +1200,24 @@ URL:https://nos.dourados.social/agenda.html#ev-2026-12-12-10-mostra-sucata-
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-01-30-encontro-anual-de-capoeira-do-grupo-capoarti@nos.dourados
+ .social
+DTSTAMP:19700101T000000Z
+DTSTART;VALUE=DATE:20270130
+DTEND;VALUE=DATE:20270201
+SUMMARY:Encontro Anual de Capoeira do Grupo Capoarti
+DESCRIPTION:Organização: Capoarti\nTipo: Cultura\n\nEncontro anual do gru
+ po de capoeira do Mestre Cyborg\, que comemora os 40 anos de capoeira do m
+ estre e os 27 anos em que ele dá aulas em Dourados. Terá oficinas\, pale
+ stras e um Encontro dos Saberes\, com convidados e mestres de Mato Grosso 
+ do Sul e de outros estados. As inscrições já estão abertas\, pelo What
+ sApp.\n\nContato: Mestre Cyborg – (67) 98124-8862\n\nNa agenda do NOS Do
+ urados: https://nos.dourados.social/agenda.html#ev-2027-01-30-encontro-anu
+ al-de-capoeira-do-grupo-capoarti
+URL:https://nos.dourados.social/agenda.html#ev-2027-01-30-encontro-anual-de
+ -capoeira-do-grupo-capoarti
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
 END:VCALENDAR
