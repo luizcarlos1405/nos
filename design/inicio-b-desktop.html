@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="pt-BR" data-scheme="light" data-sky="day">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Início · B · Quero… · Desktop</title>
+<meta name="description" content="Proposta B para a página inicial do NOS Dourados: a frase “Em Dourados, eu quero…” no céu e quatro finais para tocar, cada um com a sua resposta ao vivo: a agenda, as notícias, o mapa e o comércio da rede.">
+<meta name="htmlboard" content="width=1440, height=1358">
+<meta name="htmlboard:label" content="claro">
+<meta name="htmlboard:variant" content="?tema=escuro · escuro">
+<meta name="htmlboard:variant" content="?quero=nada · em repouso">
+<script>
+  // ?tema=escuro: the dark theme, always under the night sky (the site's rule); ?ceu=amanhecer|dia|entardecer|noite: another hour.
+  (function () {
+    var q = new URLSearchParams(location.search), root = document.documentElement;
+    var sky = { amanhecer: 'dawn', dia: 'day', entardecer: 'dusk', noite: 'night' }[q.get('ceu')];
+    if (sky) root.dataset.sky = sky;
+    if (q.get('tema') === 'escuro') { root.dataset.scheme = 'dark'; root.dataset.sky = 'night'; }
+  })();
+</script>
+<link rel="stylesheet" href="../css/theme.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="assets/inicio-propostas.css">
+<style>
+  /* ---------- B · Quero…: the home as one sentence ----------
+     The sky says "Em Dourados, eu quero…"; the land finishes it four ways, one per page, each with its
+     live answer. No cards: type, rhythm, thin rules and the pages' colours. Phone first; the desk from
+     1100px. */
+
+  .wants { --rule: color-mix(in srgb, var(--role-ink) 15%, transparent); --edge: 16px; }
+
+  /* The sky: taller than the site's home, the sentence on it; the line under it keeps to a narrow
+     column, so the sun can rise big at its right without crossing a word. */
+  .site-head--b {
+    --h5: 22px;
+    --h4: 48px;
+    --h3: 80px;
+    --h2: 118px;
+    --sun-size: 465px;
+    --sun-right: -296px;
+    --sun-bottom: -268px;
+    --sun-loop: 5px;
+    --moon-size: 44px;
+    --moon-right: 40px;
+    --moon-top: calc(124px + env(safe-area-inset-top));
+    --moon-bottom: auto;
+    --moon-loop: 2.25px;
+  }
+  /* The one authored motion of this home is the sentence being written (desk); the sun stays still. */
+  .site-head--b .astro { animation: none; }
+
+  .want-sky { padding: 6px 10px 20px 0; }
+  .want-line { font: 800 3.125rem/0.96 var(--font-display); letter-spacing: -0.035em; color: var(--role-sky-ink); }
+  .want-line .want-dots { letter-spacing: -0.02em; }
+  .want-done { display: none; }
+  .want-what {
+    max-width: 14.5rem;
+    margin-top: 14px;
+    font-size: 1.0625rem;
+    line-height: 1.35;
+    font-weight: 500;
+    color: var(--role-sky-ink-soft);
+    text-wrap: pretty;
+  }
+
+  /* The land: the four endings, full-width links, apart by rhythm and a thin rule. */
+  .want-list { margin: 0; padding: 0; list-style: none; }
+  .want { position: relative; padding: 16px var(--edge) 18px; transition: background-color 0.15s; }
+  .want + .want::before { content: ''; position: absolute; top: 0; left: var(--edge); right: var(--edge); border-top: 1px solid var(--rule); }
+  .want-link {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: 'say arrow' 'answer answer';
+    gap: 6px 12px;
+    color: inherit;
+    text-decoration: none;
+  }
+  /* The whole row is the link; the day keys sit above it. */
+  .want-link::after { content: ''; position: absolute; inset: 0; }
+  .want-link:focus-visible { outline: none; }
+  .want:has(.want-link:focus-visible) { outline: 2px solid var(--role-focus); outline-offset: -3px; }
+  .want-say { grid-area: say; font: 800 1.875rem/1.06 var(--font-display); letter-spacing: -0.03em; text-wrap: balance; }
+  .want-dots { color: var(--page-text); }
+  .want-arrow { grid-area: arrow; width: 30px; height: 30px; margin-top: 2px; color: var(--page-text); transition: translate 0.15s; }
+  .want-answer { grid-area: answer; display: flex; flex-direction: column; gap: 6px; font-size: 1.0625rem; line-height: 1.42; text-wrap: pretty; }
+  .want-answer b { font-weight: 700; color: var(--page-text); }
+  .want:has(.want-link:active), .want.is-on { background: var(--page-tint); }
+  @media (hover: hover) {
+    .want:has(.want-link:hover) { background: var(--page-tint); }
+    .want:has(.want-link:hover) .want-arrow, .want.is-on .want-arrow { translate: 4px 0; }
+  }
+
+  /* Notícias' answer: the story the page leads with, who and when under it. */
+  .want-headline { font-weight: 600; letter-spacing: -0.006em; }
+  .want-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-size: 0.9375rem; line-height: 1.4; color: var(--role-ink-soft); font-variant-numeric: tabular-nums; }
+  .want-meta .tag { height: 24px; border-color: color-mix(in srgb, var(--page-text) 45%, transparent); color: var(--page-text); font-weight: 600; }
+  .want-meta .who { display: inline-flex; align-items: center; gap: 6px; }
+
+  /* The Mapa's answer: its layers' drawings, as the map draws its points. */
+  .want-glyphs { display: flex; flex-wrap: wrap; gap: 6px; }
+  .want .glyph { width: 32px; height: 32px; }
+  .want .glyph .i { width: 18px; height: 18px; }
+
+  /* The next 14 days as a drum machine's step row: one unbroken line of day keys, the days with
+     activities lit in urucum with their count, today underlined by hand; a lit key opens its day. */
+  .steps {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(14, minmax(0, 1fr));
+    gap: 2px;
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .step-in { display: flex; flex-direction: column; gap: 8px; color: inherit; text-decoration: none; border-radius: var(--radius-sm); }
+  .step-day { display: flex; flex-direction: column; align-items: center; gap: 3px; line-height: 1; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .step-wd { font-size: 0.75rem; font-weight: 600; color: var(--role-ink-soft); }
+  .step-wd .wd-3 { display: none; }
+  .step-n { font-size: 0.9375rem; font-weight: 700; color: var(--role-ink-soft); }
+  .step.is-lit .step-n, .step.is-today .step-n, .step.is-today .step-wd { color: var(--role-ink); }
+  .step-n.underlined > .hand { left: -3px; bottom: -6px; width: calc(100% + 6px); height: 6px; stroke-width: 2.5px; }
+  .step-key {
+    display: grid;
+    place-items: center;
+    height: 32px;
+    border-radius: 5px;
+    background: var(--role-card);
+    box-shadow: inset 0 0 0 1px var(--role-line);
+    font: 800 1.125rem/1 var(--font-display);
+    font-variant-numeric: tabular-nums;
+  }
+  .step.is-lit .step-key { background: var(--role-accent); box-shadow: none; color: var(--role-on-accent); }
+  @media (hover: hover) { a.step-in:hover .step-key { background: var(--role-accent-hover); } }
+
+  /* The working action: the next activity, ready for WhatsApp. */
+  .tail { position: relative; padding: 40px var(--edge) 12px; }
+  .tail::before { content: ''; position: absolute; top: 0; left: var(--edge); right: var(--edge); border-top: 1px solid var(--rule); }
+  .soon-h { font: 800 1.625rem/1.08 var(--font-display); letter-spacing: -0.028em; text-wrap: balance; }
+  .soon-h .want-dots { color: var(--role-accent-text); }
+  .soon-title { margin-top: 18px; font: 700 1.375rem/1.25 var(--font-ui); letter-spacing: -0.016em; text-wrap: balance; }
+  .soon-title a { color: inherit; text-decoration: none; }
+  @media (hover: hover) { .soon-title a:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.14em; } }
+  .soon-when { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; margin-top: 12px; }
+  .soon-when .circled { margin: 0 4px 0 11px; font: 800 1.25rem/1.2 var(--font-display); font-variant-numeric: tabular-nums; }
+  .soon-day { font-size: 1rem; font-weight: 600; color: var(--role-accent-text); }
+  .soon-facts { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; padding: 0; list-style: none; font-size: 1rem; line-height: 1.4; color: var(--role-ink-soft); }
+  .soon-facts li { display: flex; align-items: center; gap: 8px; }
+  .soon-facts .dot { margin: 0 5px; }
+  .soon-facts .i-sm { color: var(--role-ink-soft); }
+  .soon-facts b { font-weight: 600; color: var(--role-ink); }
+  .soon-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+  .soon-actions .btn { flex: 1 1 100%; }
+
+  /* Quick wants: a word that goes straight to a filtered page. */
+  .quick { margin-top: 40px; }
+  .quick-h { font: 700 1.0625rem/1.3 var(--font-ui); color: var(--role-ink); }
+  .quick-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 0; padding: 0; list-style: none; }
+  .quick-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 16px 0 13px;
+    border: 1px solid var(--role-line);
+    border-radius: var(--radius-pill);
+    background: var(--role-card);
+    color: var(--role-ink);
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .quick-chip .i-sm { color: var(--page-text); }
+  @media (hover: hover) { .quick-chip:hover { border-color: var(--page-text); background: var(--page-tint); } }
+
+  /* At night the moon goes beside "eu quero…", clear of the words. */
+  :root:is([data-sky='night'], [data-scheme='dark']) .want .glyph { box-shadow: inset 0 0 0 1px var(--role-line); }
+
+  /* ---------- Tablets ---------- */
+  @media (min-width: 600px) {
+    .wants { --edge: 24px; }
+  }
+
+  /* ---------- The desk: the sentence huge at left, the sun at right, the endings as a big list ---------- */
+  @media (min-width: 1100px) {
+    .wants { --edge: max(32px, calc((100% - 1280px) / 2)); --col: 37.5rem; }
+    .site-head--b {
+      --h5: 22px;
+      --h4: 50px;
+      --h3: 84px;
+      --h2: 124px;
+      --sun-size: 560px;
+      --sun-right: -64px;
+      --sun-bottom: -318px;
+      --sun-loop: 6px;
+      --moon-size: 84px;
+      --moon-right: 212px;
+      --moon-top: calc(108px + env(safe-area-inset-top));
+      --moon-loop: 3px;
+    }
+    .band--b, .site-head--b { --band-h: 46px; }
+    .want-sky { padding: 18px 0 30px; }
+    /* Two lines' room, the words standing on the bottom one: at rest the sentence is one line; a
+       finished one takes both, and nothing under it moves. Its measure stops short of the sun. */
+    .want-line { display: flex; flex-direction: column; justify-content: flex-end; min-height: 1.98em; max-width: 58rem; font-size: 4.75rem; line-height: 0.99; letter-spacing: -0.04em; }
+    .want-row { white-space: nowrap; }
+    .want-done { position: relative; white-space: nowrap; }
+    .is-saying .want-row .want-dots { display: none; }
+    .is-saying .want-done { display: block; }
+    .want-done .underlined, .want-done-words { display: inline-block; }
+    .want-done .hand { left: -0.02em; bottom: -0.1em; width: calc(100% + 0.04em); height: 0.16em; stroke: var(--role-sky-hand); stroke-width: 6px; }
+    /* The one authored motion: the finished words are written left to right, the hand's stroke after
+       them (none under reduced motion). */
+    @media (prefers-reduced-motion: no-preference) {
+      .is-writing .want-done-words { animation: write 0.42s var(--ease) both; }
+      .is-writing .want-done .hand { animation: write 0.5s 0.12s var(--ease) both; }
+      @keyframes write { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+    }
+    .want-what { max-width: 36rem; margin-top: 14px; font-size: 1.25rem; line-height: 1.42; text-wrap: balance; }
+
+    .want { padding: 18px var(--edge) 20px; }
+    .want-link { grid-template-columns: var(--col) minmax(0, 1fr) 56px; grid-template-areas: 'say answer arrow'; column-gap: 48px; align-items: start; }
+    /* The dots hang in the margin (0.74em, measured), so the endings' words line up under the sky's
+       sentence. */
+    .want-say { font-size: 2.5rem; line-height: 1.04; text-indent: -0.74em; }
+    .want-answer { padding-top: 5px; font-size: 1.1875rem; line-height: 1.4; }
+    .want-meta { font-size: 1rem; }
+    .want-arrow { justify-self: end; width: 34px; height: 34px; margin-top: 6px; }
+    .want--agenda { display: grid; grid-template-columns: var(--col) minmax(0, 1fr); column-gap: 48px; }
+    .want--agenda .want-link { grid-column: 1 / -1; }
+    .want--agenda .steps { grid-column: 1; margin-top: 14px; }
+
+    .steps { gap: 4px; }
+    .step-in { gap: 7px; }
+    .step-wd .wd-1 { display: none; }
+    .step-wd .wd-3 { display: inline; }
+    .step-wd { font-size: 0.8125rem; }
+    .step-n { font-size: 1rem; }
+    .step-key { height: 40px; border-radius: var(--radius-sm); font-size: 1.3125rem; }
+
+    .tail { display: grid; grid-template-columns: var(--col) minmax(0, 1fr); column-gap: 48px; align-items: start; padding: 48px var(--edge) 24px; }
+    .soon-h { font-size: 2rem; text-indent: -0.74em; }
+    .soon-title { font-size: 1.625rem; }
+    .soon-actions { margin-top: 22px; }
+    .soon-actions .btn { flex: 0 0 auto; }
+    .quick { margin-top: 0; padding-top: 8px; }
+    .quick-h { font-size: 1.1875rem; }
+  }
+  /* Night: the stars that would sit against the bar's words or a heading read as stray full stops (measured
+     at 390 and 1440), so they stay out. */
+  @media (max-width: 759.98px) { .site-head--b .stars circle:is(:nth-child(1), :nth-child(2), :nth-child(3), :nth-child(8), :nth-child(9), :nth-child(11), :nth-child(12), :nth-child(13)) { display: none; } }
+  @media (min-width: 760px) { .site-head--b .stars circle:is(:nth-child(11), :nth-child(12), :nth-child(13)) { display: none; } }
+</style>
+</head>
+<body class="page-home" data-quero="evento">
+<!-- Início · B · Quero… (desk, 1440 wide; the phone is inicio-b-celular.html).
+     What it shows: the home as one plain sentence. On the sky, huge at left in Bricolage at its heaviest,
+     "Em Dourados, eu quero…", and under it one line saying what NOS is; the sun rises behind the band at
+     right. Under the band, the sentence's four endings as a big list, one per page: the ending in Bricolage
+     at left (its dots hang in the margin, so the words line up under the sky's sentence), its live answer
+     in the second column, the arrow at the far right; under "…ir num evento", the next 14 days as a drum
+     machine's step row (the days with activities lit in urucum with their count, today underlined by hand,
+     each lit key opening its day). Then the working action in the same voice, "…chamar o pessoal para a
+     próxima": the next activity with "Mandar no WhatsApp" and "Ver na agenda"; beside it, quick wants as
+     chips that open a filtered page. No cards: rhythm, thin rules and each page's colour (the dots, the
+     arrow, the key words; the row's tint under the pointer).
+     This frame shows the signature interaction in its hovered state, the pointer on "…ir num evento": the
+     ending writes itself into the sky's sentence, "Em Dourados, eu quero ir num evento", the urucum hand
+     underlining the finished words, and its row takes the agenda's tint, the arrow 4px ahead. Every
+     ending does it (in the Mapa's, each of its three wishes as the pointer passes it: "treinar capoeira",
+     "ver uma batalha de rima", "ir numa feira"); a long one is set a little smaller so it keeps to its
+     line; leaving the list puts the dots back. The sentence keeps two lines' room, so nothing under it
+     moves. The one authored motion: the words are written left to right and the hand's stroke follows
+     (about half a second; none under reduced motion); the sun doesn't rise on this home. In the site the
+     sky folds when the page scrolls, so the sentence answers only at the top of the page. Variants:
+     ?quero=nada at rest; ?quero=evento|saber|capoeira|batalha|feira|comprar picks the written ending; the
+     pointer and the keyboard change it live.
+     Real (the content of Thursday 12/11/2026, 10h, the day sky): the counts (15 atividades até 13/12; 47
+     lugares; 28 negócios), the next 14 days and their counts, the next activity and its WhatsApp message
+     (built by js/whatsapp.js from data/agenda/2026-11.csv), the lead story, the layers, the offers, the 85
+     organizations NOS follows. Illustrative: the addresses the day keys and the chips open
+     (agenda.html#dia-…, agenda.html?busca=…, mapa.html#<layer>, comercio.html?busca=…), which are new
+     features; the chips' choice ("plenária" stands for "assembleia": no assembleia is on the agenda ahead on
+     12/11, five were in September and October). -->
+  <header class="site-head site-head--home site-head--b">
+    <div data-sky-art></div>
+    <div class="site-head-inner">
+      <div data-site-bar></div>
+      <div class="want-sky">
+        <p class="want-line" id="want-line"><span class="want-row">Em Dourados, eu quero<span class="want-dots">…</span></span><span class="want-done" aria-hidden="true"><span class="underlined"><span class="want-done-words">ir num evento</span><svg class="hand hand--underline" viewBox="0 0 120 10" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M2 7.5C22 5 46 4.6 70 5.2C88 5.6 104 4.4 118 2.5"/></svg></span></span></p>
+        <p class="want-what">O NOS junta o que publicam 85 organizações da cidade, de sindicatos a coletivos de cultura.</p>
+      </div>
+    </div>
+  </header>
+  <div class="band band--home band--b" aria-hidden="true"></div>
+
+  <main id="main" class="wants">
+    <h1 class="sr-only">NOS Dourados: a agenda e as notícias das organizações e movimentos de Dourados, o mapa dos seus lugares e o comércio da rede</h1>
+
+    <ul class="want-list" aria-labelledby="want-line">
+      <!-- 1 · Agenda -->
+      <li class="want want--agenda p-agenda" data-key="evento" data-say="ir num evento">
+        <a class="want-link" href="agenda.html">
+          <span class="want-say"><span class="want-dots">…</span>ir num evento</span>
+          <svg class="i want-arrow" aria-hidden="true"><use href="assets/icons.svg#arrow-right"/></svg>
+          <span class="want-answer"><span><b>15 atividades até 13/12.</b> Amanhã: Festa da Vitória em Dourados.</span></span>
+        </a>
+        <ol class="steps" aria-label="Os próximos 14 dias">
+          <li class="step is-today"><span class="step-in"><span class="step-day"><span class="step-wd">hoje</span><span class="step-n underlined">12<svg class="hand hand--underline" viewBox="0 0 120 10" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M2 7.5C22 5 46 4.6 70 5.2C88 5.6 104 4.4 118 2.5"/></svg></span></span><span class="step-key"><span class="sr-only">Hoje, quinta, 12 de novembro: nada marcado</span></span></span></li>
+          <li class="step is-lit"><a class="step-in" href="agenda.html#dia-2026-11-13" aria-label="Sexta, 13 de novembro: 1 atividade"><span class="step-day" aria-hidden="true"><span class="step-wd"><span class="wd-1">S</span><span class="wd-3">sex</span></span><span class="step-n">13</span></span><span class="step-key" aria-hidden="true">1</span></a></li>
+          <li class="step is-lit"><a class="step-in" href="agenda.html#dia-2026-11-14" aria-label="Sábado, 14 de novembro: 4 atividades"><span class="step-day" aria-hidden="true"><span class="step-wd"><span class="wd-1">S</span><span class="wd-3">sáb</span></span><span class="step-n">14</span></span><span class="step-key" aria-hidden="true">4</span></a></li>
+          <li class="step is-lit"><a class="step-in" href="agenda.html#dia-2026-11-15" aria-label="Domingo, 15 de novembro: 2 atividades"><span class="step-day" aria-hidden="true"><span class="step-wd"><span class="wd-1">D</span><span class="wd-3">dom</span></span><span class="step-n">15</span></span><span class="step-key" aria-hidden="true">2</span></a></li>
+          <li class="step" aria-hidden="true"><span class="step-in"><span class="step-day"><span class="step-wd"><span class="wd-1">S</span><span class="wd-3">seg</span></span><span class="step-n">16</span></span><span class="step-key"></span></span></li>
+          <li class="step" aria-hidden="true"><span class="step-in"><span class="step-day"><span class="step-wd"><span class="wd-1">T</span><span class="wd-3">ter</span></span><span class="step-n">17</span></span><span class="step-key"></span></span></li>
+          <li class="step" aria-hidden="true"><span class="step-in"><span class="step-day"><span class="step-wd"><span class="wd-1">Q</span><span class="wd-3">qua</span></span><span class="step-n">18</span></span><span class="step-key"></span></span></li>
+          <li class="step" aria-hidden="true"><span class="step-in"><span class="step-day"><span class="step-wd"><span class="wd-1">Q</span><span class="wd-3">qui</span></span><span class="step-n">19</span></span><span class="step-key"></span></span></li>
+          <li class="step is-lit"><a class="step-in" href="agenda.html#dia-2026-11-20" aria-label="Sexta, 20 de novembro, Dia da Consciência Negra: 3 atividades"><span class="step-day" aria-hidden="true"><span class="step-wd"><span class="wd-1">S</span><span class="wd-3">sex</span></span><span class="step-n">20</span></span><span class="step-key" aria-hidden="true">3</span></a></li>
+          <li class="step is-lit"><a class="step-in" href="agenda.html#dia-2026-11-21" aria-label="Sábado, 21 de novembro: 2 atividades"><span class="step-day" aria-hidden="true"><span class="step-wd"><span class="wd-1">S</span><span class="wd-3">sáb</span></span><span class="step-n">21</span></span><span class="step-key" aria-hidden="true">2</span></a></li>
+          <li class="step is-lit"><a class="step-in" href="agenda.html#dia-2026-11-22" aria-label="Domingo, 22 de novembro: 2 atividades"><span class="step-day" aria-hidden="true"><span class="step-wd"><span class="wd-1">D</span><span class="wd-3">dom</span></span><span class="step-n">22</span></span><span class="step-key" aria-hidden="true">2</span></a></li>
+          <li class="step is-lit"><a class="step-in" href="agenda.html#dia-2026-11-23" aria-label="Segunda, 23 de novembro: 1 atividade"><span class="step-day" aria-hidden="true"><span class="step-wd"><span class="wd-1">S</span><span class="wd-3">seg</span></span><span class="step-n">23</span></span><span class="step-key" aria-hidden="true">1</span></a></li>
+          <li class="step" aria-hidden="true"><span class="step-in"><span class="step-day"><span class="step-wd"><span class="wd-1">T</span><span class="wd-3">ter</span></span><span class="step-n">24</span></span><span class="step-key"></span></span></li>
+          <li class="step" aria-hidden="true"><span class="step-in"><span class="step-day"><span class="step-wd"><span class="wd-1">Q</span><span class="wd-3">qua</span></span><span class="step-n">25</span></span><span class="step-key"></span></span></li>
+        </ol>
+      </li>
+
+      <!-- 2 · Notícias -->
+      <li class="want p-news" data-key="saber" data-say="saber o que está acontecendo">
+        <a class="want-link" href="noticias.html">
+          <span class="want-say"><span class="want-dots">…</span>saber o que está acontecendo</span>
+          <svg class="i want-arrow" aria-hidden="true"><use href="assets/icons.svg#arrow-right"/></svg>
+          <span class="want-answer">
+            <span class="want-headline">Aty Guasu e APIB denunciam onda de violência contra Guarani e Kaiowá depois da eleição</span>
+            <span class="want-meta"><span class="tag">Alerta</span><time datetime="2026-10-28">qua, 28/10</time><span class="who"><span class="dot g-rural"></span>Aty Guasu</span></span>
+          </span>
+        </a>
+      </li>
+
+      <!-- 3 · Mapa: each of its three wishes writes itself into the sky (desk) -->
+      <li class="want p-map" data-key="capoeira" data-say="treinar capoeira">
+        <a class="want-link" href="mapa.html">
+          <span class="want-say"><span class="want-dots">…</span><span data-key="capoeira" data-say="treinar capoeira">treinar capoeira</span>, <span data-key="batalha" data-say="ver uma batalha de rima">ver uma batalha de rima</span>, <span data-key="feira" data-say="ir numa feira">ir numa feira</span></span>
+          <svg class="i want-arrow" aria-hidden="true"><use href="assets/icons.svg#arrow-right"/></svg>
+          <span class="want-answer">
+            <span><b>47 lugares no mapa</b> da cultura e dos movimentos</span>
+            <span class="want-glyphs" role="img" aria-label="Capoeira, batalhas de rima, feiras, espaços culturais, sindicatos, universidades e poder público">
+              <span class="glyph"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#berimbau"/></svg></span>
+              <span class="glyph"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#mic-vocal"/></svg></span>
+              <span class="glyph"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#shopping-basket"/></svg></span>
+              <span class="glyph"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#drama"/></svg></span>
+              <span class="glyph"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#megaphone"/></svg></span>
+              <span class="glyph"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#graduation-cap"/></svg></span>
+              <span class="glyph"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#landmark"/></svg></span>
+            </span>
+          </span>
+        </a>
+      </li>
+
+      <!-- 4 · Comércio -->
+      <li class="want p-commerce" data-key="comprar" data-say="comprar de quem é da rede">
+        <a class="want-link" href="comercio.html">
+          <span class="want-say"><span class="want-dots">…</span>comprar de quem é da rede</span>
+          <svg class="i want-arrow" aria-hidden="true"><use href="assets/icons.svg#arrow-right"/></svg>
+          <span class="want-answer"><span><b>28 negócios:</b> bolos, salgados, conserto de celular, tatuagem…</span></span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="tail">
+      <!-- The working action, in the sentence's voice: the next activity, ready for WhatsApp. -->
+      <section class="soon p-agenda" aria-labelledby="soon-h">
+        <h2 class="soon-h" id="soon-h"><span class="want-dots">…</span>chamar o pessoal para a próxima</h2>
+        <h3 class="soon-title"><a href="agenda.html#ev-2026-11-13-festa-da-vitoria-em-dourados">Festa da Vitória em Dourados</a></h3>
+        <p class="soon-when"><span class="circled">sex 13/11<svg class="hand hand--loop" viewBox="0 0 120 60" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M84 7C62 2 28 4 12 15C1 23 2 41 22 50C42 59 88 58 108 46C122 37 119 17 98 9C84 4 66 4 47 9"/></svg></span><span class="soon-day">amanhã</span></p>
+        <ul class="soon-facts">
+          <li><span class="dot g-partidos"></span><b>PT Dourados</b></li>
+          <li><svg class="i-sm" aria-hidden="true"><use href="assets/icons.svg#clock-3"/></svg>Horário e local a confirmar</li>
+        </ul>
+        <div class="soon-actions">
+          <a class="btn btn-accent btn-big" href="https://wa.me/?text=%F0%9F%9A%A9%20*FESTA*%20%C2%B7%20Dourados%2FMS%0A%0A*Festa%20da%20Vit%C3%B3ria%20em%20Dourados*%0A%F0%9F%91%A5%20PT%20Dourados%0A%0A%F0%9F%93%85%20*Sexta-feira%2C%2013%2F11*%0A%0AComemora%C3%A7%C3%A3o%20da%20vit%C3%B3ria%20do%20presidente%20Lula%2C%20convocada%20pelo%20PT%20Dourados%20e%20pelo%20Time%20do%20Lula%20Dourados.%20Hor%C3%A1rio%20e%20local%20ainda%20n%C3%A3o%20divulgados.%0A%0A%F0%9F%93%A3%20Fonte%3A%20https%3A%2F%2Fwww.instagram.com%2Ftimedoluladourados%2Fp%2FDfS29ABvl2h%2F%0A%0A%F0%9F%93%85%20Mais%20atividades%20na%20agenda%20do%20NOS%20Dourados%3A%20https%3A%2F%2Fnos.dourados.social%2Fagenda.html"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#message-circle"/></svg>Mandar no WhatsApp</a>
+          <a class="btn btn-line btn-big" href="agenda.html#ev-2026-11-13-festa-da-vitoria-em-dourados">Ver na agenda</a>
+        </div>
+      </section>
+
+      <!-- Quick wants: each opens a page already filtered (new addresses). -->
+      <section class="quick" aria-labelledby="quick-h">
+        <h2 class="quick-h" id="quick-h">Ou vá direto:</h2>
+        <ul class="quick-list">
+          <li><a class="quick-chip p-map" href="mapa.html#capoeira"><svg class="i-sm" aria-hidden="true"><use href="assets/icons.svg#map"/></svg>capoeira</a></li>
+          <li><a class="quick-chip p-agenda" href="agenda.html?busca=feira"><svg class="i-sm" aria-hidden="true"><use href="assets/icons.svg#calendar-days"/></svg>feira</a></li>
+          <li><a class="quick-chip p-map" href="mapa.html#batalhas"><svg class="i-sm" aria-hidden="true"><use href="assets/icons.svg#map"/></svg>batalha de rima</a></li>
+          <li><a class="quick-chip p-agenda" href="agenda.html?busca=plen%C3%A1ria"><svg class="i-sm" aria-hidden="true"><use href="assets/icons.svg#calendar-days"/></svg>plenária</a></li>
+          <li><a class="quick-chip p-commerce" href="comercio.html?busca=bolo"><svg class="i-sm" aria-hidden="true"><use href="assets/icons.svg#store"/></svg>bolo</a></li>
+          <li><a class="quick-chip p-commerce" href="comercio.html?busca=celular"><svg class="i-sm" aria-hidden="true"><use href="assets/icons.svg#store"/></svg>conserto de celular</a></li>
+        </ul>
+      </section>
+    </div>
+  </main>
+  <div data-site-foot></div>
+  <script type="module">
+    import { fillChrome } from './assets/inicio-chrome.js';
+    fillChrome();
+
+    // The signature: an ending under the pointer or the focus writes itself into the sky's sentence, the
+    // hand underlining the finished words (on the desk, from 1100px; phones have no hover and go straight
+    // to the page). ?quero=<key> (evento, saber, capoeira, batalha, feira, comprar; nada) shows one written.
+    const head = document.querySelector('.site-head--b');
+    const line = head.querySelector('.want-done');
+    const words = head.querySelector('.want-done-words');
+    const list = document.querySelector('.want-list');
+    const wide = matchMedia('(min-width: 1100px)');
+    let said = null;
+
+    function fit() {
+      line.style.fontSize = '';
+      for (let size = 1; line.scrollWidth > line.clientWidth + 1 && size > 0.55; size -= 0.04) line.style.fontSize = `${size.toFixed(2)}em`;
+    }
+    function say(node) {
+      const text = node && wide.matches ? node.dataset.say : null;
+      for (const item of list.querySelectorAll('.want.is-on')) item.classList.remove('is-on');
+      if (!text) { head.classList.remove('is-saying', 'is-writing'); said = null; return; }
+      node.closest('.want').classList.add('is-on');
+      if (text === said) return;
+      said = text;
+      words.textContent = text;
+      head.classList.remove('is-writing');
+      head.classList.add('is-saying');
+      fit();
+      void line.offsetWidth;
+      head.classList.add('is-writing');
+    }
+    list.addEventListener('pointerover', (event) => { const node = event.target.closest('[data-say]'); if (node) say(node); });
+    list.addEventListener('pointerleave', () => say(null));
+    list.addEventListener('focusin', (event) => { if (event.target.matches('.want-link')) say(event.target.closest('.want')); });
+    list.addEventListener('focusout', (event) => { if (!list.contains(event.relatedTarget)) say(null); });
+
+    const pick = new URLSearchParams(location.search).get('quero') ?? document.body.dataset.quero;
+    const start = pick && list.querySelector(`[data-key="${CSS.escape(pick)}"]`);
+    if (start) document.fonts.ready.then(() => say(start));
+  </script>
+</body>
+</html>
