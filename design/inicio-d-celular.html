@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="pt-BR" data-scheme="light" data-sky="day">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Início · D · Varal · Celular</title>
+<meta name="description" content="Proposta D para a página inicial do NOS Dourados no celular: as próximas atividades das organizações penduradas no céu como os seus próprios panfletos, num varal, cada uma pronta para mandar no WhatsApp.">
+<meta name="htmlboard" content="width=390, height=1786">
+<meta name="htmlboard:label" content="claro">
+<meta name="htmlboard:variant" content="width=390, height=844 · primeira tela">
+<meta name="htmlboard:variant" content="?tema=escuro · escuro">
+<script>
+  // ?tema=escuro: the dark theme, always under the night sky (the site's rule); ?ceu=amanhecer|dia|entardecer|noite: another hour.
+  (function () {
+    var q = new URLSearchParams(location.search), root = document.documentElement;
+    var sky = { amanhecer: 'dawn', dia: 'day', entardecer: 'dusk', noite: 'night' }[q.get('ceu')];
+    if (sky) root.dataset.sky = sky;
+    if (q.get('tema') === 'escuro') { root.dataset.scheme = 'dark'; root.dataset.sky = 'night'; }
+  })();
+</script>
+<link rel="stylesheet" href="../css/theme.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/flyers.css">
+<link rel="stylesheet" href="assets/inicio-propostas.css">
+<style>
+  /* ---------- D · Varal: the coming activities hang on a cord across the sky, as their own flyers ---------- */
+
+  /* What no role gives, kept here with its night counterpart: the clothespins' wood and spring, and the
+     cord (a dark thread under the day sky, a pale one under the night). */
+  .site-head--d {
+    --wood: var(--color-day-5);
+    --wood-shade: color-mix(in srgb, var(--color-day-5) 68%, var(--color-ink-soft));
+    --wood-light: color-mix(in srgb, var(--color-day-5) 40%, var(--color-white));
+    --wood-edge: color-mix(in srgb, var(--color-ink-soft) 55%, var(--color-ink));
+    --steel: var(--color-ink);
+    --steel-light: color-mix(in srgb, var(--color-white) 55%, transparent);
+    --cord: var(--role-sky-ink-soft);
+    --cord-twist: color-mix(in srgb, var(--role-sky-ink-soft) 62%, var(--role-sky-2));
+    --paper-shadow: 0 1px 2px color-mix(in srgb, var(--color-earth-shadow) 18%, transparent), 0 10px 22px color-mix(in srgb, var(--color-earth-shadow) 20%, transparent);
+    --paper-edge: color-mix(in srgb, var(--color-white) 62%, transparent);
+    --pin-shadow: drop-shadow(0 1.5px 1px color-mix(in srgb, var(--color-earth-shadow) 30%, transparent));
+  }
+  :root:is([data-sky='night'], [data-scheme='dark']) .site-head--d {
+    --wood: color-mix(in srgb, var(--color-day-5) 82%, var(--color-night-4));
+    --wood-shade: color-mix(in srgb, var(--color-day-5) 56%, var(--color-night-4));
+    --wood-light: var(--color-moon);
+    --wood-edge: var(--color-night-1);
+    --steel: var(--color-night-1);
+    --steel-light: color-mix(in srgb, var(--color-moonlit) 50%, transparent);
+    --cord-twist: color-mix(in srgb, var(--role-sky-ink-soft) 70%, var(--role-sky-1));
+    --paper-shadow: 0 0 0 0 transparent;
+    --paper-edge: color-mix(in srgb, var(--color-moonlit) 34%, transparent);
+    --pin-shadow: none;
+  }
+
+  /* The header: a taller sky for the cord, the sun rising behind it at the right. It doesn't stick here:
+     the flyers hang out of it, over the band and onto the land. */
+  .site-head--d {
+    position: relative;
+    top: auto;
+    z-index: 2;
+    --h5: 18px;
+    --h4: 42px;
+    --h3: 82px;
+    --h2: 139px;
+    --sun-size: 563px;
+    --sun-right: -346px;
+    --sun-bottom: -302px;
+    --sun-loop: 5px;
+  }
+  /* One moving thing on this home: the flyers' sway. The sun stays where it rose. */
+  .site-head--d .astro { animation: none; }
+  /* The shared stars are laid out in percent of the sky they were drawn for, the site's home: they keep
+     that box, so none lands beside the bar's words, and the lower sky by the cord stays clear. */
+  .site-head--d .stars { height: 202px; }
+
+  .lede { padding: 6px 10px 0 0; }
+  .lede-title { font: 800 2.375rem/1 var(--font-display); letter-spacing: -0.03em; text-wrap: balance; }
+  .lede-line { max-width: 20.5rem; margin-top: 12px; font-size: 1.0625rem; line-height: 1.4; font-weight: 500; color: var(--role-sky-ink-soft); text-wrap: pretty; }
+
+  /* ---------- The varal ---------- */
+  /* Its box is the sky the cord crosses: its height puts the band across the flyers' upper third, at eye
+     level under the cord, well clear of each flyer's own horizon. The scroller inside is taller and hangs out of the header, over the band, down to the tags. The cord is
+     fixed across the screen, a catenary between two posts beyond its edges; swiping slides the flyers
+     along it (a pulley line: they rise and dip with the sag) and they sway. */
+  .varal { position: relative; height: 149px; }
+  .varal-cord { position: absolute; left: 0; top: 0; width: 100%; height: 80px; overflow: visible; pointer-events: none; }
+  .varal-cord path { fill: none; stroke-linecap: round; }
+  .cord { stroke: var(--cord); stroke-width: 2.5px; }
+  .cord-twist { stroke: var(--cord-twist); stroke-width: 1px; stroke-dasharray: 1.3 2.1; translate: 0 -0.45px; }
+  .varal-scroll {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 394px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x proximity;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .varal-scroll::-webkit-scrollbar { display: none; }
+  .varal-scroll:focus-visible { outline: 2px solid var(--role-sky-ink); outline-offset: -4px; border-radius: var(--radius); }
+  .varal-track { position: relative; height: 100%; margin: 0; padding: 0; list-style: none; }
+
+  .pendant { position: absolute; top: 0; left: var(--left, 0px); width: var(--w); translate: 0 var(--y, 40px); scroll-snap-align: start; scroll-margin-left: 22px; }
+  .swing { position: relative; transform-origin: 50% 0; rotate: var(--rot, 0deg); }
+  .flyer-link { position: absolute; left: 0; top: 3px; display: block; width: var(--w); border-radius: 1px; }
+  /* The paper: a light rim (the printed sheet's edge, so a day sky's flyer doesn't melt into the day sky)
+     and, by day, its shadow. */
+  .flyer-paper { display: block; box-shadow: var(--paper-shadow); outline: 1.5px solid var(--paper-edge); outline-offset: -1.5px; }
+  .flyer-link:focus-visible { outline: 3px solid var(--role-focus); outline-offset: 3px; }
+  @media (hover: hover) { .flyer-link:hover .flyer-paper { filter: brightness(1.03); } }
+
+  /* The clothespin: its notch on the cord (the swing's top), its jaws 12px into the paper, which stays
+     clear of every poster's title (they start 15px down at this size). */
+  .pin { position: absolute; left: 50%; top: -39px; width: 18px; height: 54px; margin-left: -9px; overflow: visible; filter: var(--pin-shadow); }
+  .pin-jaw { stroke: var(--wood-edge); stroke-width: 0.7; stroke-linejoin: round; }
+  .pin-jaw--front { fill: var(--wood); }
+  .pin-jaw--back { fill: var(--wood-shade); }
+  .pin-light { fill: none; stroke: var(--wood-light); stroke-width: 0.85; stroke-linecap: round; }
+  .pin-eye { fill: var(--cord); }
+  .pin-arm { fill: none; stroke: var(--steel); stroke-width: 0.95; stroke-linecap: round; }
+  .pin-spring { fill: var(--steel); }
+  .pin-coil { fill: none; stroke: var(--steel-light); stroke-width: 0.7; stroke-linecap: round; }
+
+  /* The share tag hangs under its flyer on a short thread, through an eyelet: "Mandar". */
+  .tag {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    width: 7.25rem;
+    height: 44px;
+    padding: 0 0 0 16px;
+    border-radius: var(--radius-pill);
+    background: var(--role-accent);
+    color: var(--role-on-accent);
+    font: 700 1rem/1 var(--font-ui);
+    text-decoration: none;
+    translate: calc(var(--tag-x, 50%) - 50%) var(--tag-y, 280px);
+    box-shadow: var(--paper-shadow);
+  }
+  .tag::before { content: ''; position: absolute; left: calc(50% - 0.75px); bottom: calc(100% - 8px); width: 1.5px; height: 20px; background: var(--cord); }
+  .tag::after { content: ''; position: absolute; left: calc(50% - 4px); top: 4px; width: 8px; height: 8px; border-radius: 50%; background: var(--role-ground); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--role-accent) 55%, var(--role-ink)); }
+  .tag .i-sm { margin-top: 1px; }
+  @media (hover: hover) { .tag:hover { background: var(--role-accent-hover); } }
+  .tag:focus-visible { outline: 2px solid var(--role-focus); outline-offset: 3px; }
+  /* Beside the next activity's tag, the day it comes, in NOS's voice. */
+  .tag-when {
+    position: absolute;
+    left: 0;
+    top: 0;
+    translate: calc(var(--tag-x, 50%) + 4.25rem) calc(var(--tag-y, 280px) + 10px);
+    font: 800 1.1875rem/1.2 var(--font-display);
+    letter-spacing: -0.015em;
+    color: var(--role-accent-text);
+    white-space: nowrap;
+  }
+
+  /* The last thing on the line: NOS's own note, pinned like the flyers, to the whole agenda. */
+  .pendant--note .swing { padding-top: 3px; }
+  .note {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: var(--w);
+    height: 196px;
+    padding: 22px 16px 16px 18px;
+    border: 1px solid var(--role-card-border);
+    background: var(--role-card);
+    box-shadow: var(--paper-shadow);
+    color: var(--role-ink);
+    text-decoration: none;
+  }
+  .note-text { font: 800 1.5rem/1.1 var(--font-display); letter-spacing: -0.022em; text-wrap: balance; font-variant-numeric: tabular-nums; }
+  .note-go { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: var(--role-accent-text); }
+  .note:focus-visible { outline: 3px solid var(--role-focus); outline-offset: 3px; }
+
+  /* ---------- The land ---------- */
+  /* The flyers and their tags reach 193px below the band: the land starts under them. */
+  .land { position: relative; padding: 209px calc(16px + env(safe-area-inset-right)) 0 calc(16px + env(safe-area-inset-left)); }
+  .see-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 52px;
+    font: 800 1.375rem/1.15 var(--font-display);
+    letter-spacing: -0.02em;
+    color: var(--role-accent-text);
+    text-decoration: none;
+    font-variant-numeric: tabular-nums;
+  }
+  .see-all .i { width: 24px; height: 24px; transition: translate 0.2s var(--ease); }
+  @media (hover: hover) { .see-all:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.16em; } .see-all:hover .i { translate: 3px 0; } }
+
+  /* The other pages as rows of type on the land: each name in its landscape's deep shade, then what it
+     holds today. The whole row is its link. */
+  .pages { margin-top: 22px; }
+  .page-row { position: relative; padding: 20px 0 24px; border-top: 1px solid var(--role-line); }
+  .page-name { display: flex; align-items: center; gap: 10px; font: 800 1.75rem/1.1 var(--font-display); letter-spacing: -0.025em; color: var(--page-text); }
+  .page-name a { display: inline-flex; align-items: center; gap: 10px; color: inherit; text-decoration: none; }
+  .page-name a::after { content: ''; position: absolute; inset: 0; }
+  .page-name a:focus-visible { outline: none; }
+  .page-row:has(a:focus-visible) { outline: 2px solid var(--role-focus); outline-offset: 4px; border-radius: var(--radius-sm); }
+  .page-name .i { width: 26px; height: 26px; }
+  .page-name .go { width: 24px; height: 24px; margin-left: auto; transition: translate 0.2s var(--ease); }
+  @media (hover: hover) { .page-row:hover .go { translate: 3px 0; } .page-row:hover .page-lead { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.14em; } }
+  .page-lead { margin-top: 10px; font: 750 1.3125rem/1.24 var(--font-display); letter-spacing: -0.016em; text-wrap: balance; }
+  .page-meta { margin-top: 8px; font-size: 1rem; line-height: 1.45; color: var(--role-ink-soft); text-wrap: pretty; }
+  .page-meta time { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .layers { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 0; padding: 0; list-style: none; }
+  .glyph { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: var(--role-pin); color: var(--role-on-pin); }
+  .glyph .i { width: 20px; height: 20px; }
+
+  /* Who: what NOS follows, in its voice, and the eight groups as the dots the flyers carry. */
+  .about { padding: 28px 0 8px; border-top: 1px solid var(--role-line); }
+  .about-title { font: 800 1.5rem/1.15 var(--font-display); letter-spacing: -0.022em; text-wrap: balance; }
+  .about-body { margin-top: 14px; }
+  .groups { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0; padding: 0; list-style: none; font-size: 1rem; line-height: 1.4; }
+  .groups li { display: inline-flex; align-items: center; gap: 8px; }
+  .groups .dot { width: 10px; height: 10px; }
+  .about-note { margin-top: 14px; font-size: 1rem; line-height: 1.5; color: var(--role-ink-soft); text-wrap: pretty; }
+  /* Night: the stars that would sit against the bar's words or a heading read as stray full stops (measured
+     at 390 and 1440), so they stay out. */
+  .site-head--d .stars circle:is(:nth-child(8), :nth-child(9), :nth-child(11), :nth-child(12), :nth-child(13)) { display: none; }
+</style>
+</head>
+<body class="page-home">
+<!--
+  Início · D · Varal (phone, 390 wide). The coming activities of the agenda hang on a varal stretched across
+  the lower sky, the way cordel hangs on a string at the fair ("literatura de barbante"): each one is its own
+  Cartaz, drawn by the site's js/flyer.js from the agenda's rows, so the home shows at once what NOS gives,
+  the organizations' agenda with every activity ready to send. A flyer opens its activity in the agenda
+  (agenda.html#ev-…); the urucum tag hanging under it, "Mandar", is its WhatsApp message (wa.me/?text=, the
+  real message js/whatsapp.js builds from the agenda's row, with its source post). The first is the next one,
+  "amanhã". On the land: "Ver as 15 atividades até 13/12", then Notícias, Mapa and Comércio as rows of type,
+  and who NOS follows.
+
+  Signature interaction: the cord is fixed across the screen, a catenary between two posts beyond its edges;
+  the varal swipes sideways and the flyers slide along the cord like clothes on a pulley line, rising and
+  dipping with the sag, swaying a little as they move (a damped pendulum per flyer, pushed by the swipe's
+  speed) and once when the page opens. Under reduced motion they follow the cord without swaying. The line
+  ends with NOS's own note, "Mais 8 até 13/12", pinned like the flyers. The header doesn't stick here (the
+  flyers hang out of it); built, the varal would live in the land layer so the bar can stick alone.
+
+  Real (Thursday 12/11/2026, 10h): the seven activities and their flyers (assets/inicio-panfletos.js), their
+  ids and WhatsApp messages (from data/agenda/2026-11.csv), the counts (15 activities until 13/12, 47 places
+  in 7 layers, 28 businesses, 85 organizations followed), the lead story of Notícias. Illustrative: which
+  seven hang (the brief's pick, in date order: deadlines and periods of the 20/11 are in the agenda), the
+  clothespins and the cord, the tilts.
+-->
+<svg class="sr-only" aria-hidden="true" focusable="false">
+  <!-- The clothespin, two wooden jaws and a steel spring: the notch where the cord runs at y 43. -->
+  <symbol id="pin" viewBox="0 0 20 60">
+    <path class="pin-jaw pin-jaw--back" d="M10.8 1.05 L16.55 1.5 Q17.3 1.56 17.24 2.3 L15.4 24 L14.45 57.1 Q14.33 59.35 12.2 59.42 L10.15 59.42 L10.15 24 Z"/>
+    <path class="pin-jaw pin-jaw--front" d="M9.2 1.05 L3.45 1.5 Q2.7 1.56 2.76 2.3 L4.6 24 L5.55 57.1 Q5.67 59.35 7.8 59.42 L9.85 59.42 L9.85 24 Z"/>
+    <path class="pin-light" d="M3.95 3.6 L5.35 22.6 M6.05 28.4 L6.75 55.8"/>
+    <ellipse class="pin-eye" cx="10" cy="43" rx="1.35" ry="1.85"/>
+    <path class="pin-arm" d="M6.7 20.4 L5.35 6.2 M13.3 20.4 L14.65 6.2"/>
+    <rect class="pin-spring" x="3.4" y="20.1" width="13.2" height="7.3" rx="1.8"/>
+    <path class="pin-coil" d="M5.1 26.8 L6.9 20.8 M8.3 26.8 L10.1 20.8 M11.5 26.8 L13.3 20.8 M14.7 26.8 L15.7 23.4"/>
+  </symbol>
+</svg>
+  <header class="site-head site-head--home site-head--d">
+    <div data-sky-art></div>
+    <div class="site-head-inner">
+      <div data-site-bar></div>
+      <div class="lede">
+        <h1 class="lede-title">A agenda das organizações de Dourados</h1>
+        <p class="lede-line">Cada atividade com panfleto e mensagem para o WhatsApp.</p>
+      </div>
+    </div>
+    <section class="varal" aria-label="As próximas atividades" data-start="22" data-gap="44" data-post="34" data-sag="24" data-drop="3" data-thread="12" data-tilts="-2.4 1.8 -1.6 2.6 -2.2 1.5 -2.8 2">
+      <svg class="varal-cord" aria-hidden="true" focusable="false"><path class="cord"/><path class="cord-twist"/></svg>
+      <div class="varal-scroll" tabindex="0" aria-label="Panfletos das próximas atividades: deslize para o lado">
+        <ul class="varal-track" role="list">
+        <li class="pendant is-next">
+          <div class="swing">
+            <a class="flyer-link" href="agenda.html#ev-2026-11-13-festa-da-vitoria-em-dourados"><span class="sr-only">Festa da Vitória em Dourados, sexta, 13 de novembro, horário a confirmar (a próxima, amanhã): abrir na agenda</span><span class="flyer-paper" data-flyer="festa" data-style="poster" data-width="214"></span></a>
+            <svg class="pin" aria-hidden="true" focusable="false"><use href="#pin"/></svg>
+          </div>
+          <a class="tag" href="https://wa.me/?text=%F0%9F%9A%A9%20*FESTA*%20%C2%B7%20Dourados%2FMS%0A%0A*Festa%20da%20Vit%C3%B3ria%20em%20Dourados*%0A%F0%9F%91%A5%20PT%20Dourados%0A%0A%F0%9F%93%85%20*Sexta-feira%2C%2013%2F11*%0A%0AComemora%C3%A7%C3%A3o%20da%20vit%C3%B3ria%20do%20presidente%20Lula%2C%20convocada%20pelo%20PT%20Dourados%20e%20pelo%20Time%20do%20Lula%20Dourados.%20Hor%C3%A1rio%20e%20local%20ainda%20n%C3%A3o%20divulgados.%0A%0A%F0%9F%93%A3%20Fonte%3A%20https%3A%2F%2Fwww.instagram.com%2Ftimedoluladourados%2Fp%2FDfS29ABvl2h%2F%0A%0A%F0%9F%93%85%20Mais%20atividades%20na%20agenda%20do%20NOS%20Dourados%3A%20https%3A%2F%2Fnos.dourados.social%2Fagenda.html"><svg class="i-sm" aria-hidden="true"><use href="assets/icons.svg#message-circle"/></svg>Mandar<span class="sr-only"> no WhatsApp: Festa da Vitória em Dourados</span></a><span class="tag-when">amanhã</span>
+        </li>
+        <li class="pendant">
+          <div class="swing">
+            <a class="flyer-link" href="agenda.html#ev-2026-11-14-dia-de-vivencia-em-agroecologia-e-contra-os-agrotoxicos"><span class="sr-only">Dia de vivência em agroecologia e contra os agrotóxicos, sábado, 14 de novembro, 7h às 16h: abrir na agenda</span><span class="flyer-paper" data-flyer="vivencia" data-style="poster" data-width="214"></span></a>
+            <svg class="pin" aria-hidden="true" focusable="false"><use href="#pin"/></svg>
+          </div>
+          <a class="tag" href="https://wa.me/?text=%F0%9F%9A%A9%20*FORMA%C3%87%C3%83O*%20%C2%B7%20Dourados%2FMS%0A%0A*Dia%20de%20viv%C3%AAncia%20em%20agroecologia%20e%20contra%20os%20agrot%C3%B3xicos*%0A%F0%9F%91%A5%20MST%0A%0A%F0%9F%93%85%20*S%C3%A1bado%2C%2014%2F11*%0A%E2%8F%B0%207h%20%C3%A0s%2016h%0A%F0%9F%93%8D%20Tekoha%20Guyra%20Kambi%E2%80%99y%20(sa%C3%ADda%20da%20biblioteca%20da%20UFGD)%0A%0ADia%20de%20viv%C3%AAncia%20em%20agroecologia%20e%20contra%20os%20agrot%C3%B3xicos%20no%20Tekoha%20Guyra%20Kambi%E2%80%99y.%20A%20sa%C3%ADda%20%C3%A9%20%C3%A0s%207h%20da%20biblioteca%20da%20UFGD%2C%20com%20retorno%20%C3%A0s%2016h%20e%20refei%C3%A7%C3%A3o%20no%20local.%20%C3%89%20preciso%20se%20inscrever%20pelo%20formul%C3%A1rio%3B%20levar%20%C3%A1gua%2C%20protetor%20solar%2C%20pratos%20e%20talheres.%0A%0A%F0%9F%94%97%20https%3A%2F%2Fforms.gle%2FyePvcpdXikWYPetV8%0A%F0%9F%93%A3%20Fonte%3A%20https%3A%2F%2Fwww.instagram.com%2Fmstmatogrossodosul%2Fp%2FDfS3OvVz-GV%2F%0A%0A%F0%9F%93%85%20Mais%20atividades%20na%20agenda%20do%20NOS%20Dourados%3A%20https%3A%2F%2Fnos.dourados.social%2Fagenda.html"><svg class="i-sm" aria-hidden="true"><use href="assets/icons.svg#message-circle"/></svg>Mandar<span class="sr-only"> no WhatsApp: Dia de vivência em agroecologia e contra os agrotóxicos</span></a>
+        </li>
+        <li class="pendant">
+          <div class="swing">
+            <a class="flyer-link" href="agenda.html#ev-2026-11-14-feira-badaue-no-atelie"><span class="sr-only">Feira Badauê no Ateliê, sábado, 14, e domingo, 15 de novembro, 16h às 23h: abrir na agenda</span><span class="flyer-paper" data-flyer="badaue" data-style="poster" data-width="214"></span></a>
+            <svg class="pin" aria-hidden="true" focusable="false"><use href="#pin"/></svg>
+          </div>
+          <a class="tag" href="https://wa.me/?text=%F0%9F%9A%A9%20*FEIRA*%20%C2%B7%20Dourados%2FMS%0A%0A*Feira%20Badau%C3%AA%20no%20Ateli%C3%AA*%0A%F0%9F%91%A5%20Feira%20Badau%C3%AA%2C%20Inspirat%C3%B3rio%20Ateli%C3%AA%0A%0A%F0%9F%93%85%20*S%C3%A1b%2C%2014%2F11%20a%20Dom%2C%2015%2F11*%0A%E2%8F%B0%2016h%20%C3%A0s%2023h%0A%F0%9F%93%8D%20Inspirat%C3%B3rio%20Ateli%C3%AA%20%E2%80%93%20Rua%20Pedro%20Rigotti%2C%20414%0A%0AA%205%C2%AA%20edi%C3%A7%C3%A3o%20da%20feira%20de%20arte%20Badau%C3%AA%2C%20a%20%22Badau%C3%AA%20no%20Ateli%C3%AA%22%2C%20agora%20na%20sede%20oficial%20da%20feira%2C%20o%20Inspirat%C3%B3rio%20Ateli%C3%AA%2C%20que%20a%20apresenta%20com%20o%20grupo%20Badau%C3%AA.%20No%20s%C3%A1bado%20(14%2F11)%2C%20show%20de%20Nana%20Coloral%2C%20o%20teatro%20%22Estorvos%20%E2%80%93%20se%20essa%20rua%20fosse%20nossa%22%2C%20do%20Coletivo%20Clandestino%2C%20interven%C3%A7%C3%A3o%20po%C3%A9tica%20de%20Kaio%20Ramos%20e%20DJ%20Katharina.%20No%20domingo%20(15%2F11)%2C%20show%20de%20Al%C3%AA%20Borges%2C%20DJ%20Gisele%20e%20o%20espet%C3%A1culo%20%22Estamos%20em%20Ebuli%C3%A7%C3%A3o%22%2C%20do%20artista%20circense%20%40wesleypd1.%0A%0A%F0%9F%93%A3%20Fonte%3A%20https%3A%2F%2Fwww.instagram.com%2Ffeirabadaue%2Fp%2FDfTLU-2tttI%2F%0A%0A%F0%9F%93%85%20Mais%20atividades%20na%20agenda%20do%20NOS%20Dourados%3A%20https%3A%2F%2Fnos.dourados.social%2Fagenda.html"><svg class="i-sm" aria-hidden="true"><use href="assets/icons.svg#message-circle"/></svg>Mandar<span class="sr-only"> no WhatsApp: Feira Badauê no Ateliê</span></a>
+        </li>
+        <li class="pendant">
+          <div class="swing">
+            <a class="flyer-link" href="agenda.html#ev-2026-11-14-feira-batuque-7-edicao"><span class="sr-only">Feira Batuque – 7ª edição, sábado, 14 de novembro, 17h: abrir na agenda</span><span class="flyer-paper" data-flyer="batuque" data-style="poster" data-width="214"></span></a>
+            <svg class="pin" aria-hidden="true" focusable="false"><use href="#pin"/></svg>
+          </div>
+          <a class="tag" href="https://wa.me/?text=%F0%9F%9A%A9%20*FEIRA*%20%C2%B7%20Dourados%2FMS%0A%0A*Feira%20Batuque%20%E2%80%93%207%C2%AA%20edi%C3%A7%C3%A3o*%0A%F0%9F%91%A5%20Feira%20Batuque%0A%0A%F0%9F%93%85%20*S%C3%A1bado%2C%2014%2F11*%0A%E2%8F%B0%2017h%0A%F0%9F%93%8D%20Centro%20de%20Conven%C3%A7%C3%B5es%20Ant%C3%B4nio%20Tonani%0A%0AS%C3%A9tima%20edi%C3%A7%C3%A3o%20do%20encontro%20mensal%20de%20m%C3%BAsica%2C%20comida%20e%20arte%20da%20Feira%20Batuque%2C%20com%20roda%20de%20samba%20do%20Grupo%20N%C3%A3o%20Tem%20Hora%20e%20expositores%20de%20artesanato%2C%20artes%20visuais%2C%20moda%2C%20brech%C3%B3s%2C%20aromas%2C%20produtos%20criativos%20e%20gastronomia.%0A%0A%F0%9F%93%A3%20Fonte%3A%20https%3A%2F%2Fwww.instagram.com%2Ffeira.batuque%2Fp%2FDfUpRapNviI%2F%0A%0A%F0%9F%93%85%20Mais%20atividades%20na%20agenda%20do%20NOS%20Dourados%3A%20https%3A%2F%2Fnos.dourados.social%2Fagenda.html"><svg class="i-sm" aria-hidden="true"><use href="assets/icons.svg#message-circle"/></svg>Mandar<span class="sr-only"> no WhatsApp: Feira Batuque – 7ª edição</span></a>
+        </li>
+        <li class="pendant">
+          <div class="swing">
+            <a class="flyer-link" href="agenda.html#ev-2026-11-14-batalha-da-50-edicao-especial-do-projeto-50-em-cena"><span class="sr-only">Batalha da 50: edição especial do projeto 50 em Cena, sábado, 14 de novembro, 18h30: abrir na agenda</span><span class="flyer-paper" data-flyer="batalha" data-style="poster" data-width="214"></span></a>
+            <svg class="pin" aria-hidden="true" focusable="false"><use href="#pin"/></svg>
+          </div>
+          <a class="tag" href="https://wa.me/?text=%F0%9F%9A%A9%20*BATALHA*%20%C2%B7%20Dourados%2FMS%0A%0A*Batalha%20da%2050%3A%20edi%C3%A7%C3%A3o%20especial%20do%20projeto%2050%20em%20Cena*%0A%F0%9F%91%A5%20Batalha%20da%20Cinquenta%0A%0A%F0%9F%93%85%20*S%C3%A1bado%2C%2014%2F11*%0A%E2%8F%B0%2018h30%0A%F0%9F%93%8D%20Pra%C3%A7a%20do%20Cinquenten%C3%A1rio%0A%0AEdi%C3%A7%C3%A3o%20especial%20da%20batalha%20de%20rima%20que%20encerra%20o%20projeto%2050%20em%20Cena%2C%20com%2016%20MCs%2C%20pocket%20shows%20de%20CS%20Ruero%2C%20Menor%20DDS%2C%20Clara%20Bonfim%20e%20MC%20Menani%20e%20premia%C3%A7%C3%A3o%20em%20dinheiro%20(R%24%20800%2C%20R%24%20500%20e%20R%24%20300%20para%20os%20tr%C3%AAs%20primeiros).%20Evento%20gratuito%2C%20com%20incentivo%20do%20FIP%2C%20da%20Prefeitura%20de%20Dourados.%0A%0A%F0%9F%93%A3%20Fonte%3A%20https%3A%2F%2Fwww.instagram.com%2Fbatalhadacinquenta%2Fp%2FDfVzLktG8eH%2F%0A%0A%F0%9F%93%85%20Mais%20atividades%20na%20agenda%20do%20NOS%20Dourados%3A%20https%3A%2F%2Fnos.dourados.social%2Fagenda.html"><svg class="i-sm" aria-hidden="true"><use href="assets/icons.svg#message-circle"/></svg>Mandar<span class="sr-only"> no WhatsApp: Batalha da 50: edição especial do projeto 50 em Cena</span></a>
+        </li>
+        <li class="pendant">
+          <div class="swing">
+            <a class="flyer-link" href="agenda.html#ev-2026-11-20-7-feira-afro-zumbi-vive"><span class="sr-only">7ª Feira Afro Zumbi Vive, sexta, 20 de novembro, Dia da Consciência Negra, horário a confirmar: abrir na agenda</span><span class="flyer-paper" data-flyer="zumbi" data-style="poster" data-width="214"></span></a>
+            <svg class="pin" aria-hidden="true" focusable="false"><use href="#pin"/></svg>
+          </div>
+          <a class="tag" href="https://wa.me/?text=%F0%9F%9A%A9%20*FEIRA*%20%C2%B7%20Dourados%2FMS%0A%0A*7%C2%AA%20Feira%20Afro%20Zumbi%20Vive*%0A%F0%9F%91%A5%20Quintal%20de%20Palmares%0A%0A%F0%9F%93%85%20*Sexta-feira%2C%2020%2F11*%0A%F0%9F%93%8D%20Pra%C3%A7a%20Ant%C3%B4nio%20Jo%C3%A3o%0A%0AFeira%20de%20valoriza%C3%A7%C3%A3o%20da%20cultura%2C%20da%20ancestralidade%20e%20do%20empreendedorismo%20negro%2C%20com%20artesanato%2C%20gastronomia%2C%20moda%2C%20brech%C3%B3%2C%20cosm%C3%A9ticos%20e%20servi%C3%A7os.%20Empreendedores%20negros%20podem%20se%20inscrever%20como%20expositores%20at%C3%A9%2027%2F10%20(prazo%20prorrogado).%0A%0A%F0%9F%94%97%20https%3A%2F%2Fforms.gle%2F3GoXv93CZfEetKgz6%0A%F0%9F%93%A3%20Fonte%3A%20https%3A%2F%2Fwww.instagram.com%2Fquintaldepalmares%2Fp%2FDeAQSSfRUa3%2F%0A%0A%F0%9F%93%85%20Mais%20atividades%20na%20agenda%20do%20NOS%20Dourados%3A%20https%3A%2F%2Fnos.dourados.social%2Fagenda.html"><svg class="i-sm" aria-hidden="true"><use href="assets/icons.svg#message-circle"/></svg>Mandar<span class="sr-only"> no WhatsApp: 7ª Feira Afro Zumbi Vive</span></a>
+        </li>
+        <li class="pendant">
+          <div class="swing">
+            <a class="flyer-link" href="agenda.html#ev-2026-11-27-roda-oficial-da-escola-matumbe-de-capoeira-angola"><span class="sr-only">Roda Oficial da Escola Matumbé de Capoeira Angola, sexta, 27 de novembro, 19h: abrir na agenda</span><span class="flyer-paper" data-flyer="matumbe" data-style="poster" data-width="214"></span></a>
+            <svg class="pin" aria-hidden="true" focusable="false"><use href="#pin"/></svg>
+          </div>
+          <a class="tag" href="https://wa.me/?text=%F0%9F%9A%A9%20*CULTURA*%20%C2%B7%20Dourados%2FMS%0A%0A*Roda%20Oficial%20da%20Escola%20Matumb%C3%A9%20de%20Capoeira%20Angola*%0A%F0%9F%91%A5%20Escola%20Matumb%C3%A9%20Capoeira%20Angola%0A%0A%F0%9F%93%85%20*Sexta-feira%2C%2027%2F11*%0A%E2%8F%B0%2019h%0A%F0%9F%93%8D%20Academia%20da%20Sa%C3%BAde%20%E2%80%93%20Parque%20do%20Lago%0A%0ARoda%20oficial%20da%20Escola%20Matumb%C3%A9%2C%20aberta%20a%20capoeiristas%20de%20Dourados%20e%20a%20quem%20admira%20a%20Capoeira%20Angola.%20Uniforme%3A%20cal%C3%A7a%20de%20cor%20clara%20e%20camiseta%20branca%2C%20ou%20o%20uniforme%20oficial%20do%20grupo.%0A%0A%F0%9F%93%A3%20Fonte%3A%20https%3A%2F%2Fwww.instagram.com%2Fmatumbe_ms%2Freel%2FDfeCUImM_H2%2F%0A%0A%F0%9F%93%85%20Mais%20atividades%20na%20agenda%20do%20NOS%20Dourados%3A%20https%3A%2F%2Fnos.dourados.social%2Fagenda.html"><svg class="i-sm" aria-hidden="true"><use href="assets/icons.svg#message-circle"/></svg>Mandar<span class="sr-only"> no WhatsApp: Roda Oficial da Escola Matumbé de Capoeira Angola</span></a>
+        </li>
+
+          <li class="pendant pendant--note" style="--w: 156px">
+            <div class="swing">
+              <a class="note" href="agenda.html"><span class="note-text">Mais 8 atividades até 13/12</span><span class="note-go">Ver a agenda<svg class="i-sm" aria-hidden="true"><use href="assets/icons.svg#arrow-right"/></svg></span></a>
+              <svg class="pin" aria-hidden="true" focusable="false"><use href="#pin"/></svg>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </header>
+  <div class="band band--home" aria-hidden="true"></div>
+  <main id="main" class="land">
+    <a class="see-all" href="agenda.html">Ver as 15 atividades até 13/12<svg class="i" aria-hidden="true"><use href="assets/icons.svg#arrow-right"/></svg></a>
+
+    <section class="pages" aria-label="Também no NOS">
+      <article class="page-row p-news">
+        <h2 class="page-name"><a href="noticias.html"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#newspaper"/></svg>Notícias</a><svg class="go" aria-hidden="true"><use href="assets/icons.svg#arrow-right"/></svg></h2>
+        <p class="page-lead">Aty Guasu e APIB denunciam onda de violência contra Guarani e Kaiowá depois da eleição</p>
+        <p class="page-meta"><time datetime="2026-10-28">qua 28/10</time> · Alerta · Aty Guasu</p>
+      </article>
+      <article class="page-row p-map">
+        <h2 class="page-name"><a href="mapa.html"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#map"/></svg>Mapa</a><svg class="go" aria-hidden="true"><use href="assets/icons.svg#arrow-right"/></svg></h2>
+        <p class="page-lead">47 lugares da cultura e dos movimentos</p>
+        <ul class="layers" aria-label="Camadas do mapa">
+          <li><span class="glyph"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#berimbau"/></svg></span><span class="sr-only">Capoeira, 18</span></li>
+          <li><span class="glyph"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#mic-vocal"/></svg></span><span class="sr-only">Batalhas de rima, 2</span></li>
+          <li><span class="glyph"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#shopping-basket"/></svg></span><span class="sr-only">Feiras, 4</span></li>
+          <li><span class="glyph"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#drama"/></svg></span><span class="sr-only">Espaços culturais, 7</span></li>
+          <li><span class="glyph"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#megaphone"/></svg></span><span class="sr-only">Sindicatos, 5</span></li>
+          <li><span class="glyph"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#graduation-cap"/></svg></span><span class="sr-only">Universidades, 5</span></li>
+          <li><span class="glyph"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#landmark"/></svg></span><span class="sr-only">Poder público, 6</span></li>
+        </ul>
+      </article>
+      <article class="page-row p-commerce">
+        <h2 class="page-name"><a href="comercio.html"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#store"/></svg>Comércio</a><svg class="go" aria-hidden="true"><use href="assets/icons.svg#arrow-right"/></svg></h2>
+        <p class="page-lead">28 negócios da rede</p>
+        <p class="page-meta">Bolos e pães, mini salgados, espetinhos artesanais, comida asiática, tatuagem, aulas de reforço, nas palavras de quem faz.</p>
+      </article>
+    </section>
+
+    <section class="about">
+      <h2 class="about-title">O NOS acompanha o que 85 organizações de Dourados publicam</h2>
+      <div class="about-body">
+      <ul class="groups">
+        <li><span class="dot g-movimentos"></span>movimentos sociais</li>
+        <li><span class="dot g-sindicatos"></span>sindicatos</li>
+        <li><span class="dot g-rural"></span>terra, povos indígenas e quilombolas</li>
+        <li><span class="dot g-academia"></span>estudantes e universidades</li>
+        <li><span class="dot g-outros"></span>cultura, feiras e capoeira</li>
+        <li><span class="dot g-terceiro"></span>terceiro setor</li>
+        <li><span class="dot g-partidos"></span>partidos</li>
+        <li><span class="dot g-estado"></span>órgãos públicos</li>
+      </ul>
+      <p class="about-note">Não fala por elas: cada atividade diz quem convida e traz o post de onde veio.</p>
+      </div>
+    </section>
+  </main>
+  <div data-site-foot></div>
+  <script type="module">
+    import { fillChrome } from './assets/inicio-chrome.js';
+    import { fillFlyers } from './assets/inicio-panfletos.js';
+
+    // The varal: a catenary fixed across the view (posts at its edges, `post` px down, `sag` px deeper in
+    // the middle); each pendant hangs from it by its pin, at the height the cord has where the pendant is
+    // on screen, so swiping slides them along it. A damped pendulum per pendant sways it with the swipe.
+    function hangVaral(varal) {
+      const d = varal.dataset, num = (k) => Number(d[k]);
+      const scroller = varal.querySelector('.varal-scroll');
+      const cord = varal.querySelector('.varal-cord');
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const tilts = d.tilts.split(' ').map(Number);
+      const pendants = [...varal.querySelectorAll('.pendant')].map((el, i) => {
+        const slot = el.querySelector('[data-width]');
+        const w = slot ? Number(slot.dataset.width) : parseFloat(el.style.getPropertyValue('--w'));
+        const h = slot ? Math.round(w * 1.25) : 196;
+        if (slot) el.style.setProperty('--w', `${w}px`);
+        return { el, w, h, base: tilts[i % tilts.length], th: 0, om: 0, tag: !!el.querySelector('.tag') };
+      });
+      let x = num('start');
+      for (const p of pendants) { p.left = x; p.xc = x + p.w / 2; x += p.w + num('gap'); p.el.style.setProperty('--left', `${p.left}px`); }
+      scroller.querySelector('.varal-track').style.width = `${x - num('gap') + num('start')}px`;
+
+      let W = 0, a = 1;
+      const y0 = num('post'), S = num('sag');
+      const cordY = (sx) => { const u = Math.min(Math.max(sx, 0), W) - W / 2; return y0 + S - a * (Math.cosh(u / a) - 1); };
+      function measure() {
+        W = varal.clientWidth;
+        let lo = W / 40, hi = (W * W) / S;                       // a·(cosh(W/2a) − 1) = S, by bisection
+        for (let i = 0; i < 80; i++) { const m = (lo + hi) / 2; if (m * (Math.cosh(W / (2 * m)) - 1) > S) lo = m; else hi = m; }
+        a = (lo + hi) / 2;
+        let path = '';
+        for (let i = 0; i <= 64; i++) { const sx = (W * i) / 64; path += `${i ? 'L' : 'M'}${sx.toFixed(1)} ${cordY(sx).toFixed(2)}`; }
+        cord.setAttribute('viewBox', `0 0 ${W} 80`);
+        for (const p of cord.querySelectorAll('path')) p.setAttribute('d', path);
+      }
+      const drop = num('drop'), thread = num('thread');
+      function place(p, scroll) {
+        const rot = p.base + p.th, r = (rot * Math.PI) / 180, L = p.h + drop;
+        p.el.style.setProperty('--y', `${cordY(p.xc - scroll).toFixed(2)}px`);
+        p.el.style.setProperty('--rot', `${rot.toFixed(3)}deg`);
+        if (p.tag) {
+          p.el.style.setProperty('--tag-x', `${(p.w / 2 - L * Math.sin(r)).toFixed(2)}px`);
+          p.el.style.setProperty('--tag-y', `${(L * Math.cos(r) + thread).toFixed(2)}px`);
+        }
+      }
+
+      // The sway: θ'' = −ω²(θ − lean) − 2ζωθ', the lean following the swipe's speed (the paper trails it).
+      const OMEGA = 2 * Math.PI * 0.95, ZETA = 0.12, LEAN = 0.0042, MAX = 7;
+      let last = performance.now(), lastScroll = scroller.scrollLeft, speed = 0, running = false;
+      function frame(now) {
+        const dt = Math.min(0.034, Math.max(0.001, (now - last) / 1000));
+        last = now;
+        const scroll = scroller.scrollLeft;
+        speed += ((scroll - lastScroll) / dt - speed) * 0.3;
+        lastScroll = scroll;
+        let active = Math.abs(speed) > 4;
+        const lean = Math.max(-MAX, Math.min(MAX, -speed * LEAN));
+        for (const p of pendants) {
+          if (!reduce) {
+            p.om += (-OMEGA * OMEGA * (p.th - lean) - 2 * ZETA * OMEGA * p.om) * dt;
+            p.th = Math.max(-MAX, Math.min(MAX, p.th + p.om * dt));
+            if (Math.abs(p.th) > 0.015 || Math.abs(p.om) > 0.05) active = true;
+          }
+          place(p, scroll);
+        }
+        if (active) requestAnimationFrame(frame); else running = false;
+      }
+      const wake = () => { if (!running) { running = true; last = performance.now(); requestAnimationFrame(frame); } };
+
+      measure();
+      for (const p of pendants) place(p, scroller.scrollLeft);
+      scroller.addEventListener('scroll', wake, { passive: true });
+      addEventListener('resize', () => { measure(); for (const p of pendants) place(p, scroller.scrollLeft); });
+      // Once when the page opens: a small push, a different one for each, so they don't swing in step.
+      if (!reduce) { pendants.forEach((p, i) => { p.om = (i % 2 ? 1 : -1) * (7 + 3 * (i % 3)); }); wake(); }
+    }
+
+    fillChrome();
+    hangVaral(document.querySelector('.varal'));
+    fillFlyers();
+  </script>
+</body>
+</html>

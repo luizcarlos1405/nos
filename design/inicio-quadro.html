@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="pt-BR" data-scheme="light" data-sky="day">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Início · Quadro</title>
+<meta name="description" content="As cinco propostas para a página inicial em palavras: o que cada uma mostra primeiro, as imagens, o que pede para ser construída, o risco, a sugestão e o que falta decidir.">
+<meta name="htmlboard" content="width=1200, height=3819">
+<link rel="stylesheet" href="../css/theme.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="assets/design.css">
+<style>
+/* The home proposals of 12/11/2026 on one board, in words: the five ideas, what they share, the suggestion and
+   the open decisions. The screens are the artboards beside it. Its colours are the light theme's palette,
+   frozen, like the other boards. */
+.board { width: 1200px; padding: 56px 64px 64px; background: var(--color-clay); color: var(--color-ink); }
+.board h1 { margin: 0; font: 800 3rem/1.05 var(--font-display); letter-spacing: -0.03em; }
+.board .lead { max-width: 68ch; margin: 14px 0 0; font-size: 1.1875rem; line-height: 1.5; color: var(--color-ink-soft); text-wrap: pretty; }
+.board .lead b { color: var(--color-ink); font-weight: 600; }
+.board h2 { margin: 0 0 14px; font: 750 1.5rem/1.15 var(--font-display); letter-spacing: -0.02em; }
+.board h3 { margin: 0; font: 800 1.75rem/1.1 var(--font-display); letter-spacing: -0.025em; }
+.board .section-title { margin: 52px 0 16px; font: 750 1.875rem/1.15 var(--font-display); letter-spacing: -0.02em; }
+.box { padding: 26px 30px 26px; border-radius: var(--radius-card); background: var(--color-clay-card);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--color-earth-shadow) 8%, transparent), 0 6px 16px color-mix(in srgb, var(--color-earth-shadow) 7%, transparent); }
+
+.ideas { display: grid; gap: 14px; }
+.idea { display: grid; grid-template-columns: 290px 1fr; column-gap: 40px; }
+.idea-head { display: grid; grid-template-columns: 44px 1fr; column-gap: 14px; align-content: start; }
+.idea-letter { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--color-ink); color: var(--color-clay-card);
+  font: 800 1.375rem/1 var(--font-display); }
+.idea-thesis { grid-column: 2; margin: 8px 0 0; font: 600 1.0625rem/1.4 var(--font-ui); text-wrap: balance; }
+.idea-files { grid-column: 2; margin: 14px 0 0; font-size: 0.8125rem; line-height: 1.5; color: var(--color-ink-soft); }
+.idea dl { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 32px; margin: 0; }
+.idea dl > div:first-child, .idea dl > .risk { grid-column: 1 / -1; }
+.idea dt { font: 700 0.9375rem/1.3 var(--font-display); color: var(--color-ink); }
+.idea dd { margin: 4px 0 0; font-size: 0.9375rem; line-height: 1.5; color: var(--color-ink); text-wrap: pretty; }
+.idea dd em { font-style: normal; font-weight: 600; }
+.risk dd { color: var(--color-ink-soft); }
+
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.rules { margin: 0; padding-left: 18px; font-size: 0.9375rem; line-height: 1.5; }
+.rules li + li { margin-top: 8px; }
+.rules li::marker { color: var(--color-ink-soft); }
+.rules b { font-weight: 600; }
+
+.pick { display: grid; grid-template-columns: 290px 1fr; column-gap: 40px; align-items: start;
+  background: var(--color-urucum-tint); box-shadow: none; }
+.pick h2 { margin: 0; font-size: 1.875rem; }
+.pick-name { display: inline-flex; align-items: center; gap: 12px; margin-top: 12px; font: 800 1.375rem/1.1 var(--font-display); }
+.pick-name .idea-letter { width: 40px; height: 40px; font-size: 1.25rem; }
+.pick p { margin: 0; font-size: 1.0625rem; line-height: 1.55; text-wrap: pretty; }
+.pick p + p { margin-top: 10px; }
+
+.decide { margin: 0; padding: 0; list-style: none; counter-reset: q; }
+.decide li { position: relative; padding: 14px 0 14px 46px; border-top: 1px solid var(--color-clay-line); font-size: 1rem; line-height: 1.5; counter-increment: q; text-wrap: pretty; }
+.decide li:first-child { border-top: 0; padding-top: 4px; }
+.decide li::before { content: counter(q); position: absolute; left: 0; top: 12px; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%;
+  background: var(--color-clay-fill); font: 800 1rem/1 var(--font-display); }
+.decide li:first-child::before { top: 2px; }
+.decide b { font-weight: 600; }
+
+.how { margin-top: 40px; font-size: 0.875rem; line-height: 1.55; color: var(--color-ink-soft); max-width: 92ch; }
+.how p + p { margin-top: 6px; }
+.board code { font-size: 0.85em; }
+</style>
+</head>
+<!-- Início: the five proposals of 12/11/2026 in words. L asked for a better home: the current one is "just a few
+     cards", doesn't explain what NOS is, is hard to read; it should be prettier, cooler, maybe with images, and
+     explain the site at a glance without much small text. Five structures inside the approved Céu · Terra world:
+     A, B and C dealt by the impeccable skill's surface roll from seven (seed 3c2ca719), D and E the first two of
+     that ranked list (the user asked for five). Real content of 12/11/2026. The screens are the artboards beside it. -->
+<body>
+<div class="board">
+  <h1>Início</h1>
+  <p class="lead">A página inicial de hoje é um “Bom dia, Dourados” e quatro cartões em tons pastel, com letra pequena: ela não diz o que é o NOS. As cinco propostas fazem a mesma coisa de cinco jeitos: <b>numa olhada, quem chega por um link do WhatsApp entende que aqui estão as atividades, as notícias, os lugares e o comércio das organizações de Dourados</b>, e já pode mandar a próxima atividade para um grupo.</p>
+
+  <h2 class="section-title">Cinco ideias</h2>
+  <div class="ideas">
+    <section class="box idea">
+      <div class="idea-head">
+        <span class="idea-letter">A</span><h3>Line-up</h3>
+        <p class="idea-thesis">As organizações da agenda, num cartaz de festival.</p>
+        <p class="idea-files">Telas: celular (inteira, primeira tela, escuro) e computador (claro e escuro).</p>
+      </div>
+      <dl>
+        <div><dt>Na primeira tela</dt><dd>O céu vira cartaz: os nomes das 14 organizações que têm atividade até 13/12, em letra grande, cada um com a data e o pontinho do seu grupo; o PT Dourados circulado à mão, “amanhã”. Embaixo da faixa, a próxima atividade e “Mandar no WhatsApp”.</dd></div>
+        <div><dt>As imagens</dt><dd>Nenhuma foto: os nomes são a imagem. Mais embaixo, Notícias, Mapa e Comércio em linhas de letra, e “Quem o NOS acompanha”: todas as organizações, por grupo.</dd></div>
+        <div><dt>Para construir</dt><dd>Juntar a agenda por organização (a primeira data e “e mais 3”); quebrar as linhas pelo tamanho dos nomes, como os panfletos já fazem; a lista das organizações como dado do site.</dd></div>
+        <div class="risk"><dt>O risco</dt><dd>Cartaz de festival lembra show, e põe assembleia e plenária ao lado de feira. As siglas (MST, DCE UEMS) só dizem o nome completo ao tocar. Num mês cheio, com 25 nomes, o botão desce da primeira tela.</dd></div>
+      </dl>
+    </section>
+
+    <section class="box idea">
+      <div class="idea-head">
+        <span class="idea-letter">B</span><h3>Quero…</h3>
+        <p class="idea-thesis">Uma frase grande que a pessoa completa.</p>
+        <p class="idea-files">Telas: celular (inteira, primeira tela, escuro) e computador (com o mouse em “ir num evento”, em repouso e escuro).</p>
+      </div>
+      <dl>
+        <div><dt>Na primeira tela</dt><dd>“Em Dourados, eu quero…” no céu, e as respostas para tocar: <em>…ir num evento</em> (com os próximos 14 dias acesos onde tem atividade), <em>…saber o que está acontecendo</em>, <em>…treinar capoeira, ver uma batalha de rima, ir numa feira</em>, <em>…comprar de quem é da rede</em>. Cada uma já traz a resposta: 15 atividades, a notícia em destaque, 47 lugares, 28 negócios.</dd></div>
+        <div><dt>As imagens</dt><dd>Nenhuma: a letra grande e as cores das páginas. No computador, passar o mouse numa resposta completa a frase no céu (“Em Dourados, eu quero ir num evento”).</dd></div>
+        <div><dt>Para construir</dt><dd>Endereços novos: um dia da agenda, a busca da agenda e do comércio pelo endereço, uma camada do mapa; os atalhos (capoeira, feira, plenária, bolo…) escolhidos pelo que as páginas têm.</dd></div>
+        <div class="risk"><dt>O risco</dt><dd>É a mais simples das cinco, com pouca imagem: vive das palavras certas. No celular, “Mandar no WhatsApp” fica abaixo da primeira tela.</dd></div>
+      </dl>
+    </section>
+
+    <section class="box idea">
+      <div class="idea-head">
+        <span class="idea-letter">C</span><h3>Retratos</h3>
+        <p class="idea-thesis">As fotos das organizações, como portas.</p>
+        <p class="idea-files">Telas: celular (inteira, primeira tela, escuro) e computador (claro e escuro).</p>
+      </div>
+      <dl>
+        <div><dt>Na primeira tela</dt><dd>Portas em arco com fotos de verdade (a Feira Batuque à noite, a Batalha do Centrão na Praça Antônio João), de pé sobre a faixa: a maior é a Agenda, com o sol nascendo atrás dela; a outra é o Mapa. Cada foto diz de quem é e de quando. Embaixo, a próxima atividade e “Mandar no WhatsApp”.</dd></div>
+        <div><dt>As imagens</dt><dd>Fotos dos posts das próprias organizações. Notícias e Comércio entram pela própria letra: a manchete em ipê-amarelo, o que os negócios oferecem em ipê-rosa. No computador, cinco portas de alturas diferentes.</dd></div>
+        <div><dt>Para construir</dt><dd>Um lugar para a foto de cada porta (a foto, o crédito, a atividade ou o lugar), alguém da equipe escolhendo toda semana, imagens leves para o celular.</dd></div>
+        <div class="risk"><dt>O risco</dt><dd>Cada foto precisa da licença da organização: estas sete estão aqui só para mostrar a ideia e não vão para o repositório. Foto envelhece, e foto de gente pede cuidado: sem crianças, sem momentos delicados.</dd></div>
+      </dl>
+    </section>
+
+    <section class="box idea">
+      <div class="idea-head">
+        <span class="idea-letter">D</span><h3>Varal</h3>
+        <p class="idea-thesis">Os panfletos das próximas atividades pendurados, como cordel na feira.</p>
+        <p class="idea-files">Telas: celular (inteira, primeira tela, escuro) e computador (claro e escuro).</p>
+      </div>
+      <dl>
+        <div><dt>Na primeira tela</dt><dd>Um varal atravessa o céu com os panfletos de verdade das próximas atividades, presos com prendedores de madeira, cada um com o seu “Mandar” (a mensagem pronta para o WhatsApp). No celular o varal corre para o lado, e os panfletos balançam um pouco.</dd></div>
+        <div><dt>As imagens</dt><dd>Os próprios panfletos do NOS, que o site já faz: nenhuma licença a pedir. Mais embaixo, “Ver as 15 atividades”, Notícias, Mapa e Comércio em linhas de letra, e os grupos das organizações.</dd></div>
+        <div><dt>Para construir</dt><dd>Os panfletos em miniaturas de imagem (desenhar sete deles na página pesa), uma regra de quais vão para o varal, e o varal que corre e balança.</dd></div>
+        <div class="risk"><dt>O risco</dt><dd>No celular os panfletos ficam pequenos: o título e a data se leem, quem e onde ficam miúdos; cabe um e meio de cada vez.</dd></div>
+      </dl>
+    </section>
+
+    <section class="box idea">
+      <div class="idea-head">
+        <span class="idea-letter">E</span><h3>Um dia</h3>
+        <p class="idea-thesis">Rolar a página é passar um dia em Dourados.</p>
+        <p class="idea-files">Telas: celular (inteira, primeira tela, escuro) e computador (claro e escuro).</p>
+      </div>
+      <dl>
+        <div><dt>Na primeira tela</dt><dd>O amanhecer, a frase do que é o NOS e “O que vem por aí?”: a próxima atividade em letra grande e “Mandar no WhatsApp”. Descendo, o dia (“O que está acontecendo?”, a notícia), o entardecer (“Onde encontrar?”, os desenhos das camadas do mapa voando como pássaros) e a noite (“De quem comprar?”, as categorias do comércio sob a lua).</dd></div>
+        <div><dt>As imagens</dt><dd>O próprio céu do NOS em quatro horas, com o sol subindo e se pondo. No tema escuro, quatro noites, com a lua atravessando.</dd></div>
+        <div><dt>Para construir</dt><dd>Os céus de cada hora já estão no tema; falta, no site, o céu do topo mudar com o capítulo enquanto a página rola.</dd></div>
+        <div class="risk"><dt>O risco</dt><dd>A página é longa: Notícias, Mapa e Comércio só aparecem rolando (a barra leva a todas). Quatro céus podem parecer quatro páginas.</dd></div>
+      </dl>
+    </section>
+  </div>
+
+  <h2 class="section-title">O que as cinco têm em comum</h2>
+  <div class="cols">
+    <section class="box">
+      <h2>O que a primeira tela faz</h2>
+      <ul class="rules">
+        <li>Diz <b>o que é o NOS</b> logo na primeira frase, em palavras simples, sem sigla e sem jargão.</li>
+        <li>Mostra <b>coisas de verdade</b>: as atividades, a notícia e os números de 12/11 (15 atividades até 13/12, 47 lugares, 28 negócios, 85 organizações acompanhadas). Nada de figura genérica.</li>
+        <li>Tem <b>uma ação que funciona</b>: mandar a próxima atividade no WhatsApp ou abrir a agenda.</li>
+        <li>Leva a <b>cada página</b>: Agenda, Notícias, Mapa e Comércio.</li>
+      </ul>
+    </section>
+    <section class="box">
+      <h2>O que fica como está</h2>
+      <ul class="rules">
+        <li>O <b>mundo Céu · Terra</b>: o céu desta hora em faixas, a faixa tecida no horizonte, o barro e a terra roxa, o urucum que marca à mão.</li>
+        <li>A <b>barra do site</b> (a marca, as páginas, o botão do tema) e o rodapé com o crédito provisório da faixa.</li>
+        <li>O <b>tema claro e o escuro</b>: cada tela tem a sua variante “escuro”.</li>
+        <li><b>Letra de leitura</b> com pelo menos 16 px no celular, e nenhum cartão pastel com letra pequena.</li>
+      </ul>
+    </section>
+  </div>
+
+  <h2 class="section-title">Sugestão</h2>
+  <section class="box pick">
+    <div>
+      <h2>Por onde eu iria</h2>
+      <span class="pick-name"><span class="idea-letter">D</span>Varal</span>
+    </div>
+    <div>
+      <p>O varal mostra numa olhada o que o NOS faz, a agenda das organizações com cada atividade pronta para o WhatsApp, e faz isso com imagens que são do próprio NOS, sem licença a pedir, numa forma que todo mundo conhece da feira. Ele fica bonito no claro e no escuro, e cresce junto com a agenda.</p>
+      <p>Se as organizações toparem ceder fotos, as portas do <b>C · Retratos</b> são o jeito mais bonito de mostrar gente, e uma foto pode ir para o varal ao lado dos panfletos. O <b>E · Um dia</b> é o mais ousado. Dá para misturar: o varal do D em cima, as respostas do B embaixo, por exemplo.</p>
+    </div>
+  </section>
+
+  <h2 class="section-title">Para decidir</h2>
+  <section class="box">
+    <ol class="decide">
+      <li><b>Qual caminho seguir</b>, ou o que misturar. A próxima rodada pode refinar uma ideia ou juntar partes de duas.</li>
+      <li><b>Fotos</b> (só o C depende disso): pedir licença às organizações, post por post, ou a equipe do NOS fotografar as atividades?</li>
+      <li><b>A próxima atividade na primeira tela</b>: hoje ela é a Festa da Vitória do PT Dourados, e em A, B, C e E é a primeira coisa que aparece. Mostrar sempre a próxima, seja qual for, ou a semana inteira, como fazem A e D?</li>
+      <li><b>A contagem</b> “85 organizações acompanhadas” (71 da sociedade civil e 14 órgãos públicos, a conta do relatório ao Comitê) pode aparecer na página inicial?</li>
+    </ol>
+  </section>
+
+  <div class="how">
+    <p>Como olhar: cada proposta tem o celular com a página inteira, a “primeira tela” (390 × 844, o que se vê sem rolar, com a barra de baixo) e o escuro; e o computador, claro e escuro. O conteúdo é o do site em 12/11/2026, às 10h. As fotos do C ficam só nesta máquina, numa pasta fora do git (<code>design/assets/fotos-exemplo/</code>).</p>
+    <p>Como saíram: sete estruturas para a página, três sorteadas pelo impeccable (A, B e C; semente 3c2ca719) e as duas primeiras da lista (D e E), porque o pedido era de cinco.</p>
+  </div>
+</div>
+</body>
+</html>
