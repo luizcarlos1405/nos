@@ -121,8 +121,8 @@ code { font-size: 0.9em; background: var(--role-wash); padding: 1px 5px; border-
 :root:is([data-sky='night'], [data-scheme='dark']) .stars { display: block; }
 
 /* The header's grid. Phones: the page's name beside the theme button (the pages' links run along the
-   foot of the screen); the home: the mark and the city, then the greeting. From 760px: the mark, the
-   links and the button in one bar, the page's name or the greeting under it. */
+   foot of the screen); the home: the mark and the city, then its question. From 760px: the mark, the
+   links and the button in one bar, the page's name or the home's question under it. */
 .site-head-inner {
   position: relative;
   display: grid;
@@ -216,28 +216,32 @@ code { font-size: 0.9em; background: var(--role-wash); padding: 1px 5px; border-
 }
 body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
 
-/* The greeting on the home's sky: Bricolage at its heaviest. */
-.hello { grid-area: hello; padding: 2px 0 20px; }
-.hello-title { font: 800 3.25rem/0.923 var(--font-display); letter-spacing: -0.03em; }
-.hello-date { min-height: 1.25rem; margin-top: 10px; font-size: 0.9375rem; line-height: 1.33; font-weight: 500; color: var(--role-sky-ink-soft); }
-.hello-year { display: none; }
+/* The home's question on the sky, Bricolage at its heaviest, and under it what the site holds. The
+   sky's lower bands (--h2 up from the horizon) stay clear of them: the sun or the moon is there. */
+.ask { padding: 14px 0 calc(var(--h2) + 14px); }
+.ask-title { max-width: 9.5em; font: 800 2.75rem/0.98 var(--font-display); letter-spacing: -0.032em; text-wrap: balance; }
+.ask-sub { max-width: 23rem; margin-top: 14px; font-size: 1rem; line-height: 1.45; font-weight: 500; color: var(--role-sky-ink-soft); text-wrap: pretty; }
 
 .site-head--home {
-  --h5: 16px;
-  --h4: 36px;
-  --h3: 62px;
-  --h2: 98px;
-  --sun-size: 367px;
-  --sun-right: -203px;
-  --sun-bottom: -213px;
+  --h5: 14px;
+  --h4: 30px;
+  --h3: 52px;
+  --h2: 80px;
+  --sun-size: 300px;
+  --sun-right: -160px;
+  --sun-bottom: -184px;
   --sun-loop: 5px;
-  --moon-size: 62px;
-  --moon-right: 34px;
-  --moon-top: calc(65px + env(safe-area-inset-top));
+  --moon-size: 56px;
+  --moon-right: 30px;
+  --moon-top: calc(66px + env(safe-area-inset-top));
   --moon-bottom: auto;
   --moon-loop: 2.5px;
 }
-/* The home folds on phones too: its bar (the mark and the theme button), then the greeting. */
+/* The night's stars keep the box of the home's first sky (their places are shares of it), and those that
+   would sit against the bar's words or the question, where they read as stray full stops, stay out. */
+.site-head--home .stars { height: 202px; }
+.site-head--home .stars circle:is(:nth-child(7), :nth-child(8), :nth-child(9), :nth-child(11), :nth-child(12), :nth-child(13)) { display: none; }
+/* The home folds on phones too: its bar (the mark and the theme button), then the question. */
 .site-head--home .site-head-inner { display: flex; flex-direction: column; align-items: stretch; padding-bottom: 0; }
 .site-head--home .site-bar { display: flex; align-items: center; justify-content: space-between; column-gap: 8px; }
 .site-head--home .brand { display: flex; }
@@ -270,33 +274,28 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
    has no time of its own, it follows the scroll, so it stays under reduced motion (hence !important
    over the rule at the end); without scroll timelines js/head.js marks the scrolled page and it goes
    at once. Short screens (phones on their side) keep their room: there the header scrolls away as
-   before. The home's band takes over from the page's only once the header has folded all the way,
-   because at rest the next activity rests on it, in front. */
+   before. */
 
 @keyframes fold-away { to { opacity: 0; } }
-@keyframes band-holds { from { opacity: 0; } to { opacity: 1; } }
 
 @media (min-height: 501px) {
   html { scroll-padding-top: calc(var(--head-stuck, 0px) + 8px); }
   .site-head { position: sticky; top: calc(-1 * var(--fold, 0px)); z-index: 12; }
   .site-head::after { content: ''; position: absolute; left: 0; right: 0; top: 100%; }
-  .site-head--home::after { opacity: 0; }
   .site-head--home .site-bar { position: sticky; top: env(safe-area-inset-top); }
-  /* What folds on the home: the greeting and the date, and at night the moon, small and high in the
-     sky, which goes with them so the top of the screen never cuts it (the sun, big, runs off the
+  /* What folds on the home: the question and the line under it, and at night the moon, small and high
+     in the sky, which goes with them so the top of the screen never cuts it (the sun, big, runs off the
      edges as it always does). */
   @supports (animation-timeline: scroll()) {
-    .site-head--home .hello,
+    .site-head--home .ask,
     :root:is([data-sky='night'], [data-scheme='dark']) .site-head--home .astro { animation: fold-away linear both !important; animation-timeline: scroll(root) !important; animation-range: 0 16px !important; }
     @media (prefers-reduced-motion: no-preference) {
       :root:is([data-sky='night'], [data-scheme='dark']) .site-head--home .astro { animation: rise 1.6s var(--ease) both, fold-away linear both !important; animation-timeline: auto, scroll(root) !important; animation-range: normal, 0 16px !important; }
     }
-    .site-head--home::after { animation: band-holds step-end both !important; animation-timeline: scroll(root) !important; animation-range: 0 var(--fold, 200vh) !important; }
   }
   @supports not (animation-timeline: scroll()) {
-    :root[data-scrolled] .site-head--home .hello,
+    :root[data-scrolled] .site-head--home .ask,
     :root[data-scrolled]:is([data-sky='night'], [data-scheme='dark']) .site-head--home .astro { opacity: 0; }
-    :root[data-stuck] .site-head--home::after { opacity: 1; }
   }
 }
 
@@ -516,7 +515,7 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
 }
 @media (hover: hover) { .icon-btn:hover { border-color: var(--role-ink-soft); background: var(--role-card-hover); } }
 
-/* Share to WhatsApp: a tonal circle (a 44px link on the home, a mark inside each activity's card). */
+/* Share to WhatsApp: a tonal circle, a mark inside each activity's card. */
 .share-circle {
   display: grid;
   place-items: center;
@@ -1284,103 +1283,91 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
 .story-section { margin: 0 0 10px; font: 700 1.0625rem/1.3 var(--font-display); letter-spacing: -0.01em; }
 .fact .fact-sub { display: block; font-size: 0.875rem; font-weight: 400; color: var(--role-ink-soft); font-variant-numeric: tabular-nums; }
 
-/* ---------- Início: the next activity on the horizon, then a door to each page ---------- */
+/* ---------- Início: the next activity, then what each page holds ---------- */
+/* The land under the band: the very next activity first, named as such and set in NOS's voice (no card),
+   then the other pages as rows of type and who NOS follows. */
 
-.home { max-width: 1344px; margin: 0 auto; padding: 0 calc(16px + env(safe-area-inset-right)) 0 calc(16px + env(safe-area-inset-left)); }
-/* The next activity rests on the band: the land rises 14px onto it. */
-.home-grid { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 12px; margin-top: -14px; }
+.home { max-width: 1344px; margin: 0 auto; padding: 22px calc(16px + env(safe-area-inset-right)) 0 calc(16px + env(safe-area-inset-left)); }
 
-.next-card {
-  display: flex;
-  flex-direction: column;
-  padding: 10px 14px 14px 16px;
-  border: 1px solid var(--role-card-border);
-  border-radius: var(--radius-card);
-  background: var(--role-card);
-  box-shadow: var(--role-card-shadow);
-}
-.next-status { padding: 2px 0 4px; font-size: 0.9375rem; color: var(--role-ink-soft); }
-.next-card > .next-title:first-child { padding-top: 6px; }
-.next-head { display: flex; align-items: center; gap: 8px; min-height: 44px; }
-.next-when { display: flex; flex: 1 1 auto; flex-wrap: wrap; align-items: center; gap: 4px 14px; min-width: 0; font-variant-numeric: tabular-nums; }
-.next-when .circled { margin: 0 6px 0 11px; font-size: 1.25rem; line-height: 1.2; }
-.next-time { display: none; }
-.share-button {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  place-items: center;
-  flex: none;
-  width: 44px;
-  height: 44px;
-  margin: -2px;
-  padding: 2px;
-  border-radius: 50%;
-  background: var(--role-fill);
-  background-clip: content-box;
-  color: var(--role-ink);
-}
-.share-button .icon { width: 20px; height: 20px; }
-@media (hover: hover) { .share-button:hover { background-color: var(--role-line); } }
-.next-title { margin-top: 4px; font-size: 1.0625rem; line-height: 1.3; font-weight: 600; letter-spacing: -0.01em; text-wrap: pretty; }
-/* Under 760px the whole card is the title's link (the share button sits above it); from 760px only the title. */
-.next-card { position: relative; }
-.next-link { color: inherit; text-decoration: none; }
-.next-link::after { content: ''; position: absolute; inset: 0; border-radius: inherit; }
-.next-card:has(.next-link) { cursor: pointer; transition: background-color 120ms ease; }
-.next-card:has(.next-link:active) { background: var(--role-card-hover); }
-.next-link:focus-visible { outline: none; }
-.next-card:has(.next-link:focus-visible) { outline: 2px solid var(--role-focus); outline-offset: 2px; }
-.next-facts { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 8px; }
-.next-facts .meta { align-items: center; }
-.next-facts .meta .icon { margin-top: 0; }
-.next-facts .meta .dot { margin: 0 4px; }
-.next-facts .meta-place { flex-basis: 100%; align-items: flex-start; }
-.next-facts .meta-place .icon { margin-top: 1.5px; }
-.next-org-full { display: none; }
-.next-actions, .later { display: none; }
+.upcoming { position: relative; }
+.upcoming-label { font: 750 1.1875rem/1.2 var(--font-display); letter-spacing: -0.012em; }
+.upcoming-status { max-width: 40rem; margin-top: 10px; font-size: 1.0625rem; line-height: 1.45; color: var(--role-ink-soft); text-wrap: pretty; }
+.upcoming-when { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; margin-top: 16px; }
+.upcoming-when .circled { margin-left: 13px; font: 800 1.5rem/1.1 var(--font-display); letter-spacing: -0.015em; font-variant-numeric: tabular-nums; }
+.upcoming-when .circled > .hand { left: -13px; top: -9px; width: calc(100% + 26px); height: calc(100% + 18px); stroke-width: 3px; }
+.upcoming-soon { font-size: 1.0625rem; line-height: 1.2; font-weight: 600; color: var(--role-accent-text); font-variant-numeric: tabular-nums; }
+.upcoming-title { margin-top: 14px; font: 800 2rem/1.08 var(--font-display); letter-spacing: -0.026em; text-wrap: balance; }
+.upcoming-title a { color: inherit; text-decoration: none; }
+/* Under 760px the title's link covers the whole block (the WhatsApp button sits above it); from 760px
+   only the title. */
+.upcoming-title a::after { content: ''; position: absolute; inset: 0; }
+.upcoming-title a:focus-visible { outline: none; }
+.upcoming:has(.upcoming-title a:focus-visible) { outline: 2px solid var(--role-focus); outline-offset: 6px; border-radius: var(--radius-sm); }
+.upcoming-facts { display: grid; gap: 6px; margin: 12px 0 0; padding: 0; list-style: none; font-size: 1.0625rem; line-height: 1.4; color: var(--role-ink-soft); font-variant-numeric: tabular-nums; }
+.upcoming-facts li { display: flex; align-items: flex-start; gap: 10px; }
+.upcoming-facts .icon { flex: none; width: 18px; height: 18px; margin-top: 2px; }
+.upcoming-facts .dot { width: 10px; height: 10px; margin: 6px 4px 0; }
+.upcoming-facts .city-tag { margin-right: 6px; }
+.upcoming-org b { color: var(--role-ink); font-weight: 600; }
+.upcoming-actions { position: relative; display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+.upcoming-actions .btn { min-height: 52px; padding: 0 24px; font-size: 1.0625rem; }
+.upcoming-actions .btn .icon { width: 20px; height: 20px; }
+.upcoming-actions .btn-accent { flex: 1 1 auto; }
+.upcoming-actions .btn-line { display: none; }
 
-/* The doors: each page in its landscape colour, with one live line. Flat: the colour is the card. */
-.doors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-.door {
-  --door-tint: var(--role-agenda-tint);
-  --door-text: var(--role-agenda-text);
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-width: 0;
-  padding: 12px 12px 14px 14px;
-  border-radius: var(--radius-card);
-  background: var(--door-tint);
-  color: var(--role-ink);
+/* The whole agenda, with how much is ahead. */
+.see-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  margin-top: 22px;
+  font: 800 1.3125rem/1.15 var(--font-display);
+  letter-spacing: -0.02em;
+  color: var(--role-accent-text);
   text-decoration: none;
-  transition: background 0.15s;
+  font-variant-numeric: tabular-nums;
 }
-.door--commerce { --door-tint: var(--role-commerce-tint); --door-text: var(--role-commerce-text); }
-/* Notícias' door: the latest headline is its live line, so on phones it takes the whole row, after
-   Agenda and Comércio (dense packing fills the first row); on the desk the doors stack in page order. */
-.door--news { --door-tint: var(--role-news-tint); --door-text: var(--role-news-text); grid-column: 1 / -1; }
-.doors { grid-auto-flow: row dense; }
-.door--news .door-line { font: 700 1.0625rem/1.3 var(--font-display); letter-spacing: -0.012em; }
-/* Mapa's door: the whole row on phones too, after Notícias (four doors: two halves, two rows), with its
-   layers' drawings as the map draws its points. */
-.door--map { --door-tint: var(--role-map-tint); --door-text: var(--role-map-text); grid-column: 1 / -1; }
-.door-glyphs { display: flex; flex-wrap: wrap; gap: 6px; margin: 2px 0 2px; }
-.door-glyph { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--role-pin); color: var(--role-on-pin); }
-.door-glyph .icon { width: 16px; height: 16px; }
-/* Its day and who, under the headline: the hue mixed into the ink, as the doors' secondary text. */
-.door-meta { font-size: 0.8125rem; line-height: 1.4; font-weight: 500; color: color-mix(in srgb, var(--door-text) 55%, var(--role-ink)); font-variant-numeric: tabular-nums; }
-.door-meta time { font-weight: 600; }
-@media (hover: hover) { .door:hover { background: color-mix(in srgb, var(--door-tint) 88%, var(--door-text)); } }
-.door-head { display: flex; align-items: center; gap: 8px; }
-.door-head .icon { width: 22px; height: 22px; color: var(--door-text); }
-.door-name { font: 700 1.125rem/1.33 var(--font-display); letter-spacing: -0.02em; }
-/* Secondary text on the door's tint: its hue mixed into the ink, never a grey. */
-.door-line { font-size: 0.875rem; line-height: 1.36; font-weight: 600; color: var(--role-ink); text-wrap: pretty; }
-.door-text, .door-next { font-size: 0.8125rem; line-height: 1.4; color: color-mix(in srgb, var(--door-text) 55%, var(--role-ink)); text-wrap: pretty; }
-/* The live line (its date first): three lines at most. */
-.door-next { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
-.door-more { display: none; }
+.see-all .icon { width: 24px; height: 24px; transition: translate 0.2s var(--ease); }
+@media (hover: hover) {
+  .see-all:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.16em; }
+  .see-all:hover .icon { translate: 3px 0; }
+}
+
+/* The other pages as rows of type: each name in its landscape colour's deep shade with its drawing and an
+   arrow, then what it holds today. The whole row is its link. */
+.home-pages { margin-top: 18px; }
+.home-page { --page-text: var(--role-agenda-text); position: relative; padding: 20px 0 24px; border-top: 1px solid var(--role-line); }
+.home-page--news { --page-text: var(--role-news-text); }
+.home-page--map { --page-text: var(--role-map-text); }
+.home-page--commerce { --page-text: var(--role-commerce-text); }
+.home-page-name { display: flex; align-items: center; gap: 10px; font: 800 1.75rem/1.1 var(--font-display); letter-spacing: -0.025em; color: var(--page-text); }
+.home-page-name a { display: inline-flex; align-items: center; gap: 10px; color: inherit; text-decoration: none; }
+.home-page-name a::after { content: ''; position: absolute; inset: 0; }
+.home-page-name a:focus-visible { outline: none; }
+.home-page:has(a:focus-visible) { outline: 2px solid var(--role-focus); outline-offset: 4px; border-radius: var(--radius-sm); }
+.home-page-name .icon { width: 26px; height: 26px; }
+.home-page-name .home-page-go { width: 24px; height: 24px; margin-left: auto; transition: translate 0.2s var(--ease); }
+@media (hover: hover) {
+  .home-page:hover .home-page-go { translate: 3px 0; }
+  .home-page:hover .home-page-lead { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.14em; }
+}
+.home-page-lead { margin-top: 10px; font: 750 1.3125rem/1.24 var(--font-display); letter-spacing: -0.016em; font-variant-numeric: tabular-nums; text-wrap: balance; }
+.home-page-meta { margin-top: 8px; font-size: 1rem; line-height: 1.45; color: var(--role-ink-soft); text-wrap: pretty; }
+.home-page-meta time { font-weight: 600; font-variant-numeric: tabular-nums; }
+/* The Mapa's layers, as its points draw them. */
+.home-glyphs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.home-glyph { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: var(--role-pin); color: var(--role-on-pin); }
+.home-glyph .icon { width: 20px; height: 20px; }
+
+/* Who NOS follows, in its own voice, and the eight groups as the dots the activities carry. */
+.home-about { padding: 28px 0 8px; border-top: 1px solid var(--role-line); }
+.home-about-title { font: 800 1.5rem/1.15 var(--font-display); letter-spacing: -0.022em; text-wrap: balance; }
+.home-about-body { margin-top: 14px; }
+.home-groups { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0; padding: 0; list-style: none; font-size: 1rem; line-height: 1.4; }
+.home-groups li { display: inline-flex; align-items: center; gap: 8px; }
+.home-groups .dot { width: 10px; height: 10px; }
+.home-about-note { margin-top: 14px; font-size: 1rem; line-height: 1.5; color: var(--role-ink-soft); text-wrap: pretty; }
 
 /* ---------- Wider phones and tablets ---------- */
 
@@ -1468,70 +1455,36 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   }
 
   .site-head--home {
-    --h5: 16px;
-    --h4: 36px;
-    --h3: 62px;
-    --h2: 98px;
+    --h5: 18px;
+    --h4: 42px;
+    --h3: 72px;
+    --h2: 112px;
     --sun-size: 400px;
     --sun-right: -60px;
     --sun-bottom: -228px;
     --sun-loop: 5px;
     --moon-size: 72px;
     --moon-right: 12%;
-    --moon-top: calc(84px + env(safe-area-inset-top));
+    --moon-top: calc(100px + env(safe-area-inset-top));
     --moon-bottom: auto;
     --moon-loop: 2.75px;
   }
-  .hello { padding: 18px 0 40px; }
-  .hello-title { font-size: 4rem; line-height: 1; }
-  .hello-title br { display: none; }
-  .hello-date { margin-top: 8px; font-size: 1.0625rem; line-height: 1.4; }
-  .hello-year { display: inline; }
+  .site-head--home .stars { height: 276px; }
+  .site-head--home .stars circle:nth-child(n) { display: inline; }
+  .site-head--home .stars circle:is(:nth-child(9), :nth-child(11), :nth-child(12), :nth-child(13)) { display: none; }
+  .ask { padding: 30px 0 calc(var(--h2) + 22px); }
+  .ask-title { max-width: 11.5em; font-size: 4.25rem; line-height: 0.96; }
+  .ask-sub { max-width: 28rem; margin-top: 20px; font-size: 1.25rem; line-height: 1.4; }
   .band--home, .site-head--home { --band-h: 44px; }
 
-  /* The home's next activity with its two actions and what else comes, then the doors. */
-  .next-card { padding: 22px 26px 20px; }
-  .next-head { min-height: 0; }
-  .next-when { gap: 4px 16px; font-size: 0.9375rem; line-height: 1.45; color: var(--role-ink-soft); }
-  .next-when .circled { font-size: 1.4375rem; line-height: 1.2; color: var(--role-ink); }
-  .next-time { display: inline; }
-  .next-head .share-button { display: none; }
-  .next-title { margin-top: 12px; font: 700 1.875rem/1.2 var(--font-ui); letter-spacing: -0.022em; text-wrap: balance; }
-  .next-link::after { content: none; }
-  .next-card:has(.next-link) { cursor: auto; }
-  .next-card:has(.next-link:active) { background: var(--role-card); }
-  .next-card:has(.next-link:focus-visible) { outline: none; }
-  .next-link:focus-visible { outline: 2px solid var(--role-focus); outline-offset: 2px; }
-  @media (hover: hover) { .next-link:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.12em; } }
-  .next-facts { flex-direction: column; gap: 6px; margin-top: 12px; }
-  .next-facts .meta { align-items: flex-start; font-size: 0.9375rem; line-height: 1.45; }
-  .next-facts .meta .icon { width: 18px; height: 18px; margin-top: 2px; }
-  .next-facts .meta .dot { margin: 7px 5px 0; }
-  .next-facts .meta-time { display: none; }
-  .next-org-full { display: inline; }
-  .next-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
-  .later { display: block; margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--role-line); }
-  .later-title { font: 700 1.0625rem/1.3 var(--font-display); letter-spacing: -0.01em; }
-  .later-list { margin: 4px 0 0; padding: 0; list-style: none; }
-  .later-item { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr) auto; align-items: baseline; gap: 12px; padding: 8px 0; font-size: 0.9375rem; }
-  .later-item + .later-item { border-top: 1px solid var(--role-line); }
-  .later-item time { font-weight: 600; font-variant-numeric: tabular-nums; }
-  .later-org { font-size: 0.875rem; color: var(--role-ink-soft); }
-  .more { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; margin-top: 2px; color: var(--role-accent-text); font-weight: 600; text-decoration: none; }
-  .more .icon { width: 18px; height: 18px; }
-  @media (hover: hover) { .more:hover { text-decoration: underline; } }
-
-  .doors { gap: 16px; }
-  .door { gap: 6px; padding: 20px 22px 14px; }
-  .door-head .icon { width: 22px; height: 22px; }
-  .door-name { font-size: 1.1875rem; }
-  .door-line { margin-top: 4px; font-size: 1.125rem; line-height: 1.4; letter-spacing: -0.012em; }
-  .door-text { font-size: 0.9375rem; line-height: 1.45; }
-  .door-next { display: none; } /* "Também na agenda" lists it */
-  .door-more { display: inline-flex; align-items: center; gap: 4px; min-height: 32px; margin-top: 4px; color: var(--door-text); font-weight: 600; }
-  .door-more .icon { width: 18px; height: 18px; }
-  .door--news .door-line { font-size: 1.25rem; line-height: 1.3; }
-  .door-meta { font-size: 0.9375rem; }
+  /* The home's next activity: the title alone is its link, "Ver na agenda" joins the WhatsApp button. */
+  .home { padding-top: 40px; }
+  .upcoming-title a::after { content: none; }
+  .upcoming:has(.upcoming-title a:focus-visible) { outline: none; }
+  .upcoming-title a:focus-visible { outline: 2px solid var(--role-focus); outline-offset: 3px; border-radius: var(--radius-sm); }
+  @media (hover: hover) { .upcoming-title a:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.12em; } }
+  .upcoming-actions .btn-accent { flex: none; }
+  .upcoming-actions .btn-line { display: inline-flex; }
 
   /* Notícias: roomier cards, the lead's headline at the page names' size. */
   .news-card { padding: 16px 18px 16px 20px; }
@@ -1581,7 +1534,7 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
     align-items: start;
     padding: 28px calc(32px + env(safe-area-inset-right)) 0 calc(32px + env(safe-area-inset-left));
   }
-  .home { padding: 0 calc(32px + env(safe-area-inset-right)) 0 calc(32px + env(safe-area-inset-left)); }
+  .home { padding: 40px calc(32px + env(safe-area-inset-right)) 0 calc(32px + env(safe-area-inset-left)); }
   .site-foot { padding: 36px calc(32px + env(safe-area-inset-right)) 36px calc(32px + env(safe-area-inset-left)); }
 
   .notice { margin: 0 0 16px; }
@@ -1665,27 +1618,33 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .side-card { padding: 24px 24px 26px; }
   .join { margin: 20px -24px 0; padding: 20px 24px 0; }
 
-  /* Início: the next activity at left, the doors stacked at right. Calm: a few things and the links. */
+  /* Início on the desk: the question in two lines beside the big sun; the next activity at left with its
+     actions at right; the three pages in columns; who NOS follows beside its groups. */
   .site-head--home {
-    --h5: 18px;
-    --h4: 40px;
-    --h3: 66px;
-    --h2: 100px;
-    --sun-size: 490px;
-    --sun-right: 7px;
-    --sun-bottom: -275px;
+    --sun-size: 520px;
+    --sun-right: -40px;
+    --sun-bottom: -318px;
     --sun-loop: 6px;
-    --moon-size: 92px;
-    --moon-right: 190px;
-    --moon-top: calc(96px + env(safe-area-inset-top));
+    --moon-size: 78px;
+    --moon-right: 11%;
+    --moon-top: calc(100px + env(safe-area-inset-top));
     --moon-loop: 3px;
   }
-  .hello { padding: 26px 0 70px; }
-  .hello-title { font-size: 4.75rem; line-height: 1.05; }
-  .home-grid { display: grid; grid-template-columns: minmax(0, 1fr) 380px; align-items: start; gap: 24px 32px; }
-  .next-card { padding: 24px 28px 20px; }
-  .doors { grid-template-columns: minmax(0, 1fr); gap: 20px; }
-  .door--news, .door--map { grid-column: auto; }
+  .ask-title { font-size: 4.75rem; }
+  .ask-sub { max-width: 33rem; font-size: 1.3125rem; }
+  .upcoming { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; column-gap: 48px; }
+  .upcoming-label { font-size: 1.375rem; }
+  .upcoming-when .circled { font-size: 1.75rem; }
+  .upcoming-title { font-size: 3.25rem; line-height: 1.02; }
+  .upcoming-facts { margin-top: 14px; font-size: 1.125rem; }
+  .upcoming-actions { margin: 0 0 4px; }
+  .see-all { margin-top: 26px; font-size: 1.5rem; }
+  .home-pages { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 48px; margin-top: 22px; }
+  .home-page { padding: 22px 0 28px; }
+  .home-about { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 16px 48px; align-items: start; margin-top: 12px; padding: 32px 0 12px; }
+  .home-about-title { font-size: 2rem; line-height: 1.12; }
+  .home-about-body { margin-top: 4px; }
+  .home-about-note { margin-top: 18px; }
 
   /* Notícias: the filters and the list in the left column, the story in the panel at right. */
   .news-tools.filters { padding: 0 0 2px; }
@@ -2044,7 +2003,7 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .layer-toggle:hover .layer-name, .place-link:hover .place-link-name { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
   .place-link:hover { background: var(--role-card-hover); }
 }
-/* "Falta algum lugar?": the page's colour of the landscape, erva-mate, as on Início's door. */
+/* "Falta algum lugar?": the page's colour of the landscape, erva-mate. */
 .suggest { display: flex; align-items: flex-start; gap: 12px; margin: 10px 0 4px; padding: 14px 16px; border-radius: var(--radius); background: var(--role-map-tint); color: var(--role-ink); font-size: 0.875rem; line-height: 1.45; text-decoration: none; }
 .suggest .icon { flex: none; width: 20px; height: 20px; margin-top: 1px; color: var(--role-map-text); }
 .suggest b { display: block; font: 700 0.9375rem/1.3 var(--font-display); }
@@ -2170,16 +2129,16 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
 /* In em, so a larger default font size in the browser brings this layout in sooner (359px at 16px). */
 
 @media (max-width: 22.4375em) {
-  .site-head--home { --sun-size: 300px; --sun-right: -190px; --sun-bottom: -180px; --sun-loop: 4px; }
+  .site-head--home { --sun-size: 280px; --sun-right: -160px; --sun-bottom: -168px; --sun-loop: 4px; }
   .site-head-inner { padding-left: 12px; }
   .page-name { font-size: 1.625rem; }
-  .hello-title { font-size: 2.625rem; }
+  .ask-title { font-size: 2.375rem; }
+  .upcoming-title { font-size: 1.75rem; }
   .brand-place { font-size: 1.25rem; }
   .nav-icon { width: 48px; }
   .view, .filters { padding-left: 12px; padding-right: 12px; }
   .view-tabs, .notice { margin-left: 12px; margin-right: 12px; }
   .home { padding-left: calc(12px + env(safe-area-inset-left)); padding-right: calc(12px + env(safe-area-inset-right)); }
-  .doors { grid-template-columns: minmax(0, 1fr); }
   .view-tabs [role=tab] .icon, .seg [role=tab] .icon { display: none; }
   .seg [role=tab] { gap: 6px; padding: 0 4px; font-size: 0.9375rem; line-height: 1.15; }
   /* The style's name keeps its room (16px, or iOS zooms on focus): the count gives way to the chevron. */
