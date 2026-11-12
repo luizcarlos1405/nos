@@ -548,7 +548,7 @@ The city drawn in the land's own colours through the `--role-map-*` roles, and t
 ### Named Rules
 **The Two Voices Rule.** Bricolage Grotesque is NOS speaking: the home's question, dates, page titles, day heads, the headings that file things (the home's rows, letters, businesses, places) and the news headlines, which the team writes (750 on the cards, 800 for the lead and in the panel). Inter is what the organizations announce and every control: an activity's title is the organization's own words, set in Inter on its card, in the panel and on the flyers, and in a story what an organization said stays in Inter, attributed. The one exception is the home's next activity, typeset in Bricolage 800 as the answer to the city's question (Next Title; approved with the home on 2026-11-12): one activity, named as such, never a list or a card.
 
-**The Tabular Dates Rule.** Every date, time and count is set with tabular figures, so days and hours line up down a list.
+**The Tabular Dates Rule.** Dates, times and the counts that line up down a list (day heads, times, chips, contact rows, the map's counts, the home's day and time) are set with tabular figures, so days and hours line up. A count inside a sentence or a headline, such as the home's rows (“47 lugares”), keeps proportional figures.
 
 **The Planned Flyer Rule.** A flyer sets only the faces, weights and optical size its layout engine measured (`.impeccable/flyer-metrics.html`), and every line is planned before it is drawn: the preview and the PNG are one picture. Its numerals stand alone, so they keep the font's proportional figures; dates and times in lists keep the tabular ones. A new face or weight means measuring again.
 

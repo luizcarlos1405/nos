@@ -2351,7 +2351,7 @@
       },
       {
         "name": "The Tabular Dates Rule",
-        "body": "Every date, time and count is set with tabular figures, so days and hours line up down a list.",
+        "body": "Dates, times and the counts that line up down a list (day heads, times, chips, contact rows, the map's counts, the home's day and time) are set with tabular figures, so days and hours line up. A count inside a sentence or a headline, such as the home's rows (“47 lugares”), keeps proportional figures.",
         "section": "typography"
       },
       {
