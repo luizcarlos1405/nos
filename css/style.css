@@ -1352,7 +1352,7 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .home-page:hover .home-page-go { translate: 3px 0; }
   .home-page:hover .home-page-lead { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.14em; }
 }
-.home-page-lead { margin-top: 10px; font: 750 1.3125rem/1.24 var(--font-display); letter-spacing: -0.016em; font-variant-numeric: tabular-nums; text-wrap: balance; }
+.home-page-lead { margin-top: 10px; font: 750 1.3125rem/1.24 var(--font-display); letter-spacing: -0.016em; text-wrap: balance; }
 .home-page-meta { margin-top: 8px; font-size: 1rem; line-height: 1.45; color: var(--role-ink-soft); text-wrap: pretty; }
 .home-page-meta time { font-weight: 600; font-variant-numeric: tabular-nums; }
 /* The Mapa's layers, as its points draw them. */
