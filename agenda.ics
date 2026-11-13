@@ -844,6 +844,49 @@ STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
 BEGIN:VEVENT
+UID:ev-2026-11-09-xiii-encontro-nacional-de-estudantes-indigenas-enei@nos.d
+ ourados.social
+DTSTAMP:19700101T000000Z
+DTSTART;VALUE=DATE:20261109
+DTEND;VALUE=DATE:20261114
+SUMMARY:XIII Encontro Nacional de Estudantes Indígenas (ENEI)
+LOCATION:UNILA\, Foz do Iguaçu (PR)
+DESCRIPTION:Organizações: ENEI\, UNILA\nTipo: Encontro\n\nEncontro nacion
+ al de estudantes indígenas\, com trocas\, debates e saberes para fortalec
+ er as lutas dos estudantes indígenas dentro e fora da universidade.\n\nFo
+ nte: https://www.instagram.com/kuna_aranduha/reel/DfFAE_whbKb/\n\nNa agend
+ a do NOS Dourados: https://nos.dourados.social/agenda.html#ev-2026-11-09-x
+ iii-encontro-nacional-de-estudantes-indigenas-enei
+URL:https://nos.dourados.social/agenda.html#ev-2026-11-09-xiii-encontro-nac
+ ional-de-estudantes-indigenas-enei
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-10-natal-solidario-arrecadacao-de-brinquedos-da-ladip-e-do-d
+ ce-@nos.dourados.social
+DTSTAMP:19700101T000000Z
+DTSTART;VALUE=DATE:20261110
+DTEND;VALUE=DATE:20261128
+SUMMARY:Natal Solidário: arrecadação de brinquedos da LADIP e do DCE UFG
+ D
+LOCATION:UFGD – Unidade 2\, saguão da FADIR (ponto de coleta)\, Dourados
+ /MS
+DESCRIPTION:Organizações: LADIP (Liga Acadêmica de Direitos dos Povos In
+ dígenas e Políticos da UFGD)\, DCE UFGD (Diretório Central dos e das Es
+ tudantes da UFGD)\nTipo: Campanha\n\nA LADIP\, com o apoio do DCE UFGD\, a
+ rrecada brinquedos novos ou usados em bom estado para o Natal Solidário. 
+ Em 27/11 a entrega é feita numa ação especial de Natal na E.M.P.I. Mbo'
+ e Renda Ypyendy\, em Amambai. Toda a comunidade acadêmica pode doar.\n\nF
+ onte: https://www.instagram.com/ladip.ufgd/p/DfkofGvKfWu/\n\nNa agenda do 
+ NOS Dourados: https://nos.dourados.social/agenda.html#ev-2026-11-10-natal-
+ solidario-arrecadacao-de-brinquedos-da-ladip-e-do-dce-
+URL:https://nos.dourados.social/agenda.html#ev-2026-11-10-natal-solidario-a
+ rrecadacao-de-brinquedos-da-ladip-e-do-dce-
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
 UID:ev-2026-11-11-cine-ballroom-salao-de-baile-this-is-ballroom@nos.dourado
  s.social
 DTSTAMP:19700101T000000Z
@@ -877,9 +920,10 @@ DESCRIPTION:Organizações: Secretaria de Estado da Cidadania (SEC)\, Gover
  no de MS\nTipo: Palestra\n\nAdesão de Dourados ao SINAPIR (Sistema Nacion
  al de Promoção da Igualdade Racial)\, dentro do programa MS sem Racismo\
  , com palestra magna do professor pós-doutor Alfa Oumar Diallo\, natural 
- do Senegal\, professor e pesquisador da UFGD.\n\nNa agenda do NOS Dourados
- : https://nos.dourados.social/agenda.html#ev-2026-11-11-ms-sem-racismo-em-
- dourados-adesao-ao-sinapir
+ do Senegal\, professor e pesquisador da UFGD.\n\nFonte: https://www.instag
+ ram.com/comafrodourados/reel/DfiikOkM7tW/\n\nNa agenda do NOS Dourados: ht
+ tps://nos.dourados.social/agenda.html#ev-2026-11-11-ms-sem-racismo-em-dour
+ ados-adesao-ao-sinapir
 URL:https://nos.dourados.social/agenda.html#ev-2026-11-11-ms-sem-racismo-em
  -dourados-adesao-ao-sinapir
 STATUS:CONFIRMED
@@ -888,19 +932,23 @@ END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-11-13-festa-da-vitoria-em-dourados@nos.dourados.social
 DTSTAMP:19700101T000000Z
-DTSTART;VALUE=DATE:20261113
-DTEND;VALUE=DATE:20261114
+DTSTART:20261114T000000Z
+DTEND:20261114T010000Z
 SUMMARY:Festa da Vitória em Dourados
-DESCRIPTION:Organização: PT Dourados\nTipo: Festa\nHorário a confirmar\n
- \nComemoração da vitória do presidente Lula\, convocada pelo PT Dourado
- s e pelo Time do Lula Dourados. Horário e local ainda não divulgados.\n\
- nFonte: https://www.instagram.com/timedoluladourados/p/DfS29ABvl2h/\n\nNa 
- agenda do NOS Dourados: https://nos.dourados.social/agenda.html#ev-2026-11
- -13-festa-da-vitoria-em-dourados
+LOCATION:Clube Ubiratan\, Dourados/MS
+DESCRIPTION:Organização: PT Dourados\nTipo: Festa\n\nComemoração da vit
+ ória do presidente Lula\, convocada pelo PT Dourados e pelo Time do Lula 
+ Dourados\, com apresentações de Dagata\, Zé Cerveira\, Soulsamba\, Ana 
+ Paula Lopes e Deassis e Emersom\, bar e praça de alimentação. Entrada: 
+ R$ 13 antecipada via Pix (até as 17h do dia)\; na bilheteria\, R$ 15 (Pix
+  ou dinheiro) ou R$ 18 (cartão).\n\nContato: PT Dourados – (67) 99942-5
+ 871\nFonte: https://www.instagram.com/ptdourados/p/DfknvCYv_HO/\n\nNa agen
+ da do NOS Dourados: https://nos.dourados.social/agenda.html#ev-2026-11-13-
+ festa-da-vitoria-em-dourados
 URL:https://nos.dourados.social/agenda.html#ev-2026-11-13-festa-da-vitoria-
  em-dourados
 STATUS:CONFIRMED
-TRANSP:TRANSPARENT
+TRANSP:OPAQUE
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-11-14-dia-de-vivencia-em-agroecologia-e-contra-os-agrotoxicos@n
@@ -955,12 +1003,12 @@ DTEND:20261114T220000Z
 SUMMARY:Feira Batuque – 7ª edição
 LOCATION:Centro de Convenções Antônio Tonani\, Dourados/MS
 DESCRIPTION:Organização: Feira Batuque\nTipo: Feira\n\nSétima edição d
- o encontro mensal de música\, comida e arte da Feira Batuque\, com roda d
- e samba do Grupo Não Tem Hora e expositores de artesanato\, artes visuais
- \, moda\, brechós\, aromas\, produtos criativos e gastronomia.\n\nFonte: 
- https://www.instagram.com/feira.batuque/p/DfUpRapNviI/\n\nNa agenda do NOS
-  Dourados: https://nos.dourados.social/agenda.html#ev-2026-11-14-feira-bat
- uque-7-edicao
+ o encontro mensal de música\, comida e arte da Feira Batuque\, toda de sa
+ mba: roda do Grupo Não Tem Hora e show do Soul Samba\, com expositores de
+  artesanato\, artes visuais\, moda\, brechós\, aromas\, produtos criativo
+ s e gastronomia.\n\nFonte: https://www.instagram.com/feira.batuque/p/DfUpR
+ apNviI/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/agenda.h
+ tml#ev-2026-11-14-feira-batuque-7-edicao
 URL:https://nos.dourados.social/agenda.html#ev-2026-11-14-feira-batuque-7-e
  dicao
 STATUS:CONFIRMED
@@ -977,11 +1025,12 @@ LOCATION:Praça do Cinquentenário\, Dourados/MS
 DESCRIPTION:Organização: Batalha da Cinquenta\nTipo: Batalha\n\nEdição 
  especial da batalha de rima que encerra o projeto 50 em Cena\, com 16 MCs\
  , pocket shows de CS Ruero\, Menor DDS\, Clara Bonfim e MC Menani e premia
- ção em dinheiro (R$ 800\, R$ 500 e R$ 300 para os três primeiros). Even
- to gratuito\, com incentivo do FIP\, da Prefeitura de Dourados.\n\nFonte: 
- https://www.instagram.com/batalhadacinquenta/p/DfVzLktG8eH/\n\nNa agenda d
- o NOS Dourados: https://nos.dourados.social/agenda.html#ev-2026-11-14-bata
- lha-da-50-edicao-especial-do-projeto-50-em-cena
+ ção em dinheiro (R$ 900\, R$ 500 e R$ 300 para os três primeiros). Apre
+ sentação de Heloiza Cariaga e Pillz\, DJ Junex. Evento gratuito\, com in
+ centivo do FIP\, da Prefeitura de Dourados.\n\nFonte: https://www.instagra
+ m.com/batalhadacinquenta/p/DfsNdjDzvI2/\n\nNa agenda do NOS Dourados: http
+ s://nos.dourados.social/agenda.html#ev-2026-11-14-batalha-da-50-edicao-esp
+ ecial-do-projeto-50-em-cena
 URL:https://nos.dourados.social/agenda.html#ev-2026-11-14-batalha-da-50-edi
  cao-especial-do-projeto-50-em-cena
 STATUS:CONFIRMED
@@ -1010,24 +1059,92 @@ STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
-UID:ev-2026-11-20-7-feira-afro-zumbi-vive@nos.dourados.social
+UID:ev-2026-11-15-oficina-de-face-com-aurora-de-la@nos.dourados.social
 DTSTAMP:19700101T000000Z
-DTSTART;VALUE=DATE:20261120
-DTEND;VALUE=DATE:20261121
-SUMMARY:7ª Feira Afro Zumbi Vive
-LOCATION:Praça Antônio João\, Dourados/MS
-DESCRIPTION:Organização: Quintal de Palmares\nTipo: Feira\nHorário a con
- firmar\n\nFeira de valorização da cultura\, da ancestralidade e do empre
- endedorismo negro\, com artesanato\, gastronomia\, moda\, brechó\, cosmé
- ticos e serviços. Empreendedores negros podem se inscrever como expositor
- es até 27/10 (prazo prorrogado).\n\nLink: https://forms.gle/3GoXv93CZfEet
- Kgz6\nFonte: https://www.instagram.com/quintaldepalmares/p/DeAQSSfRUa3/\n\
- nNa agenda do NOS Dourados: https://nos.dourados.social/agenda.html#ev-202
- 6-11-20-7-feira-afro-zumbi-vive
-URL:https://nos.dourados.social/agenda.html#ev-2026-11-20-7-feira-afro-zumb
- i-vive
+DTSTART:20261115T233000Z
+DTEND:20261116T003000Z
+SUMMARY:Oficina de Face com Aurora De Lá
+LOCATION:Online (Google Meet)
+DESCRIPTION:Organizações: House of Bombshell\, House De Lá\, Coletiva Mo
+ vimentú\nTipo: Oficina\n\nOficina on-line sobre a categoria Face da cultu
+ ra Ballroom com Aurora De Lá\, da Internacional Femme Queen House of De L
+ á e da Coletiva Movimentú: beleza\, expressão\, identidade e presença 
+ na cena Ballroom. Faz parte da programação do Grande Natal das Bombshell
+ s\; durante a atividade a House recebe contribuições financeiras para a 
+ realização da Kiki Ball.\n\nFonte: https://www.instagram.com/asbombshell
+ s/p/DfhvqCHhx3o/\n\nNa agenda do NOS Dourados: https://nos.dourados.social
+ /agenda.html#ev-2026-11-15-oficina-de-face-com-aurora-de-la
+URL:https://nos.dourados.social/agenda.html#ev-2026-11-15-oficina-de-face-c
+ om-aurora-de-la
 STATUS:CONFIRMED
-TRANSP:TRANSPARENT
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-18-feira-solidaria-das-semanas-integradas-da-consciencia-neg
+ ra@nos.dourados.social
+DTSTAMP:19700101T000000Z
+DTSTART:20261118T130000Z
+DTEND:20261119T010000Z
+SUMMARY:Feira Solidária das Semanas Integradas da Consciência Negra
+LOCATION:UEMS Dourados – entre os blocos B e E
+DESCRIPTION:Organização: UEMS\nTipo: Feira\n\nFeira das Semanas Integrada
+ s da Consciência Negra da UEMS\, com integração\, cultura\, gastronomia
+ \, artesanato e diversidade: diálogo e reflexão para a construção de u
+ ma sociedade mais justa.\n\nFonte: https://www.instagram.com/neab_ufgd/p/D
+ fmo7AkFXJy/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/agen
+ da.html#ev-2026-11-18-feira-solidaria-das-semanas-integradas-da-conscienci
+ a-negra
+URL:https://nos.dourados.social/agenda.html#ev-2026-11-18-feira-solidaria-d
+ as-semanas-integradas-da-consciencia-negra
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-18-vii-mostra-cultural-do-centro-de-formacao-da-ufgd@nos.dou
+ rados.social
+DTSTAMP:19700101T000000Z
+DTSTART:20261118T220000Z
+DTEND:20261119T010000Z
+SUMMARY:VII Mostra Cultural do Centro de Formação da UFGD
+LOCATION:UFGD – CEUD\, Unidade 1 (Rua João Rosa Góes\, 1761\, Vila Prog
+ resso)\, Dourados/MS
+DESCRIPTION:Organizações: UFGD (Universidade Federal da Grande Dourados)\
+ , DAC UFGD (Diretoria de Arte e Cultura da UFGD)\nTipo: Cultura\n\nMostra 
+ dos resultados do semestre do Centro de Formação da UFGD\, cujas aulas s
+ ão dadas por estudantes da universidade: apresentações e atividades dos
+  cursos de inglês\, espanhol\, francês e português para estrangeiros\, 
+ e o reforço escolar em língua portuguesa e matemática feito com estudan
+ tes da Escola Clori Benedetti. Aberta a toda a comunidade.\n\nFonte: https
+ ://www.instagram.com/culturaufgd/p/DfkHmHYzlz1/\n\nNa agenda do NOS Dourad
+ os: https://nos.dourados.social/agenda.html#ev-2026-11-18-vii-mostra-cultu
+ ral-do-centro-de-formacao-da-ufgd
+URL:https://nos.dourados.social/agenda.html#ev-2026-11-18-vii-mostra-cultur
+ al-do-centro-de-formacao-da-ufgd
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-19-sarau-vozes-da-diversidade-edicao-consciencia-negra@nos.d
+ ourados.social
+DTSTAMP:19700101T000000Z
+DTSTART:20261119T140000Z
+DTEND:20261119T170000Z
+SUMMARY:Sarau Vozes da Diversidade – Edição Consciência Negra
+LOCATION:UFGD – Centro de Convivência\, Dourados/MS
+DESCRIPTION:Organizações: NEAB UFGD (Núcleo de Estudos Afro-Brasileiros 
+ da UFGD)\, UFGD (Universidade Federal da Grande Dourados)\, DAC UFGD (Dire
+ toria de Arte e Cultura da UFGD)\, Comunidade Africana em Dourados\nTipo: 
+ Cultura\n\n1ª edição Consciência Negra do Sarau Vozes da Diversidade d
+ a UFGD: apresentações artísticas e culturais\, performances e música\,
+  valorizando o protagonismo e as expressões culturais negras\, em celebra
+ ção ao Dia da Consciência Negra.\n\nFonte: https://www.instagram.com/pr
+ oaf.ufgd/p/DfpmY6KBv4Q/\n\nNa agenda do NOS Dourados: https://nos.dourados
+ .social/agenda.html#ev-2026-11-19-sarau-vozes-da-diversidade-edicao-consci
+ encia-negra
+URL:https://nos.dourados.social/agenda.html#ev-2026-11-19-sarau-vozes-da-di
+ versidade-edicao-consciencia-negra
+STATUS:CONFIRMED
+TRANSP:OPAQUE
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-11-20-festival-multicultural-caminhos-da-arte@nos.dourados.soci
@@ -1059,15 +1176,60 @@ DTEND;VALUE=DATE:20261123
 SUMMARY:27º Congresso do DCE UEMS
 LOCATION:UEMS – Unidade de Mundo Novo
 DESCRIPTION:Organização: DCE UEMS (Diretório Central dos e das Estudante
- s da UEMS)\nTipo: Congresso\n\nCongresso dos estudantes da UEMS\, para con
- struir políticas de permanência\, ensino de qualidade e infraestrutura. 
- A programação cultural tem Pool Party no dia 20 e Halloween no dia 21. I
- nscrições pelo link na bio do DCE.\n\nLink: https://linktr.ee/dce.uems\n
- Fonte: https://www.instagram.com/dceuems/reel/DfF_ttoz0CG/\n\nNa agenda do
-  NOS Dourados: https://nos.dourados.social/agenda.html#ev-2026-11-20-27-co
- ngresso-do-dce-uems
+ s da UEMS)\nTipo: Congresso\n\nCongresso dos estudantes da UEMS\, no ano e
+ m que o DCE faz 30 anos\, para construir políticas de permanência\, ensi
+ no de qualidade e infraestrutura\, com debates\, palestras\, cultura e int
+ egração entre as unidades. A inscrição (R$ 80 ampla concorrência\, R$
+  40 cotistas) inclui transporte de ida e volta da unidade\, alojamento (le
+ var barraca e colchão)\, três refeições por dia\, certificado de 40 ho
+ ras complementares\, duas festas temáticas (Pool Party no dia 20 e Hallow
+ een no dia 21) e kit. Inscrições até 13/11\, pelo link na bio do DCE.\n
+ \nLink: https://linktr.ee/dce.uems\nFonte: https://www.instagram.com/dceue
+ ms/reel/DfF_ttoz0CG/\n\nNa agenda do NOS Dourados: https://nos.dourados.so
+ cial/agenda.html#ev-2026-11-20-27-congresso-do-dce-uems
 URL:https://nos.dourados.social/agenda.html#ev-2026-11-20-27-congresso-do-d
  ce-uems
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-20-7-feira-afro-zumbi-vive@nos.dourados.social
+DTSTAMP:19700101T000000Z
+DTSTART:20261120T210000Z
+DTEND:20261120T220000Z
+SUMMARY:7ª Feira Afro Zumbi Vive
+LOCATION:Praça Antônio João\, Dourados/MS
+DESCRIPTION:Organização: Quintal de Palmares\nTipo: Feira\n\nIX Noite Cul
+ tural Alusiva à Consciência Negra e VII Feira Afro Zumbi Vive\, do Centr
+ o Cultural Quintal de Palmares\, no feriado da Consciência Negra: celebra
+ ção da cultura afro-brasileira e da ancestralidade\, com feira de empree
+ ndedores negros (artesanato\, acessórios e moda\, botânica\, gastronomia
+  e doces\, tranças e outros serviços).\n\nFonte: https://www.instagram.c
+ om/quintaldepalmares/p/Dfmum5gx5tV/\n\nNa agenda do NOS Dourados: https://
+ nos.dourados.social/agenda.html#ev-2026-11-20-7-feira-afro-zumbi-vive
+URL:https://nos.dourados.social/agenda.html#ev-2026-11-20-7-feira-afro-zumb
+ i-vive
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-26-apg-ufgd-no-30-congresso-nacional-de-pos-graduandos-cnpg@
+ nos.dourados.social
+DTSTAMP:19700101T000000Z
+DTSTART;VALUE=DATE:20261126
+DTEND;VALUE=DATE:20261130
+SUMMARY:APG UFGD no 30º Congresso Nacional de Pós-Graduandos (CNPG)
+LOCATION:Vitória (ES)
+DESCRIPTION:Organizações: ANPG\, APG UFGD (Associação de Pós-Graduando
+ s da UFGD)\nTipo: Congresso\n\n30º Congresso Nacional de Pós-Graduandos\
+ , promovido pela Associação Nacional de Pós-Graduandos (ANPG). A APG UF
+ GD vai ao congresso\, com apoio institucional da Pró-Reitoria de Ensino d
+ e Pós-Graduação e Pesquisa da UFGD e do SINTEF.\n\nFonte: https://www.i
+ nstagram.com/apgufgd/p/Dfk63LEvk0i/\n\nNa agenda do NOS Dourados: https://
+ nos.dourados.social/agenda.html#ev-2026-11-26-apg-ufgd-no-30-congresso-nac
+ ional-de-pos-graduandos-cnpg
+URL:https://nos.dourados.social/agenda.html#ev-2026-11-26-apg-ufgd-no-30-co
+ ngresso-nacional-de-pos-graduandos-cnpg
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
@@ -1129,11 +1291,12 @@ DESCRIPTION:Organizações: Instituto Cultural Malungo\, Projeto Gingar par
  rês Lagoas\, e Maculelê com o Mestre Chupim\, do Paraná) e das 14h às 
  15h30 (samba de roda com a Mestra Lissandra\, do Paraná)\; a partir das 1
  6h\, batizado e troca de graduação\, com encerramento às 20h. As inscri
- ções são limitadas e feitas pelo Even3.\n\nLink: https://www.even3.com.
- br/vi-festival-nacional-malungo-capoeira-801438/\nFonte: https://www.insta
- gram.com/projetogingarparaeducar/p/DfDSRQjKAcn/\n\nNa agenda do NOS Dourad
- os: https://nos.dourados.social/agenda.html#ev-2026-12-04-6-festival-nacio
- nal-malungo-capoeira
+ ções são limitadas e feitas pelo Even3. Presença confirmada da Mestra 
+ Iúna\, de Cruzeiro do Oeste (PR).\n\nLink: https://www.even3.com.br/vi-fe
+ stival-nacional-malungo-capoeira-801438/\nFonte: https://www.instagram.com
+ /projetogingarparaeducar/p/DfDSRQjKAcn/\n\nNa agenda do NOS Dourados: http
+ s://nos.dourados.social/agenda.html#ev-2026-12-04-6-festival-nacional-malu
+ ngo-capoeira
 URL:https://nos.dourados.social/agenda.html#ev-2026-12-04-6-festival-nacion
  al-malungo-capoeira
 STATUS:CONFIRMED
@@ -1173,9 +1336,13 @@ DESCRIPTION:Organizações: House of Bombshell\, Ballroom Dourados\nTipo: F
  oom e a quem quer conhecer essa cultura. Encerra o circuito natalino da Ho
  use\, com oficinas e arrecadação de alimentos para pessoas em situação
   de vulnerabilidade da comunidade Ballroom e de brinquedos para crianças\
- ; na noite também se recebem doações.\n\nFonte: https://www.instagram.c
- om/asbombshells/p/DfGeh4BDvY0/\n\nNa agenda do NOS Dourados: https://nos.d
- ourados.social/agenda.html#ev-2026-12-05-grande-natal-das-bombshells
+ ; na noite também se recebem doações. Ingressos: lote unificado de R$ 1
+ 0 até 04/12 (comprovante e nome completo pelo WhatsApp)\; na porta\, R$ 1
+ 0 ou mais para pessoas trans e R$ 15 ou mais para pessoas cis. Pessoas tra
+ ns podem entrar de graça pela Lista Trans FREE\, com formulário aberto a
+ té 17/11.\n\nContato: (67) 99323-6397\nFonte: https://www.instagram.com/a
+ sbombshells/p/Dfk2z1Yj1RC/\n\nNa agenda do NOS Dourados: https://nos.doura
+ dos.social/agenda.html#ev-2026-12-05-grande-natal-das-bombshells
 URL:https://nos.dourados.social/agenda.html#ev-2026-12-05-grande-natal-das-
  bombshells
 STATUS:CONFIRMED
@@ -1188,13 +1355,16 @@ DTSTAMP:19700101T000000Z
 DTSTART;VALUE=DATE:20261212
 DTEND;VALUE=DATE:20261214
 SUMMARY:10ª Mostra Sucata Cultural – Castelo Rá-Tim-Bum
-DESCRIPTION:Organização: Sucata Cultural\nTipo: Espetáculo\n\nMostra dos
-  alunos e alunas de circo\, teatro e dança do Sucata Cultural\, que trans
- formam o palco no Castelo Rá-Tim-Bum\, inspirado no programa infantil da 
- TV. Espetáculo para crianças de todas as idades.\n\nFonte: https://www.i
- nstagram.com/sucatacultural/p/DesbNBlxCkE/\n\nNa agenda do NOS Dourados: h
- ttps://nos.dourados.social/agenda.html#ev-2026-12-12-10-mostra-sucata-cult
- ural-castelo-ra-tim-bum
+LOCATION:Centro de Esporte\, Cultura e Lazer Jorge Antônio Salomão (Jorj
+ ão) – Rua Itamarati\, 100\, Dourados/MS
+DESCRIPTION:Organização: Sucata Cultural\nTipo: Espetáculo\nHorário: 19
+ h\n\nMostra dos alunos e alunas de balé (adulto e infantil)\, circo\, tec
+ ido acrobático\, dança e teatro do Sucata Cultural\, que transformam o p
+ alco no Castelo Rá-Tim-Bum\, inspirado no programa infantil da TV: o resu
+ ltado de um ano de aulas. Ingressos: R$ 60 a inteira e R$ 30 a meia.\n\nFo
+ nte: https://www.instagram.com/sucatacultural/p/DfiQfZeo42f/\n\nNa agenda 
+ do NOS Dourados: https://nos.dourados.social/agenda.html#ev-2026-12-12-10-
+ mostra-sucata-cultural-castelo-ra-tim-bum
 URL:https://nos.dourados.social/agenda.html#ev-2026-12-12-10-mostra-sucata-
  cultural-castelo-ra-tim-bum
 STATUS:CONFIRMED
