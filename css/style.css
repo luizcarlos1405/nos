@@ -282,7 +282,10 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   html { scroll-padding-top: calc(var(--head-stuck, 0px) + 8px); }
   .site-head { position: sticky; top: calc(-1 * var(--fold, 0px)); z-index: 12; }
   .site-head::after { content: ''; position: absolute; left: 0; right: 0; top: 100%; }
-  .site-head--home .site-bar { position: sticky; top: env(safe-area-inset-top); }
+  /* The bar is a layer above what folds under it (z-index). Faded out, the page's name or the question
+     is still there, and its opacity makes it a layer of its own that comes after the bar in the page:
+     it would lie over the bar and take the clicks meant for its links and its button. */
+  .site-head--home .site-bar { position: sticky; top: env(safe-area-inset-top); z-index: 1; }
   /* What folds on the home: the question and the line under it, and at night the moon, small and high
      in the sky, which goes with them so the top of the screen never cuts it (the sun, big, runs off the
      edges as it always does). */
@@ -1445,7 +1448,8 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
      clear of the band's selvage, the last bands and the rising sun under them (js/head.js). */
   .site-head { --head-keep: 22px; }
   @media (min-height: 501px) {
-    .site-bar { position: sticky; top: env(safe-area-inset-top); }
+    /* Above the page's name that folds under it, as on the home ("The header sticks"). */
+    .site-bar { position: sticky; top: env(safe-area-inset-top); z-index: 1; }
     @supports (animation-timeline: scroll()) {
       .site-head .page-title { animation: fold-away linear both !important; animation-timeline: scroll(root) !important; animation-range: 0 16px !important; }
     }
