@@ -21,6 +21,8 @@ CLAUDE.local.md
 
 # What the Instagram scan reads (tools/instagram/scan.py): working material, turned into agenda and news rows
 tools/instagram/dumps/
+# What the editais scan reads (tools/editais/editais.py): working material, turned into rows of data/editais.csv
+tools/editais/dumps/
 
 # Tooling and OS
 node_modules/
