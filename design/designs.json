@@ -2,6 +2,16 @@
   "title": "NOS Dourados · Designs",
   "sections": [
     {
+      "title": "Editais · proposta de 18/11 (para aprovar: uma página dentro da aba Notícias, com a troca Notícias · Editais; os editais pelo prazo, só o essencial e os links oficiais)",
+      "designs": [
+        "editais-quadro.html",
+        "editais-celular-lista.html",
+        "editais-celular-edital.html",
+        "editais-desktop.html",
+        "noticias-celular-troca.html"
+      ]
+    },
+    {
       "title": "Início · proposta de 12/11 (aprovada e construída no mesmo dia: “O que está acontecendo em Dourados?”, a próxima atividade em destaque e o resto como na D)",
       "designs": [
         "inicio-proposta.html"
