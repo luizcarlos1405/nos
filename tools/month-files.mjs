@@ -16,16 +16,21 @@
 // nor sem-data.csv; a header that lacks the title or the day, or isn't the same in every file of the
 // folder; a row in another file than its day's month; a hidden row without a full date outside
 // sem-data.csv; and what the site would leave out or show wrong (a visible row without a title or a full
-// date, an agenda's "Dia final" it can't read). --fix only moves rows, as they are written (the same
-// bytes), each before the first row of its new file dated later; a file the moves leave without rows is
-// deleted. Needs Node 22 or newer, like tools/agenda-ics.mjs.
+// date, an agenda's "Dia final" it can't read), and a quoted cell that never closes (every row after it
+// would be read as part of it). Across the folders and the other sheets of data/ it also fails on a
+// story's or a call's "Atividade" that isn't a visible activity of the agenda (its title or day changed,
+// or it was hidden), and on an unclosed quote in Comércio's, Editais' or the Mapa's sheets, which no
+// folder covers. --fix only moves rows, as they are written (the same bytes), each before the first row
+// of its new file dated later; a file the moves leave without rows is deleted. Needs Node 22 or newer,
+// like tools/agenda-ics.mjs.
 
-import { readFile, unlink, writeFile } from 'node:fs/promises';
+import { readdir, readFile, unlink, writeFile } from 'node:fs/promises';
 import { INDEX_FILE, UNDATED_FILE, monthFile, monthOf } from '../js/month-files.js';
-import { detectDelimiter, parseCSV } from '../js/csv.js';
+import { decodeCSV, detectDelimiter, parseCSV } from '../js/csv.js';
+import { buildCalls } from '../js/calls.js';
 import { dateKey, isHidden, lastDayKey, parseDay } from '../js/events.js';
-import { MONTH_FOLDERS } from '../js/config.js';
-import { FOLDERS, readFolder } from './folders.mjs';
+import { CALLS_CSV_URL, MONTH_FOLDERS } from '../js/config.js';
+import { AGENDA, FOLDERS, NEWS, allEvents, readFolder } from './folders.mjs';
 
 const args = process.argv.slice(2);
 const check = args.includes('--check');
@@ -59,6 +64,10 @@ function problemsOf({ path, files, strays }, { columns, dayLabel }) {
   for (const name of strays) problems.push({ file: name, where: '', whole: true, text: `neither a month's file (AAAA-MM.csv) nor ${UNDATED_FILE}: move its rows into the folder's files, or take it out of ${path}` });
   const model = files.find((file) => !file.missing.length);
   for (const file of files) {
+    if (file.unclosed) {
+      problems.push({ file: file.name, where: `, row ${file.unclosed}`, whole: true, text: 'a cell opens with a quote (") that never closes, so every row after it is read as part of that cell: close it with a straight " (not ”), or take the quote out' });
+      continue;
+    }
     if (file.missing.length) {
       problems.push({ file: file.name, where: ', its header', whole: true, text: `lacks the ${file.missing.join(' and ')} column${file.missing.length > 1 ? 's' : ''}` });
       continue;
@@ -197,14 +206,15 @@ async function moveRows({ folder, path, files }, problems, { columns }) {
 
 // ---------- Run ----------
 
-// Checks one folder (moving rows first with --fix) and writes its index. Returns false on a problem.
+// Checks one folder (moving rows first with --fix) and writes its index. Returns { ok, read }: false on a
+// problem, and the folder as read (null when it couldn't be).
 async function run(spec) {
   let agenda;
   try {
     agenda = await readFolder(root, spec);
   } catch (err) {
     fail(err.message);
-    return false;
+    return { ok: false, read: null };
   }
   let problems = problemsOf(agenda, spec);
   if (fix && (await moveRows(agenda, problems, spec))) {
@@ -214,22 +224,69 @@ async function run(spec) {
   if (problems.length) {
     for (const problem of problems) fail(`${agenda.path}${problem.file}${problem.where}: ${problem.text}`);
     if (!fix && problems.some((problem) => problem.to)) fail('node tools/month-files.mjs --fix moves rows to the file they belong in.');
-    return false;
+    return { ok: false, read: agenda };
   }
   const index = indexOf(agenda.files);
   const indexUrl = new URL(INDEX_FILE, agenda.folder);
   const current = await readFile(indexUrl, 'utf8').catch(() => null);
   if (check) {
-    if (current === index) return true;
+    if (current === index) return { ok: true, read: agenda };
     fail(`${agenda.path}${INDEX_FILE} is out of date with the month files. Rebuild it: node tools/month-files.mjs`);
-    return false;
+    return { ok: false, read: agenda };
   }
   if (current !== index) await writeFile(indexUrl, index);
   const months = agenda.files.filter((file) => file.month);
   const shown = months.reduce((n, file) => n + file.events.length, 0);
   const undated = agenda.files.find((file) => !file.month)?.records.length ?? 0;
   say(`${agenda.path}: ${months.length} month${months.length === 1 ? '' : 's'}, ${shown} shown${undated ? `, ${undated} undated draft${undated === 1 ? '' : 's'} in ${UNDATED_FILE}` : ''}; ${INDEX_FILE} ${current === index ? 'up to date' : 'written'}`);
-  return true;
+  return { ok: true, read: agenda };
+}
+
+// ---------- Across the sheets ----------
+
+const readSheet = async (path) => parseCSV(decodeCSV(await readFile(new URL(path, root))));
+
+// A story's or a call's "Atividade" names an activity of the agenda by its id (the end of its link,
+// ev-2026-11-10-…), made from its day and title: when the title or the day changes, or the row is hidden,
+// the link to it would go quietly. Returns false when one doesn't resolve.
+async function checkActivities(agenda, news) {
+  if (!agenda || !news) return true;
+  const ids = new Set(allEvents(agenda.files).map((ev) => ev.id));
+  const broken = [];
+  for (const file of news.files) {
+    for (const story of file.events) {
+      if (story.activity && !ids.has(story.activity)) broken.push(`${news.path}${file.name}, row ${story.line} ("${short(story.title)}")`);
+    }
+  }
+  try {
+    const sheet = await readSheet(CALLS_CSV_URL);
+    for (const call of buildCalls(sheet.headers, sheet.records, sheet.lines).calls) {
+      if (call.activity && !ids.has(call.activity)) broken.push(`${CALLS_CSV_URL}, row ${call.line} ("${short(call.title)}")`);
+    }
+  } catch (err) {
+    if (err.code !== 'ENOENT') throw err;
+  }
+  for (const where of broken) fail(`${where}: its Atividade isn't a visible activity of the agenda (its title or day changed, or it was hidden): copy the id from the end of the activity's link, or empty the cell.`);
+  return !broken.length;
+}
+
+// The sheets no folder covers (Comércio, Editais, the Mapa's layers): a quoted cell that never closes
+// swallows every row after it.
+async function checkSheets() {
+  const paths = [];
+  for (const dir of ['data/', 'data/mapa/']) {
+    const entries = await readdir(new URL(dir, root), { withFileTypes: true }).catch(() => []);
+    for (const entry of entries) if (entry.isFile() && entry.name.endsWith('.csv') && !entry.name.startsWith('.')) paths.push(`${dir}${entry.name}`);
+  }
+  let ok = true;
+  for (const path of paths.sort()) {
+    const { unclosed } = await readSheet(path);
+    if (unclosed) {
+      fail(`${path}, row ${unclosed}: a cell opens with a quote (") that never closes, so every row after it is read as part of that cell: close it with a straight " (not ”), or take the quote out.`);
+      ok = false;
+    }
+  }
+  return ok;
 }
 
 if (args.includes('--list')) {
@@ -244,5 +301,12 @@ for (const dir of known.filter((d) => !listed.includes(d))) fail(`${dir} has an 
 if (listed.length !== known.length || listed.some((d) => !known.includes(d))) process.exit(1);
 
 let ok = true;
-for (const spec of FOLDERS) ok = (await run(spec)) && ok;
+const read = new Map();
+for (const spec of FOLDERS) {
+  const result = await run(spec);
+  ok = result.ok && ok;
+  read.set(spec, result.read);
+}
+ok = (await checkActivities(read.get(AGENDA), read.get(NEWS))) && ok;
+ok = (await checkSheets()) && ok;
 process.exit(ok ? 0 : 1);

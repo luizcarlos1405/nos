@@ -2,19 +2,22 @@
 // Handles quoted fields (commas, line breaks, "" escapes), a UTF-8 BOM,
 // and auto-detects "," or ";" (pt-BR spreadsheet exports use ";").
 
+// From the first line that isn't blank: the parser skips leading blank rows, so this does too.
 export function detectDelimiter(text) {
-  const firstLine = text.split(/\r?\n/, 1)[0] || '';
+  const firstLine = text.split(/\r?\n/).find((line) => line.trim()) || '';
   const commas = (firstLine.match(/,/g) || []).length;
   const semicolons = (firstLine.match(/;/g) || []).length;
   return semicolons > commas ? ';' : ',';
 }
 
-// Every row of the file, blank ones included, so row numbers match the spreadsheet's.
+// Every row of the file, blank ones included, so row numbers match the spreadsheet's; and `unclosed`,
+// the row where a quoted cell opened and never closed (it swallows every row after it), or null.
 function parseRows(text, delimiter) {
   const rows = [];
   let row = [];
   let field = '';
   let inQuotes = false;
+  let quoteRow = 0;
 
   for (let i = 0; i < text.length; i++) {
     const ch = text[i];
@@ -36,6 +39,7 @@ function parseRows(text, delimiter) {
     // A quote only opens a quoted field at its start: `TV 12" na sala` stays plain text.
     if (ch === '"' && field === '') {
       inQuotes = true;
+      quoteRow = rows.length + 1;
     } else if (ch === delimiter) {
       row.push(field);
       field = '';
@@ -55,7 +59,7 @@ function parseRows(text, delimiter) {
     rows.push(row);
   }
 
-  return rows;
+  return { rows, unclosed: inQuotes ? quoteRow : null };
 }
 
 // Excel in Portuguese often saves CSV as Windows-1252 ("CSV separado por vírgulas") instead of UTF-8.
@@ -68,14 +72,16 @@ export function decodeCSV(buffer) {
   }
 }
 
-// Returns { headers, records, lines }: each record keyed by header, and lines[i] the spreadsheet
-// row of records[i] (header = row 1). Blank rows are left out but still counted.
+// Returns { headers, records, lines, unclosed }: each record keyed by header, lines[i] the spreadsheet
+// row of records[i] (header = row 1; blank rows are left out but still counted), and `unclosed`, the row
+// where a quoted cell never closes (a cell that opens with " and ends with ” instead, say): the rows after
+// it are read as part of that cell, so the tools refuse the file and the pages say so.
 export function parseCSV(text) {
   const clean = text.replace(/^﻿/, '');
-  const rows = parseRows(clean, detectDelimiter(clean));
+  const { rows, unclosed } = parseRows(clean, detectDelimiter(clean));
   const blank = (cells) => cells.every((cell) => cell.trim() === '');
   const first = rows.findIndex((cells) => !blank(cells));
-  if (first === -1) return { headers: [], records: [], lines: [] };
+  if (first === -1) return { headers: [], records: [], lines: [], unclosed };
 
   const headers = rows[first].map((h) => h.trim());
   const records = [];
@@ -90,5 +96,5 @@ export function parseCSV(text) {
     lines.push(index + 1);
   });
 
-  return { headers, records, lines };
+  return { headers, records, lines, unclosed };
 }
