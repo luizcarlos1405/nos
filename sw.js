@@ -21,8 +21,8 @@ function absolute(url) {
 }
 
 // The sheets. Every page passes them in the query string (registerWorker in js/page.js, from
-// js/config.js): `csv`, a CSV that can live on another origin (COMMERCE_CSV_URL, the businesses; the
-// Mapa's layers, MAP_LAYERS), and
+// js/config.js): `csv`, a CSV that can live on another origin (COMMERCE_CSV_URL, the businesses;
+// CALLS_CSV_URL, the calls; the Mapa's layers, MAP_LAYERS), and
 // `dir`, a folder whose every file is a sheet (AGENDA_DIR, the agenda: index.json and one CSV per month,
 // js/month-files.js). They may be relative, like 'data/agenda/'; request URLs are absolute, so these
 // are too.

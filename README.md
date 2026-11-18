@@ -138,7 +138,7 @@ A agenda e as notícias saem dos posts das páginas listadas em `tools/instagram
 python3 tools/instagram/scan.py
 ```
 
-O script abre uma janela do navegador e passa por todas as páginas da lista, uma a uma, lendo só o que saiu desde a última varredura de cada uma: data, legenda, coautores, local, lembrete de evento, todas as imagens de cada post e o texto escrito nelas. Vai devagar de propósito, para o Instagram não bloquear. Na primeira vez, ou se o Instagram pedir, entre na sua conta na janela que abriu: o script espera e continua sozinho. Deixe a janela aberta até ele terminar; ela fecha sozinha. Precisa do `playwright-cli` (`npm i -g @playwright/cli`) e do `tesseract` com o português.
+O script abre uma janela do navegador e passa por todas as páginas da lista, uma a uma, lendo só o que saiu desde a última varredura de cada uma: data, legenda, coautores, local, lembrete de evento, todas as imagens de cada post e o texto escrito nelas. Vai devagar de propósito, para o Instagram não bloquear. Na primeira vez, ou se o Instagram pedir, entre na janela com a conta da varredura, nunca com a sua conta pessoal: o script espera e continua sozinho. O nome dessa conta fica em `~/.local/share/nos-dourados/instagram-account`, fora do repositório; sem esse arquivo o script não tem como conferir a conta. Se a janela estiver em outra conta, ele para e avisa. Deixe a janela aberta até ele terminar; ela fecha sozinha. Precisa do `playwright-cli` (`npm i -g @playwright/cli`) e do `tesseract` com o português.
 
 **O que ele guarda.** Tudo vai para `tools/instagram/dumps/<dia-hora>/`, fora do git: um `README.md` com o resumo, um arquivo por página e as imagens em `img/`. Daí é só pedir a um agente (ou ler você mesmo) para transformar o que interessa em atividades e notícias. Se a varredura parar no meio, rode de novo: cada página continua de onde parou.
 
@@ -148,7 +148,7 @@ O script abre uma janela do navegador e passa por todas as páginas da lista, um
 |---|---|
 | `handle` | o @ da página, sem a arroba |
 | `name` | o nome da organização como aparece na agenda (coluna `Organização`) |
-| `sector` | o setor dela, um dos oito da agenda |
+| `sector` | o setor dela, um dos nove da agenda |
 | `lastScan` | a última varredura; o script preenche. Também aceita só a data (`2026-11-01`) |
 | `lastPost` | o código do post mais novo que a última varredura viu; o script preenche |
 
@@ -211,14 +211,14 @@ A página Comércio lê `data/comercio.csv` (link em `COMMERCE_CSV_URL`, no `js/
 | `Como podemos entrar em contato?` | celulares com DDD viram link de WhatsApp, com um botão para ligar; fixos viram link de ligação. Sem número, a resposta aparece escrita como veio ("99 food"). "Sim" e "Não" somem |
 | `Sua empresa tem site ou outra rede social?` | links viram botões (Google, Facebook, TikTok, site). O resto aparece como veio, menos "não" e respostas que só repetem Instagram e WhatsApp |
 | `Podemos incluir sua empresa na nossa planilha e compartilhar suas informações com a rede?` | só aparece quem respondeu **Sim** |
-| `Categoria` | coluna da equipe, à direita das respostas: vira os filtros da página. Sugeridas, nesta ordem: Comida, Serviços, Celular e informática, Beleza, Arte e presentes, Embalagens (lista `COMMERCE_CATEGORIES`); outro nome também funciona |
+| `Categoria` | coluna da equipe, à direita das respostas: vira os filtros da página. Sugeridas, nesta ordem: Comida, Serviços, Celular e informática, Beleza, Arte e presentes, Casa, Embalagens (lista `COMMERCE_CATEGORIES`); outro nome também funciona |
 | `Última revisão` | coluna da equipe: o dia (dd/mm/aaaa) em que alguém confirmou os dados com o negócio (vazia, vale a data da resposta). Um negócio sem revisão há mais de um ano (`COMMERCE_REVIEW_MONTHS`) sai da lista sozinho, até ser confirmado de novo e ganhar a data nova |
 | `Visível` | coluna da equipe, opcional: desmarcada esconde o negócio |
 | `Notas internas` | coluna da equipe, opcional: o site ignora (mas ela fica pública, como o arquivo) |
 
 Os nomes das colunas não precisam ser exatos: o site procura uma palavra-chave em cada uma ("nome", "instagram", "contato", "oferece", "site", "incluir", "categoria"…). O Google Formulários continua gravando as respostas novas nas colunas dele quando há colunas extras à direita; quem chega sem categoria aparece em "Todos" até a equipe preencher.
 
-Corrija na planilha o que veio errado no formulário: o site mostra o que estiver lá. Na leva de 26/10/2026, por exemplo: o Instagram "Katiaboticário67" (o site lê katiaboticario67, sem acento; confirme o perfil), "Luciana Gonçalves (bolos)" no campo do Instagram (é o nome, não o perfil), o telefone "6699654-4029" (DDD 66) e "Fecebok".
+Corrija na planilha o que veio errado no formulário: o site mostra o que estiver lá. Na leva de 26/10/2026, por exemplo: o Instagram "Katiaboticário67" (o site lê katiaboticario67, sem acento; confirme o perfil), "Luciana Gonçalves (bolos)" no campo do Instagram (é o nome, não o perfil), o telefone "6699654-4029" (DDD 66) e "Facebok".
 
 Para mostrar o botão "Cadastrar meu negócio", coloque o link público do formulário em `COMMERCE_FORM_URL` (`js/config.js`).
 
@@ -253,13 +253,13 @@ git config core.hooksPath .githooks
 O site está em https://nos.dourados.social (GitHub Pages, domínio no arquivo `CNAME`). Se o endereço mudar:
 
 - troque `SITE_URL` em `js/config.js` (ele entra no fim de cada mensagem de WhatsApp, com o nome da página: `agenda.html`, `comercio.html`);
-- no `<head>` das cinco páginas (`index.html`, `agenda.html`, `noticias.html`, `mapa.html`, `comercio.html`), troque o endereço nas tags da prévia do link (`canonical`, `og:url`, `og:image`…). Os endereços precisam ser completos: sem eles, o WhatsApp e as redes mostram a prévia só com título e descrição, sem a imagem `assets/og-image.png`.
+- no `<head>` das seis páginas (`index.html`, `agenda.html`, `noticias.html`, `editais.html`, `mapa.html`, `comercio.html`), troque o endereço nas tags da prévia do link (`canonical`, `og:url`, `og:image`…). Os endereços precisam ser completos: sem eles, o WhatsApp e as redes mostram a prévia só com título e descrição, sem a imagem `assets/og-image.png`.
 
 ## Funcionando sem internet e instalando como app
 
 O site funciona sem internet e pode ser instalado como app no celular e no computador (PWA).
 
-- **Sem internet.** O service worker (`sw.js`) busca tudo primeiro na rede e só usa a cópia guardada quando a rede falha: quem está online vê as planilhas atuais e a versão publicada do site (com o cache normal do navegador, de alguns minutos). Já na primeira visita ele guarda o site inteiro (as cinco páginas e o que elas carregam, a lista `SHELL`, no `sw.js`), a agenda e as notícias dos últimos meses, a lista do comércio e os lugares do mapa; os meses mais antigos ficam guardados depois de abertos uma vez. Sem conexão, o site abre com a última cópia salva e avisa: "Sem conexão. Mostrando a agenda salva em…" (ou "a lista salva"); um mês nunca aberto diz que não deu para carregá-lo. O panfleto também é gerado sem internet. O desenho do mapa vem da internet (OpenFreeMap): sem conexão, o Mapa mostra a lista dos lugares por camada.
+- **Sem internet.** O service worker (`sw.js`) busca tudo primeiro na rede e só usa a cópia guardada quando a rede falha: quem está online vê as planilhas atuais e a versão publicada do site (com o cache normal do navegador, de alguns minutos). Já na primeira visita ele guarda o site inteiro (as seis páginas e o que elas carregam, a lista `SHELL`, no `sw.js`), a agenda e as notícias dos últimos meses, a lista do comércio e os lugares do mapa; os meses mais antigos ficam guardados depois de abertos uma vez. Sem conexão, o site abre com a última cópia salva e avisa: "Sem conexão. Mostrando a agenda salva em…" (ou "a lista salva"); um mês nunca aberto diz que não deu para carregá-lo. O panfleto também é gerado sem internet. O desenho do mapa vem da internet (OpenFreeMap): sem conexão, o Mapa mostra a lista dos lugares por camada.
 - **Arquivos novos.** Se a página passar a carregar um arquivo novo (um módulo em `js/`, uma folha de estilo, uma fonte, um ícone), acrescente-o à lista `SHELL` do `sw.js`; senão ele só fica disponível sem internet a partir da segunda visita. Não é preciso mudar versão a cada publicação: cada resposta da rede atualiza a cópia.
 - **App instalável.** O `manifest.webmanifest` tem o nome, as cores, os ícones e as capturas de tela que aparecem na hora de instalar. O app abre com o celular em pé ou deitado.
 - **Ícones, prévia do link e capturas de tela** são gerados a partir de HTML: `assets/icon.html` (ícones do app e do navegador), `assets/og-image.html` (prévia do link, 1200 × 630) e o próprio site, num dia fixo (capturas). Depois de mudar o nome, a marca ou as cores, refaça tudo com `node assets/render.cjs` (ou só `icons`, `og` ou `shots`). Ele precisa do Playwright com um Chromium: na pasta do projeto, `npm i --no-save playwright-core` e `npx playwright-core install chromium` (ou aponte `PLAYWRIGHT_CORE` e `CHROMIUM` para os que você já tem).
@@ -270,6 +270,11 @@ Tudo que costuma mudar fica em `js/config.js`:
 
 - `AGENDA_DIR`: a pasta da agenda, um arquivo por mês (`data/agenda/`).
 - `NEWS_DIR` e `NEWS_KINDS`: a pasta das notícias (`data/noticias/`) e os tipos de notícia, na ordem dos filtros.
+- `MONTH_FOLDERS`: as pastas de arquivos por mês (a agenda e as notícias), que o modo sem internet guarda e o commit confere.
+- `CALLS_CSV_URL`: de onde vêm os editais (`data/editais.csv`).
+- `CALLS_CLOSED_DAYS`: por quantos dias um edital fica em "Fecharam há pouco" depois do prazo (30).
+- `CALL_AREAS`: as áreas dos editais, na ordem dos filtros (Cultura, Esporte e lazer).
+- `CALLS_SUGGEST_URL`: o link do convite "Mande para o NOS" no fim dos editais (vazio esconde o convite).
 - `COMMERCE_CSV_URL`: de onde vem o comércio (as respostas do formulário).
 - `COMMERCE_FORM_URL`: o link do formulário de cadastro, para o botão "Cadastrar meu negócio" (vazio esconde o convite).
 - `COMMERCE_CATEGORIES`: as categorias sugeridas, na ordem dos filtros.
@@ -283,18 +288,19 @@ Tudo que costuma mudar fica em `js/config.js`:
 - `SITE_URL`: endereço do site, colocado no fim das mensagens.
 - `TIME_ZONE`: o fuso da agenda (Dourados), para os horários na agenda de cada pessoa.
 - `FEED_FILE`: o nome do arquivo da agenda assinada (`agenda.ics`).
+- `UNTIMED_TYPES`: os tipos de atividade de um dia que não mostram horário, em vez de "Horário a confirmar" (um prazo, por exemplo).
 - `SECTOR_SERIES`: a cor fixa de cada setor sugerido.
 - `EXTRA_HOLIDAYS`: feriados locais, marcados como os nacionais (`js/holidays.js`).
 - `ORG_NAMES`: nomes por extenso das organizações.
 
-**Cores, tema claro e escuro, o céu.** Todas as cores do site e dos panfletos ficam em `css/theme.css`, em duas camadas: a paleta (as cores: barro, terra roxa, urucum, ipê-rosa, ipê-amarelo, as faixas do céu de cada hora, as cores dos grupos) e os papéis (para que serve cada cor: o chão, os cartões, a tinta, o destaque, o céu…). O resto do CSS só usa os papéis. O tema escuro troca os papéis, não a paleta. Os panfletos não seguem o tema da página: cada um tem o céu da hora da atividade (amanhecer, dia, entardecer ou noite; sem horário, o dia), com o barro embaixo, ou a terra roxa à noite. As cores do `<meta name="theme-color">` das cinco páginas e `theme_color`/`background_color` no `manifest.webmanifest` não leem variáveis: se mudar o céu do dia ou o barro, troque-as à mão e refaça ícones, prévia do link e capturas com `node assets/render.cjs`.
+**Cores, tema claro e escuro, o céu.** Todas as cores do site e dos panfletos ficam em `css/theme.css`, em duas camadas: a paleta (as cores: barro, terra roxa, urucum, ipê-rosa, ipê-amarelo, as faixas do céu de cada hora, as cores dos grupos) e os papéis (para que serve cada cor: o chão, os cartões, a tinta, o destaque, o céu…). O resto do CSS só usa os papéis. O tema escuro troca os papéis, não a paleta. Os panfletos não seguem o tema da página: cada um tem o céu da hora da atividade (amanhecer, dia, entardecer ou noite; sem horário, o dia), com o barro embaixo, ou a terra roxa à noite. As cores do `<meta name="theme-color">` das seis páginas e `theme_color`/`background_color` no `manifest.webmanifest` não leem variáveis: se mudar o céu do dia ou o barro, troque-as à mão e refaça ícones, prévia do link e capturas com `node assets/render.cjs`.
 
 Outros textos:
 
-- Frase final das mensagens de WhatsApp: `CLOSING_LINE` (atividades), `NEWS_CLOSING_LINE` (notícias), `MAP_CLOSING_LINE` (lugares do mapa) e `COMMERCE_CLOSING_LINE` (negócios indicados) em `js/whatsapp.js` (usam `APP_NAME`, `HOME_CITY` e `SITE_URL`).
-- Para trocar o nome do site, além de `APP_NAME`/`APP_FULL_NAME`, mude o `<title>`, a descrição e as tags `og:` no `<head>` das cinco páginas e o `<h1>` escondido logo abaixo do `<body>`; o nome do app instalável fica no `manifest.webmanifest` e no `apple-mobile-web-app-title` das páginas. A marca é um desenho de NOS (`MARK` em `js/icons.js`): com outro nome, o site escreve a palavra no lugar dela até que se desenhe uma marca nova. Depois refaça os ícones e a prévia com `node assets/render.cjs`.
+- Frase final das mensagens de WhatsApp: `CLOSING_LINE` (atividades), `NEWS_CLOSING_LINE` (notícias), `CALLS_CLOSING_LINE` (editais), `MAP_CLOSING_LINE` (lugares do mapa) e `COMMERCE_CLOSING_LINE` (negócios indicados) em `js/whatsapp.js` (usam `APP_NAME`, `HOME_CITY` e `SITE_URL`).
+- Para trocar o nome do site, além de `APP_NAME`/`APP_FULL_NAME`, mude o `<title>`, a descrição e as tags `og:` no `<head>` das seis páginas e o `<h1>` escondido logo abaixo do `<body>`; o nome do app instalável fica no `manifest.webmanifest` e no `apple-mobile-web-app-title` das páginas. A marca é um desenho de NOS (`MARK` em `js/icons.js`): com outro nome, o site escreve a palavra no lugar dela até que se desenhe uma marca nova. Depois refaça os ícones e a prévia com `node assets/render.cjs`.
 - Estilos de panfleto: lista `FLYER_STYLES` em `js/flyer.js`, com o visual em `css/flyers.css`. Cada panfleto é uma paisagem do mundo Céu · Terra: o céu da hora da atividade, a faixa no horizonte e a terra com a atividade. O `js/flyer.js` planeja as quebras de linha pelas larguras medidas das fontes; se trocar fonte ou peso, meça de novo com `.impeccable/flyer-metrics.html`.
-- A faixa do horizonte é a imagem `assets/faixa.svg` (provisória). Quando a faixa das artistas da Reserva chegar, ela entra no lugar desse arquivo e o crédito no rodapé das cinco páginas muda junto.
+- A faixa do horizonte é a imagem `assets/faixa.svg` (provisória). Quando a faixa das artistas da Reserva chegar, ela entra no lugar desse arquivo e o crédito no rodapé das seis páginas muda junto.
 
 ## Design
 
@@ -364,7 +370,7 @@ data/agenda/        a agenda: um arquivo por mês (AAAA-MM.csv), o sem-data.csv 
 data/noticias/      as notícias, do mesmo jeito
 data/editais.csv    os editais: uma linha por edital
 data/mapa/          os lugares do mapa: um arquivo por camada (capoeira.csv é a planilha do COMAFRO)
-data/comercio.csv   as respostas do formulário de cadastro (26/10/2026), com a categoria e a última revisão
+data/comercio.csv   as respostas do formulário de cadastro (de 26/10 a 07/11/2026), com a categoria e a última revisão
 design/             o design: uma página HTML por tela, agrupadas em design/designs.json
 ```
 

@@ -1,4 +1,4 @@
-// The sky of this hour and the theme (light or dark), shared by the three pages. The inline script in
+// The sky of this hour and the theme (light or dark), shared by every page. The inline script in
 // each page's head sets <html data-scheme> and <html data-sky> before the first paint (css/theme.css
 // explains both); this module keeps them right while the page stays open (the hour turns, the system
 // switches to dark, another tab changes the theme), wires the theme button, and copies the sky's top
