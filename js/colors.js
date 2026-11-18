@@ -1,10 +1,10 @@
 // Sector colours. Every colour lives in css/theme.css as a custom property, so a theme only
-// swaps variables; this module only decides which series (--role-series-1 … 8) a sector rides.
+// swaps variables; this module only decides which series (--role-series-1 … 9) a sector rides.
 
 import { SECTOR_SERIES } from './config.js';
 import { matchKey } from './events.js';
 
-const SERIES_COUNT = 8;
+const SERIES_COUNT = 9;
 const collator = new Intl.Collator('pt-BR', { sensitivity: 'base', numeric: true });
 
 // Suggested sectors first, in the order of SECTOR_SERIES, then any other sector of the sheet.
@@ -42,7 +42,7 @@ export function assignSectorColors(sectors) {
   }
 }
 
-// 1 … 8, or 0 when the activity has no sector. Falls back to a name hash when the series run out.
+// 1 … 9, or 0 when the activity has no sector. Falls back to a name hash when the series run out.
 export function sectorSeries(sector) {
   const key = matchKey(sector);
   if (!key) return 0;

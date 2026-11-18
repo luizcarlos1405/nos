@@ -1633,6 +1633,25 @@
           "oklch(95.0% 0.026 5.6)"
         ]
       },
+      "group-9": {
+        "role": "series",
+        "displayName": "Group 9 · Violeta",
+        "canonical": "#6E5FE1",
+        "variable": "--color-group-9",
+        "roles": [
+          "--role-series-9 (light)"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.088 283.8)",
+          "oklch(26.4% 0.156 283.8)",
+          "oklch(37.9% 0.190 283.8)",
+          "oklch(49.3% 0.190 283.8)",
+          "oklch(60.7% 0.190 283.8)",
+          "oklch(72.1% 0.150 283.8)",
+          "oklch(83.6% 0.084 283.8)",
+          "oklch(95.0% 0.025 283.8)"
+        ]
+      },
       "group-night-1": {
         "role": "series",
         "displayName": "Group 1 · Azul, night",
@@ -1783,6 +1802,25 @@
           "oklch(72.1% 0.175 1.6)",
           "oklch(83.6% 0.097 1.6)",
           "oklch(95.0% 0.027 1.6)"
+        ]
+      },
+      "group-night-9": {
+        "role": "series",
+        "displayName": "Group 9 · Violeta, night",
+        "canonical": "#8C7AFF",
+        "variable": "--color-group-night-9",
+        "roles": [
+          "--role-series-9 (dark)"
+        ],
+        "tonalRamp": [
+          "oklch(15.0% 0.087 286.1)",
+          "oklch(26.4% 0.153 286.1)",
+          "oklch(37.9% 0.190 286.1)",
+          "oklch(49.3% 0.190 286.1)",
+          "oklch(60.7% 0.190 286.1)",
+          "oklch(72.1% 0.152 286.1)",
+          "oklch(83.6% 0.085 286.1)",
+          "oklch(95.0% 0.025 286.1)"
         ]
       }
     },
@@ -2102,6 +2140,7 @@
         "--role-series-6": "var(--color-group-6)",
         "--role-series-7": "var(--color-group-7)",
         "--role-series-8": "var(--color-group-8)",
+        "--role-series-9": "var(--color-group-9)",
         "--role-no-sector": "var(--color-ink-soft)",
         "--role-chat": "var(--color-clay-fill)",
         "--role-bubble": "var(--color-clay-card)"
@@ -2166,6 +2205,7 @@
         "--role-series-6": "var(--color-group-night-6)",
         "--role-series-7": "var(--color-group-night-7)",
         "--role-series-8": "var(--color-group-night-8)",
+        "--role-series-9": "var(--color-group-night-9)",
         "--role-no-sector": "var(--color-moonlit-soft)",
         "--role-chat": "var(--color-terra-roxa)",
         "--role-bubble": "var(--color-terra-roxa-fill)"

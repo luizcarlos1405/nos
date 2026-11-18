@@ -135,7 +135,9 @@
   --color-moon: #F4DDB0;
   --color-star: #F6E6C6;
 
-  /* The eight groups of the organizations, as dots: by day, and lighter at night. */
+  /* The nine groups of the organizations, as dots: by day, and lighter at night. Violeta (Feiras, the ninth,
+     added 2026-11-18) was picked to stay apart from the other eight and from urucum, under normal vision and
+     simulated protan/deutan, with 3:1 or more on the grounds and the cards (see DESIGN.md, Groups). */
   --color-group-1: #0455A1;          /* azul */
   --color-group-2: #00875A;          /* verde */
   --color-group-3: #9B3894;          /* lilás */
@@ -144,6 +146,7 @@
   --color-group-6: #5E6A71;          /* prata */
   --color-group-7: #7A4E2D;          /* marrom */
   --color-group-8: #C2185B;          /* magenta */
+  --color-group-9: #6E5FE1;          /* violeta */
   --color-group-night-1: #5B9BE6;
   --color-group-night-2: #3DBA8A;
   --color-group-night-3: #C77BC0;
@@ -152,6 +155,7 @@
   --color-group-night-6: #9AA7AF;
   --color-group-night-7: #B98A66;
   --color-group-night-8: #E9608F;
+  --color-group-night-9: #8C7AFF;
 
   /* ---------- Type and shape ---------- */
   --font-display: 'Bricolage Grotesque', 'Inter', system-ui, sans-serif;
@@ -244,6 +248,7 @@
   --role-series-6: var(--color-group-6);
   --role-series-7: var(--color-group-7);
   --role-series-8: var(--color-group-8);
+  --role-series-9: var(--color-group-9);
   --role-no-sector: var(--color-ink-soft);
 
   /* The WhatsApp preview */
@@ -324,6 +329,7 @@
   --role-series-6: var(--color-group-night-6);
   --role-series-7: var(--color-group-night-7);
   --role-series-8: var(--color-group-night-8);
+  --role-series-9: var(--color-group-night-9);
   --role-no-sector: var(--color-moonlit-soft);
 
   --role-chat: var(--color-terra-roxa);

@@ -136,10 +136,11 @@ export const ORG_NAMES = {
   'Seeb Dourados': 'Sindicato dos Bancários e Trabalhadores do Ramo Financeiro de Dourados e Região',
 };
 
-// Sector colours: each suggested "Setor" of the spreadsheet (the eight groups of the
-// organizations survey) keeps the same colour, whatever else is in the sheet. The numbers point
-// to --role-series-1 … 8 in css/theme.css; a sector not listed here borrows the series of a
-// listed sector absent from the sheet (see js/colors.js).
+// Sector colours: each suggested "Setor" of the spreadsheet (the nine groups of the
+// organizations survey; Feiras, the ninth, since 2026-11-18) keeps the same colour, whatever else
+// is in the sheet. The numbers point to --role-series-1 … 9 in css/theme.css, and the keys' order
+// is the chips' order; a sector not listed here borrows the series of a listed sector absent from
+// the sheet (see js/colors.js).
 export const SECTOR_SERIES = {
   'Sindicatos': 1,
   'Rural, indígena, luta pela terra': 2,
@@ -147,6 +148,7 @@ export const SECTOR_SERIES = {
   'Academia e Movimento Estudantil': 4,
   'Órgãos do Estado': 5,
   'Partidos': 6,
+  'Feiras': 9,
   'Outros': 7,
   'Terceiro Setor': 8,
 };

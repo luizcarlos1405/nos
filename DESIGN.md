@@ -84,7 +84,7 @@ colors:
   sun: "#F4A11E"
   moon: "#F4DDB0"
   star: "#F6E6C6"
-  # The eight groups of the organizations: by day, and lighter at night
+  # The nine groups of the organizations: by day, and lighter at night
   group-1: "#0455A1"
   group-2: "#00875A"
   group-3: "#9B3894"
@@ -93,6 +93,7 @@ colors:
   group-6: "#5E6A71"
   group-7: "#7A4E2D"
   group-8: "#C2185B"
+  group-9: "#6E5FE1"
   group-night-1: "#5B9BE6"
   group-night-2: "#3DBA8A"
   group-night-3: "#C77BC0"
@@ -101,6 +102,7 @@ colors:
   group-night-6: "#9AA7AF"
   group-night-7: "#B98A66"
   group-night-8: "#E9608F"
+  group-night-9: "#8C7AFF"
 typography:
   display:
     fontFamily: "Bricolage Grotesque, Inter, system-ui, sans-serif"
@@ -439,7 +441,7 @@ components:
 
 NOS opens on the sky over Dourados at this hour and the land beneath it. Every page stacks the same three layers: the header is the sky of this hour, painted in five flat bands (amanhecer, dia, entardecer and noite by the clock in the light theme, always the night in the dark theme); the woven band under it is the horizon; below lies the land, light clay by day and terra roxa at night, where the activities, the stories and the businesses rest as clear rounded cards (the home sets its land in type, without cards); on the Mapa the land is the city itself, drawn in the same clay and terra roxa. The sun, a disc inside an urucum loop drawn by hand, rises big from behind the band and runs off the edge; at night a small moon, about a fifth of the sun, sits high among the stars.
 
-The hand is the system's signature. The same urucum pen that draws the sun's loop and the O of the NOS mark circles the next activity and underlines today: urucum is the one marking colour, and it marks rather than fills. Each page has one colour of the landscape, whose deep shade names it on the home and colours its icons (Agenda urucum, Notícias ipê-amarelo, Mapa erva-mate, Comércio ipê-rosa); the organizations' eight groups are coloured dots, and the Mapa's layers are drawings, never colours. Bricolage Grotesque is NOS's voice (the home's question, dates, page titles, day heads) and Inter the reading text and the controls. The density is calm and phone-first: lists of cards with 44px targets on the phone, a production bench on the desk, never a dashboard.
+The hand is the system's signature. The same urucum pen that draws the sun's loop and the O of the NOS mark circles the next activity and underlines today: urucum is the one marking colour, and it marks rather than fills. Each page has one colour of the landscape, whose deep shade names it on the home and colours its icons (Agenda urucum, Notícias ipê-amarelo, Mapa erva-mate, Comércio ipê-rosa); the organizations' nine groups are coloured dots, and the Mapa's layers are drawings, never colours. Bricolage Grotesque is NOS's voice (the home's question, dates, page titles, day heads) and Inter the reading text and the controls. The density is calm and phone-first: lists of cards with 44px targets on the phone, a production bench on the desk, never a dashboard.
 
 The world refuses the hero banner over icon tiles, the dashboard, the grey list with thin dividers and coloured pills, the marketplace (carousels, banners, prices, ratings), the stock web map (its own colours, coloured category pins, popups), and the Folhinha's notepad and torn-off sheets; nothing of the old campaign interface (the metro line to election day, the countdown, the slogan) comes back, and nothing should read as a startup, a city hall or an election campaign. Light and dark are both finished themes. The approved artboards (`design/direcao-ceu-terra-*.html`) also draw sections and a search that were deliberately not built; where they and the build diverge, the build is the reference. The flyers carry the same world into a picture: the sky of the activity's hour over the band and the land (see Components).
 
@@ -502,7 +504,7 @@ The sky: five bands from the top (1) to the horizon (5) at each hour, and what s
 - The washes are mixes, not palette values: the hover wash is the ink at 7% (Moonlit at 9% at night), the sky's wash the ink at 9% (Moonlit at 12%), the scrim the ink at 50% (Night Shade at 70%).
 
 ### Groups
-The eight groups of the organizations, one series each, by day and lighter at night (`js/colors.js` sets the group's series as `--sector` on the node): azul (#0455A1 / #5B9BE6), verde (#00875A / #3DBA8A), lilás (#9B3894 / #C77BC0), turquesa (#00808A / #2DB3BC), laranja (#C25700 / #E8873A), prata (#5E6A71 / #9AA7AF), marrom (#7A4E2D / #B98A66), magenta (#C2185B / #E9608F). An activity without a group takes the soft ink. Comércio's categories carry no colour.
+The nine groups of the organizations, one series each, by day and lighter at night (`js/colors.js` sets the group's series as `--sector` on the node): azul (#0455A1 / #5B9BE6), verde (#00875A / #3DBA8A), lilás (#9B3894 / #C77BC0), turquesa (#00808A / #2DB3BC), laranja (#C25700 / #E8873A), prata (#5E6A71 / #9AA7AF), marrom (#7A4E2D / #B98A66), magenta (#C2185B / #E9608F) and violeta (#6E5FE1 / #8C7AFF), the ninth, for Feiras (2026-11-18). Violeta was picked with the dataviz skill's palette validator (OKLab ΔE ×100; protan and deutan by Machado 2009) to stay apart from the other eight and from urucum: its nearest group is azul, 15.3 by day (11.6 under protan or deutan) and 10.9 at night (6.5), farther than the palette's own closest pairs (8.4 and 0.9 by day, 8.2 and 1.3 at night), with 3.8:1 on the clay and 4.7:1 on the card by day, 4.9:1 on the card at night. An activity without a group takes the soft ink. Comércio's categories carry no colour.
 
 ### The Map
 The city drawn in the land's own colours through the `--role-map-*` roles, and the points on it.
@@ -648,7 +650,7 @@ The home answers its question on the land in type, with no cards: rows of Bricol
 - **The next activity:** "A próxima atividade" (Title), then the day circled by the hand (Date, its loop at 3px) with "hoje" or "amanhã" and the time beside it in Deep Urucum (Inter 600, 1.0625rem), the title (Next Title), and 12px under it the facts in the soft ink, 6px apart: the organization with its group's 10px dot, its name at 600 in ink and its full name; an 18px clock for "Horário a confirmar"; a pin (a globe online) before the place, another city first as the city tag; a period's last day. The actions stand 20px under them. Under 760px the title's link covers the whole block, and focus rings the block 6px out; from 760px only the title is the link, underlined on hover and ringed 3px out. On the desk the text sits at the left and the two buttons at the right, on its foot line. With nothing ahead, or when the agenda can't be read, a line in the soft ink says so.
 - **"Ver todas as N atividades":** the whole agenda, a 52px link in Bricolage 800 in Deep Urucum with a 24px arrow ("Abrir a agenda" when one or none is ahead); hover underlines it at 2px and steps the arrow 3px to the right.
 - **The rows:** Notícias, the Mapa and Comércio, each under its rule and the whole row its link: the page's name (Row Name) in its deep shade with its 26px drawing and a 24px arrow at the far end, what it holds today (Row Lead), then the meta in the soft ink (Inter 1rem: the story's day at 600 and tabular, its kind and who; Comércio's categories joined by " · "). The Mapa's row draws its layers as its points do: 38px discs in the points' colours (ink with the drawing in the card colour by day, moonlit with terra roxa at night), 20px drawings, 8px apart, each named with its count for screen readers. A row keeps its own description until its sheet is read. Hover underlines the lead and steps the arrow 3px to the right; focus rings the row 4px out, at 6px corners. On the desk the three rows are columns, 48px apart.
-- **Who NOS follows:** "O NOS acompanha o que 85 organizações de Dourados publicam" (Statement) under its rule, the eight groups as 10px dots before their names (Inter 1rem, 6px by 18px apart) and a note in the soft ink; on the desk the statement at the left and the groups and the note at the right (5fr to 7fr).
+- **Who NOS follows:** "O NOS acompanha o que 85 organizações de Dourados publicam" (Statement) under its rule, the nine groups as 10px dots before their names (Inter 1rem, 6px by 18px apart) and a note in the soft ink; on the desk the statement at the left and the groups and the note at the right (5fr to 7fr).
 
 **The Landscape Shade Rule.** On the land a page's colour of the landscape is its deep shade: its name, drawing and arrow on the home's row, its icons on its own page (Comércio's information card). The one fill is the Mapa's invitation to send a missing place ("Falta algum lugar?", in its panel, shown only once `MAP_SUGGEST_URL` has a link): a 12px block in the Erva-Mate Tint with its icon in the deep shade and its heading in Bricolage 700. Nothing else on a page takes a tint of its colour.
 
