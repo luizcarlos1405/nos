@@ -267,8 +267,11 @@ function renderCard(n, isLead) {
   if (selected) open.setAttribute('aria-current', 'true');
   open.append(el('span', 'news-title', n.title));
   h.append(open);
-  const share = el('span', 'share-circle');
-  share.setAttribute('aria-hidden', 'true');
+  // The share circle is a button of its own: it opens the story straight at its message.
+  const share = el('button', 'share-circle');
+  share.type = 'button';
+  share.dataset.focus = `share:${n.id}`;
+  share.setAttribute('aria-label', `Mandar no WhatsApp: ${n.title}`);
   share.innerHTML = icon('share');
   head.append(h, share);
   card.append(head);
@@ -300,6 +303,7 @@ function renderCard(n, isLead) {
   const ev = activities.get(n.activity);
   if (ev) card.append(agendaPill(ev));
   open.addEventListener('click', () => select(n, { trigger: open }));
+  share.addEventListener('click', () => select(n, { trigger: share, toMessage: true }));
   return card;
 }
 
@@ -505,15 +509,26 @@ function renderBench() {
   $('wa-link').href = whatsAppShareUrl(message);
 }
 
-function select(n, { trigger } = {}) {
+// The panel at its top, or at the message (the share circle: what it is pressed for).
+function scrollBench(toMessage) {
+  const scroll = $('bench-scroll');
+  const go = () => {
+    scroll.scrollTop = 0;
+    if (toMessage) scroll.scrollTop = $('message-head').getBoundingClientRect().top - scroll.getBoundingClientRect().top - 12;
+  };
+  go();
+  if (toMessage) requestAnimationFrame(go);
+}
+
+function select(n, { trigger, toMessage = false } = {}) {
   if (n.id !== state.selectedId) settleCopy();
   state.selectedId = n.id;
   rerender(() => {
     renderList();
     renderBench();
   });
-  $('bench-scroll').scrollTop = 0;
   if (!desktop.matches) openSheet(trigger);
+  scrollBench(toMessage);
 }
 
 // ---------- Bottom sheet (phones) ----------

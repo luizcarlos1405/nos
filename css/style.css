@@ -1286,6 +1286,15 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
 .story-section { margin: 0 0 10px; font: 700 1.0625rem/1.3 var(--font-display); letter-spacing: -0.01em; }
 .fact .fact-sub { display: block; font-size: 0.875rem; font-weight: 400; color: var(--role-ink-soft); font-variant-numeric: tabular-nums; }
 
+/* The share circle of a story or a call is a button of its own ("Mandar no WhatsApp"): it opens the panel
+   straight at the message, where the card opens it at the top. It sits over the card's stretched button
+   (out of the flow, in the corner), as the links do. */
+.news-head button.share-circle { z-index: 1; padding: 0; border: 0; cursor: pointer; transition: background 0.15s; }
+.news-head button.share-circle:focus-visible { outline: 2px solid var(--role-focus); outline-offset: 2px; }
+@media (hover: hover) {
+  .news-head button.share-circle:hover { background: var(--role-line); }
+}
+
 /* ---------- Início: the next activity, then what each page holds ---------- */
 /* The land under the band: the very next activity first, named as such and set in NOS's voice (no card),
    then the other pages as rows of type and who NOS follows. */
