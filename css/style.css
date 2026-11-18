@@ -41,13 +41,13 @@ code { font-size: 0.9em; background: var(--role-wash); padding: 1px 5px; border-
 }
 
 .skip-link {
-  position: absolute; left: calc(16px + env(safe-area-inset-left)); top: -60px; z-index: 50;
+  position: absolute; left: calc(16px + env(safe-area-inset-left)); top: 0; translate: 0 -120%; z-index: 50;
   display: inline-flex; align-items: center; min-height: 44px;
   padding: 0 16px; border-radius: var(--radius-pill);
   background: var(--role-ink); color: var(--role-on-ink);
   font-weight: 600; text-decoration: none;
 }
-.skip-link:focus { top: max(12px, env(safe-area-inset-top)); }
+.skip-link:focus { top: max(12px, env(safe-area-inset-top)); translate: 0 0; }
 
 .icon { width: 20px; height: 20px; flex: none; }
 
@@ -207,6 +207,9 @@ code { font-size: 0.9em; background: var(--role-wash); padding: 1px 5px; border-
   text-decoration: none;
 }
 .nav-icon { display: grid; place-items: center; width: 56px; height: 32px; border-radius: var(--radius-pill); transition: background 0.15s; }
+/* A label stays inside its column when the phone's font is larger: it breaks (at a syllable where the
+   browser knows Portuguese) rather than print over its neighbour. */
+.nav-label { max-width: 100%; padding: 0 2px; text-align: center; overflow-wrap: anywhere; hyphens: auto; }
 .nav-icon .icon { width: 22px; height: 22px; }
 .nav-link[aria-current='page'] { color: var(--role-accent-text); font-weight: 600; }
 .nav-link[aria-current='page'] .nav-icon { background: var(--role-accent-tint); }
@@ -278,7 +281,9 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
 
 @keyframes fold-away { to { opacity: 0; } }
 
-@media (min-height: 501px) {
+/* In em (501px at the default size): with a larger font the header lets go sooner and leaves the page
+   room. */
+@media (min-height: 31.3125em) {
   html { scroll-padding-top: calc(var(--head-stuck, 0px) + 8px); }
   .site-head { position: sticky; top: calc(-1 * var(--fold, 0px)); z-index: 12; }
   .site-head::after { content: ''; position: absolute; left: 0; right: 0; top: 100%; }
@@ -1291,6 +1296,7 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
    (out of the flow, in the corner), as the links do. */
 .news-head button.share-circle { z-index: 1; padding: 0; border: 0; cursor: pointer; transition: background 0.15s; }
 .news-head button.share-circle:focus-visible { outline: 2px solid var(--role-focus); outline-offset: 2px; }
+.news-head button.share-circle::before { content: ''; position: absolute; inset: -2px; border-radius: inherit; }
 @media (hover: hover) {
   .news-head button.share-circle:hover { background: var(--role-line); }
 }
@@ -1539,7 +1545,7 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   /* Folded, the bar keeps 22px of sky under it: its links stay on the top band, the open page's stroke
      clear of the band's selvage, the last bands and the rising sun under them (js/head.js). */
   .site-head { --head-keep: 22px; }
-  @media (min-height: 501px) {
+  @media (min-height: 31.3125em) {
     /* Above the page's name that folds under it, as on the home ("The header sticks"). */
     .site-bar { position: sticky; top: env(safe-area-inset-top); z-index: 1; }
     @supports (animation-timeline: scroll()) {
@@ -1891,6 +1897,9 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   white-space: nowrap;
 }
 .map-pill .icon { width: 18px; height: 18px; }
+/* 44px to tap, around the 40px pill. */
+.map-pill { position: relative; }
+.map-pill::before { content: ''; position: absolute; inset: -2px 0; border-radius: inherit; }
 .map-chip { height: 40px; margin: 0; border-color: var(--role-card-border); box-shadow: var(--role-card-shadow); }
 .map-chip[aria-pressed=true] { padding-left: 12px; border-color: var(--role-ink); }
 /* The drawing stays in both states (it is the key to the points); off, it fades with the chip. */
@@ -2228,7 +2237,7 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .site-head--home { --sun-size: 280px; --sun-right: -160px; --sun-bottom: -168px; --sun-loop: 4px; }
   .site-head-inner { padding-left: 12px; }
   .page-name { font-size: 1.625rem; }
-  .ask-title { font-size: 2.375rem; }
+  .ask-title { font-size: 2.375rem; overflow-wrap: anywhere; hyphens: auto; }
   .upcoming-title { font-size: 1.75rem; }
   .brand-place { font-size: 1.25rem; }
   .nav-icon { width: 48px; }
@@ -2242,8 +2251,7 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .style-count { right: 12px; gap: 0; font-size: 0; }
   .event-card { padding-left: 14px; padding-right: 12px; }
   .event-head .share-circle { display: none; }
-  .news-head { padding-right: 0; }
-  .news-head .share-circle { display: none; }
+  .save-pill { white-space: normal; padding-block: 6px; }
   .save-all { margin-left: 12px; margin-right: 12px; }
   .day-num { min-width: 0; padding: 0 2px; }
   .month-head { gap: 4px; }
