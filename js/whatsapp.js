@@ -1,15 +1,17 @@
-// Builds WhatsApp-ready messages: an activity's (Agenda), a story's (Notícias), a business's
-// (Comércio, "Indicar no WhatsApp") and a place's (Mapa). WhatsApp formatting: *bold*, _italic_. Lines for empty fields are
-// left out.
+// Builds WhatsApp-ready messages: an activity's (Agenda), a story's (Notícias), a call's (Editais), a
+// business's (Comércio, "Indicar no WhatsApp") and a place's (Mapa). WhatsApp formatting: *bold*,
+// _italic_. Lines for empty fields are left out.
 
 import { APP_NAME, CITY, HOME_CITY, SITE_URL } from './config.js';
 import { formatDateRange, formatShortDate, formatTimeRange, matchKey } from './events.js';
+import { hourText, inSentence, longDay, resultText } from './calls.js';
 
 // Closing lines added to every message, with the address of the page they come from — change them
 // freely (or set to '' to remove).
 export const CLOSING_LINE = `📅 Mais atividades na agenda do ${APP_NAME} ${HOME_CITY}${SITE_URL ? `: ${SITE_URL}/agenda.html` : ''}`;
 export const COMMERCE_CLOSING_LINE = `🛍️ Mais negócios da rede no ${APP_NAME} ${HOME_CITY}${SITE_URL ? `: ${SITE_URL}/comercio.html` : ''}`;
 export const NEWS_CLOSING_LINE = `📰 Mais notícias das organizações no ${APP_NAME} ${HOME_CITY}${SITE_URL ? `: ${SITE_URL}/noticias.html` : ''}`;
+export const CALLS_CLOSING_LINE = `📄 Mais editais no ${APP_NAME} ${HOME_CITY}${SITE_URL ? `: ${SITE_URL}/editais.html` : ''}`;
 // The Mapa's: followed by the place's own address on the map (mapa.html#<id> opens it).
 export const MAP_CLOSING_LINE = `🗺️ No mapa do ${APP_NAME} ${HOME_CITY}`;
 
@@ -81,6 +83,43 @@ export function buildNewsMessage(news) {
   if (news.source) facts.push(`📣 Fonte: ${news.source}`);
   blocks.push(facts);
   if (NEWS_CLOSING_LINE) blocks.push([NEWS_CLOSING_LINE]);
+  return blocks.map((lines) => lines.join('\n')).join('\n\n');
+}
+
+// A call passed on to a group (Editais): what it is and where it reaches, its name and who runs it, then,
+// by where it stands (js/calls.js callStatus), the deadline, how much and who can apply; the day it opens;
+// the day it closed and its result; or what is known of it. Its links, then the page's address.
+export function buildCallMessage(call, status, now = new Date()) {
+  const place = matchKey(call.reach) === 'nacional' ? 'Nacional' : call.reach && matchKey(call.reach) !== 'dourados' ? (matchKey(call.reach) === 'ms' ? 'Mato Grosso do Sul' : call.reach) : CITY;
+  const head = { open: 'EDITAL ABERTO', soon: 'EDITAL ANUNCIADO', closed: call.result ? 'RESULTADO' : 'EDITAL ENCERRADO', coming: 'EM PREPARAÇÃO' }[status] || 'EDITAL';
+  const blocks = [[`📄 *${head}* · ${place}`]];
+  const name = [`*${literal(call.title)}*`];
+  if (call.org) name.push(`👥 ${[call.org, call.body].filter(Boolean).join(', ')}`);
+  blocks.push(name);
+
+  const facts = [];
+  const hour = hourText(call);
+  if (status === 'open') facts.push(`⏳ Inscrições até ${longDay(call.until)}${hour ? `, ${hour}` : ''}`);
+  if (status === 'soon') facts.push(`📅 Inscrições de ${longDay(call.from)} a ${longDay(call.until)}${hour ? `, ${hour}` : ''}`);
+  if (status === 'closed') facts.push(`📅 As inscrições fecharam ${call.until.getDay() === 0 || call.until.getDay() === 6 ? 'no' : 'na'} ${longDay(call.until)}`);
+  if (status === 'open' || status === 'soon') {
+    if (call.value) facts.push(`💰 ${call.value}`);
+    if (call.who) facts.push(`✅ Quem pode: ${inSentence(call.who)}`);
+  }
+  if (status === 'closed') {
+    const result = resultText(call, now);
+    if (result) facts.push(`📋 ${result}`);
+  }
+  if (facts.length) blocks.push(facts);
+  if (status === 'coming' && call.summary) blocks.push([call.summary]);
+
+  const links = [];
+  if (status === 'closed' && call.result) links.push(`🔗 Resultado: ${call.result}`);
+  if (status !== 'closed' && call.call) links.push(`📄 Edital: ${call.call}`);
+  if (call.page && (status !== 'closed' || !call.result)) links.push(`🔗 Página oficial: ${call.page}`);
+  if (links.length) blocks.push(links);
+
+  if (CALLS_CLOSING_LINE) blocks.push([CALLS_CLOSING_LINE]);
   return blocks.map((lines) => lines.join('\n')).join('\n\n');
 }
 

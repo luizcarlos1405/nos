@@ -37,12 +37,12 @@ const CACHED_AT_HEADER = 'X-Cached-At';
 const HOME = absolute('./');
 
 // App shell, cached on install so the first visit already works offline: on that visit the page
-// isn't controlled by this worker yet, so only what is listed here gets saved. That is the five
-// pages (index.html as './', agenda.html, noticias.html, mapa.html, comercio.html), the agenda's old address
+// isn't controlled by this worker yet, so only what is listed here gets saved. That is the six
+// pages (index.html as './', agenda.html, noticias.html, editais.html, mapa.html, comercio.html), the agenda's old address
 // (calendario.html, which forwards to agenda.html) and everything they load: the manifest
 // and its icons, the favicons, the three stylesheets with the fonts they declare and the woven band
-// (assets/faixa.svg), every module reached from js/home.js, js/app.js, js/noticias.js, js/mapa.js and
-// js/comercio.js, and the vendored image library (which also fetches the fonts again to embed them in
+// (assets/faixa.svg), every module reached from js/home.js, js/app.js, js/noticias.js, js/editais.js,
+// js/mapa.js and js/comercio.js, and the vendored image library (which also fetches the fonts again to embed them in
 // the flyer PNG). Left out on purpose: MapLibre (js/vendor/maplibre-gl.js and .css, 210 KB compressed),
 // which only the Mapa uses and which draws nothing offline (the map's tiles come from another site);
 // offline the Mapa shows its list, and a visit online saves the library at runtime. Later visits also
@@ -52,6 +52,7 @@ const SHELL = [
   'agenda.html',
   'calendario.html',
   'comercio.html',
+  'editais.html',
   'mapa.html',
   'noticias.html',
   'manifest.webmanifest',
@@ -71,10 +72,12 @@ const SHELL = [
   'js/agenda.js',
   'js/month-files.js',
   'js/businesses.js',
+  'js/calls.js',
   'js/colors.js',
   'js/comercio.js',
   'js/config.js',
   'js/csv.js',
+  'js/editais.js',
   'js/events.js',
   'js/flyer.js',
   'js/head.js',

@@ -25,6 +25,25 @@ export const NEWS_KINDS = [
   { name: 'Informe', plural: 'Informes' },
 ];
 
+// Editais (editais.html, a page under the Notícias tab): calls, prizes and grants with money for culture,
+// sport and leisure, a row each in one file, with only the essentials (the deadline, how much, who can
+// apply, the call and its official page). js/calls.js reads the rows and places each call by its dates:
+// the open ones by deadline, the ones opening soon, the ones closed within CALLS_CLOSED_DAYS, and the
+// announced ones still without a date.
+export const CALLS_CSV_URL = 'data/editais.csv';
+
+// How many days a call stays under "Fecharam há pouco" after its last day of registration. Past that it
+// leaves the page by itself; its row stays in the file.
+export const CALLS_CLOSED_DAYS = 30;
+
+// The areas of the "Área" column, in the order of the chips. Another area written in the sheet still
+// shows, its chip after these. Accents and case don't matter.
+export const CALL_AREAS = ['Cultura', 'Esporte e lazer'];
+
+// The link of "Mande para o NOS" under the list of calls (a form or a WhatsApp). Empty hides the
+// invitation, as MAP_SUGGEST_URL does on the Mapa.
+export const CALLS_SUGGEST_URL = '';
+
 // Where Comércio (comercio.html) reads the businesses from: the answers of the registration form,
 // as they are, copied into the file by the NOS team, plus an optional "Categoria" column they keep.
 // (No published Google Sheets: the site's CSVs are files of this repository.)

@@ -1,9 +1,9 @@
 // What the pages share: Início (index.html, js/home.js), Agenda (agenda.html, js/app.js), Notícias
-// (noticias.html, js/noticias.js), Mapa (mapa.html, js/mapa.js) and Comércio (comercio.html,
-// js/comercio.js). The header on the sky, small DOM helpers, notices,
+// (noticias.html, js/noticias.js), Editais (editais.html, js/editais.js, under the Notícias tab), Mapa
+// (mapa.html, js/mapa.js) and Comércio (comercio.html, js/comercio.js). The header on the sky, small DOM helpers, notices,
 // reading the sheets (Comércio's, and the agenda's months), and the offline worker.
 
-import { AGENDA_DIR, APP_FULL_NAME, APP_NAME, CITY, COMMERCE_CSV_URL, MAP_LAYERS, MONTH_FOLDERS, NEWS_DIR } from './config.js';
+import { AGENDA_DIR, APP_FULL_NAME, APP_NAME, CALLS_CSV_URL, CITY, COMMERCE_CSV_URL, MAP_LAYERS, MONTH_FOLDERS, NEWS_DIR } from './config.js';
 import { INDEX_FILE, createMonthFolder, folderPath } from './month-files.js';
 import { buildEvents } from './events.js';
 import { buildNews } from './news.js';
@@ -158,7 +158,7 @@ export const newsSource = () => monthlySource(NEWS_DIR, buildNews);
 // address: a different one would replace the worker.
 export function registerWorker() {
   if (!('serviceWorker' in navigator) || location.protocol === 'file:') return;
-  const sheets = [COMMERCE_CSV_URL, ...MAP_LAYERS.map((layer) => layer.file)];
+  const sheets = [COMMERCE_CSV_URL, CALLS_CSV_URL, ...MAP_LAYERS.map((layer) => layer.file)];
   const query = [...sheets.map((url) => `csv=${encodeURIComponent(url)}`), ...MONTH_FOLDERS.map((dir) => `dir=${encodeURIComponent(folderPath(dir, ''))}`)].join('&');
   navigator.serviceWorker.register(`sw.js?${query}`).catch((err) => console.warn('Service worker:', err));
 }
