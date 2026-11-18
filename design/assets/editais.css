@@ -65,6 +65,16 @@
 .call-fact dd { min-width: 0; margin: 0; text-wrap: pretty; }
 .call-fact b { font-weight: 600; }
 
+/* The share circle is a button of its own ("Mandar no WhatsApp"): it opens the call straight at its message,
+   where the card opens it at the top. It sits over the card's stretched button, as the links do. On the
+   site's Notícias the same circle is only a picture over the card, and a tap on it is lost (tested on
+   18/11/2026; the Agenda's works); building this page is the moment to fix it there too. */
+.call-card .share-circle { z-index: 1; padding: 0; border: 0; cursor: pointer; transition: background 0.15s; }
+.call-card .share-circle:focus-visible { outline: 2px solid var(--role-focus); outline-offset: 2px; }
+@media (hover: hover) {
+  .call-card .share-circle:hover { background: var(--role-line); }
+}
+
 /* The links sit over the card's stretched button, as a story's "Na agenda" does. */
 .call-links { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
 .call-links .btn { padding: 0 16px 0 14px; }
