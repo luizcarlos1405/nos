@@ -1312,6 +1312,25 @@ STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
+UID:ev-2026-11-28-ultima-brechozada-do-ano-no-acervo@nos.dourados.social
+DTSTAMP:19700101T000000Z
+DTSTART:20261128T130000Z
+DTEND:20261128T200000Z
+SUMMARY:Última Brechózada do ano no Acervo
+LOCATION:Acervo – Rua Hayel Bon Faker\, 3624\, Dourados/MS
+DESCRIPTION:Organização: Acervo\nTipo: Feira\n\nA última Brechózada do 
+ ano no Acervo\, casa cultural e loja colaborativa de brechós\, marcas aut
+ orais e arte: vários brechós\, cada um com uma surpresa e uma promoção
+  especial. Entrada gratuita\; a partir das 13h\, tem também o Bar do Acer
+ vo.\n\nFonte: https://www.instagram.com/acervo.cultms/p/Dfm5QzXlVgg/\n\nNa
+  agenda do NOS Dourados: https://nos.dourados.social/agenda.html#ev-2026-1
+ 1-28-ultima-brechozada-do-ano-no-acervo
+URL:https://nos.dourados.social/agenda.html#ev-2026-11-28-ultima-brechozada
+ -do-ano-no-acervo
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
 UID:ev-2026-12-04-6-festival-nacional-malungo-capoeira@nos.dourados.social
 DTSTAMP:19700101T000000Z
 DTSTART;VALUE=DATE:20261204
@@ -1355,6 +1374,24 @@ DESCRIPTION:Organização: PT Dourados\nTipo: Plenária\n\nPlenária das mu
  res-do-pt-dourados
 URL:https://nos.dourados.social/agenda.html#ev-2026-12-05-plenaria-de-mulhe
  res-do-pt-dourados
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-12-05-garimpo-coletivo-feira-de-brechos@nos.dourados.social
+DTSTAMP:19700101T000000Z
+DTSTART:20261205T200000Z
+DTEND:20261206T010000Z
+SUMMARY:Garimpo Coletivo – feira de brechós
+LOCATION:Rua Ciro Melo\, 3050\, Dourados/MS
+DESCRIPTION:Organização: Garimpo Coletivo\nTipo: Feira\n\nA última ediç
+ ão de 2026 do Garimpo Coletivo\, feira de brechós de Dourados: moda\, br
+ echós\, acessórios\, música e chopp\, no espaço do brechó @mayconcept
+ brecho.\n\nFonte: https://www.instagram.com/garimpo.coletivoo/p/Df3Aujmhof
+ K/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/agenda.html#e
+ v-2026-12-05-garimpo-coletivo-feira-de-brechos
+URL:https://nos.dourados.social/agenda.html#ev-2026-12-05-garimpo-coletivo-
+ feira-de-brechos
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT

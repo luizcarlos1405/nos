@@ -56,6 +56,7 @@
     {"handle": "paradadedourados", "name": "Parada LGBT+ de Dourados", "sector": "Movimentos Sociais", "lastScan": "2026-11-16T19:14:16-04:00", "lastPost": "CCo8CujhTFg"},
     {"handle": "bienvenidodourados", "name": "Projeto Bienvenido", "sector": "Movimentos Sociais", "lastScan": "2026-11-16T19:14:29-04:00", "lastPost": "Det_e-Alv2v"},
     {"handle": "quintaldepalmares", "name": "Quintal de Palmares", "sector": "Movimentos Sociais", "lastScan": "2026-11-16T19:14:44-04:00", "lastPost": "Df0EC6wG3Yy"},
+    {"handle": "acervo.cultms", "name": "Acervo", "sector": "Outros", "lastScan": "2026-11-18T08:26:58-04:00", "lastPost": "Dfm5QzXlVgg"},
     {"handle": "ballroomdourados", "name": "Ballroom Dourados", "sector": "Outros", "lastScan": "2026-11-16T19:15:17-04:00", "lastPost": "DfsxQ4JlsYv"},
     {"handle": "batalhadacinquenta", "name": "Batalha da Cinquenta", "sector": "Outros", "lastScan": "2026-11-16T19:16:19-04:00", "lastPost": "DfvfzkGkxJj"},
     {"handle": "batalhadocentrao", "name": "Batalha do Centrão", "sector": "Outros", "lastScan": "2026-11-16T19:16:54-04:00", "lastPost": "Dfse7D9z79L"},
@@ -73,16 +74,20 @@
     {"handle": "feirazumbivive", "name": "Feira Afro Zumbi Vive", "sector": "Outros", "lastScan": "2026-11-16T19:20:25-04:00", "lastPost": "Df0EC6wG3Yy"},
     {"handle": "feirabadaue", "name": "Feira Badauê", "sector": "Outros", "lastScan": "2026-11-16T19:20:58-04:00", "lastPost": "DfxGwOpMLa_"},
     {"handle": "feira.batuque", "name": "Feira Batuque", "sector": "Outros", "lastScan": "2026-11-16T19:22:04-04:00", "lastPost": "DfvdaUetHs1"},
+    {"handle": "feira_parque_alvorda", "name": "Feira do Parque Alvorada", "sector": "Outros", "lastScan": "2026-11-18T08:29:59-04:00", "lastPost": "DcwEQO-xNS3"},
     {"handle": "feiradosipesddos", "name": "Feira dos Ipês", "sector": "Outros", "lastScan": "2026-11-16T19:23:01-04:00", "lastPost": "DfkODUHnBOk"},
+    {"handle": "feirasaboresnoparque", "name": "Feira Sabores no Parque", "sector": "Outros", "lastScan": "2026-11-18T08:30:13-04:00", "lastPost": "Dfr9ytzyemT"},
     {"handle": "festivalculturalnovembronegro", "name": "Festival Cultural Novembro Negro", "sector": "Outros", "lastScan": "2026-11-16T19:23:15-04:00", "lastPost": "DS8SoMvkaRu"},
     {"handle": "tempalhacanaminharua", "name": "Festival Tem Palhaça na Minha Rua", "sector": "Outros", "lastScan": "2026-11-16T19:23:31-04:00", "lastPost": "DPO6RuUDjbu"},
     {"handle": "forumdeculturadourados", "name": "Fórum de Cultura de Dourados", "sector": "Outros", "lastScan": "2026-11-16T19:23:47-04:00", "lastPost": "DfmmnqGxFPI"},
+    {"handle": "garimpo.coletivoo", "name": "Garimpo Coletivo", "sector": "Outros", "lastScan": "2026-11-18T08:31:39-04:00", "lastPost": "Df3AujmhofK"},
     {"handle": "gritorockdourados", "name": "Grito Rock Dourados", "sector": "Outros", "lastScan": "2026-11-16T19:24:02-04:00", "lastPost": "DezMfLkR6Ns"},
     {"handle": "asbombshells", "name": "House of Bombshell", "sector": "Outros", "lastScan": "2026-11-16T19:24:17-04:00", "lastPost": "DfsxQ4JlsYv"},
     {"handle": "projetobioginga", "name": "Projeto BioGinga", "sector": "Outros", "lastScan": "2026-11-16T19:25:19-04:00", "lastPost": "DdrVTw7RkwW"},
     {"handle": "quintal.das.marias", "name": "Quintal das Marias", "sector": "Outros", "lastScan": "2026-11-16T19:25:36-04:00", "lastPost": "DeNBxsKtB0m"},
     {"handle": "sucatacultural", "name": "Sucata Cultural", "sector": "Outros", "lastScan": "2026-11-16T19:25:51-04:00", "lastPost": "DfuvkYoljM5"},
     {"handle": "fininho_triboscapoeiradourados", "name": "Tribos Capoeira", "sector": "Outros", "lastScan": "2026-11-16T19:26:25-04:00", "lastPost": "Dfw_HdeRKxh"},
+    {"handle": "vemdefeira", "name": "Vêm de Feira", "sector": "Outros", "lastScan": "2026-11-18T08:32:08-04:00", "lastPost": "DdyrBrrtFd8"},
     {"handle": "inspiratorioatelie", "name": "Inspiratório Ateliê", "sector": "Outros", "lastScan": "2026-11-16T19:27:22-04:00", "lastPost": "DfsovCWMcIy"}
   ]
 }
