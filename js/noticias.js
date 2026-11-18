@@ -13,7 +13,7 @@ import { assignSectorColors, paintSector, sectorRank, sectorsOf } from './colors
 import { orgRow } from './agenda.js';
 import { buildNewsMessage, previewHtml, whatsAppShareUrl } from './whatsapp.js';
 import { icon } from './icons.js';
-import { $, announce, copyText, el, escapeHtml, initPage, newsSource, readSheet, registerWorker, safeUrl, showNotice, showOffline } from './page.js';
+import { $, addressTarget, announce, copyText, el, escapeHtml, initPage, newsSource, readSheet, registerWorker, safeUrl, showNotice, showOffline } from './page.js';
 
 // From this width the list and the panel sit side by side (as on the agenda; css/style.css agrees).
 const desktop = window.matchMedia('(min-width: 1100px)');
@@ -271,7 +271,8 @@ function renderCard(n, isLead) {
   const share = el('button', 'share-circle');
   share.type = 'button';
   share.dataset.focus = `share:${n.id}`;
-  share.setAttribute('aria-label', `Mandar no WhatsApp: ${n.title}`);
+  share.setAttribute('aria-label', `Compartilhar no WhatsApp: ${n.title}`);
+  share.setAttribute('aria-haspopup', 'dialog');
   share.innerHTML = icon('share');
   head.append(h, share);
   card.append(head);
@@ -442,6 +443,7 @@ function factLink(href, text, sub, { external = false } = {}) {
   if (external) {
     link.target = '_blank';
     link.rel = 'noopener';
+    link.append(el('span', 'sr-only', ' (abre em outra aba)'));
   }
   return sub ? [link, el('span', 'fact-sub', sub)] : [link];
 }
@@ -509,7 +511,8 @@ function renderBench() {
   $('wa-link').href = whatsAppShareUrl(message);
 }
 
-// The panel at its top, or at the message (the share circle: what it is pressed for).
+// The panel at its top, or at the message (the share circle: what it is pressed for), where the send
+// button then takes the focus.
 function scrollBench(toMessage) {
   const scroll = $('bench-scroll');
   const go = () => {
@@ -517,17 +520,25 @@ function scrollBench(toMessage) {
     if (toMessage) scroll.scrollTop = $('message-head').getBoundingClientRect().top - scroll.getBoundingClientRect().top - 12;
   };
   go();
-  if (toMessage) requestAnimationFrame(go);
+  if (!toMessage) return;
+  requestAnimationFrame(() => {
+    go();
+    $('wa-link').focus({ preventScroll: true });
+  });
 }
 
+// `trigger` is the button pressed: its data-focus key, not the node (the list is drawn again), is where
+// focus goes back when the sheet closes.
 function select(n, { trigger, toMessage = false } = {}) {
   if (n.id !== state.selectedId) settleCopy();
+  const back = trigger?.dataset?.focus || null;
   state.selectedId = n.id;
   rerender(() => {
     renderList();
     renderBench();
   });
-  if (!desktop.matches) openSheet(trigger);
+  if (!desktop.matches) openSheet(back);
+  else if (trigger && !toMessage) announce(`Aberta ao lado: ${n.title}`);
   scrollBench(toMessage);
 }
 
@@ -538,7 +549,7 @@ function select(n, { trigger, toMessage = false } = {}) {
 
 let sheetOpen = false;
 let sheetInHistory = false;
-let returnFocus = null;
+let returnFocus = null; // the data-focus key of what opened the sheet
 
 function setModal(on) {
   for (const node of document.querySelectorAll('.skip-link, .site-head, #main, .site-foot')) node.inert = on;
@@ -552,8 +563,8 @@ function setModal(on) {
   }
 }
 
-function openSheet(trigger) {
-  returnFocus = trigger instanceof HTMLElement && trigger !== document.body ? trigger : null;
+function openSheet(back) {
+  returnFocus = back;
   $('sheet-backdrop').hidden = false;
   document.body.classList.add('sheet-open');
   setModal(true);
@@ -586,7 +597,7 @@ function hideSheet() {
   document.body.classList.remove('sheet-open');
   $('sheet-backdrop').hidden = true;
   setModal(false);
-  const target = returnFocus && document.contains(returnFocus) ? returnFocus : findFocus(`news:${state.selectedId}`);
+  const target = (returnFocus && findFocus(returnFocus)) || findFocus(`news:${state.selectedId}`);
   target?.focus({ preventScroll: true });
 }
 
@@ -642,7 +653,7 @@ function settleCopy() {
 // noticias.html#nt-2026-10-28-…: that story opens (filters cleared when they hide it). One from before
 // the window has its month read first: its id starts with its day.
 async function openFromAddress() {
-  const target = decodeURIComponent(location.hash.slice(1));
+  const target = addressTarget();
   if (!target.startsWith('nt-')) return;
   let n = findNews(target);
   const day = /^nt-(\d{4}-\d{2}-\d{2})-/.exec(target)?.[1];
