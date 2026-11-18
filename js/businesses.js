@@ -135,7 +135,7 @@ export function phonesIn(text) {
 
 const HANDLE = /^[a-z0-9._]{1,30}$/;
 
-// "@renatadeol", "perfil-removido", "https://www.instagram.com/arecosburger?vrfl=…".
+// "@renatadeol", "padariadoexemplo", "https://www.instagram.com/arecosburger?vrfl=…".
 // Instagram names have no accents, so "Katiaboticário67" is read as katiaboticario67. A bare word
 // that answers the question instead of naming a profile ("Sim", "Instagram") is not a handle.
 export function readInstagram(raw) {
