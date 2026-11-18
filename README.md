@@ -2,15 +2,16 @@
 
 A agenda e as notícias das organizações e movimentos de Dourados/MS, o mapa dos seus lugares e o comércio da rede, em um só lugar. NOS = Núcleo de Organização Social (nome provisório).
 
-O site tem cinco páginas, cada uma um arquivo HTML:
+O site tem seis páginas, cada uma um arquivo HTML:
 
 - **Início** (`index.html`): o bom-dia (ou boa-tarde, boa-noite) sob o céu desta hora, a próxima atividade pousada na faixa, pronta para mandar no WhatsApp, e uma porta para cada página.
 - **Agenda** (`agenda.html`): as atividades das organizações, em lista de dias ou no mês. Até 26/10/2026 era o `index.html`; até 27/10/2026 se chamava Calendário e ficava em `calendario.html`, endereço que agora leva para `agenda.html` (assim os links já compartilhados continuam funcionando).
 - **Notícias** (`noticias.html`): o que as organizações estão vivendo (conquistas, perdas, alertas e informes, também os de serviço público), escolhido pela equipe nos posts delas, com o link de cada post.
+- **Editais** (`editais.html`): editais, prêmios e chamadas com dinheiro para cultura, esporte e lazer, do prazo mais curto ao mais longo, com o essencial de cada um (o prazo, o valor, quem pode) e os links oficiais, prontos para mandar no WhatsApp. Fica dentro da aba Notícias: a troca Notícias · Editais, no alto das duas páginas, leva de uma à outra.
 - **Mapa** (`mapa.html`): o mapa da cidade com os lugares da cultura e dos movimentos, por camadas que se acendem e apagam (capoeira, batalhas de rima, feiras, espaços culturais, sindicatos, universidades e poder público), cada lugar com seus horários, contatos, o caminho até lá e a mensagem pronta para o WhatsApp. A camada da capoeira é o Mapa da Capoeira do COMAFRO Dourados.
 - **Comércio** (`comercio.html`): os negócios que se cadastraram pelo formulário da rede, de A a Z.
 
-No celular, a barra no pé da tela leva de uma página à outra; no computador, os links ficam no alto, sobre o céu. A marca NOS leva ao Início. São links comuns, então funcionam em qualquer hospedagem estática.
+No celular, a barra no pé da tela leva de uma página à outra (os Editais ficam na aba Notícias, pela troca no alto da página); no computador, os links ficam no alto, sobre o céu. A marca NOS leva ao Início. São links comuns, então funcionam em qualquer hospedagem estática.
 
 O visual é o "Céu · Terra": no alto, o céu de Dourados desta hora (amanhecer, dia, entardecer ou noite), em faixas de cor; uma faixa tecida faz o horizonte; embaixo, a terra (barro claro de dia, terra roxa à noite). O site tem tema claro e escuro: segue o do celular e tem um botão para trocar. A faixa é arte provisória, feita só da técnica do trançado: a definitiva vai ser criada, assinada e paga a artistas da Reserva Indígena de Dourados (veja `design/faixa-pesquisa.html`).
 
@@ -96,6 +97,38 @@ As notícias ficam em `data/noticias/` (`NEWS_DIR`), do mesmo jeito que a agenda
 | `Notas internas` | não | anotações da equipe (de qual relatório veio, o que falta confirmar); o arquivo é público |
 
 Toda notícia vem de um post da organização (ou de um órgão público), com o link junto; nada suposto nem inventado. As primeiras 15 vieram dos relatórios do levantamento, com as citações conferidas.
+
+## Editando os editais
+
+A página Editais lê `data/editais.csv` (`CALLS_CSV_URL`, no `js/config.js`): um arquivo só, uma linha por edital, porque eles são poucos. A página separa cada edital pelas datas: **Inscrições abertas** (do prazo mais curto ao mais longo), **Abrem em breve**, **Fecharam há pouco** (por 30 dias depois do prazo, `CALLS_CLOSED_DAYS`; depois o edital sai da página sozinho, e a linha fica no arquivo) e **Em preparação** (anunciado, ainda sem data). Entram editais de cultura e de esporte e lazer, de Dourados, de Mato Grosso do Sul e nacionais.
+
+| coluna | obrigatória | o que é |
+|---|---|---|
+| `Título` | sim | o nome em palavras simples, escrito pela equipe ("Prêmio para Pontos e Pontões de Cultura de Dourados") |
+| `Nome oficial` | não | o nome e o número do edital ("Chamamento Público nº 005/2026"), no edital aberto |
+| `Programa` | não | de onde vem o dinheiro ("Política Nacional Aldir Blanc"), no cartão |
+| `Organização` | não | quem faz, curto ("SEMC", "Funarte") |
+| `Órgão` | não | de quem é, ou o que é ("Prefeitura de Dourados", "Ministério da Cultura", "Ponto de Cultura") |
+| `Setor` | não | o grupo, quando o NOS acompanha a organização: o ponto colorido, como na agenda. Vazio, o cartão mostra o desenho de um prédio público |
+| `Área` | não | `Cultura` ou `Esporte e lazer` (os filtros da página; outra área também aparece) |
+| `Esfera` | não | vazia ou `Dourados`, `MS`, `Nacional`: o que não é Dourados vira etiqueta |
+| `Inscrições de` | não | o primeiro dia de inscrição (dd/mm/aaaa); enquanto não chega, o edital fica em "Abrem em breve" |
+| `Inscrições até` | sim, a coluna | o último dia. Vazia, o edital fica em "Em preparação" |
+| `Horário` | não | a hora em que fecha no último dia, **no horário de Dourados** ("17h"). Num edital nacional a página mostra também a de Brasília, uma hora a mais |
+| `Resultado em` | não | o dia do resultado (o preliminar, quando há dois), para "Fecharam há pouco" |
+| `Valor` | não | quanto e para quantos ("R$ 210.243,60 para 6 iniciativas") |
+| `Quem pode` | não | uma linha, sem jargão |
+| `Resumo` | não | num edital fechado, a linha do resultado ("Saiu o resultado em 14/11: 10 propostas e R$ 11 mil em cachês."); num em preparação, o que já se sabe |
+| `Edital` | não | o link do edital (o PDF, o Diário Oficial): "Ler o edital" |
+| `Página oficial` | não | o link da página do edital, onde estão as inscrições |
+| `Resultado` | não | o link do resultado, nos fechados |
+| `Atividade` | não | o código do prazo na agenda (o fim do link dele, `ev-2026-11-10-…`): "O prazo na agenda", quando a linha da agenda está visível |
+| `Conferido em` | não | o dia em que a equipe conferiu no edital ou na página oficial |
+| `Fonte` | não | onde a equipe conferiu ("no edital publicado no Diário Oficial de Dourados de 09/11") |
+| `Visível` | não | desmarcada = rascunho, não aparece |
+| `Notas internas` | não | de onde veio cada coisa (os itens do edital) e o que falta confirmar; o arquivo é público |
+
+Só o essencial: quem quiser se inscrever lê o edital, e a página diz isso no fim da lista. Tudo vem do edital ou da página oficial, com o link junto; nada suposto. Uma retificação ou uma prorrogação muda a linha (o prazo novo) e o `Conferido em`. Cada edital tem a sua mensagem de WhatsApp: aberto, anunciado, encerrado (ou o resultado) e em preparação. Para mostrar o convite "Mande para o NOS" no fim da lista, coloque o link (um formulário ou um WhatsApp) em `CALLS_SUGGEST_URL`.
 
 ## Varredura do Instagram
 
@@ -262,6 +295,7 @@ index.html          o Início
 agenda.html         a agenda
 calendario.html     o endereço antigo da agenda (leva para agenda.html)
 noticias.html       as notícias
+editais.html        os editais (na aba Notícias, pela troca no alto da página)
 mapa.html           o mapa
 comercio.html       o comércio
 css/theme.css       cores (paleta e papéis, claro e escuro, o céu de cada hora), fontes e cantos
@@ -285,6 +319,8 @@ js/home.js          o Início
 js/app.js           carrega a agenda e liga a interface da agenda
 js/noticias.js      a página das notícias
 js/news.js          lê as linhas das notícias
+js/editais.js       a página dos editais
+js/calls.js         lê as linhas dos editais e separa cada um pelas datas (abertos, em breve, fechados, em preparação)
 js/mapa.js          a página do mapa: o mapa, as camadas, a lista e o cartão de cada lugar
 js/places.js        lê os arquivos do mapa (as colunas do COMAFRO também)
 js/map-style.js     as cores do mapa (o Céu · Terra, claro e escuro) para o MapLibre
@@ -302,7 +338,7 @@ tools/agenda-ics.mjs  gera o agenda.ics a partir de todos os meses (--check: ele
 tools/instagram/    a varredura do Instagram: a lista de páginas (pages.json), o script (scan.py) e o que ele leu (dumps/, fora do git)
 agenda.ics          a agenda assinada por "Salvar tudo na agenda" (gerado: não edite à mão)
 .githooks/          conferem os meses e refazem os index.json e o agenda.ics a cada commit (ative com git config core.hooksPath .githooks)
-js/whatsapp.js      montador das mensagens de WhatsApp (atividade, notícia e negócio)
+js/whatsapp.js      montador das mensagens de WhatsApp (atividade, notícia, edital, negócio e lugar)
 js/colors.js        cores dos setores
 js/holidays.js      feriados nacionais
 js/icons.js         ícones, o desenho da marca NOS e os traços à mão
@@ -311,6 +347,7 @@ js/events.js        normaliza linhas, datas e horários
 js/vendor/          html-to-image, que gera o PNG, e MapLibre GL, que desenha o mapa (licenças ao lado)
 data/agenda/        a agenda: um arquivo por mês (AAAA-MM.csv), o sem-data.csv (rascunhos sem data) e o index.json (gerado)
 data/noticias/      as notícias, do mesmo jeito
+data/editais.csv    os editais: uma linha por edital
 data/mapa/          os lugares do mapa: um arquivo por camada (capoeira.csv é a planilha do COMAFRO)
 data/comercio.csv   as respostas do formulário de cadastro (26/10/2026), com a categoria e a última revisão
 design/             o design: uma página HTML por tela, agrupadas em design/designs.json
