@@ -25,12 +25,29 @@ export function el(tag, className, text) {
 export const escapeHtml = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 
 // Only web links leave the page: a bare domain ("forms.gle/abc") gets https://, and anything
-// else typed in the sheet (javascript:, data:, relative paths) is shown as text, not linked.
+// else typed in the sheet (javascript:, data:, relative paths) is shown as text, not linked; so is an
+// address the browser itself can't read (a port like ":443x", a host like "192.168.0.300").
 export function safeUrl(value) {
   const v = (value || '').trim();
-  if (/^https?:\/\/[^\s"<>]+$/i.test(v)) return v;
-  if (/^(?:www\.)?[\p{L}\p{N}-]+(?:\.[\p{L}\p{N}-]+)+(?:[/?#][^\s"<>]*)?$/u.test(v)) return `https://${v}`;
-  return null;
+  let url = null;
+  if (/^https?:\/\/[^\s"<>]+$/i.test(v)) url = v;
+  else if (/^(?:www\.)?[\p{L}\p{N}-]+(?:\.[\p{L}\p{N}-]+)+(?:[/?#][^\s"<>]*)?$/u.test(v)) url = `https://${v}`;
+  if (!url) return null;
+  try {
+    return /^https?:$/.test(new URL(url).protocol) ? url : null;
+  } catch {
+    return null;
+  }
+}
+
+// What the page's address points at after its #: decoded, or '' when it can't be (a link cut in the
+// middle of an escape, "#…%E0%A4%A"), so a bad link opens nothing instead of breaking the page.
+export function addressTarget() {
+  try {
+    return decodeURIComponent(location.hash.slice(1));
+  } catch {
+    return '';
+  }
 }
 
 // The header on the sky: the NOS mark and the city of js/config.js (each page keeps a static copy,

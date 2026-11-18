@@ -8,7 +8,7 @@ import { renderAgenda, upcomingLabel } from './agenda.js';
 import { monthGridStart, renderMonth } from './month.js';
 import { initSaveMenu, openSaveMenu } from './save-menu.js';
 import { icon } from './icons.js';
-import { $, agendaSource, announce, copyText, el, escapeHtml, initPage, registerWorker, safeUrl, showNotice, showOffline } from './page.js';
+import { $, addressTarget, agendaSource, announce, copyText, el, escapeHtml, initPage, registerWorker, safeUrl, showNotice, showOffline } from './page.js';
 
 // From this width the agenda and the activity panel sit side by side; below it the panel is a
 // bottom sheet. Keep in sync with the 1100px media queries in css/style.css.
@@ -232,7 +232,7 @@ async function start() {
 // opened on a computer, or in Safari). An activity from before the window is read first: its id
 // starts with its first day, so its month is known.
 async function openFromAddress() {
-  const target = decodeURIComponent(location.hash.slice(1));
+  const target = addressTarget();
   if (target === 'salvar-tudo' && state.events.length) {
     openSaveMenu({ all: true }, $('save-all'));
     return;
