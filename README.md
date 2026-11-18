@@ -156,6 +156,20 @@ Para **acrescentar** uma página, adicione uma linha com `handle`, `name` e `sec
 
 Depois da varredura o `pages.json` fica alterado, com as datas novas: faça o commit dele junto com as atividades.
 
+## Varredura dos editais
+
+Os editais saem das fontes oficiais listadas em `tools/editais/fontes.json`: o Diário Oficial de Dourados, os sites da Prefeitura, da FCMS e da Fundesporte, a página de inscrições abertas do Ministério da Cultura e as chamadas da Funarte. Para ler o que há de novo, peça a um agente a "varredura dos editais", ou rode você mesmo, na pasta do site:
+
+```sh
+python3 -I tools/editais/editais.py
+```
+
+Não abre navegador nem usa conta: lê cada fonte desde a última leitura, uma página por vez. No Diário Oficial ele lê o PDF de cada edição (precisa do `pdftotext`) e separa os trechos que falam de edital perto de cultura, esporte ou lazer. Nos sites, busca as notícias com "edital", "chamamento", "inscrições", "premiação" e "seleção". Nas listas do MinC e da Funarte, abre só os editais que ainda não tinha visto. E lê de novo a página oficial de cada edital aberto da planilha, para ver se o prazo mudou ou saiu o resultado.
+
+**O que ele guarda.** Tudo vai para `tools/editais/dumps/<dia-hora>/`, fora do git: um `README.md` com o resumo, um arquivo por fonte, o `abertos.md` (os editais abertos, lidos de novo) e o texto das edições do Diário Oficial em `diario/`. O agente confere cada achado no edital, atualiza `data/editais.csv` e escreve ali o `editais-candidatos.md` para a equipe escolher.
+
+**A lista.** Cada fonte é uma linha de `fontes.json`. O script preenche `lastRead` (e, nas listas, os editais já vistos); `python3 -I tools/editais/editais.py fcms` lê só essa fonte, `--since 01/11/2026` lê de novo desde esse dia e `--list` mostra quando cada uma foi lida. Acrescentar ou tirar uma fonte é decisão da equipe. Depois da varredura o `fontes.json` fica alterado: faça o commit dele junto com os editais.
+
 ## Editando o mapa
 
 A página Mapa lê um arquivo por camada em `data/mapa/` (a lista `MAP_LAYERS`, no `js/config.js`, dá a ordem, o nome e o desenho de cada camada). Cada lugar precisa das **coordenadas exatas**: só com o endereço, o ponto cairia longe do lugar.
@@ -336,6 +350,7 @@ tools/month-files.mjs  confere os arquivos por mês (agenda e notícias) e gera 
 tools/folders.mjs   as pastas de arquivos por mês e como ler cada uma
 tools/agenda-ics.mjs  gera o agenda.ics a partir de todos os meses (--check: ele está em dia?)
 tools/instagram/    a varredura do Instagram: a lista de páginas (pages.json), o script (scan.py) e o que ele leu (dumps/, fora do git)
+tools/editais/      a varredura dos editais: a lista de fontes (fontes.json), o script (editais.py) e o que ele leu (dumps/, fora do git)
 agenda.ics          a agenda assinada por "Salvar tudo na agenda" (gerado: não edite à mão)
 .githooks/          conferem os meses e refazem os index.json e o agenda.ics a cada commit (ative com git config core.hooksPath .githooks)
 js/whatsapp.js      montador das mensagens de WhatsApp (atividade, notícia, edital, negócio e lugar)

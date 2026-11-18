@@ -79,6 +79,41 @@ Comércio and the Mapa show only rows reviewed recently (`js/review.js`): a busi
 - From a dump to rows: read the new posts of the newest folder(s). OCR is a lead, not a source: open the image with Read to confirm a date, time or place before it goes into a row. Future activities go in the agenda's month files (`Fonte` the post, `Notas internas` where each detail came from; `Visível` FALSE for public-service notices, undated drafts and events elsewhere with no organization from Dourados; members-only activities left out), and news candidates go in `noticias-candidatas.md` in the dump's folder for the team to choose (a story's rules are under "Editando as notícias" in `README.md`). Commit, but ask before pushing: pushing `main` deploys. Commit `pages.json` with the rows.
 - `scan.py` also holds the Instagram reading (`*_JS`, `profile`, `fetch_posts`, `posts_md`, OCR) that `../scripts/ig.py`, the survey tool outside this repository, imports for its own commands: probe a live page with `playwright-cli eval` before changing a selector.
 
+## Editais scan
+
+`tools/editais/` is where Editais gets its calls, the way the agenda gets its posts from `tools/instagram/`: `fontes.json`, a static list of official sources; `editais.py`, the script (the user's name for it, after `../scripts/ig.py`); and `dumps/<date-time>/`, git-ignored, which an agent turns into rows of `data/editais.csv`. Unlike the Instagram scan it needs no browser and no account, so the agent runs it: the user comes back from time to time and asks an agent for a scan (there is no schedule).
+
+- **Running it:** from `nos-app/`, `python3 -I tools/editais/editais.py` reads every source, each from a day before its `lastRead` (a source never read starts at `settings.firstRead`). `ID ...` reads only those sources, `--since dd/mm/aaaa` re-reads from that day, `--no-pdf` lists the gazette's editions without reading them, `--list` shows the sources and when each was read.
+- **What it needs:** `pdftotext` (poppler-utils, in the user's dotfiles since 2026-11-18; before the system is rebuilt, `nix shell nixpkgs#poppler-utils -c python3 -I tools/editais/editais.py`). Without it the editions are only listed, and the gazette keeps its old `lastRead`.
+- **How it reads:** one request at a time, about a second apart, with a common browser's User-Agent (nothing about the user or the project goes out). A source that fails keeps its `lastRead`; the others get theirs, and a listing its `seen` links, as soon as they are done, so a run that stops can simply be started again. Commit `fontes.json` with the rows.
+- **The kinds of source** (`fontes.json`, each checked live on 2026-11-18):
+  - **`gazette`, the Diário Oficial de Dourados.** Its feed is `index.php/feed/` (WordPress, paged with `?paged=N`), and each edition's page links its PDF. In each page of text it keeps the passages where a call word (`settings.callWords`) has a subject of the page (`settings.topics`) in the lines around it.
+    - It skips them when the act's heading is a purchase, an auction, a hiring or a credenciamento (`settings.skip`).
+    - It cuts the masthead first (`strip`): the masthead names every public body, the FUNED among them.
+    - Passages on pages at most two apart become one item, because a call usually runs over many pages.
+    - The text of every edition read is kept in `diario/` to search (pages split by form feeds).
+  - **`wordpress`: the Prefeitura's portal, the FCMS and the Fundesporte.** It queries `wp-json/wp/v2/posts?search=<term>&after=<day>` for each of `settings.terms`, and sorts the posts into calls (the title or excerpt speaks of edital, inscrição, prêmio, seleção, resultado), other posts on the subject, and posts off it (titles only).
+  - **`listing`: the MinC's "Inscrições abertas" and Funarte's calls of the year.** The links under `prefix` that are not in `seen` are opened, and their lines with dates and amounts kept.
+    - The MinC's page keeps calls that already closed (on 2026-11-18, three of its four), so read the dates.
+    - Funarte's listing is per year: for 2027 its `url` and `prefix` become `chamadas-2027`, a change to the list for the user to approve.
+  - **The open calls of `data/editais.csv`** are read again on their `Página oficial` at every run (`abertos.md`): compare the deadline, the "Atualizado em", corrections and results with the sheet.
+- **Tried and left out (2026-11-18):**
+  - the federal Mapa da Cultura's opportunity API: anyone can post an "oportunidade", so it holds tests, ads and dates in 2111;
+  - the state's gazette: spdo.ms.gov.br didn't answer;
+  - the Ministério do Esporte: it has no page of open calls, and each edital sets its own dates;
+  - Querido Diário: its API didn't answer, and Dourados' gazette is read directly anyway;
+  - the FCMS's "editais" page: empty in its HTML, and its posts carry the calls;
+  - Prosas and private funders: an open decision.
+- **Adding or removing a source** is the user's call, as a page of `pages.json` is: suggest it, don't do it.
+- **From a dump to rows:**
+  1. Read `README.md`, then each source's file and `abertos.md`.
+  2. A passage is a lead, not a source: open the edital or the official page of every candidate (the gazette's text is in `diario/`, the PDF is linked).
+  3. A call in scope gets its row by README's "Editando os editais": each fact from the edital, the edital's items in `Notas internas`, `Conferido em` today, `Horário` in Dourados' time. In scope means culture, and sport and leisure; credenciamentos, concursos and the universities' internal calls are out (the user's choice, 2026-11-18).
+  4. Update the rows whose deadline moved or whose result came out.
+  5. Write `editais-candidatos.md` in the dump, in four parts: already in the sheet, to check, outside Editais (an election for the agenda, a result for the news: say it there, don't add it on the way), and nothing to do. The team chooses, as with `noticias-candidatas.md`.
+  6. Commit the rows with `fontes.json`, and ask before pushing: pushing publishes.
+- **The first scan,** on 2026-11-18 from 01/11, is `tools/editais/dumps/2026-11-18-1853/` with its `editais-candidatos.md`. It found nothing beyond the sheet's six rows, and five Funarte programs to check.
+
 ## Architecture
 
 Agenda data flow: `app.js` reads the agenda's months through `month-files.js` (`agendaSource()` in `page.js`: the index, then the months its window needs) → `csv.js` `parseCSV` → `events.js` `buildEvents` (per month, merged by `mergeEvents`) → views (`agenda.js`, `month.js`) → clicking an activity fills the panel ("bench") from `app.js`, with `whatsapp.js` (message + `wa.me` link + preview) and `flyer.js` (flyer DOM + PNG export); the calendar circles and pills open `save-menu.js` (the options), which takes the calendar files and links from `ics.js` (also used by `tools/agenda-ics.mjs` for the published feed). Notícias: `noticias.js` → `newsSource()` (the same reader, with `news.js` `buildNews`) → the list and the panel, the stories' agenda links read from the agenda's month files (`linkActivities`), the message from `whatsapp.js` `buildNewsMessage`. Comércio: `comercio.js` → `page.js` `readSheet` → `businesses.js` `buildBusinesses` → the list. Mapa: `mapa.js` → `readSheet` per layer (`Promise.allSettled`: a layer that fails says so and the others show) → `places.js` `buildPlaces` → the map (MapLibre, global `maplibregl` from `js/vendor/`, the style from `map-style.js`), the chips, the panel's list and the card, with `whatsapp.js` `buildPlaceMessage`/`directionsUrl`. Início: `home.js` reads the agenda's months with something from today on, for Notícias' row (`renderNewsRow()`) the last two months of news, for the Mapa's row (`renderMapRow()`) the layers' sheets, and for Comércio's row (`renderCommerceRow()`) the businesses' sheet.
