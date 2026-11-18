@@ -35,6 +35,7 @@ import argparse
 import csv
 import html
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -57,6 +58,7 @@ DUMPS = HERE / 'dumps'
 SHEET = HERE.parent.parent / 'data' / 'editais.csv'
 TZ = ZoneInfo('America/Campo_Grande')
 PACE = 1.0  # seconds between requests
+FEED_PAGES = 40  # the gazette feed's pages read at most (10 editions each): about four months of editions
 UA = 'Mozilla/5.0 (X11; Linux x86_64; rv:130.0) Gecko/20100101 Firefox/130.0'
 
 
@@ -154,28 +156,30 @@ def since_of(source, settings, asked):
 def read_gazette(source, since, settings, run, read_pdf):
     """The editions of the Diário Oficial since `since`: each PDF read, the passages about calls kept."""
     editions = []
-    for page in range(1, 8):
+    reached = False  # the feed went back to the first day asked (else editions are missing)
+    for page in range(1, FEED_PAGES + 1):
         url = source['feed'] + (f'?paged={page}' if page > 1 else '')
         try:
             root = ET.fromstring(fetch(url))
         except urllib.error.HTTPError as err:
             if err.code == 404 and page > 1:
+                reached = True  # past its last page: the feed holds nothing older
                 break
             raise
         items = root.findall('./channel/item')
         if not items:
+            reached = True
             break
-        older = False
         for item in items:
             published = parsedate_to_datetime(item.findtext('pubDate')).astimezone(TZ)
             if published.date() < since:
-                older = True
+                reached = True
                 continue
             editions.append({'title': (item.findtext('title') or '').strip(), 'link': (item.findtext('link') or '').strip(), 'day': published.date()})
-        if older:
+        if reached:
             break
-    else:
-        print('  o feed não chegou até o primeiro dia pedido; as edições mais antigas ficaram de fora')
+    if not reached:
+        print(f'  o feed não chegou até {day_text(since)} em {FEED_PAGES} páginas: as edições mais antigas ficaram de fora', file=sys.stderr)
     editions.sort(key=lambda e: e['day'])
 
     pdf_link = re.compile(source['pdf'])
@@ -184,11 +188,14 @@ def read_gazette(source, since, settings, run, read_pdf):
     skip = word_pattern(settings.get('skip', [])) if settings.get('skip') else None
     strip = [re.compile(p, re.S) for p in source.get('strip', [])]
     texts = run / 'diario'
-    hits, read = [], 0
+    hits, read, no_pdf = [], 0, []
     for edition in editions:
         page_html = fetch(edition['link'])
         edition['pdfs'] = list(dict.fromkeys(pdf_link.findall(page_html)))
-        if not read_pdf or not edition['pdfs']:
+        if not edition['pdfs']:
+            no_pdf.append(edition)  # its page changed, or the PDF moved: the source's "pdf" pattern needs a look
+            continue
+        if not read_pdf:
             continue
         pages = []
         for pdf in edition['pdfs']:
@@ -204,7 +211,7 @@ def read_gazette(source, since, settings, run, read_pdf):
             for excerpt, subjects in passages(text, calls, topics, skip):
                 found_here.append({'page': number, 'excerpt': excerpt, 'subjects': subjects})
         hits += [{**edition, **group, 'file': f'diario/{slug}.txt'} for group in page_groups(found_here)]
-    return {'editions': editions, 'read': read, 'hits': hits}
+    return {'editions': editions, 'read': read, 'hits': hits, 'reached': reached, 'no_pdf': no_pdf}
 
 
 def page_groups(found_here, gap=2):
@@ -257,13 +264,28 @@ def passages(text, calls, topics, skip=None, before=3, after=22):
     return out
 
 
+def search_pages(api, term, since, per_page=50, pages=10):
+    """Every post of a WordPress search since `since`, page after page until one comes back short."""
+    for page in range(1, pages + 1):
+        query = urllib.parse.urlencode({'search': term, 'after': f'{since.isoformat()}T00:00:00', 'per_page': per_page, 'page': page, 'orderby': 'date', 'order': 'desc', '_fields': 'id,date,link,title,excerpt'})
+        try:
+            batch = json.loads(fetch(f'{api}?{query}'))
+        except urllib.error.HTTPError as err:
+            if err.code == 400 and page > 1:  # past the last page
+                return
+            raise
+        yield from batch
+        if len(batch) < per_page:
+            return
+    print(f'  a busca por “{term}” passou de {pages} páginas: os posts mais antigos ficaram de fora', file=sys.stderr)
+
+
 def read_wordpress(source, since, settings):
     """The site's posts since `since` that match any of settings.terms, newest first."""
     topics = word_pattern(settings['topics'])
     posts = {}
     for term in settings['terms']:
-        query = urllib.parse.urlencode({'search': term, 'after': f'{since.isoformat()}T00:00:00', 'per_page': 50, 'orderby': 'date', 'order': 'desc', '_fields': 'id,date,link,title,excerpt'})
-        for post in json.loads(fetch(f"{source['api']}?{query}")):
+        for post in search_pages(source['api'], term, since):
             if post['link'] not in posts:
                 title = html.unescape(re.sub(r'<[^>]+>', '', post['title']['rendered'])).strip()
                 excerpt = html.unescape(re.sub(r'<[^>]+>', ' ', post.get('excerpt', {}).get('rendered', '')))
@@ -299,23 +321,38 @@ def read_listing(source):
     return {'links': links, 'new': new}
 
 
+def sheet_rows():
+    """data/editais.csv as the site reads it: UTF-8 or the Windows-1252 Excel saves, `;` or `,`, the headers
+    matched without accents, case or spacing ("Página oficial" is pagina_oficial)."""
+    raw = SHEET.read_bytes()
+    try:
+        text = raw.decode('utf-8-sig')
+    except UnicodeDecodeError:
+        text = raw.decode('cp1252')
+    first = next((line for line in text.splitlines() if line.strip()), '')
+    reader = csv.reader(text.splitlines(keepends=True), delimiter=';' if first.count(';') > first.count(',') else ',')
+    rows = [r for r in reader if any(cell.strip() for cell in r)]
+    if not rows:
+        return []
+    keys = [re.sub(r'[\s-]+', '_', norm(h).strip()) for h in rows[0]]
+    return [dict(zip(keys, (cell.strip() for cell in r))) for r in rows[1:]]
+
+
 def read_sheet_open(today):
     """The calls of data/editais.csv still open, opening or coming, read again on their official page."""
-    with open(SHEET, encoding='utf-8-sig', newline='') as f:
-        rows = list(csv.DictReader(f, delimiter=';'))
     out = []
-    for row in rows:
-        if (row.get('Visível') or '').strip().upper() in ('FALSE', 'FALSO', 'NÃO', 'NAO', '0'):
+    for row in sheet_rows():
+        if norm(row.get('visivel', '')) in ('false', 'falso', 'nao', 'n', 'no', '0', 'off'):
             continue
-        until = (row.get('Inscrições até') or '').strip()
+        until = row.get('inscricoes_ate', '')
         try:
             last = datetime.strptime(until, '%d/%m/%Y').date() if until else None
         except ValueError:
             last = None
         if last and last < today:
             continue
-        page = (row.get('Página oficial') or '').strip()
-        item = {'title': row.get('Título', ''), 'until': until or 'sem data', 'page': page, 'checked': row.get('Conferido em', ''), 'lines': [], 'error': ''}
+        page = row.get('pagina_oficial', '')
+        item = {'title': row.get('titulo', ''), 'until': until or 'sem data', 'page': page, 'checked': row.get('conferido_em', ''), 'lines': [], 'error': ''}
         if page.startswith('http') and not page.lower().endswith('.pdf'):
             try:
                 item['lines'] = key_lines(html_text(fetch(page)), 12)
@@ -331,6 +368,10 @@ def gazette_md(source, since, result, read_pdf):
     lines = [f"# {source['name']}", '', f"Edições publicadas desde {day_text(since)}: {len(result['editions'])}; lidas: {result['read']}.", '']
     if not read_pdf:
         lines += ['Os PDFs não foram lidos (sem pdftotext, ou com --no-pdf): abra as edições abaixo.', '']
+    if not result['reached']:
+        lines += [f"O feed não chegou até {day_text(since)}: as edições mais antigas ficaram de fora, e esta fonte não teve a data de leitura atualizada. Rode de novo com `--since`.", '']
+    if result['no_pdf']:
+        lines += ['Edições sem PDF encontrado (a página delas mudou, ou o PDF mudou de lugar: confira o padrão "pdf" da fonte em fontes.json):', ''] + [f"- {day_text(e['day'])}: [{e['title']}]({e['link']})" for e in result['no_pdf']] + ['']
     if result['hits']:
         lines += ['## Trechos sobre editais no assunto da página', '', 'Páginas seguidas com trechos são um item só (um edital costuma ocupar várias): o trecho é o da primeira, e o texto inteiro está no arquivo da edição.', '']
         for hit in result['hits']:
@@ -403,7 +444,9 @@ def save_sources(data):
     for i, source in enumerate(data['sources']):
         out.append('    ' + json.dumps(source, ensure_ascii=False) + (',' if i < len(data['sources']) - 1 else ''))
     out += ['  ]', '}']
-    SOURCES.write_text('\n'.join(out) + '\n', encoding='utf-8')
+    tmp = SOURCES.with_suffix('.json.tmp')
+    tmp.write_text('\n'.join(out) + '\n', encoding='utf-8')
+    os.replace(tmp, SOURCES)  # a run stopped mid-write never leaves fontes.json cut in half
 
 
 def parse_day(text):
@@ -453,7 +496,11 @@ def main():
                 result = read_gazette(source, since, settings, run, read_pdf)
                 (run / name).write_text(gazette_md(source, since, result, read_pdf), encoding='utf-8')
                 found_text = f"{len(result['hits'])} trechos em {len({h['link'] for h in result['hits']})} edições (de {len(result['editions'])}{'' if read_pdf else ', não lidas'})"
-                done = read_pdf or not result['editions']
+                if not result['reached']:
+                    found_text += f"; o feed não chegou até {day_text(since)}: rode de novo com --since para as edições mais antigas"
+                if result['no_pdf']:
+                    found_text += f"; {len(result['no_pdf'])} sem PDF encontrado"
+                done = (read_pdf or not result['editions']) and result['reached'] and not result['no_pdf']
             elif source['kind'] == 'wordpress':
                 result = read_wordpress(source, since, settings)
                 (run / name).write_text(wordpress_md(source, since, result), encoding='utf-8')
@@ -480,10 +527,16 @@ def main():
         summary.append((source, since, found_text, name))
 
     print('Os editais abertos da planilha…', flush=True)
-    still_open = read_sheet_open(today)
-    (run / 'abertos.md').write_text(open_md(still_open, today), encoding='utf-8')
+    try:
+        still_open = read_sheet_open(today)
+        (run / 'abertos.md').write_text(open_md(still_open, today), encoding='utf-8')
+        sheet_note = f"{len(still_open)} editais abertos da planilha lidos de novo (`abertos.md`)"
+    except Exception as err:  # noqa: BLE001 — the sources were read; the sheet's problem is said, not fatal
+        still_open = []
+        sheet_note = f"não deu para ler data/editais.csv ({err}): os editais abertos não foram lidos de novo"
+        print(f'  {sheet_note}', file=sys.stderr)
 
-    readme = [f"# Varredura dos editais: {started.strftime('%d/%m/%Y %H:%M')}", '', f"{len(summary)} fontes; {len(still_open)} editais abertos da planilha lidos de novo (`abertos.md`).", '', '| Fonte | Desde | Achados | Arquivo |', '|---|---|---|---|']
+    readme = [f"# Varredura dos editais: {started.strftime('%d/%m/%Y %H:%M')}", '', f"{len(summary)} fontes; {sheet_note}.", '', '| Fonte | Desde | Achados | Arquivo |', '|---|---|---|---|']
     readme += [f"| {s['name']} | {day_text(since)} | {text} | {f'`{name}`' if name else ''} |" for s, since, text, name in summary]
     readme += ['', 'Próximo passo: "Editais scan" no CLAUDE.md do nos-app. Conferir cada achado no edital ou na página oficial, atualizar `data/editais.csv` e escrever aqui `editais-candidatos.md` para a equipe escolher.', '']
     (run / 'README.md').write_text('\n'.join(readme), encoding='utf-8')
