@@ -12,12 +12,16 @@ is a separate step: see "Instagram scan" in CLAUDE.md.
 pages.json gets a page's new lastScan and lastPost as soon as that page is done, so a run that stops can simply
 be started again. Needs playwright-cli (npm i -g @playwright/cli) and tesseract with the Portuguese data. The
 first time, log in to Instagram in the window that opens; the script waits for you and never sees the password.
+The window has its own browser profile, logged in to the scan's own Instagram account. That account is named in
+~/.local/share/nos-dourados/instagram-account, outside this repository because the repository is public, and the
+scan stops if the window is logged in to any other account.
 
 This file also holds the Instagram reading that scripts/ig.py, the survey tool one folder above this repository,
 imports. Instagram's markup lives in the *_JS strings: probe a live page before changing them.
 """
 
 import argparse
+import contextlib
 import datetime as dt
 import json
 import os
@@ -34,7 +38,13 @@ HERE = pathlib.Path(__file__).resolve().parent
 REPO = HERE.parent.parent
 PAGES_FILE = HERE / 'pages.json'
 DUMPS = HERE / 'dumps'
-BROWSER_PROFILE = pathlib.Path.home() / '.local/share/nos-dourados/instagram-browser'
+# These live outside the repository, which is public: a copy of the browser profile is a login to the scan's
+# account. ACCOUNT_FILE holds that account's handle, and also its number once the scan has seen it logged in
+# (check_account). LOCK_FILE exists while a program reads Instagram through the window (browser_lock).
+DATA = pathlib.Path.home() / '.local/share/nos-dourados'
+BROWSER_PROFILE = DATA / 'instagram-scan'
+ACCOUNT_FILE = DATA / 'instagram-account'
+LOCK_FILE = DATA / 'instagram-scan.lock'
 
 TZ = ZoneInfo('America/Campo_Grande')
 PACE = 3          # seconds between page loads; Instagram answers 429 when pushed
@@ -46,7 +56,8 @@ UNREADABLE_IN_A_ROW = 3  # stops the run: Instagram is probably limiting the ses
 DEFAULTS = {'maxPostsPerPage': 50, 'newPageDays': 30}
 
 # playwright-cli's default session is shared with every project on the machine, where another tool can navigate
-# the window away or close it, so the scan has its own session and browser profile. scripts/ig.py sets these to its own.
+# the window away or close it, so the scan has its own session and browser profile. scripts/ig.py uses the same
+# ones, so the survey reads Instagram with the same account, one program at a time (browser_lock).
 SESSION = 'nos-instagram'
 CWD = DUMPS       # playwright-cli writes its snapshots to .playwright-cli/ in the folder it runs from
 SHOW_FROM = REPO  # image paths in a dump are relative to this
@@ -60,6 +71,10 @@ class BrowserGone(SystemExit):
 
 class LoginWall(SystemExit):
     """Instagram asked for a login. Uncaught, it ends the program with its message."""
+
+
+class WrongAccount(SystemExit):
+    """The window is logged in to an account other than the scan's. Uncaught, it ends the program with its message."""
 
 
 def pw(*args):
@@ -422,16 +437,75 @@ LOGIN_JS = r"""() => JSON.stringify({
   in: document.cookie.includes('ds_user_id=') && !document.querySelector('input[name="username"]')
 })"""
 
+# The account the window is logged in to: its number (the ds_user_id cookie) and its handle. The handle comes from
+# the link to the account's own profile in the side bar, outside main. That link reads "Perfil"/"Profile", or, when
+# the bar is folded to icons, holds the account's photo.
+ACCOUNT_JS = r"""() => {
+  const id = (document.cookie.match(/(?:^|;\s*)ds_user_id=(\d+)/) || [])[1] || '';
+  const links = [...document.querySelectorAll('a[href^="/"]')]
+    .filter((a) => !a.closest('main') && /^\/[A-Za-z0-9._]+\/$/.test(a.getAttribute('href')));
+  const own = links.find((a) => /^(Perfil|Profile)$/i.test(a.innerText.trim()))
+    || links.find((a) => /Foto do perfil de|profile picture/i.test(a.querySelector('img[alt]')?.alt || ''));
+  return JSON.stringify({ id, handle: own ? own.getAttribute('href').split('/')[1].toLowerCase() : '' });
+}"""
+
+
+def pid_alive(pid):
+    if os.name != 'posix':
+        return True  # on Windows os.kill(pid, 0) would end the process
+    try:
+        os.kill(pid, 0)
+    except ProcessLookupError:
+        return False
+    except PermissionError:
+        return True
+    return True
+
+
+@contextlib.contextmanager
+def browser_lock(who):
+    """Holds LOCK_FILE while `who` reads Instagram. The scan and scripts/ig.py share one window, so only one of
+    them may run at a time. A lock left behind by a program that has ended is taken over."""
+    try:
+        pid, holder = LOCK_FILE.read_text(encoding='utf-8').split(' ', 1)
+        if int(pid) != os.getpid() and pid_alive(int(pid)):
+            sys.exit(f'O navegador do Instagram está em uso por {holder.strip()} (processo {pid}). Espere terminar '
+                     f'e rode de novo; se nada estiver rodando, apague {LOCK_FILE}.')
+    except (OSError, ValueError):
+        pass
+    LOCK_FILE.parent.mkdir(parents=True, exist_ok=True)
+    LOCK_FILE.write_text(f'{os.getpid()} {who}\n', encoding='utf-8')
+    try:
+        yield
+    finally:
+        with contextlib.suppress(OSError):
+            if LOCK_FILE.read_text(encoding='utf-8').split(' ', 1)[0] == str(os.getpid()):
+                LOCK_FILE.unlink()
+
 
 def browser_is_open():
     block = re.search(rf'^- {re.escape(SESSION)}:\n((?:  - .*\n?)*)', pw('list'), re.M)
     return bool(block and 'status: open' in block[1])
 
 
+def profile_in_use():
+    """The process of a browser that holds the profile but isn't this session's, or None. Chromium's
+    SingletonLock is a link to "<host>-<pid>"."""
+    try:
+        pid = os.readlink(BROWSER_PROFILE / 'SingletonLock').rsplit('-', 1)[-1]
+    except OSError:
+        return None
+    return int(pid) if pid.isdigit() and pid_alive(int(pid)) else None
+
+
 def open_browser():
     """Opens this tool's browser unless it is open already; True when it opened it."""
     if browser_is_open():
         return False
+    holder = profile_in_use()
+    if holder:
+        sys.exit(f'O perfil do navegador ({BROWSER_PROFILE}) já está aberto em outra janela (processo {holder}). '
+                 'Feche-a e rode de novo.')
     BROWSER_PROFILE.mkdir(parents=True, exist_ok=True)
     out = pw('open', '--headed', '--browser', 'chromium', '--persistent', f'--profile={BROWSER_PROFILE}', 'https://www.instagram.com/')
     if not browser_is_open():
@@ -445,8 +519,9 @@ def open_browser():
 
 
 def wait_for_login():
-    """Returns once the browser is logged in to Instagram, waiting for the person to do it in the window."""
+    """Returns once the browser is logged in to the scan's account, waiting for the person to log in in the window."""
     deadline, told = time.monotonic() + LOGIN_WAIT_MINUTES * 60, False
+    expected = read_account()[0]
     while True:
         try:
             if evaluate(LOGIN_JS)['in']:
@@ -455,13 +530,48 @@ def wait_for_login():
             if not browser_is_open():
                 raise  # otherwise the page was just changing, while the person logs in
         if not told:
-            print('\nEntre no Instagram na janela que abriu. Continuo sozinho assim que você entrar.', flush=True)
+            account = f' com @{expected}' if expected else ''
+            print(f'\nEntre no Instagram{account} na janela que abriu. Continuo sozinho assim que você entrar.', flush=True)
             told = True
         if time.monotonic() > deadline:
             raise BrowserGone(f'Esperei {LOGIN_WAIT_MINUTES} minutos pelo login e parei. Rode de novo quando quiser.')
         time.sleep(5)
     if told:
         print('Entrou. Continuando…', flush=True)
+    check_account()
+
+
+def read_account():
+    """(handle, number) of the scan's account, from ACCOUNT_FILE; ('', '') without the file. The number stays
+    empty until check_account has seen the account logged in."""
+    try:
+        words = ACCOUNT_FILE.read_text(encoding='utf-8').split()
+    except OSError:
+        return '', ''
+    handle = words[0].lstrip('@').lower() if words else ''
+    return handle, (words[1] if len(words) > 1 and words[1].isdigit() else '')
+
+
+def check_account():
+    """Checks the window's account against ACCOUNT_FILE and returns its handle. Without the file there is nothing
+    to check, and it returns ''. Another account raises WrongAccount. The first time it sees the right account, it
+    writes that account's number after the handle, so later checks still work if the side bar's markup changes."""
+    expected, number = read_account()
+    if not expected:
+        return ''
+    seen = evaluate(ACCOUNT_JS)
+    if not seen['handle'] and not (number and seen['id'] == number):
+        goto('https://www.instagram.com/')  # a page without the side bar, such as "save your login info?"
+        seen = evaluate(ACCOUNT_JS)
+    if number and seen['id'] == number:
+        return expected
+    if seen['handle'] == expected:
+        if seen['id']:
+            ACCOUNT_FILE.write_text(f"{expected} {seen['id']}\n", encoding='utf-8')
+        return expected
+    who = f"@{seen['handle']}" if seen['handle'] else 'uma conta que não consegui identificar'
+    raise WrongAccount(f'A janela do navegador está logada em {who}, não em @{expected} (a conta da varredura, '
+                       f'em {ACCOUNT_FILE}). Saia dessa conta na janela, entre com @{expected} e rode de novo.')
 
 
 def read_config():
@@ -546,14 +656,18 @@ def main():
     if outside:
         sys.exit(f"Fora da lista: {', '.join(sorted(outside))}. Acrescente em {PAGES_FILE.name} primeiro.")
     pages = [p for p in config['pages'] if not wanted or p['handle'].lower() in wanted]
+    with browser_lock('a varredura (scan.py)'):
+        scan_pages(config, settings, pages)
 
+
+def scan_pages(config, settings, pages):
+    """Reads the pages into a new dump folder, writing each page's lastScan and lastPost to pages.json as it goes."""
     started = dt.datetime.now(TZ)
-    run = DUMPS / started.strftime('%Y-%m-%d-%H%M')
-    (run / 'img').mkdir(parents=True, exist_ok=True)
     read_text = ocr_ready()
-
     pages_done, stopped, unreadable = [], '', 0
     opened_here = open_browser()
+    run = DUMPS / started.strftime('%Y-%m-%d-%H%M')
+    (run / 'img').mkdir(parents=True, exist_ok=True)
     close_at_end = opened_here
     try:
         wait_for_login()
@@ -587,6 +701,8 @@ def main():
                 stopped = f'{UNREADABLE_IN_A_ROW} páginas seguidas sem resposta; o Instagram pode estar limitando. Tente mais tarde.'
                 break
             time.sleep(PACE)
+    except WrongAccount as err:
+        stopped, close_at_end = str(err), False  # the window stays open, so the person can log in to the scan's account
     except BrowserGone as err:
         stopped, close_at_end = str(err) or 'o navegador fechou.', False
     except KeyboardInterrupt:
