@@ -2,7 +2,7 @@
 
 // Where the agenda is read from: a folder of the site with one CSV per month, AAAA-MM.csv, holding the
 // activities that start in that month (by "Dia"; drafts still without a date wait, hidden, in
-// sem-data.csv), and the index.json the pre-commit hook writes from them (tools/agenda-data.mjs). The
+// sem-data.csv), and the index.json the pre-commit hook writes from them (tools/month-files.mjs). The
 // pages read only the months they show (js/month-files.js).
 export const AGENDA_DIR = 'data/agenda/';
 
@@ -106,7 +106,7 @@ export const CITY = 'Dourados/MS';
 export const HOME_CITY = 'Dourados';
 
 // Public address of the site, added to the end of every WhatsApp message (with the page's file:
-// agenda.html, comercio.html). The og:url/og:image/canonical tags of the three pages use the
+// agenda.html, comercio.html). The og:url/og:image/canonical tags of the six pages use the
 // same address.
 export const SITE_URL = 'https://nos.dourados.social';
 
@@ -153,6 +153,10 @@ export const ORG_NAMES = {
   'ADUEMS': 'Sindicato dos Docentes da UEMS',
   'DCE UEMS': 'Diretório Central dos e das Estudantes da UEMS',
   'Seeb Dourados': 'Sindicato dos Bancários e Trabalhadores do Ramo Financeiro de Dourados e Região',
+  'SEMC': 'Secretaria Municipal de Cultura de Dourados',
+  'FUNED': 'Fundação de Esportes de Dourados',
+  'FCMS': 'Fundação de Cultura de Mato Grosso do Sul',
+  'Funarte': 'Fundação Nacional de Artes',
 };
 
 // Sector colours: each suggested "Setor" of the spreadsheet (the nine groups of the

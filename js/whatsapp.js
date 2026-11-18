@@ -4,7 +4,7 @@
 
 import { APP_NAME, CITY, HOME_CITY, SITE_URL } from './config.js';
 import { formatDateRange, formatShortDate, formatTimeRange, matchKey } from './events.js';
-import { hourText, inSentence, longDay, resultText } from './calls.js';
+import { douradosNow, hourText, inSentence, longDay, resultText } from './calls.js';
 
 // Closing lines added to every message, with the address of the page they come from — change them
 // freely (or set to '' to remove).
@@ -89,7 +89,7 @@ export function buildNewsMessage(news) {
 // A call passed on to a group (Editais): what it is and where it reaches, its name and who runs it, then,
 // by where it stands (js/calls.js callStatus), the deadline, how much and who can apply; the day it opens;
 // the day it closed and its result; or what is known of it. Its links, then the page's address.
-export function buildCallMessage(call, status, now = new Date()) {
+export function buildCallMessage(call, status, now = douradosNow()) {
   const place = matchKey(call.reach) === 'nacional' ? 'Nacional' : call.reach && matchKey(call.reach) !== 'dourados' ? (matchKey(call.reach) === 'ms' ? 'Mato Grosso do Sul' : call.reach) : CITY;
   const head = { open: 'EDITAL ABERTO', soon: 'EDITAL ANUNCIADO', closed: call.result ? 'RESULTADO' : 'EDITAL ENCERRADO', coming: 'EM PREPARAÇÃO' }[status] || 'EDITAL';
   const blocks = [[`📄 *${head}* · ${place}`]];

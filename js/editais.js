@@ -8,12 +8,12 @@
 
 import { AGENDA_DIR, CALL_AREAS, CALLS_CSV_URL, CALLS_SUGGEST_URL } from './config.js';
 import { folderPath, monthFile } from './month-files.js';
-import { buildEvents, capitalize, formatDayMonth, matchKey, monthName, weekdayName } from './events.js';
-import { areaRank, buildCalls, callStatus, groupCalls, hourText, leftText, reachLabel, resultText, tinyDay } from './calls.js';
+import { buildEvents, capitalize, formatDayMonth, matchKey, monthName, orgFullName, weekdayName } from './events.js';
+import { areaRank, buildCalls, callStatus, douradosNow, groupCalls, hourText, leftText, reachLabel, resultText, tinyDay } from './calls.js';
 import { assignSectorColors, paintSector, sectorsOf } from './colors.js';
 import { buildCallMessage, previewHtml, whatsAppShareUrl } from './whatsapp.js';
 import { icon } from './icons.js';
-import { $, announce, copyText, el, escapeHtml, initPage, readSheet, registerWorker, safeUrl, showNotice, showOffline } from './page.js';
+import { $, addressTarget, announce, copyText, el, escapeHtml, initPage, readSheet, registerWorker, safeUrl, showNotice, showOffline } from './page.js';
 
 // From this width the list and the panel sit side by side (as on Notícias; css/style.css agrees).
 const desktop = window.matchMedia('(min-width: 1100px)');
@@ -22,6 +22,7 @@ const state = {
   calls: [], // every call of the file, in its order
   area: '', // matchKey of the chosen area; '' = every area
   selectedId: null,
+  loaded: false, // the sheet was read: until then (or when it can't be) the page lists nothing
 };
 
 const collator = new Intl.Collator('pt-BR', { sensitivity: 'base', numeric: true });
@@ -49,16 +50,17 @@ async function linkActivities(list) {
 // Reads the calls (and, with `again`, once more: a tab back after a long while, quietly).
 async function load({ again = false } = {}) {
   try {
-    const { headers, records, lines, savedAt } = await readSheet(CALLS_CSV_URL);
-    const { calls, invalid, missing } = buildCalls(headers, records, lines);
+    const { headers, records, lines, unclosed, savedAt } = await readSheet(CALLS_CSV_URL);
+    const { calls, invalid, warnings, missing } = buildCalls(headers, records, lines);
     if (missing.length) {
       showNotice(`<strong>A planilha dos editais não tem ${missing.map((c) => `a coluna “${escapeHtml(c)}”`).join(' nem ')}.</strong> Confira a primeira linha de <code>${escapeHtml(CALLS_CSV_URL)}</code>.`, 'error');
       return false;
     }
     state.calls = calls;
+    state.loaded = true;
     assignSectorColors(sectorsOf(calls));
     $('notice').hidden = true;
-    showProblems(invalid);
+    showProblems(invalid, warnings, unclosed);
     if (savedAt) showOffline(savedAt, 'os editais salvos');
     await linkActivities(calls);
     return true;
@@ -69,17 +71,23 @@ async function load({ again = false } = {}) {
   }
 }
 
-// Rows the page couldn't read: no title, or a date it can't parse.
-function showProblems(invalid) {
-  if (!invalid.length) return;
-  const items = invalid.map((r) => `<li>Linha ${r.line}: “${escapeHtml(r.title)}”: ${escapeHtml(r.problem)} (as datas como 23/11/2026).</li>`).join('');
-  showNotice(`<p><strong>${invalid.length === 1 ? '1 linha dos editais ficou de fora' : `${invalid.length} linhas dos editais ficaram de fora`}.</strong></p><details><summary>Ver as linhas para corrigir</summary><ul>${items}</ul></details>`);
+// Rows the page couldn't read (no title, or a date it can't parse), rows it shows with something left
+// out (a closing hour it can't read), and a quoted cell that never closes (the rows after it are lost).
+function showProblems(invalid, warnings = [], unclosed = null) {
+  if (!invalid.length && !warnings.length && !unclosed) return;
+  const items = [
+    ...(unclosed ? [`<li>Linha ${unclosed}: uma célula abre aspas (") e não fecha, então as linhas depois dela foram lidas como parte dessa célula. Feche com " (não com ”).</li>`] : []),
+    ...invalid.map((r) => `<li>Linha ${r.line}: “${escapeHtml(r.title)}”: ${escapeHtml(r.problem)} (as datas como 23/11/2026). Esta linha ficou de fora.</li>`),
+    ...warnings.map((r) => `<li>Linha ${r.line}: “${escapeHtml(r.title)}”: ${escapeHtml(r.problem)}.</li>`),
+  ].join('');
+  const count = invalid.length + warnings.length + (unclosed ? 1 : 0);
+  showNotice(`<p><strong>${count === 1 ? '1 linha dos editais precisa de correção' : `${count} linhas dos editais precisam de correção`}.</strong></p><details><summary>Ver as linhas para corrigir</summary><ul>${items}</ul></details>`);
 }
 
 const findCall = (id) => state.calls.find((c) => c.id === id) || null;
 const matches = (c) => !state.area || matchKey(c.area) === state.area;
 // The calls the page shows now, by where they stand (a call closed longer ago is left out).
-const shown = (now = new Date()) => groupCalls(state.calls.filter(matches), now);
+const shown = (now = douradosNow()) => groupCalls(state.calls.filter(matches), now);
 const flat = (groups) => [...groups.open, ...groups.soon, ...groups.closed, ...groups.coming];
 const firstShown = () => flat(shown())[0] || null;
 
@@ -180,7 +188,8 @@ function orgMeta(call) {
   meta.innerHTML = call.sector ? '<span class="dot"></span>' : icon('landmark');
   const text = el('span', 'meta-text');
   text.append(el('b', null, call.org));
-  if (call.body) text.append(document.createTextNode(` · ${call.body}`));
+  const full = orgFullName(call.org) || call.body;
+  if (full) text.append(document.createTextNode(` · ${full}`));
   if (call.sector) text.append(el('span', 'sr-only', ` (${call.sector})`));
   meta.append(text);
   return meta;
@@ -191,7 +200,7 @@ function linkButton(href, iconName, label) {
   link.href = href;
   link.target = '_blank';
   link.rel = 'noopener';
-  link.innerHTML = `${icon(iconName)}<span>${escapeHtml(label)}</span>`;
+  link.innerHTML = `${icon(iconName)}<span>${escapeHtml(label)}</span><span class="sr-only"> (abre em outra aba)</span>`;
   return link;
 }
 
@@ -222,7 +231,8 @@ function renderCard(call, status, now) {
   const share = el('button', 'share-circle');
   share.type = 'button';
   share.dataset.focus = `share:${call.id}`;
-  share.setAttribute('aria-label', `Mandar no WhatsApp: ${call.title}`);
+  share.setAttribute('aria-label', `Compartilhar no WhatsApp: ${call.title}`);
+  share.setAttribute('aria-haspopup', 'dialog');
   share.innerHTML = icon('share');
   head.append(h, share);
   card.append(head);
@@ -265,7 +275,7 @@ function renderCard(call, status, now) {
     link.href = safeUrl(call.result);
     link.target = '_blank';
     link.rel = 'noopener';
-    link.innerHTML = `${icon('external')}<span>Ver o resultado</span>`;
+    link.innerHTML = `${icon('external')}<span>Ver o resultado</span><span class="sr-only"> (abre em outra aba)</span>`;
     card.append(link);
   }
 
@@ -302,7 +312,12 @@ const areaName = () => areas().find((a) => matchKey(a) === state.area) || '';
 
 function renderList() {
   const container = $('lista');
-  const now = new Date();
+  $('filters').hidden = !state.loaded;
+  if (!state.loaded) {
+    container.replaceChildren();
+    return;
+  }
+  const now = douradosNow();
   const groups = shown(now);
   const wrap = el('div', 'calls');
   wrap.append(el('h2', 'sr-only', 'Lista de editais'));
@@ -369,6 +384,7 @@ function factLink(href, text, sub) {
   if (/^https?:/i.test(href)) {
     link.target = '_blank';
     link.rel = 'noopener';
+    link.append(el('span', 'sr-only', ' (abre em outra aba)'));
   }
   return sub ? [link, el('span', 'fact-sub', sub)] : [link];
 }
@@ -377,7 +393,13 @@ const plain = (text, sub) => {
   const span = el('span', 'fact-plain', text);
   return sub ? [span, el('span', 'fact-sub', sub)] : [span];
 };
-const host = (url) => new URL(url).hostname.replace(/^www\./, '');
+const host = (url) => {
+  try {
+    return new URL(url).hostname.replace(/^www\./, '');
+  } catch {
+    return '';
+  }
+};
 // "Segunda, 23 de novembro" (and the year when it isn't this one).
 const longDate = (date, now) => `${capitalize(weekdayName(date).replace('-feira', ''))}, ${date.getDate()} de ${monthName(date.getMonth())}${date.getFullYear() !== now.getFullYear() ? ` de ${date.getFullYear()}` : ''}`;
 
@@ -398,7 +420,7 @@ function renderBench() {
     bench.setAttribute('aria-label', 'Edital');
     return;
   }
-  const now = new Date();
+  const now = douradosNow();
   const status = callStatus(call, now) || 'closed';
   bench.removeAttribute('aria-label');
   bench.setAttribute('aria-labelledby', 'story-title');
@@ -427,7 +449,7 @@ function renderBench() {
     const org = el('span', 'fact-org');
     org.append(el('span', 'fact-org-name', [call.org, call.body].filter(Boolean).join(', ')));
     if (call.sector) org.append(el('span', 'fact-muted', ` · ${call.sector}`));
-    const full = [call.program, call.official].filter(Boolean).join(', ');
+    const full = [orgFullName(call.org), call.program, call.official].filter(Boolean).join(', ');
     if (full) org.append(el('span', 'fact-org-full', full));
     facts.append(fact(call.sector ? 'sector' : 'landmark', org, 'Quem faz', 'is-org'));
   }
@@ -454,7 +476,8 @@ function renderBench() {
   $('wa-link').href = whatsAppShareUrl(message);
 }
 
-// The panel at its top, or at the message (the share circle: what it is pressed for).
+// The panel at its top, or at the message (the share circle: what it is pressed for), where the send
+// button then takes the focus.
 function scrollBench(toMessage) {
   const scroll = $('bench-scroll');
   const go = () => {
@@ -462,17 +485,25 @@ function scrollBench(toMessage) {
     if (toMessage) scroll.scrollTop = $('message-head').getBoundingClientRect().top - scroll.getBoundingClientRect().top - 12;
   };
   go();
-  if (toMessage) requestAnimationFrame(go);
+  if (!toMessage) return;
+  requestAnimationFrame(() => {
+    go();
+    $('wa-link').focus({ preventScroll: true });
+  });
 }
 
+// `trigger` is the button pressed: its data-focus key, not the node (the list is drawn again), is where
+// focus goes back when the sheet closes.
 function select(call, { trigger, toMessage = false } = {}) {
   if (call.id !== state.selectedId) settleCopy();
+  const back = trigger?.dataset?.focus || null;
   state.selectedId = call.id;
   rerender(() => {
     renderList();
     renderBench();
   });
-  if (!desktop.matches) openSheet(trigger);
+  if (!desktop.matches) openSheet(back);
+  else if (!toMessage) announce(`Aberto ao lado: ${call.title}`);
   scrollBench(toMessage);
 }
 
@@ -483,7 +514,7 @@ function select(call, { trigger, toMessage = false } = {}) {
 
 let sheetOpen = false;
 let sheetInHistory = false;
-let returnFocus = null;
+let returnFocus = null; // the data-focus key of what opened the sheet
 
 function setModal(on) {
   for (const node of document.querySelectorAll('.skip-link, .site-head, #main, .site-foot')) node.inert = on;
@@ -497,8 +528,8 @@ function setModal(on) {
   }
 }
 
-function openSheet(trigger) {
-  returnFocus = trigger instanceof HTMLElement && trigger !== document.body ? trigger : null;
+function openSheet(back) {
+  returnFocus = back;
   $('sheet-backdrop').hidden = false;
   document.body.classList.add('sheet-open');
   setModal(true);
@@ -531,7 +562,7 @@ function hideSheet() {
   document.body.classList.remove('sheet-open');
   $('sheet-backdrop').hidden = true;
   setModal(false);
-  const target = returnFocus && document.contains(returnFocus) ? returnFocus : findFocus(`call:${state.selectedId}`);
+  const target = (returnFocus && findFocus(returnFocus)) || findFocus(`call:${state.selectedId}`);
   target?.focus({ preventScroll: true });
 }
 
@@ -587,7 +618,7 @@ function settleCopy() {
 // editais.html#ed-2026-11-23-…: that call opens (the area cleared when it hides it), if it is still on
 // the page.
 function openFromAddress() {
-  const target = decodeURIComponent(location.hash.slice(1));
+  const target = addressTarget();
   if (!target.startsWith('ed-')) return;
   const call = findCall(target);
   if (!call || !callStatus(call)) return;
@@ -606,7 +637,7 @@ async function start() {
   if (history.state?.nosSheet) history.back();
   await load();
   if (desktop.matches) state.selectedId = firstShown()?.id ?? null;
-  lastStanding = standing(new Date());
+  lastStanding = standing(douradosNow());
   renderAll();
   openFromAddress();
 }
@@ -659,7 +690,7 @@ let lastStanding = '';
 let hiddenAt = null;
 function tick() {
   if (!state.calls.length) return;
-  const now = standing(new Date());
+  const now = standing(douradosNow());
   if (now === lastStanding) return;
   lastStanding = now;
   rerender(() => {

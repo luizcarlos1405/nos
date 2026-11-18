@@ -4,7 +4,7 @@
 // No DOM. The page (js/editais.js) places each call by its dates with callStatus(): open, opening soon,
 // closed lately, or announced without a date yet.
 
-import { CALL_AREAS, CALLS_CLOSED_DAYS } from './config.js';
+import { CALL_AREAS, CALLS_CLOSED_DAYS, TIME_ZONE } from './config.js';
 import { dateKey, daysBetween, formatDayMonth, formatTime, isHidden, matchKey, normalizeKey, parseDay, parseTime, slugify, weekdayName } from './events.js';
 
 // Headers, matched without accents, case or spacing; the official ones first.
@@ -45,14 +45,24 @@ export function callColumnMap(headers) {
   return map;
 }
 
-// Returns { calls, invalid, missing }: the calls in the file's order, the rows the page can't read
-// (no title, or a date it can't parse), and the required columns the file lacks. Hidden rows (Visível
+// Dourados' clock as a local Date: its fields (the day, the hour) are the time in TIME_ZONE, whatever
+// the zone of the device, so a call set to close at 17h in Dourados closes at 17h there for everyone.
+const douradosClock = new Intl.DateTimeFormat('en-US', { timeZone: TIME_ZONE, hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
+export function douradosNow(date = new Date()) {
+  const p = Object.fromEntries(douradosClock.formatToParts(date).map(({ type, value }) => [type, Number(value)]));
+  return new Date(p.year, p.month - 1, p.day, p.hour, p.minute, p.second);
+}
+
+// Returns { calls, invalid, warnings, missing }: the calls in the file's order, the rows the page can't
+// read (no title, or a date it can't parse), the rows it shows with something left out (a closing hour
+// it can't read: the call then stays open to the end of its last day), and the required columns the
+// file lacks. Hidden rows (Visível
 // unchecked) are drafts, skipped silently. Ids come from the last day of registration and the name:
 // ed-2026-11-23-slug (ed-sem-data-slug while there is no date), -2 for a repeat.
 export function buildCalls(headers, records, lines = []) {
   const col = callColumnMap(headers);
   const missing = [['title', 'Título'], ['until', 'Inscrições até']].filter(([field]) => !col[field]).map(([, label]) => label);
-  if (missing.length) return { calls: [], invalid: [], missing };
+  if (missing.length) return { calls: [], invalid: [], warnings: [], missing };
   const get = (record, field) => (col[field] ? (record[col[field]] || '').trim() : '');
   const taken = new Map();
   const uniqueId = (base) => {
@@ -62,6 +72,7 @@ export function buildCalls(headers, records, lines = []) {
   };
   const calls = [];
   const invalid = [];
+  const warnings = [];
   records.forEach((record, index) => {
     if (isHidden(get(record, 'visible'))) return;
     const line = lines[index] ?? index + 2;
@@ -78,6 +89,7 @@ export function buildCalls(headers, records, lines = []) {
       return;
     }
     const hour = get(record, 'hour');
+    if (hour && parseTime(hour) == null) warnings.push({ line, title, problem: `não deu para ler o Horário “${hour}” (escreva como 17h ou 17h30, no horário de Dourados): o edital aparece sem a hora e fica aberto até o fim do dia` });
     calls.push({
       id: uniqueId(`ed-${dates.until ? dateKey(dates.until) : 'sem-data'}-${slugify(title)}`),
       line,
@@ -101,7 +113,7 @@ export function buildCalls(headers, records, lines = []) {
       source: get(record, 'source'),
     });
   });
-  return { calls, invalid, missing };
+  return { calls, invalid, warnings, missing };
 }
 
 // Where a call stands at `now`:
@@ -111,7 +123,7 @@ export function buildCalls(headers, records, lines = []) {
 // - 'closed': its last day passed less than CALLS_CLOSED_DAYS ago;
 // - 'coming': announced, still without a last day;
 // - null: closed longer ago, so it leaves the page (its row stays in the file).
-export function callStatus(call, now = new Date()) {
+export function callStatus(call, now = douradosNow()) {
   if (!call.until) return 'coming';
   const left = daysBetween(now, call.until);
   const pastHour = left === 0 && call.hour != null && now.getHours() * 60 + now.getMinutes() >= call.hour;
@@ -122,7 +134,7 @@ export function callStatus(call, now = new Date()) {
 // The lists as the page shows them: the open calls by deadline (the soonest first, then by the hour it
 // closes), the ones opening soon by the day they open, the closed ones the most recent first, and the
 // announced ones in the file's order.
-export function groupCalls(calls, now = new Date()) {
+export function groupCalls(calls, now = douradosNow()) {
   const groups = { open: [], soon: [], closed: [], coming: [] };
   for (const call of calls) {
     const status = callStatus(call, now);
@@ -159,17 +171,18 @@ export function hourText(call) {
 }
 
 // How long is left: "faltam 5 dias", "fecha amanhã", "último dia".
-export function leftText(call, now = new Date()) {
+export function leftText(call, now = douradosNow()) {
   const left = daysBetween(now, call.until);
   if (left <= 0) return 'último dia';
   return left === 1 ? 'fecha amanhã' : `faltam ${left} dias`;
 }
 
 // What a closed call says of its result: the team's line in "Resumo" when there is one; else "Saiu o
-// resultado em 14/11", "Resultado previsto para 08/12", or "Saiu o resultado" (a link without a day).
-export function resultText(call, now = new Date()) {
+// resultado em 14/11" (only once the result's link is in the sheet: a forecast day alone says nothing
+// came out), "Resultado previsto para 08/12", or "Saiu o resultado" (a link without a day).
+export function resultText(call, now = douradosNow()) {
   if (call.summary) return call.summary;
-  if (call.resultOn) return daysBetween(now, call.resultOn) > 0 ? `Resultado previsto para ${formatDayMonth(call.resultOn)}` : `Saiu o resultado em ${formatDayMonth(call.resultOn)}`;
+  if (call.resultOn) return daysBetween(now, call.resultOn) > 0 || !call.result ? `Resultado previsto para ${formatDayMonth(call.resultOn)}` : `Saiu o resultado em ${formatDayMonth(call.resultOn)}`;
   return call.result ? 'Saiu o resultado' : '';
 }
 
