@@ -11,7 +11,7 @@ import { buildPlaces } from './places.js';
 import { buildStyle } from './map-style.js';
 import { icon } from './icons.js';
 import { buildPlaceMessage, directionsUrl, whatsAppShareUrl } from './whatsapp.js';
-import { $, announce, el, escapeHtml, initPage, readSheet, registerWorker, safeUrl, showNotice, showOffline } from './page.js';
+import { $, addressTarget, announce, el, escapeHtml, initPage, readSheet, registerWorker, safeUrl, showNotice, showOffline } from './page.js';
 
 // From 1100px the panel is a rail at the left and a place opens in a card at the right; below, both are
 // sheets over the map.
@@ -305,6 +305,9 @@ function startMap() {
       minZoom: 9,
       fadeDuration: 0,
     });
+    // The map is a picture here (its container is aria-hidden; the list and the points' buttons are the
+    // way in), so its canvas leaves the tab order instead of taking focus where nothing is said.
+    map.getCanvas().tabIndex = -1;
   } catch (err) {
     console.error(err);
     document.body.classList.add('no-map');
@@ -555,14 +558,21 @@ function closePlace({ fromHistory = false } = {}) {
   else history.replaceState(null, '', location.pathname + location.search);
   const back = state.opener;
   state.opener = null;
-  if (back && document.contains(back) && back.offsetParent) back.focus();
+  // Back to what opened it, when it is on screen; a row of the list in the closed sheet (phones) isn't,
+  // so "Camadas" takes the focus instead of the page's body.
+  const visible = back && document.contains(back) && back.offsetParent && getComputedStyle(back).visibility !== 'hidden';
+  if (visible) back.focus();
+  if (document.activeElement !== back && !desk.matches) $('layers-open')?.focus();
 }
 
-// The panel as a sheet on phones: opened by "Camadas", closed by ✕, Escape, the scrim or Back.
+// The panel as a sheet on phones: opened by "Camadas", closed by ✕, Escape, the scrim or Back. While open
+// it is a modal dialog: what lies under it is inert, out of reach of the keyboard and screen readers.
+const BEHIND_SIDE = '.skip-link, .site-head, .map-stage, #notice, #place';
 function showSide() {
   document.body.classList.add('side-open');
   $('map-side').setAttribute('aria-modal', 'true');
   $('map-side').setAttribute('role', 'dialog');
+  for (const node of document.querySelectorAll(BEHIND_SIDE)) node.inert = true;
   if (history.state?.mapaSheet !== true) history.pushState({ mapaSheet: true }, '');
   $('side-title').focus({ preventScroll: true });
 }
@@ -572,6 +582,7 @@ function hideSide() {
   document.body.classList.remove('side-open');
   $('map-side').removeAttribute('aria-modal');
   $('map-side').removeAttribute('role');
+  for (const node of document.querySelectorAll(BEHIND_SIDE)) node.inert = false;
 }
 
 function closeSide() {
@@ -583,7 +594,7 @@ function closeSide() {
 
 // mapa.html#<id> opens that place (the WhatsApp message links to it).
 function openFromAddress() {
-  const id = decodeURIComponent(location.hash.slice(1));
+  const id = addressTarget();
   const place = id && byId(id);
   if (!place) return;
   // The page's own entry goes back to its plain address: on phones the place gets an entry of its own,
