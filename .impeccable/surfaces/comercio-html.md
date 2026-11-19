@@ -7,7 +7,7 @@ related_targets: []
 
 # Surface: Comércio (comercio.html)
 
-Scope: the directory of the network's businesses (the answers of the registration form). Paused since 2026-10-27: the page shows "Em breve" ("Estamos coletando as informações e organizando antes de mostrá-las aqui") and doesn't read data/comercio.csv; the list code, the side sheet and the data stay for when it returns (reverting commit 29dcdeb). Visitor mode: **Operate**. Phone-first. Only current features.
+Scope: the directory of the network's businesses (the answers of the registration form). Paused since 2026-10-27: the page shows "Em breve" ("Estamos coletando as informações e organizando antes de mostrá-las aqui") and doesn't read data/comercio.csv; the list code, the side sheet and the data stay for when it returns (reverting commit 1d1fc05). Visitor mode: **Operate**. Phone-first. Only current features.
 
 Audience/job: people from the network and from the city looking for someone who makes, sells or fixes something in Dourados; business owners find how to get in. While paused: they learn the list is coming.
 
@@ -29,7 +29,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
 ## Unresolved
 - The header stays at the top while the page scrolls (built 2026-11-06, waiting for the user's approval): DESIGN.md, The Sky Stays Rule; artboards design/topo-fixo-*.html.
-- The list is paused until the businesses are collected and organized (revert commit 29dcdeb to bring it back).
+- The list is paused until the businesses are collected and organized (revert commit 1d1fc05 to bring it back).
 - The form's public link (COMMERCE_FORM_URL) is still empty, so the invitation stays hidden.
 - `Categoria` is filled by the NOS team, not asked by the form.
-- A plain `git revert 29dcdeb` no longer applies over the redesign: CLAUDE.md ("Comércio's pause") lists the four edits that bring the list back; the list is already styled in the new world.
+- A plain `git revert 1d1fc05` no longer applies over the redesign: CLAUDE.md ("Comércio's pause") lists the four edits that bring the list back; the list is already styled in the new world.
