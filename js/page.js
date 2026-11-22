@@ -1,5 +1,5 @@
 // What the pages share: Início (index.html, js/home.js), Agenda (agenda.html, js/app.js), Notícias
-// (noticias.html, js/noticias.js), Editais (editais.html, js/editais.js, under the Notícias tab), Mapa
+// (noticias.html, js/noticias.js), Editais (editais.html, js/editais.js), Mapa
 // (mapa.html, js/mapa.js) and Comércio (comercio.html, js/comercio.js). The header on the sky, small DOM helpers, notices,
 // reading the sheets (Comércio's, and the agenda's months), and the offline worker.
 

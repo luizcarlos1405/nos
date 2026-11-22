@@ -37,9 +37,9 @@
       "icons": [{ "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     },
     {
-      "name": "Comércio",
-      "description": "Os negócios da rede em Dourados e região",
-      "url": "comercio.html",
+      "name": "Editais",
+      "description": "Editais, prêmios e chamadas com dinheiro para cultura, esporte e lazer",
+      "url": "editais.html",
       "icons": [{ "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     }
   ],

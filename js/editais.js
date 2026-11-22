@@ -1,7 +1,7 @@
-// Editais (editais.html): calls, prizes and grants with money for culture, sport and leisure, under the
-// Notícias tab (the switch at the top of both pages leads from one to the other). The open calls by
-// deadline, the ones opening soon, the ones closed lately with their results, and the announced ones
-// without a date yet (js/calls.js), with a chip per area. A call opens in the news' panel (a bottom sheet
+// Editais (editais.html): calls, prizes and grants with money for culture, sport and leisure, a tab of
+// its own since 2026-11-22 (until then it hung from the Notícias tab). The open calls by deadline, the
+// ones opening soon, the ones closed lately with their results, and the announced ones without a date
+// yet (js/calls.js), with a chip per area. A call opens in the news' panel (a bottom sheet
 // on phones, the column at right on the desk) with its essentials, its links and the message for
 // WhatsApp; its share circle opens the panel straight at the message. The calls are one file,
 // CALLS_CSV_URL, read whole: they are few.

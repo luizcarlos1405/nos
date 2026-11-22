@@ -1301,34 +1301,7 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .news-head button.share-circle:hover { background: var(--role-line); }
 }
 
-/* ---------- Editais: calls, prizes and grants, under the Notícias tab ---------- */
-/* Notícias · Editais: two pages under one tab. The pill is the agenda's .view-tabs (its border and its
-   margins at each width, 420px at most from 760px), with the look of its segments (two equal 42px ones,
-   the open one in ink with a check in place of its icon); here they are links between two pages, so the
-   open one says aria-current. */
-.page-switch { margin-top: 14px; }
-.page-switch a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  min-height: 42px;
-  padding: 0 12px;
-  color: var(--role-ink);
-  font-weight: 500;
-  text-decoration: none;
-  transition: background 0.15s, color 0.15s;
-}
-.page-switch a + a { border-left: 1px solid var(--role-line); }
-.page-switch .icon { width: 18px; height: 18px; }
-.page-switch a[aria-current=page] { background: var(--role-ink); color: var(--role-on-ink); font-weight: 600; }
-.page-switch a[aria-current=page] .tab-icon, .page-switch a:not([aria-current=page]) .tab-check { display: none; }
-.page-switch a:focus-visible { outline-offset: -4px; }
-.page-switch a[aria-current=page]:focus-visible { outline-color: var(--role-on-ink); }
-@media (hover: hover) {
-  .page-switch a:not([aria-current=page]):hover { background: var(--role-card-hover); }
-}
-.page-switch + .filters { margin-top: 2px; }
+/* ---------- Editais: calls, prizes and grants ---------- */
 
 /* The list: the open calls by deadline, then the ones opening soon, the closed ones and what is coming. */
 .calls { display: flex; flex-direction: column; gap: 22px; padding-top: 14px; }
@@ -2244,7 +2217,7 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .view, .filters { padding-left: 12px; padding-right: 12px; }
   .view-tabs, .notice { margin-left: 12px; margin-right: 12px; }
   .home { padding-left: calc(12px + env(safe-area-inset-left)); padding-right: calc(12px + env(safe-area-inset-right)); }
-  .view-tabs [role=tab] .icon, .seg [role=tab] .icon, .page-switch .icon { display: none; }
+  .view-tabs [role=tab] .icon, .seg [role=tab] .icon { display: none; }
   .seg [role=tab] { gap: 6px; padding: 0 4px; font-size: 0.9375rem; line-height: 1.15; }
   /* The style's name keeps its room (16px, or iOS zooms on focus): the count gives way to the chevron. */
   .style-select select { padding: 0 36px 0 12px; }
@@ -2279,7 +2252,7 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .site-head { background: Canvas; }
   .band, .site-head::after, .dot, .cell-mark, .week-bar::before, .astro { forced-color-adjust: none; }
   .hand { stroke: Highlight; }
-  .view-tabs [aria-selected=true], .seg [aria-selected=true], .page-switch [aria-current=page], .chip[aria-pressed=true], .org-pill.is-active .org-pill-face { outline: 2px solid Highlight; outline-offset: -2px; }
+  .view-tabs [aria-selected=true], .seg [aria-selected=true], .chip[aria-pressed=true], .org-pill.is-active .org-pill-face { outline: 2px solid Highlight; outline-offset: -2px; }
   .event-card.is-selected, .day.is-selected, .day.is-selected .day-num { outline: 2px solid Highlight; outline-offset: -2px; }
   .save-circle, .save-pill { border: 1px solid ButtonText; }
   .save-circle[aria-expanded='true'], .save-pill[aria-expanded='true'] { outline: 2px solid Highlight; outline-offset: -2px; }
