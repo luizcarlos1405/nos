@@ -2,8 +2,8 @@
 //   node assets/render.cjs            all of them
 //   node assets/render.cjs icons      only the icons and favicons (assets/icon.html)
 //   node assets/render.cjs og         only the link preview (assets/og-image.html)
-//   node assets/render.cjs shots      only the manifest screenshots (the site itself: agenda.html
-//                                     and comercio.html, in the light theme)
+//   node assets/render.cjs shots      only the manifest screenshots (the site itself: agenda.html,
+//                                     in the light theme)
 // It serves the project folder itself, on a free local port. Needs Playwright and a Chromium:
 // `npm i --no-save playwright-core && npx playwright-core install chromium` in the project folder,
 // or PLAYWRIGHT_CORE and CHROMIUM pointing at your own.
@@ -172,11 +172,6 @@ async function renderShots(browser, base) {
   await phone.page.waitForTimeout(500);
   await shot(phone.page, 'phone-flyer.png');
   await phone.context.close();
-
-  // Comércio is paused: its "Em breve" (.soon); when the list returns, its first business (.biz).
-  const commerce = await open({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true }, 'comercio.html', '.soon, .biz');
-  await shot(commerce.page, 'phone-comercio.png');
-  await commerce.context.close();
 
   // Desktop (wide): 1440x900.
   const desk = await open({ viewport: { width: 1440, height: 900 } });

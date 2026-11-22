@@ -8,7 +8,7 @@
 // no Mapa.
 
 import { MAP_HELD, MAP_REVIEW_MONTHS } from './config.js';
-import { instagramUrl, phonesIn, readInstagram } from './businesses.js';
+import { instagramUrl, phonesIn, readInstagram } from './contacts.js';
 import { isHidden, normalizeKey, slugify } from './events.js';
 import { isStale, reviewDay } from './review.js';
 

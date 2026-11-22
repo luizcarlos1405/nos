@@ -726,7 +726,7 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   font-size: 0.9375rem;
 }
 
-/* Nothing for this filter (and Comércio's search): say so, and offer the way back. */
+/* Nothing for this filter: say so, and offer the way back. */
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -1115,114 +1115,6 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
 .save-foot { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--role-line); font-size: 0.8125rem; line-height: 1.45; color: var(--role-ink-soft); text-wrap: pretty; }
 .save-foot p + p { margin-top: 6px; }
 
-/* ---------- Comércio ---------- */
-
-/* The list: search, count and category chips over the letters. On phones:
-   search, chips, count; on the desk the count sits beside the search. */
-.biz-tools { display: grid; grid-template-areas: 'search' 'chips' 'count'; padding-top: 14px; }
-.search { grid-area: search; position: relative; display: flex; align-items: center; margin: 0 16px; }
-.search-icon { position: absolute; left: 16px; display: flex; color: var(--role-ink-soft); pointer-events: none; }
-.search input {
-  width: 100%;
-  min-height: 48px;
-  margin: 0;
-  padding: 0 48px 0 46px;
-  border: 1px solid var(--role-line);
-  border-radius: var(--radius-pill);
-  background: var(--role-card);
-  color: var(--role-ink);
-  font: 400 1rem/1.2 var(--font-ui); /* 16px: iOS doesn't zoom */
-  -webkit-appearance: none;
-  appearance: none;
-}
-.search input:focus-visible { outline-offset: 0; border-color: var(--role-focus); }
-.search input:not(:placeholder-shown) { font-weight: 500; }
-.search input::placeholder { color: var(--role-ink-soft); opacity: 1; }
-.search input::-webkit-search-cancel-button, .search input::-webkit-search-decoration { -webkit-appearance: none; appearance: none; }
-.search-clear {
-  position: absolute;
-  right: 2px;
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border: 0;
-  border-radius: 50%;
-  background: none;
-  color: var(--role-ink);
-}
-.search-clear .icon { width: 18px; height: 18px; }
-@media (hover: hover) { .search-clear:hover { background: var(--role-wash); } }
-.biz-tools .filters { grid-area: chips; }
-.biz-count { grid-area: count; margin: 0; padding: 6px 20px 4px; font-size: 0.9375rem; color: var(--role-ink-soft); }
-.biz-tools:has(.filters[hidden]) .biz-count { padding-top: 12px; }
-
-.letters { display: flex; flex-direction: column; gap: 24px; }
-.biz-tools:not([hidden]) + .letters { padding-top: 16px; }
-.letter-head { display: flex; align-items: baseline; gap: 10px; margin: 0 0 10px; }
-.letter { font: 800 1.75rem/1 var(--font-display); letter-spacing: -0.02em; }
-.letter-count { font-size: 0.875rem; color: var(--role-ink-soft); }
-
-.biz-list { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; }
-/* A business: its category, its name, what it offers, "Indicar no WhatsApp", and the ways to reach it,
-   each with its label. */
-.biz {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 44px;
-  column-gap: 8px;
-  align-items: start;
-  padding: 16px 10px 8px 16px;
-  border: 1px solid var(--role-card-border);
-  border-radius: var(--radius-card);
-  background: var(--role-card);
-  box-shadow: var(--role-card-shadow);
-}
-.biz-main { grid-column: 1; grid-row: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; min-width: 0; }
-/* The category, as a quiet tag after the offer (the chips filter by it). */
-.biz-main > .biz-category { margin-top: 4px; }
-.biz-main > * { max-width: 100%; }
-.biz-name { font: 750 1.25rem/1.2 var(--font-display); letter-spacing: -0.015em; overflow-wrap: anywhere; }
-.biz-subtitle { font-size: 0.9375rem; font-weight: 500; line-height: 1.3; color: var(--role-ink-soft); }
-.biz-city .city-tag { margin: 0; }
-.biz-main > .biz-offer { margin-top: 2px; font-size: 0.9375rem; line-height: 1.45; overflow-wrap: break-word; text-wrap: pretty; }
-/* "Indicar no WhatsApp": the share circle on phones (its name in aria-label), written out from 760px. */
-.biz-share { grid-column: 2; grid-row: 1; display: grid; place-items: center; width: 44px; height: 44px; margin-top: -8px; border-radius: 50%; color: var(--role-ink); text-decoration: none; }
-.biz-share .icon { width: 20px; height: 20px; }
-.biz-share-text { display: none; }
-@media (hover: hover) { .biz-share:hover, .contact-call:hover { background: var(--role-wash); } .contact-value:hover { text-decoration-thickness: 2px; } }
-
-.biz-contacts { grid-column: 1 / -1; grid-row: 2; margin: 8px 0 0; border-top: 1px solid var(--role-line); }
-.contact { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); column-gap: 10px; align-items: center; min-height: 44px; }
-.contact + .contact { border-top: 1px solid var(--role-line); }
-.contact dt { font-size: 0.8125rem; font-weight: 500; color: var(--role-ink-soft); }
-.contact dd { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-width: 0; }
-.contact-value { display: inline-flex; align-items: center; min-width: 0; min-height: 44px; font-size: 0.9375rem; font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; }
-/* Numbers read down the list: tabular figures. */
-.contact-value.is-number { font: 700 1.0625rem/1.2 var(--font-ui); font-variant-numeric: tabular-nums; white-space: nowrap; text-underline-offset: 4px; }
-.contact-text { padding: 10px 0; font-size: 0.9375rem; line-height: 1.35; overflow-wrap: anywhere; }
-.contact-call { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; color: var(--role-ink); }
-.contact-call .icon { width: 18px; height: 18px; }
-
-/* What this list is and how to use it, the invitation to the form last. After the list on phones,
-   beside it on the desk (where the agenda keeps its activity panel). */
-.side { padding: 16px 16px 0; }
-.side-card {
-  padding: 20px 20px 22px;
-  border: 1px solid var(--role-card-border);
-  border-radius: var(--radius-card);
-  background: var(--role-card);
-  box-shadow: var(--role-card-shadow);
-}
-.side-title { margin-bottom: 8px; font: 750 1.375rem/1.2 var(--font-display); letter-spacing: -0.015em; text-wrap: balance; }
-.side-text { margin-bottom: 14px; font-size: 0.9375rem; line-height: 1.5; }
-.how { display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0; list-style: none; }
-.how li { display: flex; align-items: flex-start; gap: 12px; font-size: 0.9375rem; line-height: 1.45; }
-.how .icon { margin-top: 1px; color: var(--role-commerce-text); }
-.join { display: flex; flex-direction: column; gap: 6px; margin: 18px -20px 0; padding: 18px 20px 0; border-top: 1px solid var(--role-line); }
-.join-title { font-size: 1.0625rem; font-weight: 600; line-height: 1.3; }
-.join-text { margin-bottom: 8px; font-size: 0.9375rem; line-height: 1.4; color: var(--role-ink-soft); }
-.join .btn { width: 100%; }
-
 /* ---------- Notícias: what the organizations are living ---------- */
 /* The story the team leads with ("Destaque"), then the weeks, each with its stories as cards; a story
    opens in the agenda's panel (.bench: a bottom sheet on phones, the column at right on the desk). The
@@ -1414,7 +1306,6 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
 .home-page { --page-text: var(--role-agenda-text); position: relative; padding: 20px 0 24px; border-top: 1px solid var(--role-line); }
 .home-page--news { --page-text: var(--role-news-text); }
 .home-page--map { --page-text: var(--role-map-text); }
-.home-page--commerce { --page-text: var(--role-commerce-text); }
 .home-page-name { display: flex; align-items: center; gap: 10px; font: 800 1.75rem/1.1 var(--font-display); letter-spacing: -0.025em; color: var(--page-text); }
 .home-page-name a { display: inline-flex; align-items: center; gap: 10px; color: inherit; text-decoration: none; }
 .home-page-name a::after { content: ''; position: absolute; inset: 0; }
@@ -1449,9 +1340,6 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .site-head-inner { padding-left: 24px; padding-right: 14px; }
   .view, .filters { padding-left: 24px; padding-right: 24px; }
   .notice, .view-tabs { margin-left: 24px; margin-right: 24px; }
-  .search { margin: 0 24px; }
-  .biz-count { padding-left: 28px; padding-right: 28px; }
-  .side { padding-left: 24px; padding-right: 24px; }
   .home { padding-left: calc(24px + env(safe-area-inset-left)); padding-right: calc(24px + env(safe-area-inset-right)); }
   .site-foot { padding-left: calc(24px + env(safe-area-inset-left)); padding-right: calc(24px + env(safe-area-inset-right)); }
   .bench { left: 50%; right: auto; width: min(560px, 100%); translate: -50% 0; }
@@ -1569,31 +1457,6 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .news-card.is-lead { padding: 22px 22px 20px 24px; }
   .news-card.is-lead .news-title { font-size: 1.875rem; line-height: 1.12; }
   .news-card.is-lead .news-dek { max-width: 62ch; font-size: 1.0625rem; }
-
-  /* Comércio: each business is a row from here, the contacts in their own column. */
-  .biz { grid-template-columns: minmax(0, 1fr) minmax(15rem, 19rem); column-gap: 20px; padding: 16px 16px 12px 20px; }
-  .biz-main { grid-column: 1; grid-row: 1; }
-  .biz-share {
-    grid-column: 1;
-    grid-row: 2;
-    justify-self: start;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    width: auto;
-    height: 40px;
-    margin: 6px 0 0 -8px;
-    padding: 0 10px 0 8px;
-    border-radius: var(--radius-pill);
-    font-size: 0.9375rem;
-    font-weight: 600;
-  }
-  .biz-share .icon { width: 18px; height: 18px; }
-  .biz-share-text { display: inline; }
-  .biz-contacts { grid-column: 2; grid-row: 1 / span 2; margin: 0; border-top: 0; }
-  .contact { grid-template-columns: 5.25rem minmax(0, 1fr); min-height: 40px; }
-  .contact-value { min-height: 40px; }
-  .contact-call { width: 40px; height: 40px; }
 }
 
 /* ---------- Desktop: the list or the month on the left, the panel always open on the right ---------- */
@@ -1682,16 +1545,6 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .fact { min-height: 30px; padding: 2px 0; }
   .flyer-frame { width: min(100%, calc((100vh - var(--head-stuck, 0px) - 600px) * 0.8)); }
   .bench-actions { padding: 14px 20px; }
-
-  /* Comércio: the information card takes the panel's place. */
-  .biz-tools { grid-template-areas: 'search count' 'chips chips'; grid-template-columns: minmax(0, 25rem) minmax(0, 1fr); align-items: center; column-gap: 16px; padding: 0; }
-  .search { margin: 0; }
-  .biz-count, .biz-tools:has(.filters[hidden]) .biz-count { padding: 0; }
-  .biz-tools .filters { display: block; padding: 12px 0 4px; }
-  .biz-tools .filters[hidden] { display: none; }
-  .side { position: sticky; top: calc(var(--head-stuck, 0px) + 24px); padding: 0; }
-  .side-card { padding: 24px 24px 26px; }
-  .join { margin: 20px -24px 0; padding: 20px 24px 0; }
 
   /* Início on the desk: the question in two lines beside the big sun; the next activity at left with its
      actions at right; the three pages in columns; who NOS follows beside its groups. */
@@ -1935,7 +1788,7 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
 
 /* The points: ink on the land by day, moonlit at night, ringed in the card's colour so they stand off
    the streets. A layer is a drawing (the berimbau, the microphone, the basket…), never a colour of its
-   own: the eight colours belong to the organizations' groups, and Comércio's categories carry none. */
+   own: the colours belong to the organizations' groups. */
 .map-point { display: block; padding: 0; border: 0; background: none; color: var(--role-on-pin); cursor: pointer; }
 /* Every point and count takes a tap 44px wide, whatever its drawn size (MapLibre places the marker
    absolutely, so this circle sits on it). */
@@ -2017,7 +1870,7 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
 .side-head { position: relative; display: flex; align-items: flex-start; gap: 8px; padding: 18px 8px 10px 18px; border-bottom: 1px solid var(--role-line); }
 .side-head .grabber { position: absolute; left: 50%; top: 0; translate: -50% 0; margin: 8px 0 0; }
 .side-heading { flex: 1; min-width: 0; padding-top: 4px; }
-.side-title { font: 750 1.375rem/1.2 var(--font-display); letter-spacing: -0.02em; }
+.side-title { margin-bottom: 8px; font: 750 1.375rem/1.2 var(--font-display); letter-spacing: -0.02em; text-wrap: balance; }
 .side-title:focus { outline: none; }
 .side-sub { margin-top: 2px; font-size: 0.875rem; line-height: 1.35; color: var(--role-ink-soft); }
 .side-scroll { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 4px 16px 0 18px; }
@@ -2229,8 +2082,6 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   .day-num { min-width: 0; padding: 0 2px; }
   .month-head { gap: 4px; }
   .month-title { font-size: 1.25rem; }
-  .contact { grid-template-columns: minmax(0, 1fr); row-gap: 0; padding-top: 6px; }
-  .contact-value { min-height: 40px; }
   .side-scroll { padding-left: 12px; padding-right: 12px; }
   .place-actions { padding-left: 12px; padding-right: 12px; }
   .place-actions .btn-line { width: 48px; padding: 0; font-size: 0; }

@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>NOS Dourados · Núcleo de Organização Social</title>
-  <meta name="description" content="A agenda e as notícias das organizações e movimentos de Dourados/MS, o mapa dos seus lugares e o comércio da rede, em um só lugar.">
+  <meta name="description" content="A agenda e as notícias das organizações e movimentos de Dourados/MS, o mapa dos seus lugares e os editais para cultura, esporte e lazer, em um só lugar.">
   <!-- Browser UI colour (Chrome on Android, Safari up to 18; Safari 26 samples the page instead): the
        sky's top band. Meta tags can't read CSS variables, so these hold --color-day-1 and
        --color-night-1 of css/theme.css for the first paint, one per system scheme, and js/sky.js copies
        the band of this hour into both (the visitor's theme may differ from the system's). Keep them equal
-       in the three pages (agenda.html, comercio.html) and theme_color in manifest.webmanifest equal
-       to the first. -->
+       in every page (agenda.html, noticias.html, editais.html, mapa.html) and theme_color in
+       manifest.webmanifest equal to the first. -->
   <meta name="theme-color" content="#6FAEE3" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#140D26" media="(prefers-color-scheme: dark)">
   <!-- Before the first paint: the theme (the visitor's choice, saved by the theme button; else the
@@ -57,7 +57,7 @@
   <meta property="og:site_name" content="NOS Dourados">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:title" content="NOS Dourados · O que está acontecendo em Dourados?">
-  <meta property="og:description" content="Eventos, cultura, notícias, o mapa dos lugares e o comércio local das organizações e movimentos de Dourados/MS, em um só lugar.">
+  <meta property="og:description" content="Eventos, cultura, notícias e o mapa dos lugares das organizações e movimentos de Dourados/MS, e os editais para cultura, esporte e lazer, em um só lugar.">
   <meta name="twitter:card" content="summary_large_image">
   <!-- Absolute https URLs on the public address (the same one as SITE_URL in js/config.js): crawlers don't
        resolve relative ones, and without og:image every app shows a text-only preview. Keep
@@ -118,7 +118,7 @@
            (the bands and the sun, or the moon, take its lower part). -->
       <div class="ask">
         <h1 class="ask-title">O que está acontecendo em Dourados?</h1>
-        <p class="ask-sub">Saiba mais sobre eventos, cultura, notícias, comércio local… e muito mais por vir.</p>
+        <p class="ask-sub">Saiba mais sobre eventos, cultura, notícias, editais… e muito mais por vir.</p>
       </div>
     </div>
   </header>
@@ -151,11 +151,6 @@
         <p class="home-page-lead" id="map-lead">Os lugares da cultura e dos movimentos</p>
         <p class="home-glyphs" id="map-glyphs" hidden></p>
         <p class="home-page-meta" id="map-text">Capoeira, batalhas de rima, feiras, espaços culturais, sindicatos, universidades e o poder público, com o caminho até cada lugar.</p>
-      </article>
-      <article class="home-page home-page--commerce">
-        <h2 class="home-page-name"><a href="comercio.html"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5"/><path d="M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244"/><path d="M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05"/></svg>Comércio</a><svg class="icon home-page-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></h2>
-        <p class="home-page-lead" id="commerce-lead">Os negócios da rede</p>
-        <p class="home-page-meta" id="commerce-meta">Comida, serviços, beleza, consertos e mais, cada negócio com o que oferece nas próprias palavras.</p>
       </article>
     </section>
 

@@ -19,7 +19,7 @@
 // date, an agenda's "Dia final" it can't read), and a quoted cell that never closes (every row after it
 // would be read as part of it). Across the folders and the other sheets of data/ it also fails on a
 // story's or a call's "Atividade" that isn't a visible activity of the agenda (its title or day changed,
-// or it was hidden), and on an unclosed quote in Comércio's, Editais' or the Mapa's sheets, which no
+// or it was hidden), and on an unclosed quote in Editais' or the Mapa's sheets, which no
 // folder covers. --fix only moves rows, as they are written (the same bytes), each before the first row
 // of its new file dated later; a file the moves leave without rows is deleted. Needs Node 22 or newer,
 // like tools/agenda-ics.mjs.
@@ -270,7 +270,7 @@ async function checkActivities(agenda, news) {
   return !broken.length;
 }
 
-// The sheets no folder covers (Comércio, Editais, the Mapa's layers): a quoted cell that never closes
+// The sheets no folder covers (Editais, the Mapa's layers): a quoted cell that never closes
 // swallows every row after it.
 async function checkSheets() {
   const paths = [];

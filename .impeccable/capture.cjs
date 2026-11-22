@@ -1,6 +1,6 @@
 // Review captures for the impeccable finish review: serve the site on :8765, then
 //   node .impeccable/capture.cjs
-// Writes desktop/mobile screenshots of the agenda (and the states around it), the home and Comércio,
+// Writes desktop/mobile screenshots of the agenda (and the states around it), the home and Editais,
 // in the light and the dark theme, into .impeccable/review/. Needs Playwright and a Chromium, found as
 // in assets/render.cjs (PLAYWRIGHT_CORE and CHROMIUM, a local playwright-core install, or the
 // maintainer's machine). URL overrides the site's address (its folder, ending in /); CLOCK (an ISO date
@@ -111,8 +111,8 @@ const url = `${base}agenda.html`;
   await md.click('.event-card >> nth=0'); await md.waitForTimeout(450);
   await shot(md, { path: `${out}/mobile-sheet-dark.png` });
 
-  // The home (index.html) and Comércio, full page and first viewport, light and dark.
-  for (const [page, name, selector] of [['', 'home', '.next-head'], ['comercio.html', 'comercio', '.soon, .biz']]) {
+  // The home (index.html) and Editais, full page and first viewport, light and dark.
+  for (const [page, name, selector] of [['', 'home', '.next-head'], ['editais.html', 'editais', '.call-card']]) {
     for (const [ctx, size] of [[dctx, 'desktop'], [mctx, 'mobile'], [ddark, 'desktop-dark'], [mdark, 'mobile-dark']]) {
       const p = await ctx.newPage(); log(p, `${size} ${name}`);
       await ready(p, base + page, selector);

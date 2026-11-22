@@ -66,7 +66,8 @@
   --color-urucum-night: #FF8A5C;
   --color-urucum-night-tint: #5A2A1E;
 
-  /* Ipê-rosa: Comércio's colour. */
+  /* Ipê-rosa: Comércio's colour, until the page left the site on 2026-11-22; the home's design records
+     (design/inicio-proposta.html, design/assets/inicio-antigo.css) still draw it. */
   --color-ipe-rosa: #C03A73;
   --color-ipe-rosa-text: #A12E5F;
   --color-ipe-rosa-tint: #F3C8DA;
@@ -207,9 +208,6 @@
   --role-agenda: var(--color-urucum);
   --role-agenda-text: var(--color-urucum-text);
   --role-agenda-tint: var(--color-urucum-door);
-  --role-commerce: var(--color-ipe-rosa);
-  --role-commerce-text: var(--color-ipe-rosa-text);
-  --role-commerce-tint: var(--color-ipe-rosa-tint);
   --role-news: var(--color-ipe-amarelo);
   --role-news-text: var(--color-ipe-amarelo-text);
   --role-news-tint: var(--color-ipe-amarelo-tint);
@@ -290,9 +288,6 @@
   --role-agenda: var(--color-urucum-night);
   --role-agenda-text: var(--color-urucum-night);
   --role-agenda-tint: var(--color-urucum-night-tint);
-  --role-commerce: var(--color-ipe-rosa-night);
-  --role-commerce-text: var(--color-ipe-rosa-night);
-  --role-commerce-tint: var(--color-ipe-rosa-night-tint);
   --role-news: var(--color-ipe-amarelo-night);
   --role-news-text: var(--color-ipe-amarelo-night);
   --role-news-tint: var(--color-ipe-amarelo-night-tint);

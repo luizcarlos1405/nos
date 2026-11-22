@@ -21,11 +21,10 @@ function absolute(url) {
 }
 
 // The sheets. Every page passes them in the query string (registerWorker in js/page.js, from
-// js/config.js): `csv`, a CSV that can live on another origin (COMMERCE_CSV_URL, the businesses;
-// CALLS_CSV_URL, the calls; the Mapa's layers, MAP_LAYERS), and
-// `dir`, a folder whose every file is a sheet (AGENDA_DIR, the agenda: index.json and one CSV per month,
-// js/month-files.js). They may be relative, like 'data/agenda/'; request URLs are absolute, so these
-// are too.
+// js/config.js): `csv`, a CSV that can live on another origin (CALLS_CSV_URL, the calls; the Mapa's
+// layers, MAP_LAYERS), and `dir`, a folder whose every file is a sheet (MONTH_FOLDERS, the agenda's and
+// the news': index.json and one CSV per month, js/month-files.js). They may be relative, like
+// 'data/agenda/'; request URLs are absolute, so these are too.
 const params = new URL(location.href).searchParams;
 const CSV_URLS = params.getAll('csv').map(absolute).filter(Boolean);
 const SHEET_DIRS = params.getAll('dir').map(absolute).filter((dir) => dir && dir.endsWith('/'));
@@ -37,13 +36,13 @@ const CACHED_AT_HEADER = 'X-Cached-At';
 const HOME = absolute('./');
 
 // App shell, cached on install so the first visit already works offline: on that visit the page
-// isn't controlled by this worker yet, so only what is listed here gets saved. That is the six
-// pages (index.html as './', agenda.html, noticias.html, editais.html, mapa.html, comercio.html), the agenda's old address
-// (calendario.html, which forwards to agenda.html) and everything they load: the manifest
+// isn't controlled by this worker yet, so only what is listed here gets saved. That is the five
+// pages (index.html as './', agenda.html, noticias.html, editais.html, mapa.html), the agenda's old
+// address (calendario.html, which forwards to agenda.html) and everything they load: the manifest
 // and its icons, the favicons, the three stylesheets with the fonts they declare and the woven band
-// (assets/faixa.svg), every module reached from js/home.js, js/app.js, js/noticias.js, js/editais.js,
-// js/mapa.js and js/comercio.js, and the vendored image library (which also fetches the fonts again to embed them in
-// the flyer PNG). Left out on purpose: MapLibre (js/vendor/maplibre-gl.js and .css, 210 KB compressed),
+// (assets/faixa.svg), every module reached from js/home.js, js/app.js, js/noticias.js, js/editais.js and
+// js/mapa.js, and the vendored image library (which also fetches the fonts again to embed them in the
+// flyer PNG). Left out on purpose: MapLibre (js/vendor/maplibre-gl.js and .css, 210 KB compressed),
 // which only the Mapa uses and which draws nothing offline (the map's tiles come from another site);
 // offline the Mapa shows its list, and a visit online saves the library at runtime. Later visits also
 // save at runtime anything missing here, but keep this list in step with those files.
@@ -51,7 +50,6 @@ const SHELL = [
   './',
   'agenda.html',
   'calendario.html',
-  'comercio.html',
   'editais.html',
   'mapa.html',
   'noticias.html',
@@ -71,11 +69,10 @@ const SHELL = [
   'js/app.js',
   'js/agenda.js',
   'js/month-files.js',
-  'js/businesses.js',
   'js/calls.js',
   'js/colors.js',
-  'js/comercio.js',
   'js/config.js',
+  'js/contacts.js',
   'js/csv.js',
   'js/editais.js',
   'js/events.js',
@@ -186,9 +183,9 @@ self.addEventListener('activate', (event) => {
   event.waitUntil((async () => {
     const keys = await caches.keys();
     await Promise.all(keys.filter((key) => key.startsWith(CACHE_PREFIX) && key !== CACHE).map((key) => caches.delete(key)));
-    // The cache keeps only what this worker lists, and the agenda's months read so far: copies of
-    // files a deploy removed, or of a spreadsheet the site no longer reads (data/agenda.csv, before the
-    // agenda was a month per file), go.
+    // The cache keeps only what this worker lists, and the months read so far: copies of files a deploy
+    // removed (comercio.html and its sheet, data/comercio.csv, since 2026-11-22), or of a spreadsheet the
+    // site no longer reads (data/agenda.csv, before the agenda was a month per file), go.
     const cache = await caches.open(CACHE);
     const keep = new Set([...SHELL.map(absolute), ...CSV_URLS]);
     await Promise.all((await cache.keys()).filter((req) => !keep.has(req.url) && !inSheetDir(req.url)).map((req) => cache.delete(req)));

@@ -2,14 +2,13 @@
 // Dourados?"), then on the land the very next activity, named as such (its day circled by hand, its title
 // a link to it in the agenda, who, when and where, "Mandar no WhatsApp" and, from 760px, "Ver na agenda"),
 // the link to the whole agenda with how much is ahead, and what the other pages hold today: Notícias' lead
-// story, the Mapa's places with its layers' drawings, Comércio's businesses and their categories. Who NOS
-// follows is static text in index.html. Without the agenda (offline with nothing saved, a broken link) the
-// next activity says so; each row keeps its own text until its sheet is read.
+// story and the Mapa's places with its layers' drawings. Who NOS follows is static text in index.html.
+// Without the agenda (offline with nothing saved, a broken link) the next activity says so; each row keeps
+// its own text until its sheet is read.
 
-import { COMMERCE_CSV_URL, MAP_LAYERS } from './config.js';
+import { MAP_LAYERS } from './config.js';
 import { awaitsTime, dateKey, formatDayMonth, formatTimeRange, lastDayKey, orgFullName, relativeDay, upcomingEvents, weekdayName } from './events.js';
 import { assignSectorColors, paintSector, sectorsOf } from './colors.js';
-import { buildBusinesses, categoriesOf } from './businesses.js';
 import { buildPlaces } from './places.js';
 import { handMark, icon } from './icons.js';
 import { buildWhatsAppMessage, whatsAppShareUrl } from './whatsapp.js';
@@ -176,22 +175,11 @@ async function renderMapRow() {
   $('map-text').hidden = true;
 }
 
-// Comércio: how many businesses there are, and their categories in the chips' order.
-async function renderCommerceRow() {
-  const { headers, records, lines } = await readSheet(COMMERCE_CSV_URL);
-  const { businesses } = buildBusinesses(headers, records, lines);
-  if (!businesses.length) return;
-  $('commerce-lead').textContent = `${businesses.length} ${businesses.length === 1 ? 'negócio' : 'negócios'} da rede`;
-  const categories = categoriesOf(businesses);
-  if (categories.length) $('commerce-meta').textContent = categories.join(' · ');
-}
-
 initPage();
 if (location.protocol !== 'file:') {
   load();
   renderNewsRow().catch((err) => console.warn('Notícias:', err));
   renderMapRow().catch((err) => console.warn('Mapa:', err));
-  renderCommerceRow().catch((err) => console.warn('Comércio:', err));
 }
 
 // "Now" moves: the next activity changes (an activity stays next until an hour after it starts) and so does

@@ -25,9 +25,9 @@ export const NEWS_KINDS = [
   { name: 'Informe', plural: 'Informes' },
 ];
 
-// Editais (editais.html, a page under the Notícias tab): calls, prizes and grants with money for culture,
-// sport and leisure, a row each in one file, with only the essentials (the deadline, how much, who can
-// apply, the call and its official page). js/calls.js reads the rows and places each call by its dates:
+// Editais (editais.html, a tab of its own since 2026-11-22): calls, prizes and grants with money for
+// culture, sport and leisure, a row each in one file, with only the essentials (the deadline, how much,
+// who can apply, the call and its official page). js/calls.js reads the rows and places each call by its dates:
 // the open ones by deadline, the ones opening soon, the ones closed within CALLS_CLOSED_DAYS, and the
 // announced ones still without a date.
 export const CALLS_CSV_URL = 'data/editais.csv';
@@ -44,27 +44,12 @@ export const CALL_AREAS = ['Cultura', 'Esporte e lazer'];
 // invitation, as MAP_SUGGEST_URL does on the Mapa.
 export const CALLS_SUGGEST_URL = '';
 
-// Where Comércio (comercio.html) reads the businesses from: the answers of the registration form,
-// as they are, copied into the file by the NOS team, plus an optional "Categoria" column they keep.
-// (No published Google Sheets: the site's CSVs are files of this repository.)
-export const COMMERCE_CSV_URL = 'data/comercio.csv';
-
-// The registration form's public link, for "Cadastrar meu negócio" on Comércio. Empty hides the
-// invitation.
-export const COMMERCE_FORM_URL = '';
-
-// Suggested categories of the "Categoria" column, in the order of the chips; others follow in
-// alphabetical order. Free text: any name the sheet uses becomes a chip.
-export const COMMERCE_CATEGORIES = ['Comida', 'Serviços', 'Celular e informática', 'Beleza', 'Arte e presentes', 'Casa', 'Embalagens'];
-
-// How long, in months, a row of Comércio or of the Mapa stays on the site without a review: the date in
-// its "Última revisão" column (for Comércio, the date the business answered the form when the column is
-// empty). Past that, the page leaves it out by itself (js/review.js) until someone confirms it with the
-// business or its source and writes the new date. A year: the cycle businesses, groups and their
-// schedules follow (classes restart, projects are funded by yearly calls), and the reviews of the
-// Mapa da Capoeira are spread over the year (six months would drop six of its 18 places at once). The
-// agenda and the news need none: their rows age by their own dates.
-export const COMMERCE_REVIEW_MONTHS = 12;
+// How long, in months, a row of the Mapa stays on the site without a review: the date in its "Última
+// revisão" column. Past that, the page leaves it out by itself (js/review.js) until someone confirms it
+// with the place or its source and writes the new date. A year: the cycle groups and their schedules
+// follow (classes restart, projects are funded by yearly calls), and the reviews of the Mapa da Capoeira
+// are spread over the year (six months would drop six of its 18 places at once). The agenda, the news
+// and the calls need none: their rows age by their own dates.
 export const MAP_REVIEW_MONTHS = 12;
 
 // The Mapa (mapa.html): one CSV per layer, in this order on the chips and in the list. `icon` names the
@@ -106,8 +91,8 @@ export const CITY = 'Dourados/MS';
 export const HOME_CITY = 'Dourados';
 
 // Public address of the site, added to the end of every WhatsApp message (with the page's file:
-// agenda.html, comercio.html). The og:url/og:image/canonical tags of the six pages use the
-// same address.
+// agenda.html, noticias.html, editais.html, mapa.html#<id>). The og:url/og:image/canonical tags of
+// every page use the same address.
 export const SITE_URL = 'https://nos.dourados.social';
 
 // The agenda's time zone (Dourados: UTC−4, no daylight saving): the hours an activity takes in the
