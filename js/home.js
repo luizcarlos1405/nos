@@ -7,10 +7,10 @@
 // saved, a broken link) the next activity says so; each row keeps its own text until its sheet is read.
 
 import { CALLS_CSV_URL, MAP_LAYERS } from './config.js';
-import { awaitsTime, dateKey, formatDayMonth, formatTimeRange, lastDayKey, orgFullName, relativeDay, upcomingEvents, weekdayName } from './events.js';
+import { awaitsTime, dateKey, formatDayMonth, formatTime, formatTimeRange, lastDayKey, orgFullName, relativeDay, upcomingEvents, weekdayName } from './events.js';
 import { assignSectorColors, paintSector, sectorsOf } from './colors.js';
 import { buildPlaces } from './places.js';
-import { buildCalls, groupCalls } from './calls.js';
+import { buildCalls, douradosNow, groupCalls } from './calls.js';
 import { handMark, icon } from './icons.js';
 import { buildWhatsAppMessage, whatsAppShareUrl } from './whatsapp.js';
 import { $, agendaSource, el, initPage, newsSource, readSheet, registerWorker } from './page.js';
@@ -176,18 +176,50 @@ async function renderMapRow() {
   $('map-text').hidden = true;
 }
 
-// Editais: how many calls take registrations now (by Dourados' clock, as the page counts them), and the
-// one that closes first with its last day. Without an open call the row keeps its description.
-async function renderCallsRow() {
+// Editais: how many calls take registrations now, and the ones that close first, by Dourados' clock as the
+// page counts them (js/calls.js). The row follows the clock (tick): at its closing hour a call leaves the
+// count, and with no call open the row's own text comes back. The calls are read again with the agenda.
+let calls = null;
+let shownCalls; // what the row shows, to redraw only when it changes
+const callsLeadText = $('calls-lead').textContent; // index.html's, for when no call is open
+
+async function loadCalls() {
   const { headers, records, lines } = await readSheet(CALLS_CSV_URL);
-  const { open } = groupCalls(buildCalls(headers, records, lines).calls);
-  if (!open.length) return;
+  calls = buildCalls(headers, records, lines).calls;
+  shownCalls = undefined;
+  renderCallsRow();
+}
+
+// A call's last day and its closing hour: "hoje às 17h", "amanhã", "sex 18/12 às 17h".
+function untilText(call, now) {
+  const relative = relativeDay(call.until, now);
+  const day = relative === 'hoje' || relative === 'amanhã' ? relative : shortDate(call.until);
+  return call.hour == null ? day : `${day} às ${formatTime(call.hour)}`;
+}
+
+function renderCallsRow() {
+  const now = douradosNow();
+  const { open } = groupCalls(calls, now);
+  // The calls that close first: every one closing on the first one's day and at its hour.
+  const closing = open.filter((c) => +c.until === +open[0].until && c.hour === open[0].hour);
+  const shown = open.length ? [open.length, untilText(open[0], now), ...closing.map((c) => c.id)].join('|') : '';
+  if (shown === shownCalls) return;
+  shownCalls = shown;
+  const meta = $('calls-meta');
+  if (!open.length) {
+    $('calls-lead').textContent = callsLeadText;
+    meta.hidden = true;
+    $('calls-text').hidden = false;
+    return;
+  }
   $('calls-lead').textContent = `${open.length} ${open.length === 1 ? 'edital' : 'editais'} com inscrições abertas`;
-  const first = open[0];
-  const until = el('time', null, shortDate(first.until));
-  until.dateTime = dateKey(first.until);
-  $('calls-meta').replaceChildren(open.length > 1 ? 'O próximo a fechar: ' : '', `${first.title}, até `, until);
-  $('calls-meta').hidden = false;
+  const names = closing.length > 2 ? `${closing[0].title}, ${closing[1].title} e mais ${closing.length - 2}` : closing.map((c) => c.title).join(' e ');
+  const label = closing.length === open.length ? '' : closing.length > 1 ? 'Os próximos a fechar: ' : 'O próximo a fechar: ';
+  const until = el('time', null, untilText(open[0], now));
+  const hour = open[0].hour;
+  until.dateTime = dateKey(open[0].until) + (hour == null ? '' : `T${String(Math.floor(hour / 60)).padStart(2, '0')}:${String(hour % 60).padStart(2, '0')}`);
+  meta.replaceChildren(...[label, `${names}, até `, until].filter(Boolean));
+  meta.hidden = false;
   $('calls-text').hidden = true;
 }
 
@@ -196,15 +228,17 @@ if (location.protocol !== 'file:') {
   load();
   renderNewsRow().catch((err) => console.warn('Notícias:', err));
   renderMapRow().catch((err) => console.warn('Mapa:', err));
-  renderCallsRow().catch((err) => console.warn('Editais:', err));
+  loadCalls().catch((err) => console.warn('Editais:', err));
 }
 
 // "Now" moves: the next activity changes (an activity stays next until an hour after it starts) and so does
-// "hoje"/"amanhã" when the day turns. After a long absence the agenda is read again.
+// "hoje"/"amanhã" when the day turns; a call leaves Editais' row at its closing hour. After a long absence
+// the agenda and the calls are read again.
 let hiddenAt = null;
 function tick() {
   const dayTurned = dateKey(new Date()) !== dateKey(today);
   today = new Date();
+  if (calls) renderCallsRow();
   if (!events) return;
   const next = upcomingEvents(events, today)[0]?.id ?? null;
   if (dayTurned || next !== shownNext) render();
@@ -217,7 +251,10 @@ document.addEventListener('visibilitychange', () => {
     hiddenAt = Date.now();
     return;
   }
-  if (hiddenAt && Date.now() - hiddenAt > 30 * 60_000 && location.protocol !== 'file:') load();
+  if (hiddenAt && Date.now() - hiddenAt > 30 * 60_000 && location.protocol !== 'file:') {
+    load();
+    loadCalls().catch((err) => console.warn('Editais:', err));
+  }
   tick();
   hiddenAt = null;
 });
