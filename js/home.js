@@ -2,14 +2,15 @@
 // Dourados?"), then on the land the very next activity, named as such (its day circled by hand, its title
 // a link to it in the agenda, who, when and where, "Mandar no WhatsApp" and, from 760px, "Ver na agenda"),
 // the link to the whole agenda with how much is ahead, and what the other pages hold today: Notícias' lead
-// story and the Mapa's places with its layers' drawings. Who NOS follows is static text in index.html.
-// Without the agenda (offline with nothing saved, a broken link) the next activity says so; each row keeps
-// its own text until its sheet is read.
+// story, the Mapa's places with its layers' drawings, and the calls of Editais open now with the one that
+// closes first. Who NOS follows is static text in index.html. Without the agenda (offline with nothing
+// saved, a broken link) the next activity says so; each row keeps its own text until its sheet is read.
 
-import { MAP_LAYERS } from './config.js';
+import { CALLS_CSV_URL, MAP_LAYERS } from './config.js';
 import { awaitsTime, dateKey, formatDayMonth, formatTimeRange, lastDayKey, orgFullName, relativeDay, upcomingEvents, weekdayName } from './events.js';
 import { assignSectorColors, paintSector, sectorsOf } from './colors.js';
 import { buildPlaces } from './places.js';
+import { buildCalls, groupCalls } from './calls.js';
 import { handMark, icon } from './icons.js';
 import { buildWhatsAppMessage, whatsAppShareUrl } from './whatsapp.js';
 import { $, agendaSource, el, initPage, newsSource, readSheet, registerWorker } from './page.js';
@@ -175,11 +176,27 @@ async function renderMapRow() {
   $('map-text').hidden = true;
 }
 
+// Editais: how many calls take registrations now (by Dourados' clock, as the page counts them), and the
+// one that closes first with its last day. Without an open call the row keeps its description.
+async function renderCallsRow() {
+  const { headers, records, lines } = await readSheet(CALLS_CSV_URL);
+  const { open } = groupCalls(buildCalls(headers, records, lines).calls);
+  if (!open.length) return;
+  $('calls-lead').textContent = `${open.length} ${open.length === 1 ? 'edital' : 'editais'} com inscrições abertas`;
+  const first = open[0];
+  const until = el('time', null, shortDate(first.until));
+  until.dateTime = dateKey(first.until);
+  $('calls-meta').replaceChildren(open.length > 1 ? 'O próximo a fechar: ' : '', `${first.title}, até `, until);
+  $('calls-meta').hidden = false;
+  $('calls-text').hidden = true;
+}
+
 initPage();
 if (location.protocol !== 'file:') {
   load();
   renderNewsRow().catch((err) => console.warn('Notícias:', err));
   renderMapRow().catch((err) => console.warn('Mapa:', err));
+  renderCallsRow().catch((err) => console.warn('Editais:', err));
 }
 
 // "Now" moves: the next activity changes (an activity stays next until an hour after it starts) and so does

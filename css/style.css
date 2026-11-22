@@ -1217,17 +1217,17 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
 .call-card .news-h { margin-top: 6px; }
 .call-card .news-title { text-wrap: balance; }
 
-/* The essentials, with their icons in the page's deep shade (ipê-amarelo: Editais is Notícias' family). */
+/* The essentials, with their icons in the page's deep shade (ipê-rosa, Editais' colour). */
 .call-facts { display: flex; flex-direction: column; gap: 6px; margin: 10px 0 0; }
 .call-fact { display: flex; align-items: flex-start; gap: 8px; font-size: 0.9375rem; line-height: 1.45; }
-.call-fact dt { flex: none; display: grid; place-items: center; width: 18px; height: 1.36rem; color: var(--role-news-text); }
+.call-fact dt { flex: none; display: grid; place-items: center; width: 18px; height: 1.36rem; color: var(--role-calls-text); }
 .call-fact dt .icon { width: 18px; height: 18px; }
 .call-fact dd { min-width: 0; margin: 0; text-wrap: pretty; }
 
 /* The links sit over the card's stretched button, as a story's "Na agenda" does. */
 .call-links { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
 .call-links .btn { padding: 0 16px 0 14px; }
-.call-links .btn .icon { color: var(--role-news-text); }
+.call-links .btn .icon { color: var(--role-calls-text); }
 
 /* Closed: the day it closed and where its result is; nothing left to apply for. Opening soon and coming:
    the day it opens, or that there is no date yet. */
@@ -1245,7 +1245,7 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
 
 /* A call open: the stories' panel, with the essentials as its facts. */
 .call-sheet .story-title { margin-bottom: 8px; }
-.call-sheet .fact dt .icon { color: var(--role-news-text); }
+.call-sheet .fact dt .icon { color: var(--role-calls-text); }
 .call-sheet .fact-plain { font-weight: 500; }
 .call-sheet .story-kind { gap: 6px; }
 
@@ -1306,6 +1306,7 @@ body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
 .home-page { --page-text: var(--role-agenda-text); position: relative; padding: 20px 0 24px; border-top: 1px solid var(--role-line); }
 .home-page--news { --page-text: var(--role-news-text); }
 .home-page--map { --page-text: var(--role-map-text); }
+.home-page--calls { --page-text: var(--role-calls-text); }
 .home-page-name { display: flex; align-items: center; gap: 10px; font: 800 1.75rem/1.1 var(--font-display); letter-spacing: -0.025em; color: var(--page-text); }
 .home-page-name a { display: inline-flex; align-items: center; gap: 10px; color: inherit; text-decoration: none; }
 .home-page-name a::after { content: ''; position: absolute; inset: 0; }

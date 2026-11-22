@@ -66,8 +66,10 @@
   --color-urucum-night: #FF8A5C;
   --color-urucum-night-tint: #5A2A1E;
 
-  /* Ipê-rosa: Comércio's colour, until the page left the site on 2026-11-22; the home's design records
-     (design/inicio-proposta.html, design/assets/inicio-antigo.css) still draw it. */
+  /* Ipê-rosa: Editais' colour since 2026-11-22, when it took Comércio's place in the bar (it was
+     Comércio's; the home's design records, design/inicio-proposta.html and design/assets/inicio-antigo.css,
+     still draw it for Comércio). The deep shade 6.6:1 on the cards and 5.5:1 on the clay; at night the
+     bright shade 7.1:1 on the cards and 7.8:1 on the terra roxa. */
   --color-ipe-rosa: #C03A73;
   --color-ipe-rosa-text: #A12E5F;
   --color-ipe-rosa-tint: #F3C8DA;
@@ -214,6 +216,9 @@
   --role-map: var(--color-erva-mate);
   --role-map-text: var(--color-erva-mate-text);
   --role-map-tint: var(--color-erva-mate-tint);
+  --role-calls: var(--color-ipe-rosa);
+  --role-calls-text: var(--color-ipe-rosa-text);
+  --role-calls-tint: var(--color-ipe-rosa-tint);
 
   /* The map's paint (js/map-style.js) and its points: ink by day, ringed in the card's colour. */
   --role-map-land: var(--color-clay);
@@ -294,6 +299,9 @@
   --role-map: var(--color-erva-mate-night);
   --role-map-text: var(--color-erva-mate-night);
   --role-map-tint: var(--color-erva-mate-night-tint);
+  --role-calls: var(--color-ipe-rosa-night);
+  --role-calls-text: var(--color-ipe-rosa-night);
+  --role-calls-tint: var(--color-ipe-rosa-night-tint);
 
   --role-map-land: var(--color-terra-roxa);
   --role-map-city: var(--color-map-night-city);
