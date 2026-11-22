@@ -76,7 +76,7 @@ export function showNotice(html, kind = 'warning') {
   notice.hidden = false;
 }
 
-// `what` names what is on screen: "a agenda salva", "a lista salva".
+// `what` names what is on screen: "a agenda salva", "os editais salvos".
 export function showOffline(savedAt, what) {
   const when = isNaN(savedAt) ? '' : ` em ${formatShortDate(savedAt).toLowerCase()}, às ${formatTime(savedAt.getHours() * 60 + savedAt.getMinutes())}`;
   const html = `<strong>Sem conexão.</strong> Mostrando ${what}${when}; mudanças feitas depois disso não aparecem aqui.`;
