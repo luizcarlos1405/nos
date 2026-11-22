@@ -1,0 +1,51 @@
+/* Editais as it was built on 2026-11-18, under the Notícias tab: the Notícias · Editais switch at the top of
+   both pages and the call icons in Notícias' ipê-amarelo. Frozen for the design records that draw it with
+   the site's own stylesheet: editais-celular-lista.html, editais-celular-edital.html, editais-desktop.html
+   and noticias-celular-troca.html. On 2026-11-22 Editais took Comércio's tab and ipê-rosa, and the switch's
+   rules left css/style.css (as of d191b93^); linked after ../css/style.css, this puts them back, so those
+   boards keep showing what was approved on 18/11. Not part of the site: never link it from a page. */
+
+/* Notícias · Editais: two pages under one tab. The pill is the agenda's .view-tabs (its border and its
+   margins at each width, 420px at most from 760px), with the look of its segments (two equal 42px ones,
+   the open one in ink with a check in place of its icon); here they are links between two pages, so the
+   open one says aria-current. */
+.page-switch { margin-top: 14px; }
+.page-switch a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 42px;
+  padding: 0 12px;
+  color: var(--role-ink);
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+.page-switch a + a { border-left: 1px solid var(--role-line); }
+.page-switch .icon { width: 18px; height: 18px; }
+.page-switch a[aria-current=page] { background: var(--role-ink); color: var(--role-on-ink); font-weight: 600; }
+.page-switch a[aria-current=page] .tab-icon, .page-switch a:not([aria-current=page]) .tab-check { display: none; }
+.page-switch a:focus-visible { outline-offset: -4px; }
+.page-switch a[aria-current=page]:focus-visible { outline-color: var(--role-on-ink); }
+@media (hover: hover) {
+  .page-switch a:not([aria-current=page]):hover { background: var(--role-card-hover); }
+}
+.page-switch + .filters { margin-top: 2px; }
+/* In the site's stylesheet these rules came before the desk's, where .view-tabs lose their margins: linked
+   after it, the switch needs that said again. */
+@media (min-width: 1100px) {
+  .page-switch { margin-top: 0; }
+}
+
+/* The essentials, the links and the panel's facts with their icons in ipê-amarelo, Notícias' deep shade:
+   Editais was Notícias' family then. */
+.call-fact dt, .call-links .btn .icon, .call-sheet .fact dt .icon { color: var(--role-news-text); }
+
+@media (max-width: 22.4375em) {
+  .page-switch .icon { display: none; }
+}
+
+@media (forced-colors: active) {
+  .page-switch [aria-current=page] { outline: 2px solid Highlight; outline-offset: -2px; }
+}
