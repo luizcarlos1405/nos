@@ -111,8 +111,10 @@ const url = `${base}agenda.html`;
   await md.click('.event-card >> nth=0'); await md.waitForTimeout(450);
   await shot(md, { path: `${out}/mobile-sheet-dark.png` });
 
-  // The home (index.html) and Editais, full page and first viewport, light and dark.
-  for (const [page, name, selector] of [['', 'home', '.next-head'], ['editais.html', 'editais', '.call-card']]) {
+  // The home (index.html) and Editais, full page and first viewport, light and dark: each once its sheet is
+  // read, whatever it holds (the next activity or the line saying there is none; calls or the empty list).
+  const homeReady = '.upcoming-when, .upcoming-status:text-matches("Nada marcado|Não foi possível")';
+  for (const [page, name, selector] of [['', 'home', homeReady], ['editais.html', 'editais', '.call-card, .calls .empty-card, .calls .empty-state']]) {
     for (const [ctx, size] of [[dctx, 'desktop'], [mctx, 'mobile'], [ddark, 'desktop-dark'], [mdark, 'mobile-dark']]) {
       const p = await ctx.newPage(); log(p, `${size} ${name}`);
       await ready(p, base + page, selector);

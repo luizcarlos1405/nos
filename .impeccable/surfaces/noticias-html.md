@@ -21,7 +21,7 @@ OWN-WORLD: Céu · Terra, as in the Agenda brief: the sky in flat bands by the h
 
 STORY: The visitor reads the lead story's headline and summary, scrolls the weeks, filters by an organization or a kind, opens a story to read it whole with who lived it and the source post, follows "Na agenda" to the activity it leads to, and sends it to WhatsApp; older months come with "Ver notícias de agosto".
 
-FIRST VIEWPORT: Phone 390: "Notícias" in Bricolage on the sky strip with "N notícias · a mais recente de dd/mm", the band, the organization pill and the kind chips, then the lead card (headline Bricolage 800, summary, organization with its dot and full name, the kind as a quiet tag and the day), then "Semana passada" and its cards; the bar at the foot with four pages, Notícias open. A story opens as the bottom sheet. Desktop 1440: the list at left, the story open at right (the lead, until another is picked), as the agenda's panel.
+FIRST VIEWPORT: Phone 390: "Notícias" in Bricolage on the sky strip with "N notícias · a mais recente de dd/mm", the band, the organization pill and the kind chips, then the lead card (headline Bricolage 800, summary, organization with its dot and full name, the kind as a quiet tag and the day), then "Semana passada" and its cards; the bar at the foot with its five pages, Notícias open. A story opens as the bottom sheet. Desktop 1440: the list at left, the story open at right (the lead, until another is picked), as the agenda's panel.
 
 FORM: the approved artboards design/noticias-*.html and design/inicio-noticias-*.html (approved 2026-11-05), over the site's own stylesheets.
 
