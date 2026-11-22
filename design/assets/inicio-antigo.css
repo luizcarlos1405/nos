@@ -125,7 +125,9 @@
   text-decoration: none;
   transition: background 0.15s;
 }
-.door--commerce { --door-tint: var(--role-commerce-tint); --door-text: var(--role-commerce-text); }
+/* Comércio left the site on 22/11, and its roles left css/theme.css: the old home keeps its ipê-rosa. */
+.door--commerce { --door-tint: var(--color-ipe-rosa-tint); --door-text: var(--color-ipe-rosa-text); }
+[data-scheme='dark'] .door--commerce { --door-tint: var(--color-ipe-rosa-night-tint); --door-text: var(--color-ipe-rosa-night); }
 /* Notícias' door: the latest headline is its live line, so on phones it takes the whole row, after
    Agenda and Comércio (dense packing fills the first row); on the desk the doors stack in page order. */
 .door--news { --door-tint: var(--role-news-tint); --door-text: var(--role-news-text); grid-column: 1 / -1; }

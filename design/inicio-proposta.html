@@ -69,7 +69,9 @@
   .g-terceiro { --sector: var(--role-series-8); }
   .p-news { --page-text: var(--role-news-text); }
   .p-map { --page-text: var(--role-map-text); }
-  .p-commerce { --page-text: var(--role-commerce-text); }
+  /* Comércio left the site on 22/11, and its roles left css/theme.css: this record keeps its ipê-rosa. */
+  .p-commerce { --page-text: var(--color-ipe-rosa-text); }
+  [data-scheme='dark'] .p-commerce { --page-text: var(--color-ipe-rosa-night); }
 
   /* The next activity, the only one featured: said in words ("A próxima atividade"), its day circled by
      the urucum hand, its title in NOS's voice, who and when, and the share. */
