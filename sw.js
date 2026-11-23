@@ -111,13 +111,15 @@ const cacheable = (res) => res.ok && res.status !== 206 && (res.type === 'basic'
 // install (no request headers) and one saved later must replace each other even when the server
 // sends Vary. Pages are saved without their query (?tema=escuro, ?utm_source=…, ?fbclid=…): it is
 // the same static file, and one copy per query would grow the cache with every shared link. For the
-// same reason index.html and its folder share one copy, refreshed by a visit to either address.
+// same reason a page and its address without the extension share one copy, saved under the file's name
+// (agenda and agenda.html: the site's links leave the extension out, as GitHub Pages serves them, and
+// SHELL names the files), and so do index.html and its folder, refreshed by a visit to either address.
 function keyFor(request) {
   if (request.mode !== 'navigate') return absolute(request.url);
   const url = new URL(request.url);
   url.search = '';
   url.hash = '';
-  url.pathname = url.pathname.replace(/\/index\.html$/, '/');
+  url.pathname = url.pathname.replace(/\/([^/.]+)$/, '/$1.html').replace(/\/index\.html$/, '/');
   return url.href;
 }
 
