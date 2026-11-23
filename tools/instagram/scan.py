@@ -1,13 +1,20 @@
 #!/usr/bin/env python3
 """Reads the Instagram pages listed in pages.json, each from its last scan on, and dumps what is new.
 
-    python3 tools/instagram/scan.py              # every page of the list
+    python3 tools/instagram/scan.py              # every page of the list, each through its profile
+    python3 tools/instagram/scan.py --feed       # through the account's Following feed, without opening the profiles
     python3 tools/instagram/scan.py HANDLE ...   # only these pages (they must be in the list)
 
 The dump goes to tools/instagram/dumps/<date-time>/, which git ignores: README.md (the summary), one Markdown
 file per page (its bio, then each new post with its date, caption, collaborators, tagged location, event
 reminder, every image and the text tesseract read in them) and img/. Turning a dump into agenda and news rows
 is a separate step: see "Instagram scan" in CLAUDE.md.
+
+With --feed the scan scrolls the account's Following feed (newest first, followed accounts only) back to the oldest
+lastScan, and opens only the new posts of the listed pages: no profile is opened, except for a page without a
+lastScan yet and one the feed didn't reach. The account must follow every page of the list: a page it doesn't follow
+never shows in the feed. The scan checks the account's count of followed accounts against the list, and a page's file
+exists only when it has new posts.
 
 pages.json gets a page's new lastScan and lastPost as soon as that page is done, so a run that stops can simply
 be started again. Needs playwright-cli (npm i -g @playwright/cli) and tesseract with the Portuguese data. The
@@ -653,9 +660,20 @@ def last_scan_of(page):
     return when.replace(tzinfo=TZ) if when.tzinfo is None else when.astimezone(TZ)
 
 
+def follows_page(info):
+    """Whether the scan's account follows a profile, by its header's button: True for "Seguindo", False for "Seguir"
+    or "Solicitado", None when the header shows neither."""
+    lines = {line.strip() for line in info.get('header', '').splitlines()}
+    if lines & {'Seguindo', 'Following'}:
+        return True
+    if lines & {'Seguir', 'Seguir de volta', 'Solicitado', 'Follow', 'Follow back', 'Requested'}:
+        return False
+    return None
+
+
 def read_page(page, settings, run, read_text):
-    """Reads one page and writes its dump. Returns what the summary needs; `readable` tells whether the page's
-    posts could be seen, the only case in which its lastScan may move."""
+    """Reads one page through its profile and writes its dump. Returns what the summary needs; `readable` tells
+    whether the page's posts could be seen, the only case in which its lastScan may move."""
     handle = page['handle']
     started = dt.datetime.now(TZ)
     last_scan = last_scan_of(page)
@@ -674,23 +692,323 @@ def read_page(page, settings, run, read_text):
             else f'limite de {limit} posts atingido: pode faltar algum' if len(posts) >= limit else '')
     tiles = [u for u in info['links'] if u not in info['pinned']]
     newest = post_code(max(tiles, key=coded_time)) if tiles else page.get('lastPost')
-    return {'readable': readable, 'count': len(posts), 'since': since_text, 'note': note, 'started': started, 'newest': newest}
+    return {'readable': readable, 'count': len(posts), 'since': since_text, 'note': note, 'started': started,
+            'newest': newest, 'followed': follows_page(info), 'file': f'{handle}.md'}
 
 
-def write_summary(run, started, pages_done, total, stopped):
+def write_summary(run, started, pages_done, total, stopped, intro=()):
     posts = sum(r['count'] for r in pages_done)
-    lines = [f'# Varredura do Instagram: {started:%d/%m/%Y %H:%M}', '',
-             f'{len(pages_done)} de {total} páginas lidas, {posts} posts novos.', '']
+    lines = [f'# Varredura do Instagram: {started:%d/%m/%Y %H:%M}', '']
+    for line in intro:
+        lines += [line, '']
+    lines += [f'{len(pages_done)} de {total} páginas lidas, {posts} posts novos.', '']
     if stopped:
         lines += [f'**Parou antes do fim:** {stopped}', '']
     lines += ['| Página | Organização | Desde | Posts novos | Observação | Arquivo |', '|---|---|---|---|---|---|']
-    lines += [f"| @{r['handle']} | {r['name']} | {r['since']} | {r['count']} | {r['note']} | {r['handle']}.md |" for r in pages_done]
+    lines += [f"| @{r['handle']} | {r['name']} | {r['since']} | {r['count']} | {r['note']} | {r.get('file') or '—'} |"
+              for r in pages_done]
     (run / 'README.md').write_text('\n'.join(lines) + '\n', encoding='utf-8')
+
+
+def logged_in(action):
+    """Runs action(), waiting for the person to log in again whenever Instagram asks for it (LoginWall)."""
+    while True:
+        try:
+            return action()
+        except LoginWall:
+            wait_for_login()
+
+# --- the Following feed ----------------------------------------------------------------------
+
+FEED_URL = 'https://www.instagram.com/?variant=following'
+FEED_STEP = 1.2        # each scroll, in screen heights (about 1.7 posts): the feed keeps only about eight posts in the
+                       # page and drops the ones scrolled past, so it is read at every step, and a longer jump would skip some
+FEED_MAX_STEPS = 800   # a stop for a feed that never ends: a month of 92 pages is about 900 posts, ~1.5 a step
+FEED_STALE_STEPS = 8   # steps in a row without a new post before taking it that the feed has nothing more to show
+FEED_PAST_CUTOFF = 3   # posts in a row from before the cutoff that end the scroll (the feed goes newest first)
+
+# The posts the feed holds in the page, in its order: the post's code, when it was published and the authors its
+# header names, which are the links before the time. A collab of three or more names only its first author and then
+# "e outros 2" (`more`), and that first author may be an account the scan doesn't follow. The feed shows only the
+# followed accounts' posts, newest first, with no suggested posts or ads (checked on 2026-11-23).
+FEED_JS = r"""() => {
+  const posts = [];
+  for (const art of document.querySelectorAll('article')) {
+    const t = art.querySelector('time[datetime]');
+    const link = t?.closest('a')?.getAttribute('href') || '';
+    const code = (link.match(/\/(?:p|reel)\/([A-Za-z0-9_-]+)/) || [])[1];
+    if (!code) continue;
+    const authors = [...art.querySelectorAll('a[href^="/"]')]
+      .filter((a) => /^\/[A-Za-z0-9._]+\/$/.test(a.getAttribute('href'))
+        && (a.compareDocumentPosition(t) & Node.DOCUMENT_POSITION_FOLLOWING))
+      .map((a) => a.getAttribute('href').slice(1, -1).toLowerCase());
+    const head = art.innerText.split('•')[0] || '';
+    posts.push({ code, kind: /\/reel\//.test(link) ? 'reel' : 'p', when: t.getAttribute('datetime'),
+      authors: [...new Set(authors)], more: /\be outros \d+|\band \d+ others?\b/i.test(head) });
+  }
+  return JSON.stringify(posts);
+}"""
+SCROLL_JS = f'() => JSON.stringify(!window.scrollBy(0, Math.round(innerHeight * {FEED_STEP})))'
+
+
+def read_feed(cutoff):
+    """Scrolls the Following feed from its top down to `cutoff`, reading it at every step, and stops at the first
+    warning. Returns (posts, reached, lost, read_at):
+    - posts: the posts published from `cutoff` on, newest first, each {url, code, when, authors, more};
+    - reached: the publish time down to which the feed was read without a break, as far back as it vouches for
+      (before `cutoff` when it went past it; None when it showed nothing);
+    - lost: whether it lost the thread, a step that held none of the posts of the step before, where the feed jumped
+      and may have skipped some (the reading stops there);
+    - read_at: when the feed's top was read, the next run's starting point."""
+    goto(FEED_URL)
+    read_at = dt.datetime.now(TZ)
+    seen, order, previous = set(), [], set()
+    reached, past, stale, lost = None, 0, 0, False
+    for _ in range(FEED_MAX_STEPS):
+        stop_if_warned()
+        batch = evaluate(FEED_JS)
+        codes = {p['code'] for p in batch}
+        if previous and codes and not codes & previous:
+            lost = True
+            break
+        previous = codes or previous
+        new = [p for p in batch if p['code'] not in seen]
+        for p in new:
+            seen.add(p['code'])
+            p['when'] = dt.datetime.fromisoformat(p['when'].replace('Z', '+00:00')).astimezone(TZ)
+            p['url'] = f"https://www.instagram.com/{p['kind']}/{p['code']}/"
+            order.append(p)
+            reached = p['when'] if reached is None else min(reached, p['when'])
+            past = past + 1 if p['when'] < cutoff else 0
+        stale = 0 if new else stale + 1
+        if past >= FEED_PAST_CUTOFF or stale >= FEED_STALE_STEPS:
+            break
+        evaluate(SCROLL_JS)
+        pause(1.5, 4)
+    return [p for p in order if p['when'] >= cutoff], reached, lost, read_at
+
+
+def following_count():
+    """How many accounts the scan's account follows, from its own profile; None when ACCOUNT_FILE names no account."""
+    handle = read_account()[0]
+    if not handle:
+        return None
+    goto(f'https://www.instagram.com/{handle}/')
+    m = re.search(r'seguindo ([\d.,]+)|([\d.,]+) following', evaluate(PROFILE_JS)['og'], re.I)
+    return int(re.sub(r'\D', '', m[1] or m[2])) if m else None
+
+
+def following_note(count, total):
+    if count < total:
+        return (f'**A conta segue {count} perfis, e a lista tem {total} páginas:** alguma página da lista não é seguida '
+                '(ou não existe mais), e o feed não mostra os posts dela. Uma varredura pelos perfis (sem --feed) diz '
+                'qual: na observação dela vem «a conta não segue esta página» ou «não encontrado».')
+    if count > total:
+        return f'A conta segue {count} perfis, e a lista tem {total} páginas: os posts das outras contas ficam de fora.'
+    return f'A conta segue {count} perfis, as {total} páginas da lista.'
+
+
+def feed_note(posts, cutoff, read_at, reached, lost, left):
+    text = (f'Lido pelo feed Seguindo ({FEED_URL}) em {read_at:%d/%m/%Y %H:%M}: {len(posts)} posts publicados desde '
+            f'{cutoff:%d/%m/%Y %H:%M}, a última varredura mais antiga das páginas.')
+    if lost:
+        text += (f' **O feed perdeu o fio ao rolar** depois do post de {reached:%d/%m/%Y %H:%M}: dali para trás ele '
+                 'não garante nada.')
+    elif reached > cutoff:
+        text += f' **O feed acabou em {reached:%d/%m/%Y %H:%M},** antes de chegar lá.'
+    if left:
+        text += f' As {left} páginas que ele não cobriu foram lidas pelos perfis.'
+    return text
+
+
+def feed_md(handle, posts, since_text, run, read_text):
+    """A page's dump when its posts came from the feed: no profile, only the new posts."""
+    return (f'# @{handle}\n\nhttps://www.instagram.com/{handle}/\n\nLido pelo feed Seguindo (o perfil não foi aberto).\n\n'
+            f'## Posts desde {since_text} ({len(posts)})\n\n'
+            + posts_md(handle, posts, run / 'img', all_images=True, read_text=read_text, all_slides=True))
+
+
+def read_through_feed(pages, settings, run, read_text, config, done, intro, summary):
+    """The feed's part of a run (scan_feed). Returns the reason the reading stopped early, or ''."""
+    limit = settings['maxPostsPerPage']
+    tracked = {p['handle'].lower() for p in config['pages']}
+    count = logged_in(following_count)
+    if count is not None:
+        intro.append(following_note(count, len(tracked)))
+        if count < len(tracked):
+            print(intro[-1].replace('**', ''), flush=True)
+    by_feed = [p for p in pages if last_scan_of(p)]
+    why = {p['handle']: 'pelo perfil (primeira leitura)' for p in pages if not last_scan_of(p)}
+    by_profile = [p for p in pages if not last_scan_of(p)]
+    if not by_feed:
+        return read_profiles(by_profile, settings, run, read_text, config, done, summary, len(pages), why=why)
+    cutoff = min(map(last_scan_of, by_feed))
+    pause()
+    print(f'Feed Seguindo, de agora até {cutoff:%d/%m/%Y %H:%M}: ', end='', flush=True)
+    items, reached, lost, read_at = logged_in(lambda: read_feed(cutoff))
+    if reached is None:
+        return 'o feed Seguindo não mostrou nenhum post. A conta segue as páginas da lista?'
+    print(f'{len(items)} posts.', flush=True)
+    vouched = [p for p in by_feed if last_scan_of(p) >= reached]
+    intro.append(feed_note(items, cutoff, read_at, reached, lost, len(by_feed) - len(vouched)))
+    last = {p['handle'].lower(): last_scan_of(p) for p in vouched}
+    opened = {}
+
+    def open_post(item):
+        if item['url'] not in opened:
+            logged_in(lambda: goto(item['url']))
+            opened[item['url']] = parse_post(item['url'], evaluate(POST_JS))
+            pause()
+        return opened[item['url']]
+
+    def authors_of(item):  # the post's own authors once it is open, else what the feed's header said
+        post = opened.get(item['url'])
+        return [a.lower() for a in post['authors']] if post and post['authors'] else item['authors']
+
+    def new_for(item):  # the vouched pages for which a post is new: its authors whose last scan is older than it
+        when = (opened.get(item['url']) or {}).get('when') or item['when']
+        return [h for h in authors_of(item) if h in last and when >= last[h]]
+
+    # A header that names only the first author ("e outros 2") may hide a page of the list: those posts are opened
+    # first, so each page gets all its posts.
+    for item in items:
+        if item['more']:
+            open_post(item)
+    for page in vouched:
+        handle = page['handle']
+        print(f'[{len(done) + 1}/{len(pages)}] @{handle}: ', end='', flush=True)
+        mine = [it for it in items if handle.lower() in new_for(it)]
+        note = ''
+        if len(mine) > limit:
+            mine, note = mine[:limit], f'limite de {limit} posts atingido: pode faltar algum'
+        since_text = f'{last_scan_of(page):%d/%m/%Y}'
+        try:
+            posts = [open_post(it) for it in mine]
+        except Exception as err:  # noqa: BLE001 — one page's trouble must not lose the rest of the run
+            done.append({'handle': handle, 'name': page.get('name', ''), 'count': 0, 'since': since_text,
+                         'note': f'erro: {err}'[:200], 'file': ''})
+            print(f'erro: {err}', flush=True)
+            continue
+        file = ''
+        if posts:
+            file = f'{handle}.md'
+            (run / file).write_text(feed_md(handle, posts, since_text, run, read_text), encoding='utf-8')
+            page['lastPost'] = post_code(max((p['url'] for p in posts), key=coded_time))
+        page['lastScan'] = read_at.isoformat(timespec='seconds')
+        save_config(config)
+        done.append({'handle': handle, 'name': page.get('name', ''), 'count': len(posts), 'since': since_text,
+                     'note': note, 'file': file})
+        print(f'{len(posts)} posts novos' + (f' ({note})' if note else ''), flush=True)
+        summary()
+    outside = sum(1 for it in items if not any(a in tracked for a in authors_of(it)))
+    if outside:
+        intro.append('1 post do feed é de uma conta fora da lista e ficou de fora.' if outside == 1 else
+                     f'{outside} posts do feed são de contas fora da lista e ficaram de fora.')
+    for page in by_feed:
+        if page not in vouched:
+            why[page['handle']] = 'pelo perfil (o feed não chegou até a última varredura dela)'
+    rest = [p for p in by_feed if p not in vouched] + by_profile
+    return read_profiles(rest, settings, run, read_text, config, done, summary, len(pages), len(done) + 1, why)
+
+# --- the scan --------------------------------------------------------------------------------
+
+
+def read_profiles(pages, settings, run, read_text, config, done, summary, total, first=1, why=None):
+    """Reads pages through their profiles (read_page), adding each to `done`, and its lastScan and lastPost to
+    pages.json, as soon as it is read. `summary()` rewrites the dump's README, `total` is the run's number of pages
+    and `why` ({handle: text}) starts a page's note. Returns the reason the reading stopped early, or ''."""
+    unreadable = 0
+    for number, page in enumerate(pages, first):
+        print(f"[{number}/{total}] @{page['handle']}: ", end='', flush=True)
+        try:
+            result = logged_in(lambda: read_page(page, settings, run, read_text))
+        except BrowserGone:
+            if not browser_is_open():
+                raise
+            result = {'readable': False, 'count': 0, 'since': '', 'note': 'o navegador não respondeu nesta página', 'newest': None, 'started': None}
+        except Exception as err:  # noqa: BLE001 — one page's trouble must not lose the rest of the run
+            result = {'readable': False, 'count': 0, 'since': '', 'note': f'erro: {err}'[:200], 'newest': None, 'started': None}
+        notes = [(why or {}).get(page['handle'], ''), result['note']]
+        if result.get('followed') is False:
+            notes.append('a conta não segue esta página, e o feed não mostra os posts dela')
+        result['note'] = '; '.join(n for n in notes if n)
+        done.append({'handle': page['handle'], 'name': page.get('name', ''), **result})
+        if result['readable']:
+            page['lastScan'] = result['started'].isoformat(timespec='seconds')
+            if result['newest']:
+                page['lastPost'] = result['newest']
+            save_config(config)
+            unreadable = 0
+        else:
+            unreadable += 1
+        print(f"{result['count']} posts novos" + (f" ({result['note']})" if result['note'] else ''), flush=True)
+        summary()
+        if unreadable >= UNREADABLE_IN_A_ROW:
+            return f'{UNREADABLE_IN_A_ROW} páginas seguidas sem resposta; o Instagram pode estar limitando. Tente mais tarde.'
+        pause()
+    return ''
+
+
+def run_scan(pages, read):
+    """Opens the browser and a new dump folder, waits for the login, and calls read(run, read_text, done, intro,
+    summary), which reads the pages into `done` (and `intro`, lines for the top of the README) and returns the reason it
+    stopped early, or ''. Deals with the ways a run ends (another account, a warning, the browser gone, Ctrl+C)."""
+    started = dt.datetime.now(TZ)
+    read_text = ocr_ready()
+    opened_here = open_browser()
+    run = DUMPS / started.strftime('%Y-%m-%d-%H%M')
+    (run / 'img').mkdir(parents=True, exist_ok=True)
+    done, intro, state = [], [], {'stopped': ''}
+
+    def summary():
+        write_summary(run, started, done, len(pages), state['stopped'], intro)
+
+    close_at_end = opened_here
+    try:
+        wait_for_login()
+        state['stopped'] = read(run, read_text, done, intro, summary)
+    except WrongAccount as err:
+        state['stopped'], close_at_end = str(err), False  # the window stays open, so the person can log in to the scan's account
+    except Warned as err:
+        state['stopped'], close_at_end = str(err), False  # the window stays open, so the person can see and answer the warning
+    except BrowserGone as err:
+        state['stopped'], close_at_end = str(err) or 'o navegador fechou.', False
+    except KeyboardInterrupt:
+        state['stopped'] = 'interrompida à mão.'
+    finally:
+        summary()
+        if close_at_end:
+            pw('close')
+
+    total = sum(r['count'] for r in done)
+    print(f'\n{len(done)} de {len(pages)} páginas lidas, {total} posts novos.')
+    print(f'Tudo em {run.relative_to(REPO)}/ (comece pelo README.md).')
+    if state['stopped']:
+        print(f"Parou antes do fim: {state['stopped']}\nRode de novo para continuar: cada página retoma de onde parou.")
+        sys.exit(1)
+
+
+def scan_pages(config, settings, pages):
+    """Reads the pages through their profiles into a new dump folder, writing each page's lastScan and lastPost to
+    pages.json as it goes."""
+    run_scan(pages, lambda run, read_text, done, intro, summary:
+             read_profiles(pages, settings, run, read_text, config, done, summary, len(pages)))
+
+
+def scan_feed(config, settings, pages):
+    """Reads the pages through the account's Following feed into a new dump folder: the feed from its top down to the
+    oldest lastScan, then the posts that are new for one of the pages, opened once each, page by page, writing each
+    page's lastScan and lastPost to pages.json as it goes. A page the feed can't vouch for (one without a lastScan yet,
+    or one whose lastScan is older than where the feed's reading ended) is read through its profile."""
+    run_scan(pages, lambda run, read_text, done, intro, summary:
+             read_through_feed(pages, settings, run, read_text, config, done, intro, summary))
 
 
 def main():
     parser = argparse.ArgumentParser(description='Lê as páginas de Instagram de pages.json, cada uma desde a última varredura, e guarda tudo em dumps/.')
     parser.add_argument('handles', nargs='*', metavar='HANDLE', help='só estas páginas da lista (padrão: todas)')
+    parser.add_argument('--feed', action='store_true',
+                        help='lê pelo feed Seguindo da conta, sem abrir os perfis (as páginas que ainda não têm lastScan vão pelo perfil)')
     args = parser.parse_args()
 
     config = read_config()
@@ -701,69 +1019,7 @@ def main():
         sys.exit(f"Fora da lista: {', '.join(sorted(outside))}. Acrescente em {PAGES_FILE.name} primeiro.")
     pages = [p for p in config['pages'] if not wanted or p['handle'].lower() in wanted]
     with browser_lock('a varredura (scan.py)'):
-        scan_pages(config, settings, pages)
-
-
-def scan_pages(config, settings, pages):
-    """Reads the pages into a new dump folder, writing each page's lastScan and lastPost to pages.json as it goes."""
-    started = dt.datetime.now(TZ)
-    read_text = ocr_ready()
-    pages_done, stopped, unreadable = [], '', 0
-    opened_here = open_browser()
-    run = DUMPS / started.strftime('%Y-%m-%d-%H%M')
-    (run / 'img').mkdir(parents=True, exist_ok=True)
-    close_at_end = opened_here
-    try:
-        wait_for_login()
-        for number, page in enumerate(pages, 1):
-            print(f"[{number}/{len(pages)}] @{page['handle']}: ", end='', flush=True)
-            try:
-                while True:
-                    try:
-                        result = read_page(page, settings, run, read_text)
-                        break
-                    except LoginWall:
-                        wait_for_login()
-            except BrowserGone:
-                if not browser_is_open():
-                    raise
-                result = {'readable': False, 'count': 0, 'since': '', 'note': 'o navegador não respondeu nesta página', 'newest': None, 'started': None}
-            except Exception as err:  # noqa: BLE001 — one page's trouble must not lose the rest of the run
-                result = {'readable': False, 'count': 0, 'since': '', 'note': f'erro: {err}'[:200], 'newest': None, 'started': None}
-            pages_done.append({'handle': page['handle'], 'name': page.get('name', ''), **result})
-            if result['readable']:
-                page['lastScan'] = result['started'].isoformat(timespec='seconds')
-                if result['newest']:
-                    page['lastPost'] = result['newest']
-                save_config(config)
-                unreadable = 0
-            else:
-                unreadable += 1
-            print(f"{result['count']} posts novos" + (f" ({result['note']})" if result['note'] else ''), flush=True)
-            write_summary(run, started, pages_done, len(pages), stopped)
-            if unreadable >= UNREADABLE_IN_A_ROW:
-                stopped = f'{UNREADABLE_IN_A_ROW} páginas seguidas sem resposta; o Instagram pode estar limitando. Tente mais tarde.'
-                break
-            pause()
-    except WrongAccount as err:
-        stopped, close_at_end = str(err), False  # the window stays open, so the person can log in to the scan's account
-    except Warned as err:
-        stopped, close_at_end = str(err), False  # the window stays open, so the person can see and answer the warning
-    except BrowserGone as err:
-        stopped, close_at_end = str(err) or 'o navegador fechou.', False
-    except KeyboardInterrupt:
-        stopped = 'interrompida à mão.'
-    finally:
-        write_summary(run, started, pages_done, len(pages), stopped)
-        if close_at_end:
-            pw('close')
-
-    total = sum(r['count'] for r in pages_done)
-    print(f'\n{len(pages_done)} de {len(pages)} páginas lidas, {total} posts novos.')
-    print(f'Tudo em {run.relative_to(REPO)}/ (comece pelo README.md).')
-    if stopped:
-        print(f'Parou antes do fim: {stopped}\nRode de novo para continuar: cada página retoma de onde parou.')
-        sys.exit(1)
+        (scan_feed if args.feed else scan_pages)(config, settings, pages)
 
 
 if __name__ == '__main__':
