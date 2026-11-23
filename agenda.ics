@@ -1142,13 +1142,13 @@ DTSTART:20261118T130000Z
 DTEND:20261119T010000Z
 SUMMARY:Feira Solidária das Semanas Integradas da Consciência Negra
 LOCATION:UEMS Dourados – entre os blocos B e E
-DESCRIPTION:Organização: UEMS\nTipo: Feira\n\nFeira das Semanas Integrada
- s da Consciência Negra da UEMS\, com integração\, cultura\, gastronomia
- \, artesanato e diversidade: diálogo e reflexão para a construção de u
- ma sociedade mais justa.\n\nFonte: https://www.instagram.com/neab_ufgd/p/D
- fmo7AkFXJy/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/agen
- da#ev-2026-11-18-feira-solidaria-das-semanas-integradas-da-consciencia-neg
- ra
+DESCRIPTION:Organização: UEMS (Universidade Estadual de Mato Grosso do Su
+ l)\nTipo: Feira\n\nFeira das Semanas Integradas da Consciência Negra da U
+ EMS\, com integração\, cultura\, gastronomia\, artesanato e diversidade:
+  diálogo e reflexão para a construção de uma sociedade mais justa.\n\n
+ Fonte: https://www.instagram.com/neab_ufgd/p/Dfmo7AkFXJy/\n\nNa agenda do 
+ NOS Dourados: https://nos.dourados.social/agenda#ev-2026-11-18-feira-solid
+ aria-das-semanas-integradas-da-consciencia-negra
 URL:https://nos.dourados.social/agenda#ev-2026-11-18-feira-solidaria-das-se
  manas-integradas-da-consciencia-negra
 STATUS:CONFIRMED
@@ -1253,14 +1253,14 @@ DTEND;VALUE=DATE:20261219
 SUMMARY:Campanha de Natal do Sesc Mesa Brasil: doação de alimentos
 LOCATION:Sesc Dourados – R. Toshinobu Katayama\, 178\, Jardim Caramuru (p
  onto de coleta)
-DESCRIPTION:Organização: Sesc Dourados\nTipo: Campanha\n\nO Sesc Mesa Bra
- sil recebe doações de alimentos não perecíveis\, como arroz\, feijão\
- , macarrão\, farinhas em geral e leite UHT (não são aceitos sal e açú
- car)\, para levar dignidade e esperança à mesa de famílias que precisam
-  neste Natal. Qualquer pessoa pode doar\, no Sesc Dourados.\n\nFonte: http
- s://www.instagram.com/p/DgFOQlzEzg0/\n\nNa agenda do NOS Dourados: https:/
- /nos.dourados.social/agenda#ev-2026-11-23-campanha-de-natal-do-sesc-mesa-b
- rasil-doacao-de-alimentos
+DESCRIPTION:Organização: Sesc Dourados (Serviço Social do Comércio)\nTi
+ po: Campanha\n\nO Sesc Mesa Brasil recebe doações de alimentos não pere
+ cíveis\, como arroz\, feijão\, macarrão\, farinhas em geral e leite UHT
+  (não são aceitos sal e açúcar)\, para levar dignidade e esperança à
+  mesa de famílias que precisam neste Natal. Qualquer pessoa pode doar\, n
+ o Sesc Dourados.\n\nFonte: https://www.instagram.com/p/DgFOQlzEzg0/\n\nNa 
+ agenda do NOS Dourados: https://nos.dourados.social/agenda#ev-2026-11-23-c
+ ampanha-de-natal-do-sesc-mesa-brasil-doacao-de-alimentos
 URL:https://nos.dourados.social/agenda#ev-2026-11-23-campanha-de-natal-do-s
  esc-mesa-brasil-doacao-de-alimentos
 STATUS:CONFIRMED
@@ -1647,16 +1647,16 @@ DTEND:20261211T190000Z
 SUMMARY:Cerimônia de concessão dos títulos de Doutora Honoris Causa e Pr
  ofessora Emérita
 LOCATION:UEMS Dourados – Auditório Central
-DESCRIPTION:Organização: UEMS\nTipo: Cerimônia\n\nA UEMS concede o títu
- lo de Doutora Honoris Causa a Genoveva Roberto\, liderança indígena e me
- stre ceramista do povo Kinikinau\, guardiã da tradição ceramista do seu
-  povo\, e o de Professora Emérita\, em homenagem póstuma\, a Leocádia A
- glaé Petry Leme\, ex-reitora da UEMS e ex-secretária estadual de Educaç
- ão. Aberta ao público\, com transmissão pelo canal da UEMS no YouTube.\
- n\nLink: https://www.youtube.com/@uemsoficial\nFonte: https://www.instagra
- m.com/uemsoficial/p/Df2FG-xm13X/\n\nNa agenda do NOS Dourados: https://nos
- .dourados.social/agenda#ev-2026-12-11-cerimonia-de-concessao-dos-titulos-d
- e-doutora-honoris-causa-
+DESCRIPTION:Organização: UEMS (Universidade Estadual de Mato Grosso do Su
+ l)\nTipo: Cerimônia\n\nA UEMS concede o título de Doutora Honoris Causa 
+ a Genoveva Roberto\, liderança indígena e mestre ceramista do povo Kinik
+ inau\, guardiã da tradição ceramista do seu povo\, e o de Professora Em
+ érita\, em homenagem póstuma\, a Leocádia Aglaé Petry Leme\, ex-reitor
+ a da UEMS e ex-secretária estadual de Educação. Aberta ao público\, co
+ m transmissão pelo canal da UEMS no YouTube.\n\nLink: https://www.youtube
+ .com/@uemsoficial\nFonte: https://www.instagram.com/uemsoficial/p/Df2FG-xm
+ 13X/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/agenda#ev-2
+ 026-12-11-cerimonia-de-concessao-dos-titulos-de-doutora-honoris-causa-
 URL:https://nos.dourados.social/agenda#ev-2026-12-11-cerimonia-de-concessao
  -dos-titulos-de-doutora-honoris-causa-
 STATUS:CONFIRMED
@@ -1691,14 +1691,14 @@ DTSTAMP:19700101T000000Z
 DTSTART;VALUE=DATE:20261219
 DTEND;VALUE=DATE:20261220
 SUMMARY:Celebração do Advento do CEBI Dourados
-DESCRIPTION:Organização: CEBI Dourados\nTipo: Encontro\nHorário a confir
- mar\n\nEncontro do CEBI Dourados\, o Centro de Estudos Bíblicos\, de leit
- ura popular da Bíblia\, para celebrar o Advento\, “tempo de renovar a e
- sperança”\, depois do último estudo bíblico de 2026\, sobre o livro J
- ardim do Bem Viver. O convite é aberto: “Todos e todas são convidados
- ”.\n\nFonte: https://www.instagram.com/p/DgDc9XzlfB5/\n\nNa agenda do NO
- S Dourados: https://nos.dourados.social/agenda#ev-2026-12-19-celebracao-do
- -advento-do-cebi-dourados
+DESCRIPTION:Organização: CEBI Dourados (Centro de Estudos Bíblicos)\nTip
+ o: Encontro\nHorário a confirmar\n\nEncontro do CEBI Dourados\, o Centro 
+ de Estudos Bíblicos\, de leitura popular da Bíblia\, para celebrar o Adv
+ ento\, “tempo de renovar a esperança”\, depois do último estudo bíb
+ lico de 2026\, sobre o livro Jardim do Bem Viver. O convite é aberto: “
+ Todos e todas são convidados”.\n\nFonte: https://www.instagram.com/p/Dg
+ Dc9XzlfB5/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/agend
+ a#ev-2026-12-19-celebracao-do-advento-do-cebi-dourados
 URL:https://nos.dourados.social/agenda#ev-2026-12-19-celebracao-do-advento-
  do-cebi-dourados
 STATUS:CONFIRMED
