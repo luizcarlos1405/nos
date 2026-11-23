@@ -267,6 +267,7 @@ POST_JS = r"""() => {
   const ev = data?.upcoming_event;
   return JSON.stringify({ when, og: meta('og:description'), links, img: img?.src || (video ? meta('og:image') : ''),
     alt: img?.alt || '', video, slides, owner: data?.user?.username || '',
+    coauthors: (data?.coauthor_producers || []).map((u) => u.username).filter(Boolean),
     event: ev ? { title: ev.title || '', start: ev.start_time || 0, end: ev.end_time || 0 } : null });
 }"""
 
@@ -277,7 +278,9 @@ def parse_post(url, raw):
     if m:
         caption = m.group(1).strip()
     # The post header lists the authors (collaborators first, owner last), then the location;
-    # the owner's handle shows up again right after, so stop at the first repeat.
+    # the owner's handle shows up again right after, so stop at the first repeat. The people tagged in
+    # the photos come before the header, though, so the authors are taken from the post's own data
+    # when the page has it: its collaborators (coauthor_producers), then its owner.
     authors, location = [], ''
     for href, text in raw['links']:
         if href.startswith('/explore/locations/'):
@@ -289,6 +292,8 @@ def parse_post(url, raw):
         if m.group(1) in authors:
             break
         authors.append(m.group(1))
+    if raw.get('owner'):
+        authors = list(dict.fromkeys([*raw.get('coauthors', []), raw['owner']]))
     when = None
     if raw['when']:
         when = dt.datetime.fromisoformat(raw['when'].replace('Z', '+00:00')).astimezone(TZ)
