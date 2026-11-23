@@ -254,13 +254,21 @@ POST_JS = r"""() => {
   // Every slide of a carousel comes from the post's data embedded in the page (script tags of
   // type application/json; the DOM holds only the slides next to the one shown): the biggest image
   // of each, the cover for a video slide. The same data names the owner and carries the event
-  // reminder ("upcoming_event") a post may have.
+  // reminder ("upcoming_event") a post may have. The page holds the post more than once, a full copy and cut-down
+  // ones without the collaborators (seen on 2026-11-23): the slides come from a carousel's copy, else from the fullest
+  // one, and the collaborators from every copy.
   const code = location.pathname.split('/').filter(Boolean).pop();
   let data = null;
+  const coauthors = new Set();
+  const size = (o) => (o ? Object.keys(o).length : 0);
   const walk = (o, depth) => {
     if (!o || typeof o !== 'object' || depth > 80) return;
     if (Array.isArray(o)) { for (const x of o) walk(x, depth + 1); return; }
-    if (o.code === code && (o.carousel_media || o.image_versions2) && !(data && data.carousel_media)) data = o;
+    if (o.code === code) {
+      for (const u of o.coauthor_producers || []) if (u?.username) coauthors.add(u.username);
+      if ((o.carousel_media || o.image_versions2) && !(data && data.carousel_media)
+          && (o.carousel_media || size(o) > size(data))) data = o;
+    }
     for (const k in o) walk(o[k], depth + 1);
   };
   for (const s of document.querySelectorAll('script[type="application/json"]')) {
@@ -274,7 +282,7 @@ POST_JS = r"""() => {
   const ev = data?.upcoming_event;
   return JSON.stringify({ when, og: meta('og:description'), links, img: img?.src || (video ? meta('og:image') : ''),
     alt: img?.alt || '', video, slides, owner: data?.user?.username || '',
-    coauthors: (data?.coauthor_producers || []).map((u) => u.username).filter(Boolean),
+    coauthors: [...coauthors],
     event: ev ? { title: ev.title || '', start: ev.start_time || 0, end: ev.end_time || 0 } : null });
 }"""
 
@@ -882,9 +890,9 @@ def read_through_feed(pages, settings, run, read_text, config, done, intro, summ
             pause()
         return opened[item['url']]
 
-    def authors_of(item):  # the post's own authors once it is open, else what the feed's header said
+    def authors_of(item):  # the post's own authors once it is open, with what the feed's header named
         post = opened.get(item['url'])
-        return [a.lower() for a in post['authors']] if post and post['authors'] else item['authors']
+        return list(dict.fromkeys([a.lower() for a in (post or {}).get('authors', [])] + item['authors']))
 
     def new_for(item):  # the vouched pages for which a post is new: its authors whose last scan is older than it
         when = (opened.get(item['url']) or {}).get('when') or item['when']
