@@ -16,6 +16,9 @@ The window has its own browser profile, logged in to the scan's own Instagram ac
 ~/.local/share/nos-dourados/instagram-account, outside this repository because the repository is public, and the
 scan stops if the window is logged in to any other account.
 
+Every wait between page loads is drawn at random (pause), and the scan stops at the first warning Instagram shows
+(stop_if_warned), leaving the window open.
+
 This file also holds the Instagram reading that scripts/ig.py, the survey tool one folder above this repository,
 imports. Instagram's markup lives in the *_JS strings: probe a live page before changing them.
 """
@@ -26,6 +29,7 @@ import datetime as dt
 import json
 import os
 import pathlib
+import random
 import re
 import shutil
 import subprocess
@@ -47,8 +51,8 @@ ACCOUNT_FILE = DATA / 'instagram-account'
 LOCK_FILE = DATA / 'instagram-scan.lock'
 
 TZ = ZoneInfo('America/Campo_Grande')
-PACE = 3          # seconds between page loads; Instagram answers 429 when pushed
-LOAD_WAIT = 4     # seconds for a page to render after goto
+PAUSE = (3, 9)    # seconds between page loads, drawn anew each time (pause): a steady beat is what a script looks like
+LOAD_WAIT = 4     # the least a page gets to render after goto; the wait is drawn from here to PAUSE's top
 LATE_POST_DAYS = 30  # how long after its code's date a post can appear (see coded_time)
 OCR_LANG = 'por'  # tesseract language data for the text in images (`tesseract --list-langs`)
 LOGIN_WAIT_MINUTES = 15
@@ -77,6 +81,15 @@ class WrongAccount(SystemExit):
     """The window is logged in to an account other than the scan's. Uncaught, it ends the program with its message."""
 
 
+class Warned(SystemExit):
+    """Instagram showed a warning or a limit (stop_if_warned). Uncaught, it ends the program with its message."""
+
+
+def pause(low=PAUSE[0], high=PAUSE[1]):
+    """Waits a random time between low and high seconds, so the reading keeps no steady beat."""
+    time.sleep(random.uniform(low, high))
+
+
 def pw(*args):
     """Runs playwright-cli in this tool's session."""
     session = [f'-s={SESSION}'] if SESSION else []
@@ -99,10 +112,35 @@ def evaluate(js):
 
 def goto(url):
     pw('goto', url)
-    time.sleep(LOAD_WAIT)
+    pause(LOAD_WAIT)
     state = evaluate("() => JSON.stringify({url: location.href, login: !!document.querySelector('input[name=\"username\"]')})")
     if state['login'] or '/accounts/login' in state['url']:
         raise LoginWall('O Instagram pediu login. Entre na janela do navegador e rode de novo.')
+    stop_if_warned()
+
+# Instagram's ways of saying it is limiting the account: a dialog ("Tente novamente mais tarde", "Suspeitamos de
+# comportamento automatizado na sua conta"), a page of its own (a challenge or checkpoint, a suspended or disabled
+# account) or the bare page it serves for a 429 ("Aguarde alguns minutos antes de tentar novamente"). Only dialogs and
+# short pages are searched, so a caption that happens to say "tente novamente mais tarde" is not taken for one.
+WARNING_JS = r"""() => {
+  const words = /tente novamente mais tarde|try again later|comportamento automatizado|automated behavior|restringimos (determinadas|algumas) atividades|we restrict certain activity|aguarde alguns minutos|please wait a few minutes|confirme que (é|e) você|confirm (that )?it'?s you|atividade (suspeita|incomum)|(suspicious|unusual) activity|conta (foi )?(suspensa|desativada)|account (has been |was )?(suspended|disabled)/i;
+  const page = /^\/(challenge|checkpoint|accounts\/(suspended|disabled))\b/.test(location.pathname) ? location.pathname : '';
+  const dialogs = [...document.querySelectorAll('[role=dialog], [role=alertdialog]')].map((d) => d.innerText).join('\n');
+  const body = document.body?.innerText || '';
+  const said = (dialogs.match(words) || (body.length < 600 ? body.match(words) : null) || [''])[0];
+  return JSON.stringify({ page, said });
+}"""
+
+
+def stop_if_warned():
+    """Raises Warned when the page shows one of Instagram's warnings (WARNING_JS), so a run stops at the first one,
+    before it opens anything else. The window stays open for the person to deal with it."""
+    seen = evaluate(WARNING_JS)
+    if seen['page'] or seen['said']:
+        what = f"«{seen['said']}»" if seen['said'] else f"a página {seen['page']}"
+        raise Warned(f'O Instagram mostrou um aviso ({what}). Parei na hora, sem abrir mais nada. Resolva o aviso à mão '
+                     'na janela, que fica aberta (se ele pedir para confirmar a conta, confirme), e espere alguns dias '
+                     'antes de rodar de novo.')
 
 # --- profile ---------------------------------------------------------------------------------
 
@@ -164,11 +202,12 @@ def coded_day(url):
 def profile(handle, max_posts=30, since=None, last_post=None):
     goto(f'https://www.instagram.com/{handle}/')
     if evaluate(EXPAND_BIO_JS):
-        time.sleep(1)
+        pause(1, 2)
     info = evaluate(PROFILE_JS)
     links, pinned, stale = [], set(), 0
     while len(links) < max_posts and stale < 3 and not info['privado'] and not info['missing']:
-        time.sleep(2)
+        pause(2, 4)
+        stop_if_warned()
         found = evaluate(LINKS_JS)
         new = [u for u in found['links'] if u not in links]
         pinned.update(found['pinned'])
@@ -296,7 +335,7 @@ def fetch_posts(info, since=None, max_posts=30, seen=(), last_post=None):
             continue
         goto(url)
         post = parse_post(url, evaluate(POST_JS))
-        time.sleep(PACE)
+        pause()
         if since and post['when'] and post['when'].date() < since:
             if ends_scan:
                 older(post['when'].date())
@@ -514,7 +553,7 @@ def open_browser():
         if 'install-browser' in error:  # an update of playwright-cli that needs a newer build of the browser
             error += '\n\nO playwright-cli foi atualizado e precisa baixar o navegador dele. Rode\n    playwright-cli install-browser chromium --no-shell\ne depois a varredura de novo.'
         sys.exit('Não consegui abrir o navegador:\n' + error)
-    time.sleep(LOAD_WAIT)
+    pause(LOAD_WAIT)
     return True
 
 
@@ -700,9 +739,11 @@ def scan_pages(config, settings, pages):
             if unreadable >= UNREADABLE_IN_A_ROW:
                 stopped = f'{UNREADABLE_IN_A_ROW} páginas seguidas sem resposta; o Instagram pode estar limitando. Tente mais tarde.'
                 break
-            time.sleep(PACE)
+            pause()
     except WrongAccount as err:
         stopped, close_at_end = str(err), False  # the window stays open, so the person can log in to the scan's account
+    except Warned as err:
+        stopped, close_at_end = str(err), False  # the window stays open, so the person can see and answer the warning
     except BrowserGone as err:
         stopped, close_at_end = str(err) or 'o navegador fechou.', False
     except KeyboardInterrupt:
