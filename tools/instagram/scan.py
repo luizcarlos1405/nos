@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Reads the Instagram pages listed in pages.json, each from its last scan on, and dumps what is new.
 
-    python3 tools/instagram/scan.py              # every page of the list, each through its profile
-    python3 tools/instagram/scan.py --feed       # through the account's Following feed, without opening the profiles
+    python3 tools/instagram/scan.py              # every page of the list, through the account's Following feed
+    python3 tools/instagram/scan.py --perfis     # every page of the list, each through its profile
     python3 tools/instagram/scan.py HANDLE ...   # only these pages (they must be in the list)
 
 The dump goes to tools/instagram/dumps/<date-time>/, which git ignores: README.md (the summary), one Markdown
@@ -10,9 +10,9 @@ file per page (its bio, then each new post with its date, caption, collaborators
 reminder, every image and the text tesseract read in them) and img/. Turning a dump into agenda and news rows
 is a separate step: see "Instagram scan" in CLAUDE.md.
 
-With --feed the scan scrolls the account's Following feed (newest first, followed accounts only) back to the oldest
-lastScan, and opens only the new posts of the listed pages: no profile is opened, except for a page without a
-lastScan yet and one the feed didn't reach. The account must follow every page of the list: a page it doesn't follow
+By default (since 2026-11-23) the scan scrolls the account's Following feed (newest first, followed accounts only)
+back to the oldest lastScan, and opens only the new posts of the listed pages: no profile is opened, except for a
+page without a lastScan yet and one the feed didn't reach. --perfis reads every page through its profile instead. The account must follow every page of the list: a page it doesn't follow
 never shows in the feed. The scan checks the account's count of followed accounts against the list, and a page's file
 exists only when it has new posts.
 
@@ -810,8 +810,8 @@ def following_count():
 def following_note(count, total):
     if count < total:
         return (f'**A conta segue {count} perfis, e a lista tem {total} páginas:** alguma página da lista não é seguida '
-                '(ou não existe mais), e o feed não mostra os posts dela. Uma varredura pelos perfis (sem --feed) diz '
-                'qual: na observação dela vem «a conta não segue esta página» ou «não encontrado».')
+                '(ou não existe mais, ou bloqueou a conta), e o feed não mostra os posts dela. Uma varredura pelos '
+                'perfis (--perfis) diz qual: na observação dela vem «a conta não segue esta página» ou «não encontrado».')
     if count > total:
         return f'A conta segue {count} perfis, e a lista tem {total} páginas: os posts das outras contas ficam de fora.'
     return f'A conta segue {count} perfis, as {total} páginas da lista.'
@@ -1041,8 +1041,8 @@ def scan_feed(config, settings, pages):
 def main():
     parser = argparse.ArgumentParser(description='Lê as páginas de Instagram de pages.json, cada uma desde a última varredura, e guarda tudo em dumps/.')
     parser.add_argument('handles', nargs='*', metavar='HANDLE', help='só estas páginas da lista (padrão: todas)')
-    parser.add_argument('--feed', action='store_true',
-                        help='lê pelo feed Seguindo da conta, sem abrir os perfis (as páginas que ainda não têm lastScan vão pelo perfil)')
+    parser.add_argument('--perfis', action='store_true',
+                        help='lê cada página pelo perfil dela, em vez do feed Seguindo da conta (o padrão)')
     args = parser.parse_args()
 
     config = read_config()
@@ -1053,7 +1053,7 @@ def main():
         sys.exit(f"Fora da lista: {', '.join(sorted(outside))}. Acrescente em {PAGES_FILE.name} primeiro.")
     pages = [p for p in config['pages'] if not wanted or p['handle'].lower() in wanted]
     with browser_lock('a varredura (scan.py)'):
-        (scan_feed if args.feed else scan_pages)(config, settings, pages)
+        (scan_pages if args.perfis else scan_feed)(config, settings, pages)
 
 
 if __name__ == '__main__':
