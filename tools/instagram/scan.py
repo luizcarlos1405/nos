@@ -744,7 +744,8 @@ FEED_JS = r"""() => {
       .map((a) => a.getAttribute('href').slice(1, -1).toLowerCase());
     const head = art.innerText.split('•')[0] || '';
     posts.push({ code, kind: /\/reel\//.test(link) ? 'reel' : 'p', when: t.getAttribute('datetime'),
-      authors: [...new Set(authors)], more: /\be outros \d+|\band \d+ others?\b/i.test(head) });
+      authors: [...new Set(authors)], more: /\be outros \d+|\band \d+ others?\b/i.test(head),
+      head: head.replace(/\s+/g, ' ').trim().slice(0, 100) });
   }
   return JSON.stringify(posts);
 }"""
@@ -828,6 +829,26 @@ def feed_md(handle, posts, since_text, run, read_text):
             + posts_md(handle, posts, run / 'img', all_images=True, read_text=read_text, all_slides=True))
 
 
+def feed_list_md(items, went, authors_of, tracked, last, read_at, cutoff):
+    """feed.md: every post the feed showed, newest first, with the pages it went to or why it went to none."""
+    lines = [f'# O feed Seguindo, lido em {read_at:%d/%m/%Y %H:%M}', '',
+             f'Os posts que ele mostrou, publicados desde {cutoff:%d/%m/%Y %H:%M}, do mais novo para o mais antigo, e '
+             'para que página cada um foi.', '', '| Publicado | Post | Autores | Foi para |', '|---|---|---|---|']
+    for it in items:
+        authors = authors_of(it)
+        listed = [a for a in authors if a in tracked]
+        if it['url'] in went:
+            where = ', '.join('@' + h for h in went[it['url']])
+        elif not listed:
+            where = 'fora da lista' + (f" (no feed: «{it['head']}»)" if it.get('head') else '')
+        elif any(a in last for a in listed):
+            where = 'já lido na varredura anterior da página'
+        else:
+            where = 'página lida pelo perfil, ou fora desta varredura'
+        lines.append(f"| {it['when']:%d/%m %H:%M} | {it['url']} | {', '.join('@' + a for a in authors) or '—'} | {where} |")
+    return '\n'.join(lines) + '\n'
+
+
 def read_through_feed(pages, settings, run, read_text, config, done, intro, summary):
     """The feed's part of a run (scan_feed). Returns the reason the reading stopped early, or ''."""
     limit = settings['maxPostsPerPage']
@@ -869,11 +890,13 @@ def read_through_feed(pages, settings, run, read_text, config, done, intro, summ
         when = (opened.get(item['url']) or {}).get('when') or item['when']
         return [h for h in authors_of(item) if h in last and when >= last[h]]
 
-    # A header that names only the first author ("e outros 2") may hide a page of the list: those posts are opened
-    # first, so each page gets all its posts.
+    # A header that names only the first author ("e outros 2") may hide a page of the list, and one that names no page
+    # of the list is odd when the account follows only the list (a repost, a header read wrong): those posts are opened
+    # first, so their authors come from the post itself and each page gets all its posts.
     for item in items:
-        if item['more']:
+        if item['more'] or not any(a in tracked for a in item['authors']):
             open_post(item)
+    went = {}  # url: the pages a post went to
     for page in vouched:
         handle = page['handle']
         print(f'[{len(done) + 1}/{len(pages)}] @{handle}: ', end='', flush=True)
@@ -884,6 +907,8 @@ def read_through_feed(pages, settings, run, read_text, config, done, intro, summ
         since_text = f'{last_scan_of(page):%d/%m/%Y}'
         try:
             posts = [open_post(it) for it in mine]
+            for it in mine:
+                went.setdefault(it['url'], []).append(handle)
         except Exception as err:  # noqa: BLE001 — one page's trouble must not lose the rest of the run
             done.append({'handle': handle, 'name': page.get('name', ''), 'count': 0, 'since': since_text,
                          'note': f'erro: {err}'[:200], 'file': ''})
@@ -902,8 +927,9 @@ def read_through_feed(pages, settings, run, read_text, config, done, intro, summ
         summary()
     outside = sum(1 for it in items if not any(a in tracked for a in authors_of(it)))
     if outside:
-        intro.append('1 post do feed é de uma conta fora da lista e ficou de fora.' if outside == 1 else
-                     f'{outside} posts do feed são de contas fora da lista e ficaram de fora.')
+        intro.append(('1 post do feed é de uma conta fora da lista e ficou de fora' if outside == 1 else
+                      f'{outside} posts do feed são de contas fora da lista e ficaram de fora') + ' (veja feed.md).')
+    (run / 'feed.md').write_text(feed_list_md(items, went, authors_of, tracked, last, read_at, cutoff), encoding='utf-8')
     for page in by_feed:
         if page not in vouched:
             why[page['handle']] = 'pelo perfil (o feed não chegou até a última varredura dela)'
