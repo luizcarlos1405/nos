@@ -1106,6 +1106,35 @@ STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
 BEGIN:VEVENT
+UID:ev-2026-11-18-arrecadacao-de-sapatos-para-mulheres-e-criancas-21-dias-d
+ e-a@nos.dourados.social
+DTSTAMP:19700101T000000Z
+DTSTART;VALUE=DATE:20261118
+DTEND;VALUE=DATE:20261126
+SUMMARY:Arrecadação de sapatos para mulheres e crianças (21 Dias de Ativ
+ ismo)
+LOCATION:Pontos de arrecadação: escritório da deputada Gleice Jane\, Liv
+ raria Canto das Letras\, Câmara Municipal\, SIMTED e Seeb Dourados
+DESCRIPTION:Organizações: Comitê de Defesa Popular\, Seeb Dourados (Sind
+ icato dos Bancários e Trabalhadores do Ramo Financeiro de Dourados e Regi
+ ão)\nTipo: Campanha\n\nCampanha de arrecadação de calçados femininos e
+  infantis em bom estado\, em alusão aos 21 Dias de Ativismo pelo Fim da V
+ iolência contra as Mulheres\, inspirada em intervenções de outros país
+ es em que sapatos simbolizam as vidas de mulheres vítimas da violência e
+  do feminicídio. Em 25/11 os sapatos fazem parte de uma intervenção sim
+ bólica na Praça Antônio João e\, depois\, são doados a mulheres e cri
+ anças em situação de vulnerabilidade social. Promovida pela deputada es
+ tadual Gleice Jane\, pelos vereadores Franklin e Elias Ishy\, pelo Comitê
+  de Defesa Popular e pelo ANDES-SN\, com a Seeb Dourados. Qualquer pessoa 
+ pode doar.\n\nFonte: https://www.instagram.com/gleicejanems/p/Df4jY-YMnUX/
+ \n\nNa agenda do NOS Dourados: https://nos.dourados.social/agenda#ev-2026-
+ 11-18-arrecadacao-de-sapatos-para-mulheres-e-criancas-21-dias-de-a
+URL:https://nos.dourados.social/agenda#ev-2026-11-18-arrecadacao-de-sapatos
+ -para-mulheres-e-criancas-21-dias-de-a
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
 UID:ev-2026-11-18-feira-solidaria-das-semanas-integradas-da-consciencia-neg
  ra@nos.dourados.social
 DTSTAMP:19700101T000000Z
@@ -1216,6 +1245,174 @@ STATUS:CANCELLED
 TRANSP:OPAQUE
 END:VEVENT
 BEGIN:VEVENT
+UID:ev-2026-11-23-campanha-de-natal-do-sesc-mesa-brasil-doacao-de-alimentos
+ @nos.dourados.social
+DTSTAMP:19700101T000000Z
+DTSTART;VALUE=DATE:20261123
+DTEND;VALUE=DATE:20261219
+SUMMARY:Campanha de Natal do Sesc Mesa Brasil: doação de alimentos
+LOCATION:Sesc Dourados – R. Toshinobu Katayama\, 178\, Jardim Caramuru (p
+ onto de coleta)
+DESCRIPTION:Organização: Sesc Dourados\nTipo: Campanha\n\nO Sesc Mesa Bra
+ sil recebe doações de alimentos não perecíveis\, como arroz\, feijão\
+ , macarrão\, farinhas em geral e leite UHT (não são aceitos sal e açú
+ car)\, para levar dignidade e esperança à mesa de famílias que precisam
+  neste Natal. Qualquer pessoa pode doar\, no Sesc Dourados.\n\nFonte: http
+ s://www.instagram.com/p/DgFOQlzEzg0/\n\nNa agenda do NOS Dourados: https:/
+ /nos.dourados.social/agenda#ev-2026-11-23-campanha-de-natal-do-sesc-mesa-b
+ rasil-doacao-de-alimentos
+URL:https://nos.dourados.social/agenda#ev-2026-11-23-campanha-de-natal-do-s
+ esc-mesa-brasil-doacao-de-alimentos
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-23-assembleia-extraordinaria-da-apg-ufgd@nos.dourados.social
+DTSTAMP:19700101T000000Z
+DTSTART:20261123T230000Z
+DTEND:20261124T000000Z
+SUMMARY:Assembleia Extraordinária da APG UFGD
+LOCATION:Online (Google Meet)
+DESCRIPTION:Organização: APG UFGD (Associação de Pós-Graduandos da UFG
+ D)\nTipo: Assembleia\n\nAssembleia virtual da Associação de Pós-Graduan
+ dos da UFGD\, aberta a todos os estudantes da pós-graduação. Pauta: ele
+ ição de representante para a Comissão Central PAE e encaminhamentos sob
+ re o reajuste das bolsas de pós-graduação. Primeira chamada às 19h\, s
+ egunda às 19h10.\n\nLink: https://meet.google.com/rpn-betu-idu\nFonte: ht
+ tps://www.instagram.com/p/Df3QFG3Hc2I/\n\nNa agenda do NOS Dourados: https
+ ://nos.dourados.social/agenda#ev-2026-11-23-assembleia-extraordinaria-da-a
+ pg-ufgd
+URL:https://nos.dourados.social/agenda#ev-2026-11-23-assembleia-extraordina
+ ria-da-apg-ufgd
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-23-aduems-entrevista-resistencias-negras-lutas-sociais-e-os-
+ des@nos.dourados.social
+DTSTAMP:19700101T000000Z
+DTSTART:20261123T230000Z
+DTEND:20261124T000000Z
+SUMMARY:ADUEMS Entrevista “Resistências Negras: lutas sociais e os desaf
+ ios atuais na universidade”
+LOCATION:Online (canal da ADUEMS no YouTube)
+DESCRIPTION:Organização: ADUEMS (Sindicato dos Docentes da UEMS)\nTipo: F
+ ormação\n\nLive da ADUEMS no mês da Consciência Negra: uma conversa co
+ m três professores da UEMS que são referência nas políticas para a ema
+ ncipação do povo negro\, nas lutas sociais e na universidade\, a profa. 
+ Dra. Maria José de Jesus Alves Cordeiro\, a profa. Dra. Cintia Diallo e o
+  prof. Dr. Tiago Vinícius André dos Santos. Aberta aos filiados e a toda
+  a comunidade acadêmica e externa\, com transmissão pelo canal da ADUEMS
+  no YouTube.\n\nLink: https://www.youtube.com/watch?v=1i81dNU2OVU\nFonte: 
+ https://www.instagram.com/p/DgBDoogs_ix/\n\nNa agenda do NOS Dourados: htt
+ ps://nos.dourados.social/agenda#ev-2026-11-23-aduems-entrevista-resistenci
+ as-negras-lutas-sociais-e-os-des
+URL:https://nos.dourados.social/agenda#ev-2026-11-23-aduems-entrevista-resi
+ stencias-negras-lutas-sociais-e-os-des
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-24-seminario-de-assuntos-estudantis-o-papel-da-juventude-na-
+ lut@nos.dourados.social
+DTSTAMP:19700101T000000Z
+DTSTART;VALUE=DATE:20261124
+DTEND;VALUE=DATE:20261127
+SUMMARY:Seminário de Assuntos Estudantis “O papel da juventude na luta a
+ ntifascista e anti-imperialista”
+DESCRIPTION:Organização: DCE UFGD (Diretório Central dos e das Estudante
+ s da UFGD)\nTipo: Formação\n\nSeminário do DCE UFGD nos dias 24 e 26 de
+  novembro\, um espaço de formação\, debate e organização política pa
+ ra encerrar o ano letivo\, aberto a toda a comunidade acadêmica\, com cer
+ tificado de horas de extensão. A programação\, o local e o link de insc
+ rição ainda vão ser divulgados pelo DCE. Parceiros no cartaz: a PROAE e
+  a PROEX da UFGD e a FUNAEPE.\n\nFonte: https://www.instagram.com/p/DgDkGM
+ VJZ_g/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/agenda#ev
+ -2026-11-24-seminario-de-assuntos-estudantis-o-papel-da-juventude-na-lut
+URL:https://nos.dourados.social/agenda#ev-2026-11-24-seminario-de-assuntos-
+ estudantis-o-papel-da-juventude-na-lut
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-24-assembleia-extraordinaria-especifica-dos-bancarios-do-bra
+ des@nos.dourados.social
+DTSTAMP:19700101T000000Z
+DTSTART;VALUE=DATE:20261124
+DTEND;VALUE=DATE:20261125
+SUMMARY:Assembleia Extraordinária Específica dos bancários do Bradesco e
+  do Bradescard
+LOCATION:Online (sistema VotaBem)
+DESCRIPTION:Organização: Seeb Dourados (Sindicato dos Bancários e Trabal
+ hadores do Ramo Financeiro de Dourados e Região)\nTipo: Assembleia\nHorá
+ rio: até 17h\n\nAssembleia virtual convocada pelo Sindicato dos Bancário
+ s de Dourados e Região para os empregados do Bradesco e do Banco Bradesca
+ rd votarem o acordo coletivo do Programa de Participação nos Resultados 
+ do 2º semestre de 2026 e do Programa de Resultado Bradesco de 2026\, volt
+ ados a públicos das unidades de Varejo e Negócios Digitais (Agro\, Cart
+ ões\, Crédito Imobiliário\, Consignado\, Produto PF e Produto PJ). A vo
+ tação é pelo sistema VotaBem\; o edital está no site do sindicato.\n\n
+ Link: https://bancarios.votabem.com.br\nFonte: https://www.instagram.com/p
+ /Df7PtMUFzlT/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/ag
+ enda#ev-2026-11-24-assembleia-extraordinaria-especifica-dos-bancarios-do-b
+ rades
+URL:https://nos.dourados.social/agenda#ev-2026-11-24-assembleia-extraordina
+ ria-especifica-dos-bancarios-do-brades
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-24-noite-de-homenagens-e-entrega-do-diploma-zumbi-dos-palmar
+ es@nos.dourados.social
+DTSTAMP:19700101T000000Z
+DTSTART:20261124T230000Z
+DTEND:20261125T000000Z
+SUMMARY:Noite de Homenagens e entrega do Diploma Zumbi dos Palmares
+LOCATION:Câmara Municipal de Dourados – Av. Marcelino Pires\, 3.600\, Ja
+ rdim Paulista (Shopping Avenida Center)
+DESCRIPTION:Organização: Câmara Municipal de Dourados\nTipo: Homenagem\n
+ \nNo mês da Consciência Negra\, a Câmara Municipal entrega o Diploma Zu
+ mbi dos Palmares – Edição 2026\, honraria a cinco personalidades que c
+ ontribuem para o fortalecimento da comunidade negra nas áreas cultural\, 
+ política\, social\, educacional e religiosa: Ariovaldo de Paula Ortiz\, T
+ hiago Coelho Silva\, Alice Rocha\, Reinaldo dos Santos e Jucilene Duarte A
+ costa\, conhecida como OyaMatambureci.\n\nFonte: https://www.instagram.com
+ /p/DgFoJp2ye28/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/
+ agenda#ev-2026-11-24-noite-de-homenagens-e-entrega-do-diploma-zumbi-dos-pa
+ lmares
+URL:https://nos.dourados.social/agenda#ev-2026-11-24-noite-de-homenagens-e-
+ entrega-do-diploma-zumbi-dos-palmares
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-25-ato-nacional-de-combate-ao-feminicidio-e-de-luta-pelos-di
+ rei@nos.dourados.social
+DTSTAMP:19700101T000000Z
+DTSTART:20261125T200000Z
+DTEND:20261125T210000Z
+SUMMARY:Ato Nacional de Combate ao Feminicídio e de Luta pelos Direitos da
+ s Meninas e Mulheres
+LOCATION:Praça Antônio João\, Dourados/MS
+DESCRIPTION:Organizações: Comitê de Defesa Popular\, ADUEMS (Sindicato d
+ os Docentes da UEMS)\nTipo: Ato\n\nAto do Comitê de Defesa Popular de Dou
+ rados\, que reúne entidades e movimentos sociais\, na mobilização nacio
+ nal do ANDES-SN\, de suas seções sindicais e secretarias regionais contr
+ a a violência de gênero e o feminicídio: em defesa do Pacto Nacional co
+ ntra o Feminicídio e de orçamento público para as políticas de enfrent
+ amento à violência de gênero\, com debate sobre protocolos de prevenç
+ ão\, enfrentamento e apuração de casos de assédio\, racismo\, LGBTfobi
+ a e outras violências nas instituições de ensino. “Vivas\, livres e s
+ em medo!” O convite é a toda a sociedade douradense.\n\nFonte: https://
+ www.instagram.com/comitedourados/p/Df7cHrthyj9/\n\nNa agenda do NOS Dourad
+ os: https://nos.dourados.social/agenda#ev-2026-11-25-ato-nacional-de-comba
+ te-ao-feminicidio-e-de-luta-pelos-direi
+URL:https://nos.dourados.social/agenda#ev-2026-11-25-ato-nacional-de-combat
+ e-ao-feminicidio-e-de-luta-pelos-direi
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
 UID:ev-2026-11-26-apg-ufgd-no-30-congresso-nacional-de-pos-graduandos-cnpg@
  nos.dourados.social
 DTSTAMP:19700101T000000Z
@@ -1235,6 +1432,43 @@ URL:https://nos.dourados.social/agenda#ev-2026-11-26-apg-ufgd-no-30-congres
  so-nacional-de-pos-graduandos-cnpg
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-26-audiencia-publica-emergencia-climatica-e-super-el-nino@no
+ s.dourados.social
+DTSTAMP:19700101T000000Z
+DTSTART:20261126T130000Z
+DTEND:20261126T140000Z
+SUMMARY:Audiência pública “Emergência climática e Super El Niño”
+DESCRIPTION:Organização: Câmara Municipal de Dourados\nTipo: Audiência 
+ pública\n\nAudiência pública da Câmara Municipal de Dourados sobre a e
+ mergência climática e o Super El Niño.\n\nFonte: https://www.instagram.
+ com/p/DgFdZENyl0U/\n\nNa agenda do NOS Dourados: https://nos.dourados.soci
+ al/agenda#ev-2026-11-26-audiencia-publica-emergencia-climatica-e-super-el-
+ nino
+URL:https://nos.dourados.social/agenda#ev-2026-11-26-audiencia-publica-emer
+ gencia-climatica-e-super-el-nino
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-26-audiencia-publica-povos-ancestrais-intolerancia-resistenc
+ ia-@nos.dourados.social
+DTSTAMP:19700101T000000Z
+DTSTART:20261126T230000Z
+DTEND:20261127T000000Z
+SUMMARY:Audiência pública “Povos ancestrais: intolerância\, resistênc
+ ia e direitos”
+DESCRIPTION:Organização: Câmara Municipal de Dourados\nTipo: Audiência 
+ pública\n\nAudiência pública da Câmara Municipal de Dourados com o tem
+ a “Povos ancestrais: intolerância\, resistência e direitos”.\n\nFont
+ e: https://www.instagram.com/p/DgFdZENyl0U/\n\nNa agenda do NOS Dourados: 
+ https://nos.dourados.social/agenda#ev-2026-11-26-audiencia-publica-povos-a
+ ncestrais-intolerancia-resistencia-
+URL:https://nos.dourados.social/agenda#ev-2026-11-26-audiencia-publica-povo
+ s-ancestrais-intolerancia-resistencia-
+STATUS:CONFIRMED
+TRANSP:OPAQUE
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-11-27-roda-oficial-da-escola-matumbe-de-capoeira-angola@nos.dou
@@ -1381,23 +1615,50 @@ DESCRIPTION:Organizações: House of Bombshell\, Ballroom Dourados\nTipo: F
  esta\n\nKiki Ball de Natal da House of Bombshell\, a primeira da House: um
  a noite de competição\, expressão e celebração da cultura Ballroom\, 
  com categorias\, performances\, looks e júri\, aberta à comunidade Ballr
- oom e a quem quer conhecer essa cultura. São dez categorias: New Face (s
- ó para residentes de Dourados)\, Face OTA\, New Realness (Femme Queen & T
- ransman)\, New Runway\, New Body\, Best Look\, Lipsync Performance (a tril
- ha de até 2 minutos vai pelo WhatsApp até 04/12)\, 10s Commentator\, New
-  Vogue Performance e Vogue Performance OTA. Encerra o circuito natalino da
-  House\, com oficinas e arrecadação de alimentos para pessoas em situaç
- ão de vulnerabilidade da comunidade Ballroom e de brinquedos para crianç
- as\; na noite também se recebem doações. Ingressos: lote unificado de R
- $ 10 até 04/12 (comprovante e nome completo pelo WhatsApp)\; na porta\, R
- $ 10 ou mais para pessoas trans e R$ 15 ou mais para pessoas cis. Pessoas 
- trans podem entrar de graça pela Lista Trans FREE\, com o formulário da 
- House (o prazo muda de um post para outro: confirme com a House).\n\nConta
- to: (67) 99323-6397\nFonte: https://www.instagram.com/asbombshells/p/DfsxQ
- 4JlsYv/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/agenda#e
- v-2026-12-05-grande-natal-das-bombshells
+ oom e a quem quer conhecer essa cultura. Na bancada\, Mother Bárbara Bomb
+ shell\, a primeira jurada anunciada. São dez categorias: New Face (só pa
+ ra residentes de Dourados)\, Face OTA\, New Realness (Femme Queen & Transm
+ an)\, New Runway\, New Body\, Best Look\, Lipsync Performance (a trilha de
+  até 2 minutos vai pelo WhatsApp até 04/12)\, 10s Commentator\, New Vogu
+ e Performance e Vogue Performance OTA. Encerra o circuito natalino da Hous
+ e\, com oficinas e arrecadação de alimentos para pessoas em situação d
+ e vulnerabilidade da comunidade Ballroom e de brinquedos para crianças\; 
+ na noite também se recebem doações. Entrada colaborativa\, antecipada o
+ u no dia: os valores sugeridos são R$ 10 para pessoas trans e R$ 15 para 
+ pessoas cis\, para quem puder contribuir\, e quem não puder também entra
+  (“a festa também é sua”). Na compra antecipada\, o comprovante do P
+ ix e o nome completo vão pelo WhatsApp (67) 99323-6397\, da Mother Bionda
+ . Pessoas trans podem entrar de graça pela Lista Trans FREE\, com o formu
+ lário da House (o prazo muda de um post para outro: confirme com a House)
+ .\n\nContato: (67) 99323-6397\nFonte: https://www.instagram.com/p/Df8Tu54D
+ 0x2/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/agenda#ev-2
+ 026-12-05-grande-natal-das-bombshells
 URL:https://nos.dourados.social/agenda#ev-2026-12-05-grande-natal-das-bombs
  hells
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-12-11-cerimonia-de-concessao-dos-titulos-de-doutora-honoris-cau
+ sa-@nos.dourados.social
+DTSTAMP:19700101T000000Z
+DTSTART:20261211T180000Z
+DTEND:20261211T190000Z
+SUMMARY:Cerimônia de concessão dos títulos de Doutora Honoris Causa e Pr
+ ofessora Emérita
+LOCATION:UEMS Dourados – Auditório Central
+DESCRIPTION:Organização: UEMS\nTipo: Cerimônia\n\nA UEMS concede o títu
+ lo de Doutora Honoris Causa a Genoveva Roberto\, liderança indígena e me
+ stre ceramista do povo Kinikinau\, guardiã da tradição ceramista do seu
+  povo\, e o de Professora Emérita\, em homenagem póstuma\, a Leocádia A
+ glaé Petry Leme\, ex-reitora da UEMS e ex-secretária estadual de Educaç
+ ão. Aberta ao público\, com transmissão pelo canal da UEMS no YouTube.\
+ n\nLink: https://www.youtube.com/@uemsoficial\nFonte: https://www.instagra
+ m.com/uemsoficial/p/Df2FG-xm13X/\n\nNa agenda do NOS Dourados: https://nos
+ .dourados.social/agenda#ev-2026-12-11-cerimonia-de-concessao-dos-titulos-d
+ e-doutora-honoris-causa-
+URL:https://nos.dourados.social/agenda#ev-2026-12-11-cerimonia-de-concessao
+ -dos-titulos-de-doutora-honoris-causa-
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -1420,6 +1681,26 @@ DESCRIPTION:Organização: Sucata Cultural\nTipo: Espetáculo\nHorário: 19
  a-sucata-cultural-castelo-ra-tim-bum
 URL:https://nos.dourados.social/agenda#ev-2026-12-12-10-mostra-sucata-cultu
  ral-castelo-ra-tim-bum
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-12-19-celebracao-do-advento-do-cebi-dourados@nos.dourados.socia
+ l
+DTSTAMP:19700101T000000Z
+DTSTART;VALUE=DATE:20261219
+DTEND;VALUE=DATE:20261220
+SUMMARY:Celebração do Advento do CEBI Dourados
+DESCRIPTION:Organização: CEBI Dourados\nTipo: Encontro\nHorário a confir
+ mar\n\nEncontro do CEBI Dourados\, o Centro de Estudos Bíblicos\, de leit
+ ura popular da Bíblia\, para celebrar o Advento\, “tempo de renovar a e
+ sperança”\, depois do último estudo bíblico de 2026\, sobre o livro J
+ ardim do Bem Viver. O convite é aberto: “Todos e todas são convidados
+ ”.\n\nFonte: https://www.instagram.com/p/DgDc9XzlfB5/\n\nNa agenda do NO
+ S Dourados: https://nos.dourados.social/agenda#ev-2026-12-19-celebracao-do
+ -advento-do-cebi-dourados
+URL:https://nos.dourados.social/agenda#ev-2026-12-19-celebracao-do-advento-
+ do-cebi-dourados
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
