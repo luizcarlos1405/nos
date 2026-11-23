@@ -5,7 +5,7 @@ A agenda e as notícias das organizações e movimentos de Dourados/MS, o mapa d
 O site tem cinco páginas, cada uma um arquivo HTML e uma aba da barra:
 
 - **Início** (`index.html`): o bom-dia (ou boa-tarde, boa-noite) sob o céu desta hora, a próxima atividade pousada na faixa, pronta para mandar no WhatsApp, e uma porta para cada página.
-- **Agenda** (`agenda.html`): as atividades das organizações, em lista de dias ou no mês. Até 26/10/2026 era o `index.html`; até 27/10/2026 se chamava Calendário e ficava em `calendario.html`, endereço que agora leva para `agenda.html` (assim os links já compartilhados continuam funcionando).
+- **Agenda** (`agenda.html`): as atividades das organizações, em lista de dias ou no mês. Até 26/10/2026 era o `index.html`; até 27/10/2026 se chamava Calendário e ficava em `calendario.html`, endereço que agora leva para a agenda, em `/agenda` (assim os links já compartilhados continuam funcionando).
 - **Notícias** (`noticias.html`): o que as organizações estão vivendo (conquistas, perdas, alertas e informes, também os de serviço público), escolhido pela equipe nos posts delas, com o link de cada post.
 - **Editais** (`editais.html`): editais, prêmios e chamadas com dinheiro para cultura, esporte e lazer, do prazo mais curto ao mais longo, com o essencial de cada um (o prazo, o valor, quem pode) e os links oficiais, prontos para mandar no WhatsApp. Tem aba própria desde 22/11/2026, no lugar do Comércio (de 18 a 22/11 ficou dentro da aba Notícias).
 - **Mapa** (`mapa.html`): o mapa da cidade com os lugares da cultura e dos movimentos, por camadas que se acendem e apagam (capoeira, batalhas de rima, feiras, espaços culturais, sindicatos, universidades e poder público), cada lugar com seus horários, contatos, o caminho até lá e a mensagem pronta para o WhatsApp. A camada da capoeira é o Mapa da Capoeira do COMAFRO Dourados.
@@ -139,9 +139,17 @@ A agenda e as notícias saem dos posts das páginas listadas em `tools/instagram
 python3 tools/instagram/scan.py
 ```
 
-O script abre uma janela do navegador e passa por todas as páginas da lista, uma a uma, lendo só o que saiu desde a última varredura de cada uma: data, legenda, coautores, local, lembrete de evento, todas as imagens de cada post e o texto escrito nelas. Vai devagar de propósito, para o Instagram não bloquear. Na primeira vez, ou se o Instagram pedir, entre na janela com a conta da varredura, nunca com a sua conta pessoal: o script espera e continua sozinho. O nome dessa conta fica em `~/.local/share/nos-dourados/instagram-account`, fora do repositório; sem esse arquivo o script não tem como conferir a conta. Se a janela estiver em outra conta, ele para e avisa. Deixe a janela aberta até ele terminar; ela fecha sozinha. Precisa do `playwright-cli` (`npm i -g @playwright/cli`) e do `tesseract` com o português.
+O script abre uma janela do navegador e passa por todas as páginas da lista, uma a uma, lendo só o que saiu desde a última varredura de cada uma: data, legenda, coautores, local, lembrete de evento, todas as imagens de cada post e o texto escrito nelas. Vai devagar de propósito, com uma pausa sorteada de 3 a 9 segundos entre uma página e outra, para o Instagram não bloquear; rode uma ou duas vezes por semana, não mais. Se o Instagram mostrar algum aviso ("Tente novamente mais tarde", "comportamento automatizado", um pedido para confirmar a conta), o script para na hora e deixa a janela aberta: resolva o aviso à mão e espere alguns dias antes de rodar de novo. Na primeira vez, ou se o Instagram pedir, entre na janela com a conta da varredura, nunca com a sua conta pessoal: o script espera e continua sozinho. O nome dessa conta fica em `~/.local/share/nos-dourados/instagram-account`, fora do repositório; sem esse arquivo o script não tem como conferir a conta. Se a janela estiver em outra conta, ele para e avisa. Deixe a janela aberta até ele terminar; ela fecha sozinha. Abra essa janela só pelo script, nunca no seu Chromium: o Chromium do sistema guarda os cookies com outra chave, e a conta sai do login. Precisa do `playwright-cli` (`npm i -g @playwright/cli`) e do `tesseract` com o português.
 
-**O que ele guarda.** Tudo vai para `tools/instagram/dumps/<dia-hora>/`, fora do git: um `README.md` com o resumo, um arquivo por página e as imagens em `img/`. Daí é só pedir a um agente (ou ler você mesmo) para transformar o que interessa em atividades e notícias. Se a varredura parar no meio, rode de novo: cada página continua de onde parou.
+**Pelo feed.** Com `--feed`, o script não abre os perfis:
+
+```sh
+python3 tools/instagram/scan.py --feed
+```
+
+Ele abre o feed "Seguindo" da conta da varredura (só as contas que ela segue, do post mais novo para o mais antigo, sem sugestões nem anúncios), rola até a última varredura e abre só os posts novos das páginas da lista. Abre bem menos páginas do que passar perfil por perfil. Para isso a conta precisa seguir todas as páginas da lista, e de preferência só elas: uma página que ela não segue nunca aparece no feed. O script confere quantos perfis a conta segue e avisa no `README.md` quando são menos do que as páginas da lista; a varredura sem `--feed` diz qual falta. As páginas que ainda não têm `lastScan` são lidas pelo perfil, como antes, e também as que o feed não alcançou.
+
+**O que ele guarda.** Tudo vai para `tools/instagram/dumps/<dia-hora>/`, fora do git: um `README.md` com o resumo, um arquivo por página e as imagens em `img/` (pelo feed, só as páginas com posts novos têm arquivo, e o `feed.md` lista todos os posts que o feed mostrou e para que página cada um foi). Daí é só pedir a um agente (ou ler você mesmo) para transformar o que interessa em atividades e notícias. Se a varredura parar no meio, rode de novo: cada página continua de onde parou.
 
 **A lista.** São as páginas que acompanhamos: todas as organizações do levantamento que têm Instagram, tenham ou não aparecido na agenda ou nas notícias, mais as que a equipe acrescentar. Em `pages.json`, cada página é uma linha:
 
@@ -153,7 +161,7 @@ O script abre uma janela do navegador e passa por todas as páginas da lista, um
 | `lastScan` | a última varredura; o script preenche. Também aceita só a data (`2026-11-01`) |
 | `lastPost` | o código do post mais novo que a última varredura viu; o script preenche |
 
-Para **acrescentar** uma página, adicione uma linha com `handle`, `name` e `sector`: sem `lastScan`, a primeira leitura pega os últimos `newPageDays` dias (em `settings`, no começo do arquivo, junto de `maxPostsPerPage`, o máximo de posts novos lidos por página). Para **parar** de ler uma, apague a linha. `python3 tools/instagram/scan.py simteddourados` lê só essa página.
+Para **acrescentar** uma página, adicione uma linha com `handle`, `name` e `sector`, e siga a página com a conta da varredura: sem `lastScan`, a primeira leitura pega os últimos `newPageDays` dias (em `settings`, no começo do arquivo, junto de `maxPostsPerPage`, o máximo de posts novos lidos por página). Para **parar** de ler uma, apague a linha e deixe de seguir a página. `python3 tools/instagram/scan.py simteddourados` lê só essa página.
 
 Depois da varredura o `pages.json` fica alterado, com as datas novas: faça o commit dele junto com as atividades.
 
@@ -194,19 +202,19 @@ A camada da capoeira (`data/mapa/capoeira.csv`) é a planilha do Mapa da Capoeir
 
 As coordenadas de um endereço de Dourados saem do Cadastro de Endereços do Censo 2022 do IBGE (o script `scripts/coordenadas.py` da pasta do levantamento, fora deste repositório) ou do Google Maps (botão direito no lugar, e copiar os números). Aldeias, retomadas, terreiros, o quilombo, acampamentos e casas de pessoas só entram no mapa por decisão da equipe (em 11/11/2026 ela manteve o treino de capoeira na AJI, na Aldeia Bororó, e o Templo Girassol).
 
-A coluna `Instagram` é o perfil do próprio lugar: o de outra organização (o DCE numa universidade) vai só na `Fonte`. Para tirar um lugar do mapa sem mexer na planilha do COMAFRO, ponha o código dele (o que aparece depois do `#` no endereço, `mapa.html#…`) em `MAP_HELD` (`js/config.js`), com o motivo. Os acentos que a planilha do COMAFRO perdeu ("Jardim Italia") são corrigidos na leitura, pela lista `SPELLING` do `js/places.js`; vale mandar a lista para o COMAFRO corrigir na planilha deles.
+A coluna `Instagram` é o perfil do próprio lugar: o de outra organização (o DCE numa universidade) vai só na `Fonte`. Para tirar um lugar do mapa sem mexer na planilha do COMAFRO, ponha o código dele (o que aparece depois do `#` no endereço, `mapa#…`) em `MAP_HELD` (`js/config.js`), com o motivo. Os acentos que a planilha do COMAFRO perdeu ("Jardim Italia") são corrigidos na leitura, pela lista `SPELLING` do `js/places.js`; vale mandar a lista para o COMAFRO corrigir na planilha deles.
 
 Lugares no mesmo endereço (um grupo que treina na sede de um sindicato) aparecem como um ponto só, e o cartão de cada um mostra os outros. Uma camada nova é um arquivo novo em `data/mapa/`, com as mesmas colunas, e uma linha em `MAP_LAYERS` (com o desenho dela em `js/icons.js`). Para mostrar o convite "Falta algum lugar?", coloque em `MAP_SUGGEST_URL` (`js/config.js`) o link de um formulário ou de um contato da equipe.
 
 ## Rodando localmente
 
-O navegador não deixa ler os CSVs abrindo as páginas direto do arquivo (`file://`), então suba um servidor simples:
+O navegador não deixa ler os CSVs abrindo as páginas direto do arquivo (`file://`), então suba o servidor do projeto:
 
 ```sh
-python3 -m http.server 8000
+python3 tools/serve.py
 ```
 
-e acesse <http://localhost:8000> (o Início; a agenda está em `/agenda.html`, as notícias em `/noticias.html`, os editais em `/editais.html` e o mapa em `/mapa.html`). Para ver o tema escuro ou outra hora do céu sem mexer no relógio, acrescente `?tema=escuro` (ou `claro`) e `?ceu=amanhecer` (ou `dia`, `entardecer`, `noite`) ao endereço.
+e acesse <http://localhost:8000> (o Início; a agenda está em `/agenda`, as notícias em `/noticias`, os editais em `/editais` e o mapa em `/mapa`). Ele responde como o GitHub Pages, que abre o `agenda.html` em `/agenda`: os links do site não têm o `.html`, e com o `python3 -m http.server` eles dariam erro 404. Para usar outra porta, passe o número: `python3 tools/serve.py 8765`. Para ver o tema escuro ou outra hora do céu sem mexer no relógio, acrescente `?tema=escuro` (ou `claro`) e `?ceu=amanhecer` (ou `dia`, `entardecer`, `noite`) ao endereço.
 
 ## Publicando
 
@@ -228,7 +236,7 @@ git config core.hooksPath .githooks
 
 O site está em https://nos.dourados.social (GitHub Pages, domínio no arquivo `CNAME`). Se o endereço mudar:
 
-- troque `SITE_URL` em `js/config.js` (ele entra no fim de cada mensagem de WhatsApp, com o nome da página: `agenda.html`, `noticias.html`, `editais.html`, `mapa.html`);
+- troque `SITE_URL` em `js/config.js` (ele entra no fim de cada mensagem de WhatsApp, com o endereço da página, sem o `.html`: `/agenda`, `/noticias`, `/editais`, `/mapa`);
 - no `<head>` das cinco páginas (`index.html`, `agenda.html`, `noticias.html`, `editais.html`, `mapa.html`), troque o endereço nas tags da prévia do link (`canonical`, `og:url`, `og:image`…). Os endereços precisam ser completos: sem eles, o WhatsApp e as redes mostram a prévia só com título e descrição, sem a imagem `assets/og-image.png`.
 
 ## Funcionando sem internet e instalando como app
