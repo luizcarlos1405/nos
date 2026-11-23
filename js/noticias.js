@@ -85,8 +85,9 @@ const findNews = (id) => state.news.find((n) => n.id === id) || null;
 const filtered = () => state.kinds.size > 0 || Boolean(state.org);
 const matches = (n) => (!state.kinds.size || state.kinds.has(matchKey(n.kind))) && (!state.org || n.orgs.some((org) => matchKey(org) === state.org));
 const visibleNews = () => state.news.filter(matches);
-// The story the team leads with: the newest marked "Destaque" among those shown.
-const leadOf = (list) => list.find((n) => n.lead) || null;
+// The story the page leads with: the newest marked "Destaque" among those shown, else the newest of them. Since
+// 2026-11-23 the team marks none (the user's call), so the lead is the newest story and changes with each round.
+const leadOf = (list) => list.find((n) => n.lead) || list[0] || null;
 
 // "12 notícias · a mais recente de 28/10" (every story read, filters aside).
 function renderSummary() {

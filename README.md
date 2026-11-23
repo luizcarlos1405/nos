@@ -93,7 +93,7 @@ As notícias ficam em `data/noticias/` (`NEWS_DIR`), do mesmo jeito que a agenda
 | `Texto` | não | a notícia, em parágrafos separados por uma linha em branco; o que é denúncia ou opinião vai atribuído ("segundo o SIMTED…") |
 | `Fonte` | não | o link do post de onde veio |
 | `Atividade` | não | o código de uma atividade da agenda ligada à notícia (o fim do link dela, `ev-2026-11-07-…`): aparece como "Na agenda" |
-| `Destaque` | não | marcada, a notícia abre a página, maior, e aparece na porta do Início |
+| `Destaque` | não | marcada, a notícia abre a página, maior, e aparece na porta do Início. Sem nenhuma marcada, a mais nova faz esse papel: desde 23/11/2026 não marcamos nenhuma, e a notícia de cima muda a cada rodada |
 | `Visível` | não | desmarcada = rascunho, não aparece |
 | `Notas internas` | não | anotações da equipe (de qual relatório veio, o que falta confirmar); o arquivo é público |
 
