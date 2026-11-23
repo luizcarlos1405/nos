@@ -54,7 +54,7 @@ function renderNext(next) {
   // No time reads "horário a confirmar", except for a deadline or a period (awaitsTime): nothing.
   const pending = !time && awaitsTime(next);
   const relative = relativeDay(next.date, today);
-  const eventUrl = `agenda.html#${encodeURIComponent(next.id)}`;
+  const eventUrl = `agenda#${encodeURIComponent(next.id)}`;
 
   const when = el('p', 'upcoming-when');
   const day = el('time', 'circled', shortDate(next.date));

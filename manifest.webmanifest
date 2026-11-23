@@ -21,25 +21,25 @@
     {
       "name": "Agenda",
       "description": "As atividades das organizações e movimentos de Dourados",
-      "url": "agenda.html",
+      "url": "agenda",
       "icons": [{ "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     },
     {
       "name": "Notícias",
       "description": "O que as organizações e movimentos de Dourados estão vivendo",
-      "url": "noticias.html",
+      "url": "noticias",
       "icons": [{ "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     },
     {
       "name": "Mapa",
       "description": "Os lugares da cultura e dos movimentos de Dourados, no mapa da cidade",
-      "url": "mapa.html",
+      "url": "mapa",
       "icons": [{ "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     },
     {
       "name": "Editais",
       "description": "Editais, prêmios e chamadas com dinheiro para cultura, esporte e lazer",
-      "url": "editais.html",
+      "url": "editais",
       "icons": [{ "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     }
   ],

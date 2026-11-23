@@ -5,7 +5,7 @@ CALSCALE:GREGORIAN
 METHOD:PUBLISH
 X-WR-CALNAME:NOS Dourados
 X-WR-CALDESC:Atividades das organizações de Dourados/MS\, da agenda do NO
- S Dourados: https://nos.dourados.social/agenda.html
+ S Dourados: https://nos.dourados.social/agenda
 X-WR-TIMEZONE:America/Campo_Grande
 REFRESH-INTERVAL;VALUE=DURATION:PT1H
 X-PUBLISHED-TTL:PT1H
@@ -25,10 +25,10 @@ DESCRIPTION:Organizações: Comitê de Defesa Popular\, DCE UFGD (Diretóri
  zes e preparar as bandeiras de luta do 32º Grito dos Excluídos e Excluí
  das\, o ato de 7 de Setembro em Dourados. Qualquer pessoa pode participar.
  \n\nFonte: https://www.instagram.com/comitedourados/p/Dc1FwwJuvvy/\n\nNa a
- genda do NOS Dourados: https://nos.dourados.social/agenda.html#ev-2026-09-
- 05-oficina-de-cartazes-do-grito-dos-excluidos-e-excluidas
-URL:https://nos.dourados.social/agenda.html#ev-2026-09-05-oficina-de-cartaz
- es-do-grito-dos-excluidos-e-excluidas
+ genda do NOS Dourados: https://nos.dourados.social/agenda#ev-2026-09-05-of
+ icina-de-cartazes-do-grito-dos-excluidos-e-excluidas
+URL:https://nos.dourados.social/agenda#ev-2026-09-05-oficina-de-cartazes-do
+ -grito-dos-excluidos-e-excluidas
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -47,10 +47,10 @@ DESCRIPTION:Organização: Fórum de Cultura de Dourados\nTipo: Reunião\n\
  o Municipal de Cultura e os recursos da PNAB (Política Nacional Aldir Bla
  nc). Aberto aos agentes culturais e artistas de Dourados.\n\nFonte: https:
  //www.instagram.com/forumdeculturadourados/reel/Dc3usecRsPo/\n\nNa agenda 
- do NOS Dourados: https://nos.dourados.social/agenda.html#ev-2026-09-05-reu
- niao-sobre-o-fip-e-a-politica-cultural-da-cidade
-URL:https://nos.dourados.social/agenda.html#ev-2026-09-05-reuniao-sobre-o-f
- ip-e-a-politica-cultural-da-cidade
+ do NOS Dourados: https://nos.dourados.social/agenda#ev-2026-09-05-reuniao-
+ sobre-o-fip-e-a-politica-cultural-da-cidade
+URL:https://nos.dourados.social/agenda#ev-2026-09-05-reuniao-sobre-o-fip-e-
+ a-politica-cultural-da-cidade
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -68,10 +68,10 @@ DESCRIPTION:Organização: COMAFRO (Conselho Municipal de Defesa e Desenvol
  de Dourados\, participou do desfile de 7 de Setembro na Av. Marcelino Pire
  s com a mensagem “Nosso lugar é em todo lugar”.\n\nFonte: https://www
  .instagram.com/comafrodourados/reel/DdBPvKsOrWD/\n\nNa agenda do NOS Doura
- dos: https://nos.dourados.social/agenda.html#ev-2026-09-07-desfile-de-7-de
- -setembro-com-o-comafro
-URL:https://nos.dourados.social/agenda.html#ev-2026-09-07-desfile-de-7-de-s
- etembro-com-o-comafro
+ dos: https://nos.dourados.social/agenda#ev-2026-09-07-desfile-de-7-de-sete
+ mbro-com-o-comafro
+URL:https://nos.dourados.social/agenda#ev-2026-09-07-desfile-de-7-de-setemb
+ ro-com-o-comafro
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
@@ -93,10 +93,10 @@ DESCRIPTION:Organizações: Comitê de Defesa Popular\, SIMTED (Sindicato M
   de universidades públicas inscritos recebem certificado de até 8 horas.
  \n\nLink: https://forms.gle/rQWv4ZgfAyJmV1U79\nFonte: https://www.instagra
  m.com/comitedourados/p/Dc3jRxbOV4H/\n\nNa agenda do NOS Dourados: https://
- nos.dourados.social/agenda.html#ev-2026-09-07-32-grito-dos-excluidos-e-exc
- luidas
-URL:https://nos.dourados.social/agenda.html#ev-2026-09-07-32-grito-dos-excl
- uidos-e-excluidas
+ nos.dourados.social/agenda#ev-2026-09-07-32-grito-dos-excluidos-e-excluida
+ s
+URL:https://nos.dourados.social/agenda#ev-2026-09-07-32-grito-dos-excluidos
+ -e-excluidas
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -115,10 +115,10 @@ DESCRIPTION:Organizações: ADUF Dourados (Associação de Docentes da UFGD
  tinham inscrição própria até 10/09. Realização da ADUF Dourados em p
  arceria com a PROEC/UFGD.\n\nLink: https://www.jogagd.com.br\nFonte: https
  ://www.instagram.com/adufdourados/reel/DdHRHO6Prfg/\n\nNa agenda do NOS Do
- urados: https://nos.dourados.social/agenda.html#ev-2026-09-11-fim-das-insc
- ricoes-para-o-jogagd-2026
-URL:https://nos.dourados.social/agenda.html#ev-2026-09-11-fim-das-inscricoe
+ urados: https://nos.dourados.social/agenda#ev-2026-09-11-fim-das-inscricoe
  s-para-o-jogagd-2026
+URL:https://nos.dourados.social/agenda#ev-2026-09-11-fim-das-inscricoes-par
+ a-o-jogagd-2026
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
@@ -139,9 +139,8 @@ DESCRIPTION:Organizações: ADUF Dourados (Associação de Docentes da UFGD
  tos ao público em geral. Realização da ADUF Dourados em parceria com a 
  PROEC/UFGD.\n\nLink: https://www.jogagd.com.br\nFonte: https://www.instagr
  am.com/adufdourados/p/DctgRYohHEI/\n\nNa agenda do NOS Dourados: https://n
- os.dourados.social/agenda.html#ev-2026-09-12-festival-jogagd-2026
-URL:https://nos.dourados.social/agenda.html#ev-2026-09-12-festival-jogagd-2
- 026
+ os.dourados.social/agenda#ev-2026-09-12-festival-jogagd-2026
+URL:https://nos.dourados.social/agenda#ev-2026-09-12-festival-jogagd-2026
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -157,10 +156,10 @@ DESCRIPTION:Organização: SINTEF (Sindicato dos Trabalhadores em Educaçã
  do SINTEF\, sindicato dos técnico-administrativos em educação (TAEs) da
   UFGD\, para a categoria construir coletivamente os próximos passos da lu
  ta.\n\nFonte: https://www.instagram.com/portalsintef/p/DdUdDICDxKQ/\n\nNa 
- agenda do NOS Dourados: https://nos.dourados.social/agenda.html#ev-2026-09
- -16-8-assembleia-geral-extraordinaria
-URL:https://nos.dourados.social/agenda.html#ev-2026-09-16-8-assembleia-gera
- l-extraordinaria
+ agenda do NOS Dourados: https://nos.dourados.social/agenda#ev-2026-09-16-8
+ -assembleia-geral-extraordinaria
+URL:https://nos.dourados.social/agenda#ev-2026-09-16-8-assembleia-geral-ext
+ raordinaria
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -177,10 +176,10 @@ DESCRIPTION:Organização: DCE UFGD (Diretório Central dos e das Estudante
   DCE e os centros acadêmicos da UFGD para construir as lutas e pautas dos
   estudantes. Todos os centros acadêmicos são convocados.\n\nFonte: https
  ://www.instagram.com/dceufgd2/p/Ddmfxp7PWPn/\n\nNa agenda do NOS Dourados:
-  https://nos.dourados.social/agenda.html#ev-2026-09-25-conselho-de-entidad
- es-de-base-de-setembro
-URL:https://nos.dourados.social/agenda.html#ev-2026-09-25-conselho-de-entid
- ades-de-base-de-setembro
+  https://nos.dourados.social/agenda#ev-2026-09-25-conselho-de-entidades-de
+ -base-de-setembro
+URL:https://nos.dourados.social/agenda#ev-2026-09-25-conselho-de-entidades-
+ de-base-de-setembro
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -197,10 +196,10 @@ DESCRIPTION:Organização: ADUF Dourados (Associação de Docentes da UFGD)
  a regulamentação da Convenção 151 da OIT e a campanha salarial de 2027
  \, e eleger delegado ao 16º CONAD Extraordinário do ANDES-SN.\n\nFonte: 
  https://www.instagram.com/adufdourados/p/DdzTUuiB_C8/\n\nNa agenda do NOS 
- Dourados: https://nos.dourados.social/agenda.html#ev-2026-09-28-5-assemble
- ia-geral-extraordinaria
-URL:https://nos.dourados.social/agenda.html#ev-2026-09-28-5-assembleia-gera
- l-extraordinaria
+ Dourados: https://nos.dourados.social/agenda#ev-2026-09-28-5-assembleia-ge
+ ral-extraordinaria
+URL:https://nos.dourados.social/agenda#ev-2026-09-28-5-assembleia-geral-ext
+ raordinaria
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -222,9 +221,9 @@ DESCRIPTION:Organizações: SIMTED (Sindicato Municipal dos Trabalhadores e
  ndicalizados\, com saída às 8h.\n\nContato: SIMTED: (67) 3421-3749\, (67
  ) 98457-6580\, (67) 98457-5974\nFonte: https://www.instagram.com/simteddou
  rados/p/Dd1XtIVlky8/\n\nNa agenda do NOS Dourados: https://nos.dourados.so
- cial/agenda.html#ev-2026-09-30-mobilizacao-da-classe-trabalhadora
-URL:https://nos.dourados.social/agenda.html#ev-2026-09-30-mobilizacao-da-cl
- asse-trabalhadora
+ cial/agenda#ev-2026-09-30-mobilizacao-da-classe-trabalhadora
+URL:https://nos.dourados.social/agenda#ev-2026-09-30-mobilizacao-da-classe-
+ trabalhadora
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -243,10 +242,9 @@ DESCRIPTION:Organização: SIMTED (Sindicato Municipal dos Trabalhadores e
  ho Fiscal do SIMTED no triênio 2027–2030. A inscrição é feita na sec
  retaria do sindicato.\n\nFonte: https://www.instagram.com/simteddourados/p
  /DdcHh2eIxTG/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/ag
- enda.html#ev-2026-10-03-fim-das-inscricoes-de-chapas-para-a-eleicao-do-sim
- ted
-URL:https://nos.dourados.social/agenda.html#ev-2026-10-03-fim-das-inscricoe
- s-de-chapas-para-a-eleicao-do-simted
+ enda#ev-2026-10-03-fim-das-inscricoes-de-chapas-para-a-eleicao-do-simted
+URL:https://nos.dourados.social/agenda#ev-2026-10-03-fim-das-inscricoes-de-
+ chapas-para-a-eleicao-do-simted
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -265,10 +263,10 @@ DESCRIPTION:Organização: Fórum de Cultura de Dourados\nTipo: Assembleia\
  bém trata dos compromissos firmados no abaixo-assinado pela cultura e de 
  informes do Conselho Municipal de Política Cultural.\n\nFonte: https://ww
  w.instagram.com/forumdeculturadourados/reel/DeKX85zu2k1/\n\nNa agenda do N
- OS Dourados: https://nos.dourados.social/agenda.html#ev-2026-10-07-assembl
- eia-e-eleicao-da-nova-gestao-do-forum-de-cultura
-URL:https://nos.dourados.social/agenda.html#ev-2026-10-07-assembleia-e-elei
- cao-da-nova-gestao-do-forum-de-cultura
+ OS Dourados: https://nos.dourados.social/agenda#ev-2026-10-07-assembleia-e
+ -eleicao-da-nova-gestao-do-forum-de-cultura
+URL:https://nos.dourados.social/agenda#ev-2026-10-07-assembleia-e-eleicao-d
+ a-nova-gestao-do-forum-de-cultura
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -286,10 +284,10 @@ DESCRIPTION:Organização: SINTEF (Sindicato dos Trabalhadores em Educaçã
  o Dia das Crianças que recolhe brinquedos novos ou usados em bom estado e
   materiais escolares para a escola da Aldeia Bororó. Toda a comunidade po
  de doar.\n\nFonte: https://www.instagram.com/portalsintef/p/DePGB-BRdNe/\n
- \nNa agenda do NOS Dourados: https://nos.dourados.social/agenda.html#ev-20
- 26-10-08-coleta-de-brinquedos-e-material-escolar-para-a-aldeia-bororo
-URL:https://nos.dourados.social/agenda.html#ev-2026-10-08-coleta-de-brinque
- dos-e-material-escolar-para-a-aldeia-bororo
+ \nNa agenda do NOS Dourados: https://nos.dourados.social/agenda#ev-2026-10
+ -08-coleta-de-brinquedos-e-material-escolar-para-a-aldeia-bororo
+URL:https://nos.dourados.social/agenda#ev-2026-10-08-coleta-de-brinquedos-e
+ -material-escolar-para-a-aldeia-bororo
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
@@ -308,10 +306,10 @@ DESCRIPTION:Organização: SINTEF (Sindicato dos Trabalhadores em Educaçã
  feita pelo link na bio do perfil @portalsintef no Instagram. Curso do SINT
  EF com a PROGESP/UFGD.\n\nFonte: https://www.instagram.com/portalsintef/p/
  Dd901Aomu1s/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/age
- nda.html#ev-2026-10-09-inscricoes-do-curso-meio-ambiente-sustentabilidade-
- e-saude
-URL:https://nos.dourados.social/agenda.html#ev-2026-10-09-inscricoes-do-cur
- so-meio-ambiente-sustentabilidade-e-saude
+ nda#ev-2026-10-09-inscricoes-do-curso-meio-ambiente-sustentabilidade-e-sau
+ de
+URL:https://nos.dourados.social/agenda#ev-2026-10-09-inscricoes-do-curso-me
+ io-ambiente-sustentabilidade-e-saude
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
@@ -328,10 +326,10 @@ DESCRIPTION:Organização: SINTEF (Sindicato dos Trabalhadores em Educaçã
   UFGD\, convocada para filiadas e filiados\, com debate sobre a conjuntura
   das eleições de 2026 e o 2º turno e informes da categoria.\n\nFonte: h
  ttps://www.instagram.com/portalsintef/p/DePb7QqEcUe/\n\nNa agenda do NOS D
- ourados: https://nos.dourados.social/agenda.html#ev-2026-10-09-6-assemblei
- a-geral-extraordinaria
-URL:https://nos.dourados.social/agenda.html#ev-2026-10-09-6-assembleia-gera
- l-extraordinaria
+ ourados: https://nos.dourados.social/agenda#ev-2026-10-09-6-assembleia-ger
+ al-extraordinaria
+URL:https://nos.dourados.social/agenda#ev-2026-10-09-6-assembleia-geral-ext
+ raordinaria
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -349,9 +347,9 @@ DESCRIPTION:Atividade cancelada. Motivo: Adiado: o DCE cancelou suas ativid
  /10.\n\nOrganização: DCE UFGD (Diretório Central dos e das Estudantes d
  a UFGD)\nTipo: Plenária\n\nFonte: https://www.instagram.com/dceufgd2/p/De
  PaFeCJZcV/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/agend
- a.html#ev-2026-10-09-conselho-de-entidades-de-base-extraordinario
-URL:https://nos.dourados.social/agenda.html#ev-2026-10-09-conselho-de-entid
- ades-de-base-extraordinario
+ a#ev-2026-10-09-conselho-de-entidades-de-base-extraordinario
+URL:https://nos.dourados.social/agenda#ev-2026-10-09-conselho-de-entidades-
+ de-base-extraordinario
 STATUS:CANCELLED
 TRANSP:OPAQUE
 END:VEVENT
@@ -368,10 +366,10 @@ DESCRIPTION:Organizações: Estudantes em Movimento\, Comitê de Defesa Pop
  da democracia\, com concentração na Praça Antônio João. Convocação 
  aberta à população de Dourados.\n\nFonte: https://www.instagram.com/est
  udantesfederaldds/p/DeQWmaiDlRU/\n\nNa agenda do NOS Dourados: https://nos
- .dourados.social/agenda.html#ev-2026-10-10-dourados-vem-pra-rua-ato-pela-d
- emocracia
-URL:https://nos.dourados.social/agenda.html#ev-2026-10-10-dourados-vem-pra-
- rua-ato-pela-democracia
+ .dourados.social/agenda#ev-2026-10-10-dourados-vem-pra-rua-ato-pela-democr
+ acia
+URL:https://nos.dourados.social/agenda#ev-2026-10-10-dourados-vem-pra-rua-a
+ to-pela-democracia
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -389,10 +387,10 @@ DESCRIPTION:Organização: UFGD (Universidade Federal da Grande Dourados)\n
  a compra de alimentos para a AGECOLD\, e pode fechar antes se as vagas aca
  barem. Participação da UFGD e do SINTEF na Caminhada.\n\nFonte: https://
  www.instagram.com/corrida.ufgd/p/DdkPd-dFOZ9/\n\nNa agenda do NOS Dourados
- : https://nos.dourados.social/agenda.html#ev-2026-10-16-inscricoes-para-a-
- caminhada-ecologica-e-o-desafio-ecologico
-URL:https://nos.dourados.social/agenda.html#ev-2026-10-16-inscricoes-para-a
- -caminhada-ecologica-e-o-desafio-ecologico
+ : https://nos.dourados.social/agenda#ev-2026-10-16-inscricoes-para-a-camin
+ hada-ecologica-e-o-desafio-ecologico
+URL:https://nos.dourados.social/agenda#ev-2026-10-16-inscricoes-para-a-cami
+ nhada-ecologica-e-o-desafio-ecologico
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
@@ -410,10 +408,9 @@ DESCRIPTION:Organização: SIMTED (Sindicato Municipal dos Trabalhadores e
  m até 16/10\, na secretaria ou pelo WhatsApp do SIMTED\, sem venda no loc
  al\; demais dependentes pagam R$ 50.\n\nContato: WhatsApp do SIMTED: (67) 
  98457-5974\nFonte: https://www.instagram.com/simteddourados/p/DePAESEl7qP/
- \n\nNa agenda do NOS Dourados: https://nos.dourados.social/agenda.html#ev-
- 2026-10-18-almoco-dos-educadores
-URL:https://nos.dourados.social/agenda.html#ev-2026-10-18-almoco-dos-educad
- ores
+ \n\nNa agenda do NOS Dourados: https://nos.dourados.social/agenda#ev-2026-
+ 10-18-almoco-dos-educadores
+URL:https://nos.dourados.social/agenda#ev-2026-10-18-almoco-dos-educadores
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -431,10 +428,10 @@ DESCRIPTION:Organização: DCE UFGD (Diretório Central dos e das Estudante
  os participem\, com pauta única: análise de conjuntura sobre o 2º turno
   das eleições de 2026. Refaz a reunião de 09/10\, adiada pelo luto e pe
  lo recesso acadêmico.\n\nFonte: https://www.instagram.com/dceufgd2/p/Der3
- 4arJ28L/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/agenda.
- html#ev-2026-10-20-conselho-de-entidades-de-base-extraordinario
-URL:https://nos.dourados.social/agenda.html#ev-2026-10-20-conselho-de-entid
- ades-de-base-extraordinario
+ 4arJ28L/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/agenda#
+ ev-2026-10-20-conselho-de-entidades-de-base-extraordinario
+URL:https://nos.dourados.social/agenda#ev-2026-10-20-conselho-de-entidades-
+ de-base-extraordinario
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -453,10 +450,10 @@ DESCRIPTION:Organização: DAC UFGD (Diretoria de Arte e Cultura da UFGD)\n
  , por formulários eletrônicos.\n\nLink: https://docs.google.com/forms/d/
  e/1FAIpQLSdftHXLa3L53DnAoyMOE30s1Lt5q5kE73-SGFJRYWSLqTxGAg/viewform\nFonte
  : https://www.instagram.com/culturaufgd/p/DezK7foDgZJ/\n\nNa agenda do NOS
-  Dourados: https://nos.dourados.social/agenda.html#ev-2026-10-22-consulta-
- publica-da-politica-e-do-plano-de-arte-e-cultura-da
-URL:https://nos.dourados.social/agenda.html#ev-2026-10-22-consulta-publica-
- da-politica-e-do-plano-de-arte-e-cultura-da
+  Dourados: https://nos.dourados.social/agenda#ev-2026-10-22-consulta-publi
+ ca-da-politica-e-do-plano-de-arte-e-cultura-da
+URL:https://nos.dourados.social/agenda#ev-2026-10-22-consulta-publica-da-po
+ litica-e-do-plano-de-arte-e-cultura-da
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
@@ -474,9 +471,9 @@ DESCRIPTION:Organização: DCE UFGD (Diretório Central dos e das Estudante
  til e a aula pública "Democracia e Autoritarismos"\, dada também às 11h
   para a comunidade acadêmica.\n\nFonte: https://www.instagram.com/dceufgd
  2/p/DexIaKip4qe/\n\nNa agenda do NOS Dourados: https://nos.dourados.social
- /agenda.html#ev-2026-10-22-assembleia-geral-dos-e-das-estudantes-da-ufgd
-URL:https://nos.dourados.social/agenda.html#ev-2026-10-22-assembleia-geral-
- dos-e-das-estudantes-da-ufgd
+ /agenda#ev-2026-10-22-assembleia-geral-dos-e-das-estudantes-da-ufgd
+URL:https://nos.dourados.social/agenda#ev-2026-10-22-assembleia-geral-dos-e
+ -das-estudantes-da-ufgd
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -496,10 +493,10 @@ DESCRIPTION:Organização: DCE UFGD (Diretório Central dos e das Estudante
   a Assembleia Geral de 22/10. A convocação chamava a seguir depois para 
  a agenda na Praça Antônio João.\n\nFonte: https://www.instagram.com/dce
  ufgd2/p/De14ycfJ9kz/\n\nNa agenda do NOS Dourados: https://nos.dourados.so
- cial/agenda.html#ev-2026-10-23-ato-em-defesa-da-democracia-e-contra-as-per
- seguicoes-nas-uni
-URL:https://nos.dourados.social/agenda.html#ev-2026-10-23-ato-em-defesa-da-
- democracia-e-contra-as-perseguicoes-nas-uni
+ cial/agenda#ev-2026-10-23-ato-em-defesa-da-democracia-e-contra-as-persegui
+ coes-nas-uni
+URL:https://nos.dourados.social/agenda#ev-2026-10-23-ato-em-defesa-da-democ
+ racia-e-contra-as-perseguicoes-nas-uni
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -517,10 +514,10 @@ DESCRIPTION:Organização: UFGD (Universidade Federal da Grande Dourados)\n
  ores resultados\, pela quantidade e pela qualidade da separação e da lim
  peza\, recebem o Troféu Ecológico.\n\nFonte: https://www.instagram.com/c
  orrida.ufgd/reel/DfACFW_xkcb/\n\nNa agenda do NOS Dourados: https://nos.do
- urados.social/agenda.html#ev-2026-10-26-desafio-ecologico-da-caminhada-eco
- logica-de-dourados
-URL:https://nos.dourados.social/agenda.html#ev-2026-10-26-desafio-ecologico
- -da-caminhada-ecologica-de-dourados
+ urados.social/agenda#ev-2026-10-26-desafio-ecologico-da-caminhada-ecologic
+ a-de-dourados
+URL:https://nos.dourados.social/agenda#ev-2026-10-26-desafio-ecologico-da-c
+ aminhada-ecologica-de-dourados
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
@@ -538,10 +535,10 @@ DESCRIPTION:Organização: Quintal de Palmares\nTipo: Prazo\n\nÚltimo dia
  a em 16/11. A inscrição é feita por formulário online.\n\nLink: https:
  //forms.gle/3GoXv93CZfEetKgz6\nFonte: https://www.instagram.com/feirazumbi
  vive/p/De0B2cHxTj4/\n\nNa agenda do NOS Dourados: https://nos.dourados.soc
- ial/agenda.html#ev-2026-10-27-fim-das-inscricoes-de-expositores-da-feira-a
- fro-zumbi-vive
-URL:https://nos.dourados.social/agenda.html#ev-2026-10-27-fim-das-inscricoe
- s-de-expositores-da-feira-afro-zumbi-vive
+ ial/agenda#ev-2026-10-27-fim-das-inscricoes-de-expositores-da-feira-afro-z
+ umbi-vive
+URL:https://nos.dourados.social/agenda#ev-2026-10-27-fim-das-inscricoes-de-
+ expositores-da-feira-afro-zumbi-vive
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
@@ -560,10 +557,10 @@ DESCRIPTION:Organização: Casulo\nTipo: Prazo\n\nÚltimo dia para exposito
   resultado da seleção sai em 31/10.\n\nContato: WhatsApp (67) 99870-0269
  \nLink: https://forms.gle/tRNVNceLAWT61bPW8\nFonte: https://www.instagram.
  com/casulodourados/p/DfAKqnVxD5_/\n\nNa agenda do NOS Dourados: https://no
- s.dourados.social/agenda.html#ev-2026-10-30-fim-das-inscricoes-de-exposito
- res-da-22-feira-das-pulgas
-URL:https://nos.dourados.social/agenda.html#ev-2026-10-30-fim-das-inscricoe
- s-de-expositores-da-22-feira-das-pulgas
+ s.dourados.social/agenda#ev-2026-10-30-fim-das-inscricoes-de-expositores-d
+ a-22-feira-das-pulgas
+URL:https://nos.dourados.social/agenda#ev-2026-10-30-fim-das-inscricoes-de-
+ expositores-da-22-feira-das-pulgas
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
@@ -580,10 +577,10 @@ DESCRIPTION:Organização: Instituto Fuziy\nTipo: Campanha\n\nTarde de acol
  himento\, informação e cuidado com a saúde das mulheres\, dentro do Out
  ubro Rosa\, com chá e bingo. É preciso levar uma caneta para o bingo.\n\
  nFonte: https://www.instagram.com/institutofuziy/p/De9orOpCXND/\n\nNa agen
- da do NOS Dourados: https://nos.dourados.social/agenda.html#ev-2026-10-30-
- cha-rosa-com-elas-outubro-rosa-no-instituto-fuziy
-URL:https://nos.dourados.social/agenda.html#ev-2026-10-30-cha-rosa-com-elas
- -outubro-rosa-no-instituto-fuziy
+ da do NOS Dourados: https://nos.dourados.social/agenda#ev-2026-10-30-cha-r
+ osa-com-elas-outubro-rosa-no-instituto-fuziy
+URL:https://nos.dourados.social/agenda#ev-2026-10-30-cha-rosa-com-elas-outu
+ bro-rosa-no-instituto-fuziy
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -597,9 +594,8 @@ DESCRIPTION:Organização: Feira Batuque\nTipo: Feira\nHorário a confirmar
  \n\nSexta edição do encontro mensal de música\, comida e arte da Feira 
  Batuque\, com show da banda Operários do Groove.\n\nFonte: https://www.in
  stagram.com/feira.batuque/p/De-Miy0tYVJ/\n\nNa agenda do NOS Dourados: htt
- ps://nos.dourados.social/agenda.html#ev-2026-10-31-feira-batuque-6-edicao
-URL:https://nos.dourados.social/agenda.html#ev-2026-10-31-feira-batuque-6-e
- dicao
+ ps://nos.dourados.social/agenda#ev-2026-10-31-feira-batuque-6-edicao
+URL:https://nos.dourados.social/agenda#ev-2026-10-31-feira-batuque-6-edicao
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
@@ -616,10 +612,10 @@ DESCRIPTION:Organização: Batalha da Cinquenta\nTipo: Oficina\nHorário a
   rua. O projeto tem incentivo do FIP\, da Prefeitura de Dourados.\n\nConta
  to: Direct do Instagram @batalhadacinquenta\nFonte: https://www.instagram.
  com/batalhadacinquenta/reel/DenIaleh4oN/\n\nNa agenda do NOS Dourados: htt
- ps://nos.dourados.social/agenda.html#ev-2026-10-31-ultimo-dia-de-oficinas-
- do-projeto-50-em-cena
-URL:https://nos.dourados.social/agenda.html#ev-2026-10-31-ultimo-dia-de-ofi
- cinas-do-projeto-50-em-cena
+ ps://nos.dourados.social/agenda#ev-2026-10-31-ultimo-dia-de-oficinas-do-pr
+ ojeto-50-em-cena
+URL:https://nos.dourados.social/agenda#ev-2026-10-31-ultimo-dia-de-oficinas
+ -do-projeto-50-em-cena
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
@@ -639,10 +635,10 @@ DESCRIPTION:Organização: UFGD (Universidade Federal da Grande Dourados)\n
  a inscrição pelo link. Vista-se confortavelmente e leve sua garrafinha d
  e água.\n\nLink: https://forms.gle/z5vXreyXZ2546b8KA\nFonte: https://www.
  instagram.com/corrida.ufgd/p/DdkPd-dFOZ9/\n\nNa agenda do NOS Dourados: ht
- tps://nos.dourados.social/agenda.html#ev-2026-10-31-caminhada-ecologica-de
+ tps://nos.dourados.social/agenda#ev-2026-10-31-caminhada-ecologica-de-dour
+ ados
+URL:https://nos.dourados.social/agenda#ev-2026-10-31-caminhada-ecologica-de
  -dourados
-URL:https://nos.dourados.social/agenda.html#ev-2026-10-31-caminhada-ecologi
- ca-de-dourados
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -660,10 +656,10 @@ DESCRIPTION:Organizações: Aty Guasu (Grande Assembleia do Povo Guarani e
  seus territórios e manter suas culturas: "Nenhum direito a menos\, nenhum
  a vida a mais perdida". A convocação pede para chegar cedo e levar água
  .\n\nFonte: https://www.instagram.com/gabiafroterra/p/DfDugdRjbQh/\n\nNa a
- genda do NOS Dourados: https://nos.dourados.social/agenda.html#ev-2026-10-
- 31-mobilizacao-em-defesa-da-vida-indigena
-URL:https://nos.dourados.social/agenda.html#ev-2026-10-31-mobilizacao-em-de
- fesa-da-vida-indigena
+ genda do NOS Dourados: https://nos.dourados.social/agenda#ev-2026-10-31-mo
+ bilizacao-em-defesa-da-vida-indigena
+URL:https://nos.dourados.social/agenda#ev-2026-10-31-mobilizacao-em-defesa-
+ da-vida-indigena
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -677,10 +673,10 @@ DESCRIPTION:Organização: ADUF Dourados (Associação de Docentes da UFGD)
  \nTipo: Festa\n\nUma noite para celebrar\, confraternizar e fortalecer os 
  laços\, com chopp\, drinks\, buffet de frios e recreação. Mais informa
  ções em breve.\n\nFonte: https://www.instagram.com/adufdourados/p/DexmNm
- IBuki/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/agenda.ht
- ml#ev-2026-10-31-confraternizacao-da-aduf-dourados
-URL:https://nos.dourados.social/agenda.html#ev-2026-10-31-confraternizacao-
- da-aduf-dourados
+ IBuki/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/agenda#ev
+ -2026-10-31-confraternizacao-da-aduf-dourados
+URL:https://nos.dourados.social/agenda#ev-2026-10-31-confraternizacao-da-ad
+ uf-dourados
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -697,10 +693,10 @@ DESCRIPTION:Organização: SIMTED (Sindicato Municipal dos Trabalhadores e
  \, para filiados do SIMTED e um acompanhante. É preciso apresentar docume
  nto oficial com foto.\n\nContato: WhatsApp do SIMTED: (67) 98457-5974\nFon
  te: https://www.instagram.com/simteddourados/p/DePAESEl7qP/\n\nNa agenda d
- o NOS Dourados: https://nos.dourados.social/agenda.html#ev-2026-10-31-bail
- e-dos-educadores-festa-tropical
-URL:https://nos.dourados.social/agenda.html#ev-2026-10-31-baile-dos-educado
- res-festa-tropical
+ o NOS Dourados: https://nos.dourados.social/agenda#ev-2026-10-31-baile-dos
+ -educadores-festa-tropical
+URL:https://nos.dourados.social/agenda#ev-2026-10-31-baile-dos-educadores-f
+ esta-tropical
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -718,10 +714,10 @@ DESCRIPTION:Organização: Circo das Artes – Céu de Lona\nTipo: Oficina\
  s\, a partir de 12 anos e com vagas limitadas. Valor: R$ 80 (valor social:
   R$ 50)\, com inscrição prévia por WhatsApp.\n\nContato: WhatsApp (67) 
  99281-4460\nFonte: https://www.instagram.com/circo.ceu.de.lona/p/DesaBXAJL
- 80/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/agenda.html#
- ev-2026-11-02-oficina-de-perna-de-pau-com-nilce-maciel
-URL:https://nos.dourados.social/agenda.html#ev-2026-11-02-oficina-de-perna-
- de-pau-com-nilce-maciel
+ 80/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/agenda#ev-20
+ 26-11-02-oficina-de-perna-de-pau-com-nilce-maciel
+URL:https://nos.dourados.social/agenda#ev-2026-11-02-oficina-de-perna-de-pa
+ u-com-nilce-maciel
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -743,10 +739,10 @@ DESCRIPTION:Organização: SIMTED (Sindicato Municipal dos Trabalhadores e
  horário de funcionamento de cada uma\, e a urna fixa na sede do SIMTED at
  ende sobretudo aposentados\, servidores cedidos e quem estiver em trânsit
  o.\n\nFonte: https://www.instagram.com/simteddourados/p/DfF_Oh9IRGm/\n\nNa
-  agenda do NOS Dourados: https://nos.dourados.social/agenda.html#ev-2026-1
- 1-04-eleicao-da-direcao-e-do-conselho-fiscal-do-simted
-URL:https://nos.dourados.social/agenda.html#ev-2026-11-04-eleicao-da-direca
- o-e-do-conselho-fiscal-do-simted
+  agenda do NOS Dourados: https://nos.dourados.social/agenda#ev-2026-11-04-
+ eleicao-da-direcao-e-do-conselho-fiscal-do-simted
+URL:https://nos.dourados.social/agenda#ev-2026-11-04-eleicao-da-direcao-e-d
+ o-conselho-fiscal-do-simted
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -774,10 +770,10 @@ DESCRIPTION:Organizações: CMDCA\, Secretaria Municipal de Assistência So
  ual e nacional.\n\nLink: https://forms.gle/ayWbQeG3cuni25F1A\nFonte: https
  ://www.folhadedourados.com.br/dourados-abre-inscricoes-para-conferencia-do
  s-direitos-da-crianca-e-do-adolescente/\n\nNa agenda do NOS Dourados: http
- s://nos.dourados.social/agenda.html#ev-2026-11-05-13-conferencia-municipal
- -dos-direitos-da-crianca-e-do-adoles
-URL:https://nos.dourados.social/agenda.html#ev-2026-11-05-13-conferencia-mu
- nicipal-dos-direitos-da-crianca-e-do-adoles
+ s://nos.dourados.social/agenda#ev-2026-11-05-13-conferencia-municipal-dos-
+ direitos-da-crianca-e-do-adoles
+URL:https://nos.dourados.social/agenda#ev-2026-11-05-13-conferencia-municip
+ al-dos-direitos-da-crianca-e-do-adoles
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
@@ -798,10 +794,10 @@ DESCRIPTION:Organizações: House of Bombshell\, House De Lá\, Coletiva Mo
  rosso do Sul. Primeira atividade formativa do Grande Natal das Bombshells\
  , da House of Bombshell. Aberta a todes\, especialmente às pessoas trans.
  \n\nFonte: https://www.instagram.com/asbombshells/p/DfH_oesNpcw/\n\nNa age
- nda do NOS Dourados: https://nos.dourados.social/agenda.html#ev-2026-11-06
- -oficina-de-realness-com-princess-kiara-de-la
-URL:https://nos.dourados.social/agenda.html#ev-2026-11-06-oficina-de-realne
- ss-com-princess-kiara-de-la
+ nda do NOS Dourados: https://nos.dourados.social/agenda#ev-2026-11-06-ofic
+ ina-de-realness-com-princess-kiara-de-la
+URL:https://nos.dourados.social/agenda#ev-2026-11-06-oficina-de-realness-co
+ m-princess-kiara-de-la
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -817,10 +813,10 @@ LOCATION:Casa da Cultura UEMS – Espaço Guaraoby (Rua Monte Alegre\, 1955
 DESCRIPTION:Atividade cancelada. Motivo: Imprevisto do oficineiro\n\nOrgani
  zações: House of Bombshell\, Casa Sherman\nTipo: Oficina\n\nFonte: https
  ://www.instagram.com/asbombshells/p/DfNrBcfPnnn/\n\nNa agenda do NOS Doura
- dos: https://nos.dourados.social/agenda.html#ev-2026-11-07-oficina-de-vogu
- e-femme-com-prince-ennio-sherman
-URL:https://nos.dourados.social/agenda.html#ev-2026-11-07-oficina-de-vogue-
- femme-com-prince-ennio-sherman
+ dos: https://nos.dourados.social/agenda#ev-2026-11-07-oficina-de-vogue-fem
+ me-com-prince-ennio-sherman
+URL:https://nos.dourados.social/agenda#ev-2026-11-07-oficina-de-vogue-femme
+ -com-prince-ennio-sherman
 STATUS:CANCELLED
 TRANSP:OPAQUE
 END:VEVENT
@@ -837,10 +833,10 @@ DESCRIPTION:Organização: Casulo\nTipo: Feira\n\nFeira com expositores de
  ara aproximar as comunidades indígenas e não indígenas de Dourados. As 
  atrações musicais ainda serão divulgadas.\n\nContato: WhatsApp (67) 998
  70-0269\nFonte: https://www.instagram.com/casulodourados/p/DfAKqnVxD5_/\n\
- nNa agenda do NOS Dourados: https://nos.dourados.social/agenda.html#ev-202
- 6-11-07-22-feira-das-pulgas-e-v-festival-de-musica-indigena
-URL:https://nos.dourados.social/agenda.html#ev-2026-11-07-22-feira-das-pulg
- as-e-v-festival-de-musica-indigena
+ nNa agenda do NOS Dourados: https://nos.dourados.social/agenda#ev-2026-11-
+ 07-22-feira-das-pulgas-e-v-festival-de-musica-indigena
+URL:https://nos.dourados.social/agenda#ev-2026-11-07-22-feira-das-pulgas-e-
+ v-festival-de-musica-indigena
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -856,10 +852,10 @@ DESCRIPTION:Organizações: ENEI\, UNILA\nTipo: Encontro\n\nEncontro nacion
  al de estudantes indígenas\, com trocas\, debates e saberes para fortalec
  er as lutas dos estudantes indígenas dentro e fora da universidade.\n\nFo
  nte: https://www.instagram.com/kuna_aranduha/reel/DfFAE_whbKb/\n\nNa agend
- a do NOS Dourados: https://nos.dourados.social/agenda.html#ev-2026-11-09-x
- iii-encontro-nacional-de-estudantes-indigenas-enei
-URL:https://nos.dourados.social/agenda.html#ev-2026-11-09-xiii-encontro-nac
- ional-de-estudantes-indigenas-enei
+ a do NOS Dourados: https://nos.dourados.social/agenda#ev-2026-11-09-xiii-e
+ ncontro-nacional-de-estudantes-indigenas-enei
+URL:https://nos.dourados.social/agenda#ev-2026-11-09-xiii-encontro-nacional
+ -de-estudantes-indigenas-enei
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
@@ -880,10 +876,10 @@ DESCRIPTION:Organizações: LADIP (Liga Acadêmica de Direitos dos Povos In
  Em 27/11 a entrega é feita numa ação especial de Natal na E.M.P.I. Mbo'
  e Renda Ypyendy\, em Amambai. Toda a comunidade acadêmica pode doar.\n\nF
  onte: https://www.instagram.com/ladip.ufgd/p/DfkofGvKfWu/\n\nNa agenda do 
- NOS Dourados: https://nos.dourados.social/agenda.html#ev-2026-11-10-natal-
- solidario-arrecadacao-de-brinquedos-da-ladip-e-do-dce-
-URL:https://nos.dourados.social/agenda.html#ev-2026-11-10-natal-solidario-a
- rrecadacao-de-brinquedos-da-ladip-e-do-dce-
+ NOS Dourados: https://nos.dourados.social/agenda#ev-2026-11-10-natal-solid
+ ario-arrecadacao-de-brinquedos-da-ladip-e-do-dce-
+URL:https://nos.dourados.social/agenda#ev-2026-11-10-natal-solidario-arreca
+ dacao-de-brinquedos-da-ladip-e-do-dce-
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
@@ -902,9 +898,9 @@ DESCRIPTION:Organização: House of Bombshell\nTipo: Cultura\n\nEdição es
  ll sobre a trajetória da Ballroom em Mato Grosso do Sul. Atividade gratui
  ta e com certificado.\n\nFonte: https://www.instagram.com/asbombshells/p/D
  fgA60duytE/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/agen
- da.html#ev-2026-11-11-cine-ballroom-salao-de-baile-this-is-ballroom
-URL:https://nos.dourados.social/agenda.html#ev-2026-11-11-cine-ballroom-sal
- ao-de-baile-this-is-ballroom
+ da#ev-2026-11-11-cine-ballroom-salao-de-baile-this-is-ballroom
+URL:https://nos.dourados.social/agenda#ev-2026-11-11-cine-ballroom-salao-de
+ -baile-this-is-ballroom
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -923,10 +919,10 @@ DESCRIPTION:Organizações: Secretaria de Estado da Cidadania (SEC)\, Gover
  , com palestra magna do professor pós-doutor Alfa Oumar Diallo\, natural 
  do Senegal\, professor e pesquisador da UFGD.\n\nFonte: https://www.instag
  ram.com/comafrodourados/reel/DfiikOkM7tW/\n\nNa agenda do NOS Dourados: ht
- tps://nos.dourados.social/agenda.html#ev-2026-11-11-ms-sem-racismo-em-dour
+ tps://nos.dourados.social/agenda#ev-2026-11-11-ms-sem-racismo-em-dourados-
+ adesao-ao-sinapir
+URL:https://nos.dourados.social/agenda#ev-2026-11-11-ms-sem-racismo-em-dour
  ados-adesao-ao-sinapir
-URL:https://nos.dourados.social/agenda.html#ev-2026-11-11-ms-sem-racismo-em
- -dourados-adesao-ao-sinapir
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -946,10 +942,10 @@ DESCRIPTION:Organização: PT Dourados\nTipo: Festa\n\nComemoração da vit
  13 antecipada via Pix (até as 17h do dia)\; na bilheteria\, R$ 15 (Pix ou
   dinheiro) ou R$ 18 (cartão).\n\nContato: PT Dourados – (67) 99942-5871
  \nFonte: https://www.instagram.com/ptdourados/p/DfknvCYv_HO/\n\nNa agenda 
- do NOS Dourados: https://nos.dourados.social/agenda.html#ev-2026-11-13-fes
- ta-da-vitoria-em-dourados
-URL:https://nos.dourados.social/agenda.html#ev-2026-11-13-festa-da-vitoria-
- em-dourados
+ do NOS Dourados: https://nos.dourados.social/agenda#ev-2026-11-13-festa-da
+ -vitoria-em-dourados
+URL:https://nos.dourados.social/agenda#ev-2026-11-13-festa-da-vitoria-em-do
+ urados
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -969,10 +965,10 @@ DESCRIPTION:Organização: MST (Movimento dos Trabalhadores Rurais Sem Terr
  o formulário\; levar água\, protetor solar\, pratos e talheres.\n\nLink:
   https://forms.gle/yePvcpdXikWYPetV8\nFonte: https://www.instagram.com/mst
  matogrossodosul/p/DfS3OvVz-GV/\n\nNa agenda do NOS Dourados: https://nos.d
- ourados.social/agenda.html#ev-2026-11-14-dia-de-vivencia-em-agroecologia-e
- -contra-os-agrotoxicos
-URL:https://nos.dourados.social/agenda.html#ev-2026-11-14-dia-de-vivencia-e
- m-agroecologia-e-contra-os-agrotoxicos
+ ourados.social/agenda#ev-2026-11-14-dia-de-vivencia-em-agroecologia-e-cont
+ ra-os-agrotoxicos
+URL:https://nos.dourados.social/agenda#ev-2026-11-14-dia-de-vivencia-em-agr
+ oecologia-e-contra-os-agrotoxicos
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -993,10 +989,9 @@ DESCRIPTION:Organizações: Feira Badauê\, Inspiratório Ateliê\nTipo: Fe
  11)\, a feira começou às 17h30\, com show de Alê Borges\, DJ Gisele e o
   espetáculo "Estamos em Ebulição"\, do artista circense @wesleypd1.\n\n
  Fonte: https://www.instagram.com/feirabadaue/p/DfTLU-2tttI/\n\nNa agenda d
- o NOS Dourados: https://nos.dourados.social/agenda.html#ev-2026-11-14-feir
- a-badaue-no-atelie
-URL:https://nos.dourados.social/agenda.html#ev-2026-11-14-feira-badaue-no-a
- telie
+ o NOS Dourados: https://nos.dourados.social/agenda#ev-2026-11-14-feira-bad
+ aue-no-atelie
+URL:https://nos.dourados.social/agenda#ev-2026-11-14-feira-badaue-no-atelie
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
@@ -1012,10 +1007,9 @@ DESCRIPTION:Organização: Feira Batuque\nTipo: Feira\n\nSétima edição d
  mba: roda do Grupo Não Tem Hora e show do Soul Samba\, com expositores de
   artesanato\, artes visuais\, moda\, brechós\, aromas\, produtos criativo
  s e gastronomia.\n\nFonte: https://www.instagram.com/feira.batuque/p/DfUpR
- apNviI/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/agenda.h
- tml#ev-2026-11-14-feira-batuque-7-edicao
-URL:https://nos.dourados.social/agenda.html#ev-2026-11-14-feira-batuque-7-e
- dicao
+ apNviI/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/agenda#e
+ v-2026-11-14-feira-batuque-7-edicao
+URL:https://nos.dourados.social/agenda#ev-2026-11-14-feira-batuque-7-edicao
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -1034,10 +1028,10 @@ DESCRIPTION:Organização: Batalha da Cinquenta\nTipo: Batalha\n\nEdição
  sentação de Heloiza Cariaga e Pillz\, DJ Junex. Evento gratuito\, com in
  centivo do FIP\, da Prefeitura de Dourados.\n\nFonte: https://www.instagra
  m.com/batalhadacinquenta/p/DfsNdjDzvI2/\n\nNa agenda do NOS Dourados: http
- s://nos.dourados.social/agenda.html#ev-2026-11-14-batalha-da-50-edicao-esp
- ecial-do-projeto-50-em-cena
-URL:https://nos.dourados.social/agenda.html#ev-2026-11-14-batalha-da-50-edi
- cao-especial-do-projeto-50-em-cena
+ s://nos.dourados.social/agenda#ev-2026-11-14-batalha-da-50-edicao-especial
+ -do-projeto-50-em-cena
+URL:https://nos.dourados.social/agenda#ev-2026-11-14-batalha-da-50-edicao-e
+ special-do-projeto-50-em-cena
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -1056,10 +1050,10 @@ DESCRIPTION:Organização: Sucata Cultural\nTipo: Prazo\n\nÚltimo dia para
  s da Arte. O formulário está no link da bio do Sucata Cultural.\n\nLink:
   https://linktr.ee/sucataculturaloficial\nFonte: https://www.instagram.com
  /sucatacultural/p/DfVg0MZRIGI/\n\nNa agenda do NOS Dourados: https://nos.d
- ourados.social/agenda.html#ev-2026-11-15-fim-das-inscricoes-de-feirantes-d
- a-feira-criativa-do-sucata-
-URL:https://nos.dourados.social/agenda.html#ev-2026-11-15-fim-das-inscricoe
- s-de-feirantes-da-feira-criativa-do-sucata-
+ ourados.social/agenda#ev-2026-11-15-fim-das-inscricoes-de-feirantes-da-fei
+ ra-criativa-do-sucata-
+URL:https://nos.dourados.social/agenda#ev-2026-11-15-fim-das-inscricoes-de-
+ feirantes-da-feira-criativa-do-sucata-
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
@@ -1078,9 +1072,9 @@ DESCRIPTION:Organizações: House of Bombshell\, House De Lá\, Coletiva Mo
  s\; durante a atividade a House recebe contribuições financeiras para a 
  realização da Kiki Ball.\n\nFonte: https://www.instagram.com/asbombshell
  s/p/DfhvqCHhx3o/\n\nNa agenda do NOS Dourados: https://nos.dourados.social
- /agenda.html#ev-2026-11-15-oficina-de-face-com-aurora-de-la
-URL:https://nos.dourados.social/agenda.html#ev-2026-11-15-oficina-de-face-c
- om-aurora-de-la
+ /agenda#ev-2026-11-15-oficina-de-face-com-aurora-de-la
+URL:https://nos.dourados.social/agenda#ev-2026-11-15-oficina-de-face-com-au
+ rora-de-la
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -1104,10 +1098,10 @@ DESCRIPTION:Organizações: Frente Universitária UFGD\, SINTEF (Sindicato
  e (coordenadora-geral da APG UFGD)\, Davi Benatti e Vitor Targa (idealizad
  ores da Frente Universitária UFGD). Apoio: SINTEF e APG UFGD.\n\nFonte: h
  ttps://www.instagram.com/frenteuniversitariaufgd/p/DfzxC0rm2mc/\n\nNa agen
- da do NOS Dourados: https://nos.dourados.social/agenda.html#ev-2026-11-17-
- roda-de-conversa-10-anos-da-ocupacao-da-ufgd-memoria-luta-e-
-URL:https://nos.dourados.social/agenda.html#ev-2026-11-17-roda-de-conversa-
- 10-anos-da-ocupacao-da-ufgd-memoria-luta-e-
+ da do NOS Dourados: https://nos.dourados.social/agenda#ev-2026-11-17-roda-
+ de-conversa-10-anos-da-ocupacao-da-ufgd-memoria-luta-e-
+URL:https://nos.dourados.social/agenda#ev-2026-11-17-roda-de-conversa-10-an
+ os-da-ocupacao-da-ufgd-memoria-luta-e-
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -1124,10 +1118,10 @@ DESCRIPTION:Organização: UEMS\nTipo: Feira\n\nFeira das Semanas Integrada
  \, artesanato e diversidade: diálogo e reflexão para a construção de u
  ma sociedade mais justa.\n\nFonte: https://www.instagram.com/neab_ufgd/p/D
  fmo7AkFXJy/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/agen
- da.html#ev-2026-11-18-feira-solidaria-das-semanas-integradas-da-conscienci
- a-negra
-URL:https://nos.dourados.social/agenda.html#ev-2026-11-18-feira-solidaria-d
- as-semanas-integradas-da-consciencia-negra
+ da#ev-2026-11-18-feira-solidaria-das-semanas-integradas-da-consciencia-neg
+ ra
+URL:https://nos.dourados.social/agenda#ev-2026-11-18-feira-solidaria-das-se
+ manas-integradas-da-consciencia-negra
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -1148,10 +1142,10 @@ DESCRIPTION:Organizações: UFGD (Universidade Federal da Grande Dourados)\
  e o reforço escolar em língua portuguesa e matemática feito com estudan
  tes da Escola Clori Benedetti. Aberta a toda a comunidade.\n\nFonte: https
  ://www.instagram.com/culturaufgd/p/DfkHmHYzlz1/\n\nNa agenda do NOS Dourad
- os: https://nos.dourados.social/agenda.html#ev-2026-11-18-vii-mostra-cultu
- ral-do-centro-de-formacao-da-ufgd
-URL:https://nos.dourados.social/agenda.html#ev-2026-11-18-vii-mostra-cultur
- al-do-centro-de-formacao-da-ufgd
+ os: https://nos.dourados.social/agenda#ev-2026-11-18-vii-mostra-cultural-d
+ o-centro-de-formacao-da-ufgd
+URL:https://nos.dourados.social/agenda#ev-2026-11-18-vii-mostra-cultural-do
+ -centro-de-formacao-da-ufgd
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -1171,10 +1165,10 @@ DESCRIPTION:Organizações: NEAB UFGD (Núcleo de Estudos Afro-Brasileiros
   valorizando o protagonismo e as expressões culturais negras\, em celebra
  ção ao Dia da Consciência Negra.\n\nFonte: https://www.instagram.com/pr
  oaf.ufgd/p/DfpmY6KBv4Q/\n\nNa agenda do NOS Dourados: https://nos.dourados
- .social/agenda.html#ev-2026-11-19-sarau-vozes-da-diversidade-edicao-consci
- encia-negra
-URL:https://nos.dourados.social/agenda.html#ev-2026-11-19-sarau-vozes-da-di
- versidade-edicao-consciencia-negra
+ .social/agenda#ev-2026-11-19-sarau-vozes-da-diversidade-edicao-consciencia
+ -negra
+URL:https://nos.dourados.social/agenda#ev-2026-11-19-sarau-vozes-da-diversi
+ dade-edicao-consciencia-negra
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -1196,9 +1190,9 @@ DESCRIPTION:Organização: DCE UEMS (Diretório Central dos e das Estudante
  een no dia 21) e kit. Inscrições até 13/11\, pelo link na bio do DCE.\n
  \nLink: https://linktr.ee/dce.uems\nFonte: https://www.instagram.com/dceue
  ms/reel/DfF_ttoz0CG/\n\nNa agenda do NOS Dourados: https://nos.dourados.so
- cial/agenda.html#ev-2026-11-20-27-congresso-do-dce-uems
-URL:https://nos.dourados.social/agenda.html#ev-2026-11-20-27-congresso-do-d
- ce-uems
+ cial/agenda#ev-2026-11-20-27-congresso-do-dce-uems
+URL:https://nos.dourados.social/agenda#ev-2026-11-20-27-congresso-do-dce-ue
+ ms
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
@@ -1214,10 +1208,10 @@ DESCRIPTION:Atividade cancelada. Motivo: O Quintal de Palmares cancelou a I
  strutura e as condições que participantes\, artistas\, expositores e pú
  blico merecem.\n\nOrganização: Quintal de Palmares\nTipo: Feira\n\nFonte
  : https://www.instagram.com/quintaldepalmares/p/Df0EC6wG3Yy/\n\nNa agenda 
- do NOS Dourados: https://nos.dourados.social/agenda.html#ev-2026-11-20-7-f
- eira-afro-zumbi-vive
-URL:https://nos.dourados.social/agenda.html#ev-2026-11-20-7-feira-afro-zumb
- i-vive
+ do NOS Dourados: https://nos.dourados.social/agenda#ev-2026-11-20-7-feira-
+ afro-zumbi-vive
+URL:https://nos.dourados.social/agenda#ev-2026-11-20-7-feira-afro-zumbi-viv
+ e
 STATUS:CANCELLED
 TRANSP:OPAQUE
 END:VEVENT
@@ -1235,10 +1229,10 @@ DESCRIPTION:Organizações: ANPG\, APG UFGD (Associação de Pós-Graduando
  GD vai ao congresso\, com apoio institucional da Pró-Reitoria de Ensino d
  e Pós-Graduação e Pesquisa da UFGD e do SINTEF.\n\nFonte: https://www.i
  nstagram.com/apgufgd/p/Dfk63LEvk0i/\n\nNa agenda do NOS Dourados: https://
- nos.dourados.social/agenda.html#ev-2026-11-26-apg-ufgd-no-30-congresso-nac
- ional-de-pos-graduandos-cnpg
-URL:https://nos.dourados.social/agenda.html#ev-2026-11-26-apg-ufgd-no-30-co
- ngresso-nacional-de-pos-graduandos-cnpg
+ nos.dourados.social/agenda#ev-2026-11-26-apg-ufgd-no-30-congresso-nacional
+ -de-pos-graduandos-cnpg
+URL:https://nos.dourados.social/agenda#ev-2026-11-26-apg-ufgd-no-30-congres
+ so-nacional-de-pos-graduandos-cnpg
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
@@ -1255,10 +1249,10 @@ DESCRIPTION:Organização: Escola Matumbé Capoeira Angola\nTipo: Cultura\n
  quem admira a Capoeira Angola. Uniforme: calça de cor clara e camiseta br
  anca\, ou o uniforme oficial do grupo.\n\nFonte: https://www.instagram.com
  /matumbe_ms/reel/DfeCUImM_H2/\n\nNa agenda do NOS Dourados: https://nos.do
- urados.social/agenda.html#ev-2026-11-27-roda-oficial-da-escola-matumbe-de-
- capoeira-angola
-URL:https://nos.dourados.social/agenda.html#ev-2026-11-27-roda-oficial-da-e
- scola-matumbe-de-capoeira-angola
+ urados.social/agenda#ev-2026-11-27-roda-oficial-da-escola-matumbe-de-capoe
+ ira-angola
+URL:https://nos.dourados.social/agenda#ev-2026-11-27-roda-oficial-da-escola
+ -matumbe-de-capoeira-angola
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -1284,10 +1278,10 @@ DESCRIPTION:Organização: Sucata Cultural\nTipo: Festival\n\n1º Festival
  res)\; e a Sucata – Mini Ball (Gisele Vitório Santana).\n\nContato: (67
  ) 99134-4133 (WhatsApp) ou @sucatacultural\nFonte: https://www.instagram.c
  om/sucatacultural/p/DfuvkYoljM5/\n\nNa agenda do NOS Dourados: https://nos
- .dourados.social/agenda.html#ev-2026-11-28-festival-multicultural-caminhos
- -da-arte
-URL:https://nos.dourados.social/agenda.html#ev-2026-11-28-festival-multicul
- tural-caminhos-da-arte
+ .dourados.social/agenda#ev-2026-11-28-festival-multicultural-caminhos-da-a
+ rte
+URL:https://nos.dourados.social/agenda#ev-2026-11-28-festival-multicultural
+ -caminhos-da-arte
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
@@ -1303,10 +1297,10 @@ DESCRIPTION:Organização: Acervo\nTipo: Feira\n\nA última Brechózada do
  orais e arte: vários brechós\, cada um com uma surpresa e uma promoção
   especial. Entrada gratuita\; a partir das 13h\, tem também o Bar do Acer
  vo.\n\nFonte: https://www.instagram.com/acervo.cultms/p/Dfm5QzXlVgg/\n\nNa
-  agenda do NOS Dourados: https://nos.dourados.social/agenda.html#ev-2026-1
- 1-28-ultima-brechozada-do-ano-no-acervo
-URL:https://nos.dourados.social/agenda.html#ev-2026-11-28-ultima-brechozada
- -do-ano-no-acervo
+  agenda do NOS Dourados: https://nos.dourados.social/agenda#ev-2026-11-28-
+ ultima-brechozada-do-ano-no-acervo
+URL:https://nos.dourados.social/agenda#ev-2026-11-28-ultima-brechozada-do-a
+ no-no-acervo
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -1332,9 +1326,9 @@ DESCRIPTION:Organizações: Instituto Cultural Malungo\, Projeto Gingar par
   de Três Lagoas.\n\nLink: https://www.even3.com.br/vi-festival-nacional-m
  alungo-capoeira-801438/\nFonte: https://www.instagram.com/projetogingarpar
  aeducar/p/DfDSRQjKAcn/\n\nNa agenda do NOS Dourados: https://nos.dourados.
- social/agenda.html#ev-2026-12-04-6-festival-nacional-malungo-capoeira
-URL:https://nos.dourados.social/agenda.html#ev-2026-12-04-6-festival-nacion
- al-malungo-capoeira
+ social/agenda#ev-2026-12-04-6-festival-nacional-malungo-capoeira
+URL:https://nos.dourados.social/agenda#ev-2026-12-04-6-festival-nacional-ma
+ lungo-capoeira
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
@@ -1350,10 +1344,10 @@ DESCRIPTION:Organização: PT Dourados\nTipo: Plenária\n\nPlenária das mu
  ncia e a recomposição da Secretaria de Mulheres do partido. Haverá ato 
  de filiação para mulheres que queiram se somar.\n\nFonte: https://www.in
  stagram.com/secmulheresptddos13/p/DfFtEfEPnMf/\n\nNa agenda do NOS Dourado
- s: https://nos.dourados.social/agenda.html#ev-2026-12-05-plenaria-de-mulhe
- res-do-pt-dourados
-URL:https://nos.dourados.social/agenda.html#ev-2026-12-05-plenaria-de-mulhe
- res-do-pt-dourados
+ s: https://nos.dourados.social/agenda#ev-2026-12-05-plenaria-de-mulheres-d
+ o-pt-dourados
+URL:https://nos.dourados.social/agenda#ev-2026-12-05-plenaria-de-mulheres-d
+ o-pt-dourados
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -1368,10 +1362,10 @@ DESCRIPTION:Organização: Garimpo Coletivo\nTipo: Feira\n\nA última ediç
  ão de 2026 do Garimpo Coletivo\, feira de brechós de Dourados: moda\, br
  echós\, acessórios\, música e chopp\, no espaço do brechó @mayconcept
  brecho.\n\nFonte: https://www.instagram.com/garimpo.coletivoo/p/Df3Aujmhof
- K/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/agenda.html#e
- v-2026-12-05-garimpo-coletivo-feira-de-brechos
-URL:https://nos.dourados.social/agenda.html#ev-2026-12-05-garimpo-coletivo-
- feira-de-brechos
+ K/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/agenda#ev-202
+ 6-12-05-garimpo-coletivo-feira-de-brechos
+URL:https://nos.dourados.social/agenda#ev-2026-12-05-garimpo-coletivo-feira
+ -de-brechos
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -1400,10 +1394,10 @@ DESCRIPTION:Organizações: House of Bombshell\, Ballroom Dourados\nTipo: F
  trans podem entrar de graça pela Lista Trans FREE\, com o formulário da 
  House (o prazo muda de um post para outro: confirme com a House).\n\nConta
  to: (67) 99323-6397\nFonte: https://www.instagram.com/asbombshells/p/DfsxQ
- 4JlsYv/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/agenda.h
- tml#ev-2026-12-05-grande-natal-das-bombshells
-URL:https://nos.dourados.social/agenda.html#ev-2026-12-05-grande-natal-das-
- bombshells
+ 4JlsYv/\n\nNa agenda do NOS Dourados: https://nos.dourados.social/agenda#e
+ v-2026-12-05-grande-natal-das-bombshells
+URL:https://nos.dourados.social/agenda#ev-2026-12-05-grande-natal-das-bombs
+ hells
 STATUS:CONFIRMED
 TRANSP:OPAQUE
 END:VEVENT
@@ -1422,10 +1416,10 @@ DESCRIPTION:Organização: Sucata Cultural\nTipo: Espetáculo\nHorário: 19
  alco no Castelo Rá-Tim-Bum\, inspirado no programa infantil da TV: o resu
  ltado de um ano de aulas. Ingressos: R$ 60 a inteira e R$ 30 a meia.\n\nFo
  nte: https://www.instagram.com/sucatacultural/p/DfiQfZeo42f/\n\nNa agenda 
- do NOS Dourados: https://nos.dourados.social/agenda.html#ev-2026-12-12-10-
- mostra-sucata-cultural-castelo-ra-tim-bum
-URL:https://nos.dourados.social/agenda.html#ev-2026-12-12-10-mostra-sucata-
- cultural-castelo-ra-tim-bum
+ do NOS Dourados: https://nos.dourados.social/agenda#ev-2026-12-12-10-mostr
+ a-sucata-cultural-castelo-ra-tim-bum
+URL:https://nos.dourados.social/agenda#ev-2026-12-12-10-mostra-sucata-cultu
+ ral-castelo-ra-tim-bum
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
@@ -1442,10 +1436,10 @@ DESCRIPTION:Organização: Capoarti\nTipo: Cultura\n\nEncontro anual do gru
  stras e um Encontro dos Saberes\, com convidados e mestres de Mato Grosso 
  do Sul e de outros estados. As inscrições já estão abertas\, pelo What
  sApp.\n\nContato: Mestre Cyborg – (67) 98124-8862\n\nNa agenda do NOS Do
- urados: https://nos.dourados.social/agenda.html#ev-2027-01-30-encontro-anu
- al-de-capoeira-do-grupo-capoarti
-URL:https://nos.dourados.social/agenda.html#ev-2027-01-30-encontro-anual-de
+ urados: https://nos.dourados.social/agenda#ev-2027-01-30-encontro-anual-de
  -capoeira-do-grupo-capoarti
+URL:https://nos.dourados.social/agenda#ev-2027-01-30-encontro-anual-de-capo
+ eira-do-grupo-capoarti
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT

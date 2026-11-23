@@ -7,10 +7,10 @@ import { douradosNow, hourText, inSentence, longDay, resultText } from './calls.
 
 // Closing lines added to every message, with the address of the page they come from — change them
 // freely (or set to '' to remove).
-export const CLOSING_LINE = `📅 Mais atividades na agenda do ${APP_NAME} ${HOME_CITY}${SITE_URL ? `: ${SITE_URL}/agenda.html` : ''}`;
-export const NEWS_CLOSING_LINE = `📰 Mais notícias das organizações no ${APP_NAME} ${HOME_CITY}${SITE_URL ? `: ${SITE_URL}/noticias.html` : ''}`;
-export const CALLS_CLOSING_LINE = `📄 Mais editais no ${APP_NAME} ${HOME_CITY}${SITE_URL ? `: ${SITE_URL}/editais.html` : ''}`;
-// The Mapa's: followed by the place's own address on the map (mapa.html#<id> opens it).
+export const CLOSING_LINE = `📅 Mais atividades na agenda do ${APP_NAME} ${HOME_CITY}${SITE_URL ? `: ${SITE_URL}/agenda` : ''}`;
+export const NEWS_CLOSING_LINE = `📰 Mais notícias das organizações no ${APP_NAME} ${HOME_CITY}${SITE_URL ? `: ${SITE_URL}/noticias` : ''}`;
+export const CALLS_CLOSING_LINE = `📄 Mais editais no ${APP_NAME} ${HOME_CITY}${SITE_URL ? `: ${SITE_URL}/editais` : ''}`;
+// The Mapa's: followed by the place's own address on the map (mapa#<id> opens it).
 export const MAP_CLOSING_LINE = `🗺️ No mapa do ${APP_NAME} ${HOME_CITY}`;
 
 // Where the activity happens, as the message header names it.
@@ -140,7 +140,7 @@ export function buildPlaceMessage(place) {
   if (place.link) reach.push(`🔗 ${place.link}`);
   reach.push(`🧭 Como chegar: ${directionsUrl(place)}`);
   blocks.push(reach);
-  if (MAP_CLOSING_LINE) blocks.push([`${MAP_CLOSING_LINE}${SITE_URL ? `: ${SITE_URL}/mapa.html#${place.id}` : ''}`]);
+  if (MAP_CLOSING_LINE) blocks.push([`${MAP_CLOSING_LINE}${SITE_URL ? `: ${SITE_URL}/mapa#${place.id}` : ''}`]);
   return blocks.map((lines) => lines.join('\n')).join('\n\n');
 }
 

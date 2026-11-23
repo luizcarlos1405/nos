@@ -468,7 +468,7 @@ function renderBench() {
   const page = safeUrl(call.page);
   if (page) facts.append(fact('external', factLink(page, 'Página oficial', host(page)), 'Página oficial'));
   const ev = activities.get(call.activity);
-  if (ev && status !== 'closed') facts.append(fact('calendar-days', factLink(`agenda.html#${encodeURIComponent(ev.id)}`, 'O prazo na agenda', tinyDay(ev.endDate || ev.date)), 'Na agenda'));
+  if (ev && status !== 'closed') facts.append(fact('calendar-days', factLink(`agenda#${encodeURIComponent(ev.id)}`, 'O prazo na agenda', tinyDay(ev.endDate || ev.date)), 'Na agenda'));
   if (call.checked) facts.append(fact('check', plain(`Conferido pelo NOS em ${formatDayMonth(call.checked)}`, call.source), 'Conferido'));
 
   const message = buildCallMessage(call, status, now);
@@ -615,7 +615,7 @@ function settleCopy() {
 
 // ---------- The address ----------
 
-// editais.html#ed-2026-11-23-…: that call opens (the area cleared when it hides it), if it is still on
+// editais#ed-2026-11-23-…: that call opens (the area cleared when it hides it), if it is still on
 // the page.
 function openFromAddress() {
   const target = addressTarget();

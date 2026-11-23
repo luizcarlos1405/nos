@@ -245,7 +245,7 @@ function monthLabel(month) {
 // The activity a story leads to, under its card: "Na agenda: sáb, 07/11" (a period: "até dom, 08/11").
 function agendaPill(ev) {
   const link = el('a', 'news-agenda');
-  link.href = `agenda.html#${encodeURIComponent(ev.id)}`;
+  link.href = `agenda#${encodeURIComponent(ev.id)}`;
   link.innerHTML = icon('calendar-days');
   link.append(el('span', null, `Na agenda: ${ev.endDate ? `até ${formatTinyDate(ev.endDate)}` : formatTinyDate(ev.date)}`));
   link.setAttribute('aria-label', `Na agenda: ${ev.title}, ${ev.endDate ? `até ${formatTinyDate(ev.endDate)}` : formatTinyDate(ev.date)}`);
@@ -499,7 +499,7 @@ function renderBench() {
   const ev = activities.get(n.activity);
   if (ev) {
     const when = [ev.endDate ? `até ${formatTinyDate(ev.endDate)}` : formatTinyDate(ev.date), formatTimeRange(ev), ev.local].filter(Boolean).join(', ');
-    facts.append(fact('calendar-days', factLink(`agenda.html#${encodeURIComponent(ev.id)}`, `Na agenda: ${ev.title}`, when), 'Na agenda'));
+    facts.append(fact('calendar-days', factLink(`agenda#${encodeURIComponent(ev.id)}`, `Na agenda: ${ev.title}`, when), 'Na agenda'));
   }
 
   const body = $('story-body');
@@ -650,7 +650,7 @@ function settleCopy() {
 
 // ---------- The address ----------
 
-// noticias.html#nt-2026-10-28-…: that story opens (filters cleared when they hide it). One from before
+// noticias#nt-2026-10-28-…: that story opens (filters cleared when they hide it). One from before
 // the window has its month read first: its id starts with its day.
 async function openFromAddress() {
   const target = addressTarget();

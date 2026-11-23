@@ -227,7 +227,7 @@ async function start() {
   openFromAddress();
 }
 
-// An address naming an activity (agenda.html#ev-…: a calendar entry's link, "Copiar o link da
+// An address naming an activity (agenda#ev-…: a calendar entry's link, "Copiar o link da
 // atividade") opens it in the panel; #salvar-tudo opens "Salvar tudo na agenda" (the link sent to be
 // opened on a computer, or in Safari). An activity from before the window is read first: its id
 // starts with its first day, so its month is known.

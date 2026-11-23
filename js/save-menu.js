@@ -26,7 +26,7 @@ const phone = device !== 'desk';
 
 // The address that opens "Salvar tudo na agenda" (agenda.html reads it after the #): sent to the
 // person's WhatsApp to open on a computer, or copied to open in Safari.
-const SAVE_ALL_PAGE = `${SITE_URL}/agenda.html#salvar-tudo`;
+const SAVE_ALL_PAGE = `${SITE_URL}/agenda#salvar-tudo`;
 
 let dialog;
 let body;

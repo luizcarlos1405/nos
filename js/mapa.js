@@ -592,7 +592,7 @@ function closeSide() {
   $('layers-open').focus();
 }
 
-// mapa.html#<id> opens that place (the WhatsApp message links to it).
+// mapa#<id> opens that place (the WhatsApp message links to it).
 function openFromAddress() {
   const id = addressTarget();
   const place = id && byId(id);

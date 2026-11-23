@@ -62,8 +62,8 @@ export function eventLocation(ev) {
   return `${local}, ${ev.city || CITY}`;
 }
 
-// The activity on the site: agenda.html opens the one its address names after the #.
-export const eventPage = (ev) => `${SITE_URL}/agenda.html#${ev.id}`;
+// The activity on the site: the agenda (agenda.html, at /agenda) opens the one its address names after the #.
+export const eventPage = (ev) => `${SITE_URL}/agenda#${ev.id}`;
 
 // The calendar entry's notes: who organizes it and what it is, the hours a whole-day entry can't
 // show, what the organizations say about it, how to reach them, and the way back to the agenda.
@@ -136,7 +136,7 @@ export function buildCalendar(events, { feed = false, now = new Date() } = {}) {
   if (feed) {
     lines.push(
       `X-WR-CALNAME:${text(CALENDAR_NAME)}`,
-      `X-WR-CALDESC:${text(`Atividades das organizações de ${CITY}, da agenda do ${CALENDAR_NAME}: ${SITE_URL}/agenda.html`)}`,
+      `X-WR-CALDESC:${text(`Atividades das organizações de ${CITY}, da agenda do ${CALENDAR_NAME}: ${SITE_URL}/agenda`)}`,
       `X-WR-TIMEZONE:${TIME_ZONE}`,
       'REFRESH-INTERVAL;VALUE=DURATION:PT1H',
       'X-PUBLISHED-TTL:PT1H',

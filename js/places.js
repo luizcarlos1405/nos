@@ -127,7 +127,7 @@ export function buildPlaces(layer, headers, records, lines = [], now = new Date(
     const phones = phonesIn(contact);
     const instagram = readInstagram(get(record, 'instagram'));
     const when = get(record, 'when').split(';').map((s) => tidyTimes(s.trim())).filter(Boolean);
-    // The id names the place for links (mapa.html#<id>): the layer, the name and the place, without
+    // The id names the place for links (mapa#<id>): the layer, the name and the place, without
     // saying the name twice when the place starts with it ("UFGD – Unidade I", "UFGD Unidade I (CEUD)").
     const nameSlug = slugify(name);
     const placeSlug = slugify(place);

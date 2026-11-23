@@ -90,9 +90,9 @@ export const APP_FULL_NAME = 'Núcleo de Organização Social';
 export const CITY = 'Dourados/MS';
 export const HOME_CITY = 'Dourados';
 
-// Public address of the site, added to the end of every WhatsApp message (with the page's file:
-// agenda.html, noticias.html, editais.html, mapa.html#<id>). The og:url/og:image/canonical tags of
-// every page use the same address.
+// Public address of the site, added to the end of every WhatsApp message (with the page's address, its
+// file without the extension, as GitHub Pages serves it: /agenda, /noticias, /editais, /mapa#<id>). The
+// og:url/og:image/canonical tags of every page use the same address.
 export const SITE_URL = 'https://nos.dourados.social';
 
 // The agenda's time zone (Dourados: UTC−4, no daylight saving): the hours an activity takes in the
