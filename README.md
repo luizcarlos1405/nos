@@ -165,17 +165,26 @@ Depois da varredura o `pages.json` fica alterado, com as datas novas: faça o co
 
 ## Varredura dos editais
 
-Os editais saem das fontes oficiais listadas em `tools/editais/fontes.json`: o Diário Oficial de Dourados, os sites da Prefeitura, da FCMS e da Fundesporte, a página de inscrições abertas do Ministério da Cultura e as chamadas da Funarte. Para ler o que há de novo, peça a um agente a "varredura dos editais", ou rode você mesmo, na pasta do site:
+Os editais saem das fontes listadas em `tools/editais/fontes.json`, 25 desde 25/11/2026:
+
+- **Diários oficiais:** o Diário Oficial de Dourados e o de Mato Grosso do Sul (só os atos da FCMS e da Fundesporte).
+- **Dourados e o Estado:** os sites da Prefeitura, da FCMS e da Fundesporte (as notícias e as páginas, onde a SEMC guarda cada edital) e a Agência de Notícias de MS.
+- **Federais:** as listas de editais do Ministério da Cultura e da Funarte, e as notícias do MinC, da Fundação Palmares e dos Ministérios do Esporte, dos Povos Indígenas e da Igualdade Racial.
+- **Estatais e privadas:** os patrocínios da Itaipu (incluindo os editais sociais com a Caixa), da Transpetro, da Petrobras, do BNDES, do Instituto Cultural Vale e da Mapfre, a Bolsa ZUM/IMS, o Sesc (nacional e MS), o Fundo Social do Sicredi Centro-Sul MS/BA e o Cultura e Mercado, um site que junta editais.
+
+Para ler o que há de novo, peça a um agente a "varredura dos editais", ou rode você mesmo, na pasta do site:
 
 ```sh
 python3 -I tools/editais/editais.py
 ```
 
-Não abre navegador nem usa conta: lê cada fonte desde a última leitura, uma página por vez. No Diário Oficial ele lê o PDF de cada edição (precisa do `pdftotext`) e separa os trechos que falam de edital perto de cultura, esporte ou lazer. Nos sites, busca as notícias com "edital", "chamamento", "inscrições", "premiação" e "seleção". Nas listas do MinC e da Funarte, abre só os editais que ainda não tinha visto. E lê de novo a página oficial de cada edital aberto da planilha, para ver se o prazo mudou ou saiu o resultado.
+Não abre navegador nem usa conta: lê cada fonte desde a última leitura, uma página por vez, devagar. Nos diários oficiais ele lê o PDF de cada edição (precisa do `pdftotext`) e separa os trechos que falam de edital perto de cultura, esporte ou lazer. Nos sites, busca as notícias com "edital", "chamamento", "inscrições", "premiação" e "seleção", e as páginas alteradas. Nas listas de editais abre só os que ainda não tinha visto. Nas páginas que anunciam uma seleção por ano (Petrobras, Vale, Mapfre…) mostra as linhas com datas e valores que mudaram. E lê de novo a página oficial de cada edital aberto da planilha, e dos que fecharam há pouco, para ver se o prazo mudou, se saiu o resultado ou se a página mudou de endereço.
 
-**O que ele guarda.** Tudo vai para `tools/editais/dumps/<dia-hora>/`, fora do git: um `README.md` com o resumo, um arquivo por fonte, o `abertos.md` (os editais abertos, lidos de novo) e o texto das edições do Diário Oficial em `diario/`. O agente confere cada achado no edital, atualiza `data/editais.csv` e escreve ali o `editais-candidatos.md` para a equipe escolher.
+**De quanto em quanto tempo.** Rode uma vez por semana, ou no máximo a cada duas. O Diário Oficial do Estado só mostra as edições da última semana, mais ou menos, e as notícias do MinC só as 15 mais novas. O que sair da lista antes da varredura se perde, e o `README.md` da varredura avisa quando isso acontece.
 
-**A lista.** Cada fonte é uma linha de `fontes.json`. O script preenche `lastRead` (e, nas listas, os editais já vistos); `python3 -I tools/editais/editais.py fcms` lê só essa fonte, `--since 01/11/2026` lê de novo desde esse dia e `--list` mostra quando cada uma foi lida. Acrescentar ou tirar uma fonte é decisão da equipe. Depois da varredura o `fontes.json` fica alterado: faça o commit dele junto com os editais.
+**O que ele guarda.** Tudo vai para `tools/editais/dumps/<dia-hora>/`, fora do git: um `README.md` com o resumo, um arquivo por fonte, o `abertos.md` (os editais da planilha, lidos de novo) e o texto das edições dos diários em `diario/`. O agente confere cada achado no edital, atualiza `data/editais.csv` e escreve ali o `editais-candidatos.md` para a equipe escolher.
+
+**A lista.** Cada fonte é uma linha de `fontes.json`. O script preenche `lastRead` e, nas listas, os editais já vistos. `python3 -I tools/editais/editais.py fcms` lê só essa fonte, `--since 01/11/2026` lê de novo desde esse dia e `--list` mostra quando cada uma foi lida. Acrescentar ou tirar uma fonte é decisão da equipe. Depois da varredura o `fontes.json` fica alterado: faça o commit dele junto com os editais.
 
 ## Editando o mapa
 

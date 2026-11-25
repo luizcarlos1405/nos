@@ -9,7 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Início** (`index.html`, `js/home.js`; redesigned and built 2026-11-12 from `design/inicio-proposta.html`): the city's question on the sky of this hour, "O que está acontecendo em Dourados?", with a line of what the site holds under it; on the land the very next activity, labelled "A próxima atividade" (its day circled by hand with "hoje"/"amanhã" and the time beside it, its title opening it in the agenda, `agenda#<id>`, and under 760px the whole block does; who, when and where; "Mandar no WhatsApp", and from 760px "Ver na agenda"), "Ver todas as N atividades", then what the other pages hold, as rows of type (Notícias: the story the page leads with; the Mapa: how many places, and its layers' drawings; Editais: how many calls are open, and the one that closes first), and who NOS follows ("O NOS acompanha o que 91 organizações de Dourados publicam", static in `index.html`, with the nine groups' dots).
 - **Agenda** (`agenda.html`, `js/app.js`; `calendario.html` until 2026-10-27, now a page that forwards to it): one permanent calendar of the activities of the social movements, unions, student groups, Indigenous and quilombola organizations, councils and parties of Dourados/MS, as a list of days or a month. For each activity it generates a WhatsApp-ready message and a 1080×1350 PNG flyer, and saves it in the person's own calendar ("Salvar na minha agenda"); "Salvar tudo na agenda" subscribes them to the whole agenda (`agenda.ics`). Called "Agenda" in the UI since the Céu · Terra redesign (2026-10-27), when the file became `agenda.html`; its address is `/agenda`. Until 2026-10-26 it was `index.html`.
 - **Notícias** (`noticias.html`, `js/noticias.js`; built 2026-11-05 from the approved artboards): what the organizations are living (Conquista, Perda, Alerta, Informe; public-service alerts too), picked by the NOS team from their posts, each story with who lived it, its source post and, when it has one, its activity in the agenda; the story the team leads with ("Destaque"), then the weeks, filters by organization and kind, a story opening in the agenda's panel with its WhatsApp message.
-- **Editais** (`editais.html`, `js/editais.js`, `js/calls.js`; built 2026-11-18 from the approved artboards): the calls, prizes and grants with money for culture, sport and leisure, with a tab of its own since 2026-11-22 (Comércio's; from 18/11 it hung from the Notícias tab), by deadline, each with only the essentials (how much, who can apply) and its two links; its sheet is `data/editais.csv`, and `tools/editais/editais.py` reads the official sources ("Editais scan").
+- **Editais** (`editais.html`, `js/editais.js`, `js/calls.js`; built 2026-11-18 from the approved artboards): the calls, prizes and grants with money for culture, sport and leisure, with a tab of its own since 2026-11-22 (Comércio's; from 18/11 it hung from the Notícias tab), by deadline, each with only the essentials (how much, who can apply) and its two links; its sheet is `data/editais.csv`, and `tools/editais/editais.py` reads the sources of calls: public bodies, state companies and private funders ("Editais scan").
 - **Mapa** (`mapa.html`, `js/mapa.js`; built 2026-11-11 from idea C · Camadas of the round on the canvas): the city's map of culture and of the movements, by layers (`MAP_LAYERS`: Capoeira, which is the Mapa da Capoeira of COMAFRO Dourados, then Batalhas de rima, Feiras, Espaços culturais, Sindicatos, Universidades, Poder público), each turned on and off (chips on phones, a rail on the desk); the places are points with their layer's drawing on a MapLibre map painted in Céu · Terra, merged into counts where they crowd; a place opens in a card (its times, contacts, who reviewed it and when, "Enviar no WhatsApp", "Como chegar"); the panel lists every place by layer and by name, and is the page when the map can't open.
 
 **Comércio** (`comercio.html`, the businesses that answered the network's registration form, a Google Form) was a page from 2026-10-26 to 2026-11-22, when it left the site (the user's call) and Editais took its tab. Its page, code (`js/comercio.js`, `js/businesses.js`), data (`data/comercio.csv`, the form's answers) and surface brief were removed by an ordinary commit, `73af32e` ("Comércio leaves the site"), and its Topo fixo artboard by `1ee0854`, not purged: they stay in the public history (`git show 73af32e^:js/businesses.js`). The Mapa's reading of phones and Instagram handles, which it took from `js/businesses.js`, moved unchanged to `js/contacts.js`. Old links to `comercio.html` get the host's 404 (no stub forwards them).
@@ -94,35 +94,74 @@ The Mapa shows only rows reviewed recently (`js/review.js`): a place nobody has 
 `tools/editais/` is where Editais gets its calls, the way the agenda gets its posts from `tools/instagram/`: `fontes.json`, a static list of official sources; `editais.py`, the script (the user's name for it, after `../scripts/ig.py`); and `dumps/<date-time>/`, git-ignored, which an agent turns into rows of `data/editais.csv`. Unlike the Instagram scan it needs no browser and no account, so the agent runs it: the user comes back from time to time and asks an agent for a scan (there is no schedule).
 
 - **Running it:** from `nos-app/`, `python3 -I tools/editais/editais.py` reads every source, each from a day before its `lastRead` (a source never read starts at `settings.firstRead`). `ID ...` reads only those sources, `--since dd/mm/aaaa` re-reads from that day, `--no-pdf` lists the gazette's editions without reading them, `--list` shows the sources and when each was read.
-- **What it needs:** `pdftotext` (poppler-utils, in the user's dotfiles since 2026-11-18; before the system is rebuilt, `nix shell nixpkgs#poppler-utils -c python3 -I tools/editais/editais.py`). Without it the editions are only listed, and the gazette keeps its old `lastRead`.
-- **How it reads:** one request at a time, about a second apart, with a common browser's User-Agent (nothing about the user or the project goes out). A source that fails keeps its `lastRead`; the others get theirs, and a listing its `seen` links, as soon as they are done, so a run that stops can simply be started again. Commit `fontes.json` with the rows.
-- **The kinds of source** (`fontes.json`, each checked live on 2026-11-18):
-  - **`gazette`, the Diário Oficial de Dourados.** Its feed is `index.php/feed/` (WordPress, paged with `?paged=N`), and each edition's page links its PDF. In each page of text it keeps the passages where a call word (`settings.callWords`) has a subject of the page (`settings.topics`) in the lines around it.
-    - It skips them when the act's heading is a purchase, an auction, a hiring or a credenciamento (`settings.skip`).
-    - It cuts the masthead first (`strip`): the masthead names every public body, the FUNED among them.
-    - Passages on pages at most two apart become one item, because a call usually runs over many pages.
-    - The text of every edition read is kept in `diario/` to search (pages split by form feeds).
-  - **`wordpress`: the Prefeitura's portal, the FCMS and the Fundesporte.** It queries `wp-json/wp/v2/posts?search=<term>&after=<day>` for each of `settings.terms`, and sorts the posts into calls (the title or excerpt speaks of edital, inscrição, prêmio, seleção, resultado), other posts on the subject, and posts off it (titles only).
-  - **`listing`: the MinC's "Inscrições abertas" and Funarte's calls of the year.** The links under `prefix` that are not in `seen` are opened, and their lines with dates and amounts kept.
-    - The MinC's page keeps calls that already closed (on 2026-11-18, three of its four), so read the dates.
-    - Funarte's listing is per year: for 2027 its `url` and `prefix` become `chamadas-2027`, a change to the list for the user to approve.
-  - **The open calls of `data/editais.csv`** are read again on their `Página oficial` at every run (`abertos.md`): compare the deadline, the "Atualizado em", corrections and results with the sheet.
-- **Tried and left out (2026-11-18):**
-  - the federal Mapa da Cultura's opportunity API: anyone can post an "oportunidade", so it holds tests, ads and dates in 2111;
-  - the state's gazette: spdo.ms.gov.br didn't answer;
-  - the Ministério do Esporte: it has no page of open calls, and each edital sets its own dates;
-  - Querido Diário: its API didn't answer, and Dourados' gazette is read directly anyway;
-  - the FCMS's "editais" page: empty in its HTML, and its posts carry the calls;
-  - Prosas and private funders: an open decision.
-- **Adding or removing a source** is the user's call, as a page of `pages.json` is: suggest it, don't do it.
+- **What it needs:** `pdftotext` (poppler-utils, in the user's dotfiles since 2026-11-18 and installed; on a machine without it, `nix shell nixpkgs#poppler-utils -c python3 -I tools/editais/editais.py`). Without it the gazettes' editions are only listed, and the gazettes keep their old `lastRead`.
+- **How it reads:** one request at a time, about a second apart (a source's `pace` makes it slower where its robots.txt asks: Petrobras 5 s, BNDES 2 s, the Sesc MS 10 s), with a common browser's User-Agent (nothing about the user or the project goes out). A source that fails keeps its `lastRead`; the others get theirs, a listing its `seen` links and a page its `seenLines`, as soon as they are done, so a run that stops can simply be started again. Commit `fontes.json` with the rows.
+- **How often:** the user asks for a scan from time to time, but two sources lose what they don't read in time. The DOE-MS's page lists only its latest ten or so editions, about a week, and gov.br's feeds keep their 15 newest items, about two weeks for the MinC. So a scan every week, or at most every two, misses nothing. When a source didn't reach its last reading, the dump says so.
+- **The sources** (`fontes.json`; the first six were checked live on 2026-11-18, the rest on 2026-11-25, when the user asked for the Itaipu's calls, private funders and "all the others the page can have"). There are 25. By kind:
+  - **`gazette`: official gazettes, read as PDF text.**
+    - **The Diário Oficial de Dourados.** Its feed is `index.php/feed/` (WordPress, paged with `?paged=N`), and each edition's page links its PDF.
+    - **The DOE-MS** (`doe-ms`, since 2026-11-25). Its home page (`index`) lists the latest editions, extras and supplements, as PDF links that carry their day (`…/2026/11/25/DO12339_25_11_2026.pdf`). `require` keeps only the passages within 15 lines of the FCMS's or the Fundesporte's name, because it prints every state body. spdo.ms.gov.br, the old address, no longer resolves. Its page doesn't go back, so what left it is lost: the dump says so, and the reading moves on.
+    - In each page of text the reader keeps the passages where a call word (`settings.callWords`) has a subject of the page (`settings.topics`) in the lines around it.
+      - It skips them when the act's heading is a purchase, an auction, a hiring or a credenciamento (`settings.skip`).
+      - It cuts the masthead first (`strip`): the Dourados masthead names every public body, the FUNED among them.
+      - Passages on pages at most two apart become one item, because a call usually runs over many pages.
+      - The text of every edition read is kept in `diario/` to search (pages split by form feeds).
+  - **`wordpress`: a site's REST API.** It queries `wp-json/wp/v2/posts?search=<term>&after=<day>` for each of `settings.terms` (or the source's own `terms`). It sorts the posts into calls (the title or excerpt speaks of edital, inscrição, prêmio, seleção, resultado), other posts on the subject, and posts off it (titles only).
+    - With `pages`, it also lists the pages created or edited since then (`wp/v2/pages?modified_after=`). The Prefeitura's SEMC keeps each call on a page of its own, which also gathers the call's corrections and results, and the FCMS and the Fundesporte keep their programmes on pages. Those whose title names a subject or a call get their lines with dates and amounts, which are mostly the documents' link labels ("Resultado Preliminar…").
+    - The sources: the Prefeitura's portal, the FCMS and the Fundesporte (all three with `pages`), the state's news agency (`agencia-ms`, terms edital, chamamento and patrocínio; MSGÁS's yearly call, in August and September, shows only there) and the Sesc's national site.
+    - The Sesc's answers start with a byte order mark, which `fetch` strips.
+  - **`listing`: a page whose links are the calls.** The links under `prefix` that are not in `seen` are opened, and their lines with dates and amounts kept.
+    - Relative links count, resolved against the page. A link labelled only "Ver mais" or the like takes the title of its own page. Links the page fills in with JavaScript (`${…}`) are skipped.
+    - With `match`, a news list keeps only the links whose label names a call (Sesc MS, Sicredi).
+    - The sources:
+      - the MinC's "Inscrições abertas" and Funarte's calls of 2026. On 2026-11-25 `chamadas-2027` didn't exist yet. When it does, it is a new source for the user to approve. Funarte's "chamadas-abertas" page lists every year's calls, but its links lead to 404s.
+      - the Itaipu's sponsorship calls (`itaipu-patrocinios`) and its social calls with the Caixa (`itaipu-editais-sociais`: organizations of PR and MS, once a year; the 2026 one had R$ 90 million, with a line for sport and culture).
+      - the Transpetro's sponsorship page.
+      - the Sesc MS's news (pace 10 s) and the Sicredi Centro-Sul MS/BA's news (its Fundo Social, in May and June).
+      - the Cultura e Mercado's category of calls, an aggregator of mostly private and São Paulo calls. Its menu links were marked seen.
+    - The MinC's page keeps calls that already closed (on 2026-11-18, three of its four), so read the dates. When a gov.br call closes it moves to `inscricoes-em-andamento`, and its old address answers 404 (the Ciclo de Saberes, 2026-11-25). `abertos.md` says so.
+  - **`feed`: an RSS 1.0, RSS 2.0 or Atom feed.** It lists the items since the last reading, the ones that speak of a call first (`CALL_NEWS`, stricter than the titles' test, since ministries write of the "Seleção Brasileira" and of match results), each link once.
+    - The sources are gov.br's `search_rss?SearchableText=edital&portal_type=collective.nitf.content&sort_on=effective&sort_order=reverse`, for the MinC's news (it carried the Transpetro's call and the Rouanet Centro-Oeste) and the Fundação Palmares'.
+    - It holds only the 15 newest items; `b_size` and `limit` don't change that.
+  - **`plone`: the news of a newer gov.br site (Plone 6).** It reads them through `++api++/pt-br/@search` (JSON, no login), with `effective.query=<day>&effective.range=min`. The search covers only titles and descriptions, so every item since then is read and sorted like a feed's.
+    - The sources: the Ministério do Esporte, which has no page of open calls, and the Ministérios dos Povos Indígenas and da Igualdade Racial, which hold a culture prize now and then.
+  - **`page`: a page that announces a yearly call in its own text**, with no link per call. It keeps the lines with dates and amounts that weren't there at the last reading, remembered as short fingerprints in `seenLines`. A first reading lists them all.
+    - The sources: Petrobras' cultural selections (R$ 270 million in July 2026), the BNDES's sponsorships (the film call, and the coming Matchfunding Diversidade Cultural), the Instituto Cultural Vale's call (April and May), the Mapfre's call for incentive-law projects (May to November) and the Bolsa ZUM/IMS.
+  - **The calls of `data/editais.csv`** that are open, opening or coming, and those closed within `CALLS_CLOSED_DAYS`, are read again on their `Página oficial` at every run (`abertos.md`). Compare the deadline, the "Atualizado em", corrections, results and moved pages with the sheet.
+- **Tried and left out:**
+  - **Noise or no calls:**
+    - the federal Mapa da Cultura's opportunity API: anyone can post an "oportunidade", so it holds tests, ads and dates in 2111;
+    - Querido Diário: its API failed at the TLS step on 2026-11-25, and Dourados' gazette is read directly anyway;
+    - the FCMS's "editais" page: empty in its HTML, and its posts and pages carry the calls;
+    - Ibram, the Biblioteca Nacional (a yearly prize; PhD grants), Ancine (companies registered with it; MS's audiovisual call comes through the FCMS), the Ministérios das Mulheres and dos Direitos Humanos, Correios, SETESC (no posts since May), Fundtur, the Assembleia, the Câmara (honours only) and the FUNED (competitions, not grants): no culture or sport calls;
+    - IPHAN: its prizes are in March, April and July, but its folder of open calls is mostly consultant hires (left for later);
+    - the Observatório do Terceiro Setor: its API ignores `after`, and it is mostly outside the scope.
+  - **Unreadable:**
+    - Prosas: its list is built by JavaScript behind a token, and its robots.txt forbids every crawler;
+    - Natura Musical: its certificate is wrong, and natura.com.br answers 403;
+    - Energisa: it answers 403 to scripts, and its only public calls are for energy efficiency;
+    - Caixa: its site loops on redirects without cookies, and Caixa Cultural selects every two years, only for centres outside MS.
+  - **Outside Dourados:**
+    - the BRDE (its call is for RS, SC and PR);
+    - Kinross (Paracatu and two towns of GO);
+    - Oi Futuro (RJ, Salvador and Recife);
+    - Neoenergia (only towns around Três Lagoas);
+    - Raízen, Motiva and Fundação Vale (other states);
+    - the CCBB (its own venues).
+  - **Dormant or without a public call:**
+    - Itaú Cultural's Rumos (last edition 2023–24);
+    - BP Bunge, Suzano, Sanesul, the Sicoobs of Dourados, Sesi and Senac MS, BRF.
+- **Adding or removing a source** is the user's call, as a page of `pages.json` is: suggest it, don't do it. The user made it on 2026-11-25 for the private funders and the 19 sources added that day.
 - **From a dump to rows:**
   1. Read `README.md`, then each source's file and `abertos.md`.
   2. A passage is a lead, not a source: open the edital or the official page of every candidate (the gazette's text is in `diario/`, the PDF is linked).
-  3. A call in scope gets its row by README's "Editando os editais": each fact from the edital, the edital's items in `Notas internas`, `Conferido em` today, `Horário` in Dourados' time. In scope means culture, and sport and leisure; credenciamentos, concursos and the universities' internal calls are out (the user's choice, 2026-11-18).
-  4. Update the rows whose deadline moved or whose result came out.
+  3. A call in scope gets its row by README's "Editando os editais": each fact from the edital, the edital's items in `Notas internas`, `Conferido em` today, `Horário` in Dourados' time. In scope means culture, and sport and leisure; credenciamentos, concursos and the universities' internal calls are out (the user's choice, 2026-11-18). A sponsor's own region goes in `Esfera` as written ("Paraná e MS", the Itaipu's). A call with a culture axis and a sport axis gets one row per axis (the Transpetro's), so each area's chip finds it.
+  4. Update the rows whose deadline moved, whose result came out or whose page moved.
   5. Write `editais-candidatos.md` in the dump, in four parts: already in the sheet, to check, outside Editais (an election for the agenda, a result for the news: say it there, don't add it on the way), and nothing to do. The team chooses, as with `noticias-candidatas.md`.
   6. Commit the rows with `fontes.json`, and ask before pushing: pushing publishes.
-- **The first scan,** on 2026-11-18 from 01/11, is `tools/editais/dumps/2026-11-18-1853/` with its `editais-candidatos.md`. It found nothing beyond the sheet's six rows, and five Funarte programs to check.
+- **The scans so far:**
+  - **2026-11-18,** from 01/11: `tools/editais/dumps/2026-11-18-1853/`. It found nothing beyond the sheet's six rows, and five Funarte programmes to check.
+  - **2026-11-25:** `2026-11-25-1201` read the old sources and the Itaipu's. `2026-11-25-1234` read the new ones from 01/11 for the first time. The day's rows: the Itaipu's two calls of 2027 (from a message the team received), the Transpetro's call closing that day (found by the sources research), and the Ciclo de Saberes' new result and address.
 
 ## Architecture
 
