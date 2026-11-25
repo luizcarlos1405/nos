@@ -112,7 +112,7 @@ A página Editais lê `data/editais.csv` (`CALLS_CSV_URL`, no `js/config.js`): u
 | `Órgão` | não | de quem é, ou o que é ("Prefeitura de Dourados", "Ministério da Cultura", "Ponto de Cultura") |
 | `Setor` | não | o grupo, quando o NOS acompanha a organização: o ponto colorido, como na agenda. Vazio, o cartão mostra o desenho de um prédio público |
 | `Área` | não | `Cultura` ou `Esporte e lazer` (os filtros da página; outra área também aparece) |
-| `Esfera` | não | vazia ou `Dourados`, `MS`, `Nacional`: o que não é Dourados vira etiqueta |
+| `Esfera` | não | vazia ou `Dourados`, `MS`, `Nacional`, ou a região de um patrocinador escrita por extenso (`Paraná e MS`, a da Itaipu): o que não é Dourados vira etiqueta, como está escrito |
 | `Inscrições de` | não | o primeiro dia de inscrição (dd/mm/aaaa); enquanto não chega, o edital fica em "Abrem em breve" |
 | `Inscrições até` | sim, a coluna | o último dia. Vazia, o edital fica em "Em preparação" |
 | `Horário` | não | a hora em que fecha no último dia, **no horário de Dourados** ("17h"). Num edital nacional a página mostra também a de Brasília, uma hora a mais |
